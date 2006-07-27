@@ -1,0 +1,5 @@
+This module contains a list of Solaris spec files for building Sys4 Solaris
+packages for different software components. If you have contributions to
+make to this, please email <desktop-discuss@opensolaris.org>.
+
+Note: Some of these components require a Sun Studio 11 tools to build.
