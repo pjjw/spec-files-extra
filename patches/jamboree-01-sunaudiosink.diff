@@ -1,0 +1,11 @@
+--- jamboree-0.6/src/player.c-orig	2006-03-09 15:14:31.994254000 -0800
++++ jamboree-0.6/src/player.c	2006-03-09 15:15:33.272977000 -0800
+@@ -755,7 +755,7 @@ get_sink_name (void)
+ {
+ 	char *sink_name;
+ 
+-	sink_name = g_strdup ("alsasink");
++	sink_name = g_strdup ("sunaudiosink");
+ 
+ 	return sink_name;
+ }

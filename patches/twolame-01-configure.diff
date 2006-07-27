@@ -1,0 +1,34 @@
+diff -urN twolame-0.3.7-orig/configure twolame-0.3.7/configure
+--- twolame-0.3.7-orig/configure	2006-05-08 20:15:56.000000000 +0700
++++ twolame-0.3.7/configure	2006-06-13 18:42:38.827635939 +0700
+@@ -20568,11 +20568,10 @@
+ 
+ if test "$Debugging" = "Enabled"; then
+ 	# If debugging is enabled then make warnings errors
+-	CFLAGS="$CFLAGS -std=c99 -g -Wunused -Wall -Werror -pedantic"
++	CFLAGS="$CFLAGS -xc99 -features=no%extinl -g"
+ 	LDFLAGS="$LDFLAGS"
+ else
+-	# Optimize flag. 3 is about as high as you can sanely go with GCC3.2.
+-	CFLAGS="$CFLAGS -O3 -std=c99"
++	CFLAGS="$CFLAGS -xc99=all -features=no%extinl"
+ 	LDFLAGS="$LDFLAGS"
+ fi
+ 
+diff -urN twolame-0.3.7-orig/configure.in twolame-0.3.7/configure.in
+--- twolame-0.3.7-orig/configure.in	2006-05-08 19:48:21.000000000 +0700
++++ twolame-0.3.7/configure.in	2006-06-13 18:43:17.367654943 +0700
+@@ -106,11 +106,10 @@
+ 
+ if test "$Debugging" = "Enabled"; then
+ 	# If debugging is enabled then make warnings errors
+-	CFLAGS="$CFLAGS -std=c99 -g -Wunused -Wall -Werror -pedantic"
++	CFLAGS="$CFLAGS -xc99=all -features=no%extinl -g"
+ 	LDFLAGS="$LDFLAGS"
+ else
+-	# Optimize flag. 3 is about as high as you can sanely go with GCC3.2.
+-	CFLAGS="$CFLAGS -O3 -std=c99"
++	CFLAGS="$CFLAGS -xc99=all -features=no%extinl"
+ 	LDFLAGS="$LDFLAGS"
+ fi
+ 

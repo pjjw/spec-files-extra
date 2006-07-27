@@ -1,0 +1,16 @@
+diff -ur libdts-0.0.2/src/dtsdec.c libdts-0.0.2-new/src/dtsdec.c
+--- libdts-0.0.2/src/dtsdec.c	2004-02-24 05:30:49.000000000 +0700
++++ libdts-0.0.2-new/src/dtsdec.c	2006-04-17 19:34:03.269236983 +0700
+@@ -61,11 +61,10 @@
+ 
+ static void print_fps (int final);
+ 
+-static RETSIGTYPE signal_handler (int sig)
++static void signal_handler (int sig)
+ {
+     sigint = 1;
+     signal (sig, SIG_DFL);
+-    return (RETSIGTYPE)0;
+ }
+ 
+ static void print_fps (int final)

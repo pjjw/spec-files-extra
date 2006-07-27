@@ -1,0 +1,117 @@
+--- libgpod-0.3.2/src/db-itunes-parser.h-orig	2006-03-20 23:09:38.301982000 -0800
++++ libgpod-0.3.2/src/db-itunes-parser.h	2006-03-20 23:09:41.354168000 -0800
+@@ -22,6 +22,12 @@
+  *
+  */
+ 
++#if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ > 4)
++#define GNUC_PACKED                             \
++  __attribute__((packed))
++#else   /* !__GNUC__ */
++#define GNUC_PACKED
++#endif
+ 
+ #ifndef DB_PARSER_H
+ #define DB_PARSER_H
+@@ -444,7 +450,6 @@ struct _MhodHeaderSmartPlaylistRuleStrin
+ 	gint32 action;
+ 	gchar  padding[44];
+ 	gint32 string_len;
+-	gchar  string[];
+ };
+ 
+ struct _MhodHeaderSmartPlaylistRuleNonString {
+@@ -459,7 +464,6 @@ struct _MhodHeaderSmartPlaylistRuleNonSt
+ 	guint64 to_value;
+ 	gint64  to_date;
+ 	guint64 to_unit;
+-	gchar   unknown[20];
+ };
+ 
+ struct _MhodHeaderSmartPlaylistRule {
+@@ -479,6 +483,7 @@ struct _MhodHeaderSmartPlaylistRule {
+ 		MhodHeaderSmartPlaylistRuleString rule_string;
+ 		MhodHeaderSmartPlaylistRuleNonString rule_non_string;
+ 	} rule;
++	gchar string[];
+ };
+ 
+ 
+@@ -523,7 +528,11 @@ struct _MhiiHeader {
+ 	gint32 unknown8;
+ 	gint32 orig_img_size;
+ 	unsigned char padding[];
+-} __attribute__((__packed__));
++} GNUC_PACKED;
++#ifndef ATTRIBUTE_PACKED
++#pragma pack()
++#endif
++
+ /* I we don't put the 'packed' attribute above, some 64 bit systems
+  * will pad the 64 bit integer to be aligned to an 8-byte boundary.
+  * Hopefully there won't be any systems around that crash when
+--- libgpod-0.3.2/src/itdb_itunesdb.c-orig	2006-03-20 23:09:59.490221000 -0800
++++ libgpod-0.3.2/src/itdb_itunesdb.c	2006-03-20 23:10:24.846352000 -0800
+@@ -3861,15 +3861,9 @@ gboolean itdb_shuffle_write (Itdb_iTunes
+     return result;
+ }
+ 
+-
+-/* Do the actual writing to the iTunesSD */
+-/* If @filename cannot be NULL */
+-gboolean itdb_shuffle_write_file (Itdb_iTunesDB *itdb,
+-				  const gchar *filename, GError **error)
++static
++gboolean haystack (gchar *filetype, gchar **desclist)
+ {
+-    auto gboolean haystack (gchar *filetype, gchar **desclist);
+-    gboolean haystack (gchar *filetype, gchar **desclist)
+-    {
+ 	gchar **dlp;
+ 	if (!filetype || !desclist) return FALSE;
+ 	for (dlp=desclist; *dlp; ++dlp)
+@@ -3877,8 +3871,13 @@ gboolean itdb_shuffle_write_file (Itdb_i
+ 	    if (strstr (filetype, *dlp)) return TRUE;
+ 	}
+ 	return FALSE;
+-    }
++}
+ 
++/* Do the actual writing to the iTunesSD */
++/* If @filename cannot be NULL */
++gboolean itdb_shuffle_write_file (Itdb_iTunesDB *itdb,
++				  const gchar *filename, GError **error)
++{
+     FExport *fexp;
+     GList *gl;
+     WContents *cts;
+--- libgpod-0.3.2/src/itdb_track.c-orig	2006-03-20 23:10:34.833720000 -0800
++++ libgpod-0.3.2/src/itdb_track.c	2006-03-20 23:10:47.514796000 -0800
+@@ -56,12 +56,9 @@ Itdb_Track *itdb_track_new (void)
+     return track;
+ }
+ 
+-/* Attempt to set some of the unknowns to reasonable defaults */
+-static void itdb_track_set_defaults (Itdb_Track *tr)
++static
++gboolean haystack (gchar *filetype, gchar **desclist)
+ {
+-    auto gboolean haystack (gchar *filetype, gchar **desclist);
+-    gboolean haystack (gchar *filetype, gchar **desclist)
+-    {
+ 	gchar **dlp;
+ 	if (!filetype || !desclist) return FALSE;
+ 	for (dlp=desclist; *dlp; ++dlp)
+@@ -69,8 +66,11 @@ static void itdb_track_set_defaults (Itd
+ 	    if (strstr (filetype, *dlp)) return TRUE;
+ 	}
+ 	return FALSE;
+-    }
++}
+ 
++/* Attempt to set some of the unknowns to reasonable defaults */
++static void itdb_track_set_defaults (Itdb_Track *tr)
++{
+     gchar *mp3_desc[] = {"MPEG", "MP3", "mpeg", "mp3", NULL};
+     gchar *mp4_desc[] = {"AAC", "MP4", "aac", "mp4", NULL};
+     gchar *audible_subdesc[] = {"Audible", "audible", "Book", "book", NULL};

@@ -1,0 +1,48 @@
+diff -ur libdvbpsi4-0.1.5/configure libdvbpsi4-0.1.5-new/configure
+--- libdvbpsi4-0.1.5/configure	2005-07-06 21:44:58.000000000 +0700
++++ libdvbpsi4-0.1.5-new/configure	2006-04-17 19:12:50.558369959 +0700
+@@ -19093,7 +19093,7 @@
+ 
+ 
+ 
+-CFLAGS="${CFLAGS} -Wall -DDVBPSI_DIST"
++CFLAGS="${CFLAGS} -DDVBPSI_DIST"
+ 
+ case x"${target_os}" in
+   xdarwin*)
+@@ -19135,9 +19135,9 @@
+ fi;
+ if test x$release = xtrue
+ then
+-  CFLAGS="${CFLAGS} -O6"
++  CFLAGS="${CFLAGS}"
+ else
+-  CFLAGS="${CFLAGS} -O2"
++  CFLAGS="${CFLAGS}"
+ fi
+ 
+ 
+diff -ur libdvbpsi4-0.1.5/configure.ac libdvbpsi4-0.1.5-new/configure.ac
+--- libdvbpsi4-0.1.5/configure.ac	2005-07-06 19:38:27.000000000 +0700
++++ libdvbpsi4-0.1.5-new/configure.ac	2006-04-17 19:12:10.683815984 +0700
+@@ -16,7 +16,7 @@
+ 
+ 
+ dnl default CFLAGS
+-CFLAGS="${CFLAGS} -Wall -DDVBPSI_DIST"
++CFLAGS="${CFLAGS} -DDVBPSI_DIST"
+ 
+ dnl check the operating system
+ case x"${target_os}" in
+@@ -49,9 +49,9 @@
+ esac],[release=false])
+ if test x$release = xtrue
+ then
+-  CFLAGS="${CFLAGS} -O6"
++  CFLAGS="${CFLAGS}"
+ else
+-  CFLAGS="${CFLAGS} -O2"
++  CFLAGS="${CFLAGS}"
+ fi
+ 
+ dnl Check for headers

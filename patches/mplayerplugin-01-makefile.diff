@@ -1,0 +1,40 @@
+diff -ur mplayerplug-in-orig/Makefile.in mplayerplug-in/Makefile.in
+--- mplayerplug-in-orig/Makefile.in	2005-12-06 23:08:47.000000000 +0700
++++ mplayerplug-in/Makefile.in	2006-05-08 18:11:08.145769258 +0700
+@@ -12,7 +12,7 @@
+ 
+ CC= @CC@
+ CXX= @CXX@
+-CFLAGS= -Wall @CFLAGS@ @CPPFLAGS@ @CXXFLAGS@ @CXXFLAGS64@ -DXP_UNIX -DMOZ_X11 @MOZPLUG_CFLAGS@ -Iinclude -fPIC @GECKO_DEFINES@ @GTK_CFLAGS@ @GTHREAD_CFLAGS@ @GTK_DEFINES@
++CFLAGS= -erroff=%all @CFLAGS@ @CPPFLAGS@ @CXXFLAGS@ @CXXFLAGS64@ -DXP_UNIX -DMOZ_X11 @MOZPLUG_CFLAGS@ -Iinclude -KPIC @GECKO_DEFINES@ @GTK_CFLAGS@ @GTHREAD_CFLAGS@ @GTK_DEFINES@
+ LDFLAGS= @LDFLAGS@ @LDFLAGS64@ @LIBS@ @X_PRE_LIBS@ @XEXT_LIBS@ @XPM_LIBS@ @MOZPLUG_LIBS@ @GTK_LIBS@ @GTHREAD_LIBS@
+ LIBOBJS= @LIBOBJS@
+ OBJ= plugin.o nsScriptablePeer.o npp_gate.o np_entry.o npn_gate.o \
+@@ -53,22 +53,22 @@
+ default all: @CREATE@ languages
+ 
+ $(SHAREDTARGET): $(OBJ)
+-	$(CXX) -shared -o $(SHAREDTARGET).so $(OBJ) $(CFLAGS) $(LDFLAGS)
++	$(CXX) -G -o $(SHAREDTARGET).so $(OBJ) $(CFLAGS) $(LDFLAGS)
+ 	cp Source/nsIScriptableMplayerPlugin.xpt mplayerplug-in.xpt
+ $(SHAREDTARGET)-wmp: $(OBJ_WMP)
+-	$(CXX) -shared -o $(SHAREDTARGET)-wmp.so $(OBJ_WMP) $(CFLAGS) $(LDFLAGS)
++	$(CXX) -G -o $(SHAREDTARGET)-wmp.so $(OBJ_WMP) $(CFLAGS) $(LDFLAGS)
+ 	cp Source/nsIScriptableMplayerPlugin.xpt mplayerplug-in-wmp.xpt
+ 
+ $(SHAREDTARGET)-qt: $(OBJ_QT)
+-	$(CXX) -shared -o $(SHAREDTARGET)-qt.so $(OBJ_QT) $(CFLAGS) $(LDFLAGS)
++	$(CXX) -G -o $(SHAREDTARGET)-qt.so $(OBJ_QT) $(CFLAGS) $(LDFLAGS)
+ 	cp Source/nsIScriptableMplayerPlugin.xpt mplayerplug-in-qt.xpt
+ 
+ $(SHAREDTARGET)-rm: $(OBJ_RM)
+-	$(CXX) -shared -o $(SHAREDTARGET)-rm.so $(OBJ_RM) $(CFLAGS) $(LDFLAGS)
++	$(CXX) -G -o $(SHAREDTARGET)-rm.so $(OBJ_RM) $(CFLAGS) $(LDFLAGS)
+ 	cp Source/nsIScriptableMplayerPlugin.xpt mplayerplug-in-rm.xpt
+ 
+ $(SHAREDTARGET)-gmp: $(OBJ_GMP)
+-	$(CXX) -shared -o $(SHAREDTARGET)-gmp.so $(OBJ_GMP) $(CFLAGS) $(LDFLAGS)
++	$(CXX) -G -o $(SHAREDTARGET)-gmp.so $(OBJ_GMP) $(CFLAGS) $(LDFLAGS)
+ 	cp Source/nsIScriptableMplayerPlugin.xpt mplayerplug-in-gmp.xpt
+ 
+ np_entry.o: plugingate/np_entry.cpp

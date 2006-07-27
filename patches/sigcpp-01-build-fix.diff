@@ -1,0 +1,105 @@
+diff -ru libsigc++-2.0.14/sigc++/macros/signal.h.m4 libsigc++-2.0.14-built/sigc++/macros/signal.h.m4
+--- libsigc++-2.0.14/sigc++/macros/signal.h.m4	Fri Jun 10 15:40:09 2005
++++ libsigc++-2.0.14-built/sigc++/macros/signal.h.m4	Wed Jun 22 16:08:41 2005
+@@ -209,7 +209,7 @@
+ public:
+   typedef internal::signal_emit$1<LIST(T_return, LOOP(T_arg%1, $1), T_accumulator)> emitter_type;
+   typedef typename emitter_type::result_type         result_type;
+-  typedef slot<LIST(T_return, LOOP(T_arg%1, $1))>    slot_type;
++  typedef slot$1<LIST(T_return, LOOP(T_arg%1, $1))>    slot_type;
+   typedef slot_list<slot_type>                       slot_list_type;
+   typedef typename slot_list_type::iterator               iterator;
+   typedef typename slot_list_type::const_iterator         const_iterator;
+@@ -484,7 +484,7 @@
+   //Compilers, such as older versions of SUN Forte C++, that do not allow this also often
+   //do not allow a typedef to have the same name as a class in the typedef's definition.
+   //For Sun Forte CC 5.7 (SUN Workshop 10), comment this out to fix the build.
+-  #define SIGC_TYPEDEF_REDEFINE_ALLOWED 1
++  // #define SIGC_TYPEDEF_REDEFINE_ALLOWED 1
+ #endif
+ 
+ namespace sigc {
+diff -ru libsigc++-2.0.14/sigc++/signal.h libsigc++-2.0.14-built/sigc++/signal.h
+--- libsigc++-2.0.14/sigc++/signal.h	Fri Jun 10 15:42:58 2005
++++ libsigc++-2.0.14-built/sigc++/signal.h	Wed Jun 22 16:08:48 2005
+@@ -18,7 +18,7 @@
+   //Compilers, such as older versions of SUN Forte C++, that do not allow this also often
+   //do not allow a typedef to have the same name as a class in the typedef's definition.
+   //For Sun Forte CC 5.7 (SUN Workshop 10), comment this out to fix the build.
+-  #define SIGC_TYPEDEF_REDEFINE_ALLOWED 1
++  // #define SIGC_TYPEDEF_REDEFINE_ALLOWED 1
+ #endif
+ 
+ namespace sigc {
+@@ -1660,7 +1660,7 @@
+ public:
+   typedef internal::signal_emit0<T_return, T_accumulator> emitter_type;
+   typedef typename emitter_type::result_type         result_type;
+-  typedef slot<T_return>    slot_type;
++  typedef slot0<T_return>    slot_type;
+   typedef slot_list<slot_type>                       slot_list_type;
+   typedef typename slot_list_type::iterator               iterator;
+   typedef typename slot_list_type::const_iterator         const_iterator;
+@@ -1769,7 +1769,7 @@
+ public:
+   typedef internal::signal_emit1<T_return, T_arg1, T_accumulator> emitter_type;
+   typedef typename emitter_type::result_type         result_type;
+-  typedef slot<T_return, T_arg1>    slot_type;
++  typedef slot1<T_return, T_arg1>    slot_type;
+   typedef slot_list<slot_type>                       slot_list_type;
+   typedef typename slot_list_type::iterator               iterator;
+   typedef typename slot_list_type::const_iterator         const_iterator;
+@@ -1880,7 +1880,7 @@
+ public:
+   typedef internal::signal_emit2<T_return, T_arg1,T_arg2, T_accumulator> emitter_type;
+   typedef typename emitter_type::result_type         result_type;
+-  typedef slot<T_return, T_arg1,T_arg2>    slot_type;
++  typedef slot2<T_return, T_arg1,T_arg2>    slot_type;
+   typedef slot_list<slot_type>                       slot_list_type;
+   typedef typename slot_list_type::iterator               iterator;
+   typedef typename slot_list_type::const_iterator         const_iterator;
+@@ -1993,7 +1993,7 @@
+ public:
+   typedef internal::signal_emit3<T_return, T_arg1,T_arg2,T_arg3, T_accumulator> emitter_type;
+   typedef typename emitter_type::result_type         result_type;
+-  typedef slot<T_return, T_arg1,T_arg2,T_arg3>    slot_type;
++  typedef slot3<T_return, T_arg1,T_arg2,T_arg3>    slot_type;
+   typedef slot_list<slot_type>                       slot_list_type;
+   typedef typename slot_list_type::iterator               iterator;
+   typedef typename slot_list_type::const_iterator         const_iterator;
+@@ -2108,7 +2108,7 @@
+ public:
+   typedef internal::signal_emit4<T_return, T_arg1,T_arg2,T_arg3,T_arg4, T_accumulator> emitter_type;
+   typedef typename emitter_type::result_type         result_type;
+-  typedef slot<T_return, T_arg1,T_arg2,T_arg3,T_arg4>    slot_type;
++  typedef slot4<T_return, T_arg1,T_arg2,T_arg3,T_arg4>    slot_type;
+   typedef slot_list<slot_type>                       slot_list_type;
+   typedef typename slot_list_type::iterator               iterator;
+   typedef typename slot_list_type::const_iterator         const_iterator;
+@@ -2225,7 +2225,7 @@
+ public:
+   typedef internal::signal_emit5<T_return, T_arg1,T_arg2,T_arg3,T_arg4,T_arg5, T_accumulator> emitter_type;
+   typedef typename emitter_type::result_type         result_type;
+-  typedef slot<T_return, T_arg1,T_arg2,T_arg3,T_arg4,T_arg5>    slot_type;
++  typedef slot5<T_return, T_arg1,T_arg2,T_arg3,T_arg4,T_arg5>    slot_type;
+   typedef slot_list<slot_type>                       slot_list_type;
+   typedef typename slot_list_type::iterator               iterator;
+   typedef typename slot_list_type::const_iterator         const_iterator;
+@@ -2344,7 +2344,7 @@
+ public:
+   typedef internal::signal_emit6<T_return, T_arg1,T_arg2,T_arg3,T_arg4,T_arg5,T_arg6, T_accumulator> emitter_type;
+   typedef typename emitter_type::result_type         result_type;
+-  typedef slot<T_return, T_arg1,T_arg2,T_arg3,T_arg4,T_arg5,T_arg6>    slot_type;
++  typedef slot6<T_return, T_arg1,T_arg2,T_arg3,T_arg4,T_arg5,T_arg6>    slot_type;
+   typedef slot_list<slot_type>                       slot_list_type;
+   typedef typename slot_list_type::iterator               iterator;
+   typedef typename slot_list_type::const_iterator         const_iterator;
+@@ -2465,7 +2465,7 @@
+ public:
+   typedef internal::signal_emit7<T_return, T_arg1,T_arg2,T_arg3,T_arg4,T_arg5,T_arg6,T_arg7, T_accumulator> emitter_type;
+   typedef typename emitter_type::result_type         result_type;
+-  typedef slot<T_return, T_arg1,T_arg2,T_arg3,T_arg4,T_arg5,T_arg6,T_arg7>    slot_type;
++  typedef slot7<T_return, T_arg1,T_arg2,T_arg3,T_arg4,T_arg5,T_arg6,T_arg7>    slot_type;
+   typedef slot_list<slot_type>                       slot_list_type;
+   typedef typename slot_list_type::iterator               iterator;
+   typedef typename slot_list_type::const_iterator         const_iterator;

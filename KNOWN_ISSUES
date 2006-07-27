@@ -1,0 +1,11 @@
+- SFEinkscape doesn't build with either gcc (because the dependent c++ libs
+  are built with Sun Studio) or with Sun Studio (because it uses g++ specific
+  code.  I'm working with the maintainers to fix the g++ specific code.
+- SFEnvu builds, doesn't run
+- SFEwxGTK is a subset of SFEwxwidgets therefore you can install one or the
+  other, but not both
+- SFEsyncit: where is the source?!?
+- SFEbeagle: indexer crashes -> unusable
+- SFEf-spot: cannot rotate files, works fine otherwise
+- SFEsourcenav needs more work, it duplicates things like wish8.3 in /usr/bin
+- info dir updating needs to be fixed in several pkgs

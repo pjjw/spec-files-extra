@@ -1,0 +1,94 @@
+diff -upr gajim-0.10.1/Makefile gajim-0.10.1-h/Makefile
+--- gajim-0.10.1/Makefile	2006-06-05 20:03:08.000000000 +0800
++++ gajim-0.10.1-h/Makefile	2006-07-26 13:26:16.062314000 +0800
+@@ -3,7 +3,7 @@ VERSION		?= 0.10.1
+ GAJIM_AP	= 0 # do we build Autopackage?
+ 
+ MODULES		= src src/common po
+-PREFIX		= /usr/local
++PREFIX		= /usr
+ PYTHON		= python
+ DESTDIR		= 
+ OPTFLAGS	= 
+diff -upr gajim-0.10.1/po/Makefile gajim-0.10.1-h/po/Makefile
+--- gajim-0.10.1/po/Makefile	2006-06-05 20:03:08.000000000 +0800
++++ gajim-0.10.1-h/po/Makefile	2006-07-26 14:11:24.724140000 +0800
+@@ -7,7 +7,7 @@ DATADIR:=$(subst //,/,${DESTDIR}/${PREFI
+ all: $(LANGS_MO)
+ 
+ %.mo: %.po
+-	msgfmt $< -o $@
++	msgfmt -o $@ $<
+ 
+ gajim.pot: ../src/*py ../src/common/*py \
+ 			../data/glade/account_context_menu.glade.h \
+diff -upr gajim-0.10.1/scripts/gajim gajim-0.10.1-h/scripts/gajim
+--- gajim-0.10.1/scripts/gajim	2006-06-05 20:03:09.000000000 +0800
++++ gajim-0.10.1-h/scripts/gajim	2006-07-26 14:24:56.465104000 +0800
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ ##      gajim
+ ##
+ ## Contributors for this file:
+@@ -23,7 +23,7 @@
+ ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ## GNU General Public License for more details.
+ 
+-if [ `id -u` -eq 0 ]; then
++if [ `/usr/xpg4/bin/id -u` -eq 0 ]; then
+ 	echo "You must not launch Gajim as root, it is INSECURE"
+ fi
+ 
+diff -upr gajim-0.10.1/src/Makefile gajim-0.10.1-h/src/Makefile
+--- gajim-0.10.1/src/Makefile	2006-06-05 20:03:08.000000000 +0800
++++ gajim-0.10.1-h/src/Makefile	2006-07-26 13:57:18.054656000 +0800
+@@ -1,17 +1,17 @@
+ # Set the C flags to include the GTK+ and Python libraries
+ PYTHON ?= python
+ PYTHONVER = `$(PYTHON) -c 'import sys; print sys.version[:3]'`
+-CFLAGS = `pkg-config --cflags gtk+-2.0 pygtk-2.0` -fPIC -I/usr/include/python$(PYTHONVER) -I.
+-LDFLAGS = `pkg-config --libs gtk+-2.0 pygtk-2.0` -lpython$(PYTHONVER)
++CFLAGS = `pkg-config --cflags gtk+-2.0 pygtk-2.0` -KPIC -I/usr/include/python$(PYTHONVER) -I.
++LDFLAGS = `pkg-config --libs gtk+-2.0 pygtk-2.0` -lpython$(PYTHONVER) -lX11
+ 
+ all: trayicon.so gtkspell.so
+ 
+ # Build the shared objects
+ trayicon.so: trayicon.o eggtrayicon.o trayiconmodule.o
+-	$(CC) $(LDFLAGS) -shared $^ -o $@
++	$(CC) $(LDFLAGS) -G $^ -o $@
+ 
+ gtkspell.so:
+-	$(CC) $(OPTFLAGS) $(CFLAGS) $(LDFLAGS) `pkg-config --libs --cflags gtkspell-2.0` -shared gtkspellmodule.c $^ -o $@
++	$(CC) $(OPTFLAGS) $(CFLAGS) $(LDFLAGS) `pkg-config --libs --cflags gtkspell-2.0` -G gtkspellmodule.c $^ -o $@
+ 
+ # The path to the GTK+ python types
+ DEFS=`pkg-config --variable=defsdir pygtk-2.0`
+diff -upr gajim-0.10.1/src/common/Makefile gajim-0.10.1-h/src/common/Makefile
+--- gajim-0.10.1/src/common/Makefile	2006-06-05 20:03:08.000000000 +0800
++++ gajim-0.10.1-h/src/common/Makefile	2006-07-26 14:01:49.997173000 +0800
+@@ -6,19 +6,19 @@ HAVE_XSCRNSAVER = $(shell pkg-config --e
+ 
+ ifeq ($(HAVE_XSCRNSAVER),YES)
+ # We link with libXScrnsaver from modular X.Org X11
+-CFLAGS = `pkg-config --cflags gtk+-2.0 pygtk-2.0 xscrnsaver` -fpic -I/usr/include/python$(PYTHONVER) -I.
++CFLAGS = `pkg-config --cflags gtk+-2.0 pygtk-2.0 xscrnsaver` -Kpic -I/usr/include/python$(PYTHONVER) -I.
+ LDFLAGS = `pkg-config --libs gtk+-2.0 pygtk-2.0 xscrnsaver` -lpython$(PYTHONVER)
+ else
+ # # We link with libXScrnsaver from monolithic X.Org X11
+-CFLAGS = `pkg-config --cflags gtk+-2.0 pygtk-2.0` -fpic -I/usr/include/python$(PYTHONVER) -I.
++CFLAGS = `pkg-config --cflags gtk+-2.0 pygtk-2.0` -Kpic -I/usr/include/python$(PYTHONVER) -I.
+ LDFLAGS = `pkg-config --libs gtk+-2.0 pygtk-2.0` -L/usr/X11R6$(LIBDIR) -lX11 \
+-	-lXss -lXext -lpython$(PYTHONVER)
++	-lXext -lpython$(PYTHONVER)
+ endif
+ 
+ all: idle.so
+ 
+ idle.so:
+-	$(CC) $(OPTFLAGS) $(CFLAGS) $(LDFLAGS) -shared idle.c $^ -o $@
++	$(CC) $(OPTFLAGS) $(CFLAGS) $(LDFLAGS) -G idle.c $^ -o $@
+ 
+ clean:
+ 	rm -f *.so

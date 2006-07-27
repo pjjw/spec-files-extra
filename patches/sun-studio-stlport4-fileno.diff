@@ -1,0 +1,15 @@
+--- _stdio_file.h.orig	Sun Jul  2 19:20:53 2006
++++ _stdio_file.h	Sun Jul  2 19:40:01 2006
+@@ -94,7 +94,12 @@
+ typedef  unsigned char* _File_ptr_type;
+ #endif
+ 
++#if (defined(__sun))
++int fileno(FILE *stream);
++inline int   _FILE_fd(const FILE *__f) { return fileno ((FILE *)__f); }
++#else
+ inline int   _FILE_fd(const FILE *__f) { return __f->_file; }
++#endif
+ inline char* _FILE_I_begin(const FILE *__f) { return (char*) __f->_base; }
+ inline char* _FILE_I_next(const FILE *__f) { return (char*) __f->_ptr; }  
+ inline char* _FILE_I_end(const FILE *__f)

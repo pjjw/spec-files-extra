@@ -1,0 +1,13 @@
+--- bluefish-1.0.5/src/document.c.orig	2006-02-10 16:26:35.952642000 +0000
++++ bluefish-1.0.5/src/document.c	2006-02-10 16:23:11.456225000 +0000
+@@ -39,6 +39,10 @@
+ #include <regex.h>             /* regcomp() */
+ #include <stdlib.h>            /* system() */
+ #include <time.h>              /* ctime_r() */
++struct timeval {
++        time_t          tv_sec;         /* seconds */
++        suseconds_t     tv_usec;        /* and microseconds */
++};
+ #include <pcre.h>
+ 
+ /* #define DEBUG */

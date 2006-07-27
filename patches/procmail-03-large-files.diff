@@ -1,0 +1,270 @@
+diff -urN procmail-3.22/src/cstdio.c procmail-3.22-hacked/src/cstdio.c
+--- procmail-3.22/src/cstdio.c	2000-12-31 19:08:20.000000000 +1300
++++ procmail-3.22-hacked/src/cstdio.c	2005-10-21 13:22:42.484383152 +1300
+@@ -266,7 +266,7 @@
+ }
+ 
+ /* read a bunch of characters from the LMTP input stream */
+-int readL(p,len)char*p;const int len;
++int readL(p,len)char*p;const size_t len;
+ { size_t min;
+   if(rcbufp==rcbufend)
+      refillL();
+@@ -282,8 +282,8 @@
+  * read exactly len bytes from the LMTP input stream
+  * return 1 on success, 0 on EOF, and -1 on read error
+  */
+-int readLe(p,len)char*p;int len;
+-{ long got=rcbufend-rcbufp;
++int readLe(p,len)char*p;size_t len;
++{  off_t got = rcbufend-rcbufp;
+   if(got>0)				      /* first, copy from the buffer */
+    { if(got>len)			       /* is that more than we need? */
+ 	got=len;
+diff -urN procmail-3.22/src/cstdio.h procmail-3.22-hacked/src/cstdio.h
+--- procmail-3.22/src/cstdio.h	2000-12-31 19:08:21.000000000 +1300
++++ procmail-3.22-hacked/src/cstdio.h	2005-10-21 13:22:42.476384368 +1300
+@@ -26,6 +26,6 @@
+ int
+  endoread P((void)),
+  getL P((void)),
+- readL P((char*,const int)),
+- readLe P((char*,int));
++ readL P((char*,const size_t)),
++ readLe P((char*,size_t));
+ #endif
+diff -urN procmail-3.22/src/formail.c procmail-3.22-hacked/src/formail.c
+--- procmail-3.22/src/formail.c	2005-10-21 13:22:14.140692048 +1300
++++ procmail-3.22-hacked/src/formail.c	2005-10-21 13:22:42.509379352 +1300
+@@ -304,7 +304,7 @@
+ }
+ 			     /* lifted out of main() to reduce main()'s size */
+ static void elimdups(namep,idcache,maxlen,split)const char*const namep;
+- FILE*idcache;const long maxlen;const int split;
++ FILE*idcache;const off_t maxlen;const int split;
+ { int dupid=0;char*key,*oldnewl;
+   key=(char*)namep;		  /* not to worry, no change will be noticed */
+   if(!areply)
+@@ -313,7 +313,7 @@
+ 	*(oldnewl=(key=msid->rexp)+msid->rexl-1)='\0';
+    }						/* wipe out trailing newline */
+   if(key)
+-   { long insoffs=maxlen;
++   { off_t insoffs=maxlen;
+      while(*key==' ')				     /* strip leading spaces */
+ 	key++;
+      do
+@@ -350,7 +350,7 @@
+      fseek(idcache,insoffs,SEEK_SET);fwrite(key,1,strlen(key)+1,idcache);
+      putc('\0',idcache);			   /* mark new end of buffer */
+ dupfound:
+-     fseek(idcache,(long)0,SEEK_SET);		 /* rewind, for any next run */
++     fseek(idcache,(off_t)0,SEEK_SET);		 /* rewind, for any next run */
+      if(!areply)
+ 	*oldnewl='\n';				      /* restore the newline */
+    }
+@@ -366,7 +366,7 @@
+ { int i,split=0,force=0,bogus=1,every=0,headreply=0,digest=0,nowait=0,keepb=0,
+    minfields=(char*)progid-(char*)progid,conctenate=0,babyl=0,babylstart,
+    berkeley=0,forgetclen;
+-  long maxlen,ctlength;FILE*idcache=0;pid_t thepid;
++  off_t maxlen,ctlength;FILE*idcache=0;pid_t thepid;
+   size_t j,lnl,escaplen;char*chp,*namep,*escap=ESCAP;
+   struct field*fldp,*fp2,**afldp,*fdate,*fcntlength,*fsubject,*fFrom_;
+   if(lastm)			       /* sanity check, any argument at all? */
+diff -urN procmail-3.22/src/lmtp.c procmail-3.22-hacked/src/lmtp.c
+--- procmail-3.22/src/lmtp.c	2001-06-29 14:20:51.000000000 +1200
++++ procmail-3.22-hacked/src/lmtp.c	2005-10-21 13:22:42.516378288 +1300
+@@ -72,8 +72,8 @@
+  protobad[]="503 5.5.1 command unexpected\r\n";
+ 
+ static void bufwrite(buffer,len,flush)
+-const char*buffer;int len;int flush;
+-{ int already;
++const char*buffer;size_t len;int flush;
++{ size_t already;
+   if((already=bufcur-buf2)+len>linebuf||flush)
+    { if(already&&already!=rwrite(savstdout,bufcur=buf2,already)||
+       len&&len!=rwrite(savstdout,buffer,len))
+diff -urN procmail-3.22/src/lockfile.c procmail-3.22-hacked/src/lockfile.c
+--- procmail-3.22/src/lockfile.c	2001-09-11 16:58:04.000000000 +1200
++++ procmail-3.22-hacked/src/lockfile.c	2005-10-21 13:22:42.478384064 +1300
+@@ -263,7 +263,7 @@
+ { return open(name,mode,mask);					     /* stub */
+ }
+ 
+-int rwrite(fd,a,len)const int fd;const void*const a;const int len;   /* stub */
++int rwrite(fd,a,len)const int fd;const void*const a;const size_t len;   /* stub */
+ { return write(fd,a,len);
+ }
+ 
+diff -urN procmail-3.22/src/mailfold.c procmail-3.22-hacked/src/mailfold.c
+--- procmail-3.22/src/mailfold.c	2005-10-21 13:22:14.227678824 +1300
++++ procmail-3.22-hacked/src/mailfold.c	2005-10-21 13:22:42.527376616 +1300
+@@ -30,7 +30,7 @@
+ 
+ int logopened,rawnonl;
+ off_t lasttell;
+-static long lastdump;
++static off_t lastdump;
+ static volatile int mailread;	/* if the mail is completely read in already */
+ static struct dyna_array confield;		  /* escapes, concatenations */
+ static const char*realstart,*restbody;
+@@ -78,8 +78,8 @@
+ #endif /* eMAILBOX_SEPARATOR */
+ 
+ long dump(s,type,source,len)const int s,type;const char*source;
+- long len;
+-{ int i;long part;
++ size_t len;
++{ int i;size_t part;
+   lasttell=i= -1;SETerrno(EBADF);
+   if(s>=0)
+    { if(ft_lock(type)&&(lseek(s,(off_t)0,SEEK_END),fdlock(s)))
+@@ -105,7 +105,7 @@
+      goto jin;
+      do
+       { part=getchunk(s,source,len);
+-jin:	while(part&&(i=rwrite(s,source,BLKSIZ<part?BLKSIZ:(int)part)))
++jin:	while(part&&(i=rwrite(s,source, BLKSIZ < part ? BLKSIZ : (size_t)part )))
+ 	 { if(i<0)
+ 	      goto writefin;
+ 	   part-=i;len-=i;source+=i;
+diff -urN procmail-3.22/src/mailfold.h procmail-3.22-hacked/src/mailfold.h
+--- procmail-3.22/src/mailfold.h	2000-12-31 19:08:34.000000000 +1300
++++ procmail-3.22-hacked/src/mailfold.h	2005-10-21 13:22:42.510379200 +1300
+@@ -1,7 +1,7 @@
+ /*$Id: procmail-03-large-files.diff 92 2005-12-16 00:19:06Z gman $*/
+ 
+ long
+- dump P((const int s,const int type,const char*source,long len));
++ dump P((const int s,const int type,const char*source,size_t len));
+ int
+  writefolder P((char*boxname,char*linkfolder,const char*source,long len,
+   const int ignwerr,const int dolock));
+diff -urN procmail-3.22/src/memblk.c procmail-3.22-hacked/src/memblk.c
+--- procmail-3.22/src/memblk.c	2005-10-21 13:22:14.141691896 +1300
++++ procmail-3.22-hacked/src/memblk.c	2005-10-21 13:22:42.535375400 +1300
+@@ -29,7 +29,7 @@
+ #define set_fd(mb,num)	do{}while(0)
+ #endif
+ 
+-void makeblock(mb,len)memblk*const mb;const long len;
++void makeblock(mb,len)memblk*const mb;const off_t len;
+ { mb->len=0;mb->p=malloc(1);set_fd(mb,-1);
+   if(len)
+      resizeblock(mb,len,0);
+@@ -51,7 +51,7 @@
+ {
+ #ifdef USE_MMAP
+   if(mb->fd>=0)
+-   { long mlen=mb->len+1;
++   { off_t mlen=mb->len+1;
+      if(munmap(mb->p,mlen))
+ 	mmapfailed(mlen);		      /* don't want to continue here */
+      if((mb->p=mmap(0,mlen,PROT_READ,MAP_PRIVATE,mb->fd,(off_t)0))==MAP_FAILED)
+@@ -62,7 +62,7 @@
+ #endif
+ }
+ 
+-int resizeblock(mb,len,nonfatal)memblk*const mb;const long len;
++int resizeblock(mb,len,nonfatal)memblk*const mb;const off_t len;
+  const int nonfatal;
+ { if(len==mb->len)
+      goto ret1;
+@@ -134,7 +134,7 @@
+  read_func_type*read_func;cleanup_func_type*cleanup_func;
+  long*const filledp;void*data;
+ { int blksiz=BLKSIZ,ok;unsigned int shift=EXPBLKSIZ;
+-  long filled= *filledp,origfilled=filled;
++  size_t filled= *filledp,origfilled=filled;
+   if(filled<mb->len)		 /* skip the initial resize if we have space */
+      goto jumpin;
+   for(;;)
+@@ -160,7 +160,7 @@
+ 	   blksiz=newbs;				    /* yes, take me! */
+       }
+    }
+-  if(cleanup_func&&(*cleanup_func)(mb,&filled,origfilled,data))
++  if(cleanup_func&&(*cleanup_func)(mb,(long*)&filled,origfilled,data))
+      goto jumpin;
+   resizeblock(mb,filled+1,1);		      /* minimise+1 for housekeeping */
+   *filledp=filled;				 /* write back the new value */
+diff -urN procmail-3.22/src/memblk.h procmail-3.22-hacked/src/memblk.h
+--- procmail-3.22/src/memblk.h	2005-10-21 13:22:14.194683840 +1300
++++ procmail-3.22-hacked/src/memblk.h	2005-10-21 13:22:42.473384824 +1300
+@@ -1,6 +1,6 @@
+ typedef struct memblk {
+     char*p;						  /* where it starts */
+-    long len;			 /* current size, not including trailing NUL */
++    off_t len;			 /* current size, not including trailing NUL */
+ #ifdef USE_MMAP
+     off_t filelen;				     /* how long is the file */
+     int fd;					   /* file which is mmap()ed */
+@@ -11,11 +11,11 @@
+ typedef int(cleanup_func_type) P((memblk*,long*,long,void*));
+ 
+ void
+- makeblock P((memblk*const,const long)), /* create block of the given length */
++ makeblock P((memblk*const,const off_t)), /* create block of the given length */
+  freeblock P((memblk*const)),				    /* deallocate it */
+  lockblock P((memblk*const));	   /* protect this block from future changes */
+ int							  /* by this process */
+- resizeblock P((memblk*const,const long,const int));	  /* change the size */
++ resizeblock P((memblk*const,const off_t,const int));	  /* change the size */
+ char		      /* dynamically grow a block to fit data as it comes in */
+  *read2blk P((memblk*const,long*const,read_func_type*,cleanup_func_type*,void*));
+ 
+diff -urN procmail-3.22/src/pipes.c procmail-3.22-hacked/src/pipes.c
+--- procmail-3.22/src/pipes.c	2005-10-21 13:22:14.185685208 +1300
++++ procmail-3.22-hacked/src/pipes.c	2005-10-21 13:22:42.522377376 +1300
+@@ -262,7 +262,7 @@
+   return len;
+ }
+ 
+-static char*read_read(p,left,data)char*p;long left;void*data;
++static char*read_read(p,left,data)char*p; size_t left;void*data;
+ { long got;
+   do
+      if(0>=(got=rread(STDIN,p,left)))				/* read mail */
+@@ -311,7 +311,7 @@
+   rclose(PWRI);p=dest;
+   if(!forkerr(pidchild,name))
+    { name=tstrdup(name);
+-     while(0<(i=rread(PRDI,p,(int)max))&&(p+=i,max-=i));    /* read its lips */
++     while(0<(i=rread(PRDI,p,max))&&(p+=i,max-=i));    /* read its lips */
+      if(0<rread(PRDI,p,1))
+       { nlog("Excessive output quenched from");logqnl(name);
+ 	setoverflow();
+diff -urN procmail-3.22/src/robust.c procmail-3.22-hacked/src/robust.c
+--- procmail-3.22/src/robust.c	2001-06-29 14:21:11.000000000 +1200
++++ procmail-3.22-hacked/src/robust.c	2005-10-21 13:22:42.481383608 +1300
+@@ -165,13 +165,13 @@
+   return i;
+ }
+ 
+-int rread(fd,a,len)const int fd,len;void*const a;      /* a SysV secure read */
++int rread(fd,a,len)const int fd; const size_t len; void*const a;      /* a SysV secure read */
+ { int i;
+   while(0>(i=read(fd,a,(size_t)len))&&errno==EINTR);
+   return i;
+ }
+ 						      /* a SysV secure write */
+-int rwrite(fd,a,len)const int fd,len;const void*const a;
++int rwrite(fd,a,len)const int fd; const size_t len;const void*const a;
+ { int i;
+   while(0>(i=write(fd,a,(size_t)len))&&errno==EINTR);
+   return i;
+diff -urN procmail-3.22/src/robust.h procmail-3.22-hacked/src/robust.h
+--- procmail-3.22/src/robust.h	2001-06-29 14:21:11.000000000 +1200
++++ procmail-3.22-hacked/src/robust.h	2005-10-21 13:22:42.533375704 +1300
+@@ -18,7 +18,7 @@
+  rpipe P((int fd[2])),
+  rdup P((const int p)),
+  rclose P((const int fd)),
+- rread P((const int fd,void*const a,const int len)),
+- rwrite P((const int fd,const void*const a,const int len));
++ rread P((const int fd,void*const a,const size_t len)),
++ rwrite P((const int fd,const void*const a,const size_t len));
+ 
+ extern mode_t cumask;

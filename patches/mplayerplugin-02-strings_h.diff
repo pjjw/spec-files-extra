@@ -1,0 +1,13 @@
+diff -ur mplayerplug-in-orig/Source/plugin.h mplayerplug-in/Source/plugin.h
+--- mplayerplug-in-orig/Source/plugin.h	2006-03-08 08:41:05.000000000 +0700
++++ mplayerplug-in/Source/plugin.h	2006-05-08 18:14:35.376110234 +0700
+@@ -56,6 +56,9 @@
+ #include <pthread.h>
+ #include <sys/types.h>
+ #include <signal.h>
++#ifdef sun
++#include <strings.h>
++#endif
+ #include <string.h>
+ #ifdef HAVE_GETTEXT
+ # include <libintl.h>

@@ -1,0 +1,78 @@
+#
+# spec file for package SFEobby
+#
+# includes module(s): obby
+#
+%include Solaris.inc
+
+Name:                    SFEobby
+Summary:                 obby - Network Text Editing Library
+Version:                 0.4.0
+%define tarball_version  0.4.0rc2
+Source:                  http://releases.0x539.de/obby/obby-%{tarball_version}.tar.gz
+Patch1:                  obby-01-cast.diff
+SUNW_BaseDir:            %{_basedir}
+BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+%include default-depend.inc
+Requires: SFEgmp
+Requires: SFEsigcpp
+Requires: SFEnet6
+BuildRequires: SFEnet6-devel
+BuildRequires: SFEsigcpp-devel
+
+%package devel
+Summary:                 %{summary} - development files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires: %name
+
+%prep
+%setup -q -n obby-%{tarball_version}
+%patch1 -p1
+
+%build
+CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
+if test "x$CPUS" = "x" -o $CPUS = 0; then
+    CPUS=1
+fi
+%if %cc_is_gcc
+%else
+export CXX="${CXX} -norunpath"
+%endif
+export CXXFLAGS="%cxx_optflags"
+./configure --prefix=%{_prefix} --mandir=%{_mandir} \
+            --libdir=%{_libdir}              \
+            --libexecdir=%{_libexecdir}      \
+            --sysconfdir=%{_sysconfdir} --disable-python
+make -j$CPUS 
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
+rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/lib*
+
+%files devel
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
+
+%changelog
+* Tue Jul 11 2006 - laca@sun.com
+- rename to SFEobby
+- update file attributes
+- bump to 0.4.0.rc2
+* Fri May 05 2006 - damien.carbery@sun.com
+- Bump to 0.4.0rc1. Add SUNWsigcpp and SUNWnet6 dependencies.
+* Thu Nov 17 2005 - laca@sun.com
+- create

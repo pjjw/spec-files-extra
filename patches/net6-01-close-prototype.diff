@@ -1,0 +1,11 @@
+diff -rup net6-1.2.0/src/socket.cpp net6-1.2.0.hacked/src/socket.cpp
+--- net6-1.2.0/src/socket.cpp	2005-11-13 12:32:39.000000000 -0500
++++ net6-1.2.0.hacked/src/socket.cpp	2005-11-17 10:55:21.100049000 -0500
+@@ -16,6 +16,7 @@
+  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+  */
+ 
++#include <unistd.h>
+ #include "error.hpp"
+ #include "socket.hpp"
+ 

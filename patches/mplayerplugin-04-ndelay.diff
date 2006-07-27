@@ -1,0 +1,12 @@
+diff -ur mplayerplug-in-orig/Source/plugin-threads.cpp mplayerplug-in/Source/plugin-threads.cpp
+--- mplayerplug-in-orig/Source/plugin-threads.cpp	2006-04-05 05:15:46.000000000 +0700
++++ mplayerplug-in/Source/plugin-threads.cpp	2006-05-09 18:45:13.948964174 +0700
+@@ -227,7 +227,7 @@
+ 	// make the operations on the control pipe non-blocking
+ 	flags = fcntl(*control, F_GETFL, 0);
+ 	flags |= O_NONBLOCK;
+-#ifndef BSD
++#if defined(BSD) || !defined(_POSIX_C_SOURCE)
+ 	flags |= O_NDELAY;
+ #endif
+ 	fcntl(*control, F_SETFL, flags);

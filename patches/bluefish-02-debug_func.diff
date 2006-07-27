@@ -1,0 +1,74 @@
+--- bluefish-1.0.5/src/highlight.c.orig	2006-02-10 16:32:16.264145000 +0000
++++ bluefish-1.0.5/src/highlight.c	2006-02-10 16:35:13.346604000 +0000
+@@ -1258,8 +1258,10 @@
+ #endif
+ 			/* if the tags ends at itstart there is no need to search forward to the end */
+ 			if (!gtk_text_iter_ends_tag(&itstart, GTK_TEXT_TAG(slist->data))) {
++#ifdef DEBUG
+ 				DEBUG_MSG("doc_highlight_line, (1) forward looking for tag %p (%s) from so=%d to eo=%d\n", slist->data, get_metaname_from_tag(slist->data),
+ 						  gtk_text_iter_get_offset(&itstart), gtk_text_iter_get_offset(&itend));
++#endif
+ 				tag_found = gtk_text_iter_forward_to_tag_toggle(&itsearch, GTK_TEXT_TAG(slist->data));
+ 				if (!tag_found) {
+ 					/* this happens with several gtk versions, 
+@@ -1281,7 +1283,9 @@
+ 						 gtk_text_iter_forward_char(&itsearch);
+ 					}
+ 				}
++#ifdef DEBUG
+ 				DEBUG_MSG("doc_highlight_line, (1) tag %p (%s) ends at itsearch=%d\n", slist->data, get_metaname_from_tag(slist->data),gtk_text_iter_get_offset(&itsearch));
++#endif
+ 				if (gtk_text_iter_compare(&itsearch, &itend) > 0) {
+ 					/* both the start and endpoint are within this 
+ 					   tag --> pattern matching can start with this
+@@ -1324,10 +1328,14 @@
+ 					   itstart to the beginning of this tag, 
+ 						there is also no need anymore to look further in slist, we have to start with this patternlist */
+ 					if (gtk_text_iter_begins_tag(&itstart, GTK_TEXT_TAG(slist->data))) {
++#ifdef DEBUG
+ 						DEBUG_MSG("doc_highlight_line, (1) itstart at %d is already at the beginning of tag %p (%s)\n",gtk_text_iter_get_offset(&itstart), slist->data, get_metaname_from_tag(slist->data));
++#endif
+ 					} else {
++#ifdef DEBUG
+ 						DEBUG_MSG("doc_highlight_line, (1) move itstart from %d to beginning of tag %p (%s)\n",
+ 								  gtk_text_iter_get_offset(&itstart), slist->data, get_metaname_from_tag(slist->data));
++#endif
+ 						gtk_text_iter_backward_to_tag_toggle(&itstart, GTK_TEXT_TAG(slist->data));
+ 						DEBUG_MSG("doc_highlight_line, (1) itstart is set back to %d\n", gtk_text_iter_get_offset(&itstart));
+ 					}
+@@ -1354,8 +1362,10 @@
+ 			gboolean tag_found;
+ 					/* if the tags starts at itend there is no need to search backward to the start */
+ 			if (!gtk_text_iter_begins_tag(&itend, GTK_TEXT_TAG(slist->data))) {
++#ifdef DEBUG
+ 				DEBUG_MSG("doc_highlight_line, (2) backwards looking for tag %p (%s) from eo=%d to so=%d, itsearch=%d\n", slist->data,
+ 						  get_metaname_from_tag(slist->data), gtk_text_iter_get_offset(&itend),gtk_text_iter_get_offset(&itstart) ,gtk_text_iter_get_offset(&itsearch));
++#endif
+ #ifdef DEBUG
+ 				DEBUG_MSG("does the itsearch position (%d) toggle(%d), begin(%d) or end(%d) the tag %p (%s)?\n"
+ 						,gtk_text_iter_get_offset(&itsearch)
+@@ -1386,7 +1396,9 @@
+ 						}
+ 					}
+ 				}
++#ifdef DEBUG
+ 				DEBUG_MSG("doc_highlight_line, (2) tag %p (%s) starts at itsearch=%d\n", slist->data,get_metaname_from_tag(slist->data),gtk_text_iter_get_offset(&itsearch));
++#endif
+ 				if (gtk_text_iter_compare(&itsearch, &itstart) <= 0) {
+ 					/* both the start and endpoint are within this 
+ 					   tag --> pattern matching can start with this
+@@ -1395,10 +1407,14 @@
+ 					/* this tag starts somewhere in the middle of the line, move 
+ 					   itend to the end of this tag */
+ 					if (gtk_text_iter_ends_tag(&itend, GTK_TEXT_TAG(slist->data))) {
++#ifdef DEBUG
+ 						DEBUG_MSG("doc_highlight_line, (2) itend at %d is already at the end of tag %p (%s)\n",
+ 								  gtk_text_iter_get_offset(&itend), slist->data,get_metaname_from_tag(slist->data));
++#endif
+ 					} else {
++#ifdef DEBUG
+ 						DEBUG_MSG("doc_highlight_line, (2) move itend from %d to end of tag %p (%s)\n",gtk_text_iter_get_offset(&itend), slist->data, get_metaname_from_tag(slist->data));
++#endif
+ 						gtk_text_iter_forward_to_tag_toggle(&itend, GTK_TEXT_TAG(slist->data));
+ 						DEBUG_MSG("doc_highlight_line, (2) itend is set forward to %d\n", gtk_text_iter_get_offset(&itend));
+ 					}

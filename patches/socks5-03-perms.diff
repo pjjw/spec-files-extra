@@ -1,0 +1,69 @@
+diff -u ./clients/pt/Makefile.in.orig ./clients/pt/Makefile.in
+--- ./clients/pt/Makefile.in.orig	2006-03-22 15:33:03.270060000 +0000
++++ ./clients/pt/Makefile.in	2006-03-22 15:33:35.526522000 +0000
+@@ -33,8 +33,8 @@
+ 	$(CC) $(CFLAGS) -o $@ rtrace.o share.o $(LIBS)
+ 
+ install:  rping rtraceroute
+-	$(INSTALL) -m 111 rping $(BINDIR)
+-	$(INSTALL) -m 111 rtraceroute $(BINDIR)
++	$(INSTALL) -m 555 rping $(BINDIR)
++	$(INSTALL) -m 555 rtraceroute $(BINDIR)
+ 
+ clean: 
+ 	-$(BINRM) $(OBJS) rping rtraceroute core
+
+diff -u ./clients/ftp/Makefile.in.orig ./clients/ftp/Makefile.in
+--- ./clients/ftp/Makefile.in.orig	2006-03-22 15:33:03.347855000 +0000
++++ ./clients/ftp/Makefile.in	2006-03-22 15:33:41.163968000 +0000
+@@ -40,7 +40,7 @@
+ 	$(CC) $(CFLAGS) -o $(PROG) $(OBJS) $(LIBS)
+ 
+ install: $(PROG)
+-	$(INSTALL) -m 111 $(PROG) $(BINDIR)/r$(PROG)
++	$(INSTALL) -m 555 $(PROG) $(BINDIR)/r$(PROG)
+ 
+ install.man: 
+ 	$(INSTALL) -m 444 ftp.1 $(MANDIR)/man1
+
+diff -u ./clients/archie/Makefile.in.orig ./clients/archie/Makefile.in
+--- ./clients/archie/Makefile.in.orig	2006-03-22 15:33:03.354699000 +0000
++++ ./clients/archie/Makefile.in	2006-03-22 15:33:46.165133000 +0000
+@@ -91,7 +91,7 @@
+ 	nroff -man archie.man | tr '\010' _ | sed -e s/__//g > archie.doc
+ 
+ install: archie
+-	$(INSTALL) -m 111 archie $(BINDIR)/rarchie
++	$(INSTALL) -m 555 archie $(BINDIR)/rarchie
+ 
+ # Regain precompiled state
+ clean: 
+
+diff -u ./clients/telnet/Makefile.in.orig ./clients/telnet/Makefile.in
+--- ./clients/telnet/Makefile.in.orig	2006-03-22 15:33:03.365904000 +0000
++++ ./clients/telnet/Makefile.in	2006-03-22 15:33:49.909755000 +0000
+@@ -68,7 +68,7 @@
+ 	$(CC) $(CFLAGS) $(SOCKSFLAGS) -o $(PROG) $(OBJS) $(LIBS) -Llibtelnet -ltelnet
+ 
+ install: $(PROG)
+-	$(INSTALL) -m 111 $(PROG) $(BINDIR)/r$(PROG)
++	$(INSTALL) -m 555 $(PROG) $(BINDIR)/r$(PROG)
+ 
+ clean:
+ 	-$(BINRM) $(PROG) $(OBJS) core
+
+diff -u ./clients/finger/Makefile.in.orig ./clients/finger/Makefile.in
+--- ./clients/finger/Makefile.in.orig	2006-03-22 15:33:03.369458000 +0000
++++ ./clients/finger/Makefile.in	2006-03-22 15:33:53.811546000 +0000
+@@ -42,8 +42,8 @@
+ 	$(CC) $(WHOIS_SERVER) $(CFLAGS) -o $@ $(srcdir)/$(SRC) $(LIBS)
+ 
+ install: finger whois
+-	$(INSTALL) -m 111 finger $(BINDIR)/rfinger
+-	$(INSTALL) -m 111 whois $(BINDIR)/rwhois
++	$(INSTALL) -m 555 finger $(BINDIR)/rfinger
++	$(INSTALL) -m 555 whois $(BINDIR)/rwhois
+ 
+ install.man: 
+ 	$(INSTALL) -m 444 ../doc/finger.1 $(MANDIR)/man1
+

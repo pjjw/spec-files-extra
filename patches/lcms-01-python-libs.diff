@@ -1,0 +1,11 @@
+--- lcms-1.15/python/Makefile.am.orig	2006-03-22 17:54:47.668089000 +0000
++++ lcms-1.15/python/Makefile.am	2006-03-22 17:55:06.540547000 +0000
+@@ -22,7 +22,7 @@
+                     -L/usr/lib/python$(PYTHON_VERSION)/config \
+                     -L/usr/local/lib/python$(PYTHON_VERSION)/config 
+ 
+-_lcms_la_LIBADD = $(top_builddir)/src/liblcms.la -lpython$(PYTHON_VERSION)
++_lcms_la_LIBADD = $(top_builddir)/src/liblcms.la -lpython$(PYTHON_VERSION) -lc -lCrun
+ 
+ _lcms_la_SOURCES = lcms_wrap.cxx
+ 

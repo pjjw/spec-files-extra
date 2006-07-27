@@ -1,0 +1,12 @@
+diff -ur faad2-orig/common/mp4v2/rtphint.cpp faad2/common/mp4v2/rtphint.cpp
+--- faad2-orig/common/mp4v2/rtphint.cpp	2003-06-30 04:41:00.000000000 +0700
++++ faad2/common/mp4v2/rtphint.cpp	2006-05-08 23:47:38.919888925 +0700
+@@ -322,7 +322,7 @@
+ 	    *ppEncodingParams = NULL;
+ 		if (m_pRtpMapProperty) {
+ 			const char* pRtpMap = m_pRtpMapProperty->GetValue();
+-			char* pSlash = strchr(pRtpMap, '/');
++			char* pSlash = strchr((char *)pRtpMap, '/');
+ 
+ 			u_int32_t length;
+ 			if (pSlash) {

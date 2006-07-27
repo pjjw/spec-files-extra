@@ -1,0 +1,189 @@
+--- xplanet-1.2.0/src/libannotate/addMarkers.cpp-orig	2005-10-26 18:35:14.911131000 -0500
++++ xplanet-1.2.0/src/libannotate/addMarkers.cpp	2005-10-26 18:38:47.249466000 -0500
+@@ -9,6 +9,8 @@
+ #include <vector>
+ using namespace std;
+ 
++#include <stdlib.h>
++
+ #include "buildPlanetMap.h"
+ #include "findFile.h"
+ #include "keywords.h"
+--- xplanet-1.2.0/src/libannotate/addSatellites.cpp-orig	2005-10-26 18:36:39.574981000 -0500
++++ xplanet-1.2.0/src/libannotate/addSatellites.cpp	2005-10-26 18:39:12.986201000 -0500
+@@ -8,6 +8,8 @@
+ #include <vector>
+ using namespace std;
+ 
++#include "stdio.h"
++
+ #include "findFile.h"
+ #include "keywords.h"
+ #include "Options.h"
+--- xplanet-1.2.0/src/libdisplay/DisplayBase.cpp-orig	2005-10-26 18:37:16.384496000 -0500
++++ xplanet-1.2.0/src/libdisplay/DisplayBase.cpp	2005-10-26 18:38:21.118470000 -0500
+@@ -7,6 +7,9 @@
+ #include <vector>
+ using namespace std;
+ 
++#include <stdio.h>
++#include <stdlib.h>
++
+ #include "body.h"
+ #include "findFile.h"
+ #include "keywords.h"
+--- xplanet-1.2.0/src/libdisplay/DisplayOutput.cpp-orig	2005-10-26 18:39:33.605895000 -0500
++++ xplanet-1.2.0/src/libdisplay/DisplayOutput.cpp	2005-10-26 18:39:50.050437000 -0500
+@@ -4,6 +4,8 @@
+ #include <sstream>
+ using namespace std;
+ 
++#include <stdio.h>
++
+ #include "keywords.h"
+ #include "Options.h"
+ #include "PlanetProperties.h"
+--- xplanet-1.2.0/src/libmultiple/drawSphere.cpp-orig	2005-10-26 18:40:15.618965000 -0500
++++ xplanet-1.2.0/src/libmultiple/drawSphere.cpp	2005-10-26 18:42:56.803890000 -0500
+@@ -1,3 +1,5 @@
++#include <math.h>
++
+ #include "Map.h"
+ #include "Options.h"
+ #include "View.h"
+--- xplanet-1.2.0/src/libmultiple/drawEllipsoid.cpp-orig	2005-10-26 18:43:08.255730000 -0500
++++ xplanet-1.2.0/src/libmultiple/drawEllipsoid.cpp	2005-10-26 18:43:15.820042000 -0500
+@@ -1,3 +1,4 @@
++#include <math.h>
+ #include "Map.h"
+ #include "Options.h"
+ #include "View.h"
+--- xplanet-1.2.0/src/libprojection/ProjectionBonne.cpp-orig	2005-10-26 18:43:35.341687000 -0500
++++ xplanet-1.2.0/src/libprojection/ProjectionBonne.cpp	2005-10-26 18:43:55.002511000 -0500
+@@ -13,6 +13,8 @@
+ #include <vector>
+ using namespace std;
+ 
++#include <stdio.h>
++
+ #include "Options.h"
+ #include "ProjectionBonne.h"
+ #include "xpUtil.h"
+--- xplanet-1.2.0/src/libprojection/ProjectionGnomonic.cpp-orig	2005-10-26 18:44:04.191966000 -0500
++++ xplanet-1.2.0/src/libprojection/ProjectionGnomonic.cpp	2005-10-26 18:44:27.110656000 -0500
+@@ -12,6 +12,8 @@
+ #include <sstream>
+ using namespace std;
+ 
++#include <stdio.h>
++
+ #include "Options.h"
+ #include "ProjectionGnomonic.h"
+ #include "xpUtil.h"
+--- xplanet-1.2.0/src/libprojection/ProjectionIcosagnomonic.cpp-orig	2005-10-26 18:44:37.267879000 -0500
++++ xplanet-1.2.0/src/libprojection/ProjectionIcosagnomonic.cpp	2005-10-26 18:49:58.407269000 -0500
+@@ -17,6 +17,8 @@
+ #include <vector>
+ using namespace std;
+ 
++#include <math.h>
++
+ #include "Options.h"
+ #include "ProjectionIcosagnomonic.h"
+ #include "xpUtil.h"
+@@ -102,7 +104,19 @@ ProjectionIcosagnomonic::PointLL::sameSi
+     double dp1 = PointXYZ::dotP(cp, p1);
+     double dp2 = PointXYZ::dotP(cp, p2);
+ 
+-    return (signbit(dp1) == signbit(dp2) || fabs(dp1) < 1e-10);    
++   /* Hack to workaround signbit not working on Solaris,
++      probably better to get the compiler working, but 
++      this should work for now.  This replaces:
++
++      return (signbit(dp1) == signbit(dp2) || fabs(dp1) < 1e-10);
++
++      according to the signbit manpage, it returns a non-zero
++      value if and only if the sign of the argument is negative.
++      So, with the above usage, it's true if both values are
++      negative or both are positive.  I'm assuming 0 is
++      considered positive. */
++
++    return ((dp1 < 0 && dp2 < 0 || dp1 >= 0 && dp2 >= 0) || (fabs(dp1) < 1e-10));    
+ }
+ 
+ bool
+--- xplanet-1.2.0/src/libprojection/ProjectionMercator.cpp-orig	2005-10-26 18:50:27.063203000 -0500
++++ xplanet-1.2.0/src/libprojection/ProjectionMercator.cpp	2005-10-26 18:50:52.203630000 -0500
+@@ -3,6 +3,8 @@
+ #include <sstream>
+ using namespace std;
+ 
++#include <stdio.h>
++
+ #include "Options.h"
+ #include "ProjectionMercator.h"
+ #include "xpUtil.h"
+--- xplanet-1.2.0/src/Options.cpp-orig	2005-10-26 18:51:36.652448000 -0500
++++ xplanet-1.2.0/src/Options.cpp	2005-10-26 18:51:50.422786000 -0500
+@@ -5,6 +5,7 @@
+ #include <sstream>
+ using namespace std;
+ 
++#include <stdlib.h>
+ #include <sys/time.h>
+ 
+ #include "config.h"
+--- xplanet-1.2.0/src/Satellite.cpp-orig	2005-10-26 18:52:14.131864000 -0500
++++ xplanet-1.2.0/src/Satellite.cpp	2005-10-26 18:52:28.383425000 -0500
+@@ -3,6 +3,7 @@
+ #include <iostream>
+ using namespace std;
+ 
++#include <stdio.h>
+ #include <sys/time.h>
+ 
+ #include "xpUtil.h"
+--- xplanet-1.2.0/src/drawMultipleBodies.cpp-orig	2005-10-26 18:52:39.697423000 -0500
++++ xplanet-1.2.0/src/drawMultipleBodies.cpp	2005-10-26 18:52:53.496485000 -0500
+@@ -7,6 +7,8 @@
+ #include <vector>
+ using namespace std;
+ 
++#include <stdio.h>
++
+ #include "body.h"
+ #include "buildPlanetMap.h"
+ #include "config.h"
+--- xplanet-1.2.0/src/parse.cpp-orig	2005-10-26 18:53:01.666309000 -0500
++++ xplanet-1.2.0/src/parse.cpp	2005-10-26 18:53:11.989312000 -0500
+@@ -4,6 +4,8 @@
+ #include <string>
+ using namespace std;
+ 
++#include <stdio.h>
++
+ #include "keywords.h"
+ #include "parseColor.h"
+ #include "xpUtil.h"
+--- xplanet-1.2.0/src/xpUtil.cpp-orig	2005-10-26 18:54:51.292117000 -0500
++++ xplanet-1.2.0/src/xpUtil.cpp	2005-10-26 18:55:13.171041000 -0500
+@@ -8,6 +8,8 @@
+ #include <string>
+ using namespace std;
+ 
++#include <stdlib.h>
++#include <stdio.h>
+ #include <unistd.h>
+ extern char **environ;
+ 
+--- xplanet-1.2.0/src/libprojection/getProjection.cpp-orig      2005-10-26 19:09:44.958907000 -0500
++++ xplanet-1.2.0/src/libprojection/getProjection.cpp   2005-10-26 19:09:51.316593000 -0500
+@@ -4,6 +4,8 @@
+ #include <vector>
+ using namespace std;
+ 
++#include <stdlib.h>
++
+ #include "keywords.h"
+ #include "xpUtil.h"
+ 

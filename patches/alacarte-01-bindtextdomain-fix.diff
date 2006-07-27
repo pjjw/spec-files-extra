@@ -1,0 +1,12 @@
+diff -urN alacarte-0.9/Alacarte/DialogHandler.py alacarte-0.9-hacked/Alacarte/DialogHandler.py
+--- alacarte-0.9/Alacarte/DialogHandler.py	2006-04-21 02:03:37.000000000 +1200
++++ alacarte-0.9-hacked/Alacarte/DialogHandler.py	2006-04-21 15:13:27.203460000 +1200
+@@ -21,7 +21,7 @@
+ import gettext
+ gettext.bindtextdomain('alacarte')
+ gettext.textdomain('alacarte')
+-gtk.glade.bindtextdomain('alacarte')
++#gtk.glade.bindtextdomain('alacarte')
+ gtk.glade.textdomain('alacarte')
+ _ = gettext.gettext
+ from Alacarte import util

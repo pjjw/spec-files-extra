@@ -1,0 +1,23 @@
+diff -ur faad2-orig/common/mp4v2/Makefile.am faad2/common/mp4v2/Makefile.am
+--- faad2-orig/common/mp4v2/Makefile.am	2004-02-06 19:47:04.000000000 +0700
++++ faad2/common/mp4v2/Makefile.am	2006-05-09 00:21:55.042621002 +0700
+@@ -1,6 +1,6 @@
+ INCLUDES = -I$(top_srcdir)/include
+ 
+-AM_CXXFLAGS = -Wall 
++AM_CXXFLAGS = 
+ 
+ lib_LTLIBRARIES = libmp4v2.la
+ 
+diff -ur faad2-orig/plugins/xmms/src/Makefile.am faad2/plugins/xmms/src/Makefile.am
+--- faad2-orig/plugins/xmms/src/Makefile.am	2004-02-06 23:05:07.000000000 +0700
++++ faad2/plugins/xmms/src/Makefile.am	2006-05-09 00:22:16.301838175 +0700
+@@ -1,7 +1,7 @@
+ libdir = `$(XMMS_CONFIG) --input-plugin-dir`
+ lib_LTLIBRARIES = libmp4.la
+ 
+-libmp4_la_CFLAGS = `$(XMMS_CONFIG) --cflags` -Wall \
++libmp4_la_CFLAGS = `$(XMMS_CONFIG) --cflags` \
+        `$(GTK_CONFIG) --cflags` -DHAVE_GLIB_H=1 \
+        -I$(top_srcdir)/include -I$(top_srcdir)/common/mp4v2
+ 

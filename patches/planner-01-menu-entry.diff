@@ -1,0 +1,14 @@
+--- planner-0.13/data/planner.desktop.in.in	2004-11-25 05:01:38.000000000 +0530
++++ planner-0.13-new/data/planner.desktop.in.in	2005-12-02 12:44:35.382902000 +0530
+@@ -1,8 +1,8 @@
+ [Desktop Entry]
+ Encoding=UTF-8
+-_Name=Project Management
+-_Comment=Planner Project Management
+-Exec=planner %F
++_Name=Project Manager
++_Comment=Project Management Tool
++Exec=/usr/sfw/bin/planner %F
+ Icon=gnome-planner.png
+ Terminal=false
+ Type=Application

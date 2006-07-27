@@ -1,0 +1,11 @@
+--- gtk-sharp-2.8.2/gdk/glue/event.c.orig	2006-07-23 22:09:45.995487000 -0400
++++ gtk-sharp-2.8.2/gdk/glue/event.c	2006-07-23 22:10:19.511385000 -0400
+@@ -45,7 +45,7 @@
+ GdkDevice* gtksharp_gdk_event_button_get_device (GdkEventButton *event);
+ guint32 gtksharp_gdk_event_scroll_get_time (GdkEventScroll *event);
+ guint gtksharp_gdk_event_scroll_get_state (GdkEventScroll *event);
+-guint gtksharp_gdk_event_scroll_get_direction (GdkEventScroll *event);
++GdkScrollDirection gtksharp_gdk_event_scroll_get_direction (GdkEventScroll *event);
+ gdouble gtksharp_gdk_event_scroll_get_x (GdkEventScroll *event);
+ gdouble gtksharp_gdk_event_scroll_get_y (GdkEventScroll *event);
+ gdouble gtksharp_gdk_event_scroll_get_x_root (GdkEventScroll *event);

@@ -1,0 +1,56 @@
+diff -urN unrar/int64.hpp unrar.b/int64.hpp
+--- unrar/int64.hpp	2005-10-04 09:57:54.000000000 +0200
++++ unrar.b/int64.hpp	2006-05-12 09:14:08.425565705 +0200
+@@ -6,7 +6,7 @@
+ typedef __int64 Int64;
+ #endif
+ 
+-#if defined(__GNUC__) || defined(__HP_aCC)
++#if defined(__GNUC__) || defined(__HP_aCC) || defined(SOLARIS)
+ #define NATIVE_INT64
+ typedef long long Int64;
+ #endif
+diff -urN unrar/makefile.unix unrar.b/makefile.unix
+--- unrar/makefile.unix	2005-04-30 09:00:12.000000000 +0200
++++ unrar.b/makefile.unix	2006-05-12 09:40:02.680924992 +0200
+@@ -6,10 +6,10 @@
+ #
+ 
+ # Linux using GCC
+-CXX=g++
+-CXXFLAGS=-O2
+-DEFINES=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+-STRIP=strip
++#CXX=g++
++#CXXFLAGS=-O2
++#DEFINES=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
++#STRIP=strip
+ 
+ # Linux using LCC
+ #CXX=lcc
+@@ -117,3 +117,9 @@
+ lib:	$(OBJECTS) $(LIB_OBJ)
+ 	@rm -f libunrar.so
+ 	$(LINK) -shared -o libunrar.so $(LDFLAGS) $(OBJECTS) $(LIB_OBJ)
++
++install:	unrar
++		mkdir $(DESTDIR)
++		mkdir $(BASENAME)
++		mkdir $(BASENAME)/bin
++		$(INSTALL) -m 755 unrar $(BASENAME)/bin
+diff -urN unrar/os.hpp unrar.b/os.hpp
+--- unrar/os.hpp	2005-10-04 09:57:54.000000000 +0200
++++ unrar.b/os.hpp	2006-05-12 09:15:49.230410501 +0200
+@@ -208,6 +208,12 @@
+   #endif
+ #endif
+ 
++#if defined(i86pc) && defined(SOLARIS)
++  #ifndef LITTLE_ENDIAN
++     #define LITTLE_ENDIAN
++  #endif
++#endif
++
+ #endif
+ 
+ typedef const char* MSGID;

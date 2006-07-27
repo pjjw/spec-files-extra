@@ -1,0 +1,11 @@
+--- gthumb-2.7.2/data/gthumb.desktop.in.orig	Mon Jan 16 15:47:24 2006
++++ gthumb-2.7.2/data/gthumb.desktop.in	Mon Jan 16 15:48:18 2006
+@@ -1,6 +1,6 @@
+ [Desktop Entry]
+-_Name=gThumb Image Viewer
+-_GenericName=Image Viewer
++_Name=Image Organizer
++_GenericName=gThumb Image Organizer
+ _Comment=View and organize your images
+ Categories=Application;Graphics;Viewer;
+ Encoding=UTF-8

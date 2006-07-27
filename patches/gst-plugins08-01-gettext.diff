@@ -1,0 +1,27 @@
+--- gst-plugins-0.8.12/configure.ac.orig	2006-07-23 18:37:22.849108000 -0400
++++ gst-plugins-0.8.12/configure.ac	2006-07-23 18:38:35.731000000 -0400
+@@ -47,14 +47,20 @@
+ AS_PROG_OBJC
+ 
+ dnl the gettext stuff needed
+-AM_GNU_GETTEXT_VERSION(0.11.5)
+-AM_GNU_GETTEXT([external])
+-                                                                                
++ALL_LINGUAS=`cat po/LINGUAS`
++ALL_LINGUAS="`echo $ALL_LINGUAS`"
++
+ GETTEXT_PACKAGE=gst-plugins-$GST_MAJORMINOR
+ AC_SUBST(GETTEXT_PACKAGE)
+ AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], "$GETTEXT_PACKAGE",
+                    [gettext package name])
+-                                                                                
++
++AM_GLIB_GNU_GETTEXT
++USE_INCLUDED_LIBINTL=no
++AC_SUBST(USE_INCLUDED_LIBINTL)
++BUILD_INCLUDED_LIBINTL=no
++AC_SUBST(BUILD_INCLUDED_LIBINTL)
++
+ dnl define LOCALEDIR in config.h
+ AS_AC_EXPAND(LOCALEDIR, $datadir/locale)
+ AC_DEFINE_UNQUOTED([LOCALEDIR], "$LOCALEDIR",

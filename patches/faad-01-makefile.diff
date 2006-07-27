@@ -1,0 +1,40 @@
+diff -ur faad2-orig/Makefile.am faad2/Makefile.am
+--- faad2-orig/Makefile.am	2004-02-06 23:04:39.000000000 +0700
++++ faad2/Makefile.am	2006-05-09 00:16:28.698507408 +0700
+@@ -3,6 +3,6 @@
+ EXTRA_DIST = faad2.spec
+ 
+ rpm:    Makefile
+-       make dist
+-       $(RPMBUILD) -ta $(PACKAGE)-$(VERSION).tar.gz
+-       rm $(PACKAGE)-$(VERSION).tar.gz
++	make dist
++	$(RPMBUILD) -ta $(PACKAGE)-$(VERSION).tar.gz
++	rm $(PACKAGE)-$(VERSION).tar.gz
+diff -ur faad2-orig/frontend/Makefile.am faad2/frontend/Makefile.am
+--- faad2-orig/frontend/Makefile.am	2003-11-06 18:04:13.000000000 +0700
++++ faad2/frontend/Makefile.am	2006-05-09 00:16:55.357481784 +0700
+@@ -3,11 +3,11 @@
+ faad_SOURCES = main.c audio.c $(top_srcdir)/common/faad/getopt.c \
+    audio.h
+ 
+-AM_CFLAGS = -O2
++AM_CFLAGS = 
+ INCLUDES = -I$(top_srcdir)/include -I$(top_srcdir)/common/faad \
+    -I$(top_srcdir)/common/mp4ff
+ LDADD = $(top_builddir)/libfaad/libfaad.la \
+    $(top_builddir)/common/mp4ff/libmp4ff.la
+ 
+ 
+-CCLD = $(CXX)
++CCLD = $(CC)
+diff -ur faad2-orig/libfaad/Makefile.am faad2/libfaad/Makefile.am
+--- faad2-orig/libfaad/Makefile.am	2004-02-06 20:12:28.000000000 +0700
++++ faad2/libfaad/Makefile.am	2006-05-09 00:16:08.796803128 +0700
+@@ -21,5 +21,5 @@
+ codebook/hcb_9.h codebook/hcb_10.h codebook/hcb_11.h codebook/hcb_sf.h
+ 
+ LIBTOOL_DEPS =
+-LIBS =
++LIBS = -lm
+ 

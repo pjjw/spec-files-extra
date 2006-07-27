@@ -1,0 +1,16 @@
+--- obby-0.3.0rc1/src/colour.cpp.orig	2005-11-17 19:11:23.907047000 -0500
++++ obby-0.3.0rc1/src/colour.cpp	2005-11-17 19:12:18.050462000 -0500
+@@ -46,9 +46,9 @@
+ bool obby::colour::similar_colour(const colour& colour) const
+ {
+ 	// TODO: Convert to HSV for better checking
+-	return abs(m_red - colour.m_red) +
+-	       abs(m_green - colour.m_green) +
+-	       abs(m_blue - colour.m_blue) < 32;
++	return abs((long)(m_red - colour.m_red)) +
++	       abs((long)(m_green - colour.m_green)) +
++	       abs((long)(m_blue - colour.m_blue)) < 32;
+ }
+ 
+ std::string
+ 

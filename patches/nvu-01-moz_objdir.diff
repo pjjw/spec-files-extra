@@ -1,0 +1,11 @@
+--- mozilla/.mozconfig.mk.orig	2005-06-20 10:34:09.000000000 +0100
++++ mozilla/.mozconfig.mk	2006-02-09 16:48:06.695509000 +0000
+@@ -6,7 +6,7 @@
+ 
+ # PATH=/cygdrive/e/apps/vc7/bin:/cygdrive/e/apps/vc7/lib:/cygdrive/e/apps/vc7/include:/cygdrive/e/apps/vc7:/cygdrive/c/moztools/bin:/cygdrive/c/PROGRA~1/MICROS~1.NET/Common7/IDE:/cygdrive/c/PROGRA~1/MICROS~1.NET/VC7/BIN:/cygdrive/c/PROGRA~1/MICROS~1.NET/Common7/Tools:/cygdrive/c/PROGRA~1/MICROS~1.NET/Common7/Tools/bin/prerelease:/cygdrive/c/PROGRA~1/MICROS~1.NET/Common7/Tools/bin:/cygdrive/c/PROGRA~1/MICROS~1.NET/FRAMEW~1/bin:/cygdrive/c/WINNT/Microsoft.NET/Framework/v1.0.3705:/cygdrive/c/WINDOWS/system32:/cygdrive/c/WINDOWS:/cygdrive/c/WINDOWS/System32/Wbem:/cygdrive/c/Program Files/Fichiers communs/GTK/2.0/bin:/cygdrive/c/Program Files/cvsnt:/cygdrive/c/Program Files/Fichiers communs/Adaptec Shared/System:/cygdrive/e/apps/vc7/bin:/cygdrive/e/apps/vc7/lib:/cygdrive/e/apps/vc7/include:/cygdrive/e/apps/vc7:/cygdrive/c/moztools/bin:/cygdrive/c/PROGRA~1/MICROS~1.NET/Common7/IDE:/cygdrive/c/PROGRA~1/MICROS~1.NET/VC7/BIN:/cygdrive/c/PROGRA~1/MICROS~1.NET/Common7/Tools:/cygdrive/c/PROGRA~1/MICROS~1.NET/Common7/Tools/bin/prerelease:/cygdrive/c/PROGRA~1/MICROS~1.NET/Common7/Tools/bin:/cygdrive/c/PROGRA~1/MICROS~1.NET/FRAMEW~1/bin:/cygdrive/c/WINNT/Microsoft.NET/Framework/v1.0.3705:.:/cygdrive/c/Program Files/XEmacs/XEmacs-21.4.13/i586-pc-win32/:/usr/bin:/cygdrive/c/Program Files/XEmacs/XEmacs-21.4.13/i586-pc-win32/:/usr/bin
+ MOZ_STANDALONE_COMPOSER=1
+-MOZ_OBJDIR=/cygdrive/e/bin/debug/1.0
++MOZ_OBJDIR=/jds/packages/BUILD/nvu-objdir
+ # --enable-crypto is used by configure (not client.mk)
+ # --disable-ldap is used by configure (not client.mk)
+ # --disable-mailnews is used by configure (not client.mk)

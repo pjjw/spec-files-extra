@@ -1,0 +1,14 @@
+diff -ur mplayerplug-in-orig/Source/plugin-list.cpp mplayerplug-in/Source/plugin-list.cpp
+--- mplayerplug-in-orig/Source/plugin-list.cpp	2006-02-25 01:47:18.000000000 +0700
++++ mplayerplug-in/Source/plugin-list.cpp	2006-05-08 18:16:08.128786284 +0700
+@@ -137,8 +137,8 @@
+     char tagtarget[128];
+     char tagurl[1024];
+ 
+-    endvideo = strstr(smilbuffer, "</video");
+-    startarea = strstr(smilbuffer, "<area");
++    endvideo = strstr((char *)smilbuffer, "</video");
++    startarea = strstr((char *)smilbuffer, "<area");
+ 
+     while (startarea && startarea < endvideo) {
+ 	start = strstr(startarea + 5, "begin=");

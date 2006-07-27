@@ -1,0 +1,11 @@
+--- libgpod-0.3.2/configure.ac-orig	2006-03-09 18:45:02.738256000 -0800
++++ libgpod-0.3.2/configure.ac	2006-03-09 18:45:33.066294000 -0800
+@@ -51,7 +51,7 @@ AC_PROG_INTLTOOL([0.21])
+ AC_CHECK_FUNCS(mremap)
+ 
+ PKG_CHECK_MODULES(LIBGPOD, glib-2.0 >= 2.4.0 gobject-2.0)
+-LIBGPOD_CFLAGS="$LIBGPOD_CFLAGS -Wall"
++LIBGPOD_CFLAGS="$LIBGPOD_CFLAGS"
+ 
+ dnl **************************************************
+ dnl * GDKPIXBUF is optional

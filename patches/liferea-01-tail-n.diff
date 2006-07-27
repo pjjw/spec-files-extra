@@ -1,0 +1,41 @@
+--- liferea-1.0.15/src/liferea.in.orig	2006-06-11 14:06:58.000000000 -0400
++++ liferea-1.0.15/src/liferea.in	2006-06-22 23:37:24.340395000 -0400
+@@ -1,12 +1,11 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ 
+ # This script is used to find an existing Mozilla
+ # instance in your system and to supply its path
+ # to Liferea.
+ 
+-dist_bin=`dirname $0`
+-params="$@"
++dist_bin=$(cd $(dirname $0); pwd)
+ 
+ run_with_mozilla() {
+ 	MOZILLA_HOME=$1
+@@ -16,7 +15,7 @@
+ 		LD_LIBRARY_PATH=$MOZILLA_HOME:$LD_LIBRARY_PATH
+ 		export LD_LIBRARY_PATH
+ 
+-		exec "$dist_bin/liferea-bin" $params
++		exec "$dist_bin/liferea-bin" "${@}"
+ 	fi
+ }
+ 
+@@ -25,7 +24,7 @@
+ 	results=`ls -1d $1 2>/dev/null | sort -n`
+ 	while [ -n "$results" ]
+ 	do
+-		path=`echo "$results" | tail -n 1`
++		path=`echo "$results" | tail -1`
+ 		results=`echo "$results" | grep -v $path`
+ 		path=`dirname $path` 	# strip comm.jar
+ 		path=`dirname $path`	# strip chrome
+@@ -58,4 +57,4 @@
+ # for FreeBSD 6:
+ look_for_mozilla "/usr/X11R6/lib/mozilla/chrome.jar"
+ 
+-exec "$dist_bin/liferea-bin" $params
++exec "$dist_bin/liferea-bin" "${@}"

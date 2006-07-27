@@ -1,0 +1,26 @@
+--- wxWidgets-2.6.3/locale/Makefile.orig	2006-07-11 00:15:00.221160000 -0400
++++ wxWidgets-2.6.3/locale/Makefile	2006-07-11 00:28:50.977305000 -0400
+@@ -7,11 +7,11 @@
+ # being called with this dir as the cwd, but if we generate this file
+ # with configure an explicit path should be specified -- RL.
+ 
+-WX_LINGUAS := `ls *.po */*.po 2> /dev/null | sed -n 's/\(wxstd\)\?\.po//p'`
+-WX_LINGUAS_UPDATE := `ls *.po 2> /dev/null | sed -n 's/\(wxstd\)\?\.po//p'`
++WX_LINGUAS := `ls -1 *.po */*.po 2> /dev/null | grep -v wxstd | sed -e 's/\.po//'`
++WX_LINGUAS_UPDATE := `ls -1 *.po 2> /dev/null | grep -v wxstd | sed -e 's/\.po//'`
+ 
+ # the programs we use (TODO: use configure to detect them)
+-MSGFMT=msgfmt --verbose
++MSGFMT=msgfmt
+ MSGMERGE=msgmerge
+ XGETTEXT=xgettext
+ XARGS=xargs
+@@ -21,7 +21,7 @@
+ 
+ # implicit rules
+ %.mo: %.po
+-	$(MSGFMT) -c -o $@ $<
++	$(MSGFMT) -o $@ $<
+ 
+ # a PO file must be updated from wxstd.po to include new translations
+ %.po: wxstd.po

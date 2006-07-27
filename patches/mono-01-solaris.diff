@@ -1,0 +1,227 @@
+--- mono-1.1.16.1/mono/mini/mini-arch.h.patch01	2006-07-15 20:41:19.494747000 -0400
++++ mono-1.1.16.1/mono/mini/mini-arch.h	2006-07-15 20:42:32.003687000 -0400
+@@ -1,13 +1,13 @@
+ #ifndef __MONO_MINI_ARCH_H__
+ #define __MONO_MINI_ARCH_H__
+ 
+-#ifdef __i386__
++#if defined (__i386__) || defined (__i386)
+ #include "mini-x86.h"
+ #elif defined(__x86_64__)
+ #include "mini-amd64.h"
+ #elif defined(__ppc__) || defined(__powerpc__)
+ #include "mini-ppc.h"
+-#elif defined(__sparc__) || defined(sparc)
++#elif defined(__sparc__) || defined(sparc) || defined(__sparc)
+ #include "mini-sparc.h"
+ #elif defined(__s390__) || defined(s390)
+ # if defined(__s390x__)
+--- mono-1.1.16.1/mono/mini/mini-ops.h.patch01	2006-07-15 20:55:51.471801000 -0400
++++ mono-1.1.16.1/mono/mini/mini-ops.h	2006-07-15 20:56:20.744088000 -0400
+@@ -525,7 +525,7 @@
+ MINI_OP(OP_MEMORY_BARRIER, "memory_barrier")
+ 
+ /* Arch specific opcodes */
+-#if defined(__i386__) || defined(__x86_64__)
++#if defined(__i386__) || defined(__i386) || defined(__x86_64__)
+ MINI_OP(OP_X86_TEST_NULL,          "x86_test_null")
+ MINI_OP(OP_X86_COMPARE_MEMBASE_REG,"x86_compare_membase_reg")
+ MINI_OP(OP_X86_COMPARE_MEMBASE_IMM,"x86_compare_membase_imm")
+@@ -584,7 +584,7 @@
+ MINI_OP(OP_ARM_RSC_IMM,             "arm_rsc_imm")
+ #endif
+ 
+-#if defined(__sparc__) || defined(sparc)
++#if defined(__sparc__) || defined(sparc) || defined (__sparc)
+ MINI_OP(OP_SPARC_OUTARG_REGPAIR,   "sparc_outarg_regpair")
+ MINI_OP(OP_SPARC_OUTARG_MEM,       "sparc_outarg_mem")
+ MINI_OP(OP_SPARC_OUTARG_MEMPAIR,   "sparc_outarg_mempair")
+--- mono-1.1.16.1/mono/mini/mini-x86.c.patch01	2006-07-15 20:59:50.579230000 -0400
++++ mono-1.1.16.1/mono/mini/mini-x86.c	2006-07-15 22:25:04.707446000 -0400
+@@ -24,6 +24,10 @@
+ #include "inssel.h"
+ #include "cpu-pentium.h"
+ 
++#ifdef __SUNPRO_C
++#define __FUNCTION__ __func__
++#endif
++
+ /* On windows, these hold the key returned by TlsAlloc () */
+ static gint lmf_tls_offset = -1;
+ static gint appdomain_tls_offset = -1;
+@@ -503,7 +507,22 @@
+ cpuid (int id, int* p_eax, int* p_ebx, int* p_ecx, int* p_edx)
+ {
+ 	int have_cpuid = 0;
+-#ifndef _MSC_VER
++#if !defined(_MSC_VER)
++#ifdef __SUNPRO_C
++        __asm ("\n"
++		"pushfl\n"
++		"popl %eax\n"
++		"movl %eax, %edx\n"
++		"xorl $0x200000, %eax\n"
++		"pushl %eax\n"
++		"popfl\n"
++		"pushfl\n"
++		"popl %eax\n"
++		"xorl %edx, %eax\n"
++		"andl $0x200000, %eax\n"
++                "movl %eax, -8(%ebp)\n"
++	);
++#else
+ 	__asm__  __volatile__ (
+ 		"pushfl\n"
+ 		"popl %%eax\n"
+@@ -520,6 +539,7 @@
+ 		:
+ 		: "%eax", "%edx"
+ 	);
++#endif
+ #else
+ 	__asm {
+ 		pushfd
+@@ -569,11 +589,19 @@
+ #ifndef _MSC_VER
+ 	guint16 fpcw;
+ 
++#ifdef __SUNPRO_C
++	__asm ("fnstcw -16(%ebp)\n");
++	fpcw &= ~X86_FPCW_PRECC_MASK;
++	fpcw |= X86_FPCW_PREC_DOUBLE;
++	__asm ("fldcw -16(%ebp)\n");
++	__asm ("fnstcw -16(%ebp)\n");
++#else
+ 	__asm__  __volatile__ ("fnstcw %0\n": "=m" (fpcw));
+ 	fpcw &= ~X86_FPCW_PRECC_MASK;
+ 	fpcw |= X86_FPCW_PREC_DOUBLE;
+ 	__asm__  __volatile__ ("fldcw %0\n": : "m" (fpcw));
+ 	__asm__  __volatile__ ("fnstcw %0\n": "=m" (fpcw));
++#endif
+ #else
+ 	_control87 (_PC_53, MCW_PC);
+ #endif
+--- mono-1.1.16.1/mono/mini/mini-codegen.c.patch01	2006-07-15 22:27:07.496114000 -0400
++++ mono-1.1.16.1/mono/mini/mini-codegen.c	2006-07-15 22:27:49.926265000 -0400
+@@ -24,10 +24,10 @@
+ #if defined(__x86_64__)
+ const char * const amd64_desc [OP_LAST];
+ static const char*const * ins_spec = amd64_desc;
+-#elif defined(__sparc__) || defined(sparc)
++#elif defined(__sparc__) || defined(sparc) || defined(__sparc)
+ const char * const sparc_desc [OP_LAST];
+ static const char*const * ins_spec = sparc_desc;
+-#elif defined(__i386__)
++#elif defined(__i386__) || defined(__i386)
+ extern const char * const pentium_desc [OP_LAST];
+ static const char*const * ins_spec = pentium_desc;
+ #elif defined(__ia64__)
+--- mono-1.1.16.1/scripts/mono-find-provides.in.patch01	2006-05-10 18:31:47.000000000 -0400
++++ mono-1.1.16.1/scripts/mono-find-provides.in	2006-07-15 20:31:49.051611000 -0400
+@@ -9,7 +9,7 @@
+ #
+ 
+ IFS=$'\n'
+-filelist=($(grep -Ev '/usr/doc/|/usr/share/doc/'))
++filelist=($(egrep -v '/usr/doc/|/usr/share/doc/'))
+ monolist=($(printf "%s\n" "${filelist[@]}" | egrep "\\.(exe|dll)\$"))
+ 
+ # Only include files with /gac/ in path
+--- mono-1.1.16.1/scripts/mono-find-requires.in.patch01	2006-05-10 18:31:47.000000000 -0400
++++ mono-1.1.16.1/scripts/mono-find-requires.in	2006-07-15 20:31:49.052194000 -0400
+@@ -9,7 +9,7 @@
+ #
+ 
+ IFS=$'\n'
+-filelist=($(grep -Ev '/usr/doc/|/usr/share/doc/'))
++filelist=($(egrep -v '/usr/doc/|/usr/share/doc/'))
+ monolist=($(printf "%s\n" "${filelist[@]}" | egrep "\\.(exe|dll)\$"))
+ 
+ a=`which "$0"`
+--- mono-1.1.16.1/mcs/class/Mono.Posix/Mono.Unix/Catalog.cs.patch01	2006-07-05 17:59:23.000000000 -0400
++++ mono-1.1.16.1/mcs/class/Mono.Posix/Mono.Unix/Catalog.cs	2006-07-15 20:31:49.050912000 -0400
+@@ -40,12 +40,12 @@
+ 	public class Catalog {
+ 		private Catalog () {}
+ 
+-		[DllImport("intl")]
++		[DllImport("libc")]
+ 		static extern IntPtr bindtextdomain (IntPtr domainname, IntPtr dirname);
+-		[DllImport("intl")]
++		[DllImport("libc")]
+ 		static extern IntPtr bind_textdomain_codeset (IntPtr domainname,
+ 			IntPtr codeset);
+-		[DllImport("intl")]
++		[DllImport("libc")]
+ 		static extern IntPtr textdomain (IntPtr domainname);
+ 		
+ 		public static void Init (String package, String localedir)
+@@ -91,7 +91,7 @@
+ 			}
+ 		}
+ 	
+-		[DllImport("intl")]
++		[DllImport("libc")]
+ 		static extern IntPtr gettext (IntPtr instring);
+ 		
+ 		public static String GetString (String s)
+@@ -109,7 +109,7 @@
+ 			}
+ 		}
+ 	
+-		[DllImport("intl")]
++		[DllImport("libc")]
+ 		static extern IntPtr ngettext (IntPtr singular, IntPtr plural, Int32 n);
+ 		
+ 		public static String GetPluralString (String s, String p, Int32 n)
+--- mono-1.1.16.1/mcs/class/Mono.Posix/Mono.Posix/Catalog.cs.patch01	2006-04-14 13:50:00.000000000 -0400
++++ mono-1.1.16.1/mcs/class/Mono.Posix/Mono.Posix/Catalog.cs	2006-07-15 20:31:49.029020000 -0400
+@@ -37,12 +37,12 @@
+ 
+ 	[Obsolete ("Use Mono.Unix.Catalog")]
+ 	public class Catalog {
+-		[DllImport("intl")]
++		[DllImport("libc")]
+ 		static extern IntPtr bindtextdomain (IntPtr domainname, IntPtr dirname);
+-		[DllImport("intl")]
++		[DllImport("libc")]
+ 		static extern IntPtr bind_textdomain_codeset (IntPtr domainname,
+ 			IntPtr codeset);
+-		[DllImport("intl")]
++		[DllImport("libc")]
+ 		static extern IntPtr textdomain (IntPtr domainname);
+ 		
+ 		public static void Init (String package, String localedir)
+@@ -58,7 +58,7 @@
+ 			Marshal.FreeHGlobal (iutf8);
+ 		}
+ 	
+-		[DllImport("intl")]
++		[DllImport("libc")]
+ 		static extern IntPtr gettext (IntPtr instring);
+ 		
+ 		public static String GetString (String s)
+@@ -69,7 +69,7 @@
+ 			return t;
+ 		}
+ 	
+-		[DllImport("intl")]
++		[DllImport("libc")]
+ 		static extern IntPtr ngettext (IntPtr singular, IntPtr plural, Int32 n);
+ 		
+ 		public static String GetPluralString (String s, String p, Int32 n)
+--- mono-1.1.16.1/configure.in.patch01	2006-07-15 22:36:38.764548000 -0400
++++ mono-1.1.16.1/configure.in	2006-07-15 22:36:55.542947000 -0400
+@@ -1412,9 +1412,9 @@
+ 	],
+ 	AC_MSG_RESULT(no)))
+ 
+-if test "x$ac_cv_truncl" != "xyes"; then
+-   AC_CHECK_LIB(sunmath, aintl, [ AC_DEFINE(HAVE_AINTL) LIBS="$LIBS -lsunmath"])
+-fi
++#if test "x$ac_cv_truncl" != "xyes"; then
++#   AC_CHECK_LIB(sunmath, aintl, [ AC_DEFINE(HAVE_AINTL) LIBS="$LIBS -lsunmath"])
++#fi
+ 
+ dnl ****************************
+ dnl *** Look for /dev/random ***

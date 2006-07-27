@@ -1,0 +1,30 @@
+diff -urN ufraw-0.7/ufraw_ufraw.c ufraw-0.7-hacked/ufraw_ufraw.c
+--- ufraw-0.7/ufraw_ufraw.c	2006-02-23 22:23:42.000000000 +0100
++++ ufraw-0.7-hacked/ufraw_ufraw.c	2006-03-17 12:10:11.439540000 +0100
+@@ -236,7 +236,11 @@
+     /* For MinG32 we don't have the thread safe ctime_r */
+     g_strlcpy(uf->conf->timestamp, ctime(&raw->timestamp), max_name);
+ #else
+-    ctime_r(&raw->timestamp, uf->conf->timestamp);
++#   ifdef SOLARIS
++       ctime_r(&raw->timestamp, uf->conf->timestamp,sizeof(uf->conf->timestamp));
++#   else
++       ctime_r(&raw->timestamp, uf->conf->timestamp);
++#   endif
+ #endif
+     if (uf->conf->timestamp[strlen(uf->conf->timestamp)-1]=='\n')
+ 	uf->conf->timestamp[strlen(uf->conf->timestamp)-1] = '\0';
+--- ufraw-0.8/configure.ac.orig	2006-05-08 17:26:46.224736000 +0100
++++ ufraw-0.8/configure.ac	2006-05-08 17:27:22.369585000 +0100
+@@ -32,9 +32,9 @@
+     AC_MSG_ERROR([size of double must be 8])
+ fi
+ 
+-UFRAW_CFLAGS="-ffast-math -fomit-frame-pointer"
++UFRAW_CFLAGS=""
+ if test "x$GCC" = "xyes"; then
+-    UFRAW_CFLAGS="$UFRAW_CFLAGS -W -Wall -O3"
++    UFRAW_CFLAGS="$UFRAW_CFLAGS -ffast-math -fomit-frame-pointer -W -Wall -O3"
+ fi
+ 
+ # windows will require some special attention

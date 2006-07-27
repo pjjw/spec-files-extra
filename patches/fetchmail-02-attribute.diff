@@ -1,0 +1,11 @@
+--- fetchmail-6.3.4/libesmtp/gethostbyname.c.orig	2006-06-13 08:15:00.477646000 -0400
++++ fetchmail-6.3.4/libesmtp/gethostbyname.c	2006-06-13 08:15:27.704610000 -0400
+@@ -201,7 +201,7 @@
+ #else
+ 
+ void
+-free_ghbnctx (struct ghbnctx *ctx __attribute__ ((unused)))
++free_ghbnctx (struct ghbnctx *ctx)
+ {
+   assert (ctx != NULL);
+ }

@@ -1,0 +1,11 @@
+--- atomix-2.14.0/src/Makefile.am.orig	2006-03-10 22:46:04.756640000 -0500
++++ atomix-2.14.0/src/Makefile.am	2006-03-10 22:46:14.972066000 -0500
+@@ -2,7 +2,7 @@
+ scoredir = $(localstatedir)/games
+ uidir = $(datadir)/gnome-2.0/ui
+ 
+-INCLUDES = -Wall \
++INCLUDES = \
+ 	-I$(top_srcdir) \
+ 	$(ATOMIX_CFLAGS) \
+ 	$(EXTRA_WARNING_CFLAGS) \

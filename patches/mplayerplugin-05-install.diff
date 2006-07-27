@@ -1,0 +1,14 @@
+diff -ur mplayerplug-in-orig/install.sh.in mplayerplug-in/install.sh.in
+--- mplayerplug-in-orig/install.sh.in	2005-08-16 10:46:59.000000000 +0700
++++ mplayerplug-in/install.sh.in	2006-05-08 18:41:07.771967942 +0700
+@@ -16,8 +16,8 @@
+ 	$INSTALL -b -D -m0644 mplayerplug-in.types ${DESTDIR}/etc/mplayerplug-in.types 
+ 	for mod in @CREATE@
+ 	do
+-		$INSTALL -D -m0755 ${mod}.so ${DESTDIR}${libdir}/mozilla/plugins/${mod}.so 
+-		$INSTALL -D -m0755 Source/nsIScriptableMplayerPlugin.xpt ${DESTDIR}${libdir}/mozilla/plugins/${mod}.xpt 
++		$INSTALL -D -m0755 ${mod}.so ${DESTDIR}${libdir}/firefox/plugins/${mod}.so 
++		$INSTALL -D -m0755 Source/nsIScriptableMplayerPlugin.xpt ${DESTDIR}${libdir}/firefox/plugins/${mod}.xpt 
+ 	done
+ 	make install -C po LOCALEDIR="${LOCALEDIR}" INSTALL="$INSTALL" DESTDIR="$DESTDIR"
+ 

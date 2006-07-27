@@ -1,0 +1,23 @@
+--- gstreamer-0.8.12/configure.ac.orig	2006-02-09 08:06:14.000000000 -0500
++++ gstreamer-0.8.12/configure.ac	2006-07-22 22:42:07.526429000 -0400
+@@ -38,13 +38,17 @@
+ AS="${CC}"
+ 
+ dnl the gettext stuff needed
+-AM_GNU_GETTEXT_VERSION(0.11.5)
+-AM_GNU_GETTEXT([external])
+-
++ALL_LINGUAS=`cat po/LINGUAS`
++ALL_LINGUAS="`echo $ALL_LINGUAS`"
+ GETTEXT_PACKAGE=gstreamer-$GST_MAJORMINOR
+ AC_SUBST(GETTEXT_PACKAGE)
+ AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], "$GETTEXT_PACKAGE",
+                    [gettext package name])
++AM_GLIB_GNU_GETTEXT
++USE_INCLUDED_LIBINTL=no
++AC_SUBST(USE_INCLUDED_LIBINTL)
++BUILD_INCLUDED_LIBINTL=no
++AC_SUBST(BUILD_INCLUDED_LIBINTL)
+ 
+ dnl define LOCALEDIR in config.h
+ AS_AC_EXPAND(LOCALEDIR, $datadir/locale)

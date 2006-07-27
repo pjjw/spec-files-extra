@@ -1,0 +1,24 @@
+diff -urN twolame-0.3.7-orig/libtwolame/bitbuffer.c twolame-0.3.7/libtwolame/bitbuffer.c
+--- twolame-0.3.7-orig/libtwolame/bitbuffer.c	2005-10-27 03:33:37.000000000 +0700
++++ twolame-0.3.7/libtwolame/bitbuffer.c	2006-06-13 18:57:58.923576991 +0700
+@@ -73,7 +73,7 @@
+ }
+ 
+ /*write N bits into the bit stream */
+-inline void buffer_putbits (bit_stream * bs, unsigned int val, int N)
++void buffer_putbits (bit_stream * bs, unsigned int val, int N)
+ {
+ 	static const int putmask[9] = { 0x0, 0x1, 0x3, 0x7, 0xf, 0x1f, 0x3f, 0x7f, 0xff };
+ 	register int j = N;
+diff -urN twolame-0.3.7-orig/libtwolame/bitbuffer.h twolame-0.3.7/libtwolame/bitbuffer.h
+--- twolame-0.3.7-orig/libtwolame/bitbuffer.h	2005-10-27 03:33:37.000000000 +0700
++++ twolame-0.3.7/libtwolame/bitbuffer.h	2006-06-13 19:05:00.188710052 +0700
+@@ -40,7 +40,7 @@
+ void buffer_deinit( bit_stream ** bs );
+ 
+ void buffer_put1bit (bit_stream *, int);
+-inline void buffer_putbits (bit_stream *, unsigned int, int);
++void buffer_putbits (bit_stream *, unsigned int, int);
+ unsigned long buffer_sstell (bit_stream *);
+ 
+ #endif

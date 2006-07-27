@@ -1,0 +1,441 @@
+--- gtkpod-0.99.4/src/display_playlists.c-orig	2006-03-09 20:05:08.282638000 -0800
++++ gtkpod-0.99.4/src/display_playlists.c	2006-03-09 20:08:24.356762000 -0800
+@@ -99,23 +99,23 @@ static void pm_drag_begin (GtkWidget *wi
+ }
+ 
+ 
+-/* remove dragged playlist after successful MOVE */
+-static void pm_drag_data_delete (GtkWidget *widget,
+-			   GdkDragContext *drag_context,
+-			   gpointer user_data)
+-{
+-    void pm_drag_data_delete_remove_playlist(
++static void pm_drag_data_delete_remove_playlist(
+ 	GtkTreeModel *tm, GtkTreePath *tp,
+ 	GtkTreeIter *iter, gpointer data)
+-	{
++{
+ 	    Playlist *pl;
+ 	    g_return_if_fail (tm);
+ 	    g_return_if_fail (iter);
+ 	    gtk_tree_model_get (tm, iter, PM_COLUMN_PLAYLIST, &pl, -1);
+ 	    g_return_if_fail (pl);
+ 	    gp_playlist_remove (pl);
+-	}
++}
+ 
++/* remove dragged playlist after successful MOVE */
++static void pm_drag_data_delete (GtkWidget *widget,
++			   GdkDragContext *drag_context,
++			   gpointer user_data)
++{
+     g_return_if_fail (widget);
+     g_return_if_fail (drag_context);
+ 
+@@ -1140,17 +1140,11 @@ void pm_add_playlist (Playlist *playlist
+ }
+ 
+ 
+-/* Remove "playlist" from the display model. 
+-   "select": TRUE: a new playlist is selected
+-             FALSE: no selection is taking place
+-                    (useful when quitting program) */
+-void pm_remove_playlist (Playlist *playlist, gboolean select)
+-{
+-    gboolean pm_delete_playlist_fe (GtkTreeModel *model,
++static gboolean pm_delete_playlist_fe (GtkTreeModel *model,
+ 				    GtkTreePath *path,
+ 				    GtkTreeIter *iter,
+ 				    gpointer data)
+-	{
++{
+ 	    Playlist *playlist;
+ 	    
+ 	    gtk_tree_model_get (model, iter, PM_COLUMN_PLAYLIST, &playlist, -1);
+@@ -1159,7 +1153,14 @@ void pm_remove_playlist (Playlist *playl
+ 		return TRUE;
+ 	    }
+ 	    return FALSE;
+-	}
++}
++
++/* Remove "playlist" from the display model. 
++   "select": TRUE: a new playlist is selected
++             FALSE: no selection is taking place
++                    (useful when quitting program) */
++void pm_remove_playlist (Playlist *playlist, gboolean select)
++{
+     GtkTreeModel *model;
+     gboolean have_iter = FALSE;
+     GtkTreeIter i;
+@@ -1231,14 +1232,11 @@ void pm_remove_all_playlists (gboolean c
+ 
+ 
+ 
+-/* Select specified playlist */
+-void pm_select_playlist (Playlist *playlist)
+-{
+-    gboolean pm_select_playlist_fe (GtkTreeModel *model,
++static gboolean pm_select_playlist_fe (GtkTreeModel *model,
+ 				    GtkTreePath *path,
+ 				    GtkTreeIter *iter,
+ 				    gpointer data)
+-	{
++{
+ 	    Playlist *playlist;
+ 
+ 	    gtk_tree_model_get (model, iter,
+@@ -1251,7 +1249,11 @@ void pm_select_playlist (Playlist *playl
+ 		return TRUE;
+ 	    }
+ 	    return FALSE;
+-	}
++}
++
++/* Select specified playlist */
++void pm_select_playlist (Playlist *playlist)
++{
+     GtkTreeModel *model;
+ 
+     g_return_if_fail (playlist_treeview);
+@@ -1265,14 +1267,11 @@ void pm_select_playlist (Playlist *playl
+ }
+ 
+ 
+-/* Unselect specified playlist */
+-void pm_unselect_playlist (Playlist *playlist)
+-{
+-    gboolean pm_unselect_playlist_fe (GtkTreeModel *model,
++static gboolean pm_unselect_playlist_fe (GtkTreeModel *model,
+ 				      GtkTreePath *path,
+ 				      GtkTreeIter *iter,
+ 				      gpointer data)
+-	{
++{
+ 	    Playlist *playlist;
+ 
+ 	    gtk_tree_model_get (model, iter,
+@@ -1285,7 +1284,11 @@ void pm_unselect_playlist (Playlist *pla
+ 		return TRUE;
+ 	    }
+ 	    return FALSE;
+-	}
++}
++
++/* Unselect specified playlist */
++void pm_unselect_playlist (Playlist *playlist)
++{
+     GtkTreeModel *model;
+ 
+     g_return_if_fail (playlist_treeview);
+@@ -1469,23 +1472,17 @@ void pm_add_all_playlists (void)
+     }
+ }
+ 
+-
+-/* Return path of playlist @pl. After use the return value must be
+- * freed by calling gtk_tree_path_free() */
+-GtkTreePath *pm_get_path (Playlist *pl)
++struct userdata
+ {
+-    struct userdata
+-    {
+ 	Playlist *pl;
+ 	GtkTreePath *path;
+-    };
+-    GtkTreeModel *model;
+-    struct userdata userdata;
+-    gboolean pm_get_path_fe (GtkTreeModel *model,
++};
++
++static gboolean pm_get_path_fe (GtkTreeModel *model,
+ 				    GtkTreePath *path,
+ 				    GtkTreeIter *iter,
+ 				    gpointer data)
+-	{
++{
+ 	    struct userdata *ud = data;
+ 	    Playlist *pl;
+ 
+@@ -1497,7 +1494,14 @@ GtkTreePath *pm_get_path (Playlist *pl)
+ 		return TRUE;
+ 	    }
+ 	    return FALSE;
+-	}
++}
++
++/* Return path of playlist @pl. After use the return value must be
++ * freed by calling gtk_tree_path_free() */
++GtkTreePath *pm_get_path (Playlist *pl)
++{
++    GtkTreeModel *model;
++    struct userdata userdata;
+     g_return_val_if_fail (playlist_treeview, NULL);
+     g_return_val_if_fail (pl, NULL);
+     model = gtk_tree_view_get_model (playlist_treeview);
+--- gtkpod-0.99.4/src/display_songs.c-orig	2006-03-09 20:08:32.555835000 -0800
++++ gtkpod-0.99.4/src/display_songs.c	2006-03-09 20:09:03.649433000 -0800
+@@ -1292,18 +1292,19 @@ tm_get_selected_trackids(void)
+     return(result);
+ }
+ 
++static gboolean
++	on_all_trackids_list_foreach (GtkTreeModel *tm, GtkTreePath *tp,
++				      GtkTreeIter *i, gpointer data)
++{
++	    on_trackids_list_foreach (tm, tp, i, data);
++	    return FALSE;
++}
++
+ /* return a list containing the track IDs of all tracks currently being
+    displayed */
+ GList *
+ tm_get_all_trackids(void)
+ {
+-    gboolean
+-	on_all_trackids_list_foreach (GtkTreeModel *tm, GtkTreePath *tp,
+-				      GtkTreeIter *i, gpointer data)
+-	{
+-	    on_trackids_list_foreach (tm, tp, i, data);
+-	    return FALSE;
+-	}
+     GList *result = NULL;
+     GtkTreeModel *model;
+ 
+@@ -1345,19 +1346,20 @@ tm_get_selected_tracks(void)
+ }
+ 
+ 
+-/* return a list containing pointers to all tracks currently being
+-   displayed. You must g_list_free() the list after use. */
+-GList *
+-tm_get_all_tracks(void)
+-{
+-    gboolean on_all_tracks_list_foreach (GtkTreeModel *tm,
++static gboolean on_all_tracks_list_foreach (GtkTreeModel *tm,
+ 					 GtkTreePath *tp,
+ 					 GtkTreeIter *i,
+ 					 gpointer data)
+-	{
++{
+ 	    on_tracks_list_foreach (tm, tp, i, data);
+ 	    return FALSE;
+-	}
++}
++
++/* return a list containing pointers to all tracks currently being
++   displayed. You must g_list_free() the list after use. */
++GList *
++tm_get_all_tracks(void)
++{
+     GList *result = NULL;
+     GtkTreeModel *model = gtk_tree_view_get_model (track_treeview);
+ 
+--- gtkpod-0.99.4/src/file.c-orig	2006-03-09 20:09:10.746547000 -0800
++++ gtkpod-0.99.4/src/file.c	2006-03-09 20:09:24.750203000 -0800
+@@ -1484,22 +1484,10 @@ static void sync_dir_cancel (gpointer us
+ }
+ 
+ 
+-/* Sync all directories referred to by the pc_path_locale entries in
+-   the selected tracks */
+-void sync_tracks (GList *selected_tracks)
+-{
+-    GHashTable *hash_tosync;
+-    GHashTable *hash_removed;
+-    struct SyncData *sd;
+-    GList *gl;
+-    guint32 dirnum = 0;
+-    /* Append @key (gchar *dir) to GString *user_data. Charset to use is
+-     * @value. If @value is not set, use the charset specified in the
+-     * preferences */
+-    void sync_add_dir_to_string  (gpointer key,
++static void sync_add_dir_to_string  (gpointer key,
+ 				  gpointer value,
+ 				  gpointer user_data)
+-	{
++{
+ 	    gchar *dir = (gchar *)key;
+ 	    gchar *charset = (gchar *)value;
+ 	    GString *str = (GString *)user_data;
+@@ -1514,7 +1502,20 @@ void sync_tracks (GList *selected_tracks
+ 		buf = charset_to_utf8 (dir);
+ 	    g_string_append_printf (str, "%s\n", buf);
+ 	    g_free (buf);
+-	}
++}
++
++/* Sync all directories referred to by the pc_path_locale entries in
++   the selected tracks */
++void sync_tracks (GList *selected_tracks)
++{
++    GHashTable *hash_tosync;
++    GHashTable *hash_removed;
++    struct SyncData *sd;
++    GList *gl;
++    guint32 dirnum = 0;
++    /* Append @key (gchar *dir) to GString *user_data. Charset to use is
++     * @value. If @value is not set, use the charset specified in the
++     * preferences */
+ 
+     if (selected_tracks == NULL)
+     {
+--- gtkpod-0.99.4/src/misc.c-orig	2006-03-09 20:09:34.918577000 -0800
++++ gtkpod-0.99.4/src/misc.c	2006-03-09 20:09:50.921951000 -0800
+@@ -336,14 +336,15 @@ void cleanup_backup_and_extended_files (
+ }
+ 
+ 
++static void gl_dup_fe (gpointer data, GList **dup)
++{
++	    *dup = g_list_append (*dup, data);
++}
++
+ /* Duplicate a GList (shallow copy) */
+ GList *glist_duplicate (GList *list)
+ {
+     auto void gl_dup_fe (gpointer data, GList **dup);
+-    void gl_dup_fe (gpointer data, GList **dup)
+-	{
+-	    *dup = g_list_append (*dup, data);
+-	}
+     GList *dup = NULL;
+     g_list_foreach (list, (GFunc)gl_dup_fe, &dup);
+     return dup;
+--- gtkpod-0.99.4/src/misc_playlist.c-orig	2006-03-09 20:10:00.860404000 -0800
++++ gtkpod-0.99.4/src/misc_playlist.c	2006-03-09 20:10:22.313184000 -0800
+@@ -932,15 +932,8 @@ check_db_danglingok1 (gpointer user_data
+     release_widgets ();
+ }
+ 
+-
+-
+-/* checks iTunesDB for presence of dangling links and checks IPODs Music directory
+- * on subject of orphaned files */
+-void check_db (iTunesDB *itdb)
++void glist_list_tracks (GList * tlist, GString * str)
+ {
+-
+-    void glist_list_tracks (GList * tlist, GString * str)
+-	{
+ 	    if (str==NULL)
+ 	    {
+ 		fprintf(stderr, "Report the bug please: shouldn't be NULL at %s:%d\n",__FILE__,__LINE__);
+@@ -960,8 +953,12 @@ void check_db (iTunesDB *itdb)
+ 		    (str,"%s(%d) %s-%s -> %s\n",_("Track"),
+ 		     track->id, track->artist,  track->title,  etr->pc_path_utf8);
+ 	    }
+-	} /* end of glist_list_tracks */
++} /* end of glist_list_tracks */
+ 
++/* checks iTunesDB for presence of dangling links and checks IPODs Music directory
++ * on subject of orphaned files */
++void check_db (iTunesDB *itdb)
++{
+     GTree *files_known = NULL;
+     GDir  *dir_des = NULL;
+ 
+--- gtkpod-0.99.4/src/misc_track.c-orig	2006-03-09 20:10:29.755163000 -0800
++++ gtkpod-0.99.4/src/misc_track.c	2006-03-09 20:11:23.825832000 -0800
+@@ -125,20 +125,21 @@ void gp_md5_hash_tracks (void)
+ }
+ 
+ 
+-/**
+- * Call md5_free() for each itdb and delete md5 checksums in all tracks.
+- *
+- */
+-void gp_md5_free_hash (void)
++static void rm_md5 (gpointer track, gpointer user_data)
+ {
+-    void rm_md5 (gpointer track, gpointer user_data)
+-	{
+ 	    ExtraTrackData *etr;
+ 	    g_return_if_fail (track);
+ 	    etr = ((Track *)track)->userdata;
+ 	    g_return_if_fail (etr);
+ 	    C_FREE (etr->md5_hash);
+-	}
++}
++
++/**
++ * Call md5_free() for each itdb and delete md5 checksums in all tracks.
++ *
++ */
++void gp_md5_free_hash (void)
++{
+     GList *gl;
+     struct itdbs_head *itdbs_head;
+ 
+@@ -1122,22 +1123,8 @@ void gp_info_nontransferred_tracks (iTun
+ }
+ 
+ 
+-
+-
+-
+-/*------------------------------------------------------------------*\
+- *                                                                  *
+- *             DND to playlists                                     *
+- *                                                                  *
+-\*------------------------------------------------------------------*/
+-
+-/* DND: add either a GList of tracks or an ASCII list of tracks to
+- * Playlist @pl */
+-static void add_tracks_to_playlist (Playlist *pl,
+-				    gchar *string, GList *tracks)
++void intern_add_track (Playlist *pl, Track *track)
+ {
+-    void intern_add_track (Playlist *pl, Track *track)
+-	{
+ 	    iTunesDB *from_itdb, *to_itdb;
+ 	    Playlist *to_mpl;
+ 	    from_itdb = track->itdb;
+@@ -1231,9 +1218,19 @@ static void add_tracks_to_playlist (Play
+ 		    }
+ 		}
+ 	    }
+-	}
++}
+ 
++/*------------------------------------------------------------------*\
++ *                                                                  *
++ *             DND to playlists                                     *
++ *                                                                  *
++\*------------------------------------------------------------------*/
+ 
++/* DND: add either a GList of tracks or an ASCII list of tracks to
++ * Playlist @pl */
++static void add_tracks_to_playlist (Playlist *pl,
++				    gchar *string, GList *tracks)
++{
+     g_return_if_fail (!(string && tracks));
+     g_return_if_fail (pl);
+     g_return_if_fail (pl->itdb);
+--- gtkpod-0.99.4/src/prefs.c-orig	2006-03-09 20:11:30.605896000 -0800
++++ gtkpod-0.99.4/src/prefs.c	2006-03-09 20:11:41.819930000 -0800
+@@ -3079,17 +3079,17 @@ gint64 prefs_get_int64 (const gchar *key
+ }
+ 
+ 
+-/* write the values in the hash table out into the preferences file
+-   @fp */
+-static void prefs_write_hash_values (FILE *fp)
+-{
+-    void prefs_write_hash_func (gpointer key, gpointer value,
++static void prefs_write_hash_func (gpointer key, gpointer value,
+ 				gpointer fp)
+-	{
++{
+ 	    g_return_if_fail (key && value && fp);
+ 	    fprintf ((FILE *)fp, "%s=%s\n", (gchar *)key, (gchar *)value);
+-	}
++}
+ 
++/* write the values in the hash table out into the preferences file
++   @fp */
++static void prefs_write_hash_values (FILE *fp)
++{
+     if (prefs_hash)
+ 	g_hash_table_foreach (prefs_hash, prefs_write_hash_func, fp);
+ }

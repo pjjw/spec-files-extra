@@ -1,0 +1,57 @@
+diff -urN swfdec-0.3.6/configure.ac swfdec-0.3.6-hacked/configure.ac
+--- swfdec-0.3.6/configure.ac	2006-01-10 20:07:14.000000000 +1300
++++ swfdec-0.3.6-hacked/configure.ac	2006-01-13 15:11:59.878548000 +1300
+@@ -17,7 +17,6 @@
+ 
+ AM_CONFIG_HEADER(config.h)
+ 
+-GLOBAL_CFLAGS="-Wall"
+ if test x$SWFDEC_CVS = xyes ; then
+   GLOBAL_CFLAGS="$GLOBAL_CFLAGS -Werror"
+ fi
+@@ -123,6 +123,11 @@
+ PKG_CHECK_MODULES(MOZILLA, mozilla-plugin, HAVE_MOZILLA=yes, HAVE_MOZILLA=no)
+ if test "$HAVE_MOZILLA" = no ; then
+   PKG_CHECK_MODULES(MOZILLA, firefox-plugin, HAVE_MOZILLA=yes, HAVE_MOZILLA=no)
++  dnl On Solaris the firefox-js cflags are needed.
++  if test "$HAVE_MOZILLA" = yes ; then
++    MOZILLA_CFLAGS="$MOZILLA_CFLAGS `pkg-config --cflags firefox-js`"
++    MOZILLA_LIBS="$MOZILLA_LIBS `pkg-config --libs firefox-js`"
++  fi
+ fi
+ AC_SUBST(MOZILLA_CFLAGS)
+ AC_SUBST(MOZILLA_LIBS)
+diff -urN swfdec-0.3.6/libswfdec/swfdec_debug.h swfdec-0.3.6-hacked/libswfdec/swfdec_debug.h
+--- swfdec-0.3.6/libswfdec/swfdec_debug.h	2005-10-19 16:59:04.000000000 +1300
++++ swfdec-0.3.6-hacked/libswfdec/swfdec_debug.h	2006-01-13 15:36:57.245986000 +1300
+@@ -2,6 +2,8 @@
+ #ifndef __SWFDEC_DEBUG_H__
+ #define __SWFDEC_DEBUG_H__
+ 
++#include <stddef.h>
++
+ enum
+ {
+   SWFDEC_LEVEL_NONE = 0,
+@@ -24,7 +26,7 @@
+   SWFDEC_DEBUG_LEVEL(SWFDEC_LEVEL_LOG, __VA_ARGS__)
+ 
+ #define SWFDEC_DEBUG_LEVEL(level,...) \
+-  swfdec_debug_log ((level), __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
++  swfdec_debug_log ((level), __FILE__, G_GNUC_FUNCTION, __LINE__, __VA_ARGS__)
+ 
+ void swfdec_debug_log (int level, const char *file, const char *function,
+     int line, const char *format, ...);
+--- swfdec-0.3.6/plugin/Makefile.am.orig	2006-03-24 11:51:23.653591000 +0000
++++ swfdec-0.3.6/plugin/Makefile.am	2006-03-24 12:02:10.209364000 +0000
+@@ -29,8 +29,9 @@
+ 	$(GST_CFLAGS) \
+ 	$(GTK_CFLAGS)
+ 
++# Just add "-L/usr/openwin/sfw/lib -lX11": too lazy to get proper configure fix.
+ swfdec_mozilla_player_LDADD = \
+ 	$(GST_LIBS) -lgstinterfaces-0.10 -lgstbase-0.10 \
+-	$(GTK_LIBS) \
++	$(GTK_LIBS) -L/usr/openwin/sfw/lib -lX11 \
+ 	$(SWF_LIBS)
+ 

@@ -1,0 +1,32 @@
+--- fetchmail-6.3.4/configure.ac.orig	2006-05-10 14:00:08.846366000 +0100
++++ fetchmail-6.3.4/configure.ac	2006-05-10 14:03:26.042017000 +0100
+@@ -90,8 +90,16 @@
+ esac
+ 
+ dnl i18n
+-AM_GNU_GETTEXT([external], [need-ngettext])
+-AM_GNU_GETTEXT_VERSION(0.14.3)
++LIBINTL=
++ALL_LINGUAS="ca cs de es fr ja pl ru sq vi"
++AM_GLIB_GNU_GETTEXT
++USE_INCLUDED_LIBINTL=no
++AC_SUBST(USE_INCLUDED_LIBINTL)
++BUILD_INCLUDED_LIBINTL=no
++AC_SUBST(BUILD_INCLUDED_LIBINTL)
++AC_SUBST(LIBINTL)
++GETTEXT_PACKAGE=$PACKAGE
++AC_SUBST(GETTEXT_PACKAGE)
+ dnl end i18n
+ 
+ # Under sysV68, socket and friends are provided by the C library.
+diff -ur fetchmail-6.2.5/fetchmail.c fetchmail-6.2.5-hacked/fetchmail.c
+--- fetchmail-6.2.5/fetchmail.c	Thu Oct 16 08:22:31 2003
++++ fetchmail-6.2.5-hacked/fetchmail.c	Fri Oct 14 00:13:54 2005
+@@ -5,6 +5,7 @@
+  */
+ #include "config.h"
+ 
++#include <locale.h>
+ #include <stdio.h>
+ #if defined(STDC_HEADERS)
+ #include <stdlib.h>

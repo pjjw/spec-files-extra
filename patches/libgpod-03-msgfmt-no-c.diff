@@ -1,0 +1,11 @@
+--- libgpod-0.3.2/po/Makefile.in.in.orig	2006-03-16 16:34:23.813067000 +0000
++++ libgpod-0.3.2/po/Makefile.in.in	2006-03-16 16:40:22.019061000 +0000
+@@ -78,7 +78,7 @@
+ 
+ .po.gmo:
+ 	file=$(srcdir)/`echo $* | sed 's,.*/,,'`.gmo \
+-	  && rm -f $$file && $(GMSGFMT) -c -o $$file $<
++	  && rm -f $$file && $(GMSGFMT) -o $$file $<
+ 
+ .po.cat:
+ 	sed -f ../intl/po2msg.sed < $< > $*.msg \

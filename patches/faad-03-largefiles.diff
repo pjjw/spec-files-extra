@@ -1,0 +1,11 @@
+diff -ur faad2-orig/common/mp4v2/systems.h faad2/common/mp4v2/systems.h
+--- faad2-orig/common/mp4v2/systems.h	2003-06-30 04:41:00.000000000 +0700
++++ faad2/common/mp4v2/systems.h	2006-05-08 23:38:33.227218288 +0700
+@@ -133,6 +133,7 @@
+  *   UNIX LIKE DEFINES BELOW THIS POINT
+  *****************************************************************************/
+ #ifdef sun
++#define _FILE_OFFSET_BITS       64
+ #include <sys/feature_tests.h>
+ #endif
+ 

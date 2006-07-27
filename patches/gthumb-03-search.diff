@@ -1,0 +1,22 @@
+--- ../gthumb-2.6.5.old/src/dlg-search.c	2005-06-15 10:38:39.207208552 +0100
++++ ./src/dlg-search.c	2005-06-15 10:42:06.937628728 +0100
+@@ -840,6 +840,7 @@
+ 	time_t       time = 0;
+ 	const char  *home_dir;
+ 	const char  *name_only;
++	const char  *base_name_only;
+ 
+ 	if (! file_is_image (filename, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
+ 		return FALSE;
+@@ -902,7 +903,10 @@
+ 	else
+ 		name_only = filename;
+ 
+-	result = (match_patterns (data->file_patterns, name_only)
++	base_name_only = file_name_from_path (filename);
++
++	result = ((match_patterns (data->file_patterns, name_only)
++		  || match_patterns (data->file_patterns, base_name_only))
+ 		  && match_patterns (data->comment_patterns, comment)
+ 		  && match_patterns (data->place_patterns, place)
+ 		  && match_keywords

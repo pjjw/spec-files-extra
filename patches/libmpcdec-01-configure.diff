@@ -1,0 +1,24 @@
+diff -urN libmpcdec-1.2.2-orig/configure libmpcdec-1.2.2/configure
+--- libmpcdec-1.2.2-orig/configure	2005-10-23 21:17:16.000000000 +0700
++++ libmpcdec-1.2.2/configure	2006-06-13 19:18:04.360408247 +0700
+@@ -19581,7 +19581,7 @@
+ 
+ 
+ 
+-CFLAGS="$CFLAGS -O3 -fomit-frame-pointer -fPIC"
++CFLAGS="$CFLAGS -KPIC"
+ 
+ echo "$as_me:$LINENO: checking whether byte ordering is bigendian" >&5
+ echo $ECHO_N "checking whether byte ordering is bigendian... $ECHO_C" >&6
+diff -urN libmpcdec-1.2.2-orig/configure.ac libmpcdec-1.2.2/configure.ac
+--- libmpcdec-1.2.2-orig/configure.ac	2005-10-23 21:14:52.000000000 +0700
++++ libmpcdec-1.2.2/configure.ac	2006-06-13 19:23:13.497181866 +0700
+@@ -6,7 +6,7 @@
+ 
+ AM_PROG_LIBTOOL
+ 
+-CFLAGS="$CFLAGS -O3 -fomit-frame-pointer -fPIC"
++CFLAGS="$CFLAGS -KPIC"
+ 
+ AC_C_BIGENDIAN(,CFLAGS="$CFLAGS -DMPC_LITTLE_ENDIAN",)
+ 

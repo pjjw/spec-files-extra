@@ -1,0 +1,19 @@
+--- bluefish-1.0.5/data/Makefile.in.orig	2006-02-10 18:03:19.392428000 +0000
++++ bluefish-1.0.5/data/Makefile.in	2006-02-10 18:13:28.694247000 +0000
+@@ -58,14 +58,14 @@
+ 	$(INSTALL_DATA) bluefish-project.desktop $(DESTDIR)$(FDMENU)
+ 
+ install-update-menu:
+-	$(UPDATE_DESKTOP)
++	# $(UPDATE_DESKTOP)
+ 
+ install-fdmime:
+ 	$(INSTALL_DIR) $(DESTDIR)$(FDMIME)/packages
+ 	$(INSTALL_DATA) bluefish.xml $(DESTDIR)$(FDMIME)/packages
+ 
+ install-update-mime:
+-	$(UPDATE_MIME) $(FDMIME)
++	# $(UPDATE_MIME) $(DESTDIR)$(FDMIME)
+ 
+ install-gnome-2.4-mime:
+ 	$(INSTALL_DIR) $(DESTDIR)$(GMIMEINFO)

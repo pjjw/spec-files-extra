@@ -1,0 +1,21 @@
+diff -urN MPlayer-1.0pre8-orig/libmpdemux/cddb.c MPlayer-1.0pre8/libmpdemux/cddb.c
+--- MPlayer-1.0pre8-orig/libmpdemux/cddb.c	2006-06-12 01:35:46.000000000 +0700
++++ MPlayer-1.0pre8/libmpdemux/cddb.c	2006-06-13 12:04:34.644502751 +0700
+@@ -43,7 +43,7 @@
+ 
+ #if defined(__linux__)
+ 	#include <linux/cdrom.h>
+-#elif defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
++#elif defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__) || defined(SOLARIS)
+ 	#include <sys/cdio.h>
+ #elif defined(WIN32)
+         #include <ddk/ntddcdrm.h>
+@@ -64,7 +64,7 @@
+ static cd_toc_t cdtoc[100];
+ static int cdtoc_last_track;
+ 
+-#if defined(__linux__) || defined(__bsdi__)
++#if defined(__linux__) || defined(__bsdi__) || defined(SOLARIS)
+ int 
+ read_toc(const char *dev) {
+ 	int drive;

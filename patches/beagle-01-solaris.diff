@@ -1,0 +1,236 @@
+diff -u -r beagle-0.2.5/configure beagle-0.2.5/configure
+--- beagle-0.2.5/configure	Thu Apr 20 23:57:29 2006
++++ beagle-0.2.5/configure	Tue Jul 11 13:48:28 2006
+@@ -19836,6 +19836,10 @@
+     os=freebsd
+ 	os_has_inotify=no
+     ;;
++  *-*-solaris*)
++    os=solaris
++	os_has_inotify=no
++    ;;
+   *)
+     { { echo "$as_me:$LINENO: error: Unrecognised target OS: $target" >&5
+ echo "$as_me: error: Unrecognised target OS: $target" >&2;}
+diff -u -r beagle-0.2.5/ImLogViewer/beagle-imlogviewer.in beagle-0.2.5/ImLogViewer/beagle-imlogviewer.in
+--- beagle-0.2.5/ImLogViewer/beagle-imlogviewer.in	Sun Apr  2 20:36:38 2006
++++ beagle-0.2.5/ImLogViewer/beagle-imlogviewer.in	Tue Jul 11 13:48:28 2006
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ # This line will be automatically uncommented when you "make install"
+ #installed=1
+diff -u -r beagle-0.2.5/Util/FileAdvise.cs beagle-0.2.5/Util/FileAdvise.cs
+--- beagle-0.2.5/Util/FileAdvise.cs	Wed Nov 16 04:49:04 2005
++++ beagle-0.2.5/Util/FileAdvise.cs	Tue Jul 11 13:48:28 2006
+@@ -39,8 +39,6 @@
+ 
+ 		// FIXME: On 64-bit architectures, we need to use "long" not "int" here for
+ 		// "offset" and "len"
+-		[DllImport ("libc", SetLastError=true)]
+-		static extern int posix_fadvise (int fd, int offset, int len, int advice);
+ 
+ 		// The following are from /usr/include/linux/fadvise.h and will not change
+ 		private const int AdviseNormal = 0;	// POSIX_FADV_NORMAL
+@@ -52,8 +50,7 @@
+ 
+ 		static private int GiveAdvice (FileStream file, int advice)
+ 		{
+-			int fd = file.Handle.ToInt32 ();
+-			return posix_fadvise (fd, 0, 0, advice);
++			return 0;
+ 		}
+ 
+ 		static public void FlushCache (FileStream file)
+diff -u -r beagle-0.2.5/beagled/beagled.in beagle-0.2.5/beagled/beagled.in
+--- beagle-0.2.5/beagled/beagled.in	Thu Mar 23 04:41:41 2006
++++ beagle-0.2.5/beagled/beagled.in	Tue Jul 11 13:48:28 2006
+@@ -116,7 +116,7 @@
+ # is to wait for the daemon to start and exit, in case of errors ;)
+ # Fixes http://bugzilla.gnome.org/show_bug.cgi?id=171975
+ 
+-sleep 0.5
++sleep 1
+ 
+ if ! ps -p $! > /dev/null; then
+     echo "Beagle Daemon exited with errors.  See ~/.beagle/Log/current-Beagle for more details."
+diff -u -r beagle-0.2.5/bludgeon/beagled.dummy beagle-0.2.5/bludgeon/beagled.dummy
+--- beagle-0.2.5/bludgeon/beagled.dummy	Thu Dec 15 04:33:17 2005
++++ beagle-0.2.5/bludgeon/beagled.dummy	Tue Jul 11 13:48:28 2006
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ # This is just a convenience thing that changes the directory
+ # for the beagled.
+diff -u -r beagle-0.2.5/glue/thread-glue.c beagle-0.2.5/glue/thread-glue.c
+--- beagle-0.2.5/glue/thread-glue.c	Sat Apr 15 02:22:40 2006
++++ beagle-0.2.5/glue/thread-glue.c	Tue Jul 11 13:48:28 2006
+@@ -1,6 +1,5 @@
+ #include <sys/types.h>
+ #include <unistd.h>
+-#include <linux/unistd.h>
+ #include <errno.h>
+ 
+ #ifdef __NR_gettid
+diff -u -r beagle-0.2.5/libbeagle/beagle/beagle-request.c beagle-0.2.5/libbeagle/beagle/beagle-request.c
+--- beagle-0.2.5/libbeagle/beagle/beagle-request.c	Tue Jan 31 06:22:51 2006
++++ beagle-0.2.5/libbeagle/beagle/beagle-request.c	Tue Jul 11 13:48:28 2006
+@@ -168,7 +168,7 @@
+ {
+ 	BeagleRequestPrivate *priv;
+ 	int sockfd;
+-	struct sockaddr_un sun;
++	struct sockaddr_un s_sun;
+ 
+ 	priv = BEAGLE_REQUEST_GET_PRIVATE (request);
+ 
+@@ -179,11 +179,11 @@
+ 		return FALSE;
+ 	}
+ 
+-	bzero (&sun, sizeof (sun));
+-	sun.sun_family = AF_UNIX;
+-	snprintf (sun.sun_path, sizeof (sun.sun_path), path);
++	bzero (&s_sun, sizeof (s_sun));
++	s_sun.sun_family = AF_UNIX;
++	snprintf (s_sun.sun_path, sizeof (s_sun.sun_path), path);
+ 
+-	if (connect (sockfd, (struct sockaddr *) &sun, sizeof (sun)) < 0) {
++	if (connect (sockfd, (struct sockaddr *) &s_sun, sizeof (s_sun)) < 0) {
+ 		g_set_error (err, BEAGLE_ERROR, BEAGLE_ERROR,
+ 			     "Unable to connect to Beagle daemon");
+ 		return FALSE;
+diff -u -r beagle-0.2.5/libbeagle/beagle/beagle-util.c beagle-0.2.5/libbeagle/beagle/beagle-util.c
+--- beagle-0.2.5/libbeagle/beagle/beagle-util.c	Tue Apr  4 03:49:43 2006
++++ beagle-0.2.5/libbeagle/beagle/beagle-util.c	Tue Jul 11 13:48:28 2006
+@@ -64,7 +64,7 @@
+ 	gchar *socket_dir;
+ 	gchar *socket_path;
+ 	int sockfd;
+-	struct sockaddr_un sun;
++	struct sockaddr_un s_un;
+ 
+ 	beagle_home = g_getenv ("BEAGLE_HOME");
+ 	if (beagle_home == NULL)
+@@ -73,9 +73,9 @@
+ 	socket_dir = g_build_filename (beagle_home, ".beagle", NULL);
+ 	socket_path = g_build_filename (socket_dir, "socket", NULL);
+ 
+-	bzero (&sun, sizeof (sun));
+-	sun.sun_family = AF_UNIX;
+-	snprintf (sun.sun_path, sizeof (sun.sun_path), socket_path);
++	bzero (&s_un, sizeof (s_un));
++	s_un.sun_family = AF_UNIX;
++	snprintf (s_un.sun_path, sizeof (s_un.sun_path), socket_path);
+ 
+ 	g_free (socket_path);
+ 	g_free (socket_dir);
+@@ -85,7 +85,7 @@
+ 		return FALSE;
+ 	}
+ 
+-	if (connect (sockfd, (struct sockaddr *) &sun, sizeof (sun)) < 0) {
++	if (connect (sockfd, (struct sockaddr *) &s_un, sizeof (s_un)) < 0) {
+ 		return FALSE;
+ 	}
+ 
+diff -u -r beagle-0.2.5/search/Makefile.in beagle-0.2.5/search/Makefile.in
+--- beagle-0.2.5/search/Makefile.in	Thu Apr 20 23:57:24 2006
++++ beagle-0.2.5/search/Makefile.in	Tue Jul 11 13:53:57 2006
+@@ -621,7 +621,7 @@
+ 
+ 
+ beagle-search: beagle-search.in
+-	sed -e "s:@pkglibdir@:${pkglibdir}:" < $(srcdir)/beagle-search.in > beagle-search
++	/usr/xpg4/bin/sed -e "s:@pkglibdir@:${pkglibdir}:" < $(srcdir)/beagle-search.in > beagle-search  2>/dev/null;echo ""
+ 	chmod a+x beagle-search
+ 
+ Search.exe: $(CSFILES) $(TILES) $(PAGES) $(TRAY) $(LOCAL_ASSEMBLIES)
+diff -u -r beagle-0.2.5/search/beagle-search.in beagle-0.2.5/search/beagle-search.in
+--- beagle-0.2.5/search/beagle-search.in	Sat Mar 25 05:55:23 2006
++++ beagle-0.2.5/search/beagle-search.in	Wed Jul 12 13:29:26 2006
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ # This line will be automatically uncommented when you "make install"
+ #installed=1
+diff -u -r beagle-0.2.5/tools/beagle-crawl-system.in beagle-0.2.5/tools/beagle-crawl-system.in
+--- beagle-0.2.5/tools/beagle-crawl-system.in	Tue Apr 18 04:11:32 2006
++++ beagle-0.2.5/tools/beagle-crawl-system.in	Tue Jul 11 13:48:28 2006
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ #
+ # beagle-crawl-system
+diff -u -r beagle-0.2.5/tools/beagle-index-info beagle-0.2.5/tools/beagle-index-info
+--- beagle-0.2.5/tools/beagle-index-info	Thu Mar 23 04:41:42 2006
++++ beagle-0.2.5/tools/beagle-index-info	Tue Jul 11 13:48:28 2006
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ # This line will be automatically uncommented when you "make install"
+ #installed=1
+diff -u -r beagle-0.2.5/tools/beagle-ping beagle-0.2.5/tools/beagle-ping
+--- beagle-0.2.5/tools/beagle-ping	Thu Mar 23 04:41:42 2006
++++ beagle-0.2.5/tools/beagle-ping	Tue Jul 11 13:48:28 2006
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ # This line will be automatically uncommented when you "make install"
+ #installed=1
+diff -u -r beagle-0.2.5/tools/beagle-status beagle-0.2.5/tools/beagle-status
+--- beagle-0.2.5/tools/beagle-status	Thu Mar 23 04:41:42 2006
++++ beagle-0.2.5/tools/beagle-status	Fri Jun 30 17:31:24 2006
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ # This line will be automatically uncommented when you "make install"
+ #installed=1
+--- beagle-0.2.5/glue/ioprio-glue.c.orig	2006-07-23 23:18:38.737214000 -0400
++++ beagle-0.2.5/glue/ioprio-glue.c	2006-07-23 23:19:01.219728000 -0400
+@@ -9,7 +9,7 @@
+ #include <sys/syscall.h>
+ #include <unistd.h>
+ 
+-#if defined(__i386__)
++#if defined(__i386__) || defined(__i386)
+ #define __NR_ioprio_set		289
+ #define __NR_ioprio_get		290
+ #elif defined(__powerpc__) || defined(__powerpc64__)
+@@ -33,7 +33,7 @@
+ #elif defined(__SH5__)
+ #define __NR_ioprio_set		316
+ #define __NR_ioprio_get		317
+-#elif defined(__sparc__) || defined(__sparc64__)
++#elif defined(__sparc__) || defined(__sparc64__) || defined (__sparc)
+ #define __NR_ioprio_set		196
+ #define __NR_ioprio_get		218
+ #elif defined(__arm__)
+--- beagle-0.2.5/beagled/BeagleDaemon.cs.orig	2006-07-23 23:58:07.829290000 -0400
++++ beagle-0.2.5/beagled/BeagleDaemon.cs	2006-07-23 23:58:19.199420000 -0400
+@@ -482,7 +482,7 @@
+ 
+ 		private delegate int XIOErrorHandler (IntPtr display);
+ 
+-		[DllImport ("libX11.so.6")]
++		[DllImport ("libX11.so.5")]
+ 		extern static private int XSetIOErrorHandler (XIOErrorHandler handler);
+ 
+ 		private static int BeagleXIOErrorHandler (IntPtr display)
+--- beagle-0.2.5/beagled/beagled-index-helper.in.orig	2006-07-25 12:23:21.408359000 -0400
++++ beagle-0.2.5/beagled/beagled-index-helper.in	2006-07-25 12:24:36.502563000 -0400
+@@ -31,6 +31,7 @@
+ export MONO_GAC_PREFIX="@gacprefix@${MONO_GAC_PREFIX+:$MONO_GAC_PREFIX}"
+ export MONO_PATH="$THIS_PATH${MONO_PATH+:$MONO_PATH}"
+ 
++export LD_LIBRARY_PATH=@pkglibdir@:$LD_LIBRARY_PATH
+ CMDLINE="mono --debug $MONO_EXTRA_ARGS $THIS_EXE $@"
+ 
+ PROCESS_NAME="beagled-helper"
