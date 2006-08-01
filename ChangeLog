@@ -1,4 +1,8 @@
+2006-08-01  Glynn Foster  <glynn.foster@sun.com>
+
+	* SFExchat.spec: Bump to 2.6.6
+        * patches/xchat-03-fix-proxy.diff: Remove, upstream.
+
 2006-07-27  Laszlo Peter  <laca@sun.com>
 
 	Import into sourceforge snv server; start a new ChangeLog
-

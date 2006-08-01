@@ -10,11 +10,10 @@
 
 Name:                    SFExchat
 Summary:                 XChat IRC Client
-Version:                 2.6.4
+Version:                 2.6.6
 Source:                  http://www.xchat.org/files/source/2.6/xchat-%{version}.tar.bz2
 Patch1:                  xchat-01-gettext.diff
 Patch2:                  xchat-02-zero-index.diff
-Patch3:                  xchat-03-fix-proxy.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -22,18 +21,20 @@ BuildRequires: SUNWgnome-libs-devel
 BuildRequires: CBEbison
 BuildRequires: SUNWPython
 Requires: SUNWgnome-libs
-Requires: %name-root
 %if %{with_dbus}
 Requires: SUNWdbus
+Requires: %name-root
 BuildRequires: SUNWdbus-devel
 %endif
 
+%if %{with_dbus}
 %package root
 Summary:                 %{summary} - / filesystem
 SUNW_BaseDir:            /
 %include default-depend.inc
 Requires: SUNWpostrun
 Requires: SUNWgnome-config
+%endif
 
 %if %build_l10n
 %package l10n
@@ -47,7 +48,6 @@ Requires:                %{name}
 %setup -q -n xchat-%version
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 touch NEWS
 
 %build
@@ -150,6 +150,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Jul 31 2006 - glynn.foster@sun.com
+- bump to 2.6.6
 * Mon Jun 12 2006 - laca@sun.com
 - bump to 2.6.4
 - rename to SFExchat
