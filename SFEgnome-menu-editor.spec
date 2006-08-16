@@ -8,9 +8,9 @@
 
 Name:                    SFEgnome-menu-editor
 Summary:                 alacarte - GNOME menu editor
-Version:                 0.9
-Source:                  http://dev.realistanew.com/alacarte/releases/0.9/alacarte-0.9.tar.gz
-Patch1:                  alacarte-01-bindtextdomain-fix.diff
+Version:                 0.9.90
+Source:                  http://ftp.gnome.org/pub/GNOME/sources/alacarte/0.9/alacarte-%{version}.tar.bz2
+Patch1:                  alacarte-01-force-reload.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -23,7 +23,7 @@ Requires: SUNWpostrun
 
 %prep
 %setup -q -n alacarte-%version
-%patch1 -p1
+%patch1 -p0
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -77,6 +77,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/alacarte
 
 %changelog
+* Wed Aug 16 2006 - harry.lu@sun.com
+- bump up to 0.9.90 and add patch alacarte-01-force-reload.diff to make
+  it work on solaris.
 * Wed Jul  5 2006 - laca@sun.com
 - rename to SFEgnome-menu-editor
 - delete share subpkg

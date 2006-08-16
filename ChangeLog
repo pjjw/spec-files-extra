@@ -1,3 +1,10 @@
+2006-08-16  Harry Lu  <harry.lu@sun.com>
+
+	* SFEgnome-menu-editor.spec: bump to 0.9.90.
+	* patches/alacarte-01-bindtextdomain-fix.diff: new patch to make it 
+	work on solaris.
+	* patches/alacarte-01-force-reload.diff: removed.
+
 2006-08-01  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFExchat.spec: Bump to 2.6.6

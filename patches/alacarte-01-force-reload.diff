@@ -1,0 +1,89 @@
+Index: Alacarte/DialogHandler.py
+===================================================================
+RCS file: /cvs/gnome/alacarte/Alacarte/DialogHandler.py,v
+retrieving revision 1.13
+diff -u -p -r1.13 DialogHandler.py
+--- Alacarte/DialogHandler.py	27 May 2006 20:48:45 -0000	1.13
++++ Alacarte/DialogHandler.py	15 Aug 2006 11:42:56 -0000
+@@ -19,10 +19,11 @@
+ import os, cgi
+ import gmenu, gtk, gtk.glade, gobject
+ import gettext
+-gettext.bindtextdomain('alacarte')
+-gettext.textdomain('alacarte')
+-gtk.glade.bindtextdomain('alacarte')
+-gtk.glade.textdomain('alacarte')
++#comment the following 4 lines as they are duplicated in MainWindow.py
++#gettext.bindtextdomain('alacarte')
++#gettext.textdomain('alacarte')
++#gtk.glade.bindtextdomain('alacarte')
++#gtk.glade.textdomain('alacarte')
+ _ = gettext.gettext
+ from Alacarte import util
+ 
+Index: Alacarte/MainWindow.py
+===================================================================
+RCS file: /cvs/gnome/alacarte/Alacarte/MainWindow.py,v
+retrieving revision 1.20
+diff -u -p -r1.20 MainWindow.py
+--- Alacarte/MainWindow.py	5 Aug 2006 04:26:45 -0000	1.20
++++ Alacarte/MainWindow.py	15 Aug 2006 11:42:56 -0000
+@@ -42,7 +42,7 @@ class MainWindow:
+ 	def __init__(self, datadir, version, argv):
+ 		self.file_path = datadir
+ 		self.version = version
+-		self.editor = MenuEditor()
++		self.editor = MenuEditor(self)
+ 		gtk.window_set_default_icon_name('alacarte')
+ 		self.tree = gtk.glade.XML(os.path.join(self.file_path, 'alacarte.glade'))
+ 		signals = {}
+Index: Alacarte/MenuEditor.py
+===================================================================
+RCS file: /cvs/gnome/alacarte/Alacarte/MenuEditor.py,v
+retrieving revision 1.14
+diff -u -p -r1.14 MenuEditor.py
+--- Alacarte/MenuEditor.py	9 Jul 2006 19:53:04 -0000	1.14
++++ Alacarte/MenuEditor.py	15 Aug 2006 11:42:56 -0000
+@@ -30,10 +30,22 @@ class MenuEditor:
+ 	#lists for undo/redo functionality
+ 	__undo = []
+ 	__redo = []
++	__mainWindow = None
++	__menuTreeReload = True
+ 
+-	def __init__(self):
++	def __init__(self, mainWindow):
+ 		self.locale = locale.getdefaultlocale()[0]
++		self.__mainWindow = mainWindow
+ 		self.__loadMenus()
++		#init the flag to true
++		os.system("gconftool-2 --type bool --set " \
++			+ "/apps/panel/general/menu_tree_reload true")
++
++	def __forceReload(self):
++		self.applications.tree.force_reload()
++		self.applications.visible_tree.force_reload()
++		self.settings.tree.force_reload()
++		self.settings.visible_tree.force_reload()
+ 
+ 	def __loadMenus(self):
+ 		self.applications = Menu()
+@@ -64,6 +76,18 @@ class MenuEditor:
+ 			fd.close()
+ 		if not from_loading:
+ 			self.__loadMenus()
++			# force the menu trees to reload 
++			self.__forceReload()
++			self.__mainWindow.loadUpdates()
++			# toggle the gconf key to let gnome panel reload
++			if self.__menuTreeReload:
++				os.system("gconftool-2 --type bool --set " \
++					+ "/apps/panel/general/menu_tree_reload false")
++			else:
++				os.system("gconftool-2 --type bool --set " \
++					+ "/apps/panel/general/menu_tree_reload true")
++			self.__menuTreeReload = not self.__menuTreeReload
++				
+ 
+ 	def quit(self):
+ 		for file_name in os.listdir(util.getUserItemPath()):
