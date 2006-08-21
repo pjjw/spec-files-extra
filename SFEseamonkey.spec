@@ -1,9 +1,3 @@
-#*******************************#
-#*******************************#
-#  FIXME: builds but won't run  #
-#*******************************#
-#*******************************#
-
 #
 # spec file for package SFEnvu
 #
@@ -12,17 +6,20 @@
 
 %include Solaris.inc
 
-Name:          SFEnvu
-Summary:       Web authoring system based on Mozilla Composer
-Version:       1.0
-Source:        http://cvs.nvu.com/download/nvu-%{version}-sources.tar.bz2
-URL:           http://www.nvu.com/
-Patch1:        nvu-01-moz_objdir.diff
+Name:          SFEseamonkey
+Summary:       seamonkey - all-in-one internet application suite
+Version:       1.0.4
+Source:        http://releases.mozilla.org/pub/mozilla.org/seamonkey/releases/%{version}/seamonkey-%{version}.source.tar.bz2
+URL:           http://www.mozilla.org/projects/seamonkey/
 SUNW_BaseDir:  %{_basedir}
 BuildRoot:     %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SUNWzip
 BuildRequires: SUNWgtar
+
+%description
+Web-browser, advanced e-mail and newsgroup client, IRC chat client,
+and HTML editing made simple -- all your Internet needs in one application.
 
 %package devel
 Summary:       %{summary} - development files
@@ -33,7 +30,6 @@ Requires:      %name
 %prep
 %setup -q -n %name-%version -c
 cd mozilla
-%patch1 -p1
 
 sed -e 's/5\.10/5.11/g' -e 's/5_10/5_11/g' -e 's/2_10/2_11/' \
       security/coreconf/SunOS5.10.mk \
@@ -73,58 +69,32 @@ export MOZILLA_OFFICIAL
 BUILD_OFFICIAL=1
 export BUILD_OFFICIAL
 
-MOZ_STANDALONE_COMPOSER=1
-export MOZ_STANDALONE_COMPOSER
-
-mk_add_options BUILD_OFFICIAL=1
-mk_add_options MOZILLA_OFFICIAL=1
-mk_add_options MOZ_STANDALONE_COMPOSER=1
-
 ac_add_options --prefix=%{_prefix}
 ac_add_options --libdir=%{_libdir}
 ac_add_options --mandir=%{_mandir}
-ac_add_options --with-default-mozilla-five-home=/usr/lib/nvu
-
-ac_add_options --enable-optimize
+ac_add_options --enable-application=suite
+ac_add_options --enable-optimize=-xO3
+ac_add_options --enable-crypto
+ac_add_options --enable-calendar
+ac_add_options --enable-xinerama
+ac_add_options --enable-image-decoders=all
+ac_add_options --enable-extensions=all
+ac_add_options --enable-x11-shm
+ac_add_options --enable-ctl
+ac_add_options --enable-default-toolkit=gtk2
+ac_add_options --enable-ldap
+ac_add_options --disable-tests
 ac_add_options --disable-debug
-
-ac_add_options  --disable-svg
-ac_add_options  --without-system-mng
-ac_add_options  --without-system-png
-ac_add_options  --disable-ldap
-ac_add_options  --disable-mailnews
-ac_add_options  --disable-installer
-ac_add_options  --disable-activex
-ac_add_options  --disable-activex-scripting
-ac_add_options  --disable-tests
-ac_add_options  --disable-oji
-ac_add_options  --disable-necko-disk-cache
-ac_add_options  --enable-single-profile
-ac_add_options  --disable-profilesharing
-ac_add_options  --enable-extensions=wallet,xml-rpc,xmlextras,pref,universalchardet,editor/cascades,spellcheck
-ac_add_options  --enable-necko-protocols=http,ftp,file,jar,viewsource,res,data
-ac_add_options  --disable-pedantic
-ac_add_options  --disable-short-wchar
-ac_add_options  --enable-xprint
-ac_add_options  --enable-strip-libs
-ac_add_options  --enable-crypto
-ac_add_options  --disable-mathml
-ac_add_options  --with-system-zlib
-ac_add_options  --enable-toolkit=gtk2
-ac_add_options  --enable-default-toolkit=gtk2
-ac_add_options  --enable-xft
-ac_add_options  --disable-freetype2
-
-ac_add_options --enable-image-decoders=default,-xbm
+ac_add_options --disable-auto-deps
+ac_add_options --with-xprint
+mk_add_options MOZ_CO_PROJECT=suite
+mk_add_options BUILD_OFFICIAL=1
+mk_add_options MOZILLA_OFFICIAL=1
 EOF
 
-BUILD_OFFICIAL=1
-MOZILLA_OFFICIAL=1
-MOZ_STANDALONE_COMPOSER=1
-MOZ_PKG_FORMAT=BZ2
-export BUILD_OFFICIAL MOZILLA_OFFICIAL MOZ_STANDALONE_COMPOSED MOZ_PKG_FORMAT
-
-make -f client.mk build
+make -f client.mk build_all
+cd xpinstall/packager
+make
 
 %install
 /bin/rm -rf $RPM_BUILD_ROOT
@@ -143,16 +113,18 @@ rm -rf $RPM_BUILD_ROOT
 %files 
 %defattr(0755, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/nvu
+%{_bindir}/seamonkey
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/nvu-1.0
+%{_libdir}/seamonkey-%{version}
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/seamonkey.1
 
 %files devel
 %defattr(0755, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/nvu-config
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
+%{_bindir}/seamonkey-config
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
@@ -160,9 +132,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/idl
 %dir %attr (0755, root, other) %{_datadir}/aclocal
 %{_datadir}/aclocal/*
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
 
 %changelog
-* Fri Jul  7 2006 - laca@sun.com
-- renamed to SFEnvu
-* Fri Feb  3 2006 - damien.carbery@sun.com
-- Initial version.
+* Thu Aug 17 2006 - laca@sun.com
+- created
