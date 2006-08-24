@@ -25,7 +25,9 @@ Requires:     SUNWxwplt
 Requires:     SUNWTcl
 Requires:     SUNWTk
 BuildRequires: SUNWsfwhea
-%{?%with_emacs: BuildRequires: SFEemacs}
+%if %with_emacs
+BuildRequires: SFEemacs
+%endif
 
 %description
 Objective Caml (OCaml) is a general-purpose programming language descended
@@ -103,14 +105,20 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/ocaml
 %dir %attr (0755, root, sys) %{_datadir}
-%{?%with_emacs: %attr (0755, root, root) %{_datadir}/emacs}
+%if %with_emacs
+%attr (0755, root, root) %{_datadir}/emacs}
+%endif
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/man[13]
 %{_mandir}/man[13]/*
 
 %changelog
+* Thu Aug 24 2006 - halton.huo@sun.com
+- use %if for emacs depend
+
 * Thu Jul 27 2006 - halton.huo@sun.com
 - Add check depend on emacs
 - Correct make fail, may need find a better way later.
+
 * Tue Jul 11 2006 - laca@sun.com
 - Created.

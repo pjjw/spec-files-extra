@@ -1,0 +1,20 @@
+--- remote.ml.bak	2006-08-11 13:56:20.545272000 +0800
++++ remote.ml	2006-08-11 13:57:10.384362000 +0800
+@@ -902,16 +902,8 @@
+   debug (fun ()-> Util.msg "Shell connection: %s (%s)\n"
+            shellCmd (String.concat ", " args));
+   let term =
+-    (if shellCmdPwd = "" then
+-      match termInteract with
+-        None ->
+-          ignore (Unix.create_process shellCmd argsarray i1 o2 Unix.stderr);
+-          None
+-      | Some callBack ->
+-          fst (Terminal.create_session shellCmd argsarray i1 o2 Unix.stderr)
+-    else
+       fst (Terminal.create_session shellCmd argsarray i1 o2 Unix.stderr) 
+-  ) in
++      in
+   Unix.close i1; Unix.close o2;
+   (if shellCmdPwd = "" then begin match term, termInteract with
+     | Some fdTerm, Some callBack ->
