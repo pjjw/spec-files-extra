@@ -1,3 +1,7 @@
+2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEirssi.spec: New package added, irssi v. 0.8.10
+
 2006-08-24  Halton Huo  <halton.huo@sun.com>
 
 	* SFEfile-replicator.spec, SFEsyncit.spec:
