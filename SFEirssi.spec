@@ -69,8 +69,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %{_libdir}/irssi/
 %{perl_archlib}
-%{_datadir}/irssi/
 %{_mandir}
+%dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/irssi/
 
 # Here's the "longhand" version:
 # %files

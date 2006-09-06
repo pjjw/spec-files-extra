@@ -1,6 +1,12 @@
 2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
 
-	* SFEirssi.spec: New package added, irssi v. 0.8.10
+	* SFElibpcap.spec: add - packet capture library, e.g. used by Snort
+	* SFEsnort.spec:   add - intrusion monitoring app
+	* SFEirssi.spec:   fix - use root.sys for datadir, not root.bin
+
+2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEirssi.spec: add - terminal based IRC client
 
 2006-08-24  Halton Huo  <halton.huo@sun.com>
 
