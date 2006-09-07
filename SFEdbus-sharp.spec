@@ -40,7 +40,7 @@ export PATH=/usr/mono/bin:$PATH
 
 rm -rf $RPM_BUILD_ROOT%{_bindir}
 rm -rf $RPM_BUILD_ROOT%{_sysconfdir}
-rm -rf $RPM_BUILD_ROOT/var
+rm -rf $RPM_BUILD_ROOT%{_localstatedir}
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*
 rm -f $RPM_BUILD_ROOT%{_libdir}/dbus-daemon
 rm -rf $RPM_BUILD_ROOT%{_libdir}/dbus-1.0

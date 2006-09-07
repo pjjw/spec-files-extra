@@ -103,6 +103,7 @@ Vendor:			   http://pkgbuild.sf.net/spec-files-extra
 %define _prefix		   %{_basedir}
 %define _sysconfdir	   /etc
 %define _localedir	   %{_libdir}/locale
+%define _localstatedir     /var
 %define _pkg_config_path   %{_libdir}/pkgconfig
 %define _pkg_config_path64 %{_libdir}/%{_arch64}/pkgconfig
 

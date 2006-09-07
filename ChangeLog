@@ -1,5 +1,10 @@
 2006-09-06  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* include/Solaris.inc: define %_localstatedir for pkgbuild 1.1.0
+	* SFEdbus-sharp.spec: s/var/%{_localstatedir}/
+
+2006-09-06  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* .pkgtoolrc: add ${tarballdir} so that $HOME/.pkgtoolrc can be used
 	  to specify additional tarballdirs
 	* SFEautoconf.spec: disable parallel build as it break due to broken
