@@ -1,3 +1,16 @@
+2006-09-07  Wang Xin  <jedy.wang@sun.com>
+
+	* SFEmono.spec: Bump to 1.1.17.1.
+	* SFEgtk-sharp.spec: Bump to 2.8.3.
+	* SFEgmime.spec: Bump to 2.2.3.
+	* patches/gmime-01-solaris.diff: Removed.
+	* SFEsqlite3.spec: Bump to 3.3.7.
+	* SFEbeagle.spec: Bump to 0.2.9.
+	* patches/beagle-01-solaris.diff: Updated.
+	* SFEf-spot.spec: Bump to 0.2.0.
+	* patches/f-spot-01-prctl.diff: Removed.
+	* patches/f-spot-01-solaris.diff: Added.
+
 2006-09-06  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* include/Solaris.inc: define %_localstatedir for pkgbuild 1.1.0

@@ -12,15 +12,6 @@ diff -u -r beagle-0.2.5/configure beagle-0.2.5/configure
    *)
      { { echo "$as_me:$LINENO: error: Unrecognised target OS: $target" >&5
  echo "$as_me: error: Unrecognised target OS: $target" >&2;}
-diff -u -r beagle-0.2.5/ImLogViewer/beagle-imlogviewer.in beagle-0.2.5/ImLogViewer/beagle-imlogviewer.in
---- beagle-0.2.5/ImLogViewer/beagle-imlogviewer.in	Sun Apr  2 20:36:38 2006
-+++ beagle-0.2.5/ImLogViewer/beagle-imlogviewer.in	Tue Jul 11 13:48:28 2006
-@@ -1,4 +1,4 @@
--#!/bin/sh
-+#!/bin/bash
- 
- # This line will be automatically uncommented when you "make install"
- #installed=1
 diff -u -r beagle-0.2.5/Util/FileAdvise.cs beagle-0.2.5/Util/FileAdvise.cs
 --- beagle-0.2.5/Util/FileAdvise.cs	Wed Nov 16 04:49:04 2005
 +++ beagle-0.2.5/Util/FileAdvise.cs	Tue Jul 11 13:48:28 2006
@@ -139,24 +130,19 @@ diff -u -r beagle-0.2.5/libbeagle/beagle/beagle-util.c beagle-0.2.5/libbeagle/be
 diff -u -r beagle-0.2.5/search/Makefile.in beagle-0.2.5/search/Makefile.in
 --- beagle-0.2.5/search/Makefile.in	Thu Apr 20 23:57:24 2006
 +++ beagle-0.2.5/search/Makefile.in	Tue Jul 11 13:53:57 2006
-@@ -621,7 +621,7 @@
+@@ -614,10 +614,10 @@
  
  
  beagle-search: beagle-search.in
--	sed -e "s:@pkglibdir@:${pkglibdir}:" < $(srcdir)/beagle-search.in > beagle-search
-+	/usr/xpg4/bin/sed -e "s:@pkglibdir@:${pkglibdir}:" < $(srcdir)/beagle-search.in > beagle-search  2>/dev/null;echo ""
+-	sed 					\
++	/usr/xpg4/bin/sed 					\
+ 	-e "s:@pkglibdir@:${pkglibdir}:" 	\
+ 	-e "s:@bash@:$(BASH):"			\
+-	< $(srcdir)/beagle-search.in > beagle-search
++	< $(srcdir)/beagle-search.in > beagle-search 2>/dev/null;echo ""
  	chmod a+x beagle-search
  
  Search.exe: $(CSFILES) $(TILES) $(PAGES) $(TRAY) $(LOCAL_ASSEMBLIES)
-diff -u -r beagle-0.2.5/search/beagle-search.in beagle-0.2.5/search/beagle-search.in
---- beagle-0.2.5/search/beagle-search.in	Sat Mar 25 05:55:23 2006
-+++ beagle-0.2.5/search/beagle-search.in	Wed Jul 12 13:29:26 2006
-@@ -1,4 +1,4 @@
--#!/bin/sh
-+#!/bin/bash
- 
- # This line will be automatically uncommented when you "make install"
- #installed=1
 diff -u -r beagle-0.2.5/tools/beagle-crawl-system.in beagle-0.2.5/tools/beagle-crawl-system.in
 --- beagle-0.2.5/tools/beagle-crawl-system.in	Tue Apr 18 04:11:32 2006
 +++ beagle-0.2.5/tools/beagle-crawl-system.in	Tue Jul 11 13:48:28 2006

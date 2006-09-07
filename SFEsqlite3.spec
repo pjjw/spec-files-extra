@@ -6,7 +6,7 @@
 %include Solaris.inc
 Name:                    SFEsqlite3
 Summary:                 SQLite - a small C library implementation of a SQL database engine
-Version:                 3.3.6
+Version:                 3.3.7
 Source:                  http://www.sqlite.org/sqlite-%{version}.tar.gz
 Patch1:                  sqlite3-01-thread-lock-test.diff
 URL:                     http://www.sqlite.org/
@@ -71,6 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Sep  7 2006 - jedy.wang@sun.com
+- bump to 3.3.7
 * Mon Jul 10 2006 - laca@sun.com
 - rename to SFEsqlite3
 - move to /usr

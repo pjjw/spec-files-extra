@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 Name:         SFEbeagle
-Version:      0.2.5
+Version:      0.2.9
 Summary:      beagle - desktop search tool
 Source:       http://ftp.gnome.org/pub/GNOME/sources/beagle/0.2/beagle-%{version}.tar.gz
 URL:          http://beagle-project.org
@@ -131,6 +131,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Sep  7 2006 - jedy.wang@sun.com
+- bump to 0.2.9
 * Sun Jul 23 2006 - laca@sun.com
 - rename to SFEbeagle
 - add devel and l10n subpkgs

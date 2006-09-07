@@ -8,7 +8,7 @@
 Name:         SFEgtk-sharp
 License:      Other
 Group:        System/Libraries
-Version:      2.8.2
+Version:      2.8.3
 Release:      1
 Summary:      gtk# - .NET bindings for the gtk+
 Source:       http://go-mono.com/sources/gtk-sharp-2.8/gtk-sharp-%{version}.tar.gz
@@ -93,6 +93,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gapi
 
 %changelog
+* Wed Sep  7 2006 - jedy.wang@sun.com
+- bump to 2.8.3
 * Sun Jul 23 2006 - laca@sun.com
 - rename to SFEgtk-sharp
 - update CFLAGS/LDFLAGS

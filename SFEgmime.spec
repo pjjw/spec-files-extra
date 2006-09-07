@@ -7,13 +7,12 @@
 
 Name:         SFEgmime
 License:      Other
-Version:      2.2.2
+Version:      2.2.3
 Release:      1
 Distribution: N/A
 Summary:      Libraries and binaries to parse and index mail messages
 Source:       http://spruce.sourceforge.net/gmime/sources/v2.2/gmime-%{version}.tar.gz
 URL:          http://spruce.sourceforge.net/gmime/
-Patch1:       gmime-01-solaris.diff
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
@@ -31,7 +30,6 @@ Requires:      %name
 
 %prep
 %setup -q -c -n %name-%version
-%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -89,6 +87,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtk-doc
 
 %changelog
+* Wed Sep  7 2006 - jedy.wang@sun.com
+- bump to 2.2.3
 * Sun Jul 13 2006 - laca@sun.com
 - rename to SFEgmime
 - include Solaris.inc
