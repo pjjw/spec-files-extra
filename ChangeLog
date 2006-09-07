@@ -1,3 +1,10 @@
+2006-09-06  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* .pkgtoolrc: add ${tarballdir} so that $HOME/.pkgtoolrc can be used
+	  to specify additional tarballdirs
+	* SFEautoconf.spec: disable parallel build as it break due to broken
+	  Makefile rules
+
 2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFElibpcap.spec: add - packet capture library, e.g. used by Snort

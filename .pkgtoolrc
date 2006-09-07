@@ -1,5 +1,5 @@
 # tarballdirs [string]: colon (:) separated list of directories where source tarballs are searched for
-tarballdirs:	/jds/packages/SOURCES
+tarballdirs:	/jds/packages/SOURCES:${tarballdirs}
 
 # logdir [string]: the directory for saving log files
 # logdir:	/tmp

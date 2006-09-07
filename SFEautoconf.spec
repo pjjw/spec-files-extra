@@ -18,11 +18,6 @@ Requires: SFEm4
 %setup -q -n autoconf-%version
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-    CPUS=1
-fi
-
 export PATH=/usr/bin:$PATH
 export M4=/usr/bin/m4
 export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP"
@@ -34,8 +29,9 @@ export MSGFMT="/usr/bin/msgfmt"
 	    --mandir=%{_mandir}                 \
 	    --datadir=%{_datadir}               \
             --infodir=%{_datadir}/info
-	    		
-make -j$CPUS
+
+# Note: do not try to use parallel build, it will break with broken deps
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -60,6 +56,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Wed Sep  6 2006 - laca@Sun.com
+- disable parallel build as it breaks the build
 * Sun Jan 18 2006 - laca@sun.com
 - rename to SFEgawk; update summary
 - remove -share pkg
