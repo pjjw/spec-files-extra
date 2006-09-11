@@ -1,3 +1,10 @@
+2006-09-11  Halton Huo  <halton.huo@sun.com>
+
+	* SFEruby.spec: Bump to 1.8.5
+	* SFEunison.spec: Rename patch1, add new patch patches/unison-02-remote-shell.diff.
+	* SFEvim.spec: Correct remove l10n files part
+	* patches/ruby-01-ieeefp.diff: Change for new version of ruby.
+
 2006-09-07  Wang Xin  <jedy.wang@sun.com>
 
 	* SFEmono.spec: Bump to 1.1.17.1.

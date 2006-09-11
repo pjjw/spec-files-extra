@@ -10,15 +10,15 @@
  {
      return (!finite(n) && !isnan(n));
  }
---- ruby-1.8.4/configure.in.orig	2006-07-02 21:28:28.220376000 -0400
-+++ ruby-1.8.4/configure.in	2006-07-02 21:28:42.086725000 -0400
-@@ -436,7 +436,7 @@
+--- ruby-1.8.5/configure.in.orig	2006-08-30 15:53:23.470829000 +0800
++++ ruby-1.8.5/configure.in	2006-08-30 15:55:07.805952000 +0800
+@@ -482,7 +482,7 @@
  AC_CHECK_FUNCS(ftello)
  AC_REPLACE_FUNCS(dup2 memmove strcasecmp strncasecmp strerror strftime\
  		 strchr strstr strtoul crypt flock vsnprintf\
 -		 isnan finite isinf hypot acosh erf)
 +		 hypot acosh erf)
- AC_CHECK_FUNCS(fmod killpg wait4 waitpid syscall chroot fsync getcwd\
+ AC_CHECK_FUNCS(fmod killpg wait4 waitpid syscall chroot fsync getcwd eaccess\
  	      truncate chsize times utimes fcntl lockf lstat symlink link\
  	      readlink setitimer setruid seteuid setreuid setresuid\
 --- ruby-1.8.4/missing.h.orig	2005-06-12 12:58:41.000000000 -0400

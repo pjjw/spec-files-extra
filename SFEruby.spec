@@ -7,7 +7,7 @@
 
 Name:         SFEruby
 Summary:      ruby - object oriented scripting language
-Version:      1.8.4
+Version:      1.8.5
 Source:	      ftp://ftp.ruby-lang.org/pub/ruby/ruby-%{version}.tar.gz
 Patch1:       ruby-01-ieeefp.diff
 URL:          http://www.ruby-lang.org
@@ -51,6 +51,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*
 
 %changelog
+* Mon Sep 11 2006 - halton.huo@sun.com
+- Bump to 1.8.5
 * Sun Jul  2 2006 - laca@sun.com
 - rename to SFEruby
 - delete -share subpkg

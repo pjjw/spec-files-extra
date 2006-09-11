@@ -103,9 +103,9 @@ done
 %if %build_l10n
 %else
 # REMOVE l10n FILES
-rm -rf %{_datadir}/vim/vim%{vim_version}/lang
-rm -f %{_mandir}/[a-z][a-z]
-rm -f %{_mandir}/[a-z][a-z].*
+rm -rf $RPM_BUILD_ROOT%{_datadir}/vim/vim%{vim_version}/lang
+rm -rf $RPM_BUILD_ROOT%{_mandir}/[a-z][a-z]
+rm -rf $RPM_BUILD_ROOT%{_mandir}/[a-z][a-z].*
 %endif
 
 %clean
@@ -134,6 +134,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Sep 11 2006 - halton.huo@sun.com
+- Correct remove l10n files part
 * Mon Jul 10 2006 - laca@sun.com
 - rename to SFEvim
 - bump to 7.0
