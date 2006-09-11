@@ -1,3 +1,8 @@
+2006-09-11  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEgst-python.spec: (new) added spec file for gst-python: python
+	  bindings for gstreamer
+
 2006-09-11  Halton Huo  <halton.huo@sun.com>
 
 	* SFEruby.spec: Bump to 1.8.5
