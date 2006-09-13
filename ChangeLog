@@ -1,3 +1,8 @@
+2006-09-12  2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEsysbench.spec: (new) added spec file for sysbench - System 
+	  evaluation benchmark
+
 2006-09-11  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEgst-python.spec: (new) added spec file for gst-python: python
