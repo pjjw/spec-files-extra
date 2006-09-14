@@ -1,3 +1,8 @@
+2006-09-14  Harry Lu  <harry.lu@sun.com>
+
+	* SFEgnome-menu-editor.spec: Removed as it is moved to jds-spec-files.
+	* patches/alacarte-01-force-reload.diff: Removed.
+
 2006-09-12  2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEsysbench.spec: (new) added spec file for sysbench - System 
