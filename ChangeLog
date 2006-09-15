@@ -1,3 +1,8 @@
+2006-09-15  2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEjoe.spec: (new) added spec file for joe - text editor
+	  Note: it generates a 2nd root package comprising /etc/joe/* files
+
 2006-09-14  Harry Lu  <harry.lu@sun.com>
 
 	* SFEgnome-menu-editor.spec: Removed as it is moved to jds-spec-files.
