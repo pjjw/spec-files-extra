@@ -1,5 +1,11 @@
 2006-09-24  2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
 
+	* SFEfindutils.spec: (new) GNU find, locate, and xargs
+	* SFEstow.spec:      (new) unique pkg mgmt app, inspired by Depot
+	* SFErdesktop.spec:  (new) RDP, Microsoft Terminal Services client
+
+2006-09-24  2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
+
 	* SFErrdtool.spec: (new) added spec file for rrdtool - data 
 	  analysis tool
 
