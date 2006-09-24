@@ -63,5 +63,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * 
-* Fri Sep 05 2006 - Eric Boutilier
+* Fri Sep 15 2006 - Eric Boutilier
 - Initial spec
