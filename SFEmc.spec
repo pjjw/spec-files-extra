@@ -5,17 +5,17 @@
 
 %include Solaris.inc
 
-Name:                SFEexpat
-Summary:             XML parser library written in C
-Version:             2.0.0
-Source:              http://umn.dl.sourceforge.net/sourceforge/expat/expat-%{version}.tar.gz
+Name:                SFEmc
+Summary:             Clone of the Norton Commander file manager
+Version:             4.6.1
+Source:              http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 %prep
-%setup -q -n expat-%version
+%setup -q -n mc-%version
 
 %build
 
@@ -28,9 +28,13 @@ fi
 export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
 
+# I punted on building w/ nls and charset enabled. IOW, this
+# spec file is in need of someone to give it some proper TLC.
+
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
-	    --enable-static=no
+            --disable-nls  \
+            --disable-charset
 
 make -j$CPUS
 
@@ -39,7 +43,9 @@ rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
 
-rm -f ${RPM_BUILD_ROOT}%{_libdir}/*.la
+rmdir ${RPM_BUILD_ROOT}%{_libdir}/mc
+rmdir ${RPM_BUILD_ROOT}%{_libdir}
+rmdir ${RPM_BUILD_ROOT}%{_sbindir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -48,14 +54,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
-%dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/*
 
 %changelog
 * 
-* Sun Sep 24 2006 - Eric Boutilier
+* Mon Sep 25, 2006 - Eric Boutilier
 - Initial spec

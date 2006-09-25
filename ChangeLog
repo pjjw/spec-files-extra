@@ -1,5 +1,11 @@
 2006-09-25  Eric Boutilier  <eric.boutilier@sun.com>
 
+	* SFEmc.spec: (new) Midnight Commander: clone of the Norton 
+	  Commander file manager
+	* SFEexpat.spec: (removed) not needed; expat already in /usr/sfw
+
+2006-09-25  Eric Boutilier  <eric.boutilier@sun.com>
+
 	* SFElibao.spec:  (new) Cross-platform audio library
 	* SFEmpg321.spec: (new) A fully free command-line mp3 player
 
