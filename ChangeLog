@@ -1,23 +1,28 @@
-2006-09-24  2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
+2006-09-25  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFElibao.spec:  (new) Cross-platform audio library
+	* SFEmpg321.spec: (new) A fully free command-line mp3 player
+
+2006-09-24  Eric Boutilier  <eric.boutilier@sun.com>
 
         * SFEstow.spec: make it not install info files
 
-2006-09-24  2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
+2006-09-24  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEexpat.spec: (new) XML parser library written in C
 
-2006-09-24  2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
+2006-09-24  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEfindutils.spec: (new) GNU find, locate, and xargs
 	* SFEstow.spec:      (new) unique pkg mgmt app, inspired by Depot
 	* SFErdesktop.spec:  (new) RDP, Microsoft Terminal Services client
 
-2006-09-24  2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
+2006-09-24  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFErrdtool.spec: (new) added spec file for rrdtool - data 
 	  analysis tool
 
-2006-09-15  2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
+2006-09-15  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEjoe.spec: (new) added spec file for joe - text editor
 	  Note: it generates a 2nd root package comprising /etc/joe/* files
@@ -27,7 +32,7 @@
 	* SFEgnome-menu-editor.spec: Removed as it is moved to jds-spec-files.
 	* patches/alacarte-01-force-reload.diff: Removed.
 
-2006-09-12  2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
+2006-09-12  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEsysbench.spec: (new) added spec file for sysbench - System 
 	  evaluation benchmark
