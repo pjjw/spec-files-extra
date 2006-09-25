@@ -1,5 +1,9 @@
 2006-09-24  2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
 
+        * SFEstow.spec: make it not install info files
+
+2006-09-24  2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>
+
 	* SFEexpat.spec: (new) XML parser library written in C
 
 2006-09-24  2006-09-05  Eric Boutilier  <eric.boutilier@sun.com>

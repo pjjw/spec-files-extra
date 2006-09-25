@@ -29,8 +29,7 @@ export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
 
 ./configure --prefix=%{_prefix}  \
-            --mandir=%{_mandir} \
-            --infodir=%{_datadir}/info
+            --mandir=%{_mandir}
 
 # Skip make. Not a compiled app; written in perl
 # make -j$CPUS
@@ -39,6 +38,8 @@ export LDFLAGS="%{_ldflags}"
 rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
+
+rm -rf $RPM_BUILD_ROOT%{_prefix}/info
 
 %clean
 rm -rf $RPM_BUILD_ROOT
