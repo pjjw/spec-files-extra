@@ -7,7 +7,7 @@
 
 Name:                    SFEsdl
 Summary:                 Simple DirectMedia - multimedia library
-Version:                 1.2.9
+Version:                 1.2.11
 Source:                  http://www.libsdl.org/release/SDL-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -72,8 +72,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/aclocal
 %{_datadir}/aclocal/*
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Sep 26 2006 - halton.huo@sun.com
+- Bump version to 1.2.11
 * Mon Jun 12 2006 - laca@sun.com
 - rename to SFEsdl
 - change to root:bin to follow other JDS pkgs.

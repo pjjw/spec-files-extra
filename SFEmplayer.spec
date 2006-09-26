@@ -12,7 +12,7 @@ Version:                 1.0
 Source:                  http://www.mplayerhq.hu/MPlayer/releases/MPlayer-%{tarball_version}.tar.bz2
 Source2:                 http://www1.mplayerhq.hu/MPlayer/releases/codecs/essential-20060611.tar.bz2
 Source3:                 http://www.mplayerhq.hu/MPlayer/skins/Blue-1.6.tar.bz2
-Source4:                 http://www.mplayerhq.hu/MPlayer/skins/Abyss-1.1.tar.bz2
+Source4:                 http://www.mplayerhq.hu/MPlayer/skins/Abyss-1.6.tar.bz2
 Source5:                 http://www.mplayerhq.hu/MPlayer/skins/neutron-1.5.tar.bz2
 Source6:                 http://www.mplayerhq.hu/MPlayer/skins/proton-1.2.tar.bz2
 Source7:                 http://www.3gpp.org/ftp/Specs/latest/Rel-6/26_series/26104-610.zip
@@ -152,6 +152,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Tue Sep 26 2006 - halton.huo@sun.com
+- Bump Source4 to version 1.6
 * Thu Jul 27 2006 - halton.huo@sun.com
 - Bump Source3 to version 1.6
 * Fri Jun 23 2006 - laca@sun.com

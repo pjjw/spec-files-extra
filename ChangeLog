@@ -1,3 +1,10 @@
+2006-09-26  Halton Huo  <halton.huo@sun.com>
+
+	* SFEliveMedia.spec: Bump to version 2006.09.20.
+	* SFEmplayer.spec: Bump Source4 to version 1.6
+	* SFEsdl.spec: Bump version to 1.2.11
+	* SFEtwolame.spec: use version define
+
 2006-09-25  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEaxyftp.spec: (new) Graphical ftp client (wish I could offer gftp 

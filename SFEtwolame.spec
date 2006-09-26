@@ -8,7 +8,7 @@
 Name:                    SFEtwolame
 Summary:                 twolame - MP3 Encoder
 Version:                 0.3.7
-Source:                  http://www.ecs.soton.ac.uk/~njh/twolame/twolame-0.3.7.tar.gz
+Source:                  http://www.ecs.soton.ac.uk/~njh/twolame/twolame-%{version}.tar.gz
 Patch1:			 twolame-01-configure.diff
 Patch2:			 twolame-02-crossfile_inline.diff
 SUNW_BaseDir:            %{_basedir}
