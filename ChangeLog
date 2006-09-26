@@ -1,5 +1,13 @@
 2006-09-25  Eric Boutilier  <eric.boutilier@sun.com>
 
+	* SFEaxyftp.spec: (new) Graphical ftp client (wish I could offer gftp 
+	  instead -- too much trouble though -- e.g. see:
+	  http://mail.gnome.org/archives/garnome-list/2005-April/msg00001.html
+	  It shows a big bug/patch for gftp which, one gets the feeling, is
+	  being passed over indefinitely by the gftp developer(s).
+
+2006-09-25  Eric Boutilier  <eric.boutilier@sun.com>
+
 	* SFEmc.spec: (new) Midnight Commander: clone of the Norton 
 	  Commander file manager
 	* SFEexpat.spec: (removed) not needed; expat already in /usr/sfw
