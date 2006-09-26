@@ -1,3 +1,9 @@
+2006-09-26  Eric Boutilier  <eric.boutilier@sun.com>
+
+        * SFEganglia.spec: (new) Ganglia cluster monitor; monitoring daemon
+        * SFEmpd.spec:     (new) Daemon for remote access music playing
+	  & managing playlists
+
 2006-09-26  Halton Huo  <halton.huo@sun.com>
 
 	* SFEliveMedia.spec: Bump to version 2006.09.20.
