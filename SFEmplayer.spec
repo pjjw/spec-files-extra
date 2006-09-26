@@ -33,6 +33,7 @@ Requires: SFEtwolame
 Requires: SFEfaad2
 Requires: SFElibmpcdec
 Requires: SFEsdl
+Requires: SUNWsmbau
 Requires: SUNWgnome-audio
 Requires: SUNWxorg-clientlibs
 Requires: SUNWxorg-mesa
@@ -152,6 +153,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Tue Sep 26 2006 - halton.huo@sun.com
+- Add Requires after check-deps.pl run
 * Tue Sep 26 2006 - halton.huo@sun.com
 - Bump Source4 to version 1.6
 * Thu Jul 27 2006 - halton.huo@sun.com

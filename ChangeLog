@@ -1,3 +1,10 @@
+2006-09-26  Halton Huo  <halton.huo@sun.com>
+
+	* SFEconnect.spec: (new) Proxy command of OpenSSH.
+	* SFEdante.spec: (new) a tool like runsocks.
+	* SFEmplayer.spec, SFEruby.spec, SFEsubversion.spec:
+	  Add Requires after check-deps.pl run.
+
 2006-09-26  Eric Boutilier  <eric.boutilier@sun.com>
 
         * SFEganglia.spec: (new) Ganglia cluster monitor; monitoring daemon

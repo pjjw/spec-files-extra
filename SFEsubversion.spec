@@ -22,6 +22,7 @@ Requires: SUNWlibms
 Requires: SUNWzlib
 Requires: SUNWpostrun
 Requires: SUNWopenssl-libraries
+Requires: SUNWlexpt
 BuildRequires: SUNWopenssl-include
 BuildRequires: SFEgdbm-devel
 BuildConflicts: CBEsvn
@@ -127,6 +128,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Sep 26 2006 - halton.huo@sun.com
+- Add Requires after check-deps.pl run
 * Fri Jul  7 2006 - laca@sun.com
 - rename to SFEsubversion
 - add info stuff

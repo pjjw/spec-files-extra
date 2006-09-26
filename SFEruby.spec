@@ -14,6 +14,9 @@ URL:          http://www.ruby-lang.org
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+Requires:     SUNWlibmsr
+Requires:     SUNWopenssl-libraries
+Requires:     SUNWzlib
 
 %prep
 %setup -q -n ruby-%version
@@ -51,6 +54,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*
 
 %changelog
+* Tue Sep 26 2006 - halton.huo@sun.com
+- Add Requires after check-deps.pl run
 * Mon Sep 11 2006 - halton.huo@sun.com
 - Bump to 1.8.5
 * Sun Jul  2 2006 - laca@sun.com
