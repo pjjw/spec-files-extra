@@ -2,31 +2,20 @@
 # Copyright (c) 2006 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
-#
-# For the output section of ~/.mpdconf, this worked for me:
-#
-# audio_output {
-#     type	"ao"
-#     name      "libao audio device"
-#     driver	"sun"
-# }
 
 %include Solaris.inc
 
-Name:                SFEmpd
-Summary:             Daemon for remote access music playing & managing playlists
+Name:                SFEmpc
+Summary:             Command line tool and client for MPD - Music Player Daemon
 Version:             0.12.0
-Source:              http://www.musicpd.org/uploads/files/mpd-%{version}.tar.bz2
+Source:              http://www.musicpd.org/uploads/files/mpc-%{version}.tar.bz2
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-BuildRequires: SFElibao
-Requires: SFElibao
-
 %prep
-%setup -q -n mpd-%version
+%setup -q -n mpc-%version
 
 %build
 
@@ -38,13 +27,9 @@ fi
 export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
 
-# Note: mp3 decoding and id3tag support is not configured 
-# in here (it probably should be though)
-
 ./configure --prefix=%{_prefix}  \
-            --mandir=%{_mandir}  \
-	    --enable-ao          \
-	    --disable-id3
+            --mandir=%{_mandir} \
+	    --disable-iconv
 
 make -j$CPUS
 
