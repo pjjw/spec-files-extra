@@ -1,3 +1,8 @@
+2006-09-27  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEdspam.spec: (new) Scalable, statistical-hybrid anti-spam filter
+	* SFEfftw.spec:  (new) Collection of fast C routines to compute DFTs
+
 2006-09-26  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFElibnet.spec:      (new) Packet Construction Library
