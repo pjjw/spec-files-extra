@@ -1,3 +1,10 @@
+2006-09-27  Brian Cameron  <brian.cameron@sun.com>
+
+        * SFElibcm.spec, patches/libcm-01-fixcompile.diff:  Add new spec file
+          and needed patch for composite manager, used by metacity.  This is
+          experimental code.  Note you need to grab the libcm code from GNOME
+          CVS and "make dist" yourself since it has not yet been posted on
+          ftp.gnome.org.
 2006-09-27  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEdspam.spec: (new) Scalable, statistical-hybrid anti-spam filter

@@ -1,0 +1,31 @@
+--- libcm-0.0.22/src/wsdisplay.c-orig	2006-09-26 21:13:39.048927000 -0500
++++ libcm-0.0.22/src/wsdisplay.c	2006-09-26 21:15:59.179121000 -0500
+@@ -30,6 +30,7 @@
+  *
+  */
+ 
++#include <X11/Xresource.h>
+ #include <X11/X.h>
+ #include <X11/Xutil.h>
+ #include <X11/extensions/Xcomposite.h>
+--- libcm-0.0.22/src/wsint.h-orig	2006-09-26 21:16:20.325141000 -0500
++++ libcm-0.0.22/src/wsint.h	2006-09-26 21:17:02.210962000 -0500
+@@ -18,6 +18,7 @@
+  *
+  * Author: Soren Sandmann (sandmann@redhat.com)
+  */
++#include <X11/Xresource.h>
+ #include <X11/X.h>
+ #include <X11/Xutil.h>
+ #include <X11/extensions/Xcomposite.h>
+--- libcm-0.0.22/configure.ac-orig	2006-09-27 14:34:42.661347000 -0500
++++ libcm-0.0.22/configure.ac	2006-09-27 14:34:45.405833000 -0500
+@@ -42,7 +42,7 @@ fi
+ changequote([,])dnl
+ 
+ # Check for dependencies
+-PKG_CHECK_MODULES(DEP, glib-2.0 gobject-2.0 x11 xext xcomposite xdamage xtst)
++PKG_CHECK_MODULES(DEP, glib-2.0 gobject-2.0)
+ 
+ # AC_CHECK_LIB(libGL.so, glXCreateContext
+ 
