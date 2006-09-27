@@ -1,5 +1,11 @@
 2006-09-26  Eric Boutilier  <eric.boutilier@sun.com>
 
+	* SFElibnet.spec:      (new) Packet Construction Library
+	* SFEettercap-NG.spec: (new) MITM LAN attack prevention suite; includes 
+	  graphical (gtk) support
+
+2006-09-26  Eric Boutilier  <eric.boutilier@sun.com>
+
 	* SFEmpc.spec: (new) Command line tool and client for MPD - Music 
 	  Player Daemon
 
