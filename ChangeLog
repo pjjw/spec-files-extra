@@ -1,3 +1,11 @@
+2006-09-27  Eric Boutilier  <eric.boutilier@sun.com>
+
+        * SFEfltk.spec:      (new) A C++ user interface toolkit
+        * SFElzo.spec:       (new) Lossless data compression library
+        * SFElzop.spec:      (new) File compressor -- similar to, but faster than gzip
+        * SFEraptor.spec:    (new) RDF Parser Library - RDF parser utility
+        * SFEsyslog-ng.spec: (new) Syslog-ng tries to fill the gaps original syslogd's were lacking
+
 2006-09-27  Brian Cameron  <brian.cameron@sun.com>
 
         * SFElibcm.spec, patches/libcm-01-fixcompile.diff:  Add new spec file
@@ -5,6 +13,7 @@
           experimental code.  Note you need to grab the libcm code from GNOME
           CVS and "make dist" yourself since it has not yet been posted on
           ftp.gnome.org.
+
 2006-09-27  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEdspam.spec: (new) Scalable, statistical-hybrid anti-spam filter
