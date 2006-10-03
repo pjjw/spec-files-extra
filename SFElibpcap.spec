@@ -1,4 +1,13 @@
 #
+#
+# !! Note:
+# Must use GNU ld. This is a bit tricky because it's
+# called gld on OpenSolaris and lives in /usr/sfw/bin,
+# and setting LD=/usr/sfw/bin/gld doesn't work because
+# this source's configure ignores $LD. What I did was 
+# symlink'd gld to ld and made sure it was found in $PATH 
+# ahead of /usr/ccs/bin/ld.
+#
 # Copyright (c) 2006 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
@@ -29,14 +38,19 @@ export LDFLAGS="%{_ldflags}"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir}
+
 make -j$CPUS
+make -j$CPUS shared
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
+make install-shared DESTDIR=$RPM_BUILD_ROOT
 
-#rm -f ${RPM_BUILD_ROOT}%{_libdir}/*.la
+cd ${RPM_BUILD_ROOT}%{_libdir}
+rm libpcap.a
+ln -s libpcap.so.%version libpcap.so
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -50,9 +64,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/*
 
-# Note: datadir is */share
-
 %changelog
 * 
+* Fri Sep 29 2006 - Eric Boutilier
+- Wrestled with it to get it to build shared, not static, lib. (I won :) )
+-
 * Fri Sep 01 2006 - Eric Boutilier
 - Initial spec

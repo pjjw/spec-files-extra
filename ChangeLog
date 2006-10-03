@@ -1,3 +1,16 @@
+2006-10-03  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFElibpcap: Make it build shared library.
+
+	* SFEmuttng:    (new) Fork of the mutt e-mail client
+	* SFEddclient:  (new) update Dynamic DNS entries on DD providers
+	* SFEapsfilter: (new) Flexible filter for printing
+	* SFEntop:      (new) A network traffic usage monitor
+	* SFEnetcat:    (new) Read and write data across network connections
+	* SFEgd:        (new) library for the dynamic creation of images
+	* SFEnut:       (new) Network UPS Tools
+	* SFEimposter:  (new) Standalone OO presentations viewer using GTK2
+
 2006-09-27  Eric Boutilier  <eric.boutilier@sun.com>
 
         * SFEfltk.spec:      (new) A C++ user interface toolkit
