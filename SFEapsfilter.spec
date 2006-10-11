@@ -53,6 +53,10 @@ rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
 
+cd $RPM_BUILD_ROOT%{_sysconfdir}/apsfilter
+rm -f basedir
+ln -s ../..%{_datadir}/apsfilter basedir
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -69,6 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
-* 
+* Wed Oct 11 2006 - laca@sun.com
+- make the /etc/apsfilter/basedir symlink relative
 * Sat Sep 30 2006 - Eric Boutilier
 - Initial spec

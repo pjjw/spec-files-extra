@@ -1,23 +1,30 @@
+2006-10-11  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEapsfilter.spec: make the /etc/apsfilter/basedir symlink relative
+
 2006-10-03  Eric Boutilier  <eric.boutilier@sun.com>
 
-	* SFElibpcap: Make it build shared library.
-
-	* SFEmuttng:    (new) Fork of the mutt e-mail client
-	* SFEddclient:  (new) update Dynamic DNS entries on DD providers
-	* SFEapsfilter: (new) Flexible filter for printing
-	* SFEntop:      (new) A network traffic usage monitor
-	* SFEnetcat:    (new) Read and write data across network connections
-	* SFEgd:        (new) library for the dynamic creation of images
-	* SFEnut:       (new) Network UPS Tools
-	* SFEimposter:  (new) Standalone OO presentations viewer using GTK2
+	* SFElibpcap.spec: Make it build shared library.
+	* SFEmuttng.spec:    (new) Fork of the mutt e-mail client
+	* SFEddclient.spec:  (new) update Dynamic DNS entries on DD providers
+	* SFEapsfilter.spec: (new) Flexible filter for printing
+	* SFEntop.spec:      (new) A network traffic usage monitor
+	* SFEnetcat.spec:    (new) Read and write data across network
+	  connections
+	* SFEgd.spec:        (new) library for the dynamic creation of images
+	* SFEnut.spec:       (new) Network UPS Tools
+	* SFEimposter.spec:  (new) Standalone OO presentations viewer using
+	  GTK2
 
 2006-09-27  Eric Boutilier  <eric.boutilier@sun.com>
 
         * SFEfltk.spec:      (new) A C++ user interface toolkit
         * SFElzo.spec:       (new) Lossless data compression library
-        * SFElzop.spec:      (new) File compressor -- similar to, but faster than gzip
+        * SFElzop.spec:      (new) File compressor -- similar to, but faster
+	  than gzip
         * SFEraptor.spec:    (new) RDF Parser Library - RDF parser utility
-        * SFEsyslog-ng.spec: (new) Syslog-ng tries to fill the gaps original syslogd's were lacking
+        * SFEsyslog-ng.spec: (new) Syslog-ng tries to fill the gaps original
+	  syslogd's were lacking
 
 2006-09-27  Brian Cameron  <brian.cameron@sun.com>
 
@@ -35,8 +42,8 @@
 2006-09-26  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFElibnet.spec:      (new) Packet Construction Library
-	* SFEettercap-NG.spec: (new) MITM LAN attack prevention suite; includes 
-	  graphical (gtk) support
+	* SFEettercap-NG.spec: (new) MITM LAN attack prevention suite;
+	  includes graphical (gtk) support
 
 2006-09-26  Eric Boutilier  <eric.boutilier@sun.com>
 
@@ -124,7 +131,8 @@
 2006-09-11  Halton Huo  <halton.huo@sun.com>
 
 	* SFEruby.spec: Bump to 1.8.5
-	* SFEunison.spec: Rename patch1, add new patch patches/unison-02-remote-shell.diff.
+	* SFEunison.spec: Rename patch1, add new patch
+	  patches/unison-02-remote-shell.diff.
 	* SFEvim.spec: Correct remove l10n files part
 	* patches/ruby-01-ieeefp.diff: Change for new version of ruby.
 
