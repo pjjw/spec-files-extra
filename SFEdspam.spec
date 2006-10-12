@@ -64,7 +64,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
+%{_libdir}/lib*.so*
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 %dir %attr (0755, root, sys) %{_datadir}
@@ -78,6 +80,7 @@ rm -rf $RPM_BUILD_ROOT
 /var/dspam/*
 
 %changelog
-* 
+* Wed Oct 11 2006 - laca@sun.com
+- fix pkgconfig dir permissions
 * Wed Sep 27 2006 - Eric Boutilier
 - Initial spec

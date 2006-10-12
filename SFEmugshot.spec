@@ -96,7 +96,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/icons
+%attr (-, root, other) %{_datadir}/icons
 %{_datadir}/mugshot
 %dir %attr (0755, root, other) %{_datadir}/gnome
 %{_datadir}/gnome/*
@@ -106,6 +106,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/gconf/schemas/mugshot-uri-handler.schemas
 
 %changelog
+* Wed Oct 11 2006 - laca@sun.com
+- fix icondir attributes
 * Wed Jul  5 2006 - laca@sun.com
 - rename to SFEmugshot
 - bump to 1.1.6

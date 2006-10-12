@@ -33,7 +33,7 @@ BuildRequires: SUNWlibpopt-devel
 
 %build
 libtoolize --force
-aclocal -I /jds/cbe/share/aclocal -I /usr/share/aclocal
+aclocal
 autoheader
 automake -a -c -f
 autoconf
@@ -60,6 +60,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Oct 11 2006 - laca@sun.com
+- remove -I flags from aclocal call
 * Wed Jul  5 2006 - laca@sun.com
 - rename to SFEldtp
 - move to /usr

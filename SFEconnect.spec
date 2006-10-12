@@ -15,7 +15,8 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 %prep
-test -d %name-%version && rm -rf %name-%version && mkdir %name-%version
+test -d %name-%version && rm -rf %name-%version
+mkdir %name-%version
 install %SOURCE1 %name-%version
 
 %build
@@ -37,5 +38,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 
 %changelog
+* Wed Oct 11 2006 - laca@sun.com
+- fix prep so it that %name-%version dir is always created
 * Tue Sep 26 2006 - halton.huo@sun.com
 - Initial spec file

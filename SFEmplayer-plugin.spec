@@ -7,7 +7,7 @@
 
 Name:                    SFEmplayer-plugin
 Summary:                 mplayerplug-in - MPlayer plugin for firefox
-Version:                 3.25
+Version:                 3.31
 Source:                  http://easynews.dl.sourceforge.net/sourceforge/mplayerplug-in/mplayerplug-in-%{version}.tar.gz
 Patch1:			 mplayerplugin-01-makefile.diff
 Patch2:                  mplayerplugin-02-strings_h.diff
@@ -71,6 +71,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %else
 # REMOVE l10n FILES
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+rmdir $RPM_BUILD_ROOT%{_datadir}
 %endif
 
 %clean
@@ -92,6 +93,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Oct 11 2006 - laca@sun.com
+- bump to 3.31
 * Fri Jun 30 2006 - laca@sun.com
 - rename to SFEmplayer-plugin
 - define l10n pkg

@@ -174,7 +174,7 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_datadir}/pixmaps/*png
 %{_datadir}/pixmaps/planner
 %{_datadir}/planner
-%{_datadir}/icons
+%attr (-, root, other) %{_datadir}/icons
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
 
@@ -203,6 +203,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %endif
 
 %changelog
+* Wed Oct 11 2006 - laca@sun.com
+- fix icondir permissions
 * Sun Jul 23 2006 - laca@sun.com
 - move to /usr
 * Fri Jun  2 2006 - laca@sun.com

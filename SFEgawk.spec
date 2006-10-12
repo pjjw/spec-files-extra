@@ -13,6 +13,7 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
+Requires: SUNWpostrun
 
 %prep
 %setup -q -n gawk-%version
@@ -43,9 +44,31 @@ rm -f $RPM_BUILD_ROOT%{_bindir}/awk
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/gnu/bin
 cd $RPM_BUILD_ROOT%{_prefix}/gnu/bin
 ln -s ../../bin/gawk awk
+rm -rf $RPM_BUILD_ROOT%{_datadir}/info/dir
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
+  echo 'infos="';
+  echo 'gawk gawkinet' ;
+  echo '"';
+  echo 'retval=0';
+  echo 'for info in $infos; do';
+  echo '  install-info --info-dir=%{_infodir} %{_infodir}/$info || retval=1';
+  echo 'done';
+  echo 'exit $retval' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
+
+%preun
+( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
+  echo 'infos="';
+  echo 'gawk gawkinet' ;
+  echo '"';
+  echo 'for info in $infos; do';
+  echo '  install-info --info-dir=%{_infodir} --delete %{_infodir}/$info';
+  echo 'done';
+  echo 'exit 0' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
 
 %files
 %defattr (-, root, bin)
@@ -66,6 +89,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Wed Oct 11 2006 - laca@sun.com
+- add postrun scripts for updating the info dir file
 * Sun Jan 18 2006 - laca@sun.com
 - rename to SFEgawk; update summary
 - remove -share pkg

@@ -17,8 +17,10 @@ Docdir:	      %{_defaultdocdir}/doc
 Autoreqprov:  on
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SFEmono-devel
+BuildRequires: SFElcms-devel
 Requires: SUNWgnome-base-libs
 Requires: SFEmono
+Requires: SFElcms
 
 %if %build_l10n
 %package l10n
@@ -93,6 +95,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Oct 11 2006 - laca@sun.com
+- add lcms dependency
 * Wed Sep  7 2006 - jedy.wang@sun.com
 - bump to 0.2.0
 * Mon Jul 24 2006 - laca@sun.com

@@ -159,7 +159,7 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_datadir}/gnome/help/*/C
 %{_datadir}/gnome-2.0
 %{_datadir}/gthumb
-%{_datadir}/icons
+%attr (-, root, other) %{_datadir}/icons
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/*
 %{_mandir}/*/*
@@ -177,6 +177,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_sysconfdir}/gconf/schemas/gthumb.schemas
 
 %changelog
+* Wed Oct 11 2006 - laca@sun.com
+- fix icondir permissions
 * Fri Jun  2 2006 - laca@sun.com
 - use post/postun scripts to install schemas into the merged gconf files
 * Thu May 11 2006 - laca@sun.com

@@ -10,13 +10,17 @@ Name:                SFEfltk
 Summary:             A C++ user interface toolkit
 Version:             1.1.7
 Source:              ftp://ftp3.easysw.com/pub/fltk/1.1.7/fltk-%{tarball_version}.tar.gz
-
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-
 BuildRequires: SUNWxwplt
 Requires: SUNWxwplt
+
+%package devel
+Summary:		 %{summary} - development files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:		 %name
 
 %prep
 %setup -q -n fltk-%{version}
@@ -46,21 +50,38 @@ rm ${RPM_BUILD_ROOT}%{_libdir}/libfltk.a
 rm ${RPM_BUILD_ROOT}%{_libdir}/libfltk_forms.a
 rm ${RPM_BUILD_ROOT}%{_libdir}/libfltk_images.a
 
+rm -rf ${RPM_BUILD_ROOT}%{_datadir}/man/cat*
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
+%{_bindir}/fluid
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/*
+
+%files devel
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/fltk-config
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/*
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man3
+%{_mandir}/man3/*
 
 %changelog
-* 
+* Wed Oct 11 2006 - laca@sun.com
+- create devel subpkg
+- fix doc dir attributes
 * Wed Sep 27 2006 - Eric Boutilier
 - Initial spec

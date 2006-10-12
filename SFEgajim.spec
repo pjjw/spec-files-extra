@@ -16,9 +16,11 @@ Patch1:                  gajim-01-build-fix.diff
 Requires:                SUNWPython
 Requires:                SFEsqlite3
 Requires:                SFEpysqlite
+Requires:                SFEgtkspell
 BuildRequires:           SUNWPython-devel
 BuildRequires:           SFEsqlite3-devel
 BuildRequires:           SFEpysqlite
+BuildRequires:           SFEgtkspell-devel
 
 %if %build_l10n
 %package l10n
@@ -87,5 +89,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Wed July 26 2006 - lin.ma@sun.com
+* Wed Oct 11 2006 - laca@sun.com
+- add gtkspell deps
+* Wed Jul 26 2006 - lin.ma@sun.com
 - Initial spec file

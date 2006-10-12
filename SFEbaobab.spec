@@ -121,7 +121,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/baobab
 %dir %attr (0755, root, other) %{_datadir}/baobab/pixmaps
 %{_datadir}/baobab/pixmaps/*
-%attr (-, root, other) %{_datadir}/icons/hicolor/48x48/apps/baobab.png
+%attr (-, root, other) %{_datadir}/icons
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/baobab.1
@@ -139,6 +139,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/gconf/schemas/baobab.schemas
 
 %changelog
+* Wed Oct 11 2006 - laca@sun.com
+- fix icondir permissions
 * Thu Jul 06 2006 - laca@sun.com
 - rename to SFEbaobab
 * Thu Jul 06 2006 - matt.keenan@sun.com

@@ -1,5 +1,24 @@
 2006-10-11  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEbaobab.spec: fix icondir permissions
+	* SFEconnect.spec: fix prep so it that %name-%version dir is always
+	  created
+	* SFEdspam.spec: fix pkgconfig dir permissions
+	* SFEf-spot.spec: add lcms dependency
+	* SFEfltk.spec: create devel subpkg; fix doc dir attributes
+	* SFEgajim.spec: add gtkspell deps
+	* SFEgawk.spec: add postrun scripts for updating the info dir file
+	* SFEldtp.spec: remove -I flags from aclocal call
+	* SFElibao.spec: create devel subpkg; fix some dir attributes
+	* SFEmplayer-plugin.spec: bump to 3.31
+	* SFEmugshot.spec: fix icondir attributes
+	* SUNWgnome-img-organizer.spec: fix icondir permissions
+	* SUNWgnome-project.spec: fix icondir permissions
+	* patches/monkey-bubble-01-build.diff: fix patch
+	* patches/mplayerplugin-01-makefile.diff: merge
+
+2006-10-11  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEapsfilter.spec: make the /etc/apsfilter/basedir symlink relative
 
 2006-10-03  Eric Boutilier  <eric.boutilier@sun.com>
