@@ -7,8 +7,8 @@
 
 Name:                    SFElibdvdread
 Summary:                 libdvdread  - libdvdread provides a simple foundation for reading DVD video disks
-Version:                 0.9.6
-Source:                  http://www.dtek.chalmers.se/%7Edvd/dist/libdvdread-0.9.7.tar.gz
+Version:                 0.9.7
+Source:                  http://www.dtek.chalmers.se/groups/dvd/dist/libdvdread-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 buildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
