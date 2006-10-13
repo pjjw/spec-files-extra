@@ -1,3 +1,20 @@
+2006-10-13  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEapsfilter.spec: fix %{_datadir} permissions
+	* SFEgtkpod.spec: bump to 0.99.8
+	* SFEinkscape.spec: bump to 0.44.1; still won't build :(
+	* SFElibgpod.spec: bump to 0.4.0
+	* SFEplanner.spec: delete: we already have SUNWgnome-project which
+	  includes planner
+	* linux-specs/planner.spec: dump to 0.14
+	* patches/libgpod-01-fixwall.diff: merge
+	* patches/libgpod-02-fixcompile.diff: merge
+	* patches/libgpod-03-msgfmt-no-c.diff: delete: no longer needed
+	  (the fix is in glib2)
+	* patches/planner-01-menu-entry.diff: update path to executable,
+	  since it was moved to /usr
+	* patches/planner-02-forte-switches.diff: merge
+
 2006-10-13  Lin Ma  <lin.ma@sun.com>
 
 	* SFEplanner.spec: Initialize spec for gnome planner

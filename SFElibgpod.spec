@@ -10,14 +10,14 @@ Name:         SFElibgpod
 Summary:      libgpod - a library for accessing the contents of an iPod
 License:      GPL
 Group:        System/GUI/GNOME
-Version:      0.3.2
+Version:      0.4.0
 Release:      1
-Source:       http://umn.dl.sourceforge.net/sourceforge/gtkpod/libgpod-%{version}.tar.gz
+Source:       http://kent.dl.sourceforge.net/sourceforge/gtkpod/libgpod-%{version}.tar.gz
 Patch1:       libgpod-01-fixwall.diff
 Patch2:       libgpod-02-fixcompile.diff
 URL:          http://www.gtkpod.org
 SUNW_BaseDir: %{_prefix}
-BuildRoot:    %{_tmppath}/gtkpod-%{version}-build
+BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWgnome-base-libs
 BuildRequires: SUNWgnome-base-libs-devel
@@ -41,8 +41,8 @@ Requires:                %{name}
 
 %prep
 %setup -q -n libgpod-%version
-%patch1 -p1
-%patch2 -p1
+%patch1 -p1 -b .patch1
+%patch2 -p1 -b .patch2
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -54,7 +54,7 @@ export CFLAGS="%optflags -D__hidden="
 
 intltoolize --copy --force
 libtoolize --force --copy
-aclocal $ACLOCAL_FLAGS
+aclocal $ACLOCAL_FLAGS -I m4
 autoheader
 automake -a -c -f
 autoconf
@@ -76,12 +76,12 @@ make -i install DESTDIR=$RPM_BUILD_ROOT
 
 rm -rf $RPM_BUILD_ROOT%{_libdir}/lib*.la
 rm -rf $RPM_BUILD_ROOT%{_libdir}/lib*.a
+rm -rf $RPM_BUILD_ROOT%{_libdir}/python*
 
 %if %build_l10n
 %else
 # REMOVE l10n FILES
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
-rmdir -p $RPM_BUILD_ROOT%{_datadir}
 %endif
 
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):unsupported" $RPM_BUILD_ROOT}
@@ -101,6 +101,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
+%dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/gtk-doc
 
 %if %build_l10n
 %files l10n
@@ -110,6 +112,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Oct 13 2006 - laca@sun.com
+- bump to 0.4.0
 * Wed Jul  5 2006 - laca@sun.com
 - rename to SFElibgpod
 - update attributes

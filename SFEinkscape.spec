@@ -7,8 +7,8 @@
 
 Name:                    SFEinkscape
 Summary:                 Inkscape - vector graphics editor
-Version:                 0.44
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/inkscape/inkscape-%{version}.tar.bz2
+Version:                 0.44.1
+Source:                  http://easynews.dl.sourceforge.net/sourceforge/inkscape/inkscape-%{version}.tar.gz
 URL:                     http://www.inkscape.org
 Patch1:                  inkscape-01-no-ver-check.diff
 SUNW_BaseDir:            %{_basedir}
@@ -102,6 +102,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/gconf/schemas/inkscape.schemas
 
 %changelog
+* Fri Oct 13 2006 - laca@sun.com
+- bump to 0.44.1
 * Thu Jul  6 2006 - laca@sun.com
 - rename to SFEinkscape
 - delete -share subpkg

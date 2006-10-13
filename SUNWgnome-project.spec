@@ -93,9 +93,7 @@ rmdir $RPM_BUILD_ROOT%{_datadir}/omf
 %else
 # REMOVE l10n FILES
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
-# Put these back in when localized help delivered from l10n
-# rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/*/[a-z]
-# rm -rf $RPM_BUILD_ROOT%{_datadir}/omf/*/*-[a-z]*.omf
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/[a-z]*
 %endif
 
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):unsupported" $RPM_BUILD_ROOT}
@@ -155,24 +153,17 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/planner/file-modules/lib*.so*
 %{_libdir}/planner/plugins/lib*.so*
 %{_libdir}/planner/storage-modules/lib*.so*
-%{_libdir}/planner/views/lib*.so*
-%{_libdir}/planner/lib*.so*
 %attr (-, root, bin) %{_libdir}/python*
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, other) %{_datadir}/application-registry
-%{_datadir}/application-registry/*
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/gnome
 %{_datadir}/gnome/help/planner/C
-%dir %attr (0755, root, other) %{_datadir}/mime-info
-%{_datadir}/mime-info/*
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*png
-%{_datadir}/pixmaps/planner
 %{_datadir}/planner
 %attr (-, root, other) %{_datadir}/icons
 %dir %attr (0755, root, other) %{_datadir}/doc
@@ -200,6 +191,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) %{_datadir}
 %attr (-, root, other) %{_datadir}/locale
+%dir %attr (0755, root, other) %{_datadir}/gnome/help
+%{_datadir}/gnome/help/[a-z]*
 %endif
 
 %changelog

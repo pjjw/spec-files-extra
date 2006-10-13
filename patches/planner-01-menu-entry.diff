@@ -8,7 +8,7 @@
 -Exec=planner %F
 +_Name=Project Manager
 +_Comment=Project Management Tool
-+Exec=/usr/sfw/bin/planner %F
++Exec=planner %F
  Icon=gnome-planner.png
  Terminal=false
  Type=Application

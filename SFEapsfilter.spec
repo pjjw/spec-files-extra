@@ -65,7 +65,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/*
+%{_datadir}/apsfilter
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man?
+%{_mandir}/man?/*
 
 %files root
 %defattr (-, root, sys)
@@ -73,6 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
+* Fri Oct 13 2006 - laca@sun.com
+- fix datadir attributes
 * Wed Oct 11 2006 - laca@sun.com
 - make the /etc/apsfilter/basedir symlink relative
 * Sat Sep 30 2006 - Eric Boutilier

@@ -10,9 +10,9 @@ Name:         SFEgtkpod
 Summary:      GtkPod - gtk+ based GUI for Apple's iPod
 License:      GPL
 Group:        System/GUI/GNOME
-Version:      0.99.4
+Version:      0.99.8
 Release:      1
-Source:       http://umn.dl.sourceforge.net/sourceforge/gtkpod/gtkpod-%{version}.tar.gz
+Source:       http://kent.dl.sourceforge.net/sourceforge/gtkpod/gtkpod-%{version}.tar.gz
 Patch1:       gtkpod-01-fixcompile.diff
 URL:          http://www.gtkpod.org
 SUNW_BaseDir: %{_prefix}
@@ -106,6 +106,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Oct 13 2006 - laca@sun.com
+- bump to 0.99.8
 * Wed Jul  5 2006 - laca@sun.com
 - rename to SFEgtkpod
 - delete -share subpkg

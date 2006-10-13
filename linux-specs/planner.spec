@@ -9,13 +9,12 @@
 Name:			planner
 License:		GPL
 Group:			Applications/Office
-Version:		0.13
-Release:		2
+Version:		0.14
+Release:		1
 Distribution:		Java Desktop System
 Vendor:			Sun Microsystems, Inc.
 Summary:		Planner, a project planning tool.
 Source:			http://ftp.gnome.org/pub/GNOME/sources/planner/%{version}/planner-%{version}.tar.bz2
-#FIXME: move from /usr/sfw/bin
 Patch1:			planner-01-menu-entry.diff
 Patch2:                 planner-02-forte-switches.diff
 URL:			http://planner.imendio.org/
@@ -179,105 +178,77 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{python_version}
 
 %changelog
+* Fri Oct 13 2006 - laca@sun.com
+- bump to 0.14
 * Fri Dec 02 2005 - srirama.sharma@wipro.com
 - Updated planner-01-menu-entry.diff to use the absolute path of the 
   executable in the .desktop file as usr/sfw/bin should not be 
   included in $PATH.
   Fixes bug #6345489.
-
 * Tue Nov 29 2005 - laca.com
 - remove javahelp stuff
-
 * Thu Oct 27 2005 - laca@sun.com
 - move the python stuff from site-packages to vendor-packages
-
 * Thu Sep 01 2005 - damien.carbery@sun.com
 - Add patch to remove compiler options that forte doesn't support.
-
 * Fri Jul 01 2005 - matt.keenan@sun.com
 - Add pkgconfig patch
-
 * Wed Jun 29 2005 - damien.carbery@sun.com
 - Remove '%{_datadir}/mime directory.
-
 * Sat Jun 25 2005 - damien.carbery@sun.com
 - Remove omf/planner dir from %files as the dir was removed during %install.
-
 * Wed Jun 22 2005 - matt.keenan@sun.com
 - Update l10n
-
 * Wed Jun 08 2005 - glynn.foster@sun.com
 - Bump to 0.13
-
 * Tue May 25 2005 - brian.cameron@sun.com
 - Fix build.
-
 * Fri Feb 11 2005 - ghee.teo@sun.com
 - Updated planner.spec to obsolete/provide the proper version of mrproject
   and libmrproject[-devel]. Fixes 6228278.
-
 * Fri Jan 28 2005 - matt.keenan@sun.com
 - #6222336 : Remove from yelp
-
 * Thu Jan 20 2005 - alvaro.lopez@sun.com
 - Added patch planner-06-save_as_crash.diff to fix bug #6219432
-
 * Fri Nov 12 2004 - laca@sun.com
 - Added --bindir and --libdir to configure opts so they can be redirected
   on Solaris
-
 * Thu Oct 07 2004 - ciaran.mcdermott@sun.com
 - Added planner-05-g11n-alllinguas.diff to add zh_TW locale
-
 * Tue Oct 05 2004 - takao.fujiwara@sun.com
 - Added planner-04-g11n-i18n-ui.diff to localize gnome-file-types-properties.
   Fixed 6173638
-
 * Wed Sep 29 2004 - kaushal.kumar@wipro.com
 - Added patch planner-03-fix-putenv-crash.diff.
   Fixes bug #5103739.
-
 * Thu Aug 24 2004 - niall.power@sun.com
 - added gtk-docs.
-
 * Wed Jul 14 2004 - niall.power@sun.com
 - fixed packaging for rpm4 and commented out
   "-j $CPUS" which is breaking the build.
-
 * Thu Jul 08 2004 - damien.donlon@sun.com
 - Updated l10n content to planner-l10n-po-1.2.tar.bz2
-
 * Thu Jul 08 2004 - dermot.mccluskey@sun.com
 - undid -j $CPUS for this module
-
 * Thu Jul 08 2004 - damien.donlon@sun.com
 - Updated l10n content to planner-l10n-po-1.2.tar.bz2
-
 * Thu Jul 08 2004 - dermot.mccluskey@sun.com
 - undid -j $CPUS for this module
-
 * Wed Jul 07 2004 - dermot.mccluskey@sun.com
 - added "-j $CPUS" to make to speed up builds
-
 * Wed May 12 2004 - damien.donlon@sun.com
 - Updated l10n content to planner-l10n-po-1.1.tar.bz2
-
 * Sun Apr 18 2004 - laca@sun.com
 - enable javahelp conversion on Solaris
-
 * Thu Apr 01 2004 - matt.keenan@sun.com
 - Javahelp conversion
-
 * Wed Mar 31 2004 - brian.cameron@sun.com
 - replace tar jxf with the more solaris friendly
   bzcat piped through tar
-
 * Mon Mar 29 2004 - damien.donlon@sun.com
 - Adding planner-l10n-po-1.0.tar.bz2 l10n content
-
 * Thu Mar 11 2004 - yuriy.kuznetsov@sun.com
 - added planner-02-g11n-potfiles.diff
-
 * Tue Feb 24 2004 - michael.twomey@sun.com
 - Initial package. Based on mrproject 0.9.1.
 - Ported menu entry change, based on the mrproject patch.
