@@ -69,8 +69,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
+%dir %attr (0755, root, other) %{_datadir}/aclocal
+%{_datadir}/aclocal/*
 
 %changelog
+* Sat Oct 14 2006 - laca@sun.com
+- add aclocal dir to %files
 * Wed Oct 11 2006 - laca@sun.com
 - create -devel subpkg
 - fix some directory attributes

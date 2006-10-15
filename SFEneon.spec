@@ -1,37 +1,27 @@
 #
-# spec file for package SFEsubversion
+# spec file for package SFEneon
 #
-# includes module(s): subversion
+# includes module(s): neon
 #
 %include Solaris.inc
 
-Name:			SFEsubversion
-License:		Apache,LGPL,BSD
+Name:			SFEneon
+License:		LGPL
 Group:			system/dscm
-Version:		1.4.0
+Version:		0.25.5
 Release:		1
-Summary:		Subversion SCM
-Source:			http://subversion.tigris.org/downloads/subversion-%{version}.tar.bz2
-Patch1:                 subversion-01-libneon.la.diff
-URL:			http://subversion.tigris.org/
+Summary:		neon http and webdav client library
+Source:			http://www.webdav.org/neon/neon-%{version}.tar.gz
+URL:			http://www.webdav.org/neon/
 BuildRoot:		%{_tmppath}/%{name}-%{version}-build
 SUNW_BaseDir:		%{_prefix}
-Requires: SUNWcsl
-Requires: SUNWcsr
-Requires: SFEgdbm
+%include default-depend.inc
 Requires: SUNWlibms
 Requires: SUNWzlib
-Requires: SUNWpostrun
-Requires: SUNWopenssl-libraries
 Requires: SUNWlexpt
-Requires: SFEneon
+Requires: SUNWopenssl-libraries
 BuildRequires: SUNWopenssl-include
-BuildRequires: SFEgdbm-devel
-BuildRequires: SFEneon-devel
-BuildConflicts: CBEsvn
-
-%description
-Subversion source code management system.
+BuildRequires: SUNWsfwhea
 
 %package devel
 Summary:                 %{summary} - development files
@@ -49,8 +39,7 @@ Requires:                %{name}
 %endif
 
 %prep
-%setup -q -n subversion-%{version}
-%patch1 -p1 -b .patch01
+%setup -q -n neon-%{version}
 
 %build
 export CFLAGS="%optflags -I/usr/sfw/include"
@@ -58,16 +47,11 @@ export CPPFLAGS="-I/usr/sfw/include"
 export LD=/usr/ccs/bin/ld
 export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib -L$RPM_BUILD_ROOT%{_libdir}"
 export PATH=$PATH:/usr/apache2/bin
-aclocal -I build/ac-macros
-autoconf
 ./configure \
     --prefix=%{_prefix} \
     --exec-prefix=%{_prefix} \
     --disable-static \
-    --with-apxs=/usr/apache2/bin/apxs \
-    --with-pic \
-    --with-installbuilddir=%{_datadir}/apr/build \
-    --disable-mod-activation \
+    --enable-shared \
     --mandir=%{_mandir} \
     --with-ssl \
     --infodir=%{_infodir}
@@ -92,24 +76,28 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
-%dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/svn*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*
-%dir %attr (0755, root, bin) %{_mandir}/man5
-%{_mandir}/man5/*
-%dir %attr (0755, root, bin) %{_mandir}/man8
-%{_mandir}/man8/*
-/usr/apache2
 
 %files devel
 %defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/neon-config
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man3
+%{_mandir}/man3/*
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
 
 %if %build_l10n
 %files l10n
@@ -120,14 +108,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Sat Oct 14 2006 - laca@sun.com
-- disable parallel build as it breaks on multicpu systems
-- bump to 1.4.0
-* Tue Sep 26 2006 - halton.huo@sun.com
-- Add Requires after check-deps.pl run
-* Fri Jul  7 2006 - laca@sun.com
-- rename to SFEsubversion
-- add info stuff
-- add some configure options to enable ssl, apache, https support
-- add devel and l10n pkgs
-* Sat Jan  7 2006  <glynn.foster@sun.com>
 - initial version

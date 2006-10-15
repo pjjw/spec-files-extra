@@ -6,10 +6,9 @@
 %include Solaris.inc
 
 Name:         SFEf-spot
-Version:      0.2.0
+Version:      0.2.2
 Summary:      f-spot - personal photo management application for the GNOME Desktop
-Source:       http://ftp.gnome.org/Public/GNOME/sources/f-spot/0.2/f-spot-%{version}.tar.bz2
-Patch1:       f-spot-01-solaris.diff
+Source:       http://ftp.gnome.org/pub/GNOME/sources/f-spot/0.2/f-spot-%{version}.tar.bz2
 URL:          http://f-spot.org/
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
@@ -33,7 +32,6 @@ Requires:                %{name}
 %prep
 %setup -q -c -n %name-%version
 cd f-spot-%{version}
-%patch1 -p1 -b .prctl
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -95,6 +93,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Oct 14 2006 - laca@sun.com
+- bump to 0.2.2; delete upstream patch solaris.diff
 * Wed Oct 11 2006 - laca@sun.com
 - add lcms dependency
 * Wed Sep  7 2006 - jedy.wang@sun.com

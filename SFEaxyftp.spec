@@ -23,20 +23,13 @@ Requires: SUNWxwplt
 %setup -q -n axyftp-%version
 
 %build
-
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-     CPUS=1
-fi
-
-
 export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags} -R/usr/dt/lib"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
 
-make -j$CPUS
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -56,6 +49,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
-* 
+* Sat Oct 14 2006 - laca@sun.com
+- disable parallel build as it breaks on multicpu systems
 * Mon Sep 25 2006 - Eric Boutilier
 - Initial spec

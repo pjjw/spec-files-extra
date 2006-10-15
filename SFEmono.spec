@@ -9,7 +9,7 @@
 Name:         SFEmono
 License:      Other
 Group:        System/Libraries
-Version:      1.1.17.1
+Version:      1.1.18
 Summary:      mono - .NET framework
 Source:       http://go-mono.com/sources/mono/mono-%{version}.tar.gz
 URL:          http://www.mono-project.com/Main_Page
@@ -125,6 +125,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sat Oct 14 2006 - laca@sun.com
+- bump to 1.1.18
 * Wed Sep  7 2006 - jedy.wang@sun.com
 - bump to 1.1.17.1
 * Sat Jul 15 2006 - laca@sun.com

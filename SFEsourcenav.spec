@@ -15,12 +15,6 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-%package devel
-Summary:       %{summary} - development files
-SUNW_BaseDir:  %{_basedir}
-%include default-depend.inc
-Requires:      %name
-
 %prep
 %setup -q -n sourcenav-%{tarball_version}
 
@@ -31,11 +25,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 export CFLAGS="%optflags -DANSICPP"
 export LDFLAGS="%{_ldflags}"
-./configure --prefix=%{_prefix}			\
+./configure --prefix=%{_prefix}/sourcenav	\
 	    --mandir=%{_mandir}			\
-            --datadir=%{_datadir}/sourcenav     \
-	    --libdir=%{_libdir}			\
-	    --libexecdir=%{_libexecdir}		\
 	    --sysconfdir=%{_sysconfdir}
 	    
 make -j$CPUS 
@@ -44,10 +35,16 @@ make -j$CPUS
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
-cd $RPM_BUILD_ROOT%{_prefix}
+cd $RPM_BUILD_ROOT%{_prefix}/sourcenav
 mv man/mann/* $RPM_BUILD_ROOT/%{_mandir}/mann/
 rm -rf man
 rm -rf COPYING INSTALL.TXT NEWS README.TXT html
+
+mkdir -p $RPM_BUILD_ROOT/%{_bindir}
+cd $RPM_BUILD_ROOT/%{_bindir}
+echo 'mydir=`dirname $0`' > snavigator
+echo 'exec ${mydir}/../sourcenav/bin/snavigator "${@}"' >> snavigator
+chmod 755 snavigator
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -56,29 +53,16 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
-%dir %attr (0755, root, bin) %dir %{_libdir}
-%{_libdir}/*
+%{_prefix}/sourcenav
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/sourcenav/bitmaps
-%{_datadir}/sourcenav/demos
-%{_datadir}/sourcenav/etc
-%{_datadir}/sourcenav/itc*
-%{_datadir}/sourcenav/itk*
-%{_datadir}/sourcenav/redhat
-%{_datadir}/sourcenav/sdk
-%{_datadir}/sourcenav/sourcenav
-%{_datadir}/sourcenav/tcl*
-%{_datadir}/sourcenav/tix*
-%{_datadir}/sourcenav/tk*
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/*
 %{_mandir}/*/*
 
-%files devel
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
-
 %changelog
+* Sat Oct 14 2006 - laca@sun.com
+- move to /usr/sourcenav -- moving just datadir doesn't work unfortunately
+- get rid of devel subpkg
 * Sun Jul 23 2006 - laca@sun.com
 - rename to SFEsourcenav
 - mv datadir stuff into datadir/sourcenav subdir
@@ -86,4 +70,3 @@ rm -rf $RPM_BUILD_ROOT
 - define -devel subpkg
 * Mon Jul 17 2006 - Halton Huo <halton.huo@sun.com>
 - Initial spec.
-

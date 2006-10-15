@@ -1,3 +1,24 @@
+2006-10-14  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEaxyftp.spec: disable parallel build
+	* SFEf-spot.spec: bump to 0.2.2; delete upstream patch solaris.diff
+	* SFElibao.spec: add aclocal dir to %files
+	* SFEmercurial.spec: delete, now part of Solaris Nevada
+	* SFEmono.spec: bump to 1.1.18
+	* SFEneon.spec: (new) neon http and webdav library (used to
+	  be included in the subversion pkg)
+	* SFEsourcenav.spec: move to /usr/sourcenav -- moving just datadir
+	  doesn't work unfortunately; get rid of devel subpkg
+	* SFEsubversion.spec: disable parallel build as it breaks on
+	  multicpu systems bump to 1.4.0
+	* SFEwxwidgets.spec: fix wx-config to be a relative symlink
+	* SUNWgnome-project.spec: fix /usr/share/gnome attributes in l10n
+	  subpkg
+	* patches/f-spot-01-solaris.diff: delete, upstream
+	* patches/mono-01-solaris.diff: merge for 1.1.18
+	* patches/subversion-01-libneon.la.diff: don't try to link to
+	  libneon.la cause we're not shipping it
+
 2006-10-13  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEapsfilter.spec: fix %{_datadir} permissions

@@ -191,11 +191,13 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) %{_datadir}
 %attr (-, root, other) %{_datadir}/locale
-%dir %attr (0755, root, other) %{_datadir}/gnome/help
+%dir %attr (0755, root, other) %{_datadir}/gnome
 %{_datadir}/gnome/help/[a-z]*
 %endif
 
 %changelog
+* Sat Oct 14 2006 - laca@sun.com
+- fix /usr/share/gnome attributes in l10n subpkg
 * Wed Oct 11 2006 - laca@sun.com
 - fix icondir permissions
 * Sun Jul 23 2006 - laca@sun.com

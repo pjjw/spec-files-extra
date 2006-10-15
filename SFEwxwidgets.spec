@@ -77,6 +77,10 @@ cd contrib
 make install DESTDIR=$RPM_BUILD_ROOT
 cd ..
 
+cd $RPM_BUILD_ROOT%{_bindir}
+rm -f wx-config
+ln -s ../lib/wx/config/gtk2-unicode-release-2.6 wx-config
+
 %if %build_l10n
 %else
 # REMOVE l10n FILES
@@ -111,6 +115,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Oct 14 2006 - laca@sun.com
+- fix wx-config to be a relative symlink
 * Mon Jul 10 2006 - laca@sun.com
 - rename to SFEwxwidgets
 - delete -share subpkg

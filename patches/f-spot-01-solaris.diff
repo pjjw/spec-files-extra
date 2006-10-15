@@ -1,9 +1,0 @@
-diff -r -u f-spot-0.2.0/src/f-spot.in f-spot-0.2.0/src/f-spot.in
---- f-spot-0.2.0/src/f-spot.in	2006-03-01 15:51:19.000000000 +0800
-+++ f-spot-0.2.0/src/f-spot.in	2006-09-06 14:32:25.282103000 +0800
-@@ -1,4 +1,4 @@
--#!/bin/sh
-+#!/bin/bash
- 
- prefix=@prefix@
- exec_prefix=@exec_prefix@
