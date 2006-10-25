@@ -14,6 +14,12 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
+%package devel
+Summary:        %{summary} - development files
+SUNW_BaseDir:   %{_basedir}
+%include default-depend.inc
+Requires: %name
+
 %prep
 %setup -q -n mpc-%version
 
@@ -25,7 +31,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CFLAGS="%optflags"
-export LDFLAGS="%{_ldflags}"
+export LDFLAGS="%_ldflags"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
@@ -38,17 +44,28 @@ rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
 
+rmdir ${RPM_BUILD_ROOT}%{_datadir}/mpc
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
+%{_bindir}/mpc
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/*
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/mpc.1
+
+%files devel
+%defattr (-, root, bin)
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
 
 %changelog
-* 
+* Wed Oct 25 2006 - Eric Boutilier
+- Add devel package and fix attributes
 * Tue Sep 26 2006 - Eric Boutilier
 - Initial spec
