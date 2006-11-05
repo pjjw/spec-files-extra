@@ -53,7 +53,7 @@ Requires:                %{name}
 %patch1 -p1 -b .patch01
 
 %build
-export CFLAGS="%optflags -I/usr/sfw/include"
+export CFLAGS="%optflags -I/usr/sfw/include -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
 export CPPFLAGS="-I/usr/sfw/include"
 export LD=/usr/ccs/bin/ld
 export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib -L$RPM_BUILD_ROOT%{_libdir}"

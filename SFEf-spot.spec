@@ -79,6 +79,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/f-spot
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
@@ -93,6 +95,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Oct 15 2006 - laca@sun.com
+- add pkgconfig .pc file to %files
 * Sat Oct 14 2006 - laca@sun.com
 - bump to 0.2.2; delete upstream patch solaris.diff
 * Wed Oct 11 2006 - laca@sun.com

@@ -42,7 +42,12 @@ Requires:                %{name}
 %setup -q -n neon-%{version}
 
 %build
-export CFLAGS="%optflags -I/usr/sfw/include"
+export CFLAGS="%optflags -I/usr/sfw/include -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
+%if %debug_build
+%define debug_option --enable-debug
+%else
+%define debug_option --disable-debug
+%endif
 export CPPFLAGS="-I/usr/sfw/include"
 export LD=/usr/ccs/bin/ld
 export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib -L$RPM_BUILD_ROOT%{_libdir}"
@@ -54,7 +59,8 @@ export PATH=$PATH:/usr/apache2/bin
     --enable-shared \
     --mandir=%{_mandir} \
     --with-ssl \
-    --infodir=%{_infodir}
+    --infodir=%{_infodir} \
+    %debug_option
 make
 
 %install

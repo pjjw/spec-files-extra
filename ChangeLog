@@ -1,3 +1,11 @@
+2006-11-05  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEemacs.spec: delete some unnecessary env variables
+	* SFEf-spot.spec: add pkgconfig files to %files
+	* SFEneon.spec: set _LARGEFILE64_SOURCE and _FILE_OFFSET_BITS=64 --
+	  they must match between neon and subversion otherwise svn crashes.
+	* SFEsubversion.spec: set _LARGEFILE64_SOURCE and _FILE_OFFSET_BITS=64
+
 2006-10-25  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFElibpcap: added an on-the-fly patch to force it to use gld; 

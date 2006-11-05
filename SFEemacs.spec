@@ -36,9 +36,6 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 export CPP="/usr/sfw/bin/gcc -E"
 export CFLAGS="%optflags"
-export RPM_OPT_FLAGS="$CFLAGS"
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export MSGFMT="/usr/bin/msgfmt"
 export PERL=/usr/perl5/bin/perl
 
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
