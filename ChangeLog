@@ -1,5 +1,9 @@
 2006-11-05  Eric Boutilier  <eric.boutilier@sun.com>
 
+        * Trival changes: Removed meaningless comment remnants; fixed a typo
+	
+2006-11-05  Eric Boutilier  <eric.boutilier@sun.com>
+
 	* SFElibnet.spec: Force gcc; create devel package
 	* SFEettercap.spec: Force gcc; rename from ettercap-NG to ettercap;
 	  fix and adjust dependencies
