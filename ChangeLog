@@ -1,3 +1,10 @@
+2006-11-05  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEemacs-xft.spec: (new) for all the Emacs lovers: an experimental
+	  branch of Emacs with GTK and Xft support, antialiased fonts and
+	  all that.  Parallel installable with the "normal" GNU emacs but
+	  works on its own too.  The executable is called emacs-xft.
+
 2006-11-05  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEganglia.spec: Force gcc
