@@ -43,10 +43,6 @@ export LDFLAGS="%{_ldflags}"
 	    --enable-pop \
 	    --enable-imap
 
-#            --enable-static=no
-#            --infodir=%{_datadir}/info
-#            --libexecdir=%{_libexecdir}
-
 make -j$CPUS
 
 %install

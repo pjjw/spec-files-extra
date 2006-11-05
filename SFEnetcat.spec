@@ -40,7 +40,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 # There's a man page, so omit the info files:
 rm -r $RPM_BUILD_ROOT%{_prefix}/info
 
-# The following is just a convenence symbolic link to netcat,
+# The following is just a convenience symbolic link to netcat,
 # and seems like not a good idea to put a two-letter
 # command in /usr/bin unless there's a better reason
 # than that:

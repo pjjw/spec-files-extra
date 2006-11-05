@@ -14,8 +14,6 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-# Requires:
-
 %package root
 Summary:                 %{summary} - / filesystem
 SUNW_BaseDir:            /
@@ -38,10 +36,6 @@ export LDFLAGS="%{_ldflags}"
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
             --sysconfdir=%{_sysconfdir}
-
-#            --enable-static=no
-#            --infodir=%{_datadir}/info
-#            --libexecdir=%{_libexecdir}
 
 make -j$CPUS
 
