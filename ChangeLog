@@ -1,3 +1,7 @@
+2006-11-05  Bernd Markgraf  <markgraf@neuro2.med.uni-magdeburg.de>
+
+	* SFEf-spot.spec: fixed dependencies
+
 2006-11-05  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEemacs.spec: delete some unnecessary env variables
