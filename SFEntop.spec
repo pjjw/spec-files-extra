@@ -2,10 +2,6 @@
 # Copyright (c) 2006 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
-#
-# Note: This spec file will only work if CC is gcc. Do it at the command line
-# before invoking this spec file (as opposed to putting it in %build below).
-# That way the macros in Solaris.inc will know you've set it.
 
 %include Solaris.inc
 
@@ -18,8 +14,8 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-BuildRequires: SFElibpcap
-BuildRequires: SFEgdbm
+BuildRequires: SFElibpcap-devel
+BuildRequires: SFEgdbm-devel
 BuildRequires: SFEgd
 Requires: SFElibpcap
 Requires: SFEgdbm
@@ -44,13 +40,17 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags"
+# This source is gcc-centric, therefore...
+export CC=/usr/sfw/bin/gcc
+# export CFLAGS="%optflags"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+
 export LDFLAGS="%{_ldflags} -lsocket -lnsl"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
-	    --localstatedir=%{_localstatedir} \
-	    --sysconfdir=%{_sysconfdir}
+            --localstatedir=%{_localstatedir} \
+            --sysconfdir=%{_sysconfdir}
 
 make -j$CPUS
 
@@ -82,6 +82,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_localstatedir}/*
 
 %changelog
-* 
+* Sun Nov 05 2006 - Eric Boutilier
+- Force gcc; adjust dependencies 
 * Fri Sep 29 2006 - Eric Boutilier
 - Initial spec

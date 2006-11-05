@@ -2,10 +2,6 @@
 # Copyright (c) 2006 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
-#
-# Note: This spec file will only work if CC is gcc. Do it at the command line
-# before invoking this spec file (as opposed to putting it in %build below).
-# That way the macros in Solaris.inc will know you've set it.
 
 %include Solaris.inc
 
@@ -20,7 +16,7 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 Requires: SUNWgccruntime
 
-# If gmetad support is desired, then see documentation about 
+# If gmetad support is desired, then see documentation about
 # needing rrdtool, etc. and uncomment the following line:
 # BuildRequires: SFErrdtool
 # Also see --with-gmetad below...
@@ -35,14 +31,18 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags"
-export LDFLAGS="%{_ldflags}"
+# This source is gcc-centric, therefore...
+export CC=/usr/sfw/bin/gcc
+# export CFLAGS="%optflags"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+
+export LDFLAGS="%_ldflags"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir}
 
 # If gmetad support is desired, enable:
-#	    --with-gmetad
+#         --with-gmetad
 # and see doc about needing rrdtool...
 
 make -j$CPUS
@@ -70,7 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
-* 
+* Sun Nov 05 2006 - Eric Boutilier
+- Force gcc
 * Sun Sep 24 2006 - Eric Boutilier
 - Initial spec
-
