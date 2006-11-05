@@ -3,17 +3,13 @@
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-# Notes: This spec file will only work if CC is gcc. Do it at the command line
-# before invoking this spec file (as opposed to putting it in %build below).
-# That way the macros in Solaris.inc will know you've set it.
-# 
 # In a default configuration, non-root users can't run ettercap because
 # they don't have priveleges to access the raw network interface (at least 
 # that was my experience when I tested this).
 
 %include Solaris.inc
 
-Name:                SFEettercap-NG
+Name:                SFEettercap
 Summary:             MITM LAN attack prevention suite; includes graphical (gtk) support
 Version:             0.7.3
 Source:              http://umn.dl.sourceforge.net/sourceforge/ettercap/ettercap-NG-%{version}.tar.gz
@@ -24,12 +20,14 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires: SUNWGtku
 BuildRequires: SUNWxwxft
-BuildRequires: SFElibpcap
-BuildRequires: SFElibnet
+BuildRequires: SFElibpcap-devel
+# Note: Apparently libnet is incapable of producing a shared lib...
+BuildRequires: SFElibnet-devel
+#
 Requires: SUNWGtku
 Requires: SUNWxwxft
 Requires: SFElibpcap
-Requires: SFElibnet
+Requires: %name-root
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -46,8 +44,12 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags"
-export LDFLAGS="%{_ldflags}"
+# This source is gcc-centric, therefore...
+export CC=/usr/sfw/bin/gcc
+# export CFLAGS="%optflags"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+
+export LDFLAGS="%_ldflags"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
@@ -81,6 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
-* 
+* Sun Nov 05 2006 - Eric Boutilier
+- Rename from ettercap-NG to ettercap; fix and adjust dependencies; force gcc
 * Tue Sep 26 2006 - Eric Boutilier
 - Initial spec

@@ -1,3 +1,9 @@
+2006-11-05  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFElibnet.spec: Force gcc; create devel package
+	* SFEettercap.spec: Force gcc; rename from ettercap-NG to ettercap;
+	  fix and adjust dependencies
+
 2006-11-05  Bernd Markgraf  <markgraf@neuro2.med.uni-magdeburg.de>
 
 	* SFEf-spot.spec: fixed dependencies
