@@ -2,10 +2,6 @@
 # Copyright (c) 2006 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
-#
-# Note: This spec file will only work if CC is gcc. Do it at the command line
-# before invoking this spec file (as opposed to putting it in %build below).
-# That way the macros in Solaris.inc will know you've set it (I think).
 
 %include Solaris.inc
 
@@ -28,13 +24,14 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags"
-export LDFLAGS="%{_ldflags}"
+# This source is gcc-centric, therefore...
+export CC=/usr/sfw/bin/gcc
+# export CFLAGS="%optflags"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
 
+export LDFLAGS="%_ldflags"
 
-# I punted on building w/ perl and python enabled. IOW, this
-# spec file is in need of someone (perhaps an rrdtool
-# aficionado?) to give it some proper TLC.
+# FIXME: Punted on building w/ perl and python enabled...
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
@@ -63,9 +60,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/*
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/*
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
+%dir %attr (0755, root, other) %{_datadir}/rrdtool
+%{_datadir}/rrdtool/*
 
 %changelog
-* 
+* Sun Nov 05 2006 - Eric Boutilier
+- Force gcc
 * Fri Sep 20 2006 - Eric Boutilier
 - Initial spec

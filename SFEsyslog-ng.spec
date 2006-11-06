@@ -3,11 +3,6 @@
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-# Notes: 
-# This spec file will only work if CC is gcc. Do it at the command line
-# before invoking this spec file (as opposed to putting it in %build below).
-# That way the macros in Solaris.inc will know you've set it.
-#
 # The default build/install (and this spec files) doesn't install
 # the required /etc/syslog-ng/syslog-ng.conf.solaris file; instead
 # a sample one for solaris comes with the source in the doc directory.
@@ -34,8 +29,12 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags"
-export LDFLAGS="%{_ldflags}"
+# This source is gcc-centric, therefore...
+export CC=/usr/sfw/bin/gcc
+# export CFLAGS="%optflags"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+
+export LDFLAGS="%_ldflags"
 
 ./configure --prefix=%{_prefix}  \
             --sysconfdir=%{_sysconfdir} \
@@ -57,9 +56,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_sbindir}
 %{_sbindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/*
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man5
+%dir %attr (0755, root, bin) %{_mandir}/man8
+%{_mandir}/man5/syslog-ng.conf.5
+%{_mandir}/man8/syslog-ng.8
 
 %changelog
-* 
+* Sun Nov 05 2006 - Eric Boutilier
+- Force gcc
 * Wed Sep 27 2006 - Eric Boutilier
 - Initial spec

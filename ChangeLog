@@ -1,3 +1,8 @@
+2006-11-05  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEsyslog-ng: Force gcc
+	* SFErrdtool: Force gcc
+
 2006-11-05  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEsane-backends.spec: (new) SANE scanner backends
