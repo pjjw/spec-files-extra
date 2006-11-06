@@ -30,14 +30,6 @@ SUNW_BaseDir:            %{_basedir}
 Requires:                %{name}
 Requires:                SUNWbash
 
-%if %build_l10n
-%package l10n
-Summary:                 %{summary} - l10n files
-SUNW_BaseDir:            %{_basedir}
-%include default-depend.inc
-Requires:                %{name}
-%endif
-
 %prep
 %setup -q -n neon-%{version}
 
@@ -71,12 +63,6 @@ rm -rf $RPM_BUILD_ROOT%{_infodir}
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.exp
 
-%if %build_l10n
-%else
-# REMOVE l10n FILES
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
-%endif
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -105,13 +91,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
 
-%if %build_l10n
-%files l10n
-%defattr (-, root, bin)
-%dir %attr (0755, root, sys) %{_datadir}
-%attr (-, root, other) %{_datadir}/locale
-%endif
-
 %changelog
+* Mon Nov  6 2006 - laca@sun.com
+- delete l10n subpkg -- no l10n files
 * Sat Oct 14 2006 - laca@sun.com
 - initial version
