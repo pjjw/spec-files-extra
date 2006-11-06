@@ -1,5 +1,12 @@
 2006-11-05  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEbc.spec: (new) GNU bc calculator
+	* SFEreadline.spec: (new) GNU readline command line editing lib
+	* patches/bc-01-build.diff: (new) patch for compiling bc with
+	  Sun Studio
+
+2006-11-05  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEemacs-xft.spec: (new) for all the Emacs lovers: an experimental
 	  branch of Emacs with GTK and Xft support, antialiased fonts and
 	  all that.  Parallel installable with the "normal" GNU emacs but

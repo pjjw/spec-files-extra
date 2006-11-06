@@ -1,0 +1,57 @@
+--- bc-1.06/lib/Makefile.am.patch01	2000-09-08 12:49:29.000000000 -0400
++++ bc-1.06/lib/Makefile.am	2006-11-05 19:46:52.905908000 -0500
+@@ -7,7 +7,7 @@
+ 
+ DEFS = @DEFS@ $(DEFSADD)
+ 
+-CFLAGS = @CFLAGS@ -Wall -funsigned-char
++AM_CFLAGS = @CFLAGS@
+ 
+ MAINTAINERCLEANFILES = Makefile.in number.c
+ 
+--- bc-1.06/bc/Makefile.am.patch01	2000-09-08 12:47:56.000000000 -0400
++++ bc-1.06/bc/Makefile.am	2006-11-05 19:46:52.906439000 -0500
+@@ -16,9 +16,9 @@
+ LIBL = @LEXLIB@
+ LDADD = $(LIBBC) $(LIBL) @READLINELIB@
+ 
+-YFLAGS = -d
++AM_YFLAGS = -d
+ 
+-CFLAGS = @CFLAGS@ -Wall -funsigned-char
++AM_CFLAGS = @CFLAGS@
+ 
+ $(PROGRAMS): $(LIBBC)
+ 
+--- bc-1.06/bc/scan.l.patch01	2000-09-13 14:25:47.000000000 -0400
++++ bc-1.06/bc/scan.l	2006-11-05 19:46:52.907219000 -0500
+@@ -143,7 +143,7 @@
+ 
+ /* Definitions for readline access. */
+ extern FILE *rl_instream;
+-_PROTOTYPE(char *readline, (char *));
++_PROTOTYPE(char *readline, (const char *));
+ 
+ /* rl_input puts upto MAX characters into BUF with the number put in
+    BUF placed in *RESULT.  If the yy input file is the same as
+--- bc-1.06/dc/Makefile.am.patch01	2000-09-08 12:48:30.000000000 -0400
++++ bc-1.06/dc/Makefile.am	2006-11-05 19:46:52.919421000 -0500
+@@ -9,6 +9,6 @@
+ 
+ MAINTAINERCLEANFILES = Makefile.in
+ 
+-CFLAGS = @CFLAGS@ -Wall -funsigned-char
++AM_CFLAGS = @CFLAGS@
+ 
+ $(PROGRAMS): $(LDADD)
+--- bc-1.06/configure.in.patch01	2006-11-05 19:49:13.642554000 -0500
++++ bc-1.06/configure.in	2006-11-05 19:49:21.410366000 -0500
+@@ -68,7 +68,7 @@
+ ])
+ 
+ if test "$LEX" = "flex" ; then
+- LEX="flex -I8"
++ LEX="flex -I -8"
+ else
+  if test "$bcrl" = "y" ; then
+   AC_MSG_WARN(readline works only with flex.)

@@ -58,6 +58,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
-* 
 * Sun Sep 24 2006 - Eric Boutilier
 - Initial spec
