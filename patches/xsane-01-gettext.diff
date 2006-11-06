@@ -1,0 +1,27 @@
+--- xsane-0.991/configure.in.patch01	2006-11-05 21:24:15.334950000 -0500
++++ xsane-0.991/configure.in	2006-11-05 21:25:29.869990000 -0500
+@@ -129,16 +129,15 @@
+ AC_CHECK_FUNCS(atexit mkdir sigprocmask strdup strndup strftime strstr strsep strtod snprintf usleep strcasecmp strncasecmp lstat)
+ 
+ dnl Check for NLS/gettext
+-AM_GNU_GETTEXT
+-AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
+-
+-if test "$USE_NLS" = yes; then
+-  if test "$USE_INCLUDED_LIBINTL" = yes; then
+-    CPPFLAGS="$CPPFLAGS -I\$(top_builddir)/intl"
+-    INTLSUB=intl
+-  fi
+-fi   
++AM_GLIB_GNU_GETTEXT
++USE_INCLUDED_LIBINTL=no
++AC_SUBST(USE_INCLUDED_LIBINTL)
++BUILD_INCLUDED_LIBINTL=no
++AC_SUBST(BUILD_INCLUDED_LIBINTL)
++GETTEXT_PACKAGE=$PACKAGE
++AC_SUBST(GETTEXT_PACKAGE)
+ 
++INTLSUB=
+ AC_SUBST(INTLSUB)
+ 
+ AM_PATH_SANE(1.0.0, HAVE_SANE=yes, )

@@ -1,5 +1,13 @@
 2006-11-05  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEsane-backends.spec: (new) SANE scanner backends
+	* SFEsane-frontends.spec: (new) SANE frontends
+	* SFExsane.spec: (new) xsane scanner frontend
+	* patches/xsane-01-gettext.diff: (new) patch for fixing the l10n
+	  stuff
+
+2006-11-05  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEbc.spec: (new) GNU bc calculator
 	* SFEreadline.spec: (new) GNU readline command line editing lib
 	* patches/bc-01-build.diff: (new) patch for compiling bc with
