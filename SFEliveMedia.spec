@@ -7,7 +7,7 @@
 
 Name:                    SFEliveMedia
 Summary:                 liveMedia - live555 Streaming Media
-Version:                 2006.09.20
+Version:                 2006.10.27
 Source:                  http://www.live555.com/liveMedia/public/live.%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -39,6 +39,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Mon Nov  6 2006 - laca@sun.com
+- bump to 2006.10.27
 * Thu Sep 26 2006 - halton.huo@sun.com
 - Bump to version 2006.09.20.
 * Thu Jul 27 2006 - halton.huo@sun.com

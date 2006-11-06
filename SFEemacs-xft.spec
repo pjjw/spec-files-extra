@@ -40,7 +40,7 @@ fi
 export CPP="/usr/sfw/bin/gcc -E"
 export CC=/usr/sfw/bin/gcc
 export CFLAGS="-O4"
-export LDFLAGS="-zignore -lX11 -L/usr/sfw/lib -R/usr/sfw/lib -lfreetype"
+export LDFLAGS="-Xlinker -zignore -lX11 -L/usr/sfw/lib -R/usr/sfw/lib -lfreetype"
 export PERL=/usr/perl5/bin/perl
 
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
