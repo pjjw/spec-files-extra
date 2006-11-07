@@ -1,3 +1,8 @@
+2006-11-07  Glynn Foster  <glynn.foster@sun.com>
+
+	* SFEbdb.spec: Add new package for Berkeley DB. Seems to work
+        ok.
+
 2006-11-06  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEneon.spec: delete l10n subpkg -- there are no l10n files
