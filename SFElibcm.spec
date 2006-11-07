@@ -23,9 +23,9 @@
 
 Name:                    SFElibcm
 Summary:                 Composite Manager library for Metacity
-Version:                 0.0.22
-Source:                  http://ftp.gnome.org/pub/GNOME/sources/libcm/2.16/libcm-%{version}.tar.bz2
-Patch1:                  libcm-01-fixcompile.diff
+# this is a CVS snapshot tarball
+Version:                 0.0.22.2006.11.07
+Source:                  http://pkgbuild.sf.net/spec-files-extra/tarballs/libcm-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -40,7 +40,6 @@ Requires: %{name}
 
 %prep
 %setup -q -n libcm-%version
-%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -48,18 +47,14 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP"
-export RPM_OPT_FLAGS="$CFLAGS"
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CPPFLAGS="-I/usr/sfw/include"
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -R/usr/openwin/lib -L/usr/X11/lib -R/usr/X11/lib -L/usr/sfw/lib -R/usr/sfw/lib -lX11 -lXcomposite -lXtst -lXdamage -lXfixes"
-export MSGFMT="/usr/bin/msgfmt"
 
 libtoolize --force
 aclocal $ACLOCAL_FLAGS
 autoheader
 automake -a -c -f
 autoconf
-CFLAGS="$RPM_OPT_FLAGS" \
 ./configure --prefix=%{_prefix}         \
             --mandir=%{_mandir}         \
             --libexecdir=%{_libexecdir} \

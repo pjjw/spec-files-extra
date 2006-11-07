@@ -1,3 +1,12 @@
+2006-11-07  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEjamboree.spec: delete. not maintained and the tarball doesn't
+	  exist.  Apparently it was a cvs snaphot tarball.
+	* patches/jamboree-01-sunaudiosink.diff: delete.
+	* SFElibcm.spec: since this is still unreleased code, there is no
+	  official tarball; created a CVS snapshot and updated Source.
+	* patches/libcm-01-fixcompile.diff: delete, upstream
+
 2006-11-06  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEraptor.spec: Fix attributes and  create devel sub pkg
