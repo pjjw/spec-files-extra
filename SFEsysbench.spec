@@ -46,9 +46,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/*
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
 
 %changelog
-* 
+* Mon Nov 06 2006 - Eric Boutilier
+- Fix attributes
 * Tue Sep 12 2006 - Eric Boutilier
 - Initial spec

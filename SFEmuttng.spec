@@ -58,7 +58,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/*
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/*.1
+%dir %attr (0755, root, bin) %{_mandir}/man5
+%{_mandir}/man5/*.5
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
 
 %files root
 %defattr (-, root, sys)
@@ -66,6 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
-* 
+* Mon Nov 06 2006 - Eric Boutilier
+- Fix attributes
 * Sat Sep 30 2006 - Eric Boutilier
 - Initial spec

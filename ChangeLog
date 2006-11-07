@@ -1,3 +1,10 @@
+2006-11-06  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEraptor.spec: Fix attributes and  create devel sub pkg
+	* SFEmuttng.spec: Fix attributes
+	* SFEmpd.spec: Fix attributes
+	* SFEsysbench.spec: Fix attributes
+
 2006-11-07  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFEbdb.spec: Add new package for Berkeley DB. Seems to work

@@ -59,11 +59,18 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
+%{_bindir}/mpd
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/*
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/mpd.1
+%dir %attr (0755, root, bin) %{_mandir}/man5
+%{_mandir}/man5/mpd.conf.5
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
 
 %changelog
-* 
+* Mon Nov 06 2006 - Eric Boutilier
+- Fix attributes
 * Tue Sep 26 2006 - Eric Boutilier
 - Initial spec

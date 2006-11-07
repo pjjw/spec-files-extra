@@ -17,6 +17,12 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 Requires: SUNWlxsl
 Requires: SUNWlxml
 
+%package devel
+Summary:                 %{summary} - development files
+SUNW_BaseDir:            %{_prefix}
+%include default-depend.inc
+Requires: %name
+
 %prep
 %setup -q -n raptor-%version
 
@@ -52,13 +58,26 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
+%{_libdir}/libraptor.*
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/*.1
+%dir %attr (0755, root, bin) %{_mandir}/man3
+%{_mandir}/man3/*.3
+
+%files devel
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/*
+%{_datadir}/gtk-doc
 
 %changelog
-* 
+* Mon Nov 06 2006 - Eric Boutilier
+- Fixed attributes and created devel sub pkg
 * Wed Sep 27 2006 - Eric Boutilier
 - Initial spec
