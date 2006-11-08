@@ -1,3 +1,14 @@
+2006-11-07  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEimlib2.spec: (new) General image loading and rendering library
+	* SFElibast.spec: (new) Library of Assorted Spiffy Things
+	* SFEeterm.spec: (new) Terminal emulator
+	* SFEfile.spec: (new) Determine file type
+	* SFEfox.spec: (new) C++ based toolkit for developing GUIs
+	* SFEgraphviz.spec: (new) Graph drawing tools and libraries
+	* SFElinks.spec: (new) Text mode browser, similar to Lynx
+	* SFEsquid.spec: (new) Proxy caching server for web clients
+
 2006-11-07  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEjamboree.spec: delete. not maintained and the tarball doesn't
