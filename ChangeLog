@@ -1,3 +1,10 @@
+2006-11-08  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEgnomescan.spec: (new) gnome scanning tool
+	* SFExsane.spec: add some missing deps
+	* patches/gnomescan-01-build.diff: for sun studio specific build
+	  fixes.
+
 2006-11-07  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEimlib2.spec: (new) General image loading and rendering library

@@ -13,6 +13,8 @@ Patch1:                  xsane-01-gettext.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+Requires: SUNWgnome-base-libs
+BuildRequires: SUNWgnome-base-libs-devel
 Requires: SFEsane-backends
 BuildRequires: SFEsane-backends-devel
 
