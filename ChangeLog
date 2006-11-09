@@ -1,4 +1,10 @@
-2006-11-07  Eric Boutilier  <eric.boutilier@sun.com>
+2006-11-09  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEngrep: (new) network grep -- regexp matching against packets
+	* SFEsudo: (new) Provides limited super user privs to specific users
+	* SFEscreen: (new) Multiplexing text-terminal window manager
+
+2006-11-08  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEncurses.spec: (new) Emulation of SVR4 curses
 	* SFEjnettop.spec: (new) Similar to top, but for network traffic
