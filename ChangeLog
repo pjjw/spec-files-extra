@@ -1,3 +1,8 @@
+2006-11-07  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEncurses.spec: (new) Emulation of SVR4 curses
+	* SFEjnettop.spec: (new) Similar to top, but for network traffic
+
 2006-11-08  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEgnomescan.spec: (new) gnome scanning tool
