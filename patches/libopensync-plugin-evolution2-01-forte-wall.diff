@@ -1,0 +1,11 @@
+--- libopensync-plugin-evolution2-0.20/src/Makefile.am.orig     2006-11-14 16:47:44.363499000 +0800
++++ libopensync-plugin-evolution2-0.20/src/Makefile.am  2006-11-14 16:48:23.601326000 +0800
+@@ -5,7 +5,7 @@
+ INCLUDES = @PACKAGE_CFLAGS@ @EPACKAGE_CFLAGS@
+
+ # Please remove '-Wno-return-type' when Evo fixes the warning in their headers.
+-AM_CFLAGS = -Wall -Werror -Wno-return-type
++AM_CFLAGS =
+
+ config_DATA = evo2-sync
+

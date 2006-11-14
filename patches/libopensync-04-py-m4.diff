@@ -1,0 +1,11 @@
+--- libopensync-0.20/acinclude.m4.orig	2006-11-14 18:30:23.232994000 +0800
++++ libopensync-0.20/acinclude.m4	2006-11-14 18:31:16.002960000 +0800
+@@ -1129,7 +1129,7 @@
+ 	# Check for Python library path
+ 	AC_MSG_CHECKING([for Python library path])
+ 	python_path=`echo $PYTHON | sed "s,/bin.*$,,"`
+-	for i in "$python_path/lib/python$PYTHON_VERSION/config/" "$python_path/lib/python$PYTHON_VERSION/" "$python_path/lib/python/config/" "$python_path/lib/python/" "$python_path/" ; do
++	for i in "$python_path/lib" "$python_path/lib/python$PYTHON_VERSION/config/" "$python_path/lib/python$PYTHON_VERSION/" "$python_path/lib/python/config/" "$python_path/lib/python/" "$python_path/" ; do
+ 		python_path=`find $i -type f -name libpython$PYTHON_VERSION.* -print | sed "1q"`
+ 		if test -n "$python_path" ; then
+ 			break

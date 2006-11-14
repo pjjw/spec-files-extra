@@ -1,3 +1,28 @@
+2006-11-14  Halton Huo  <halton.huo@sun.com>
+
+	* SFEsqlite.spec, SFEsqlite3.spec: Rename and bump to 3.3.8
+	* SFEswig.spec, linux-specs/swig.spec: Bump to 1.3.30
+	* SFElibopensync.spec, linux-specs/libopensync.spec:
+          New module libopensync
+	* patches/libopensync-01-forte-wall.diff,
+	  patches/libopensync-02-define-func.diff,
+	  patches/libopensync-03-flock.diff,
+	  patches/libopensync-04-py-m4.diff:
+	  Patches for libopensync
+	* SFEmultisync.spec, linux-specs/msynctool.spec,
+	  linux-specs/multisync-gui.spec:
+	  New module multisync
+	* patches/msynctool-01-forte-wall.diff,
+	  patches/multisync-gui-01-waf.diff:
+	  Patches for multisync
+	* SFElibopensync-plugin.spec, 
+	  linux-specs/libopensync-plugin-evo2.spec,
+	  linux-specs/libopensync-plugin-gcal.spec:
+	  New module libopensync-plugin
+	* patches/libopensync-plugin-evolution2-01-forte-wall.diff:
+	  Patch for libopensync-plugin-evolution2
+	* SFEpylibs-httplib.spec: New module httplib
+
 2006-11-09  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEngrep: (new) network grep -- regexp matching against packets
