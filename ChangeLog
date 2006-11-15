@@ -1,3 +1,11 @@
+2006-11-14  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEproftpd.spec: (new) Highly configurable FTP server
+	* SFEallegro.spec: (new) Game programming library
+	* SFExpdf.spec: (new) Open source viewer for PDF files
+	* SFEsed.spec: (new) GNU Stream Editor
+	* SFEpen.spec: (new) Load balancer; makes several servers appear as one
+
 2006-11-14  Halton Huo  <halton.huo@sun.com>
 
 	* SFEsqlite.spec, SFEsqlite3.spec: Rename and bump to 3.3.8
