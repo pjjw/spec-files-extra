@@ -1,3 +1,11 @@
+2006-11-15  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEautomake.spec: Copied and transposed CBEautomake to SFEautomake
+	* SFEcvs.spec: Copied and transposed CBEcvs to SFEcvs
+	* SFEdiffutils.spec: Copied and transposed CBEdiffutils to SFEdiffutils
+	* SFEfileutils.spec: Copied and transposed CBEfileutils to SFEfileutils
+	* SFErsync.spec: Copied and transposed CBErsync to SFErsync
+
 2006-11-14  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEproftpd.spec: (new) Highly configurable FTP server
