@@ -1,3 +1,17 @@
+2006-11-17  Halton Huo  <halton.huo@sun.com>
+
+	* SFElibopensync-plugin.spec:
+	  linux-specs/libopensync-plugin-file.spec:
+	  linux-specs/libopensync-plugin-palm.spec:
+	  patches/libopensync-plugin-file-01-forte-wall.diff:
+	  patches/libopensync-plugin-palm-01-forte-wall.diff:
+	Add new plugin: file and palm
+	* SFEpylibs-httplib.spec, SFEpylibs-httplib2.spec:
+	Change name to SFEpylibs-httplib2.spec
+	* linux-specs/libopensync-plugin-evo2.spec:
+	  linux-specs/libopensync-plugin-gcal.spec:
+	Add BuildRoot
+
 2006-11-15  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEautomake.spec: Copied and transposed CBEautomake to SFEautomake

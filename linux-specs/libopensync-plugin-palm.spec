@@ -1,42 +1,45 @@
 #
-# spec file for package libopensync-plugin-evo2
+# spec file for package libopensync-plugin-palm
 #
 # Copyright (c) 2005 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
 
-%define real_name libopensync-plugin-evolution2
-
-Name: 	 	libopensync-plugin-evo2
-License:	GPL
-Group:		Office
+Name:           libopensync-plugin-palm
+License:        GPL
+Group:          Office
 Version:        0.20
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
-Summary: 	Evolution2 plugin for opensync synchronization tool
-Source:		%{real_name}-%{version}.tar.gz
-Patch1:         %{real_name}-01-forte-wall.diff
+Summary:        Palm plugin for OpenSync
+Source:         %{name}-%{version}.tar.gz
+Patch1:         %{name}-01-forte-wall.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
-BuildRequires:	libopensync-devel >= %{version}
-BuildRequires:	evolution-data-server-devel
+Requires:       libpilot-link
+Requires:       libopensync = %version
+BuildRequires: libopensync-devel = %version
 
 %description
 This plugin allows applications using OpenSync to synchronise to and from
-Evolution.
+Palm based devices.
 
-%package	devel
-Summary:        Header files from %name
-Group:          Development/C
+%package devel
+Summary: Header files, libraries and development documentation for %name
+Group: System/Libraries
+Requires: %name = %version
 
-%description 	devel
-Header files for developing programs based on %name.
+%description devel
+This package contains the header files, static libraries and development
+documentation for %name. If you like to develop programs using %name,
+you will need to install %name-devel.
+
 
 %prep
-%setup -q -n  %{real_name}-%{version}
+%setup -q
 %patch1 -p1
 
 %build
@@ -46,6 +49,7 @@ if [ -x /usr/bin/getconf ]; then
 fi
 %else
   CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
+  %define plink_prefix /usr/sfw
 %endif
 if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
@@ -74,17 +78,15 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
-%doc AUTHORS ChangeLog NEWS README
-%{_libdir}/opensync/plugins/*
-%{_datadir}/opensync/defaults/*
+%doc AUTHORS ChangeLog COPYING INSTALL NEWS README
+%_libdir/opensync/plugins/*.so
+%_libdir/opensync/formats/*.so
+%_datadir/opensync/defaults/*
 
 %files devel
-%defattr(-,root,root)
-%{_includedir}/opensync-1.0/opensync/*
+%_includedir/opensync-1.0/opensync/*.h
 
 
 %changelog
-* Tue Nov 14 2006 - halton.huo@sun.com
+* Fri Nov 17 2006 - halton.huo@sun.com
 - Initial version
-

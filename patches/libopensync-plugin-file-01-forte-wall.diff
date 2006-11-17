@@ -1,0 +1,11 @@
+--- libopensync-plugin-file-0.20/src/Makefile.am.orig	2006-11-17 13:12:58.282134000 +0800
++++ libopensync-plugin-file-0.20/src/Makefile.am	2006-11-17 13:13:13.061163000 +0800
+@@ -4,7 +4,7 @@
+ 
+ INCLUDES = @PACKAGE_CFLAGS@
+ 
+-AM_CFLAGS = -Wall -Werror
++AM_CFLAGS = 
+ 
+ EXTRA_DIST = \
+ 	file-sync \

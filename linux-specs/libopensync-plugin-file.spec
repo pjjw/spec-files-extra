@@ -1,42 +1,34 @@
 #
-# spec file for package libopensync-plugin-evo2
+# spec file for package libopensync-plugin-file
 #
 # Copyright (c) 2005 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
 
-%define real_name libopensync-plugin-evolution2
 
-Name: 	 	libopensync-plugin-evo2
+Name: 	 	libopensync-plugin-file
 License:	GPL
 Group:		Office
-Version:        0.20
-Release:        1
+Version: 	0.20
+Release: 	1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
-Summary: 	Evolution2 plugin for opensync synchronization tool
-Source:		%{real_name}-%{version}.tar.gz
-Patch1:         %{real_name}-01-forte-wall.diff
+Summary: 	File plugin for opensync synchronization tool
+Source:		%{name}-%{version}.tar.gz
+Patch1:         %{name}-01-forte-wall.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
-BuildRequires:	libopensync-devel >= %{version}
-BuildRequires:	evolution-data-server-devel
+BuildRequires:	opensync-devel >= %{version}
+BuildRequires:	fam-devel
 
 %description
 This plugin allows applications using OpenSync to synchronise to and from
-Evolution.
-
-%package	devel
-Summary:        Header files from %name
-Group:          Development/C
-
-%description 	devel
-Header files for developing programs based on %name.
+files stored on disk.
 
 %prep
-%setup -q -n  %{real_name}-%{version}
+%setup -q
 %patch1 -p1
 
 %build
@@ -73,18 +65,13 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%files 
 %defattr(-,root,root)
 %doc AUTHORS ChangeLog NEWS README
 %{_libdir}/opensync/plugins/*
 %{_datadir}/opensync/defaults/*
 
-%files devel
-%defattr(-,root,root)
-%{_includedir}/opensync-1.0/opensync/*
-
 
 %changelog
-* Tue Nov 14 2006 - halton.huo@sun.com
+* Fri Nov 17 2006 - halton.huo@sun.com
 - Initial version
-

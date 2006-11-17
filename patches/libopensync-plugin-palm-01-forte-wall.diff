@@ -1,0 +1,11 @@
+--- libopensync-plugin-palm-0.20/src/Makefile.am.orig	2006-11-17 13:23:06.818382000 +0800
++++ libopensync-plugin-palm-0.20/src/Makefile.am	2006-11-17 13:23:18.397617000 +0800
+@@ -3,7 +3,7 @@
+ formatsdir=@OPENSYNC_FORMATSDIR@
+ opensyncheaderdir=@OPENSYNC_HEADERDIR@
+ 
+-AM_CFLAGS = @PILOT_CFLAGS@ @PACKAGE_CFLAGS@ -Wall -Werror
++AM_CFLAGS = @PILOT_CFLAGS@ @PACKAGE_CFLAGS@
+ 
+ EXTRA_DIST = \
+ 	palm-sync

@@ -18,7 +18,7 @@ Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
 Summary: 	Google calendar plugin for opensync synchronization tool
 Source:		%{real_name}-%{version}.tar.gz
-#Patch1:         %{real_name}-01-forte-wall.diff
+BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires:	libopensync-devel >= 0.20
 
@@ -35,7 +35,6 @@ Header files for developing programs based on %name.
 
 %prep
 %setup -q -n  %{real_name}-%{version}
-#%patch1 -p1
 
 %build
 %ifos linux
