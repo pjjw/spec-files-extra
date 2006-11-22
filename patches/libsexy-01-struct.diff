@@ -1,0 +1,11 @@
+diff -r -u libsexy-0.1.10/libsexy/sexy-tooltip.c libsexy-0.1.10-new/libsexy/sexy-tooltip.c
+--- libsexy-0.1.10/libsexy/sexy-tooltip.c	2006-09-03 05:32:51.000000000 +0800
++++ libsexy-0.1.10-new/libsexy/sexy-tooltip.c	2006-11-22 16:35:01.080090000 +0800
+@@ -27,6 +27,7 @@
+ 
+ struct _SexyTooltipPriv
+ {
++	int foo;
+ };
+ 
+ static void sexy_tooltip_class_init(SexyTooltipClass *klass);
