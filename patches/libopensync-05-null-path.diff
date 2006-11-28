@@ -1,0 +1,11 @@
+--- opensync/opensync/opensync_env.c.111	2006-11-28 13:52:30.903116000 +0800
++++ opensync/opensync/opensync_env.c	2006-11-28 13:53:20.015499000 +0800
+@@ -333,7 +333,7 @@
+  */
+ osync_bool osync_env_load_formats(OSyncEnv *env, const char *path, OSyncError **error)
+ {
+-	osync_trace(TRACE_ENTRY, "%s(%p, %s, %p)", __func__, env, path, error);
++	osync_trace(TRACE_ENTRY, "%s(%p, %s, %p)", __func__, env, path?path:"NULL", error);
+ 	osync_bool must_exist = TRUE;
+ 	
+ 	if (!path) {

@@ -1,3 +1,8 @@
+2006-11-28  Harry Lu <harry.lu@sun.com>
+
+	* linux-specs/libopensync.spec: add new patch
+	* patches/libopensync-05-null-path.diff: new patch
+
 2006-11-23  Wang Xin  <jedy.wang@sun.com>
 
 	* SFElibnotify.spec: Added.
