@@ -1,0 +1,11 @@
+--- file-sync/src/file_sync.c.111	2006-11-28 17:27:41.583241000 +0800
++++ file-sync/src/file_sync.c	2006-11-28 17:28:41.755623000 +0800
+@@ -151,7 +151,7 @@
+  */
+ static void fs_report_dir(filesyncinfo *fsinfo, const char *subdir, OSyncContext *ctx)
+ {
+-	osync_trace(TRACE_ENTRY, "fs_report_dir(%p, %s, %p)", fsinfo, subdir, ctx);
++	osync_trace(TRACE_ENTRY, "fs_report_dir(%p, %s, %p)", fsinfo, subdir?subdir:"NULL", ctx);
+ 	const char *de = NULL;
+ 	
+ 	char *path = g_build_filename(fsinfo->path, subdir, NULL);

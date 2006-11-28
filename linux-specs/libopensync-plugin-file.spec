@@ -18,6 +18,8 @@ URL:            http://www.opensync.org/
 Summary: 	File plugin for opensync synchronization tool
 Source:		%{name}-%{version}.tar.gz
 Patch1:         %{name}-01-forte-wall.diff
+#date:2006-11-28 owner:harrylu type:bug
+Patch2:		%{name}-02-null-crash.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires:	opensync-devel >= %{version}
@@ -30,6 +32,7 @@ files stored on disk.
 %prep
 %setup -q
 %patch1 -p1
+%patch2 -p1
 
 %build
 %ifos linux
@@ -73,5 +76,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Nov 28 2006 - harry.lu@sun.com
+- Add patch libopensync-plugin-file-02-null-crash.diff
 * Fri Nov 17 2006 - halton.huo@sun.com
 - Initial version

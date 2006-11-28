@@ -1,5 +1,10 @@
 2006-11-28  Harry Lu <harry.lu@sun.com>
 
+	* linux-specs/libopensync-plugin-file.spec: add new patch
+	* patches/libopensync-plugin-file-02-null-crash.diff: new patch
+
+2006-11-28  Harry Lu <harry.lu@sun.com>
+
 	* linux-specs/libopensync.spec: add new patch
 	* patches/libopensync-05-null-crash.diff: new patch
 	* patches/libopensync-05-null-path.diff: old patch, removed
