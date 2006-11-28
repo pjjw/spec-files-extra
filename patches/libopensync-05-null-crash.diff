@@ -1,0 +1,53 @@
+--- opensync/opensync/opensync_env.c.111	2006-11-28 13:52:30.903116000 +0800
++++ opensync/opensync/opensync_env.c	2006-11-28 14:16:07.466495000 +0800
+@@ -333,7 +333,7 @@
+  */
+ osync_bool osync_env_load_formats(OSyncEnv *env, const char *path, OSyncError **error)
+ {
+-	osync_trace(TRACE_ENTRY, "%s(%p, %s, %p)", __func__, env, path, error);
++	osync_trace(TRACE_ENTRY, "%s(%p, %s, %p)", __func__, env, path?path:"NULL", error);
+ 	osync_bool must_exist = TRUE;
+ 	
+ 	if (!path) {
+@@ -362,7 +362,7 @@
+  */
+ osync_bool osync_env_load_plugins(OSyncEnv *env, const char *path, OSyncError **error)
+ {
+-	osync_trace(TRACE_ENTRY, "%s(%p, %s, %p)", __func__, env, path, error);
++	osync_trace(TRACE_ENTRY, "%s(%p, %s, %p)", __func__, env, path?path:"NULL", error);
+ 	osync_bool must_exist = TRUE;
+ 	
+ 	if (!path) {
+--- opensync/opensync/opensync_error.c.111	2006-11-28 14:30:10.007621000 +0800
++++ opensync/opensync/opensync_error.c	2006-11-28 14:30:31.035643000 +0800
+@@ -169,7 +169,7 @@
+ const char *osync_error_print(OSyncError **error)
+ {
+ 	if (!osync_error_is_set(error))
+-		return NULL;
++		return "NULL";
+ 	return (*error)->message;
+ }
+ 
+--- opensync/opensync/opensync_queue.c.111	2006-11-28 15:01:55.782139000 +0800
++++ opensync/opensync/opensync_queue.c	2006-11-28 15:02:14.860847000 +0800
+@@ -460,7 +460,7 @@
+  */
+ OSyncQueue *osync_queue_new(const char *name, OSyncError **error)
+ {
+-	osync_trace(TRACE_ENTRY, "%s(%s, %p)", __func__, name, error);
++	osync_trace(TRACE_ENTRY, "%s(%s, %p)", __func__, name?name:"NULL", error);
+ 	
+ 	OSyncQueue *queue = osync_try_malloc0(sizeof(OSyncQueue), error);
+ 	if (!queue)
+--- opensync/opensync/opensync_hashtable.c.111	2006-11-28 16:55:58.745458000 +0800
++++ opensync/opensync/opensync_hashtable.c	2006-11-28 16:56:39.059337000 +0800
+@@ -325,7 +325,7 @@
+ 
+ 	char *orighash = NULL;
+ 	osync_db_get_hash(table, uid, &orighash);
+-	osync_trace(TRACE_INTERNAL, "Comparing %s with %s", hash, orighash);
++	osync_trace(TRACE_INTERNAL, "Comparing %s with %s", hash, orighash?orighash:"NULL");
+ 	
+ 	if (orighash) {
+ 		if (strcmp(hash, orighash) == 0)

@@ -21,7 +21,7 @@ Patch2:         %{name}-02-define-func.diff
 Patch3:         %{name}-03-flock.diff
 Patch4:         %{name}-04-py-m4.diff
 #date:2006-11-28 owner:harrylu type:bug
-Patch5:		%{name}-05-null-path.diff
+Patch5:		%{name}-05-null-crash.diff
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Docdir:         %{_defaultdocdir}/doc
@@ -125,6 +125,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Tue Nov 28 2006 - harry.lu@sun.com
-- Add patch libopensync-05-null-path.diff
+- Add patch libopensync-05-null-crash.diff
 * Tue Nov 14 2006 - halton.huo@sun.com
 - Initial version
