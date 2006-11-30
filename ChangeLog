@@ -1,3 +1,32 @@
+2006-11-30  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEdvdauthor.spec: (new) dvd movie generator (spec file from Doug
+	  Scott)
+	* SFEdvdstyler.spec: (new) dvd building application (spec file from
+	  Doug Scott)
+	* SFEmjpegtools.spec: (new) MPEG tools (spec file from Doug)
+	* SFEmono.spec: bump to 1.2
+	* SFEmpgtx.spec: (new) MPEG file toolbox (spec file by Doug)
+	* SFEmplayer.spec: bump to 1.0rc1
+	* SFEnetpbm.spec: (new) network portable bitmap tools (spec file by
+	  Doug)
+	* SFEwxSVG.spec: (new) SVG library for wxwidgets (spec file by Doug)
+	* SFEwxwidgets.spec: disable expat support, enable mimetype support
+	* linux-specs/gthumb.spec: bump to 2.7.9
+	* patches/dvdauthor-01-types.diff: (new)
+	* patches/dvdauthor-02-wall.diff: (new)
+	* patches/dvdauthor-03-typo.diff: (new)
+	* patches/dvdstyler-01-wxwidgets-2.8.diff: (new)
+	* patches/dvdstyler-02-libs.diff: (new)
+	* patches/dvdstyler-03-array.diff: (new)
+	* patches/mjpegtools-01-progname.diff: (new)
+	* patches/mjpegtools-02-alloca.diff: (new)
+	* patches/netpbm-01-strings.diff: (new)
+	* patches/netpbm-Makefile.conf: (new)
+	* patches/wxsvg-01-sqrt.diff: (new)
+	* patches/wxsvg-02-pango-deprecated.diff: (new)
+	* patches/wxsvg-03-1586173-append-void.diff: (new)
+
 2006-11-28  Harry Lu <harry.lu@sun.com>
 
 	* linux-specs/libopensync-plugin-file.spec: add new patch

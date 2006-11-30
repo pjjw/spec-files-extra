@@ -1,0 +1,10 @@
+--- wxsvg-1.0b7/src/freetype/SVGCanvasTextFreetype.h.orig	2006-11-28 15:38:46.317353000 -0500
++++ wxsvg-1.0b7/src/freetype/SVGCanvasTextFreetype.h	2006-11-28 15:39:37.908589000 -0500
+@@ -13,6 +13,7 @@
+ 
+ #include "SVGCanvasItem.h"
+ 
++#undef PANGO_DISABLE_DEPRECATED
+ #include <pango/pangoft2.h>
+ 
+ class wxSVGCanvasTextFreetype: public wxSVGCanvasText

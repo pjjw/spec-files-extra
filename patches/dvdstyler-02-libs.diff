@@ -1,0 +1,12 @@
+diff -ur DVDStyler-1.5b7-orig/src/Makefile.in DVDStyler-1.5b7/src/Makefile.in
+--- DVDStyler-1.5b7-orig/src/Makefile.in	2006-11-05 23:54:05.000000000 +0700
++++ DVDStyler-1.5b7/src/Makefile.in	2006-11-24 21:45:15.446624832 +0700
+@@ -182,7 +182,7 @@
+ dvdstyler_OBJECTS = $(am_dvdstyler_OBJECTS)
+ dvdstyler_LDADD = $(LDADD)
+ dvdstyler_DEPENDENCIES = ../wxVillaLib/libwxvilla.a
+-dvdstyler_LDFLAGS =
++dvdstyler_LDFLAGS = -ljpeg -lwx_gtk2u_adv-2.6
+ 
+ DEFAULT_INCLUDES =  -I. -I$(srcdir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp

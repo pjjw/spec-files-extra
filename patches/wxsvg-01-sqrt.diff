@@ -1,0 +1,12 @@
+diff -ur wxsvg-1.0b7-orig/include/wxSVG/SVGLength.h wxsvg-1.0b7/include/wxSVG/SVGLength.h
+--- wxsvg-1.0b7-orig/include/wxSVG/SVGLength.h	2005-07-29 03:09:58.000000000 +0700
++++ wxsvg-1.0b7/include/wxSVG/SVGLength.h	2006-11-23 11:25:15.821208390 +0700
+@@ -62,7 +62,7 @@
+ 	inline void ToViewportSize(float viewportWidth, float viewportHeight)
+ 	{
+ 	  m_value = m_valueInSpecifiedUnits*
+-		sqrt(viewportWidth*viewportWidth + viewportHeight*viewportHeight)/sqrt(2)/100;
++		sqrt(viewportWidth*viewportWidth + viewportHeight*viewportHeight)/sqrt((double)2)/100;
+ 	}
+ 
+     virtual void NewValueSpecifiedUnits(wxSVG_LENGTHTYPE unitType, double valueInSpecifiedUnits);

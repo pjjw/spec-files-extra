@@ -1,0 +1,13 @@
+diff -ur mjpegtools-1.8.0-orig/y4mdenoise/SearchBorder.hh mjpegtools-1.8.0/y4mdenoise/SearchBorder.hh
+--- mjpegtools-1.8.0-orig/y4mdenoise/SearchBorder.hh	2004-04-28 03:45:56.000000000 +0700
++++ mjpegtools-1.8.0/y4mdenoise/SearchBorder.hh	2006-11-24 13:51:30.479482271 +0700
+@@ -12,6 +12,9 @@
+ #include "Limits.hh"
+ #include "DoublyLinkedList.hh"
+ #include "SetRegion2D.hh"
++#ifdef sun
++#include <alloca.h>
++#endif
+ 
+ // HACK: for development error messages.
+ #include <stdio.h>

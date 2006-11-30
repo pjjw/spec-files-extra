@@ -8,8 +8,8 @@
 Name:		gthumb
 License:	GPL
 Group:		Applications/Multimedia
-Version:	2.7.6
-Release:	41
+Version:	2.7.9
+Release:	1
 Distribution:	Java Desktop System
 Vendor:		Sun Microsystems, Inc.
 Summary:	An image viewer and browser for GNOME.
@@ -137,6 +137,8 @@ done
 %doc %{_datadir}/gnome/help/gthumb
 
 %changelog
+* Thu Nov 20 2006 - laca@sun.com
+- bump to 2.7.9
 * Sat May 13 2006 - laca@sun.com
 - Move to /usr
 * Thu Apr 20 2006 - damien.carbery@sun.com

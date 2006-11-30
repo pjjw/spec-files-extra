@@ -1,0 +1,10 @@
+--- netpbm-orig/other/pamx/image.h	2006-11-24 15:39:21.866679882 +0700
++++ netpbm/other/pamx/image.h	2006-11-24 15:01:02.356345136 +0700
+@@ -1,6 +1,6 @@
+ #ifndef IMAGE_H_INCLUDED
+ #define IMAGE_H_INCLUDED
+-#include <strings.h>
++#include <string.h>
+ 
+ #include "pm_c_util.h"
+ 

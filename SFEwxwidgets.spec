@@ -10,7 +10,8 @@ Name:                    SFEwxwidgets
 Summary:                 wxWidgets - Cross-Platform GUI Library
 URL:                     http://wxwidgets.org/
 Version:                 2.6.3
-Source:			 http://easynews.dl.sourceforge.net/sourceforge/wxwindows/wxWidgets-%{version}.tar.bz2
+%define tarball_version  2.6.3
+Source:			 http://easynews.dl.sourceforge.net/sourceforge/wxwindows/wxWidgets-%{tarball_version}.tar.bz2
 Patch1:                  wxwidgets-01-msgfmt.diff
 Patch11:                 wxgtk-01-sqrt.diff
 SUNW_BaseDir:            %{_basedir}
@@ -35,7 +36,7 @@ Requires:                %{name}
 
 %prep
 rm -rf %name-%version
-%setup -q -n wxWidgets-%version
+%setup -q -n wxWidgets-%tarball_version
 %patch1 -p1
 %patch11 -p1
 
@@ -45,7 +46,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 export CFLAGS="%optflags"
-export LDFLAGS="%{_ldflags}"
+export LD=/usr/ccs/bin/ld
+export LDFLAGS="-lCrun -lCstd"
 %if %cc_is_gcc
 %else
 export CXX="${CXX} -norunpath"
@@ -58,9 +60,10 @@ export CXXFLAGS="%cxx_optflags -xlibmil -xlibmopt -features=tmplife"
 	    --with-gtk				\
 	    --enable-gtk2			\
             --enable-unicode			\
+            --enable-mimetype                   \
             --with-sdl                          \
-            --with-gnomeprint                   \
-	    --enable-mimetype=no
+            --without-expat                     \
+            --with-gnomeprint
 
 make -j$CPUS
 cd contrib
@@ -79,7 +82,7 @@ cd ..
 
 cd $RPM_BUILD_ROOT%{_bindir}
 rm -f wx-config
-ln -s ../lib/wx/config/gtk2-unicode-release-2.6 wx-config
+ln -s ../lib/wx/config/gtk2-unicode-release-* wx-config
 
 %if %build_l10n
 %else
@@ -115,6 +118,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Nov 28 2006 - laca@sun.com
+- enable mimetype (wxUSE_MIMETYPE), needed by dvdstyler
+- disable expat support as it conflicts with wxXML, which is also included
+  in wxSVG
 * Sat Oct 14 2006 - laca@sun.com
 - fix wx-config to be a relative symlink
 * Mon Jul 10 2006 - laca@sun.com

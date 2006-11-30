@@ -8,17 +8,15 @@
 Name:                    SFEmplayer
 Summary:                 mplayer - The Movie Player
 Version:                 1.0
-%define tarball_version 1.0pre8
+%define tarball_version 1.0rc1
 Source:                  http://www.mplayerhq.hu/MPlayer/releases/MPlayer-%{tarball_version}.tar.bz2
-Source2:                 http://www1.mplayerhq.hu/MPlayer/releases/codecs/essential-20060611.tar.bz2
+Source2:                 http://www1.mplayerhq.hu/MPlayer/releases/codecs/essential-20061022.tar.bz2
 Source3:                 http://www.mplayerhq.hu/MPlayer/skins/Blue-1.6.tar.bz2
 Source4:                 http://www.mplayerhq.hu/MPlayer/skins/Abyss-1.6.tar.bz2
 Source5:                 http://www.mplayerhq.hu/MPlayer/skins/neutron-1.5.tar.bz2
 Source6:                 http://www.mplayerhq.hu/MPlayer/skins/proton-1.2.tar.bz2
 Source7:                 http://www.3gpp.org/ftp/Specs/latest/Rel-6/26_series/26104-610.zip
 Source8:                 http://www.3gpp.org/ftp/Specs/latest/Rel-6/26_series/26204-600.zip
-Patch1:                  mplayer-01-cddb.diff
-Patch2:                  mplayer-02-makefile-libfame-dep.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{tarball_version}-build
 %include default-depend.inc
@@ -36,7 +34,6 @@ Requires: SFEsdl
 Requires: SUNWsmbau
 Requires: SUNWgnome-audio
 Requires: SUNWxorg-clientlibs
-Requires: SUNWxorg-mesa
 Requires: SUNWfontconfig
 Requires: SUNWfreetype2
 Requires: SUNWspeex
@@ -67,8 +64,6 @@ BuildRequires: SUNWgnome-audio-devel
 
 %prep
 %setup -q -n MPlayer-%tarball_version
-%patch1 -p1
-%patch2 -p1
 unzip %SOURCE7
 unzip 26104-610_ANSI_C_source_code.zip
 mv c-code libavcodec/amr_float
@@ -86,27 +81,25 @@ export CFLAGS="-O2 -D__hidden=\"\""
 export LDFLAGS="-L%{x11}/lib -L/usr/sfw/lib" 
 export CC=gcc
 
-./configure --prefix=%{_prefix} --mandir=%{_mandir} \
+bash ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --libdir=%{_libdir}              \
             --confdir=%{_sysconfdir}         \
             --enable-gui                     \
             --enable-menu                    \
-            --with-x11incdir=%{x11}/include  \
+            --with-extraincdir=%{x11}/include  \
             --with-x11libdir=%{x11}/lib      \
             --with-extraincdir=/usr/sfw/include        \
             --with-extralibdir=/usr/sfw/lib            \
             --with-codecsdir=%{_libdir}/mplayer/codecs \
             --enable-libfame                 \
-            --enable-external-faad           \
+            --enable-faad-external           \
             --enable-live                    \
             --with-livelibdir=/usr/lib/live  \
 	    --enable-rpath		     \
-            --enable-largefiles
+            --enable-largefiles              \
+            --disable-directfb
 
-echo "#ifndef SOLARIS" >> config.h
-echo "#define SOLARIS" >> config.h
-echo "#endif" >> config.h
-gmake -j$CPUS 
+make -j$CPUS 
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -130,7 +123,6 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/mplayer/skins
 ln -s /usr/openwin/lib/X11/fonts/TrueType/FreeSerif.ttf $RPM_BUILD_ROOT%{_datadir}/mplayer/subfont.ttf
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
 
-#
 rm -rf $RPM_BUILD_ROOT%{_sysconfdir}
 
 %clean
@@ -153,6 +145,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Wed Nov 29 2006 - laca@sun.com
+- bump to 1.0rc1
 * Tue Sep 26 2006 - halton.huo@sun.com
 - Add Requires after check-deps.pl run
 * Tue Sep 26 2006 - halton.huo@sun.com

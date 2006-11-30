@@ -9,7 +9,7 @@
 Name:         SFEmono
 License:      Other
 Group:        System/Libraries
-Version:      1.1.18
+Version:      1.2
 Summary:      mono - .NET framework
 Source:       http://go-mono.com/sources/mono/mono-%{version}.tar.gz
 URL:          http://www.mono-project.com/Main_Page
@@ -17,10 +17,9 @@ Patch1:       mono-01-solaris.diff
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
 SUNW_BaseDir: %{_basedir}
-Autoreqprov:  on
 BuildRequires: SUNWgnome-base-libs-devel
 Requires: SUNWgnome-base-libs
-Requires:     %name-root
+Requires: %name-root
 Requires: SUNWbash
 Requires: SUNWgccruntime
 
@@ -125,6 +124,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Nov 30 2006 - laca@sun.com
+- bump to 1.2
 * Sat Oct 14 2006 - laca@sun.com
 - bump to 1.1.18
 * Wed Sep  7 2006 - jedy.wang@sun.com

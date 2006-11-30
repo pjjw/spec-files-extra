@@ -1,0 +1,32 @@
+--- DVDStyler-1.5b7/src/Makefile.am.orig	2006-11-28 15:57:58.554912000 -0500
++++ DVDStyler-1.5b7/src/Makefile.am	2006-11-28 16:06:51.901038000 -0500
+@@ -7,8 +7,8 @@
+  BurnDlg.cpp ProgressDlg.cpp\
+  MainWin.cpp dvdstyler.cpp
+ 
+-CXXFLAGS = @CXXFLAGS@ -I..
+-LDADD = ../wxVillaLib/libwxvilla.a
++AM_CXXFLAGS = @CXXFLAGS@ -I..
++LDADD = ../wxVillaLib/libwxvilla.a -ljpeg
+ 
+ SUBDIRS = rc
+ 
+--- DVDStyler-1.5b7/wxVillaLib/Makefile.am.orig	2006-11-28 16:01:45.140995000 -0500
++++ DVDStyler-1.5b7/wxVillaLib/Makefile.am	2006-11-28 16:01:49.675515000 -0500
+@@ -4,4 +4,4 @@
+  PipeExecute.cpp PropDlg.cpp SConv.cpp\
+  Thumbnails.cpp ThumbnailFactory.cpp\
+  utils.cpp VerticalToolbar.cpp
+-CXXFLAGS = @CXXFLAGS@ @GNOMEUI2_CFLAGS@
++AM_CXXFLAGS = @CXXFLAGS@ @GNOMEUI2_CFLAGS@
+--- DVDStyler-1.5b7/configure.in.orig	2006-11-28 16:04:13.026085000 -0500
++++ DVDStyler-1.5b7/configure.in	2006-11-28 16:06:00.114727000 -0500
+@@ -64,7 +64,7 @@
+ LIBS="$LIBS $WX_LIBS "
+ 
+ dnl check for wxSVG
+-AC_CHECK_LIB(wxsvg, main, [LIBS="$LIBS -lwxsvg"], [AC_MSG_ERROR([*** missing wxSVG library (wxsvg.sf.net) ***])])
++AC_CHECK_LIB(wxsvg, malloc, [LIBS="$LIBS -lwxsvg"], [AC_MSG_ERROR([*** missing wxSVG library (wxsvg.sf.net) ***])])
+ AC_CHECK_HEADER([wxSVG/svg.h], [], [AC_MSG_ERROR([*** missing wxSVG library (wxsvg.sf.net) ***])])
+ 
+ dnl check gnomeui-2.0

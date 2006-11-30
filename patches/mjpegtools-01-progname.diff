@@ -1,0 +1,108 @@
+diff -ur mjpegtools-1.8.0-orig/lavtools/y4mblack.c mjpegtools-1.8.0/lavtools/y4mblack.c
+--- mjpegtools-1.8.0-orig/lavtools/y4mblack.c	2005-06-17 07:30:02.000000000 +0700
++++ mjpegtools-1.8.0/lavtools/y4mblack.c	2006-11-24 13:36:41.362661140 +0700
+@@ -21,7 +21,11 @@
+ 
+ #include "yuv4mpeg.h"
+ 
++#ifdef sun
++char	*__progname="y4mblack";
++#else
+ extern	char	*__progname;
++#endif
+ 
+ static	void	usage(void);
+ static	void	chroma_usage(void);
+diff -ur mjpegtools-1.8.0-orig/lavtools/y4mshift.c mjpegtools-1.8.0/lavtools/y4mshift.c
+--- mjpegtools-1.8.0-orig/lavtools/y4mshift.c	2004-04-06 00:07:34.000000000 +0700
++++ mjpegtools-1.8.0/lavtools/y4mshift.c	2006-11-24 13:37:17.727156147 +0700
+@@ -29,7 +29,11 @@
+ 
+ #include "yuv4mpeg.h"
+ 
++#ifdef sun
++char    *__progname="y4mshift";
++#else
+ extern  char    *__progname;
++#endif
+ 
+ #define HALFSHIFT (shiftnum / SS_H)
+ 
+diff -ur mjpegtools-1.8.0-orig/lavtools/y4mspatialfilter.c mjpegtools-1.8.0/lavtools/y4mspatialfilter.c
+--- mjpegtools-1.8.0-orig/lavtools/y4mspatialfilter.c	2005-01-04 02:03:54.000000000 +0700
++++ mjpegtools-1.8.0/lavtools/y4mspatialfilter.c	2006-11-24 13:37:56.253536857 +0700
+@@ -23,7 +23,11 @@
+ #include "mmx.h"
+ #endif
+ 
++#ifdef sun
++char    *__progname="y4mspatialfilter";
++#else
+ extern  char    *__progname;
++#endif
+ 
+ #define MIN(a,b) (((a)<(b))?(a):(b))
+ #define MAX(a,b) (((a)>(b))?(a):(b))
+diff -ur mjpegtools-1.8.0-orig/lavtools/y4mstabilizer.c mjpegtools-1.8.0/lavtools/y4mstabilizer.c
+--- mjpegtools-1.8.0-orig/lavtools/y4mstabilizer.c	2005-05-10 05:34:09.000000000 +0700
++++ mjpegtools-1.8.0/lavtools/y4mstabilizer.c	2006-11-24 13:38:45.512354788 +0700
+@@ -52,7 +52,11 @@
+ #include "yuv4mpeg.h"
+ #include "subsample.h"
+ 
++#ifdef sun
++char    *__progname="y4mstabilizer";
++#else
+ extern  char    *__progname;
++#endif
+ 
+ struct
+     {
+diff -ur mjpegtools-1.8.0-orig/lavtools/yuv4mpeg.c mjpegtools-1.8.0/lavtools/yuv4mpeg.c
+--- mjpegtools-1.8.0-orig/lavtools/yuv4mpeg.c	2005-05-25 10:08:59.000000000 +0700
++++ mjpegtools-1.8.0/lavtools/yuv4mpeg.c	2006-11-24 13:39:42.942994485 +0700
+@@ -61,7 +61,11 @@
+ 
+ #include "yuv4mpeg.h"
+ 
+-extern	char	*__progname;
++#ifdef sun
++char    *__progname="yuv4mpeg";
++#else
++extern  char    *__progname;
++#endif
+ 
+ static	void	usage(void);
+ static	void	chroma_usage(void);
+diff -ur mjpegtools-1.8.0-orig/lavtools/yuyvtoy4m.c mjpegtools-1.8.0/lavtools/yuyvtoy4m.c
+--- mjpegtools-1.8.0-orig/lavtools/yuyvtoy4m.c	2005-05-25 09:28:28.000000000 +0700
++++ mjpegtools-1.8.0/lavtools/yuyvtoy4m.c	2006-11-24 13:41:19.960656185 +0700
+@@ -45,7 +45,11 @@
+ 
+ #include "yuv4mpeg.h"
+ 
+-extern	char	*__progname;
++#ifdef sun
++char    *__progname="yuyvtoy4m";
++#else
++extern  char    *__progname;
++#endif
+ 
+ static	void	usage(void);
+ 
+diff -ur mjpegtools-1.8.0-orig/y4munsharp/y4munsharp.c mjpegtools-1.8.0/y4munsharp/y4munsharp.c
+--- mjpegtools-1.8.0-orig/y4munsharp/y4munsharp.c	2005-04-12 01:16:42.000000000 +0700
++++ mjpegtools-1.8.0/y4munsharp/y4munsharp.c	2006-11-24 13:43:39.282557172 +0700
+@@ -50,7 +50,11 @@
+ #define MAX(a,b) ((a) >= (b) ? (a) : (b))
+ #define ROUND(x) ((int) ((x) + 0.5))
+ 
+-extern char *__progname;
++#ifdef sun
++char    *__progname="y4munsharp";
++#else
++extern  char    *__progname;
++#endif
+ 
+ void usage(void);
+ void y4munsharp(void);

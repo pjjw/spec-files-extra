@@ -1,0 +1,15 @@
+diff -ur DVDStyler-1.5b7-orig/src/MenuPalettes.cpp DVDStyler-1.5b7/src/MenuPalettes.cpp
+--- DVDStyler-1.5b7-orig/src/MenuPalettes.cpp	2006-11-05 23:46:22.000000000 +0700
++++ DVDStyler-1.5b7/src/MenuPalettes.cpp	2006-11-24 21:54:51.052944850 +0700
+@@ -19,7 +19,11 @@
+     colours.erase(-1);
+   }
+   coloursCount = colours.size();
++#ifdef sun
++  unsigned char r[256], g[256], b[256];
++#else
+   unsigned char r[colours.size()], g[colours.size()], b[colours.size()];
++#endif
+   int i = 0;
+   for (IntHashSet::iterator it = colours.begin(); it != colours.end(); ++it)
+   {
