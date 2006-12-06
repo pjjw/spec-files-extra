@@ -13,14 +13,19 @@ Group:        System/GUI/GNOME
 Version:      0.4.0
 Release:      1
 Source:       http://kent.dl.sourceforge.net/sourceforge/gtkpod/libgpod-%{version}.tar.gz
-Patch1:       libgpod-01-fixwall.diff
-Patch2:       libgpod-02-fixcompile.diff
+#this is a workaround, for people using gcc which doesn't not support 
+#visibility attribute. the final solution is to change the G_GNUC_INTERNAL macro
+#definition in glib.
+Patch1:	      libgpod-01-hidden.diff
 URL:          http://www.gtkpod.org
 SUNW_BaseDir: %{_prefix}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWgnome-base-libs
+Requires: SUNWgccruntime
 BuildRequires: SUNWgnome-base-libs-devel
+BuildRequires: SUNWgcc
+
 #FIXME: update to use (and depend on) HAL when it's integrated into nevada
 
 %description
@@ -42,8 +47,11 @@ Requires:                %{name}
 %prep
 %setup -q -n libgpod-%version
 %patch1 -p1 -b .patch1
-%patch2 -p1 -b .patch2
 
+# Note, we have to build this with gcc, because Forte cannot handle
+# the flexible arrays used in libcdio.  We should move to using Forte
+# if this issue is resolved with the Forte compiler.
+#
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
@@ -51,6 +59,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 export LDFLAGS="%_ldflags"
 export CFLAGS="%optflags -D__hidden="
+export CC=gcc
 
 intltoolize --copy --force
 libtoolize --force --copy
@@ -112,6 +121,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Dec 06 2006 - irene.huang@sun.com
+- Change the compiler to be gcc. Removed the old patches
+  libgpod-01-fixwall.diff and libgpod-02-fixcompile.diff
+  add patch -01-hidden.diff
 * Fri Oct 13 2006 - laca@sun.com
 - bump to 0.4.0
 * Wed Jul  5 2006 - laca@sun.com

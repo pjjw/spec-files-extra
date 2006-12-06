@@ -1,0 +1,28 @@
+--- libgpod-0.4.0/src/glib-compat.h.orig	2006-11-23 17:26:59.367795000 +0800
++++ libgpod-0.4.0/src/glib-compat.h	2006-11-23 17:27:31.845420000 +0800
+@@ -33,9 +33,9 @@
+ /*** glib <= 2.4 ***/
+ 
+ /* G_GNUC_INTERNAL */
+-#ifndef G_GNUC_INTERNAL
++//#ifndef G_GNUC_INTERNAL
+ #define G_GNUC_INTERNAL
+-#endif
++//#endif
+ 
+ /* g_stat */
+ #include <stdio.h>
+--- libgpod-0.4.0/src/itdb.h.orig	2006-11-23 17:27:13.630855000 +0800
++++ libgpod-0.4.0/src/itdb.h	2006-11-23 17:17:20.709476000 +0800
+@@ -47,9 +47,9 @@
+ G_BEGIN_DECLS
+ 
+ /* G_GNUC_INTERNAL is defined in glib 2.6 */
+-#ifndef G_GNUC_INTERNAL
++//#ifndef G_GNUC_INTERNAL
+ #define G_GNUC_INTERNAL
+-#endif 
++//#endif 
+ 
+ typedef void (* ItdbUserDataDestroyFunc) (gpointer userdata);
+ typedef gpointer (* ItdbUserDataDuplicateFunc) (gpointer userdata);
