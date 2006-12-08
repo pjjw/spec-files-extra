@@ -1,3 +1,9 @@
+2006-12-08  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEqt4.spec: (new) Cross-platform development framework/toolkit
+	* SFEkdiff3.spec: (new) Qt based diff, compares or merges 2 or 3 files
+	  or dirs
+
 2006-12-06  Irene Huang <irene.huang@sun.com>
 
 	* SFElibgpod.spec: Change the compiler to be gcc. 
