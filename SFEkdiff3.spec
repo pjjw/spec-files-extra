@@ -27,6 +27,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CC=/usr/sfw/bin/gcc
+export CXX=/usr/sfw/bin/g++
 export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
 export LDFLAGS="%_ldflags"
 
