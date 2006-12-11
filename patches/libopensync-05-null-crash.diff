@@ -41,7 +41,16 @@
  	OSyncQueue *queue = osync_try_malloc0(sizeof(OSyncQueue), error);
  	if (!queue)
 --- opensync/opensync/opensync_hashtable.c.111	2006-11-28 16:55:58.745458000 +0800
-+++ opensync/opensync/opensync_hashtable.c	2006-11-28 16:56:39.059337000 +0800
++++ opensync/opensync/opensync_hashtable.c	2006-12-11 13:55:01.083765000 +0800
+@@ -212,7 +212,7 @@
+ 	osync_assert_msg(change, "Change was NULL. Bug in a plugin");
+ 	osync_assert_msg(change->uid, "No uid was set on change. Bug in a plugin");
+ 
+-	osync_trace(TRACE_INTERNAL, "Updating hashtable with hash \"%s\" and changetype %i", change->hash, osync_change_get_changetype(change));
++	osync_trace(TRACE_INTERNAL, "Updating hashtable with hash \"%s\" and changetype %i", change->hash?change->hash:"NULL", osync_change_get_changetype(change));
+ 	switch (osync_change_get_changetype(change)) {
+ 		case CHANGE_MODIFIED:
+ 		case CHANGE_ADDED:
 @@ -325,7 +325,7 @@
  
  	char *orighash = NULL;
@@ -51,3 +60,27 @@
  	
  	if (orighash) {
  		if (strcmp(hash, orighash) == 0)
+--- opensync/opensync/opensync_changecmds.c.111	2006-12-11 13:53:35.579124000 +0800
++++ opensync/opensync/opensync_changecmds.c	2006-12-11 13:35:04.571561000 +0800
+@@ -362,7 +362,7 @@
+  */
+ osync_bool osync_change_convert_extension(OSyncFormatEnv *env, OSyncChange *change, OSyncObjFormat *targetformat, const char *extension_name, OSyncError **error)
+ {
+-	osync_trace(TRACE_ENTRY, "osync_change_convert(%p, %p, %p:%s, %s, %p)", env, change, targetformat, targetformat ? targetformat->name : "NONE", extension_name, error);
++	osync_trace(TRACE_ENTRY, "osync_change_convert(%p, %p, %p:%s, %s, %p)", env, change, targetformat, targetformat ? targetformat->name : "NONE", extension_name?extension_name:"NULL", error);
+ 	if (osync_conv_convert_fn(env, change, target_fn_simple, targetformat, extension_name, error)) {
+ 		osync_trace(TRACE_EXIT, "osync_change_convert: TRUE");
+ 		return TRUE;
+--- opensync/formats/vformats-xml/xml-support.c.111	2006-12-11 14:11:07.968786000 +0800
++++ opensync/formats/vformats-xml/xml-support.c	2006-12-11 14:11:34.198803000 +0800
+@@ -242,8 +242,10 @@
+ 						continue;
+ 					osync_trace(TRACE_INTERNAL, "cmp %i:%s (leftcontent), %i:%s (rightcontent)", i, lnodes->nodeTab[i]->name,  
+ 							n, rnodes->nodeTab[n]->name);
++/*
+ 					osync_trace(TRACE_SENSITIVE, "cmp %i:%s (%s), %i:%s (%s)\n", i, lnodes->nodeTab[i]->name, osxml_find_node(lnodes->nodeTab[i], 
+ 							"Content"), n, rnodes->nodeTab[n]->name, osxml_find_node(rnodes->nodeTab[n], "Content"));
++*/
+ 
+ 					/*
+ 					if ((!strcmp("DateStarted", lnodes->nodeTab[i]->name) && !strcmp("DateStarted", rnodes->nodeTab[n]->name))

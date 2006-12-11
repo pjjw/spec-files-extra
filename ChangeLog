@@ -1,3 +1,7 @@
+2006-12-11  Harry Lu  <harry.lu@sun.com>
+
+	* patches/libopensync-05-null-crash.diff: updated.
+
 2006-12-08  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEqt4.spec: (new) Cross-platform development framework/toolkit
