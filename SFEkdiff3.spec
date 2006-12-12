@@ -14,8 +14,8 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-Requires: SFEqt4
-BuildRequires: SFEqt4-devel
+Requires: SFEqt
+BuildRequires: SFEqt-devel
 
 %prep
 %setup -q -n kdiff3-%version
