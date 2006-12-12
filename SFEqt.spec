@@ -79,6 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/qt/*
 
 %files devel
+%defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
 %dir %attr (0755, root, other) %{_includedir}/qt
 %{_includedir}/qt/*

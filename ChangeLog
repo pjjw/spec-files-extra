@@ -1,3 +1,8 @@
+2006-12-11  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEqt4.spec: Fix: Rename SFEqt4.spec to SFEqt.spec
+	* SFEqt.spec: Fix: Added missing line: %defattr (-, root, bin)
+
 2006-12-11  Wang Xin  <jedy.wang@sun.com>
 
 	* SFEdevice-manager.spec: Added.
