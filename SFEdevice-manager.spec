@@ -79,5 +79,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Wed Nov 22 2006 - jedy.wang@sun.com
+* Wed Dec 13 2006 - jedy.wang@sun.com
+- L10n support added.
+
+* Mon Dec 11 2006 - jedy.wang@sun.com
 - Initial spec
