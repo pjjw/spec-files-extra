@@ -27,6 +27,14 @@ Requires: SUNWgnome-python-libs
 Requires: SUNWPython
 Requires: SUNWhal
 
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
+
 %prep
 %setup -q -n hal-%version
 
@@ -48,6 +56,11 @@ autoconf
 rm -rf $RPM_BUILD_ROOT
 cd tools/device-manager
 make DESTDIR=$RPM_BUILD_ROOT install
+%if %build_l10n
+cd ../..
+cd po
+make DESTDIR=$RPM_BUILD_ROOT install
+%endif
 rm $RPM_BUILD_ROOT%{_datadir}/hal/device-manager/*.pyo
 
 %clean 
@@ -57,6 +70,13 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, bin)
 %{_bindir}/hal-device-manager
 %{_datadir}/hal/device-manager/*
+
+%if %build_l10n
+%files l10n
+%defattr (-, root, other)
+%dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/locale
+%endif
 
 %changelog
 * Wed Nov 22 2006 - jedy.wang@sun.com

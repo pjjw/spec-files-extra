@@ -1,3 +1,7 @@
+2006-12-13  Wang Xin  <jedy.wang@sun.com>
+
+	* SFEdevice-manager.spec: L10n support added.
+
 2006-12-11  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEkdiff3.spec: Adjust requires to reflect SFEqt name change.
