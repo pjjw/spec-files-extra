@@ -1,8 +1,13 @@
+2006-12-14  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEliveMedia.spec: Bump to 2006.12.08.
+
 2006-12-13  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEbogofilter.spec: (new) A Bayesian spam filter
 	* SFEchmlib.spec: (new) A library for reading Microsoft .CHM files
-	* SFElibevent.spec: (new) An event notification library for event-driven network servers
+	* SFElibevent.spec: (new) An event notification library for event-driven
+	  network servers
 	* SFEtcpdump.spec: (new) Dump/print network traffic
 	* SFEwebalizer.spec: (new) Web server log analysis program
 
