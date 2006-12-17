@@ -7,7 +7,7 @@
 
 Name:                SFErdesktop
 Summary:             RDP, Microsoft Terminal Services client
-Version:             1.4.1
+Version:             1.5.0
 Source:              http://umn.dl.sourceforge.net/sourceforge/rdesktop/rdesktop-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
+*
+* Mon Dec  4 2006 - Thomas Wagner
+- Upgrade from 1.4.1 to 1.5.0
 * 
 * Sun Sep 24 2006 - Eric Boutilier
 - Initial spec
