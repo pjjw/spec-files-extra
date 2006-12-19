@@ -1,0 +1,11 @@
+--- aria2-0.9.0/src/SimpleLogger.cc.orig5	2006-12-12 14:01:40.728051000 +0800
++++ aria2-0.9.0/src/SimpleLogger.cc	2006-12-12 14:02:03.156174000 +0800
+@@ -106,7 +106,7 @@
+   }
+   time_t now = time(NULL);
+   char datestr[26];
+-  ctime_r(&now, datestr);
++  ctime_r(&now, datestr, 26);
+   datestr[strlen(datestr)-1] = '\0';
+   writeHeader(file, datestr, levelStr);
+   vfprintf(file, string(Util::replace(msg, "\r", "")+"\n").c_str(), ap);

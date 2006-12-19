@@ -1,0 +1,73 @@
+--- aria2-0.9.0/src/main.cc.orig2	2006-12-12 15:19:39.816899000 +0800
++++ aria2-0.9.0/src/main.cc	2006-12-19 16:32:55.069763000 +0800
+@@ -52,9 +52,14 @@
+ #include <unistd.h>
+ #include <libgen.h>
+ #include <utility>
++#include <sys/types.h>
++#include <sys/stat.h>
++#include <fcntl.h>
+ extern char* optarg;
+ extern int optind, opterr, optopt;
+ #include <getopt.h>
++#include <vector>
++#include <iterator>
+ 
+ #ifdef ENABLE_METALINK
+ #include "MetalinkRequestInfo.h"
+@@ -74,6 +79,40 @@
+ 
+ bool timeoutSpecified;
+ 
++int daemon( int nochdir, int noclose )
++{
++  int fd;
++
++  switch (fork()) {
++    case -1:
++      return(-1);
++    case 0:
++      break;
++    default:
++      _exit(0);
++  }
++
++  if (setsid() == -1)
++    return(-1);
++
++  /* Make certain we are not a session leader, or else we
++   * might reacquire a controlling terminal */
++  if (fork())
++    _exit(0);
++
++  if (!nochdir)
++    chdir("/");
++
++  if (!noclose && (fd = open("/dev/null", O_RDWR, 0)) != -1) {
++    dup2(fd, STDIN_FILENO);
++    dup2(fd, STDOUT_FILENO);
++    dup2(fd, STDERR_FILENO);
++    if (fd > 2)
++    close(fd);
++  }
++  return(0);
++}
++
+ void setSignalHander(int signal, void (*handler)(int), int flags) {
+   struct sigaction sigact;
+   sigact.sa_handler = handler;
+@@ -708,7 +747,13 @@
+       exit(EXIT_FAILURE);
+     }
+   }
+-  Strings args(argv+optind, argv+argc);
++
++  vector<string> V_argv;
++  for ( int i=0; i<argc; i++){
++    V_argv.insert(V_argv.begin(), argv[i]);
++  }
++  
++  Strings args(V_argv.begin()+optind, V_argv.end());
+   
+ #ifdef HAVE_LIBSSL
+   // for SSL initialization

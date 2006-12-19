@@ -1,3 +1,17 @@
+2006-12-19  Halton Huo  <halton.huo@sun.com>
+
+	* SFEaria.spec, linux-specs/aria2.spec:
+	  (new) The high speed download utility.
+	* patches/aria2-01-wall.diff,
+	  patches/aria2-02-main.diff,
+	  patches/aria2-03-include-order.diff,
+	  patches/aria2-04-array-size.diff,
+	  patches/aria2-05-ctime.diff,
+	  patches/aria2-06-countif.diff,
+	  patches/aria2-07-init-str.diff,
+	  patches/aria2-08-libgen.diff:
+	  new patches.
+
 2006-12-14  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEliveMedia.spec: Bump to 2006.12.08.
