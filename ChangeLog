@@ -1,3 +1,18 @@
+2006-12-20  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEnasm.spec:    (new) Portable, modular 80x86 assembler
+	* SFEslang.spec:   (new) Multi-platform programmer's library
+	* SFEmm.spec:      (new) Shared memory allocation library
+	* SFEstunnel.spec: (new) SSL client/server encryption wrapper
+	* SFEstar.spec:    (new) Fast POSIX-compliant tar
+	* SFElibgpg-error.spec (new) Error codes and descriptions shared by GnuPG software
+	* SFEgpgme.spec:   (new) C wrapper library for GnuPG
+	* SFEguile.spec:   (new) Embeddable Scheme implementation written in C
+	* SFEautogen.spec: (new) Templatized program/text generation system
+	* SFEaalib.spec:   (new) ASCII art gfx library.
+	* SFEddd.spec:     (new) Graphical front-end for CLI debuggers
+	* SFElibtool.spec: (new) Generic library support script
+
 2006-12-19  Halton Huo  <halton.huo@sun.com>
 
 	* SFEaria.spec, linux-specs/aria2.spec:
