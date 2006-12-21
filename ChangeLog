@@ -1,3 +1,11 @@
+2006-12-21  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFElibcaca.spec     (new) A colour ASCII art library.
+	* SFElibrsync.spec    (new) Library for generating network deltas
+	* SFEgnucfengine.spec (new) A tool for administering networks of diverse machines
+	* SFElibgpg-error.spec: (removed) not needed; A SUNW version is already in JDS
+	* SFEgpgme.spec: Fix: Should depend on the SUNW version of libgpg-error.
+
 2006-12-20  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEnasm.spec:    (new) Portable, modular 80x86 assembler

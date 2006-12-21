@@ -5,17 +5,17 @@
 
 %include Solaris.inc
 
-Name:                SFElibgpg-error
-Summary:             Error codes and descriptions shared by GnuPG software
-Version:             1.5
-Source:              http://mirrors.rootmode.com/ftp.gnupg.org/libgpg-error/libgpg-error-%{version}.tar.bz2
+Name:                SFElibrsync
+Summary:             Library for generating network deltas
+Version:             0.9.7
+Source:              http://freshmeat.net/redir/librsync/13583/url_tgz/librsync-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 %prep
-%setup -q -n libgpg-error-%version
+%setup -q -n librsync-%version
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -23,19 +23,26 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags"
+# Use gcc...
+export CC=/usr/sfw/bin/gcc
+export CXX=/usr/sfw/bin/g++
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
 export LDFLAGS="%_ldflags"
 
 ./configure --prefix=%{_prefix}  \
-            --mandir=%{_mandir}
+            --mandir=%{_mandir} \
+            --enable-static=no \
+            --enable-shared=yes
 
 make -j$CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-rm ${RPM_BUILD_ROOT}%{_libdir}/libgpg-error.a
-rm ${RPM_BUILD_ROOT}%{_libdir}/libgpg-error.la
+rm ${RPM_BUILD_ROOT}%{_libdir}/librsync.la
+
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
@@ -43,18 +50,16 @@ rm ${RPM_BUILD_ROOT}%{_libdir}/libgpg-error.la
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/*
+%dir %attr (0755, root, bin) %{_mandir}/man3
+%{_mandir}/man3/*
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*.h
-%dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, other) %{_datadir}/common-lisp
-%{_datadir}/common-lisp/*
-%dir %attr (0755, root, other) %{_datadir}/aclocal
-%{_datadir}/aclocal/*
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * 
-* Dec 20 2006 - Eric Boutilier
+* Thu Dec 21 2006 - Eric Boutilier
 - Initial spec

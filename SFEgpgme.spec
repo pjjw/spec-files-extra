@@ -14,8 +14,8 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-BuildRequires: SFElibgpg-error
-Requires: SFElibgpg-error
+BuildRequires: SUNWlibgpg-error
+Requires: SUNWlibgpg-error
 
 %prep
 %setup -q -n gpgme-%version
