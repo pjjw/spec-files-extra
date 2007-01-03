@@ -7,8 +7,8 @@
 
 Name:                    SFEglibmm
 Summary:                 glibmm - C++ Wrapper for the Glib2 Library
-Version:                 2.10.4
-Source:                  http://ftp.acc.umu.se/pub/GNOME/sources/glibmm/2.10/glibmm-%{version}.tar.bz2
+Version:                 2.12.4
+Source:                  http://ftp.acc.umu.se/pub/GNOME/sources/glibmm/2.12/glibmm-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -73,6 +73,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Wed Jan 03 2007 - daymobrew@users.sourceforge.net
+- Bump to 2.12.4
 * Fri Jun 23 2006 - laca@sun.com
 - rename to SFEglibmm
 - update permissions
