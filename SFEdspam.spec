@@ -8,7 +8,7 @@
 Name:                SFEdspam
 Summary:             Extremely scalable, statistical-hybrid anti-spam filter
 Version:             3.6.8
-Source:              http://www.nuclearelephant.com/projects/dspam/sources/dspam-%{version}.tar.gz
+Source:              http://dspam.nuclearelephant.com/sources/dspam-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

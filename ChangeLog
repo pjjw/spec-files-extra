@@ -1,5 +1,11 @@
 2007-01-03  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEcherokee.spec: update download location, bump to 0.5.5,
+	  fixes 1615493
+	* SFEdspam.spec: update download url, fixes 1615487
+
+2007-01-03  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEbeagle.spec: s/sqlite3/sqlite/, fixes 1615496
 	* SFEdevice-manager.spec: fix directory attributes
 	* SFEdvdauthor.spec: fix dependencies

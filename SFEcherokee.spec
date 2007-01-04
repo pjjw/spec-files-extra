@@ -8,9 +8,9 @@
 
 Name:                    SFEcherokee
 Summary:                 cherokee - Fast, flexible, lightweight web server
-Version:                 0.5.3
-Source:                  http://www.0x50.org/download/0.5/%{version}/cherokee-%{version}.tar.gz
-URL:                     http://www.0x50.org
+Version:                 0.5.5
+Source:                  http://www.cherokee-project.com/download/0.5/%{version}/cherokee-%{version}.tar.gz
+URL:                     http://www.cherokee-project.com/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -108,6 +108,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jan  3 2007 - laca@sun.com
+- bump to 0.5.5 (note: 0.5.6 doesn't compile on Solaris)
+- update download urls
 * Fri Jun 23 2006 - laca@sun.com
 - renamed to SFEcherokee
 - updated file attributes
