@@ -18,12 +18,12 @@ Autoreqprov:  on
 BuildRequires: SFEmono-devel
 BuildRequires: SFEgtk-sharp
 BuildRequires: SFEgmime-devel
-BuildRequires: SFEsqlite3-devel
+BuildRequires: SFEsqlite-devel
 Requires: %name-root
 Requires: SFEmono
 Requires: SFEgtk-sharp
 Requires: SFEgmime
-Requires: SFEsqlite3
+Requires: SFEsqlite
 
 %package root
 Summary:       %{summary} - / filesystem

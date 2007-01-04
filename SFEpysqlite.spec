@@ -14,9 +14,9 @@ Source:                  http://initd.org/pub/software/pysqlite/releases/%{major
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:                SUNWPython
-Requires:                SFEsqlite3
+Requires:                SFEsqlite
 BuildRequires:           SUNWPython-devel
-BuildRequires:           SFEsqlite3-devel
+BuildRequires:           SFEsqlite-devel
 
 %include default-depend.inc
 

@@ -7,14 +7,16 @@
 
 Name:                    SFEliveMedia
 Summary:                 liveMedia - live555 Streaming Media
-Version:                 2006.12.08
+Version:                 2006.12.31
 Source:                  http://www.live555.com/liveMedia/public/live.%{version}.tar.gz
+Patch1:                  liveMedia-01-SOLARIS-macro.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 %prep
 %setup -q -n live
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -39,6 +41,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Wed Jan  3 2007 - laca@sun.com
+- bump to 2006.12.31, add patch SOLARIS-macro.diff
 * Thu Dec 14 2006 - daymobrew@users.sourceforge.net
 - Bump to 2006.12.08.
 * Mon Nov  6 2006 - laca@sun.com

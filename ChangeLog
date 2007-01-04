@@ -1,3 +1,42 @@
+2007-01-03  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEbeagle.spec: s/sqlite3/sqlite/, fixes 1615496
+	* SFEdevice-manager.spec: fix directory attributes
+	* SFEdvdauthor.spec: fix dependencies
+	* SFEf-spot.spec: s/sqlite3/sqlite/, fixes 1617223
+	* SFEfileutils.spec: delete.  superseded by SFEcoreutils.
+	* SFEgajim.spec: s/sqlite3/sqlite, fixes 1617230
+	* SFEliveMedia.spec: bump to 2006.12.31, add patch SOLARIS-macro.diff
+	* SFEmplayer.spec: 
+	  - re-add patches cddb and makefile-libfame-dep after merging with
+	    1.0rc1
+          - add patches asmrules_20061231 (fixes a buffer overflow) and
+            cabac-asm (disables some asm stuff that doesn't seem to compile
+	    on Solaris.
+	* SFEpycurl.spec: (new) pycurl - python interface to libcurl.
+	  Needed for proxy support in bzr.
+	* SFEpysqlite.spec: s/sqlite3/sqlite/, fixes 1617228.
+	* SFEsqlite.spec: rename patch from sqlite3-* to sqlite-* for
+	  consistency
+	* SFExpdf.spec: delete.  superseded by SUNWgnome-pdf-viewer (evince),
+	  already in Solaris.
+	* SFEcurl.spec: bump to 7.16.0
+	* SFEbzr.spec: bump to 0.13
+	* SFEseamonkey.spec: bump to 1.0.7
+	* patches/liveMedia-01-SOLARIS-macro.diff: (new) patch that for
+	  using standard macros to detect Solaris, needed to build mplayer
+	  cleanly.
+	* patches/mplayer-01-cddb.diff: merge.
+	* patches/mplayer-02-makefile-libfame-dep.diff: megre.
+	* patches/mplayer-03-asmrules_20061231.diff: security fix for
+	  http://www.debian.org/security/2006/dsa-1244 (CVE-2006-6172)
+	* patches/mplayer-04-cabac-asm.diff: disable some asm stuff in
+	  cabac.h that doesn't seem to compile on Solaris, use C instead
+	* patches/sqlite3-01-thread-lock-test.diff: rename to
+	  sqlite-01-thread-lock-test.diff
+	* patches/pycurl-01-source-opts.diff: patch taken from pycurl
+	  CVS HEAD needed for compiling with curl 7.16.0
+
 2007-01-03  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEglibmm.spec: Bump to 2.12.4.
@@ -6,11 +45,11 @@
 
 	* SFElibcaca.spec     (new) A colour ASCII art library.
 	* SFElibrsync.spec    (new) Library for generating network deltas
-	* SFEgnucfengine.spec (new) A tool for administering networks of diverse
-	  machines
+	* SFEgnucfengine.spec (new) A tool for administering networks of
+	  diverse machines
 	* SFElibgpg-error.spec: (removed) not needed; A SUNW version is already
 	  in JDS
-	* SFEgpgme.spec: Fix: Should depend on the SUNW version of libgpg-error.
+	* SFEgpgme.spec: Fix: Should depend on the SUNW version of libgpg-error
 
 2006-12-20  Eric Boutilier  <eric.boutilier@sun.com>
 
@@ -50,8 +89,8 @@
 
 	* SFEbogofilter.spec: (new) A Bayesian spam filter
 	* SFEchmlib.spec: (new) A library for reading Microsoft .CHM files
-	* SFElibevent.spec: (new) An event notification library for event-driven
-	  network servers
+	* SFElibevent.spec: (new) An event notification library for
+	  event-driven network servers
 	* SFEtcpdump.spec: (new) Dump/print network traffic
 	* SFEwebalizer.spec: (new) Web server log analysis program
 

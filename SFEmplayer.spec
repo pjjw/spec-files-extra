@@ -10,8 +10,12 @@ Summary:                 mplayer - The Movie Player
 Version:                 1.0
 %define tarball_version 1.0rc1
 Source:                  http://www.mplayerhq.hu/MPlayer/releases/MPlayer-%{tarball_version}.tar.bz2
+Patch1:                  mplayer-01-cddb.diff
+Patch2:                  mplayer-02-makefile-libfame-dep.diff
+Patch3:                  mplayer-03-asmrules_20061231.diff
+Patch4:                  mplayer-04-cabac-asm.diff
 Source2:                 http://www1.mplayerhq.hu/MPlayer/releases/codecs/essential-20061022.tar.bz2
-Source3:                 http://www.mplayerhq.hu/MPlayer/skins/Blue-1.6.tar.bz2
+Source3:                 http://www.mplayerhq.hu/MPlayer/skins/Blue-1.7.tar.bz2
 Source4:                 http://www.mplayerhq.hu/MPlayer/skins/Abyss-1.6.tar.bz2
 Source5:                 http://www.mplayerhq.hu/MPlayer/skins/neutron-1.5.tar.bz2
 Source6:                 http://www.mplayerhq.hu/MPlayer/skins/proton-1.2.tar.bz2
@@ -64,6 +68,11 @@ BuildRequires: SUNWgnome-audio-devel
 
 %prep
 %setup -q -n MPlayer-%tarball_version
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+
 unzip %SOURCE7
 unzip 26104-610_ANSI_C_source_code.zip
 mv c-code libavcodec/amr_float
@@ -145,6 +154,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Wed Jan  3 2007 - laca@sun.com
+- re-add patches cddb and makefile-libfame-dep after merging with 1.0rc1
+- add patches asmrules_20061231 (fixes a buffer overflow) and
+  cabac-asm (disables some asm stuff that doesn't seem to compile on Solaris.
 * Wed Nov 29 2006 - laca@sun.com
 - bump to 1.0rc1
 * Tue Sep 26 2006 - halton.huo@sun.com

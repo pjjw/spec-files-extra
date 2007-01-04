@@ -1,34 +1,22 @@
-diff -urN MPlayer-1.0pre8-orig/Makefile MPlayer-1.0pre8/Makefile
---- MPlayer-1.0pre8-orig/Makefile	2006-06-12 01:35:47.000000000 +0700
-+++ MPlayer-1.0pre8/Makefile	2006-06-13 12:02:50.172762271 +0700
-@@ -247,7 +247,7 @@
+--- MPlayer-1.0rc1/Makefile.orig	2007-01-03 13:29:54.739249000 -0500
++++ MPlayer-1.0rc1/Makefile	2007-01-03 13:30:15.197044000 -0500
+@@ -245,7 +245,7 @@
  COMMON_DEPS += libdha/libdha.so vidix/libvidix.a
  endif
  ifeq ($(FAME),yes)
 -COMMON_DEPS += libfame/libfame.a
-+COMMON_DEPS += -lfame
++#COMMON_DEPS += libfame/libfame.a
  endif
  ifeq ($(DVDKIT2),yes)
  COMMON_DEPS += libmpdvdkit2/libmpdvdkit.a
-@@ -276,9 +276,6 @@
- loader/libloader.a:
- 	$(MAKE) -C loader
- 
--libfame/libfame.a:
--	$(MAKE) -C libfame
--
- libmpdemux/libmpdemux.a:
- 	$(MAKE) -C libmpdemux
- 
-diff -urN MPlayer-1.0pre8-orig/configure MPlayer-1.0pre8/configure
---- MPlayer-1.0pre8-orig/configure	2006-06-12 01:35:47.000000000 +0700
-+++ MPlayer-1.0pre8/configure	2006-06-13 11:59:27.095129640 +0700
-@@ -4732,7 +4732,7 @@
- _def_fame='#undef USE_LIBFAME'
- if test "$_fame" = yes ; then
-   _def_fame='#define USE_LIBFAME 1'	
--  _ld_fame='libfame/libfame.a'
-+  _ld_fame='-lfame'
+--- MPlayer-1.0rc1/configure.orig	2007-01-03 13:36:32.693020000 -0500
++++ MPlayer-1.0rc1/configure	2007-01-03 13:36:58.903012000 -0500
+@@ -4762,7 +4762,7 @@
+ _def_libfame='#undef USE_LIBFAME'
+ if test "$_libfame" = yes ; then
+   _def_libfame='#define USE_LIBFAME 1'
+-  _ld_libfame='libfame/libfame.a'
++  _ld_libfame='-lfame -lmp3lame'
  fi
  
  

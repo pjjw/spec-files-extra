@@ -69,6 +69,7 @@ rm -rf $RPM_BUILD_ROOT
 %files 
 %defattr(-, root, bin)
 %{_bindir}/hal-device-manager
+%dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/hal/device-manager/*
 
 %if %build_l10n
@@ -79,8 +80,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Jan  3 2007 - laca@sun.com
+- fix %{_datadir} attributes
 * Wed Dec 13 2006 - jedy.wang@sun.com
 - L10n support added.
-
 * Mon Dec 11 2006 - jedy.wang@sun.com
 - Initial spec

@@ -1,0 +1,12 @@
+--- MPlayer-1.0rc1/libavcodec/cabac.h.orig	2007-01-03 12:46:37.138932000 -0500
++++ MPlayer-1.0rc1/libavcodec/cabac.h	2007-01-03 12:47:00.866583000 -0500
+@@ -33,6 +33,7 @@
+ #define CABAC_MASK ((1<<CABAC_BITS)-1)
+ #define BRANCHLESS_CABAC_DECODER 1
+ //#define ARCH_X86_DISABLED 1
++#undef ARCH_X86
+ 
+ typedef struct CABACContext{
+     int low;
+ 
+ 

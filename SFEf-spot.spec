@@ -18,13 +18,13 @@ BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SFEmono-devel
 BuildRequires: SFElcms-devel
 BuildRequires: SFEgtk-sharp
-BuildRequires: SFEsqlite3
-BuildRequires: SFEsqlite3-devel
+BuildRequires: SFEsqlite
+BuildRequires: SFEsqlite-devel
 Requires: SUNWgnome-base-libs
 Requires: SFEmono
 Requires: SFElcms
 Requires: SFEgtk-sharp
-Requires: SFEsqlite3
+Requires: SFEsqlite
 Requires: SFEdbus-sharp
 
 %if %build_l10n

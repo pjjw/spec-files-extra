@@ -8,7 +8,7 @@
 
 Name:                    SFEcurl
 Summary:                 curl - Get a file from FTP or HTTP server.
-Version:                 7.15.3
+Version:                 7.16.0
 Source:			 http://curl.haxx.se/download/curl-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -84,6 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Wed Jan  3 2006 - laca@sun.com
+- bump to 7.16.0
 * Fri Jun 23 2006 - laca@sun.com
 - rename to SFEcurl
 - delete -share subpkg

@@ -16,8 +16,8 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibC
-Requires: SUNWgnome-base-libs
-BuildRequires: SUNWgnome-base-libs-devel
+Requires: SFElibdvdread
+BuildRequires: SFElibdvdread-devel
 
 %prep
 %setup -q -n dvdauthor-%version

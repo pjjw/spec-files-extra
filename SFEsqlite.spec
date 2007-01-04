@@ -8,7 +8,7 @@ Name:                    SFEsqlite
 Summary:                 SQLite - a small C library implementation of a SQL database engine
 Version:                 3.3.8
 Source:                  http://www.sqlite.org/sqlite-%{version}.tar.gz
-Patch1:                  sqlite3-01-thread-lock-test.diff
+Patch1:                  sqlite-01-thread-lock-test.diff
 URL:                     http://www.sqlite.org/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
