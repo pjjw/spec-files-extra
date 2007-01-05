@@ -1,3 +1,8 @@
+2007-01-05  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEbaobab.spec: (remove) now part of JDS (SUNWgnome-disk-analyzer)
+	* patches/baobab-01-export-dynamic.diff: (remove)
+
 2007-01-05  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEcscope.spec: Bump to 15.6.
