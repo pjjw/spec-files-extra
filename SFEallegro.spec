@@ -10,7 +10,7 @@
 
 Name:                SFEallegro
 Summary:             Game programming library
-Version:             4.2.0
+Version:             4.2.1
 Source:              http://umn.dl.sourceforge.net/sourceforge/alleg/allegro-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
@@ -87,6 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
-* 
+* Fri Jan 05 2007 - Damien Carbery <daymobrew@users.sourceforge.net>
+- Bump to 4.2.1.
 * Tue Nov 14 2006 - Eric Boutilier
 - Initial spec

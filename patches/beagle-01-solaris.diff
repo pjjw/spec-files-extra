@@ -210,13 +210,13 @@ diff -u -r beagle-0.2.5/tools/beagle-status beagle-0.2.5/tools/beagle-status
  		extern static private int XSetIOErrorHandler (XIOErrorHandler handler);
  
  		private static int BeagleXIOErrorHandler (IntPtr display)
---- beagle-0.2.5/beagled/beagled-index-helper.in.orig	2006-07-25 12:23:21.408359000 -0400
-+++ beagle-0.2.5/beagled/beagled-index-helper.in	2006-07-25 12:24:36.502563000 -0400
-@@ -31,6 +31,7 @@
- export MONO_GAC_PREFIX="@gacprefix@${MONO_GAC_PREFIX+:$MONO_GAC_PREFIX}"
+--- beagle-0.2.14/beagled/beagled-index-helper.in.orig	2006-07-25 12:23:21.408359000 -0400
++++ beagle-0.2.14/beagled/beagled-index-helper.in	2006-07-25 12:24:36.502563000 -0400
+@@ -37,6 +37,7 @@
+ 
  export MONO_PATH="$THIS_PATH${MONO_PATH+:$MONO_PATH}"
  
 +export LD_LIBRARY_PATH=@pkglibdir@:$LD_LIBRARY_PATH
- CMDLINE="mono --debug $MONO_EXTRA_ARGS $THIS_EXE $@"
+ CMDLINE="$BEAGLE_MONO_RUNTIME $MONO_EXTRA_ARGS $THIS_EXE $@"
  
  PROCESS_NAME="beagled-helper"

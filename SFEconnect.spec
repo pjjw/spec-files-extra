@@ -7,7 +7,7 @@
 %include Solaris.inc
 Name:                    SFEconnect
 Summary:                 Proxy command of OpenSSH
-Version:                 1.95
+Version:                 1.96
 Source1:                 http://www.taiyo.co.jp/~gotoh/ssh/connect.c
 SUNW_BaseDir:            %{_basedir}
 URL:                     http://zippo.taiyo.co.jp/~gotoh/ssh/connect.html
@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 
 %changelog
+* Fri Jan 05 2006 - daymobrew@users.sourceforge.net
+- Bump to 1.96.
 * Wed Oct 11 2006 - laca@sun.com
 - fix prep so it that %name-%version dir is always created
 * Tue Sep 26 2006 - halton.huo@sun.com

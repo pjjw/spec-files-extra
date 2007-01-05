@@ -8,7 +8,7 @@
 
 Name:                    SFEcoreutils
 Summary:                 GNU coreutils - basic file, shell and text manipulation utilities
-Version:		 5.97
+Version:		 6.7
 Source:                  http://ftp.gnu.org/pub/gnu/coreutils/coreutils-%{version}.tar.bz2
 Patch1:                  coreutils-01-gettext.diff
 SUNW_BaseDir:            %{_basedir}
@@ -108,5 +108,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Jan 05 2007 - daymobrew@users.sourceforge.net
+- Bump to 6.7.
+
 * Tue Jun 27 2006 - laca@sun.com
 - Initial spec

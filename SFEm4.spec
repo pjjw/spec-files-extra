@@ -7,7 +7,7 @@
 
 Name:                    SFEm4
 Summary:                 GNU m4 macro processor
-Version:                 1.4.4
+Version:                 1.4.8
 Source:			 http://ftp.gnu.org/gnu/m4/m4-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -48,7 +48,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755, root, sys) %{_datadir}
 %dir %attr(0755, root, bin) %{_datadir}/info
 %{_datadir}/info/*
+%dir %attr(0755, root, bin) %{_mandir}
+%dir %attr(0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/m4.1
 
 %changelog
+* Fri Jan 05 2007 - daymobrew@users.sourceforge.net
+- Bump to 1.4.8. Add manpage dir to %files.
+
 * Tue Jun 27 2006 - laca@sun.com
 - Initial spec

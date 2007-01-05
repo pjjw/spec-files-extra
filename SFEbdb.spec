@@ -9,6 +9,7 @@ Name:                    SFEbdb
 Summary:                 Berkeley DB
 Version:                 4.5.20
 Source:                  http://download-west.oracle.com/berkeley-db/db-%{version}.tar.gz
+URL:                     http://www.oracle.com/technology/software/products/berkeley-db/index.html
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -58,5 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Fri Jan 05 2007 - daymobrew@users.sourceforge.net
+- Add URL.
 * Tue Nov 07 2006 - glynn.foster@sun.com
 - Initial spec file

@@ -7,7 +7,7 @@
 
 Name:                    SFEautoconf
 Summary:                 GNU autoconf - scripts and macros for configuring source code packages
-Version:                 2.60
+Version:                 2.61
 Source:			 http://ftp.gnu.org/gnu/autoconf/autoconf-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -56,6 +56,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Fri Jan 05 2007 - daymobrew@users.sourceforge.net
+- Bump to 2.61.
 * Wed Sep  6 2006 - laca@Sun.com
 - disable parallel build as it breaks the build
 * Sun Jan 18 2006 - laca@sun.com

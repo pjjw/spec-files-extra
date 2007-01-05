@@ -7,8 +7,8 @@
 
 Name:                    SFEbluefish
 Summary:                 Bluefish, a powerful editor for experienced web designers.
-Version:                 1.0.5
-Source:                  http://pkedu.fbt.wur.nl/~olivier/downloads/bluefish-%{version}.tar.bz2
+Version:                 1.0.7
+Source:                  http://www.bennewitz.com/bluefish/stable/source/bluefish-%{version}.tar.bz2
 URL:                     http://bluefish.openoffice.nl/index.html
 Patch1:                  bluefish-01-timeval.diff
 Patch2:                  bluefish-02-debug_func.diff
@@ -80,6 +80,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 07 2007 - daymobrew@users.sourceforge.net
+- Bump to 1.0.7. Update source url.
 * Mon Jun 12 2006 - laca@sun.com
 - rename to SFEbluefish
 - change to root:bin to follow other JDS pkgs.
