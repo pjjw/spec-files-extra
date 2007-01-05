@@ -1,3 +1,11 @@
+2007-01-05  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEallegro.spec: fix build by adding the path to Xorg headers to
+	  CFLAGS
+	* SFEmplayer-plugin.spec: fix the build by adding /usr/include/mps
+	  to CFLAGS because some headers are no longer delivered by
+	  SUNWfirefox in favour of mps
+
 2007-01-05  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEallegro.spec: Bump to 4.2.1.

@@ -20,6 +20,7 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 Requires: SUNWgnome-audio
 Requires: SUNWxwplt
 Requires: SUNWgccruntime
+BuildRequires: SUNWxorg-headers
 
 %package devel
 Summary:                 %{summary} - development files
@@ -40,7 +41,7 @@ fi
 # This source is gcc-centric, therefore...
 export CC=/usr/sfw/bin/gcc
 # export CFLAGS="%optflags"
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers -I/usr/X11/include"
 
 export LDFLAGS="%{_ldflags} -R/usr/gnu/lib"
 
@@ -87,6 +88,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Wed Jan  3 2007 - laca@sun.com
+- add SUNWxorg-headers dependency and add -I/usr/X11/include to CFLAGS
 * Fri Jan 05 2007 - Damien Carbery <daymobrew@users.sourceforge.net>
 - Bump to 4.2.1.
 * Tue Nov 14 2006 - Eric Boutilier

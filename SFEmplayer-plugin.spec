@@ -8,12 +8,14 @@
 Name:                    SFEmplayer-plugin
 Summary:                 mplayerplug-in - MPlayer plugin for firefox
 Version:                 3.31
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/mplayerplug-in/mplayerplug-in-%{version}.tar.gz
+Source:                  http://easynews.dl.sourceforge.net/sourceforge/mplayerplug-in/mplayerplug-in-daily.tar.gz
+#Source:                  http://mplayerplug-in.sourceforge.net/mplayerplug-in-daily.tar.gz
 Patch1:			 mplayerplugin-01-makefile.diff
 Patch2:                  mplayerplugin-02-strings_h.diff
 Patch3:                  mplayerplugin-03-strstr.diff
 Patch4:                  mplayerplugin-04-ndelay.diff
 Patch5:                  mplayerplugin-05-install.diff
+URL:                     http://mplayerplug-in.sourceforge.net/
 SUNW_BaseDir:            /
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -46,7 +48,7 @@ fi
 export CFLAGS="-xO5 -xlibmil -DG_GNUC_INTERNAL=\"\""
 export CXXFLAGS="-norunpath -xO5 -xlibmil -xlibmopt -features=tmplife -DG_GNUC_INTERNAL=\"\""
 %else
-export CFLAGS="-xO3 -xlibmil -DG_GNUC_INTERNAL=\"\""
+export CFLAGS="-xO3 -xlibmil -DG_GNUC_INTERNAL=\"\" -I/usr/include/mps"
 export CXXFLAGS="-norunpath -xO3 -xlibmil -xlibmopt -features=tmplife -DG_GNUC_INTERNAL=\"\""
 %endif
 
@@ -93,6 +95,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Jan  5 2007 - laca@sun.com
+- add -I/usr/include/mps to CFLAGS because some headers are no longer
+  delivered in SUNWfirefox in favour of mps
 * Wed Oct 11 2006 - laca@sun.com
 - bump to 3.31
 * Fri Jun 30 2006 - laca@sun.com
