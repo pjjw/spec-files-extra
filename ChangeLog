@@ -1,3 +1,9 @@
+2007-01-05  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEcscope.spec: Bump to 15.6.
+	* SFEdevhelp.spec: Bump to 0.12.
+	* SFEeasytag.spec: Bump to 1.99.13.
+
 2007-01-05  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEallegro.spec: fix build by adding the path to Xorg headers to

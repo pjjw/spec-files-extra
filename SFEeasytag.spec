@@ -7,7 +7,7 @@
 
 Name:                    SFEeasytag
 Summary:                 EasyTag - Modify ID3 Tags
-Version:                 1.99.12
+Version:                 1.99.13
 Source:                  http://easynews.dl.sourceforge.net/sourceforge/easytag/easytag-%{version}.tar.bz2
 Patch1:                  easytag-01-stdc++.diff
 URL:			 http://easytag.sourceforge.net/
@@ -96,6 +96,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Jan 05 2007 - daymobrew@users.sourceforge.net
+- Bump to 1.99.13.
 - Fri Jun 23 2006 - laca@sun.com
 - rename to SFEeasytag
 - clean up env variables

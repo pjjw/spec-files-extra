@@ -7,7 +7,7 @@
 
 Name:                    SFEcscope
 Summary:                 cscope - interactive source code examiner
-Version:                 15.5
+Version:                 15.6
 Source:                  http://easynews.dl.sourceforge.net/sourceforge/cscope/cscope-%{version}.tar.gz
 URL:                     http://cscope.sourceforge.net/
 SUNW_BaseDir:            %{_basedir}
@@ -45,6 +45,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Fri Jan 05 2007 - daymobrew@users.sourceforge.net
+- Bump to 15.6.
 * Fri Jun 23 2006 - laca@sun.com
 - rename to SFEcscope
 - update file attributes to match JDS
