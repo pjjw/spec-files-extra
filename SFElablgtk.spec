@@ -23,6 +23,8 @@ Requires:     SUNWlibrsvg
 BuildRequires: SUNWlibrsvg-devel
 Requires:     SUNWgnome-panel
 BuildRequires: SUNWgnome-panel-devel
+Requires:     SFEgtkspell
+BuildRequires: SFEgtkspell-devel
 
 %description
 LablGTK is is an Objective Caml interface to gtk+.
@@ -55,7 +57,8 @@ make -j$CPUS \
     lablrsvg.cmxa \
     lablgnomecanvas.cmxa \
     lablgnomeui.cmxa \
-    lablpanel.cmxa
+    lablpanel.cmxa \
+    lablgtkspell.cmxa
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -77,9 +80,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/ocaml/stublibs/dlllablgnomecanvas.so
 %{_libdir}/ocaml/stublibs/dlllablgnomeui.so
 %{_libdir}/ocaml/stublibs/dlllablgtk2.so
+%{_libdir}/ocaml/stublibs/dlllablgtkspell.so
 %{_libdir}/ocaml/stublibs/dlllablpanel.so
 %{_libdir}/ocaml/stublibs/dlllablrsvg.so
 
 %changelog
+* Fri Jan  5 2007 - laca@sun.com
+- add SFEgtkspell dependency, add lablgtkspell.cmxa to build targets and
+  update pkging
 * Tue Jul 11 2006 - laca@sun.com
 - Created.

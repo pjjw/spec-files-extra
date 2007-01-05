@@ -1,6 +1,12 @@
 2007-01-05  Laszlo (Laca) Peter  <laca@sun.com>
 
-	* SFEbaobab.spec: (remove) now part of JDS (SUNWgnome-disk-analyzer)
+	* SFElablgtk.spec: add SFEgtkspell dependency, add lablgtkspell.cmxa
+	  to build targets and update pkging, fixes 1617226.
+
+2007-01-05  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEbaobab.spec: (remove) now part of JDS (SUNWgnome-disk-analyzer),
+	  fixes 1617214.
 	* patches/baobab-01-export-dynamic.diff: (remove)
 
 2007-01-05  Damien Carbery <daymobrew@users.sourceforge.net>
