@@ -8,7 +8,7 @@
 Name:                SFElibnet
 Summary:             Packet Construction Library
 Version:             1.1.2.1
-Source:              http://www.packetfactory.net/libnet/dist/libnet-%{version}.tar.gz
+Source:              http://www.mirrors.wiretapped.net/security/packet-construction/libnet/libnet-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
