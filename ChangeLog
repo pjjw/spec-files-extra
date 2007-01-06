@@ -1,3 +1,8 @@
+2007-01-06  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEconnect.spec: update source url, hope this one works better
+	  for jlc
+
 2007-01-05  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFElablgtk.spec: add SFEgtkspell dependency, add lablgtkspell.cmxa
