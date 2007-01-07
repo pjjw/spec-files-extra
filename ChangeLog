@@ -1,5 +1,17 @@
 2007-01-06  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* include/usr-gnu.inc: (new) include file for /usr/gnu compliant
+	  packages (sets up the directory macros correctly)
+	* SFEcoreutils.spec: update for latest /usr/gnu proposal;
+	  add postrun script for updating info dir; use usr-gnu.inc
+	* SFEsed.spec: bump to 4.1.5 and make /usr/gnu compliant
+	* patches/coreutils-01-gettext.diff: merge
+	* patches/sed-01-gettext.diff: (new) update to use glib's gettext
+	  macros and utilities
+	* patches/sed-02-portability.diff: (new) fix some gcc'isms
+
+2007-01-06  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEconnect.spec: update source url, hope this one works better
 	  for jlc
 

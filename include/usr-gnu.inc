@@ -1,0 +1,11 @@
+%define _basedir           /usr
+%define _subdir            gnu
+%define _prefix		   %{_basedir}/%{_subdir}
+%define _std_bindir        %{_basedir}/bin
+%define _sysconfdir	   /etc/%{_subdir}
+%define _std_sysconfdir    /etc
+%define _localedir	   %{_libdir}/locale
+%define _localstatedir     /var/%{_subdir}
+%define _std_localstatedir /var
+%define _pkg_config_path   %{_libdir}/pkgconfig
+%define _pkg_config_path64 %{_libdir}/%{_arch64}/pkgconfig

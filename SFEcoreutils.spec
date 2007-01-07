@@ -5,6 +5,7 @@
 #
 
 %include Solaris.inc
+%include usr-gnu.inc
 
 Name:                    SFEcoreutils
 Summary:                 GNU coreutils - basic file, shell and text manipulation utilities
@@ -16,6 +17,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
 BuildRequires: SFEautoconf
+Requires: SUNWpostrun
 
 %if %build_l10n
 %package l10n
@@ -27,7 +29,7 @@ Requires:                %{name}
 
 %prep
 %setup -q -n coreutils-%version
-%patch1 -p1
+%patch1 -p1 -b .patch01
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -53,28 +55,32 @@ make -j$CPUS
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1gnu
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/gnu/bin
+mkdir -p $RPM_BUILD_ROOT%{_std_bindir}
 
-for f in \
-    basename cat chgrp chmod chown chroot cksum comm csplit cut date dd \
-    df dirname du echo env expand expr factor false fmt fold groups head \
-    hostid hostname id install join kill ln logname mkdir mkfifo mknod \
-    nice nl nohup od paste pathchk pr printf pwd rm rmdir sleep sort \
-    split stty sum sync tail tee test touch tr true tty uname unexpand \
-    uniq uptime wc who yes cp ls mv tsort; do
-    mv $RPM_BUILD_ROOT%{_bindir}/$f $RPM_BUILD_ROOT%{_bindir}/g$f
-    cd $RPM_BUILD_ROOT%{_prefix}/gnu/bin
-    ln -s ../bin/g$f $f
-    cd $RPM_BUILD_ROOT%{_mandir}/man1
-    sed -e 's/^\.TH \([^ ]*\) "1"/.TH \1 "1GNU"/' $f.1 > ../man1gnu/$f.1gnu
-    rm -f $f.1
-    ln -s ../man1gnu/$f.1gnu g$f.1
+CONFLICTING_COMMANDS="
+    :basename:cat:chgrp:chmod:chown:chroot:cksum:comm:csplit:cut:date:dd:
+    :df:dirname:du:echo:env:expand:expr:factor:false:fmt:fold:groups:head:
+    :hostid:hostname:id:install:join:kill:ln:logname:mkdir:mkfifo:mknod:
+    :nice:nl:nohup:od:paste:pathchk:pr:printf:pwd:rm:rmdir:sleep:sort:
+    :split:stty:sum:sync:tail:tee:test:touch:tr:true:tty:uname:unexpand:
+    :uniq:uptime:wc:who:yes:cp:ls:mv:tsort:"
+
+cd $RPM_BUILD_ROOT%{_bindir}
+for f in *; do
+    # difficult to grep for "["
+    if [ "x$f" = "x["; then
+	( cd $RPM_BUILD_ROOT%{_basedir}/bin; ln -s ../gnu/bin/$f . )
+	continue
+    fi
+    # don't symlink conflicting commands to /usr/bin
+    echo $CONFLICTING_COMMANDS | grep ":${f}:" > /dev/null && continue
+    ( cd $RPM_BUILD_ROOT%{_basedir}/bin; ln -s ../gnu/bin/$f . )
 done
 
+cd $RPM_BUILD_ROOT%{_prefix}
+ln -s share/man man
+
 rm -f $RPM_BUILD_ROOT%{_datadir}/info/dir
-rm -f $RPM_BUILD_ROOT%{_libdir}/charset.alias
-rmdir $RPM_BUILD_ROOT%{_libdir}
 
 %if %build_l10n
 %else
@@ -85,18 +91,40 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
+  echo 'infos="';
+  echo 'coreutils.info' ;
+  echo '"';
+  echo 'retval=0';
+  echo 'for info in $infos; do';
+  echo '  install-info --info-dir=%{_infodir} %{_infodir}/$info || retval=1';
+  echo 'done';
+  echo 'exit $retval' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
+
+%preun
+( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
+  echo 'infos="';
+  echo 'coreutils.info' ;
+  echo '"';
+  echo 'for info in $infos; do';
+  echo '  install-info --info-dir=%{_infodir} --delete %{_infodir}/$info';
+  echo 'done';
+  echo 'exit 0' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
+
 %files
 %defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_std_bindir}
+%{_std_bindir}/*
+%dir %attr (0755, root, bin) %{_prefix}
+%{_prefix}/man
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
-%dir %attr (0755, root, bin) %{_prefix}/gnu
-%dir %attr (0755, root, bin) %{_prefix}/gnu/bin
-%{_prefix}/gnu/bin/*
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/*
 %dir %attr(0755, root, sys) %{_datadir}
 %dir %attr(0755, root, bin) %{_mandir}
-%dir %attr(0755, root, bin) %{_mandir}/man1gnu
 %dir %attr(0755, root, bin) %{_mandir}/man1
-%{_mandir}/man1gnu/*
 %{_mandir}/man1/*
 %{_datadir}/info
 
@@ -108,8 +136,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Jan  6 2007 - laca@sun.com
+- update for latest /usr/gnu proposal
+- add postrun script for updating info dir
 * Fri Jan 05 2007 - daymobrew@users.sourceforge.net
 - Bump to 6.7.
-
 * Tue Jun 27 2006 - laca@sun.com
 - Initial spec

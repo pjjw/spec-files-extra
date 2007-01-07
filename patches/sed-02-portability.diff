@@ -1,0 +1,33 @@
+--- sed-4.1.5/lib/regcomp.c.patch02	2007-01-06 18:00:39.499812000 -0500
++++ sed-4.1.5/lib/regcomp.c	2007-01-06 18:01:39.082287000 -0500
+@@ -558,7 +558,7 @@
+ static const bitset_t utf8_sb_map =
+ {
+   /* Set the first 128 bits.  */
+-  [0 ... 0x80 / BITSET_WORD_BITS - 1] = BITSET_WORD_MAX
++  0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0,
+ };
+ #endif
+ 
+--- sed-4.1.5/lib/regexec.c.patch02	2007-01-06 18:10:46.080694000 -0500
++++ sed-4.1.5/lib/regexec.c	2007-01-06 18:12:58.080470000 -0500
+@@ -2894,7 +2894,7 @@
+ 	      sizeof (re_dfastate_t *) * (path->alloc - old_alloc));
+     }
+ 
+-  str_idx = path->next_idx ?: top_str;
++  str_idx = path->next_idx ? path->next_idx : top_str;
+ 
+   /* Temporary modify MCTX.  */
+   backup_state_log = mctx->state_log;
+@@ -3286,6 +3288,10 @@
+   return REG_NOERROR;
+ }
+ 
++typedef int bool;
++#define false 0
++#define true 1
++
+ /* Build transition table for the state.
+    Return 1 if succeeded, otherwise return NULL.  */
+ 
