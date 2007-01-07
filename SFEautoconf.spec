@@ -13,22 +13,20 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SFEm4
+Requires: SUNWpostrun
 
 %prep
 %setup -q -n autoconf-%version
 
 %build
-export PATH=/usr/bin:$PATH
-export M4=/usr/bin/m4
-export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP"
-export RPM_OPT_FLAGS="$CFLAGS"
-export MSGFMT="/usr/bin/msgfmt"
-
+export PATH=/usr/gnu/bin:$PATH
+export PERL=/usr/perl5/bin/perl
+export M4="/usr/gnu/bin/m4"
 ./configure --prefix=%{_prefix}			\
 	    --libexecdir=%{_libexecdir}         \
 	    --mandir=%{_mandir}                 \
 	    --datadir=%{_datadir}               \
-            --infodir=%{_datadir}/info
+            --infodir=%{_infodir}
 
 # Note: do not try to use parallel build, it will break with broken deps
 make
@@ -36,10 +34,31 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-rm -f $RPM_BUILD_ROOT%{_datadir}/info/dir
+rm $RPM_BUILD_ROOT%{_datadir}/info/dir
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
+  echo 'infos="';
+  echo 'autoconf.info standards.info' ;
+  echo '"';
+  echo 'retval=0';
+  echo 'for info in $infos; do';
+  echo '  install-info --info-dir=%{_infodir} %{_infodir}/$info || retval=1';
+  echo 'done';
+  echo 'exit $retval' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
+
+%preun
+( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
+  echo 'infos="';
+  echo 'autoconf.info standards.info' ;
+  echo '"';
+  echo 'for info in $infos; do';
+  echo '  install-info --info-dir=%{_infodir} --delete %{_infodir}/$info';
+  echo 'done';
+  echo 'exit 0' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
 
 %files
 %defattr (-, root, bin)
@@ -56,6 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Sat Jan  6 2007 - laca@sun.com
+- update for SFEm4 move to /usr/gnu
+- install info file and update info dir file using postrun scripts
 * Fri Jan 05 2007 - daymobrew@users.sourceforge.net
 - Bump to 2.61.
 * Wed Sep  6 2006 - laca@Sun.com

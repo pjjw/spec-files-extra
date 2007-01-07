@@ -58,7 +58,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 cd $RPM_BUILD_ROOT%{_prefix}
 ln -s share/man man
 
-rm -f $RPM_BUILD_ROOT%{_datadir}/info/dir
+rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 
 %if %build_l10n
 %else
@@ -100,8 +100,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*.1
-%dir %attr(0755, root, bin) %{_datadir}/info
-%{_datadir}/info/*
+%dir %attr(0755, root, sys) %{_std_datadir}
+%dir %attr(0755, root, bin) %{_infodir}
+%{_infodir}/*
 
 %if %build_l10n
 %files l10n

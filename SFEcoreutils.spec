@@ -17,6 +17,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
 BuildRequires: SFEautoconf
+BuildRequires: SFEautomake
 Requires: SUNWpostrun
 
 %if %build_l10n
@@ -47,7 +48,8 @@ aclocal -I m4
 autoheader
 autoconf
 ./configure --prefix=%{_prefix}			\
-	    --mandir=%{_mandir}
+	    --mandir=%{_mandir}                 \
+            --infodir=%{_infodir}
 
 make -j$CPUS
 
@@ -80,7 +82,7 @@ done
 cd $RPM_BUILD_ROOT%{_prefix}
 ln -s share/man man
 
-rm -f $RPM_BUILD_ROOT%{_datadir}/info/dir
+rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 
 %if %build_l10n
 %else
@@ -126,7 +128,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*
-%{_datadir}/info
+%dir %attr(0755, root, sys) %{_std_datadir}
+%dir %attr(0755, root, bin) %{_infodir}
+%{_infodir}/*
 
 %if %build_l10n
 %files l10n

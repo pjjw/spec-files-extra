@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 # Relegating to /usr/gnu to avoid name collision with /usr/bin/pack:
-%define _prefix %{_basedir}/gnu
+%include usr-gnu.inc
 
 Name:                SFEallegro
 Summary:             Game programming library
@@ -21,10 +21,11 @@ Requires: SUNWgnome-audio
 Requires: SUNWxwplt
 Requires: SUNWgccruntime
 BuildRequires: SUNWxorg-headers
+BuildRequires: SUNWbash
 
 %package devel
 Summary:                 %{summary} - development files
-SUNW_BaseDir:            %{_prefix}
+SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
 
@@ -64,22 +65,55 @@ rm -rf $RPM_BUILD_ROOT
 make install     DESTDIR=$RPM_BUILD_ROOT
 make install-man DESTDIR=$RPM_BUILD_ROOT
 
+mkdir -p $RPM_BUILD_ROOT%{_std_includedir}
+cd $RPM_BUILD_ROOT%{_std_includedir}
+ln -s ../gnu/include/allegro.h .
+ln -s ../gnu/include/allegro .
+
+mkdir -p $RPM_BUILD_ROOT%{_std_bindir}
+CONFLICTING_COMMANDS="
+    :pack:
+"
+
+cd $RPM_BUILD_ROOT%{_bindir}
+for f in *; do
+    # don't symlink conflicting commands to /usr/bin
+    echo $CONFLICTING_COMMANDS | grep ":${f}:" > /dev/null && continue
+    ( cd $RPM_BUILD_ROOT%{_basedir}/bin; ln -s ../gnu/bin/$f . )
+done
+
+mkdir -p $RPM_BUILD_ROOT%{_std_libdir}
+cd $RPM_BUILD_ROOT%{_std_libdir}
+ln -s ../gnu/lib/liballeg* .
+
+cd $RPM_BUILD_ROOT%{_prefix}
+ln -s share/man man
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_std_bindir}
+%{_std_bindir}/*
+%dir %attr (0755, root, bin) %{_prefix}
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
+%dir %attr (0755, root, bin) %{_std_libdir}
+%{_std_libdir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 
 %files devel
 %defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_std_includedir}
+%{_std_includedir}/*.h
+%{_std_includedir}/allegro
+%dir %attr (0755, root, bin) %{_prefix}
+%{_prefix}/man
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*.h
-%dir %attr (0755, root, other) %{_includedir}/allegro
-%{_includedir}/allegro/*
+%{_includedir}/allegro
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/aclocal
 %{_datadir}/aclocal/*
@@ -88,6 +122,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sat Jan  6 2007 - laca@sun.com
+- make /usr/gnu compliant
 * Wed Jan  3 2007 - laca@sun.com
 - add SUNWxorg-headers dependency and add -I/usr/X11/include to CFLAGS
 * Fri Jan 05 2007 - Damien Carbery <daymobrew@users.sourceforge.net>

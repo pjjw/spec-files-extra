@@ -1,5 +1,20 @@
 2007-01-06  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEallegro.spec: make /usr/gnu compliant
+	* SFEautoconf.spec: update for SFEm4 move to /usr/gnu;
+	  install info file and update info dir file using postrun scripts
+	* SFEautomake.spec: add /usr/gnu/share/aclocal to the aclocal
+	  search path install info files and update info dir file using
+	  postrun scripts
+	* SFEcoreutils.spec: update for latest /usr/gnu proposal;
+	  add postrun script for updating info dir
+	* SFEm4.spec: downgrade to 1.4.7 because 1.4.8 breaks autoconf;
+	  make /usr/gnu compliant; use a postrun script for updating
+	  the info dir file
+	* include/usr-gnu.inc: add some more dirs
+
+2007-01-06  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* include/usr-gnu.inc: (new) include file for /usr/gnu compliant
 	  packages (sets up the directory macros correctly)
 	* SFEcoreutils.spec: update for latest /usr/gnu proposal;

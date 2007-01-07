@@ -9,3 +9,7 @@
 %define _std_localstatedir /var
 %define _pkg_config_path   %{_libdir}/pkgconfig
 %define _pkg_config_path64 %{_libdir}/%{_arch64}/pkgconfig
+%define _std_datadir       %{_basedir}/share
+%define _infodir           %{_std_datadir}/info
+%define _std_includedir    %{_basedir}/include
+%define _std_libdir        %{_basedir}/lib

@@ -6,15 +6,16 @@
 %include Solaris.inc
 
 Name:			SFEautomake
-Version:		1.9.6
+%define minmaj          1.9
+Version:		%{minmaj}.6
 Vendor:			Sun Microsystems, Inc.
 Source:			ftp://ftp.gnu.org/pub/gnu/automake/automake-%{version}.tar.bz2
 SUNW_BaseDir:		%{_basedir}
 BuildRoot:		%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-
 Requires:               SUNWperl584core
 Requires:               SFEm4
+Requires:               SUNWpostrun
 
 %prep
 %setup -q -n automake-%{version}
@@ -36,15 +37,37 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 # make aclocal always look for macros in /usr/share/aclocal
 test "%{_datadir}" = "/usr/share" || \
-    echo "/usr/share/aclocal" > $RPM_BUILD_ROOT%{_datadir}/aclocal/dirlist
+    echo "/usr/share/aclocal" > $RPM_BUILD_ROOT%{_datadir}/aclocal-%{minmaj}/dirlist
+echo "/usr/gnu/share/alocal" >> $RPM_BUILD_ROOT%{_datadir}/aclocal-%{minmaj}/dirlist
 
 # Uncomment the following if %{_datadir} is not /usr/share
 # mkdir -p $RPM_BUILD_ROOT%{_datadir}/aclocal
 
-rm -rf $RPM_BUILD_ROOT%{_infodir}
+rm $RPM_BUILD_ROOT%{_infodir}/dir
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
+  echo 'infos="';
+  echo 'automake.info automake.info-1 automake.info-2' ;
+  echo '"';
+  echo 'retval=0';
+  echo 'for info in $infos; do';
+  echo '  install-info --info-dir=%{_infodir} %{_infodir}/$info || retval=1';
+  echo 'done';
+  echo 'exit $retval' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
+
+%preun
+( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
+  echo 'infos="';
+  echo 'automake.info automake.info-1 automake.info-2' ;
+  echo '"';
+  echo 'for info in $infos; do';
+  echo '  install-info --info-dir=%{_infodir} --delete %{_infodir}/$info';
+  echo 'done';
+  echo 'exit 0' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
 
 %files
 %defattr(-, root, bin)
@@ -53,12 +76,17 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/aclocal-*
 %{_datadir}/automake-*
+%dir %attr (0755, root, bin) %{_infodir}
+%{_infodir}/*
 
 # Uncomment the following if %{_datadir} is not /usr/share
 # %dir %attr (0755, root, other) %{_datadir}/aclocal
 # %{_datadir}/aclocal/*
 
 %changelog
+* Sat Jan  6 2006 - laca@sun.com
+- add /usr/gnu/share/aclocal to the aclocal search path
+- install info files and update info dir file using postrun scripts
 * Wed Nov 15 2006  <eric.boutilier@sun.com>
 - Copied and transposed CBEautomake to SFEautomake
 * Tue Aug 22 2006  <laca@sun.com>
