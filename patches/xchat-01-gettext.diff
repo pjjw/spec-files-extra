@@ -1,9 +1,9 @@
---- xchat-2.6.1/configure.in-orig	2006-01-26 18:27:40.758485000 -0800
-+++ xchat-2.6.1/configure.in	2006-01-26 18:26:48.928474000 -0800
-@@ -11,7 +11,13 @@ AM_DISABLE_STATIC
- AM_PROG_LIBTOOL
+--- xchat-2.8.0/configure.in.patch01	2007-01-02 22:33:58.000000000 -0500
++++ xchat-2.8.0/configure.in	2007-01-07 00:12:44.563299000 -0500
+@@ -26,7 +26,13 @@
+ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE",[Gettext package name])
  
- ALL_LINGUAS="de el es fi fr gl hu ja ko nl pa sq sr sv vi zh_TW"
+ ALL_LINGUAS="be cs de el es fi fr gl hu it ja ko lt nl pa pt ru sq sr sv vi zh_TW"
 -AM_GNU_GETTEXT
 +AM_GLIB_GNU_GETTEXT
 +USE_INCLUDED_LIBINTL=no
@@ -15,7 +15,7 @@
  
  dnl displaced from acconfig.h
  AH_VERBATIM([OLD_PERL],[#undef OLD_PERL])
-@@ -297,7 +301,7 @@ if test "$python" = yes; then
+@@ -307,7 +313,7 @@
                          PY_PREFIX=`$pythonpath -c 'import sys; print sys.prefix'`
                          PY_EXEC_PREFIX=`$pythonpath -c 'import sys; print sys.exec_prefix'`
                          if test -f $PY_INC/Python.h; then
@@ -24,19 +24,3 @@
                                  PY_CFLAGS="-I$PY_INC"
                                  AC_MSG_RESULT(ok)
                          else
---- xchat-2.6.2/plugins/dbus/Makefile.am.orig	2006-05-08 17:23:47.327109000 +0100
-+++ xchat-2.6.2/plugins/dbus/Makefile.am	2006-05-08 17:25:28.749172000 +0100
-@@ -20,11 +20,11 @@
- 
- bin_PROGRAMS = xchat-remote
- xchat_remote_SOURCES = xchat-remote.c 
--xchat_remote_LDADD = $(DBUS_LIBS) $(GLIB_LIBS)
-+xchat_remote_LDADD = $(DBUS_LIBS) $(GLIB_LIBS) $(GTK_LIBS)
- 
- noinst_PROGRAMS = example
- example_SOURCES = example.c 
--example_LDADD = $(DBUS_LIBS) $(GLIB_LIBS)
-+example_LDADD = $(DBUS_LIBS) $(GLIB_LIBS) $(GTK_LIBS)
- 
- INCLUDES =					\
- 	$(COMMON_CFLAGS)			\

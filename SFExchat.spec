@@ -10,10 +10,11 @@
 
 Name:                    SFExchat
 Summary:                 XChat IRC Client
-Version:                 2.6.6
-Source:                  http://www.xchat.org/files/source/2.6/xchat-%{version}.tar.bz2
+Version:                 2.8.0
+Source:                  http://www.xchat.org/files/source/2.8/xchat-%{version}.tar.bz2
 Patch1:                  xchat-01-gettext.diff
 Patch2:                  xchat-02-zero-index.diff
+Patch3:                  xchat-03-dbus-LDADD.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -46,8 +47,9 @@ Requires:                %{name}
 
 %prep
 %setup -q -n xchat-%version
-%patch1 -p1
-%patch2 -p1
+%patch1 -p1 -b .patch01
+%patch2 -p1 -b .patch02
+%patch3 -p1 -b .patch03
 touch NEWS
 
 %build
@@ -134,6 +136,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
+%if %{with_dbus}
+%{_datadir}/dbus-1/services/org.xchat.*
+%endif
 
 %if %{with_dbus}
 %files root
@@ -150,6 +155,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Jan  7 2007 - laca@sun.com
+- bump to 2.8.0, merge patches, update %files
 * Mon Jul 31 2006 - glynn.foster@sun.com
 - bump to 2.6.6
 * Mon Jun 12 2006 - laca@sun.com
