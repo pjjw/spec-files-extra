@@ -9,8 +9,8 @@
 
 Name:                    SFEpessulus
 Summary:                 Pessulus
-Version:                 0.10.1
-Source:                  http://ftp.gnome.org/pub/GNOME/sources/pessulus/0.10/pessulus-%{version}.tar.bz2
+Version:                 2.16.2
+Source:                  http://ftp.gnome.org/pub/GNOME/sources/pessulus/2.16/pessulus-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -36,10 +36,11 @@ export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export LDFLAGS="%_ldflags"
 export CC="cc %optflags"
 
-glib-gettextize -f
 libtoolize --copy --force
+glib-gettextize -f
+intltoolize --force --copy
 aclocal $ACLOCAL_FLAGS
-autoheader
+#autoheader
 automake -a -c -f 
 autoconf
 
@@ -76,8 +77,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/pessulus.desktop
 %{_datadir}/pessulus
+%dir %attr (0755, root, other) %{_datadir}/locale
+%{_datadir}/locale/*/LC_MESSAGES/*.mo
 
 %changelog
+* Mon Jan 08 2007 - matt.keenan@sun.com
+- Bump to 2.16.2
 * Fri Jun 30 2006 - laca@sun.com
 - rename to SFEpessulus
 - fix up %files
