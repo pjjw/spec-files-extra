@@ -1,3 +1,7 @@
+2007-01-08  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFElibcm.spec: Bump to 0.1.0.
+
 2007-01-07  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFExchat.spec: bump to 2.8.0; update patches and %files

@@ -23,9 +23,8 @@
 
 Name:                    SFElibcm
 Summary:                 Composite Manager library for Metacity
-# this is a CVS snapshot tarball
-Version:                 0.0.22.2006.11.07
-Source:                  http://pkgbuild.sf.net/spec-files-extra/tarballs/libcm-%{version}.tar.bz2
+Version:                 0.1.0
+Source:                  http://download.gnome.org/sources/libcm/0.1/libcm-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -84,5 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Jan 08 2007 - daymobrew@users.sourceforge.net
+- Bump to 0.1.0.
+
 * Wed Sep 27 2006 - brian.cameron@sun.com
 - created.
