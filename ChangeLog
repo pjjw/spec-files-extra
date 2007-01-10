@@ -1,4 +1,9 @@
-2007-01-08  Damien Carbery <mattman_iflaf@users.sourceforge.net>
+2007-01-10  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEldtp.spec: Bump to 0.7.0. Add patch 01-file to fix #395027.
+	* patches/ldtp-01-file.diff: Added to fix build error #395027.
+
+2007-01-08  Matt Keenan <mattman_iflaf@users.sourceforge.net>
 
 	* SFEpessulus.spec: Bump to 2.16.2
 

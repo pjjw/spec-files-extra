@@ -1,0 +1,11 @@
+--- ldtp-0.7.0/src/ldtp-record.c.orig	2007-01-10 14:03:20.204703000 +0000
++++ ldtp-0.7.0/src/ldtp-record.c	2007-01-10 14:15:08.567857000 +0000
+@@ -1036,7 +1036,7 @@
+ 
+ 	g_print ("Event Listeners unrefed\n");
+ 
+-	g_print ("FP: %d - %s\n", cctxt->rec->fp->_fileno, cctxt->rec->filename);
++	g_print ("FP: %d - %s\n", fileno( cctxt->rec->fp ), cctxt->rec->filename);
+ 	if (cctxt->rec->fp && cctxt->rec->filename) {
+ 		fprintf (cctxt->rec->fp, "</RECORD>\n");
+ 		fclose (cctxt->rec->fp);
