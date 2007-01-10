@@ -1,0 +1,11 @@
+--- libdvdnav-0.1.10/configure.ac.orig	2007-01-07 12:11:06.631374000 -0500
++++ libdvdnav-0.1.10/configure.ac	2007-01-07 12:11:13.337455000 -0500
+@@ -175,7 +175,7 @@
+ dnl cflags
+ dnl ---------------------------------------------
+ dnl Common cflags for all platforms
+-CFLAGS="-O3 -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE $CFLAGS"
++CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE $CFLAGS"
+ DEBUG_CFLAGS="-g -DDEBUG $CFLAGS"
+ 
+ AC_SUBST(DEBUG_CFLAGS)

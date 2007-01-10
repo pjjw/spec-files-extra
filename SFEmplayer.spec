@@ -5,6 +5,8 @@
 #
 %include Solaris.inc
 
+%define codecdir %{_libdir}/mplayer/codecs
+
 Name:                    SFEmplayer
 Summary:                 mplayer - The Movie Player
 Version:                 1.0
@@ -14,7 +16,6 @@ Patch1:                  mplayer-01-cddb.diff
 Patch2:                  mplayer-02-makefile-libfame-dep.diff
 Patch3:                  mplayer-03-asmrules_20061231.diff
 Patch4:                  mplayer-04-cabac-asm.diff
-Source2:                 http://www1.mplayerhq.hu/MPlayer/releases/codecs/essential-20061022.tar.bz2
 Source3:                 http://www.mplayerhq.hu/MPlayer/skins/Blue-1.7.tar.bz2
 Source4:                 http://www.mplayerhq.hu/MPlayer/skins/Abyss-1.6.tar.bz2
 Source5:                 http://www.mplayerhq.hu/MPlayer/skins/neutron-1.5.tar.bz2
@@ -99,7 +100,7 @@ bash ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --with-x11libdir=%{x11}/lib      \
             --with-extraincdir=/usr/sfw/include        \
             --with-extralibdir=/usr/sfw/lib            \
-            --with-codecsdir=%{_libdir}/mplayer/codecs \
+            --with-codecsdir=%{codecdir} \
             --enable-libfame                 \
             --enable-faad-external           \
             --enable-live                    \
@@ -114,12 +115,6 @@ make -j$CPUS
 rm -rf $RPM_BUILD_ROOT
 gmake install DESTDIR=$RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/mplayer/codecs
-( 
-	cd $RPM_BUILD_ROOT%{_libdir}/mplayer/codecs
-	gtar fxvj %SOURCE2
-	mv essential-20060611/* .
-	rmdir essential-20060611
-)
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/mplayer/skins
 (
 	cd $RPM_BUILD_ROOT%{_datadir}/mplayer/skins
@@ -154,6 +149,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Sun Jan  7 2007 - laca@sun.com
+- split the codecs out into SFEmplayer-codecs
 * Wed Jan  3 2007 - laca@sun.com
 - re-add patches cddb and makefile-libfame-dep after merging with 1.0rc1
 - add patches asmrules_20061231 (fixes a buffer overflow) and

@@ -1,3 +1,40 @@
+2007-01-10  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEaalib.spec: define -devel subpkg
+	* SFElibdvdcss.spec: rename to SFElibdvdcss
+	* SFElibdvdnav.spec: (new) DVD navigation library
+	* SFElibdvdread.spec: s/FWlibdvdcss/SFElibdvdcss/
+	* SFElibmng.spec: (new) the MNG reference library
+	* SFElibnotify.spec: fix gtk-doc dir attribute; define CFLAGS/LDFLAGS
+	* SFElibsndfile.spec: delete some unnecessary env variables
+	* SFElibtool.spec: fix infodir permissions, update info dir file
+	  using postrun scripts
+	* SFEmplayer-codecs.spec: (new) win32 codecs for mplayer (and xine)
+	* SFEmplayer-plugin.spec: update basedir, create -root subpkg
+	* SFEmplayer.spec: split the codecs out into SFEmplayer-codecs
+	* SFEstunnel.spec: bump to 4.20
+	* SFExine-lib.spec: (new) core libs of the Xine video player
+	* SFExine-ui.spec: (new) Xlib based front-end to for the Xine
+	  video player
+	* patches/libdvdnav-01-Wall.diff: (new) remove unportable -Wall from
+	  the compiler flags
+	* patches/xine-lib-01-sysi86.diff: disable a declaration that
+	  now conflicts with Solaris headers
+	* patches/xine-lib-02-asm-pic.diff: (new) upstream patch that
+	  fixes PIC compilation of some asm code
+	* patches/xine-lib-03-gettext.diff: (new) patch for supporting
+	  Solaris gettext in xine-lib
+	* patches/xine-lib-04-hal-support.diff: (new) my own experimental
+	  patch for using HAL to find cd/dvd devices
+	* patches/xine-ui-01-gettext.diff: (new) patch for using Solaris
+	  gettext in xine-ui
+	* patches/xine-ui-02-glib-gettext-Makefile.diff: patch glib's 
+	  po/Makefile.in.in so that it can be used in multiple po subdirs
+	* patches/xine-ui-03-glibc-compat.diff: (new) cut and paste code
+	  from glibc for some missing functions.
+	* SFEmonkey-bubble.spec: add command about stlport compiler bug
+	* SFExplanet.spec: add command about stlport compiler bug
+
 2007-01-10  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEldtp.spec: Bump to 0.7.0. Add patch 01-file to fix #395027.

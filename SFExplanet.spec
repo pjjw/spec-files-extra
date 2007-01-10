@@ -1,3 +1,15 @@
+# NOTE:
+#
+# You need to patch your Sun Studio compiler to be able to build this
+# spec file.  Until an official patch is released, you can
+# apply patches/sun-studio-stlport4-fileno.diff
+# to file SUNWspro/prod/include/CC/stlport4/stl/_stdio_file.h
+# Here's how you do it:
+#    $ su -
+#    # cd /path/to/SUNWspro/prod/include/CC/stlport4/stl
+#    # gpatch -p1 < /path/to/SFE/patches/sun-studio-stlport4-fileno.diff
+#
+
 #
 # spec file for package SFExplanet
 #

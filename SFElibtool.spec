@@ -9,10 +9,10 @@ Name:                SFElibtool
 Summary:             Generic library support script
 Version:             1.5.22
 Source:              ftp://ftp.gnu.org/gnu/libtool/libtool-%{version}.tar.gz
-
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+Requires:  SUNWpostrun
 
 %prep
 %setup -q -n libtool-%version
@@ -26,7 +26,9 @@ fi
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
 
-./configure --prefix=%{_prefix}
+./configure \
+    --prefix=%{_prefix} \
+    --infodir=%{_infodir}
 
 make -j$CPUS
 
@@ -40,6 +42,27 @@ rm $RPM_BUILD_ROOT%{_datadir}/info/dir
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
+  echo 'infos="';
+  echo 'libtool.info' ;
+  echo '"';
+  echo 'retval=0';
+  echo 'for info in $infos; do';
+  echo '  install-info --info-dir=%{_infodir} %{_infodir}/$info || retval=1';
+  echo 'done';
+  echo 'exit $retval' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
+
+%preun
+( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
+  echo 'infos="';
+  echo 'libtool.info' ;
+  echo '"';
+  echo 'for info in $infos; do';
+  echo '  install-info --info-dir=%{_infodir} --delete %{_infodir}/$info';
+  echo 'done';
+  echo 'exit 0' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
+
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
@@ -49,7 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*.h
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, other) %{_datadir}/info
+%dir %attr (0755, root, bin) %{_datadir}/info
 %{_datadir}/info/libtool.info
 %dir %attr (0755, root, other) %{_datadir}/aclocal
 %{_datadir}/aclocal/*
@@ -57,6 +80,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/libtool/*
 
 %changelog
-* 
+* Sun Jan  7 2007 - laca@sun.com
+- fix infodir permissions, update info dir file using postrun scripts
 * Wed Dec 20 2006 - Eric Boutilier
 - Initial spec

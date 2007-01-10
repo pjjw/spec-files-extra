@@ -12,7 +12,7 @@ Source:                  http://www.dtek.chalmers.se/groups/dvd/dist/libdvdread-
 SUNW_BaseDir:            %{_basedir}
 buildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires: FWlibdvdcss
+Requires: SFElibdvdcss
 
 %package devel
 Summary:                 %{summary} - development files

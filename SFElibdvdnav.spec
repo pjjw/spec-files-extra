@@ -1,16 +1,17 @@
 #
-# spec file for package SFElibdvdcss
+# spec file for package SFElibdvdnav
 #
-# includes module(s): libdvdcss
+# includes module(s): libdvdnav
 #
 %include Solaris.inc
 
-Name:                    SFElibdvdcss
-Summary:                 libdvdcss  - a simple library designed for accessing DVDs like a block device without having to bother about the decryption.
-Version:                 1.2.9
-Source:                  http://download.videolan.org/pub/libdvdcss/%{version}/libdvdcss-%{version}.tar.bz2
+Name:                    SFElibdvdnav
+Summary:                 libdvdnav  - DVD navigation library
+Version:                 0.1.10
+Source:                  http://easynews.dl.sourceforge.net/sourceforge/dvd/libdvdnav-%{version}.tar.gz
+Patch1:                  libdvdnav-01-Wall.diff
 SUNW_BaseDir:            %{_basedir}
-BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+buildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 %package devel
@@ -21,7 +22,8 @@ Requires: %name
 
 
 %prep
-%setup -q -n libdvdcss-%version
+%setup -q -n libdvdnav-%version
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -29,9 +31,13 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 export CFLAGS="%optflags"
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export MSGFMT="/usr/bin/msgfmt"
+export LDFLAGS="%_ldflags"
 
+libtoolize --copy --force
+aclocal $ACLOCAL_FLAGS
+autoheader
+automake -a -c -f 
+autoconf
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
@@ -56,10 +62,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/dvdnav-config
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/aclocal
+%{_datadir}/aclocal/*
 
 %changelog
-* Mon Jun 12 2006 - laca@sun.com
-- renamed to SFElibdvdcss
-- changed to root:bin to follow other JDS pkgs.
-* Wed Feb 15 2004 - glynn.foster@sun.com
-- Initial version
+* Sun Jan  7 2007 - laca@sun.com
+- create

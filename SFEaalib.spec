@@ -10,12 +10,16 @@ Name:                SFEaalib
 Summary:             An ASCII art gfx library.
 Version:             1.4.0
 Source:              http://superb-east.dl.sourceforge.net/sourceforge/aa-project/aalib-%{tarball_version}.tar.gz
-
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-
 Requires: SUNWxwplt
+
+%package devel
+Summary:                 %{summary} - development files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires: %name
 
 %prep
 %setup -q -n aalib-%version
@@ -48,9 +52,21 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
+%{_bindir}/aafire
+%{_bindir}/aainfo
+%{_bindir}/aasavefont
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/*
+
+%files devel
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/aalib-config
+%{_bindir}/aatest
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 %dir %attr (0755, root, sys) %{_datadir}
@@ -59,12 +75,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/aclocal
 %{_datadir}/aclocal/*
 %dir %attr (0755, root, bin) %{_mandir}
-%dir %attr (0755, root, bin) %{_mandir}/man1
-%{_mandir}/man1/*
 %dir %attr (0755, root, bin) %{_mandir}/man3
 %{_mandir}/man3/*
 
 %changelog
-* 
+* Sun Jan  7 2007 - laca@sun.com
+- create -devel subpkg
 * The Dec 14 2006 - Eric Boutilier
 - Initial spec

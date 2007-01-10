@@ -1,0 +1,312 @@
+--- xine-lib-1.1.3/src/input/input_dvd.c.hal	2007-01-10 13:14:06.356080000 -0500
++++ xine-lib-1.1.3/src/input/input_dvd.c	2007-01-10 14:47:34.938213000 -0500
+@@ -114,6 +114,10 @@
+ /* Is seeking enabled? 1 - Yes, 0 - No */
+ #define CAN_SEEK 1
+ 
++#ifdef HAVE_LIBHAL
++#include "hal-find-drive.h"
++#endif
++
+ /* The default DVD device on Solaris is not /dev/dvd */
+ #if defined(__sun)
+ #define DVD_PATH "/vol/dev/aliases/cdrom0"
+@@ -1779,9 +1783,15 @@
+ 
+   this->ip                             = NULL;
+ 
++#ifdef HAVE_LIBHAL
++  const char *dvd_path = hal_find_drive (HAL_DRIVE_DVD);
++#else
++  const char *dvd_path = DVD_PATH;
++#endif
++
+   this->dvd_device = config->register_string(config,
+ 					     "media.dvd.device",
+-					     DVD_PATH,
++					     dvd_path,
+ 					     _("device used for DVD playback"),
+ 					     _("The path to the device, usually a "
+ 					       "DVD drive, which you intend to use for playing DVDs."),
+--- xine-lib-1.1.3/src/input/input_vcd.c.hal	2007-01-10 14:51:20.804744000 -0500
++++ xine-lib-1.1.3/src/input/input_vcd.c	2007-01-10 14:52:47.023966000 -0500
+@@ -53,6 +53,10 @@
+ #include "input_plugin.h"
+ #include "media_helper.h"
+ 
++#ifdef HAVE_LIBHAL
++#include "hal-find-drive.h"
++#endif
++
+ #if defined(__sun)
+ #define	CDROM	       "/vol/dev/aliases/cdrom0"
+ #else
+@@ -1094,7 +1098,14 @@
+   this->input_class.dispose            = vcd_class_dispose;
+   this->input_class.eject_media        = vcd_class_eject_media;
+ 
+-  this->device = config->register_string (config, "media.vcd.device", CDROM,
++#ifdef HAVE_LIBHAL
++  const char *cdrom_device_file = hal_find_drive (HAL_DRIVE_CD);
++#else
++  const char *cdrom_device_file = CDROM;
++#endif
++
++  this->device = config->register_string (config, "media.vcd.device",
++					  cdrom_device_file,
+ 					  _("device used for VCD playback"),
+ 					  _("The path to the device, usually a CD or DVD drive, "
+ 					    "you intend to play your VideoCDs with."),
+--- xine-lib-1.1.3/src/input/input_cdda.c.hal	2007-01-10 14:48:49.026361000 -0500
++++ xine-lib-1.1.3/src/input/input_cdda.c	2007-01-10 14:50:53.574156000 -0500
+@@ -55,6 +55,10 @@
+ #include <netinet/in.h>
+ #include <sys/socket.h>
+ 
++#ifdef HAVE_LIBHAL
++#include "hal-find-drive.h"
++#endif
++
+ #define LOG_MODULE "input_cdda"
+ #define LOG_VERBOSE
+ /*
+@@ -2675,8 +2679,13 @@
+   this->mrls_allocated_entries = 0;
+   this->ip = NULL;
+   
++#ifdef HAVE_LIBHAL
++  const char *cdda_device_file = hal_find_drive (HAL_DRIVE_CD);
++#else
++  const char *cdda_device_file = DEFAULT_CDDA_DEVICE;
++#endif
+   this->cdda_device = config->register_string(config, "media.audio_cd.device", 
+-					      DEFAULT_CDDA_DEVICE,
++					      cdda_device_file,
+ 					      _("device used for CD audio"),
+ 					      _("The path to the device, usually a "
+ 						"CD or DVD drive, which you intend to use "
+--- xine-lib-1.1.3/src/input/Makefile.am.hal	2007-01-10 14:53:20.745589000 -0500
++++ xine-lib-1.1.3/src/input/Makefile.am	2007-01-10 15:00:44.900975000 -0500
+@@ -16,6 +16,10 @@
+ # All of xine input plugins should be named like the scheme "xineplug_inp_"
+ #
+ 
++if HAVE_LIBHAL
++hal_src = hal-find-drive.c
++endif
++
+ if HAVE_CDROM_IOCTLS
+ in_vcd = xineplug_inp_vcdo.la
+ endif
+@@ -76,9 +80,9 @@
+ xineplug_inp_file_la_CFLAGS = $(VISIBILITY_FLAG) $(AM_CFLAGS)
+ xineplug_inp_file_la_LDFLAGS = -avoid-version -module
+ 
+-xineplug_inp_dvd_la_SOURCES = input_dvd.c media_helper.c
+-xineplug_inp_dvd_la_LIBADD = $(XINE_LIB) $(link_dvdnav) $(THREAD_LIBS)
+-xineplug_inp_dvd_la_CFLAGS = $(VISIBILITY_FLAG) $(AM_CFLAGS)
++xineplug_inp_dvd_la_SOURCES = input_dvd.c media_helper.c $(hal_src)
++xineplug_inp_dvd_la_LIBADD = $(XINE_LIB) $(link_dvdnav) $(THREAD_LIBS) $(LIBHAL_LIBS)
++xineplug_inp_dvd_la_CFLAGS = $(VISIBILITY_FLAG) $(AM_CFLAGS) $(LIBHAL_CFLAGS)
+ xineplug_inp_dvd_la_LDFLAGS = -avoid-version -module
+ 
+ xineplug_inp_net_la_SOURCES = input_net.c net_buf_ctrl.c
+@@ -91,9 +95,9 @@
+ xineplug_inp_mms_la_CFLAGS = $(VISIBILITY_FLAG) $(AM_CFLAGS)
+ xineplug_inp_mms_la_LDFLAGS = -avoid-version -module
+ 
+-xineplug_inp_vcdo_la_SOURCES = input_vcd.c media_helper.c
+-xineplug_inp_vcdo_la_LIBADD = $(XINE_LIB)
+-xineplug_inp_vcdo_la_CFLAGS = $(VISIBILITY_FLAG) $(AM_CFLAGS)
++xineplug_inp_vcdo_la_SOURCES = input_vcd.c media_helper.c $(hal_src)
++xineplug_inp_vcdo_la_LIBADD = $(XINE_LIB) $(LIBHAL_LIBS)
++xineplug_inp_vcdo_la_CFLAGS = $(VISIBILITY_FLAG) $(AM_CFLAGS) $(LIBHAL_CFLAGS)
+ xineplug_inp_vcdo_la_LDFLAGS = -avoid-version -module
+ 
+ xineplug_inp_stdin_fifo_la_SOURCES = input_stdin_fifo.c net_buf_ctrl.c
+@@ -126,9 +130,9 @@
+ xineplug_inp_rtsp_la_CFLAGS = $(VISIBILITY_FLAG) $(AM_CFLAGS)
+ xineplug_inp_rtsp_la_LDFLAGS = -avoid-version -module
+ 
+-xineplug_inp_cdda_la_SOURCES = input_cdda.c media_helper.c sha1.c sha1.h base64.c base64.h
+-xineplug_inp_cdda_la_LIBADD = $(XINE_LIB)
+-xineplug_inp_cdda_la_CFLAGS = $(VISIBILITY_FLAG) $(AM_CFLAGS)
++xineplug_inp_cdda_la_SOURCES = input_cdda.c media_helper.c sha1.c sha1.h base64.c base64.h $(hal_src)
++xineplug_inp_cdda_la_LIBADD = $(XINE_LIB) $(LIBHAL_LIBS)
++xineplug_inp_cdda_la_CFLAGS = $(VISIBILITY_FLAG) $(AM_CFLAGS) $(LIBHAL_CFLAGS)
+ xineplug_inp_cdda_la_LDFLAGS = -avoid-version -module
+ 
+ xineplug_inp_v4l_la_SOURCES = input_v4l.c
+--- xine-lib-1.1.3/configure.ac.hal	2007-01-10 14:56:49.077968000 -0500
++++ xine-lib-1.1.3/configure.ac	2007-01-10 15:00:17.155055000 -0500
+@@ -1102,6 +1102,25 @@
+ 
+ 
+ dnl ---------------------------------------------
++dnl HAL support
++dnl ---------------------------------------------
++
++AC_ARG_WITH([hal],
++	AS_HELP_STRING([--without-hal], [Build without HAL support]))
++
++if test "x$with_hal" != "xno"; then
++   PKG_CHECK_MODULES([LIBHAL], [hal hal-storage glib-2.0], [have_libhal=yes], [have_libhal=no])
++   if test "x$with_libhal" = "xyes" && test "x$have_libhal" = "xno"; then
++      AC_MSG_ERROR([HAL support requested, but libhal not found])
++   fi
++fi
++AM_CONDITIONAL([HAVE_LIBHAL], [test "x$have_libhal" = "xyes"])
++AC_DEFINE([HAVE_LIBHAL], [1], [Define this if you have libhal library])
++
++AC_SUBST([LIBHAL_CFLAGS])
++AC_SUBST([LIBHAL_LIBS])
++
++dnl ---------------------------------------------
+ dnl Ogg/Vorbis libs.
+ dnl ---------------------------------------------
+ 
+--- /dev/null   2007-01-10 15:19:21.000000000 -0500
++++ xine-lib-1.1.3/src/input/hal-find-drive.h 2006-10-26 19:20:01.647010000 -0400
+@@ -0,0 +1,9 @@
++typedef enum {
++  HAL_DRIVE_DVD,
++  HAL_DRIVE_CD
++} XineHalDriveType;
++
++const char *
++hal_find_drive (XineHalDriveType t);
++
++
+--- /dev/null	2007-01-10 16:08:27.000000000 -0500
++++ xine-lib-1.1.3/src/input/hal-find-drive.c	2007-01-10 16:07:06.074711000 -0500
+@@ -0,0 +1,130 @@
++#include <stdlib.h>
++#include <string.h>
++#include "hal-find-drive.h"
++#include <libhal.h>
++#include <libhal-storage.h>
++#include <dbus/dbus-glib.h>
++
++#define HAL_DEBUG
++
++#ifdef HAL_DEBUG
++#include <stdio.h>
++#define HAL_DEBUG_PRINTF printf
++#else
++#define HAL_DEBUG_PRINTF if(0) printf
++#endif
++
++const char *
++hal_find_drive (XineHalDriveType t) {
++  LibHalContext *hal_ctx;
++  DBusConnection *dbus_connection;
++  DBusError error;
++  char **drives;
++  const char *device_file_name, *ret = NULL;
++  int num_drives;
++
++  if ((hal_ctx = libhal_ctx_new ()) == NULL) {
++    HAL_DEBUG_PRINTF ("libhal_ctx_new failed\n");
++    return NULL;
++  }
++
++  dbus_error_init (&error);
++  dbus_connection = dbus_bus_get (DBUS_BUS_SYSTEM, &error);
++  if (dbus_error_is_set (&error)) {
++    HAL_DEBUG_PRINTF ("Error connecting to DBUS system bus: %s",
++		      error.message);
++    dbus_error_free (&error);
++    libhal_ctx_free (hal_ctx);
++    return NULL;
++  }
++
++  libhal_ctx_set_dbus_connection (hal_ctx, dbus_connection);
++
++  if (!libhal_ctx_init (hal_ctx, &error)) {
++    HAL_DEBUG_PRINTF ("libhal_ctx_init failed: %s\n", error.message);
++    dbus_error_free (&error);
++    libhal_ctx_free (hal_ctx);
++    return NULL;
++  }
++
++  drives = libhal_find_device_by_capability (hal_ctx,
++					     "storage",
++					     &num_drives,
++					     &error);
++  if (drives != NULL) {
++    int i;
++    for (i = 0; i < num_drives; i++) {
++      LibHalDrive *drive;
++      LibHalDriveType drive_type;
++      HAL_DEBUG_PRINTF ("drive = '%s'", drives[i]);
++      drive = libhal_drive_from_udi (hal_ctx, drives[i]);
++
++      drive_type = libhal_drive_get_type (drive);
++      if (drive_type!=LIBHAL_DRIVE_TYPE_CDROM) {
++	continue;
++      }
++
++      if (drive != NULL) {
++	char **volumes;
++	int num_volumes;
++
++	volumes = libhal_drive_find_all_volumes (hal_ctx, drive, &num_volumes);
++	if (num_volumes > 0) {
++	  int j;
++	  
++	  for (j = 0; j < num_volumes; j++) {
++	    LibHalVolume *volume;
++	    volume = libhal_volume_from_udi (hal_ctx, volumes[j]);
++
++            switch (libhal_volume_get_disc_type (volume)) {
++            case LIBHAL_VOLUME_DISC_TYPE_CDROM:
++            case LIBHAL_VOLUME_DISC_TYPE_CDR:
++            case LIBHAL_VOLUME_DISC_TYPE_CDRW:
++	      if (t == HAL_DRIVE_CD) {
++		device_file_name = libhal_volume_get_device_file (volume);
++	      }
++	      break;
++            case LIBHAL_VOLUME_DISC_TYPE_DVDROM:
++            case LIBHAL_VOLUME_DISC_TYPE_DVDRAM:
++            case LIBHAL_VOLUME_DISC_TYPE_DVDR:
++            case LIBHAL_VOLUME_DISC_TYPE_DVDRW:
++            case LIBHAL_VOLUME_DISC_TYPE_DVDPLUSR:
++            case LIBHAL_VOLUME_DISC_TYPE_DVDPLUSRW:
++            case LIBHAL_VOLUME_DISC_TYPE_DVDPLUSR_DL:
++            case LIBHAL_VOLUME_DISC_TYPE_HDDVDROM:
++            case LIBHAL_VOLUME_DISC_TYPE_HDDVDR:
++            case LIBHAL_VOLUME_DISC_TYPE_HDDVDRW:
++	      if (t == HAL_DRIVE_DVD) {
++		device_file_name = libhal_volume_get_device_file (volume);
++	      }
++	      break;
++            case LIBHAL_VOLUME_DISC_TYPE_BDROM:
++            case LIBHAL_VOLUME_DISC_TYPE_BDR:
++            case LIBHAL_VOLUME_DISC_TYPE_BDRE:
++	    default:
++	      break;
++	    }                    
++	    if (device_file_name) {
++                ret = malloc (strlen (device_file_name) + 1);
++                strcpy (ret, device_file_name);
++	        libhal_volume_free (volume);
++		break;
++	    }
++	    libhal_volume_free (volume);
++	  }
++	  
++	}
++	libhal_drive_free (drive);
++      }
++    }
++  }
++
++  dbus_error_free (&error);
++  libhal_ctx_free (hal_ctx);
++  libhal_free_string_array (drives);
++
++  if (!ret) {
++    return "/dev/dvd";
++  }
++  return ret;
++}

@@ -7,7 +7,7 @@
 
 Name:                SFEstunnel
 Summary:             An SSL client/server encryption wrapper
-Version:             4.16
+Version:             4.20
 Source:              ftp://stunnel.mirt.net/stunnel/stunnel-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
@@ -75,6 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/stunnel/stunnel.conf-sample
 
 %changelog
-* 
+* Sun Jan  7 2007 - laca@sun.com
+- bump to 4.20
 * Mon Dec 18 2006 - Eric Boutilier
 - Initial spec

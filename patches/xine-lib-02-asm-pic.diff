@@ -1,0 +1,1098 @@
+diff -urp xine-lib-1.1.1-old/src/libw32dll/wine/module.c xine-lib-1.1.1/src/libw32dll/wine/module.c
+--- xine-lib-1.1.1-old/src/libw32dll/wine/module.c	2005-10-23 00:09:47.000000000 +0200
++++ xine-lib-1.1.1/src/libw32dll/wine/module.c	2005-12-24 20:27:12.000000000 +0100
+@@ -38,8 +38,8 @@
+ 
+ #ifdef EMU_QTX_API
+ #include "wrapper.h"
+-static int report_func(void *stack_base, int stack_size, reg386_t *reg, u_int32_t *flags);
+-static int report_func_ret(void *stack_base, int stack_size, reg386_t *reg, u_int32_t *flags);
++int report_func(void *stack_base, int stack_size, reg386_t *reg, u_int32_t *flags);
++int report_func_ret(void *stack_base, int stack_size, reg386_t *reg, u_int32_t *flags);
+ #endif
+ 
+ //#undef TRACE
+@@ -533,8 +533,6 @@ HMODULE WINAPI LoadLibraryExA(LPCSTR lib
+ 	    printf ("wine/module: QuickTime.qts patched!!! old entry=%p\n",ptr[0]);
+ 
+ #ifdef EMU_QTX_API
+-	    report_entry = report_func;
+-	    report_ret   = report_func_ret;
+ 	    wrapper_target=ptr[0];
+ 	    ptr[0]=wrapper;
+ #endif
+@@ -697,7 +695,7 @@ static int dump_component(char* name,int
+ static u_int32_t ret_array[4096];
+ static int ret_i=0;
+ 
+-static int report_func(void *stack_base, int stack_size, reg386_t *reg, u_int32_t *flags)
++int report_func(void *stack_base, int stack_size, reg386_t *reg, u_int32_t *flags)
+ {
+ #ifdef DEBUG_QTX_API
+   int i;
+@@ -896,7 +894,7 @@ static int report_func(void *stack_base,
+     return 0;
+ }
+ 
+-static int report_func_ret(void *stack_base, int stack_size, reg386_t *reg, u_int32_t *flags)
++int report_func_ret(void *stack_base, int stack_size, reg386_t *reg, u_int32_t *flags)
+ {
+ #ifdef DEBUG_QTX_API
+   int i;
+@@ -1011,8 +1009,6 @@ FARPROC MODULE_GetProcAddress(
+ //      || !strcmp(function,"_CallComponent")
+       ){
+ 	fprintf(stderr,"theQuickTimeDispatcher caught -> %p\n",retproc);
+-      report_entry = report_func;
+-      report_ret   = report_func_ret;
+       wrapper_target=(void *)retproc;
+       retproc=(void *)wrapper;
+     }
+diff -urp xine-lib-1.1.1-old/src/libw32dll/wine/stubs.s xine-lib-1.1.1/src/libw32dll/wine/stubs.s
+--- xine-lib-1.1.1-old/src/libw32dll/wine/stubs.s	2002-06-21 03:44:17.000000000 +0200
++++ xine-lib-1.1.1/src/libw32dll/wine/stubs.s	2005-12-24 21:05:46.000000000 +0100
+@@ -33,3 +33,6 @@ exp_EH_prolog:
+ 	leal  12(%esp), %ebp
+ 	pushl %eax
+ 	ret
++
++.section .note.GNU-stack,"",@progbits
++
+diff -urp xine-lib-1.1.1-old/src/libw32dll/wine/wrapper.S xine-lib-1.1.1/src/libw32dll/wine/wrapper.S
+--- xine-lib-1.1.1-old/src/libw32dll/wine/wrapper.S	2002-12-18 05:00:56.000000000 +0100
++++ xine-lib-1.1.1/src/libw32dll/wine/wrapper.S	2005-12-24 21:06:07.000000000 +0100
+@@ -1,17 +1,18 @@
+ .section .data
+-.globl caller_return
+ caller_return:
+ 	.long 0
+-.globl report_entry
+-report_entry:
+-	.long null_call
+-.globl report_ret
+-report_ret:	
+-	.long null_call
+-.global wrapper_target
+ wrapper_target:	
+ 	.long null_call
+ 
++#undef __i686 /* gcc define gets in our way */
++	.section .gnu.linkonce.t.__i686.get_pc_thunk.bx,"ax",@progbits
++.globl __i686.get_pc_thunk.bx
++	.hidden	__i686.get_pc_thunk.bx
++	.type	__i686.get_pc_thunk.bx,@function
++__i686.get_pc_thunk.bx:
++	movl (%esp), %ebx
++	ret
++
+ .section .text
+ .globl null_call
+ 	.type null_call, @function
+@@ -22,46 +24,60 @@ null_call:
+ 	.type wrapper, @function
+ 	.balign 16,0x90
+ wrapper:
++	pushl $0
+ 	pusha			# store registers (EAX, ECX, EDX, EBX, ESP, EBP, ESI, EDI) 
+ 	pushf			# store flags
+ 	
+ 	push %ebp		# set up a stack frame 
+ 	movl %esp, %ebp
+ 
++	call __i686.get_pc_thunk.bx
++	addl $_GLOBAL_OFFSET_TABLE_, %ebx
++
+ 	leal 4(%ebp), %eax	# push flags addr
+ 	push %eax
+ 	leal 8(%ebp), %eax	# push registers addr
+ 	push %eax
+ 	
+-	leal 40(%ebp), %edx	
++	leal 44(%ebp), %edx	
+ 	movl (%ebp), %eax
+ 	subl %edx, %eax
+ 	push %eax
+ 	push %edx
+ 	
+-	call *report_entry	# report entry
++	call report_func@PLT	# report entry
+ 	
+ 	test %eax, %eax
+ 	jnz .Ldone
+ 
++	movl 44(%ebp), %eax	# switch return addresses
++	movl %eax, caller_return@GOTOFF(%ebx)
++	leal .Lwrapper_return@GOTOFF(%ebx), %eax
++	movl %eax, 40(%ebp)
++
++	movl wrapper_target@GOTOFF(%ebx), %eax
++	mov %eax, 40(%ebp)	# wrapper_target should return at .Lwrapper_return
++
+ 	leave			# restore %esp, %ebp
+ 	popf			# restore flags
+ 	popa			# restore registers
+-	
+-	popl caller_return	# switch return addresses
+-	pushl $.Lwrapper_return 
+-	
+-	jmp *wrapper_target	# wrapper_target should return at .Lwrapper_return
++
++	ret			# fake 'return' to wrapper_target actually
+ 
+ 	.balign 16, 0x90
+ .Lwrapper_return:	
+-	pushl caller_return	# restore the original return address
++	pushl $0
+ 	pusha			# more for reference sake here
+ 	pushf
+ 	
+ 	push %ebp		# set up a stack frame
+ 	movl %esp, %ebp
+ 
++	call __i686.get_pc_thunk.bx
++	addl $_GLOBAL_OFFSET_TABLE_, %ebx
++	movl caller_return@GOTOFF(%ebx), %eax
++	movl %eax, 40(%ebp)	# restore the original return address
++
+ 	leal 4(%ebp), %eax	# push flags addr
+ 	push %eax
+ 	leal 8(%ebp), %eax	# push registers addr
+@@ -73,11 +89,13 @@ wrapper:
+ 	push %eax
+ 	push %edx
+ 
+-	call *report_ret	# report the return information (same args)
++	call report_func_ret@PLT# report the return information (same args)
+ .Ldone:	
+ 
+ 	leave
+ 	popf
+ 	popa
+ 	ret
+-	
++
++.section .note.GNU-stack,"",@progbits
++
+diff -urp xine-lib-1.1.1-old/src/libw32dll/wine/wrapper.h xine-lib-1.1.1/src/libw32dll/wine/wrapper.h
+--- xine-lib-1.1.1-old/src/libw32dll/wine/wrapper.h	2002-12-18 21:14:55.000000000 +0100
++++ xine-lib-1.1.1/src/libw32dll/wine/wrapper.h	2005-12-24 20:15:05.000000000 +0100
+@@ -11,10 +11,6 @@ typedef struct {
+   u_int32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
+ } reg386_t;
+ 
+-typedef int (*wrapper_func_t)(void *stack_base, int stack_size, reg386_t *reg,  u_int32_t *flags);
+-
+-extern wrapper_func_t report_entry, report_ret;
+-
+ extern void (*wrapper_target)(void);
+ 
+ extern int wrapper(void);
+diff -urp xine-lib-1.1.1-old/src/post/deinterlace/plugins/greedy2frame_template.c xine-lib-1.1.1/src/post/deinterlace/plugins/greedy2frame_template.c
+--- xine-lib-1.1.1-old/src/post/deinterlace/plugins/greedy2frame_template.c	2005-06-05 18:00:06.000000000 +0200
++++ xine-lib-1.1.1/src/post/deinterlace/plugins/greedy2frame_template.c	2005-12-23 14:13:54.000000000 +0100
+@@ -183,7 +183,7 @@ static void DeinterlaceGreedy2Frame_MMX(
+         * See above for a description of the algorithm.
+ 	*/
+             ".align 8 \n\t"
+-            "movq "MANGLE(Mask)", %%mm6			\n\t"
++            "movq %4, %%mm6			\n\t"
+ 
+             "movq %0, %%mm1			\n\t"     // T1
+             "movq %1, %%mm0			\n\t"     // M1
+@@ -191,7 +191,7 @@ static void DeinterlaceGreedy2Frame_MMX(
+             "movq %3, %%mm2			\n\t"     // M0
+             : /* no output */
+             : "m" (*T1), "m" (*M1), 
+-              "m" (*B1), "m" (*M0) );
++              "m" (*B1), "m" (*M0), "m" (Mask) );
+           
+ 
+           asm volatile(
+@@ -248,10 +248,10 @@ static void DeinterlaceGreedy2Frame_MMX(
+ #endif
+ 
+             /* if |M1-M0| > Threshold we want dword worth of twos */
+-            "pcmpgtb "MANGLE(qwGreedyTwoFrameThreshold)", %%mm4			\n\t"
+-            "pand    "MANGLE(Mask)", %%mm4 	\n\t" /* get rid of sign bit */
+-            "pcmpgtd "MANGLE(DwordOne)", %%mm4 	\n\t" /* do we want to bob */
+-            "pandn   "MANGLE(DwordTwo)", %%mm4	\n\t"
++            "pcmpgtb %3, %%mm4			\n\t"
++            "pand    %4, %%mm4			\n\t" /* get rid of sign bit */
++            "pcmpgtd %5, %%mm4			\n\t" /* do we want to bob */
++            "pandn   %6, %%mm4			\n\t"
+ 
+             "movq    %1, %%mm2			\n\t" /* mm2 = T0 */
+ 
+@@ -264,11 +264,11 @@ static void DeinterlaceGreedy2Frame_MMX(
+             "pand    %%mm6, %%mm5			\n\t"
+ 
+             /* if |T1-T0| > Threshold we want dword worth of ones */
+-            "pcmpgtb "MANGLE(qwGreedyTwoFrameThreshold)", %%mm5	      	\n\t"
++            "pcmpgtb %3, %%mm5			\n\t"
+             "pand    %%mm6, %%mm5		\n\t" /* get rid of sign bit */
+ 
+-            "pcmpgtd "MANGLE(DwordOne)", %%mm5			\n\t" 
+-            "pandn   "MANGLE(DwordOne)", %%mm5			\n\t"
++            "pcmpgtd %5, %%mm5			\n\t" 
++            "pandn   %5, %%mm5			\n\t"
+             "paddd   %%mm5, %%mm4			\n\t"
+ 
+             "movq    %2, %%mm2			\n\t"     /* B0 */
+@@ -282,13 +282,13 @@ static void DeinterlaceGreedy2Frame_MMX(
+             "pand    %%mm6, %%mm5			\n\t"
+ 
+             /* if |B1-B0| > Threshold we want dword worth of ones */
+-            "pcmpgtb "MANGLE(qwGreedyTwoFrameThreshold)", %%mm5		\n\t"
++            "pcmpgtb %3, %%mm5		\n\t"
+             "pand    %%mm6, %%mm5	\n\t"     /* get rid of any sign bit */
+-            "pcmpgtd "MANGLE(DwordOne)", %%mm5			\n\t"
+-            "pandn   "MANGLE(DwordOne)", %%mm5			\n\t"
++            "pcmpgtd %5, %%mm5			\n\t"
++            "pandn   %5, %%mm5			\n\t"
+             "paddd   %%mm5, %%mm4			\n\t"
+ 
+-            "pcmpgtd "MANGLE(DwordTwo)", %%mm4			\n\t"
++            "pcmpgtd %6, %%mm4			\n\t"
+ 
+ /* debugging feature
+  * output the value of mm4 at this point which is pink where we will weave
+@@ -314,7 +314,7 @@ static void DeinterlaceGreedy2Frame_MMX(
+ #endif
+ 
+           : "=m" (*Dest2)
+-          : "m" (*T0), "m" (*B0) );
++          : "m" (*T0), "m" (*B0), "m" (qwGreedyTwoFrameThreshold), "m" (Mask), "m" (DwordOne), "m" (DwordTwo) );
+ 
+           /* Advance to the next set of pixels. */
+           T1 += 8;
+diff -urp xine-lib-1.1.1-old/src/post/deinterlace/plugins/greedyh.asm xine-lib-1.1.1/src/post/deinterlace/plugins/greedyh.asm
+--- xine-lib-1.1.1-old/src/post/deinterlace/plugins/greedyh.asm	2005-06-08 00:56:22.000000000 +0200
++++ xine-lib-1.1.1/src/post/deinterlace/plugins/greedyh.asm	2005-12-23 15:18:34.000000000 +0100
+@@ -43,7 +43,6 @@ static void FUNCT_NAME(uint8_t *output, 
+ 
+     int Line;
+     long LoopCtr;
+-    long oldbx;
+     unsigned int Pitch = stride*2;
+     int FieldHeight = height / 2;
+ 
+@@ -52,6 +51,7 @@ static void FUNCT_NAME(uint8_t *output, 
+     unsigned char* L3;					// ptr to Line3
+ 
+     unsigned char* L2P;					// ptr to prev Line2
++    unsigned char* temp;
+     unsigned char* Dest = output;
+ 
+     int64_t LastAvg=0;			//interp value from left qword
+@@ -121,25 +121,21 @@ static void FUNCT_NAME(uint8_t *output, 
+ #define asmLastAvg      "%0"
+ #define asmL1           "%1"
+ #define asmL3           "%2"
+-#define asmL2P          "%3"
++#define asmtemp         "%3"
+ #define asmL2           "%4"
+ #define asmDest         "%5"
+ #define asmLoopCtr      "%6"
+-#define asmoldbx        "%7"
+ #endif
+ 
+         // For ease of reading, the comments below assume that we're operating on an odd
+         // field (i.e., that InfoIsOdd is true).  Assume the obvious for even lines..
++        temp = L2P;
+         __asm__ __volatile__
+             (
+-             // save ebx (-fPIC)
+-	     MOVX" %%"XBX", "asmoldbx"\n\t"
+-
+              MOVX"  "asmL1",          %%"XAX"\n\t"
+-             LEAX"  8(%%"XAX"),     %%"XBX"\n\t"    // next qword needed by DJR
++             LEAX"  8(%%"XAX"),     %%"XDX"\n\t"    // next qword needed by DJR
+              MOVX"  "asmL3",          %%"XCX"\n\t"
+              SUBX"  %%"XAX",        %%"XCX"\n\t"    // carry L3 addr as an offset
+-             MOVX"  "asmL2P",         %%"XDX"\n\t"
+              MOVX"  "asmL2",          %%"XSI"\n\t"
+              MOVX"  "asmDest",        %%"XDI"\n\t"    // DL1 if Odd or DL2 if Even
+ 
+@@ -148,11 +144,14 @@ static void FUNCT_NAME(uint8_t *output, 
+ 
+              "movq  (%%"XSI"),      %%mm0\n\t"      // L2 - the newest weave pixel value
+              "movq  (%%"XAX"),      %%mm1\n\t"      // L1 - the top pixel
++             PUSHX" %%"XDX              "\n\t"
++             MOVX"  "asmtemp",    %%"XDX"\n\t"
+              "movq  (%%"XDX"),      %%mm2\n\t"      // L2P - the prev weave pixel
++             POPX" %%"XDX               "\n\t"
+              "movq  (%%"XAX", %%"XCX"), %%mm3\n\t"  // L3, next odd row
+              "movq  %%mm1,          %%mm6\n\t"      // L1 - get simple single pixel interp
+              //	pavgb   mm6, mm3                    // use macro below
+-             V_PAVGB ("%%mm6", "%%mm3", "%%mm4", MANGLE(ShiftMask))
++             V_PAVGB ("%%mm6", "%%mm3", "%%mm4", "%8")
+ 
+              // DJR - Diagonal Jaggie Reduction
+              // In the event that we are going to use an average (Bob) pixel we do not want a jagged
+@@ -166,24 +165,24 @@ static void FUNCT_NAME(uint8_t *output, 
+              "psllq $16,            %%mm7\n\t"      // left justify 3 pixels
+              "por   %%mm7,          %%mm4\n\t"      // and combine
+ 
+-             "movq  (%%"XBX"),      %%mm5\n\t"      // next horiz qword from L1
++             "movq  (%%"XDX"),      %%mm5\n\t"      // next horiz qword from L1
+              //			pavgb   mm5, qword ptr[ebx+ecx] // next horiz qword from L3, use macro below
+-             V_PAVGB ("%%mm5", "(%%"XBX",%%"XCX")", "%%mm7", MANGLE(ShiftMask))
++             V_PAVGB ("%%mm5", "(%%"XDX",%%"XCX")", "%%mm7", "%8")
+              "psllq $48,            %%mm5\n\t"      // left just 1 pixel
+              "movq  %%mm6,          %%mm7\n\t"      // another copy of simple bob pixel
+              "psrlq $16,            %%mm7\n\t"      // right just 3 pixels
+              "por   %%mm7,          %%mm5\n\t"      // combine
+              //			pavgb	mm4, mm5			// avg of forward and prev by 1 pixel, use macro
+-             V_PAVGB ("%%mm4", "%%mm5", "%%mm5", MANGLE(ShiftMask))   // mm5 gets modified if MMX
++             V_PAVGB ("%%mm4", "%%mm5", "%%mm5", "%8")   // mm5 gets modified if MMX
+              //			pavgb	mm6, mm4			// avg of center and surround interp vals, use macro
+-             V_PAVGB ("%%mm6", "%%mm4", "%%mm7", MANGLE(ShiftMask))
++             V_PAVGB ("%%mm6", "%%mm4", "%%mm7", "%8")
+ 
+              // Don't do any more averaging than needed for mmx. It hurts performance and causes rounding errors.
+ #ifndef IS_MMX
+              //          pavgb	mm4, mm6			// 1/4 center, 3/4 adjacent
+-             V_PAVGB ("%%mm4", "%%mm6", "%%mm7", MANGLE(ShiftMask))
++             V_PAVGB ("%%mm4", "%%mm6", "%%mm7", "%8")
+              //    		pavgb	mm6, mm4			// 3/8 center, 5/8 adjacent
+-             V_PAVGB ("%%mm6", "%%mm4", "%%mm7", MANGLE(ShiftMask))
++             V_PAVGB ("%%mm6", "%%mm4", "%%mm7", "%8")
+ #endif
+ 
+              // get abs value of possible L2 comb
+@@ -236,64 +235,71 @@ static void FUNCT_NAME(uint8_t *output, 
+              // pminub	mm5, mm3                    // now = Min(L1,L3), use macro
+              V_PMINUB ("%%mm5", "%%mm3", "%%mm7")
+              // allow the value to be above the high or below the low by amt of MaxComb
+-             "psubusb "MANGLE(MaxComb)", %%mm5\n\t"      // lower min by diff
+-             "paddusb "MANGLE(MaxComb)", %%mm2\n\t"      // increase max by diff
++             "psubusb %9,           %%mm5\n\t"      // lower min by diff
++             "paddusb %9,           %%mm2\n\t"      // increase max by diff
+              // pmaxub	mm4, mm5                    // now = Max(best,Min(L1,L3) use macro
+              V_PMAXUB ("%%mm4", "%%mm5")
+              // pminub	mm4, mm2                    // now = Min( Max(best, Min(L1,L3), L2 )=L2 clipped
+              V_PMINUB ("%%mm4", "%%mm2", "%%mm7")
+ 
+              // Blend weave pixel with bob pixel, depending on motion val in mm0
+-             "psubusb "MANGLE(MotionThreshold)", %%mm0\n\t"// test Threshold, clear chroma change >>>??
+-             "pmullw  "MANGLE(MotionSense)", %%mm0\n\t"    // mul by user factor, keep low 16 bits
+-             "movq   "MANGLE(QW256)", %%mm7\n\t"
++             "psubusb %10,          %%mm0\n\t"// test Threshold, clear chroma change >>>??
++             "pmullw  %11,          %%mm0\n\t"    // mul by user factor, keep low 16 bits
++             "movq    %12,          %%mm7\n\t"
+ #ifdef IS_SSE
+              "pminsw  %%mm7,        %%mm0\n\t"      // max = 256
+ #else
+-             "paddusw "MANGLE(QW256B)", %%mm0\n\t"      // add, may sat at fff..
+-             "psubusw "MANGLE(QW256B)", %%mm0\n\t"      // now = Min(L1,256)
++             "paddusw %13,          %%mm0\n\t"      // add, may sat at fff..
++             "psubusw %13,          %%mm0\n\t"      // now = Min(L1,256)
+ #endif
+              "psubusw %%mm0,        %%mm7\n\t"      // so the 2 sum to 256, weighted avg
+              "movq    %%mm4,        %%mm2\n\t"      // save weave chroma info before trashing
+-             "pand   "MANGLE(YMask)", %%mm4\n\t"      // keep only luma from calc'd value
++             "pand    %14,          %%mm4\n\t"      // keep only luma from calc'd value
+              "pmullw  %%mm7,        %%mm4\n\t"      // use more weave for less motion
+-             "pand   "MANGLE(YMask)", %%mm6\n\t"      // keep only luma from calc'd value
++             "pand    %14,          %%mm6\n\t"      // keep only luma from calc'd value
+              "pmullw  %%mm0,        %%mm6\n\t"      // use more bob for large motion
+              "paddusw %%mm6,        %%mm4\n\t"      // combine
+              "psrlw   $8,           %%mm4\n\t"      // div by 256 to get weighted avg
+ 
+              // chroma comes from weave pixel
+-             "pand   "MANGLE(UVMask)", %%mm2\n\t"      // keep chroma
++             "pand    %15,          %%mm2\n\t"      // keep chroma
+              "por     %%mm4,        %%mm2\n\t"      // and combine
+ 
+              V_MOVNTQ ("(%%"XDI")", "%%mm2")        // move in our clipped best, use macro
+ 
+              // bump ptrs and loop
+              LEAX"    8(%%"XAX"),   %%"XAX"\n\t"
+-             LEAX"    8(%%"XBX"),   %%"XBX"\n\t"
+              LEAX"    8(%%"XDX"),   %%"XDX"\n\t"
++             ADDX"    $8,         "asmtemp"\n\t"
+              LEAX"    8(%%"XDI"),   %%"XDI"\n\t"
+              LEAX"    8(%%"XSI"),   %%"XSI"\n\t"
+              DECX"    "asmLoopCtr"\n\t"
+              "jg      1b\n\t"                       // loop if not to last line
+                                                     // note P-III default assumes backward branches taken
+              "jl      1f\n\t"                       // done
+-             MOVX"    %%"XAX",      %%"XBX"\n\t"  // sharpness lookahead 1 byte only, be wrong on 1
++             MOVX"    %%"XAX",      %%"XDX"\n\t"  // sharpness lookahead 1 byte only, be wrong on 1
+              "jmp     1b\n\t"
+ 
+              "1:\n\t"
+-	     MOVX" "asmoldbx", %%"XBX"\n\t"
+ 
+              : /* no outputs */
+ 
+              : "m"(LastAvg),
+                "m"(L1),
+                "m"(L3),
+-               "m"(L2P),
++               "m"(temp),
+                "m"(L2),
+                "m"(Dest),
+                "m"(LoopCtr),
+-               "m"(oldbx)
++               "m"(temp),
++               "m"(ShiftMask),
++               "m"(MaxComb),
++               "m"(MotionThreshold),
++               "m"(MotionSense),
++               "m"(QW256),
++               "m"(QW256B),
++               "m"(YMask),
++               "m"(UVMask)
+ 
+              : XAX, XCX, XDX, XSI, XDI,
+ #ifdef ARCH_X86
+diff -urp xine-lib-1.1.1-old/src/post/deinterlace/plugins/tomsmocomp/SearchLoop0A.inc xine-lib-1.1.1/src/post/deinterlace/plugins/tomsmocomp/SearchLoop0A.inc
+--- xine-lib-1.1.1-old/src/post/deinterlace/plugins/tomsmocomp/SearchLoop0A.inc	2005-06-05 18:00:06.000000000 +0200
++++ xine-lib-1.1.1/src/post/deinterlace/plugins/tomsmocomp/SearchLoop0A.inc	2005-12-24 19:51:26.000000000 +0100
+@@ -7,9 +7,9 @@
+ // up by a little, and adjust later
+ 
+ #ifdef IS_SSE2
+-		"paddusb "MANGLE(ONES)", %%xmm7\n\t"				// bias toward no motion
++		"paddusb "_ONES", %%xmm7\n\t"				// bias toward no motion
+ #else
+-		"paddusb "MANGLE(ONES)", %%mm7\n\t" 				// bias toward no motion
++		"paddusb "_ONES", %%mm7\n\t" 				// bias toward no motion
+ #endif
+ 
+         MERGE4PIXavg("(%%"XDI", %%"XCX")", "(%%"XSI", %%"XCX")")  // center, in old and new
+diff -urp xine-lib-1.1.1-old/src/post/deinterlace/plugins/tomsmocomp/SearchLoopBottom.inc xine-lib-1.1.1/src/post/deinterlace/plugins/tomsmocomp/SearchLoopBottom.inc
+--- xine-lib-1.1.1-old/src/post/deinterlace/plugins/tomsmocomp/SearchLoopBottom.inc	2005-06-08 00:56:22.000000000 +0200
++++ xine-lib-1.1.1/src/post/deinterlace/plugins/tomsmocomp/SearchLoopBottom.inc	2005-12-24 20:02:22.000000000 +0100
+@@ -18,7 +18,7 @@
+             // Use the best weave if diffs less than 10 as that
+             // means the image is still or moving cleanly
+             // if there is motion we will clip which will catch anything
+-            "psubusb "MANGLE(FOURS)", %%mm7\n\t"          // sets bits to zero if weave diff < 4
++            "psubusb "_FOURS", %%mm7\n\t"          // sets bits to zero if weave diff < 4
+             "pxor    %%mm0, %%mm0\n\t"
+             "pcmpeqb %%mm0, %%mm7\n\t"            // all ff where weave better, else 00
+             "pcmpeqb %%mm7, %%mm0\n\t"            // all ff where bob better, else 00
+@@ -28,10 +28,10 @@
+ #else
+             // Use the better of bob or weave
+             //      pminub  mm4, TENS           // the most we care about
+-            V_PMINUB ("%%mm4", MANGLE(TENS), "%%mm0")   // the most we care about
++            V_PMINUB ("%%mm4", _TENS, "%%mm0")   // the most we care about
+             
+             "psubusb %%mm4, %%mm7\n\t"            // foregive that much from weave est?
+-            "psubusb "MANGLE(FOURS)", %%mm7\n\t"       // bias it a bit toward weave
++            "psubusb "_FOURS", %%mm7\n\t"       // bias it a bit toward weave
+             "pxor    %%mm0, %%mm0\n\t"
+             "pcmpeqb %%mm0, %%mm7\n\t"            // all ff where weave better, else 00
+             "pcmpeqb %%mm7, %%mm0\n\t"            // all ff where bob better, else 00
+@@ -42,9 +42,9 @@
+             
+             
+                 //      pminub  mm0, Max_Vals       // but clip to catch the stray error
+-//                V_PMINUB ("%%mm0", MANGLE(Max_Vals), "%%mm1") // but clip to catch the stray error
++//                V_PMINUB ("%%mm0", _Max_Vals, "%%mm1") // but clip to catch the stray error
+                 //      pmaxub  mm0, Min_Vals
+-//                V_PMAXUB ("%%mm0", MANGLE(Min_Vals))
++//                V_PMAXUB ("%%mm0", _Min_Vals)
+                 
+ #endif
+ 
+@@ -53,28 +53,29 @@
+                 
+ #ifdef USE_VERTICAL_FILTER
+             "movq    %%mm0, %%mm1\n\t"
+-            //      pavgb   mm0, qword ptr["XBX"]
+-            V_PAVGB ("%%mm0", "(%%"XBX")", "%%mm2", MANGLE(ShiftMask))
+-            //      movntq  qword ptr["XAX"+"XDX"], mm0
+-            V_MOVNTQ ("(%"XAX", %%"XDX")", "%%mm0")
+-            //      pavgb   mm1, qword ptr["XBX"+"XCX"]
+-            V_PAVGB ("%%mm1", "(%%"XBX", %%"XCX")", "%%mm2", MANGLE(ShiftMask))
+-            "addq   "_dst_pitchw", %%"XBX
+-            //      movntq  qword ptr["XAX"+"XDX"], mm1
+-            V_MOVNTQ ("(%%"XAX", %%"XDX")", "%%mm1")
++            //      pavgb   mm0, qword ptr["XDX"]
++            V_PAVGB ("%%mm0", "(%%"XDX")", "%%mm2", _ShiftMask)
++            //      movntq  qword ptr["XAX"+"olddx"], mm0
++            ADDX"   "_olddx", %%"XAX"\n\t"
++            V_MOVNTQ ("(%%"XAX")", "%%mm0")
++            //      pavgb   mm1, qword ptr["XDX"+"XCX"]
++            V_PAVGB ("%%mm1", "(%%"XDX", %%"XCX")", "%%mm2", _ShiftMask)
++            "addq   "_dst_pitchw", %%"XDX
++            //      movntq  qword ptr["XAX"+"olddx"], mm1
++            V_MOVNTQ ("(%%"XAX")", "%%mm1")
+ #else
+                 
+-            //      movntq  qword ptr["XAX"+"XDX"], mm0
+-                V_MOVNTQ ("(%%"XAX", %%"XDX")", "%%mm0")
++            //      movntq  qword ptr["XAX"+"olddx"], mm0
++            ADDX"   "_olddx", %%"XAX"\n\t"
++            V_MOVNTQ ("(%%"XAX")", "%%mm0")
+ #endif
+                 
+-           LEAX"    8(%%"XDX"), %%"XDX"\n\t"       // bump offset pointer
+-           CMPX"    "_Last8", %%"XDX"\n\t"       // done with line?
++           ADDX"    $8, "_olddx"\n\t"       // bump offset pointer
++           MOVX"    "_olddx", %%"XAX"\n\t"
++           CMPX"    "_Last8", %%"XAX"\n\t"       // done with line?
+            "jb      1b\n\t"                    // y
+ #endif
+ 
+-           MOVX" "_oldbx", %%"XBX"\n\t"
+-
+         : /* no outputs */
+ 
+         : "m"(pBob),
+@@ -85,7 +86,17 @@
+           "m"(pSrc),
+           "m"(pSrcP),
+           "m"(pBobP),
+-          "m"(oldbx)
++          "m"(olddx),
++          "m"(UVMask),
++          "m"(ShiftMask),
++          "m"(FOURS),
++          "m"(TENS),
++          "m"(Max_Vals),
++          "m"(Min_Vals),
++          "m"(YMask),
++          "m"(Max_Mov),
++          "m"(ONES),
++          "m"(DiffThres)
+ 
+         : XAX, XCX, XDX, XSI, XDI,
+ #ifdef ARCH_X86
+diff -urp xine-lib-1.1.1-old/src/post/deinterlace/plugins/tomsmocomp/SearchLoopTop.inc xine-lib-1.1.1/src/post/deinterlace/plugins/tomsmocomp/SearchLoopTop.inc
+--- xine-lib-1.1.1-old/src/post/deinterlace/plugins/tomsmocomp/SearchLoopTop.inc	2005-06-05 18:31:24.000000000 +0200
++++ xine-lib-1.1.1/src/post/deinterlace/plugins/tomsmocomp/SearchLoopTop.inc	2005-12-24 19:50:26.000000000 +0100
+@@ -66,7 +66,17 @@ long		dst_pitchw = dst_pitch; // local s
+ #define _pSrc       "%5"
+ #define _pSrcP      "%6"
+ #define _pBobP      "%7"
+-#define _oldbx      "%8"
++#define _olddx      "%8"
++#define _UVMask     "%9"
++#define _ShiftMask  "%10"
++#define _FOURS      "%11"
++#define _TENS       "%12"
++#define _Max_Vals   "%13"
++#define _Min_Vals   "%14"
++#define _YMask      "%15"
++#define _Max_Mov    "%16"
++#define _ONES       "%17"
++#define _DiffThres  "%18"
+ #endif
+ 
+ 	for (y=1; y < FldHeight-1; y++)
+@@ -77,75 +87,73 @@ long		dst_pitchw = dst_pitch; // local s
+              // Loop general reg usage
+              //
+              // XAX - pBobP, then pDest 
+-             // XBX - pBob
++             // XDX - pBob
+              // XCX - src_pitch2
+-             // XDX - current offset
++             // _olddx - current offset
+              // XDI - prev weave pixels, 1 line up
+              // XSI - next weave pixels, 1 line up
+ 
+-             // Save "XBX" (-fPIC)
+-	     MOVX" %%"XBX", "_oldbx"\n\t"
+-             
+ #ifdef IS_SSE2
+              
+              // sse2 code deleted for now
+ 
+ #else
+              // simple bob first 8 bytes
+-             MOVX"	"_pBob",        %%"XBX"\n\t"
++             MOVX"	"_pBob",        %%"XDX"\n\t"
+              MOVX"	"_src_pitch2",  %%"XCX"\n\t"
+ 
+ #ifdef USE_VERTICAL_FILTER
+-             "movq	    (%%"XBX"),        %%mm0\n\t"
+-             "movq	    (%%"XBX", %%"XCX"), %%mm1\n\t" //, qword ptr["XBX"+"XCX"]
++             "movq	    (%%"XDX"),        %%mm0\n\t"
++             "movq	    (%%"XDX", %%"XCX"), %%mm1\n\t" //, qword ptr["XDX"+"XCX"]
+              "movq	    %%mm0,          %%mm2\n\t"
+-             V_PAVGB ("%%mm2", "%%mm1", "%%mm3", MANGLE(ShiftMask))		// halfway between
+-             V_PAVGB ("%%mm0", "%%mm2", "%%mm3", MANGLE(ShiftMask))		// 1/4 way
+-             V_PAVGB ("%%mm1", "%%mm2", "%%mm3", MANGLE(ShiftMask))		// 3/4 way
++             V_PAVGB ("%%mm2", "%%mm1", "%%mm3", _ShiftMask)		// halfway between
++             V_PAVGB ("%%mm0", "%%mm2", "%%mm3", _ShiftMask)		// 1/4 way
++             V_PAVGB ("%%mm1", "%%mm2", "%%mm3", _ShiftMask)		// 3/4 way
+              MOVX"		"_pDest",       %%"XDI"\n\t"
+              MOVX"		"_dst_pitchw",  %%"XAX"\n\t"
+              V_MOVNTQ	("(%%"XDI")", "%%mm0")
+              V_MOVNTQ	("(%%"XDI", %%"XAX")", "%%mm1") // qword ptr["XDI"+"XAX"], mm1
+ 
+              // simple bob last 8 bytes
+-             MOVX"		"_Last8", %%"XDX"\n\t"
+-             LEAX"		(%%"XBX", %%"XDX"), %%"XSI"\n\t"  // ["XBX"+"XDX"]
++             MOVX"		"_Last8", %%"XSI"\n\t"
++             ADDX"		%%"XDX", %%"XSI"\n\t"  // ["XDX"+"olddx"]
+              "movq	    (%%"XSI"), %%mm0\n\t"
+              "movq	    (%%"XSI", %%"XCX"), %%mm1\n\t"    // qword ptr["XSI"+"XCX"]
+              "movq	    %%mm0, %%mm2\n\t"
+-             V_PAVGB ("%%mm2", "%%mm1", "%%mm3", MANGLE(ShiftMask))		// halfway between
+-             V_PAVGB ("%%mm0", "%%mm2", "%%mm3", MANGLE(ShiftMask))		// 1/4 way
+-             V_PAVGB ("%%mm1", "%%mm2", "%%mm3", MANGLE(ShiftMask))		// 3/4 way
+-             ADDX"		%%"XDX", %%"XDI"\n\t"						// last 8 bytes of dest
++             V_PAVGB ("%%mm2", "%%mm1", "%%mm3", _ShiftMask)		// halfway between
++             V_PAVGB ("%%mm0", "%%mm2", "%%mm3", _ShiftMask)		// 1/4 way
++             V_PAVGB ("%%mm1", "%%mm2", "%%mm3", _ShiftMask)		// 3/4 way
++             ADDX"		"_olddx", %%"XDI"\n\t"						// last 8 bytes of dest
+              V_MOVNTQ	("%%"XDI"", "%%mm0")
+              V_MOVNTQ	("(%%"XDI", %%"XAX")", "%%mm1") // qword ptr["XDI"+"XAX"], mm1)
+ 
+ #else
+-             "movq	(%%"XBX"), %%mm0\n\t"
+-             //		pavgb	mm0, qword ptr["XBX"+"XCX"]
+-             V_PAVGB ("%%mm0", "(%%"XBX", %%"XCX")", "%%mm2", MANGLE(ShiftMask)) // qword ptr["XBX"+"XCX"], mm2, ShiftMask)
++             "movq	(%%"XDX"), %%mm0\n\t"
++             //		pavgb	mm0, qword ptr["XDX"+"XCX"]
++             V_PAVGB ("%%mm0", "(%%"XDX", %%"XCX")", "%%mm2", _ShiftMask) // qword ptr["XDX"+"XCX"], mm2, ShiftMask)
+              MOVX"		"_pDest", %%"XDI"\n\t"
+              V_MOVNTQ	("(%%"XDI")", "%%mm0")
+ 
+              // simple bob last 8 bytes
+-             MOVX"		"_Last8", %%"XDX"\n\t"
+-             LEAX"		(%%"XBX", %%"XDX"), %%"XSI"\n\t" //"XSI", ["XBX"+"XDX"]
++             MOVX"		"_Last8", %%"XSI"\n\t"
++             ADDX"		%%"XDX", %%"XSI"\n\t" //"XSI", ["XDX"+"olddx"]
+              "movq	    (%%"XSI"), %%mm0\n\t"
+              //		pavgb	mm0, qword ptr["XSI"+"XCX"]
+-             V_PAVGB	("%%mm0", "(%%"XSI", %%"XCX")", "%%mm2", MANGLE(ShiftMask)) // qword ptr["XSI"+"XCX"], mm2, ShiftMask)
+-             V_MOVNTQ	("(%%"XDI", %%"XDX")", "%%mm0") // qword ptr["XDI"+"XDX"], mm0)
++             V_PAVGB	("%%mm0", "(%%"XSI", %%"XCX")", "%%mm2", _ShiftMask) // qword ptr["XSI"+"XCX"], mm2, ShiftMask)
++             ADDX"		"_olddx", %%"XDI"\n\t"
++             V_MOVNTQ	("(%%"XDI")", "%%mm0") // qword ptr["XDI"+"olddx"], mm0)
+ #endif
+              // now loop and get the middle qwords
+              MOVX"		"_pSrc", %%"XSI"\n\t"
+              MOVX"		"_pSrcP", %%"XDI"\n\t"
+-             MOVX"		$8, %%"XDX"\n\t"				// curr offset longo all lines
++             MOVX"		$8, "_olddx"\n\t"				// curr offset longo all lines
+ 
+              "1:\n\t"	
+              MOVX"		"_pBobP", %%"XAX"\n\t"
+              ADDX"		$8, %%"XDI"\n\t"
+              ADDX"		$8, %%"XSI"\n\t"
+-             ADDX"		$8, %%"XBX"\n\t"
+-             ADDX"		%%"XDX", %%"XAX"\n\t"
++             ADDX"		$8, %%"XDX"\n\t"
++             ADDX"		"_olddx", %%"XAX"\n\t"
+ 
+ #ifdef USE_STRANGE_BOB
+ #include "StrangeBob.inc"
+diff -urp xine-lib-1.1.1-old/src/post/deinterlace/plugins/tomsmocomp/StrangeBob.inc xine-lib-1.1.1/src/post/deinterlace/plugins/tomsmocomp/StrangeBob.inc
+--- xine-lib-1.1.1-old/src/post/deinterlace/plugins/tomsmocomp/StrangeBob.inc	2005-06-05 18:31:24.000000000 +0200
++++ xine-lib-1.1.1/src/post/deinterlace/plugins/tomsmocomp/StrangeBob.inc	2005-12-24 19:52:21.000000000 +0100
+@@ -31,22 +31,22 @@
+         "pxor %%mm6, %%mm6\n\t"
+         "pxor %%mm7, %%mm7\n\t"
+ 
+-		"movq    -2(%%"XBX"), %%mm0\n\t"		// value a from top left		
+-		"movq    -4(%%"XBX", %%"XCX"), %%mm1\n\t"	// value m from bottom right			
++		"movq    -2(%%"XDX"), %%mm0\n\t"		// value a from top left		
++		"movq    -4(%%"XDX", %%"XCX"), %%mm1\n\t"	// value m from bottom right			
+         
+ 		"movq	%%mm0, %%mm3\n\t"
+ 		"psubusb	%%mm1, %%mm3\n\t"
+ 		"psubusb %%mm0, %%mm1\n\t"
+ 		"por		%%mm1, %%mm3\n\t"					// abs(a,m)
+ 
+-		"psubusb "MANGLE(DiffThres)", %%mm3\n\t"		// nonzero where abs(a,m) > Thres else 0
++		"psubusb "_DiffThres", %%mm3\n\t"		// nonzero where abs(a,m) > Thres else 0
+ 		"pxor	%%mm4, %%mm4\n\t"
+ 		"pcmpeqb %%mm4, %%mm3\n\t"			// now ff where abs(a,m) < Thres, else 00	
+ 		"pcmpeqb	%%mm3, %%mm4\n\t"			// here ff where abs(a,m) > Thres, else 00
+ 
+ 
+-		"movq    -4(%%"XBX"), %%mm0\n\t"		// value j
+-		"movq    4(%%"XBX", %%"XCX"), %%mm1\n\t"	// value n
++		"movq    -4(%%"XDX"), %%mm0\n\t"		// value j
++		"movq    4(%%"XDX", %%"XCX"), %%mm1\n\t"	// value n
+ 		"movq	%%mm0, %%mm2\n\t"					
+ 		"pavgb	%%mm1, %%mm2\n\t"					// avg(j,n)
+         "movq	%%mm0, %%mm3\n\t"
+@@ -55,7 +55,7 @@
+ 		"por		%%mm1, %%mm0\n\t"					// abs(j,n)
+ 
+         "movq    %%mm0, %%mm1\n\t"
+-		"psubusb "MANGLE(DiffThres)", %%mm1\n\t"		// nonzero where abs(j,n) > Thres else 0
++		"psubusb "_DiffThres", %%mm1\n\t"		// nonzero where abs(j,n) > Thres else 0
+ 		"pxor	%%mm3, %%mm3\n\t"
+ 		"pcmpeqb %%mm3, %%mm1\n\t"			// now ff where abs(j,n) < Thres, else 00	
+ 
+@@ -75,31 +75,31 @@
+         "por     %%mm0, %%mm7\n\t"
+         
+         // k & m
+-		"movq    2(%%"XBX"), %%mm0\n\t"		// value c from top left		
+-		"movq    4(%%"XBX", %%"XCX"), %%mm1\n\t"	// value n from bottom right			
++		"movq    2(%%"XDX"), %%mm0\n\t"		// value c from top left		
++		"movq    4(%%"XDX", %%"XCX"), %%mm1\n\t"	// value n from bottom right			
+ 
+ 		"movq	%%mm0, %%mm3\n\t"
+ 		"psubusb	%%mm1, %%mm3\n\t"
+ 		"psubusb %%mm0, %%mm1\n\t"
+ 		"por		%%mm1, %%mm3\n\t"					// abs(c,n)
+ 
+-		"psubusb "MANGLE(DiffThres)", %%mm3\n\t"		// nonzero where abs(c,n) > Thres else 0
++		"psubusb "_DiffThres", %%mm3\n\t"		// nonzero where abs(c,n) > Thres else 0
+ 		"pxor	%%mm4, %%mm4\n\t"
+ 		"pcmpeqb %%mm4, %%mm3\n\t"			// now ff where abs(c,n) < Thres, else 00	
+ 		"pcmpeqb	%%mm3, %%mm4\n\t"			// here ff where abs(c,n) > Thres, else 00
+ 
+ 
+-		"movq    4(%%"XBX"), %%mm0\n\t"		// value k
+-		"movq    -4(%%"XBX", %%"XCX"), %%mm1\n\t"	// value m
++		"movq    4(%%"XDX"), %%mm0\n\t"		// value k
++		"movq    -4(%%"XDX", %%"XCX"), %%mm1\n\t"	// value m
+ 		"movq	%%mm0, %%mm2\n\t"					
+-		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", MANGLE(ShiftMask))	// avg(k,m)
++		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", _ShiftMask)	// avg(k,m)
+         "movq	%%mm0, %%mm3\n\t"
+ 		"psubusb	%%mm1, %%mm0\n\t"
+ 		"psubusb %%mm3, %%mm1\n\t"
+ 		"por		%%mm1, %%mm0\n\t"					// abs(k,m)
+ 
+         "movq    %%mm0, %%mm1\n\t"
+-		"psubusb "MANGLE(DiffThres)", %%mm1\n\t"		// nonzero where abs(k,m) > Thres else 0
++		"psubusb "_DiffThres", %%mm1\n\t"		// nonzero where abs(k,m) > Thres else 0
+ 		"pxor	%%mm3, %%mm3\n\t"
+ 		"pcmpeqb %%mm3, %%mm1\n\t"			// now ff where abs(k,m) < Thres, else 00	
+ 
+@@ -120,30 +120,30 @@
+ 
+ 
+         // c & d
+-		"movq    (%%"XBX"), %%mm0\n\t"		// value b from top left		
+-		"movq    2(%%"XBX", %%"XCX"), %%mm1\n\t"	// value f from bottom right			
++		"movq    (%%"XDX"), %%mm0\n\t"		// value b from top left		
++		"movq    2(%%"XDX", %%"XCX"), %%mm1\n\t"	// value f from bottom right			
+ 
+ 		"movq	%%mm0, %%mm3\n\t"
+ 		"psubusb	%%mm1, %%mm3\n\t"
+ 		"psubusb %%mm0, %%mm1\n\t"
+ 		"por		%%mm1, %%mm3\n\t"					// abs(b,f)
+ 
+-		"psubusb "MANGLE(DiffThres)", %%mm3\n\t"		// nonzero where abs(b,f) > Thres else 0
++		"psubusb "_DiffThres", %%mm3\n\t"		// nonzero where abs(b,f) > Thres else 0
+ 		"pxor	%%mm4, %%mm4\n\t"
+ 		"pcmpeqb %%mm4, %%mm3\n\t"			// now ff where abs(b,f) < Thres, else 00	
+ 		"pcmpeqb	%%mm3, %%mm4\n\t"			// here ff where abs(b,f) > Thres, else 00
+ 
+-		"movq    2(%%"XBX"), %%mm0\n\t"		// value c
+-		"movq    -2(%%"XBX", %%"XCX"), %%mm1\n\t"	// value d
++		"movq    2(%%"XDX"), %%mm0\n\t"		// value c
++		"movq    -2(%%"XDX", %%"XCX"), %%mm1\n\t"	// value d
+ 		"movq	%%mm0, %%mm2\n\t"					
+-		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", MANGLE(ShiftMask))	// avg(c,d)
++		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", _ShiftMask)	// avg(c,d)
+         "movq	%%mm0, %%mm3\n\t"
+ 		"psubusb	%%mm1, %%mm0\n\t"
+ 		"psubusb %%mm3, %%mm1\n\t"
+ 		"por		%%mm1, %%mm0\n\t"					// abs(c,d)
+ 
+         "movq    %%mm0, %%mm1\n\t"
+-		"psubusb "MANGLE(DiffThres)", %%mm1\n\t"		// nonzero where abs(c,d) > Thres else 0
++		"psubusb "_DiffThres", %%mm1\n\t"		// nonzero where abs(c,d) > Thres else 0
+ 		"pxor	%%mm3, %%mm3\n\t"
+         "pcmpeqb %%mm3, %%mm1\n\t"			// now ff where abs(c,d) < Thres, else 00	
+ 
+@@ -163,30 +163,30 @@
+         "por     %%mm0, %%mm7\n\t"
+ 
+         // a & f
+-		"movq    (%%"XBX"), %%mm0\n\t"		// value b from top left		
+-		"movq    -2(%%"XBX", %%"XCX"), %%mm1\n\t"	// value d from bottom right			
++		"movq    (%%"XDX"), %%mm0\n\t"		// value b from top left		
++		"movq    -2(%%"XDX", %%"XCX"), %%mm1\n\t"	// value d from bottom right			
+ 
+ 		"movq	%%mm0, %%mm3\n\t"
+ 		"psubusb	%%mm1, %%mm3\n\t"
+ 		"psubusb %%mm0, %%mm1\n\t"
+ 		"por		%%mm1, %%mm3\n\t"					// abs(b,d)
+ 
+-		"psubusb "MANGLE(DiffThres)", %%mm3\n\t"	// nonzero where abs(b,d) > Thres else 0
++		"psubusb "_DiffThres", %%mm3\n\t"	// nonzero where abs(b,d) > Thres else 0
+ 		"pxor	%%mm4, %%mm4\n\t"
+ 		"pcmpeqb %%mm4, %%mm3\n\t"			// now ff where abs(b,d) < Thres, else 00	
+ 		"pcmpeqb	%%mm3, %%mm4\n\t"			// here ff where abs(b,d) > Thres, else 00
+ 
+-		"movq    -2(%%"XBX"), %%mm0\n\t"		// value a
+-		"movq    2(%%"XBX", %%"XCX"), %%mm1\n\t"	// value f
++		"movq    -2(%%"XDX"), %%mm0\n\t"		// value a
++		"movq    2(%%"XDX", %%"XCX"), %%mm1\n\t"	// value f
+ 		"movq	%%mm0, %%mm2\n\t"					
+-		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", MANGLE(ShiftMask))	// avg(a,f)
++		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", _ShiftMask)	// avg(a,f)
+         "movq	%%mm0, %%mm3\n\t"
+         "psubusb	%%mm1, %%mm0\n\t"
+ 		"psubusb %%mm3, %%mm1\n\t"
+ 		"por		%%mm1, %%mm0\n\t"					// abs(a,f)
+ 
+         "movq    %%mm0, %%mm1\n\t"
+-		"psubusb "MANGLE(DiffThres)", %%mm1\n\t"		// nonzero where abs(a,f) > Thres else 0
++		"psubusb "_DiffThres", %%mm1\n\t"		// nonzero where abs(a,f) > Thres else 0
+ 		"pxor	%%mm3, %%mm3\n\t"
+ 		"pcmpeqb %%mm3, %%mm1\n\t"			// now ff where abs(a,f) < Thres, else 00	
+ 
+@@ -205,22 +205,22 @@
+         "por     %%mm2, %%mm6\n\t"
+         "por     %%mm0, %%mm7\n\t"
+            
+- 		"pand	"MANGLE(YMask)", %%mm5\n\t"		// mask out chroma from here
+- 		"pand	"MANGLE(YMask)", %%mm6\n\t"			// mask out chroma from here
+- 		"pand	"MANGLE(YMask)", %%mm7\n\t"			// mask out chroma from here
++ 		"pand	"_YMask", %%mm5\n\t"		// mask out chroma from here
++ 		"pand	"_YMask", %%mm6\n\t"			// mask out chroma from here
++ 		"pand	"_YMask", %%mm7\n\t"			// mask out chroma from here
+ 
+ 		// b,e
+-		"movq    (%%"XBX"), %%mm0\n\t"		// value b from top 		
+-		"movq    (%%"XBX", %%"XCX"), %%mm1\n\t"	// value e from bottom 
++		"movq    (%%"XDX"), %%mm0\n\t"		// value b from top 		
++		"movq    (%%"XDX", %%"XCX"), %%mm1\n\t"	// value e from bottom 
+ 		"movq	%%mm0, %%mm2\n\t"					
+-		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", MANGLE(ShiftMask))	// avg(b,e)
++		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", _ShiftMask)	// avg(b,e)
+         "movq	%%mm0, %%mm3\n\t"
+         "psubusb	%%mm1, %%mm0\n\t"
+ 		"psubusb %%mm3, %%mm1\n\t"
+ 		"por		%%mm1, %%mm0\n\t"					// abs(b,e)
+ 
+         "movq    %%mm0, %%mm1\n\t"
+-		"psubusb "MANGLE(DiffThres)", %%mm1\n\t"		// nonzero where abs(b,e) > Thres else 0
++		"psubusb "_DiffThres", %%mm1\n\t"		// nonzero where abs(b,e) > Thres else 0
+ 		"pxor	%%mm3, %%mm3\n\t"
+ 		"pcmpeqb %%mm3, %%mm1\n\t"		// now ff where abs(b,e) < Thres, else 00	
+ 
+@@ -238,8 +238,8 @@
+         "por     %%mm0, %%mm7\n\t"
+ 
+ 		// bob in any leftovers
+-		"movq    (%%"XBX"), %%mm0\n\t"		// value b from top 		
+-		"movq    (%%"XBX", %%"XCX"), %%mm1\n\t"	// value e from bottom 
++		"movq    (%%"XDX"), %%mm0\n\t"		// value b from top 		
++		"movq    (%%"XDX", %%"XCX"), %%mm1\n\t"	// value e from bottom 
+ 
+ 
+ // We will also calc here the max/min values to later limit comb
+@@ -271,7 +271,7 @@
+ 		"por		%%mm2, %%mm3\n\t"			// abs diff
+ //		pmaxub  %%mm3, %%mm4			// top or bottom pixel moved most
+ 		V_PMAXUB ("%%mm3", "%%mm4")			// top or bottom pixel moved most
+-		"psubusb "MANGLE(DiffThres)", %%mm3\n\t"		// moved more than allowed? or goes to 0?
++		"psubusb "_DiffThres", %%mm3\n\t"		// moved more than allowed? or goes to 0?
+ 		"pxor	%%mm4, %%mm4\n\t"
+ 		"pcmpeqb %%mm4, %%mm3\n\t"			// now ff where low motion, else high motion
+ 		
+@@ -283,19 +283,19 @@
+ 		V_PMAXUB ("%%mm6", "%%mm2")
+ 
+         "psubusb %%mm3, %%mm2\n\t"			// maybe decrease it to 0000.. if no surround motion
+-//		"movq	%%mm2, "MANGLE(Min_Vals)"\n\t"
++//		"movq	%%mm2, "_Min_Vals"\n\t"
+ 
+ 		"movq	%%mm0, %%mm2\n\t"
+ 		V_PMAXUB ("%%mm2", "%%mm1")
+ //		pminub	%%mm6, %%mm2			// clip our current results so far to be below this
+ 		V_PMINUB ("%%mm6", "%%mm2", "%%mm4")
+         "paddusb %%mm3, %%mm2\n\t"			// maybe increase it to ffffff if no surround motion
+-//		"movq	%%mm2, "MANGLE(Max_Vals)"\n\t"
++//		"movq	%%mm2, "_Max_Vals"\n\t"
+ #endif
+ 			
+ 		"movq	%%mm0, %%mm2\n\t"						
+ //		pavgb	%%mm2, %%mm1					// avg(b,e)
+-		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", MANGLE(ShiftMask))	// avg(b,e)
++		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", _ShiftMask)	// avg(b,e)
+ 				
+         "movq	%%mm0, %%mm3\n\t"
+ 		"psubusb	%%mm1, %%mm3\n\t"
+diff -urp xine-lib-1.1.1-old/src/post/deinterlace/plugins/tomsmocomp/TomsMoCompAll.inc xine-lib-1.1.1/src/post/deinterlace/plugins/tomsmocomp/TomsMoCompAll.inc
+--- xine-lib-1.1.1-old/src/post/deinterlace/plugins/tomsmocomp/TomsMoCompAll.inc	2005-06-05 18:31:24.000000000 +0200
++++ xine-lib-1.1.1/src/post/deinterlace/plugins/tomsmocomp/TomsMoCompAll.inc	2005-12-24 19:55:33.000000000 +0100
+@@ -33,8 +33,8 @@ static const int64_t __attribute__((__us
+ static const int64_t __attribute__((__used__)) FOURS     = 0x0404040404040404ull;
+ static const int64_t __attribute__((__used__)) ONES      = 0x0101010101010101ull;
+ static const int64_t __attribute__((__used__)) ShiftMask = 0xfefffefffefffeffull;
+-//static int64_t Min_Vals  = 0x0000000000000000ull;
+-//static int64_t Max_Vals  = 0x0000000000000000ull;
++static int64_t Min_Vals  = 0x0000000000000000ull;
++static int64_t Max_Vals  = 0x0000000000000000ull;
+ #endif
+ 
+ #ifndef TopFirst
+@@ -69,7 +69,7 @@ static void FUNCT_NAME(uint8_t *output, 
+     int rowsize;
+     int FldHeight;
+     int stride = (width*2);
+-    long oldbx;
++    long olddx;
+ 
+ 
+     src_pitch = stride*2;
+diff -urp xine-lib-1.1.1-old/src/post/deinterlace/plugins/tomsmocomp/WierdBob.inc xine-lib-1.1.1/src/post/deinterlace/plugins/tomsmocomp/WierdBob.inc
+--- xine-lib-1.1.1-old/src/post/deinterlace/plugins/tomsmocomp/WierdBob.inc	2005-06-05 18:31:24.000000000 +0200
++++ xine-lib-1.1.1/src/post/deinterlace/plugins/tomsmocomp/WierdBob.inc	2005-12-24 19:51:18.000000000 +0100
+@@ -14,22 +14,22 @@
+ 		// selected for the	smallest of abs(a,f), abs(c,d), or abs(b,e), etc.
+ 
+ 		// a,f
+-		"movq    -2(%%"XBX"), %%mm0\n\t"		// value a from top left		
+-		"movq    2(%%"XBX", %%"XCX"), %%mm1\n\t"	// value f from bottom right			
++		"movq    -2(%%"XDX"), %%mm0\n\t"		// value a from top left		
++		"movq    2(%%"XDX", %%"XCX"), %%mm1\n\t"	// value f from bottom right			
+ 		"movq	%%mm0, %%mm6\n\t"					
+ //		pavgb	%%mm6, %%mm1					// avg(a,f), also best so far
+-		V_PAVGB ("%%mm6", "%%mm1", "%%mm7", MANGLE(ShiftMask))	// avg(a,f), also best so far
++		V_PAVGB ("%%mm6", "%%mm1", "%%mm7", _ShiftMask)	// avg(a,f), also best so far
+         "movq	%%mm0, %%mm7\n\t"
+ 		"psubusb	 %%mm1, %%mm7\n\t"
+ 		"psubusb %%mm0, %%mm1\n\t"
+ 		"por		%%mm1, %%mm7\n\t"					// abs diff, also best so far
+ 
+ 		// c,d
+-		"movq    2(%%"XBX"), %%mm0\n\t"		// value a from top left		
+-		"movq    -2(%%"XBX", %%"XCX"), %%mm1\n\t"	// value f from bottom right			
++		"movq    2(%%"XDX"), %%mm0\n\t"		// value a from top left		
++		"movq    -2(%%"XDX", %%"XCX"), %%mm1\n\t"	// value f from bottom right			
+ 		"movq	%%mm0, %%mm2\n\t"						
+ //		pavgb	%%mm2, %%mm1					// avg(c,d)
+-		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", MANGLE(ShiftMask))	// avg(c,d)
++		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", _ShiftMask)	// avg(c,d)
+         "movq	%%mm0, %%mm3\n\t"
+ 		"psubusb	%%mm1, %%mm3\n\t"
+ 		"psubusb %%mm0, %%mm1\n\t"
+@@ -49,15 +49,15 @@
+ 
+ 		"por		%%mm2, %%mm6\n\t"			// and merge new & old vals keeping best
+ 		"por		%%mm1, %%mm7\n\t"
+-		"por		"MANGLE(UVMask)", %%mm7\n\t"			// but we know chroma is worthless so far
+-		"pand	"MANGLE(YMask)", %%mm5\n\t"			// mask out chroma from here also
++		"por		"_UVMask", %%mm7\n\t"			// but we know chroma is worthless so far
++		"pand	"_YMask", %%mm5\n\t"			// mask out chroma from here also
+ 
+ 		// j,n
+-		"movq    -4(%%"XBX"), %%mm0\n\t"		// value j from top left		
+-		"movq    4(%%"XBX", %%"XCX"), %%mm1\n\t"	// value n from bottom right			
++		"movq    -4(%%"XDX"), %%mm0\n\t"		// value j from top left		
++		"movq    4(%%"XDX", %%"XCX"), %%mm1\n\t"	// value n from bottom right			
+ 		"movq	%%mm0, %%mm2\n\t"						
+ //		pavgb	%%mm2, %%mm1					// avg(j,n)
+-		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", MANGLE(ShiftMask))	// avg(j,n)
++		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", _ShiftMask)	// avg(j,n)
+         "movq	%%mm0, %%mm3\n\t"
+ 		"psubusb	%%mm1, %%mm3\n\t"
+ 		"psubusb %%mm0, %%mm1\n\t"
+@@ -79,11 +79,11 @@
+ 		"por		%%mm1, %%mm7\n\t"			// "
+ 
+ 		// k, m
+-		"movq    4(%%"XBX"), %%mm0\n\t"		// value k from top right		
+-		"movq    -4(%%"XBX", %%"XCX"), %%mm1\n\t"	// value n from bottom left			
++		"movq    4(%%"XDX"), %%mm0\n\t"		// value k from top right		
++		"movq    -4(%%"XDX", %%"XCX"), %%mm1\n\t"	// value n from bottom left			
+ 		"movq	%%mm0, %%mm4\n\t"						
+ //		pavgb	%%mm4, %%mm1					// avg(k,m)
+-		V_PAVGB ("%%mm4", "%%mm1", "%%mm3", MANGLE(ShiftMask))	// avg(k,m)
++		V_PAVGB ("%%mm4", "%%mm1", "%%mm3", _ShiftMask)	// avg(k,m)
+ 
+         "movq	%%mm0, %%mm3\n\t"
+ 		"psubusb	%%mm1, %%mm3\n\t"
+@@ -108,8 +108,8 @@
+ 		"por		%%mm1, %%mm7\n\t"			// "
+ 
+ 		// b,e
+-		"movq    (%%"XBX"), %%mm0\n\t"		// value b from top 		
+-		"movq    (%%"XBX", %%"XCX"), %%mm1\n\t"	// value e from bottom 
++		"movq    (%%"XDX"), %%mm0\n\t"		// value b from top 		
++		"movq    (%%"XDX", %%"XCX"), %%mm1\n\t"	// value e from bottom 
+ 
+ // We will also calc here the max/min values to later limit comb
+ // so the max excursion will not exceed the Max_Comb constant
+@@ -140,7 +140,7 @@
+ 		"por		%%mm2, %%mm3\n\t"			// abs diff
+ //		pmaxub  %%mm3, %%mm4			// top or bottom pixel moved most
+ 		V_PMAXUB ("%%mm3", "%%mm4")			// top or bottom pixel moved most
+-		"psubusb "MANGLE(Max_Mov)", %%mm3\n\t"		// moved more than allowed? or goes to 0?
++		"psubusb "_Max_Mov", %%mm3\n\t"		// moved more than allowed? or goes to 0?
+ 		"pxor	%%mm4, %%mm4\n\t"
+ 		"pcmpeqb %%mm4, %%mm3\n\t"			// now ff where low motion, else high motion
+ 		
+@@ -152,19 +152,19 @@
+ 		V_PMAXUB ("%%mm6", "%%mm2")
+ 
+ 		"psubusb %%mm3, %%mm2\n\t"			// maybe decrease it to 0000.. if no surround motion
+-//		"movq	%%mm2, "MANGLE(Min_Vals)"\n\t"
++//		"movq	%%mm2, "_Min_Vals"\n\t"
+ 
+ 		"movq	%%mm0, %%mm2\n\t"
+ 		V_PMAXUB ("%%mm2", "%%mm1")
+ //		pminub	%%mm6, %%mm2			// clip our current results so far to be below this
+ 		V_PMINUB ("%%mm6", "%%mm2", "%%mm4")
+         "paddusb %%mm3, %%mm2\n\t"			// maybe increase it to ffffff if no surround motion
+-//		"movq	%%mm2, "MANGLE(Max_Vals)"\n\t"
++//		"movq	%%mm2, "_Max_Vals"\n\t"
+ #endif
+         
+ 		"movq	%%mm0, %%mm2\n\t"						
+ //		pavgb	%%mm2, %%mm1					// avg(b,e)
+-		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", MANGLE(ShiftMask))	// avg(b,e)
++		V_PAVGB ("%%mm2", "%%mm1", "%%mm3", _ShiftMask)	// avg(b,e)
+ 				
+         "movq	%%mm0, %%mm3\n\t"
+ 		"psubusb	%%mm1, %%mm3\n\t"
+diff -urp xine-lib-1.1.1-old/src/post/deinterlace/plugins/tomsmocomp/tomsmocompmacros.h xine-lib-1.1.1/src/post/deinterlace/plugins/tomsmocomp/tomsmocompmacros.h
+--- xine-lib-1.1.1-old/src/post/deinterlace/plugins/tomsmocomp/tomsmocompmacros.h	2005-07-29 20:14:40.000000000 +0200
++++ xine-lib-1.1.1/src/post/deinterlace/plugins/tomsmocomp/tomsmocompmacros.h	2005-12-24 19:49:47.000000000 +0100
+@@ -114,7 +114,7 @@
+     "por     %%xmm0,      %%xmm5\n\t"      /* and merge new & old vals */                \
+     "por     %%xmm2,      %%xmm7\n\t"
+ 
+-#define RESET_CHROMA "por "MANGLE(UVMask)", %%xmm7\n\t"
++#define RESET_CHROMA "por "_UVMask", %%xmm7\n\t"
+ 
+ #else // ifdef IS_SSE2
+ 
+@@ -126,7 +126,7 @@
+     "psubusb %%mm1,      %%mm2\n\t"                                                     \
+     "psubusb %%mm0,      %%mm3\n\t"                                                     \
+     "por     %%mm3,      %%mm2\n\t"                                                     \
+-    V_PAVGB ("%%mm0", "%%mm1", "%%mm3", MANGLE(ShiftMask)) /* avg of 2 pixels */               \
++    V_PAVGB ("%%mm0", "%%mm1", "%%mm3", _ShiftMask) /* avg of 2 pixels */               \
+     "movq    %%mm2,      %%mm3\n\t"       /* another copy of our our weights */         \
+     "pxor    %%mm1,      %%mm1\n\t"                                                     \
+     "psubusb %%mm7,      %%mm3\n\t"       /* nonzero where old weights lower, else 0 */ \
+@@ -144,14 +144,14 @@
+     "movq    "PADDR2A",   %%mm1\n\t"      /* our pixel2 value */                        \
+     "movq    "PADDR1B",   %%mm2\n\t"      /* our 4 pixels */                            \
+     "movq    "PADDR2B",   %%mm3\n\t"      /* our pixel2 value */                        \
+-    V_PAVGB("%%mm0", "%%mm2", "%%mm2", MANGLE(ShiftMask))                                      \
+-    V_PAVGB("%%mm1", "%%mm3", "%%mm3", MANGLE(ShiftMask))                                      \
++    V_PAVGB("%%mm0", "%%mm2", "%%mm2", _ShiftMask)                                      \
++    V_PAVGB("%%mm1", "%%mm3", "%%mm3", _ShiftMask)                                      \
+     "movq    %%mm0,       %%mm2\n\t"      /* another copy of our pixel1 value */        \
+     "movq    %%mm1,       %%mm3\n\t"      /* another copy of our pixel1 value */        \
+     "psubusb %%mm1,       %%mm2\n\t"                                                    \
+     "psubusb %%mm0,       %%mm3\n\t"                                                    \
+     "por     %%mm3,       %%mm2\n\t"                                                    \
+-    V_PAVGB("%%mm0", "%%mm1", "%%mm3", MANGLE(ShiftMask))   /* avg of 2 pixels */              \
++    V_PAVGB("%%mm0", "%%mm1", "%%mm3", _ShiftMask)   /* avg of 2 pixels */              \
+     "movq    %%mm2,       %%mm3\n\t"      /* another copy of our our weights */         \
+     "pxor    %%mm1,       %%mm1\n\t"                                                    \
+     "psubusb %%mm7,       %%mm3\n\t"      /* nonzero where old weights lower, else 0 */ \
+@@ -164,7 +164,7 @@
+     "por     %%mm0,       %%mm5\n\t"      /* and merge new & old vals */                \
+     "por     %%mm2,       %%mm7\n\t"
+ 
+-#define RESET_CHROMA "por "MANGLE(UVMask)", %%mm7\n\t"
++#define RESET_CHROMA "por "_UVMask", %%mm7\n\t"
+ 
+ #endif
+ 

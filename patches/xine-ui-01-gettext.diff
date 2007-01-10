@@ -1,0 +1,32 @@
+--- xine-ui-0.99.4/configure.ac.patch01	2005-07-21 13:56:25.000000000 -0400
++++ xine-ui-0.99.4/configure.ac	2007-01-07 19:13:09.419358000 -0500
+@@ -101,15 +101,21 @@
+ dnl AM_WITH_NLS(use-libtool,,)
+ dnl ALL_LINGUAS="cs da de el en@quot en@boldquot es et fr gl id it ja ko nl nn no pl pt pt_BR ru sl sv tr zh"
+ ALL_LINGUAS="fr es pt_BR de sk pl uk cs it ja eu ru"
+-AM_GNU_GETTEXT(use-libtool, need-ngettext)
+-AC_PROG_GMSGFMT_PLURAL
+-AC_CONFIG_LINKS($nls_cv_header_libgt, $nls_cv_header_intl)
+-AM_CONDITIONAL(INCLUDED_INTL, test x$USE_INCLUDED_LIBINTL = "xyes")
+-if test x"$USE_INCLUDED_LIBINTL" = x"yes"; then
+-   INTLDIR="-I\$(top_builddir)/intl -I\$(top_srcdir)/intl"
+-fi
++AM_GLIB_GNU_GETTEXT
++USE_INCLUDED_LIBINTL=no
++AC_SUBST(USE_INCLUDED_LIBINTL)
++BUILD_INCLUDED_LIBINTL=no
++AC_SUBST(BUILD_INCLUDED_LIBINTL)
++AC_SUBST(LIBINTL)
++GETTEXT_PACKAGE=$PACKAGE
++AC_SUBST(GETTEXT_PACKAGE)
++AM_CONDITIONAL(INCLUDED_INTL, false)
++INTLDIR=
+ dnl AC_SUBST(INTLDIR)
+-
++AC_OUTPUT_COMMANDS(
++  [case "$CONFIG_FILES" in *src/xitk/xine-toolkit/po/Makefile.in*)
++    sed -e "/POTFILES =/r po/POTFILES" src/xitk/xine-toolkit/po/Makefile.in > src/xitk/xine-toolkit/po/Makefile
++  esac])
+ 
+ dnl
+ dnl Checks for typedefs, structures, and compiler characteristics.

@@ -1,0 +1,220 @@
+--- xine-ui-0.99.4/src/xitk/oxine/oxine.c.orig	2007-01-07 20:12:37.844397000 -0500
++++ xine-ui-0.99.4/src/xitk/oxine/oxine.c	2007-01-07 20:15:44.242046000 -0500
+@@ -489,7 +489,7 @@
+   }
+ 
+   if (strcasecmp (node->name, "oxinemm")) {
+-    lprintf ("error, root node must be OXINEMM\n");
++    lprintf ("error, root node must be OXINEMM\n", NULL);
+     return 0;
+   }
+ 
+@@ -533,7 +533,7 @@
+   memset(mmpath,0,sizeof(mmpath));
+   snprintf(mmpath,sizeof(mmpath),"%s/.xine/oxine/mainmenu", xine_get_homedir());
+   if (!read_main_menu(oxine, oxine->main_menu_items, mmpath)) {
+-    lprintf("trying to load system wide mainmenu\n");
++    lprintf("trying to load system wide mainmenu\n", NULL);
+     snprintf(mmpath,1024,"%s/mainmenu", XINE_OXINEDIR);
+     if (read_main_menu(oxine, oxine->main_menu_items, mmpath)) {
+       /**/
+--- xine-ui-0.99.4/src/xitk/Makefile.am.orig	2007-01-07 21:23:14.095757000 -0500
++++ xine-ui-0.99.4/src/xitk/Makefile.am	2007-01-07 21:44:50.291719000 -0500
+@@ -60,9 +60,10 @@
+                     $(top_builddir)/src/xitk/oxine/liboxine.la
+ 
+ # double @XINE_LIBS@ to ensure correct libpath (libtool may add -L...)
+-xine_LDADD = @XINE_LIBS@ $(top_builddir)/src/common/libcommon.la \
++xine_LDADD = @XINE_LIBS@ \
+ 	     $(top_builddir)/src/xitk/xine-toolkit/libxitk.la \
+ 	     $(top_builddir)/src/xitk/oxine/liboxine.la \
++	     $(top_builddir)/src/common/libcommon.la \
+ 	     $(X_PRE_LIBS) @XINE_LIBS@ $(LIRC_LIBS) $(DYNAMIC_LD_LIBS) \
+ 	     $(X_LIBS) $(XTEST_LIBS) $(CURL_LIBS) $(NVTVSIMPLE_LIBS) \
+ 	     -lX11 -lm $(DBG_LIBS)
+@@ -71,7 +72,7 @@
+ xine_remote_DEPENDENCIES = $(top_builddir)/src/common/libcommon.la \
+ 			   xine-remote.c
+ xine_remote_LDADD = $(INTLLIBS) $(NET_LIBS) $(THREAD_LIBS) $(READLINE_LIBS) $(NCURSES_LIB) \
+-	$(top_builddir)/src/common/libcommon.la $(DBG_LIBS)
++	$(top_builddir)/src/common/libcommon.la $(DBG_LIBS) @XINE_LIBS@
+ 
+ session_ctrl_LDADD = @XINE_LIBS@ $(top_builddir)/src/common/libcommon.la $(DBG_LIBS)
+ 
+--- xine-ui-0.99.4/src/xitk/post.c.orig	2007-01-07 20:16:19.065544000 -0500
++++ xine-ui-0.99.4/src/xitk/post.c	2007-01-07 20:16:34.289929000 -0500
+@@ -827,11 +827,11 @@
+ }
+ 
+ static void _vpplugin_change_parameter(xitk_widget_t *w, void *data, int select) {
+-  return _pplugin_change_parameter(&vpp_wrapper, w, data, select);
++  _pplugin_change_parameter(&vpp_wrapper, w, data, select);
+ }
+ 
+ static void _applugin_change_parameter(xitk_widget_t *w, void *data, int select) {
+-  return _pplugin_change_parameter(&app_wrapper, w, data, select);
++  _pplugin_change_parameter(&app_wrapper, w, data, select);
+ }
+ 
+ static void _pplugin_get_plugins(_pp_wrapper_t *pp_wrapper) {
+--- xine-ui-0.99.4/src/common/Makefile.am.orig	2007-01-07 21:39:34.596366000 -0500
++++ xine-ui-0.99.4/src/common/Makefile.am	2007-01-07 21:40:39.083637000 -0500
+@@ -16,7 +16,9 @@
+ endif
+ 
+ 
+-libcommon_la_SOURCES = $(GETOPT_SRC) utils.c
++libcommon_la_SOURCES = $(GETOPT_SRC) utils.c \
++	getdelim.c \
++	strndup.c
+ libcommon_la_LIBADD = $(X11_COMMON_LIBS) $(GICONV_BSD_LIBS)
+ 
+ noinst_HEADERS = $(GETOPT_HDR) utils.h libcommon.h
+--- /dev/null	2007-01-07 21:47:35.000000000 -0500
++++ xine-ui-0.99.4/src/common/getdelim.c	2007-01-07 21:39:16.482605000 -0500
+@@ -0,0 +1,113 @@
++/* * * * * * * * * * * * * * *\
++|*  c&p code from GNU glibc  *|
++|*  license: lgpl            *|
++\* * * * * * * * * * * * * * */
++
++#include <stdio.h>
++#include <limits.h>
++#include <stdlib.h>
++#include <errno.h>
++
++#ifndef SIZE_MAX
++# define SIZE_MAX ((size_t) -1)
++#endif
++#ifndef SSIZE_MAX
++# define SSIZE_MAX ((ssize_t) (SIZE_MAX / 2))
++#endif
++#if !HAVE_FLOCKFILE
++# undef flockfile
++# define flockfile(x) ((void) 0)
++#endif
++#if !HAVE_FUNLOCKFILE
++# undef funlockfile
++# define funlockfile(x) ((void) 0)
++#endif
++
++/* Read up to (and including) a DELIMITER from FP into *LINEPTR (and
++   NUL-terminate it).  *LINEPTR is a pointer returned from malloc (or
++   NULL), pointing to *N characters of space.  It is realloc'ed as
++   necessary.  Returns the number of characters read (not including
++   the null terminator), or -1 on error or EOF.  */
++
++ssize_t
++xine_private_getdelim (char **lineptr, size_t *n, int delimiter, FILE *fp)
++{
++  ssize_t result;
++  size_t cur_len = 0;
++
++  if (lineptr == NULL || n == NULL || fp == NULL)
++    {
++      errno = EINVAL;
++      return -1;
++    }
++
++  flockfile (fp);
++
++  if (*lineptr == NULL || *n == 0)
++    {
++      *n = 120;
++      *lineptr = (char *) malloc (*n);
++      if (*lineptr == NULL)
++	{
++	  result = -1;
++	  goto unlock_return;
++	}
++    }
++
++  for (;;)
++    {
++      int i;
++
++      i = getc (fp);
++      if (i == EOF)
++	{
++	  result = -1;
++	  break;
++	}
++
++      /* Make enough space for len+1 (for final NUL) bytes.  */
++      if (cur_len + 1 >= *n)
++	{
++	  size_t needed_max =
++	    SSIZE_MAX < SIZE_MAX ? (size_t) SSIZE_MAX + 1 : SIZE_MAX;
++	  size_t needed = 2 * *n + 1;   /* Be generous. */
++	  char *new_lineptr;
++
++	  if (needed_max < needed)
++	    needed = needed_max;
++	  if (cur_len + 1 >= needed)
++	    {
++	      result = -1;
++	      goto unlock_return;
++	    }
++
++	  new_lineptr = (char *) realloc (*lineptr, needed);
++	  if (new_lineptr == NULL)
++	    {
++	      result = -1;
++	      goto unlock_return;
++	    }
++
++	  *lineptr = new_lineptr;
++	  *n = needed;
++	}
++
++      (*lineptr)[cur_len] = i;
++      cur_len++;
++
++      if (i == delimiter)
++	break;
++    }
++  (*lineptr)[cur_len] = '\0';
++  result = cur_len ? cur_len : result;
++
++ unlock_return:
++  funlockfile (fp);
++  return result;
++}
++
++ssize_t
++xine_private_getline (char **lineptr, size_t *n, FILE *stream)
++{
++  return xine_private_getdelim (lineptr, n, '\n', stream);
++}
+--- /dev/null	2007-01-07 21:47:35.000000000 -0500
++++ xine-ui-0.99.4/src/common/strndup.c	2007-01-07 21:39:25.781136000 -0500
+@@ -0,0 +1,29 @@
++/* * * * * * * * * * * * * * *\
++|*  c&p code from GNU glibc  *|
++|*  license: lgpl            *|
++\* * * * * * * * * * * * * * */
++
++#include <sys/types.h>
++#include <strings.h>
++
++size_t
++xine_private_strnlen (const char *string, size_t maxlen)
++{
++  const char *end = memchr (string, '\0', maxlen);
++  return end ? (size_t) (end - string) : maxlen;
++}
++
++char *
++xine_private_strndup (s, n)
++     const char *s;
++     size_t n;
++{
++  size_t len = xine_private_strnlen (s, n);
++  char *new = malloc (len + 1);
++
++  if (new == NULL)
++    return NULL;
++
++  new[len] = '\0';
++  return memcpy (new, s, len);
++}

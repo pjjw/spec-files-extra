@@ -16,12 +16,18 @@ Patch3:                  mplayerplugin-03-strstr.diff
 Patch4:                  mplayerplugin-04-ndelay.diff
 Patch5:                  mplayerplugin-05-install.diff
 URL:                     http://mplayerplug-in.sourceforge.net/
-SUNW_BaseDir:            /
+SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWfirefox
 BuildRequires: SUNWfirefox-devel
 Requires: SFEmplayer
+Requires: %name-root
+
+%package root
+Summary:                 %{summary} - / filesystem
+SUNW_BaseDir:            /
+%include default-depend.inc
 
 %if %build_l10n
 %package l10n
@@ -81,11 +87,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin) 
-%dir %attr (0755, root, sys) %{_basedir}
-%dir %attr (0755, root, sys) %{_sysconfdir}
-%{_sysconfdir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
+
+%files root
+%defattr (-, root, sys) 
+%dir %attr (0755, root, sys) %{_sysconfdir}
+%{_sysconfdir}/*
 
 %if %build_l10n
 %files l10n

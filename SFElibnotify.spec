@@ -42,6 +42,8 @@ aclocal $ACLOCAL_FLAGS
 autoheader
 automake -a -c -f 
 autoconf
+export CFLAGS="%optflags"
+export LDFLAGS="%_ldflags"
 ./configure --prefix=%{_prefix} \
 		--libdir=%{_libdir}
 make -j $CPUS
@@ -67,12 +69,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %dir %{_includedir}/libnotify
 %{_includedir}/libnotify/*
 %dir %attr (0755, root, sys) %dir %{_datadir}
-%dir %attr (0755, root, sys) %dir %{_datadir}/gtk-doc
+%dir %attr (0755, root, bin) %dir %{_datadir}/gtk-doc
 %{_datadir}/gtk-doc/*
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Jan  7 2007 - laca@sun.com
+- fix gtk-doc dir attributes
 * Thu Nov 23 2006 - jedy.wang@sun.com
 - Initial spec
