@@ -1,3 +1,7 @@
+2007-01-11  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEmtr.spec (new) Ping/Traceroute diagnostic tool w/ GTK support
+
 2007-01-10  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEgtkpod.spec: force using gcc and adjust the CFLAGS accordingly
