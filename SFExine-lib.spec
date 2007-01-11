@@ -8,7 +8,7 @@
 %use mplayer = SFEmplayer.spec
 
 Name:         SFExine-lib
-License:      Other
+License:      GPL
 Group:        System/Libraries
 Version:      1.1.3
 Summary:      xine-lib - the core engine of the xine video player

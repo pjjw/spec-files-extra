@@ -7,7 +7,7 @@
 %include Solaris.inc
 
 Name:         SFExine-ui
-License:      FIXME
+License:      GPL
 Group:        System/Libraries
 Version:      0.99.4
 Summary:      xine-ui - Xlib based skinned front end for the xine video player
