@@ -1,3 +1,7 @@
+2007-01-11  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEliveMedia.spec: bump to 2007.01.11
+
 2007-01-11  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEmtr.spec (new) Ping/Traceroute diagnostic tool w/ GTK support
