@@ -1,5 +1,11 @@
 2007-01-10  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEgtkpod.spec: force using gcc and adjust the CFLAGS accordingly
+	* patches/gtkpod-01-fixcompile.diff: remove, didn't work anyway
+	* SFElibgpod.spec: same again.
+
+2007-01-10  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEaalib.spec: define -devel subpkg
 	* SFElibdvdcss.spec: rename to SFElibdvdcss
 	* SFElibdvdnav.spec: (new) DVD navigation library

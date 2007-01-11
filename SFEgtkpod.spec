@@ -13,7 +13,6 @@ Group:        System/GUI/GNOME
 Version:      0.99.8
 Release:      1
 Source:       http://kent.dl.sourceforge.net/sourceforge/gtkpod/gtkpod-%{version}.tar.gz
-Patch1:       gtkpod-01-fixcompile.diff
 URL:          http://www.gtkpod.org
 SUNW_BaseDir: %{_prefix}
 BuildRoot:    %{_tmppath}/gtkpod-%{version}-build
@@ -44,15 +43,17 @@ Requires:                %{name}
 
 %prep
 %setup -q -n gtkpod-%version
-%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
+
+export CC=gcc
+export CFLAGS="-O4"
+#export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags -L/usr/X11/lib -R /usr/X11/lib -lX11"
-export CFLAGS="%optflags"
 
 glib-gettextize -f
 libtoolize --force

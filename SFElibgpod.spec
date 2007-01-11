@@ -25,8 +25,7 @@ Requires: SUNWgnome-base-libs
 Requires: SUNWgccruntime
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWgcc
-
-#FIXME: update to use (and depend on) HAL when it's integrated into nevada
+Requires: SUNWhal
 
 %description
 libgpod is a shared library to access the contents of an iPod.
@@ -58,7 +57,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 export LDFLAGS="%_ldflags"
-export CFLAGS="%optflags -D__hidden="
+export CFLAGS="-O4 -D__hidden="
 export CC=gcc
 
 intltoolize --copy --force
