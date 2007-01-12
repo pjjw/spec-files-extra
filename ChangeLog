@@ -1,5 +1,9 @@
 2007-01-11  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEgst-python.spec: bump to 0.10.6
+
+2007-01-11  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEliveMedia.spec: bump to 2007.01.11
 
 2007-01-11  Eric Boutilier  <eric.boutilier@sun.com>
