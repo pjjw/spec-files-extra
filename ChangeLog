@@ -1,5 +1,6 @@
 2007-01-12  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* SFEtightvnc.spec: Added. Not ready yet.
 	* SFEmemcached.spec, patches/memcached-01-solaris.diff: Added.
 
 2007-01-11  Laszlo (Laca) Peter  <laca@sun.com>
