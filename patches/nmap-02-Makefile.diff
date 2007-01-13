@@ -1,0 +1,9 @@
+--- nmap-4.20-old/Makefile.in	2006-12-08 02:53:47.000000000 +0000
++++ nmap-4.20/Makefile.in	2007-01-11 15:35:06.628608000 +0000
+@@ -198,5 +198,4 @@
+ 	./config.status --recheck
+ 
+ makefile.dep:
+-	$(CXX) -MM $(CXXFLAGS) $(CPPFLAGS) $(SRCS) > $@
+-include makefile.dep
++	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(SRCS) > $@

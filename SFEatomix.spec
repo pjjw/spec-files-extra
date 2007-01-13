@@ -6,6 +6,7 @@
 %include Solaris.inc
 
 Name:                    SFEatomix
+Group:                   applications/games
 Summary:                 Atomix - puzzle game in which you build molecules from atoms
 Version:                 2.14.0
 Source:                  http://download.gnome.org/sources/atomix/2.14/atomix-%{version}.tar.gz

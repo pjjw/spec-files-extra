@@ -7,6 +7,7 @@
 
 Name:                    SFEgmp
 Summary:                 GNU Multiple Presicion Arithmetic Library
+Group:                   libraries/math
 Version:                 4.2.1
 Source:                  ftp://ftp.gnu.org/gnu/gmp/gmp-%{version}.tar.bz2
 URL:                     http://swox.com/gmp/

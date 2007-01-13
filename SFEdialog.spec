@@ -8,9 +8,13 @@
 
 Name:                    SFEdialog
 Summary:                 dialog - display dialog boxes from shell scripts
-Version:		 1.0.20060221
-%define tarball_version  1.0-20060221
-Source:                  ftp://invisible-island.net/dialog/dialog.tar.gz
+Group:                   utilities/scripting
+%define year 2006
+%define month  02
+%define day    21
+Version:		 1.0.%{year}.%{month}.%{day}
+%define tarball_version  1.0-%{year}%{month}%{day}
+Source:                  ftp://invisible-island.net/dialog/dialog-%{tarball_version}.tgz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{tarball_version}-build
 %include default-depend.inc
@@ -45,6 +49,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Thu Jan 11 2007 - laca@sun.com
+- fix version string to be numeric; use the versioned tarball
 * Thu Jun 22 2006 - laca@sun.com
 - rename to SFEdialog
 - delete -share pkg

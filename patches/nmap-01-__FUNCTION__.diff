@@ -1,0 +1,276 @@
+--- nmap-4.20-old/MACLookup.cc	2006-11-06 02:14:45.000000000 +0000
++++ nmap-4.20/MACLookup.cc	2007-01-11 15:02:54.795783000 +0000
+@@ -232,8 +232,8 @@
+    is not particularly efficient and so should be rewriteen if it is
+    called often */
+ bool MACCorp2Prefix(const char *vendorstr, u8 *mac_data) {
+-  if (!vendorstr) fatal("%s: vendorstr is NULL", __FUNCTION__);
+-  if (!mac_data) fatal("%s: mac_data is NULL", __FUNCTION__);
++  if (!vendorstr) fatal("%s: vendorstr is NULL", __func__);
++  if (!mac_data) fatal("%s: mac_data is NULL", __func__);
+   mac_prefix_init();
+ 
+   for(int i = 0; i < MacTable.table_capacity; i++ ) {
+--- nmap-4.20-old/idle_scan.cc	2006-09-05 09:39:45.000000000 +0100
++++ nmap-4.20/idle_scan.cc	2007-01-11 15:02:54.802272000 +0000
+@@ -370,17 +370,17 @@
+   if ((o.sendpref & PACKET_SEND_ETH) &&  proxy->host.ifType() == devt_ethernet) {
+     if (!setTargetNextHopMAC(&proxy->host))
+       fatal("%s: Failed to determine dst MAC address for Idle proxy", 
+-	    __FUNCTION__);
++	    __func__);
+     memcpy(proxy->eth.srcmac, proxy->host.SrcMACAddress(), 6);
+     memcpy(proxy->eth.dstmac, proxy->host.NextHopMACAddress(), 6);
+     proxy->eth.ethsd = eth_open_cached(proxy->host.deviceName());
+     if (proxy->eth.ethsd == NULL)
+-      fatal("%s: Failed to open ethernet device (%s)", __FUNCTION__, proxy->host.deviceName());
++      fatal("%s: Failed to open ethernet device (%s)", __func__, proxy->host.deviceName());
+     proxy->rawsd = -1;
+     proxy->ethptr = &proxy->eth;
+   } else {
+     if ((proxy->rawsd = socket(AF_INET, SOCK_RAW, IPPROTO_RAW)) < 0 )
+-      pfatal("socket troubles in %s", __FUNCTION__);
++      pfatal("socket troubles in %s", __func__);
+     unblock_socket(proxy->rawsd);
+     broadcast_socket(proxy->rawsd);
+ #ifndef WIN32
+@@ -671,12 +671,12 @@
+   if (proxy->rawsd < 0) {
+     if (!setTargetNextHopMAC(target))
+       fatal("%s: Failed to determine dst MAC address for Idle proxy", 
+-	    __FUNCTION__);
++	    __func__);
+     memcpy(eth.srcmac, target->SrcMACAddress(), 6);
+     memcpy(eth.dstmac, target->NextHopMACAddress(), 6);
+     eth.ethsd = eth_open_cached(target->deviceName());
+     if (eth.ethsd == NULL)
+-      fatal("%s: Failed to open ethernet device (%s)", __FUNCTION__, target->deviceName());
++      fatal("%s: Failed to open ethernet device (%s)", __func__, target->deviceName());
+   } else eth.ethsd = NULL;
+ 
+   /* I start by sending out the SYN pr0bez */
+--- nmap-4.20-old/osscan.cc	2006-12-08 03:01:19.000000000 +0000
++++ nmap-4.20/osscan.cc	2007-01-11 15:02:54.809381000 +0000
+@@ -542,7 +542,7 @@
+     memcpy(eth.dstmac, target->NextHopMACAddress(), 6);
+     eth.ethsd = eth_open_cached(target->deviceName());
+     if (eth.ethsd == NULL)
+-      fatal("%s: Failed to open ethernet device (%s)", __FUNCTION__, target->deviceName());
++      fatal("%s: Failed to open ethernet device (%s)", __func__, target->deviceName());
+ 
+     rawsd = -1;
+     ethptr = &eth;
+@@ -1260,10 +1260,10 @@
+       if (numtrue == 0) testfailed=1;
+       if (points) {
+ 	 current_points = getattrbyname(points, current_ref->attribute);
+-	 if (!current_points) fatal("%s: Failed to find point amount for test %s.%s", __FUNCTION__, testGroupName? testGroupName : "", current_ref->attribute);
++	 if (!current_points) fatal("%s: Failed to find point amount for test %s.%s", __func__, testGroupName? testGroupName : "", current_ref->attribute);
+ 	 pointsThisTest = strtol(current_points->value, &endptr, 10);
+ 	 if (pointsThisTest < 1)
+-	   fatal("%s: Got bogus point amount (%s) for test %s.%s", __FUNCTION__, current_points->value, testGroupName? testGroupName : "", current_ref->attribute);
++	   fatal("%s: Got bogus point amount (%s) for test %s.%s", __func__, current_points->value, testGroupName? testGroupName : "", current_ref->attribute);
+       }
+       subtests += pointsThisTest;
+       if (testfailed) {
+@@ -1308,7 +1308,7 @@
+       if (MatchPoints) {
+ 	currentTestMatchPoints = gettestbyname(MatchPoints, currentReferenceTest->name);
+ 	if (!currentTestMatchPoints)
+-	  fatal("%s: Failed to locate test %s in MatchPoints directive of fingerprint file", __FUNCTION__, currentReferenceTest->name);
++	  fatal("%s: Failed to locate test %s in MatchPoints directive of fingerprint file", __func__, currentReferenceTest->name);
+       } else currentTestMatchPoints = NULL;
+ 
+       AVal_match(currentReferenceTest->results, currentObservedTest, currentTestMatchPoints,
+@@ -2013,7 +2013,7 @@
+ 
+ char *p, *q; /* OH YEAH!!!! */
+ 
+- if (!DB) fatal("non-allocated DB passed to %s", __FUNCTION__);
++ if (!DB) fatal("non-allocated DB passed to %s", __func__);
+ 
+  DB->prints = (FingerPrint **) safe_zalloc(sizeof(FingerPrint *) * max_records); 
+ 
+--- nmap-4.20-old/osscan2.cc	2006-12-08 02:11:08.000000000 +0000
++++ nmap-4.20/osscan2.cc	2007-01-11 15:02:54.847657000 +0000
+@@ -924,7 +924,7 @@
+     memcpy(eth.srcmac, t->SrcMACAddress(), 6);
+     memcpy(eth.dstmac, t->NextHopMACAddress(), 6);
+     if ((eth.ethsd = eth_open_cached(t->deviceName())) == NULL)
+-      fatal("%s: Failed to open ethernet device (%s)", __FUNCTION__, t->deviceName());
++      fatal("%s: Failed to open ethernet device (%s)", __func__, t->deviceName());
+     rawsd = -1;
+     ethptr = &eth;
+   } else {
+--- nmap-4.20-old/output.cc	2006-12-08 03:01:19.000000000 +0000
++++ nmap-4.20/output.cc	2007-01-11 15:02:54.854291000 +0000
+@@ -757,7 +757,7 @@
+ 	va_end(apcopy);
+ 	return;
+       } else if (len < 0) {
+-	fprintf(stderr, "vnsprintf returned %d in %s -- bizarre. Quitting.\n", len, __FUNCTION__);
++	fprintf(stderr, "vnsprintf returned %d in %s -- bizarre. Quitting.\n", len, __func__);
+ 	exit(1);
+       } else if (len >= writebuflen) {
+ 	/* Didn't have enough space.  Expand writebuf and try again */
+@@ -766,7 +766,7 @@
+ 	writebuf = (char *) safe_malloc(writebuflen);
+ 	len = vsnprintf(writebuf, writebuflen, fmt, apcopy);
+ 	if (len <= 0 || len >= writebuflen) {
+-	  fprintf(stderr, "%s: vnsprintf failed.  Even after increasing bufferlen to %d, vsnprintf returned %d (logt == %d).  Please email this message to fyodor@insecure.org.  Quitting.\n", __FUNCTION__, writebuflen, len, logt);
++	  fprintf(stderr, "%s: vnsprintf failed.  Even after increasing bufferlen to %d, vsnprintf returned %d (logt == %d).  Please email this message to fyodor@insecure.org.  Quitting.\n", __func__, writebuflen, len, logt);
+ 	  exit(1);
+ 	}
+       }
+--- nmap-4.20-old/scan_engine.cc	2006-11-19 09:35:31.000000000 +0000
++++ nmap-4.20/scan_engine.cc	2007-01-11 15:02:54.889651000 +0000
+@@ -189,7 +189,7 @@
+   case PS_ARP:
+     return "ARP";
+   default:
+-    fatal("%s: Unknown type: %d", __FUNCTION__, type);
++    fatal("%s: Unknown type: %d", __func__, type);
+   }
+   return ""; // Unreached
+ }
+@@ -677,7 +677,7 @@
+   type = UP_IP;
+   if (ipv4->ip_v != 4)
+     fatal("Bogus packet passed to %s -- only IPv4 packets allowed", 
+-	  __FUNCTION__);
++	  __func__);
+   assert(iplen >= 20);
+   assert(iplen == (u32) ntohs(ipv4->ip_len));
+   probes.IP.ipid = ntohs(ipv4->ip_id);
+@@ -700,7 +700,7 @@
+   if (mypspec.proto == IPPROTO_TCP)
+     return probes.IP.pd.tcp.seq;
+   else
+-    fatal("Bogus seq number request to %s -- type is %s", __FUNCTION__, 
++    fatal("Bogus seq number request to %s -- type is %s", __func__, 
+ 	  pspectype2ascii(mypspec.type));
+ 
+   return 0; // Unreached
+--- nmap-4.20-old/targets.cc	2006-11-19 09:35:31.000000000 +0000
++++ nmap-4.20/targets.cc	2007-01-11 15:02:54.896409000 +0000
+@@ -1735,7 +1735,7 @@
+ 	   )) {
+ 	hs->hostbatch[hidx]->TargetSockAddr(&ss, &sslen);
+ 	if (!route_dst(&ss, &rnfo)) {
+-	  fatal("%s: failed to determine route to %s", __FUNCTION__, hs->hostbatch[hidx]->NameIP());
++	  fatal("%s: failed to determine route to %s", __func__, hs->hostbatch[hidx]->NameIP());
+ 	}
+ 	if (rnfo.direct_connect) {
+ 	  hs->hostbatch[hidx]->setDirectlyConnected(true);
+@@ -1814,7 +1814,7 @@
+ 	 !hs->hostbatch[i]->timedOut(&now))
+        if (!setTargetNextHopMAC(hs->hostbatch[i]))
+ 	 fatal("%s: Failed to determine dst MAC address for target %s", 
+-	       __FUNCTION__, hs->hostbatch[i]->NameIP());
++	       __func__, hs->hostbatch[i]->NameIP());
+  }
+ 
+  /* TODO: Maybe I should allow real ping scan of directly connected
+--- nmap-4.20-old/tcpip.cc	2006-12-08 03:01:19.000000000 +0000
++++ nmap-4.20/tcpip.cc	2007-01-11 15:02:54.927052000 +0000
+@@ -2071,7 +2071,7 @@
+   if (to_usec < 0) {
+     if (!warning) {
+       warning = 1;
+-      error("WARNING: Negative timeout value (%lu) passed to %s() -- using 0", to_usec, __FUNCTION__);
++      error("WARNING: Negative timeout value (%lu) passed to %s() -- using 0", to_usec, __func__);
+     }
+     to_usec = 0;
+   }
+@@ -2251,7 +2251,7 @@
+   bool foundit = false;
+ 
+   if (targetsin->sin_family != AF_INET || srcsin->sin_family != AF_INET)
+-    fatal("%s can only handle IPv4 addresses", __FUNCTION__);
++    fatal("%s can only handle IPv4 addresses", __func__);
+ 
+   /* Start listening */
+   pd = my_pcap_open_live(dev, 50, 1, 25);
+@@ -2259,7 +2259,7 @@
+ 
+   /* Prepare probe and sending stuff */
+   ethsd = eth_open_cached(dev);
+-  if (!ethsd) fatal("%s: failed to open device %s", __FUNCTION__, dev);
++  if (!ethsd) fatal("%s: failed to open device %s", __func__, dev);
+   eth_pack_hdr(frame, ETH_ADDR_BROADCAST, *srcmac, ETH_TYPE_ARP);
+   arp_pack_hdr_ethip(frame + ETH_HDR_LEN, ARP_OP_REQUEST, *srcmac, 
+ 		     srcsin->sin_addr, ETH_ADDR_BROADCAST, 
+@@ -2271,7 +2271,7 @@
+     /* Send the sucker */
+     rc = eth_send(ethsd, frame, sizeof(frame));
+     if (rc != sizeof(frame)) {
+-      error("WARNING: %s: eth_send of ARP packet returned %u rather than expected %d bytes\n", __FUNCTION__, rc, (int) sizeof(frame));
++      error("WARNING: %s: eth_send of ARP packet returned %u rather than expected %d bytes\n", __func__, rc, (int) sizeof(frame));
+     }
+     PacketTrace::traceArp(PacketTrace::SENT, (u8 *) frame, sizeof(frame), &now);
+     num_sends++;
+@@ -2288,7 +2288,7 @@
+       /* Now listen until we reach our next timeout or get an answer */
+       rc = read_arp_reply_pcap(pd, targetmac, &rcvdIP, timeleft, &rcvdtime);
+       if (rc == -1) fatal("%s: Received -1 response from readarp_reply_pcap", 
+-			  __FUNCTION__);
++			  __func__);
+       if (rc == 1) {
+ 	/* Yay, I got one! But is it the right one? */
+ 	if (rcvdIP.s_addr != targetsin->sin_addr.s_addr)
+@@ -2339,7 +2339,7 @@
+     target->TargetSockAddr(&targetss, &sslen);
+   } else {
+     if (!target->nextHop(&targetss, &sslen))
+-      fatal("%s: Failed to determine nextHop to target", __FUNCTION__);
++      fatal("%s: Failed to determine nextHop to target", __func__);
+   }
+ 
+   /* First, let us check the Nmap arp cache ... */
+@@ -2585,9 +2585,9 @@
+       dcrn.ifaces = mydevs;
+       dcrn.numifaces = 0;
+ 	  it = intf_open();
+-	  if (!it) fatal("%s: intf_open() failed", __FUNCTION__);
++	  if (!it) fatal("%s: intf_open() failed", __func__);
+ 	  if (intf_loop(it, collect_dnet_interfaces, &dcrn) != 0)
+-		  fatal("%s: intf_loop() failed", __FUNCTION__);
++		  fatal("%s: intf_loop() failed", __func__);
+ 	  intf_close(it);	
+ 	  mydevs = dcrn.ifaces;
+ 	  numifaces = dcrn.numifaces;
+@@ -2692,11 +2692,11 @@
+ 	eth_addr_t ethaddr;
+ 
+ 	if (!ethsd) 
+-	  fatal("%s: Failed to open ethernet interface (%s). A possible cause on BSD operating systems is running out of BPF devices (see http://seclists.org/lists/nmap-dev/2006/Jan-Mar/0014.html).", __FUNCTION__,
++	  fatal("%s: Failed to open ethernet interface (%s). A possible cause on BSD operating systems is running out of BPF devices (see http://seclists.org/lists/nmap-dev/2006/Jan-Mar/0014.html).", __func__,
+ 		mydevs[numifaces].devname);
+ 	if (eth_get(ethsd, &ethaddr) != 0) 
+ 	  fatal("%s: Failed to obtain MAC address for ethernet interface (%s)",
+-		__FUNCTION__, mydevs[numifaces].devname);
++		__func__, mydevs[numifaces].devname);
+ 	memcpy(mydevs[numifaces].mac, ethaddr.data, 6);
+ #endif /*SIOCGIFHWADDR*/
+ 
+@@ -2734,7 +2734,7 @@
+   int ifnum;
+ 
+   if (sin->sin_family != AF_INET)
+-    fatal("%s called with non-IPv4 address", __FUNCTION__);
++    fatal("%s called with non-IPv4 address", __func__);
+ 
+   ifaces = getinterfaces(&numifaces);
+ 
+@@ -2896,9 +2896,9 @@
+       dcrn.ifaces = ifaces;
+       dcrn.numifaces = numifaces;
+       route_t *dr = route_open();
+-      if (!dr) fatal("%s: route_open() failed", __FUNCTION__);
++      if (!dr) fatal("%s: route_open() failed", __func__);
+       if (route_loop(dr, collect_dnet_routes, &dcrn) != 0) {
+-	fatal("%s: route_loop() failed", __FUNCTION__);
++	fatal("%s: route_loop() failed", __func__);
+       }
+       route_close(dr);
+       /* These values could have changed in the callback */

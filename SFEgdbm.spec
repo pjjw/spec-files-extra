@@ -8,6 +8,7 @@
 
 Name:         SFEgdbm
 Summary:      GNU Database Routines
+Group:        libraries/database
 Version:      1.8.3
 License:      GPL
 Group:        Development/Libraries/C and C++

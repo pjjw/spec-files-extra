@@ -177,9 +177,9 @@
 +hal_find_drive (XineHalDriveType t);
 +
 +
---- /dev/null	2007-01-10 16:08:27.000000000 -0500
-+++ xine-lib-1.1.3/src/input/hal-find-drive.c	2007-01-10 16:07:06.074711000 -0500
-@@ -0,0 +1,130 @@
+--- /dev/null	2007-01-12 17:06:02.000000000 -0500
++++ xine-lib-1.1.3/src/input/hal-find-drive.c	2007-01-12 17:05:55.456369000 -0500
+@@ -0,0 +1,132 @@
 +#include <stdlib.h>
 +#include <string.h>
 +#include "hal-find-drive.h"
@@ -202,7 +202,7 @@
 +  DBusConnection *dbus_connection;
 +  DBusError error;
 +  char **drives;
-+  const char *device_file_name, *ret = NULL;
++  const char *device_file_name = NULL, *ret = NULL;
 +  int num_drives;
 +
 +  if ((hal_ctx = libhal_ctx_new ()) == NULL) {
@@ -213,7 +213,7 @@
 +  dbus_error_init (&error);
 +  dbus_connection = dbus_bus_get (DBUS_BUS_SYSTEM, &error);
 +  if (dbus_error_is_set (&error)) {
-+    HAL_DEBUG_PRINTF ("Error connecting to DBUS system bus: %s",
++    HAL_DEBUG_PRINTF ("Error connecting to DBUS system bus: %s\n",
 +		      error.message);
 +    dbus_error_free (&error);
 +    libhal_ctx_free (hal_ctx);
@@ -238,7 +238,7 @@
 +    for (i = 0; i < num_drives; i++) {
 +      LibHalDrive *drive;
 +      LibHalDriveType drive_type;
-+      HAL_DEBUG_PRINTF ("drive = '%s'", drives[i]);
++      HAL_DEBUG_PRINTF ("drive = '%s'\n", drives[i]);
 +      drive = libhal_drive_from_udi (hal_ctx, drives[i]);
 +
 +      drive_type = libhal_drive_get_type (drive);
@@ -306,7 +306,9 @@
 +  libhal_free_string_array (drives);
 +
 +  if (!ret) {
-+    return "/dev/dvd";
++    if(t == HAL_DRIVE_DVD) {
++      return "/dev/dvd";
++    }
 +  }
-+  return ret;
++  return "/dev/cdrom";
 +}

@@ -1,3 +1,24 @@
+2007-01-13  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEatomix.spec: define Group
+	* SFEdialog.spec: fix version string to be numeric; use the
+	  versioned tarball; define Group
+	* SFEfaad2.spec: define Group
+	* SFEfetchmail.spec: bump to 6.3.6; define Group
+	* SFEgdbm.spec: define Group
+	* SFEgeckosdk.spec: remove.  no longer needed.
+	* SFEgmp.spec: define Group
+	* patches/xine-lib-04-hal-support.diff: update; fix an uninitialised
+	  variable
+
+2007-01-12  Dermot McCluskey <dermot.mccluskey@sun.com>
+
+         * SFEnmap.spec: added
+         * patches/nmap-01-__FUNCTION__.diff: (new) Replace __FUNCTION__
+           with __func__
+         * patches/nmap-02-Makefile.diff: (new) Remove makefile.dep and
+           -MM option as per nmap instructions for building on Solaris
+
 2007-01-12  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEtightvnc.spec: Added. Not ready yet.

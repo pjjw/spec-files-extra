@@ -7,7 +7,8 @@
 
 Name:                    SFEfetchmail
 Summary:                 Fetchmail
-Version:                 6.3.4
+Group:                   utilities/email
+Version:                 6.3.6
 Source:                  http://download.berlios.de/fetchmail/fetchmail-%{version}.tar.bz2
 Patch1:                  fetchmail-01-gettext.diff
 Patch2:                  fetchmail-02-attribute.diff
@@ -92,6 +93,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jan 11 2007 - laca@sun.com
+- bump to 6.3.6
 * Mon Jun 12 2006 - laca@sun.com
 - rename to SFEfetchmail
 - add -l10n pkg
