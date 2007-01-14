@@ -1,3 +1,26 @@
+2007-01-14  Mike Kiedrowski  <lakeside at cybrzn dot com>
+
+        Perl GNOME2 modules.
+	
+	* SFEperl-cairo.spec: (new)
+	* SFEperl-extutils-dep.spec: (new)
+	* SFEperl-extutils-pkgs.spec: (new)
+	* SFEperl-glib.spec: (new)
+	* SFEperl-gnome2-canvas.spec: (new)
+	* SFEperl-gnome2-gconf.spec: (new)
+	* SFEperl-gnome2-print.spec: (new)
+	* SFEperl-gnome2-rsvg.spec: (new)
+	* SFEperl-gnome2-vfs.spec: (new)
+	* SFEperl-gnome2-vte.spec: (new)
+	* SFEperl-gnome2-wnck.spec: (new)
+	* SFEperl-gnome2.spec: (new)
+	* SFEperl-gtk2-gladexml.spec: (new)
+	* SFEperl-gtk2-html2.spec: (new)
+	* SFEperl-gtk2-mozembed.spec: (new)
+	* SFEperl-gtk2-sourceview.spec: (new)
+	* SFEperl-gtk2-trayicon.spec: (new)
+	* SFEperl-gtk2.spec: (new)
+
 2007-01-14  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* KNOWN_ISSUES: delete references to SFEwxGTK
