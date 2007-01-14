@@ -7,8 +7,10 @@
 
 Name:                    SFEswfdec
 Summary:                 Macromedia Flash Rendering Library
-Version:                 0.3.6
-Source:                  http://www.schleef.org/swfdec/download/swfdec-%{version}.tar.gz
+Version:                 0.4.1
+Source:                  http://swfdec.freedesktop.org/download/swfdec/0.4/swfdec-%{version}.tar.gz
+URL:                     http://swfdec.freedesktop.org/wiki/
+Group:                   library/multimedia
 Patch1:                  swfdec-01-build-fix.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -23,6 +25,7 @@ Requires: SUNWmlib
 Requires: SUNWxwrtl
 Requires: SUNWzlib
 Requires: SFElibmad
+Requires: SFEffmpeg
 BuildRequires: SUNWfirefox-devel
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWgnome-media
@@ -54,7 +57,7 @@ export LDFLAGS="%_ldflags"
 glib-gettextize -f 
 libtoolize --copy --force
 intltoolize --copy --force --automake
-aclocal $ACLOCAL_FLAGS
+aclocal $ACLOCAL_FLAGS -I m4
 autoheader
 automake -a -c -f 
 autoconf
@@ -70,8 +73,6 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-rm $RPM_BUILD_ROOT%{_libdir}/gtk*/*/loaders/*.a
-rm $RPM_BUILD_ROOT%{_libdir}/gtk*/*/loaders/*.la
 rm $RPM_BUILD_ROOT%{_libdir}/*.a
 rm $RPM_BUILD_ROOT%{_libdir}/*.la
 rm -rf $RPM_BUILD_ROOT%{_libdir}/mozilla
@@ -81,15 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
-%dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
-%{_libdir}/gtk*/*/loaders/*.so
-%dir %attr (0755, root, bin) %{_libdir}/gimp
-%dir %attr (0755, root, bin) %{_libdir}/gimp/2.0
-%dir %attr (0755, root, bin) %{_libdir}/gimp/2.0/plug-ins
-%{_libdir}/gimp/2.0/plug-ins/*
 
 %files devel
 %defattr (-, root, bin)
@@ -98,8 +92,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
+%dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/gtk-doc
 
 %changelog
+* Sun Jan 14 2007 - laca@sun.com
+- bump to 0.4.1; update %files
 * Mon Jul 10 2006 - laca@sun.com
 - rename to SFEswfdec
 - update file attributes

@@ -1,3 +1,9 @@
+2007-01-14  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEswfdec.spec: bump to 0.4.1; update %files
+	* patches/swfdec-01-build-fix.diff: update, files 9660 in
+	  bugzilla.freedesktop.org
+
 2007-01-13  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEatomix.spec: define Group
