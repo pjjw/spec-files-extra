@@ -1,5 +1,17 @@
 2007-01-14  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* KNOWN_ISSUES: delete references to SFEwxGTK
+	* SFEdvdstyler.spec: delete references to SFEwxGTK
+	* SFEffmpeg.spec: (new) fast mpeg decoder lib
+	* patches/ffmpeg-01-BE_16.diff: (new) add a missing macro definition
+	* SFEmjpegtools.spec: delete references to SFEwxGTK
+	* SFEwxGTK.spec: (remove) subset of SFEwxwidgets and this causes
+	  problems
+	* patches/wxgtk-01-sqrt.diff: (remove)
+	* SFEwxSVG.spec: delete references to SFEwxGTK
+
+2007-01-14  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEswfdec.spec: bump to 0.4.1; update %files
 	* patches/swfdec-01-build-fix.diff: update, files 9660 in
 	  bugzilla.freedesktop.org

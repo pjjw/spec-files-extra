@@ -2,8 +2,6 @@
   are built with Sun Studio) or with Sun Studio (because it uses g++ specific
   code.  I'm working with the maintainers to fix the g++ specific code.
 - SFEnvu builds, doesn't run
-- SFEwxGTK is a subset of SFEwxwidgets therefore you can install one or the
-  other, but not both
 - SFEsyncit: where is the source?!?
 - SFEbeagle: indexer crashes -> unusable
 - SFEf-spot: cannot rotate files, works fine otherwise

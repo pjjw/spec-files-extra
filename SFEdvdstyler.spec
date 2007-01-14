@@ -19,11 +19,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{tarball_version}-build
 Requires: SUNWlibC
 Requires: SUNWgnome-base-libs
 BuildRequires: SUNWgnome-base-libs-devel
-%if %(pkginfo -q SFEwxwidgets && echo 1 || echo 0)
 Requires: SFEwxwidgets
-%else
-Requires: SFEwxGTK
-%endif
 Requires: SFEwxSVG
 Requires: SFEdvdauthor
 Requires: SFEmpgtx
