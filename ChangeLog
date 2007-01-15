@@ -1,7 +1,15 @@
 2007-01-15  Damien Carbery <daymobrew@users.sourceforge.net>
 
-	* SFEaalib.spec: Remove 'rm' from %install because the file is not
-	  installed.
+	* SFEscreen.spec: Add pkgbuild_postprocess step.
+	* SFEpessulus.spec: Add l10n package.
+	* SFEaalib.spec, SFEautogen.spec, SFEddd.spec, SFEgnucfengine.spec,
+	  SFEgnuplot.spec, SFEgpgme.spec, SFEguile.spec: Add SUNWtexi
+	  dependency. Add %post/%preun to update the info dir file.
+	* SFEautoconf.spec, SFEbc.spec, SFEcoreutils.spec, SFElibtool.spec,
+	  SFEm4.spec, SFEreadline.spec: Add SUNWtexi dependency.
+
+2007-01-15  Damien Carbery <daymobrew@users.sourceforge.net>
+
 	* SUNWgnome-project.spec: Correct rm line for non-l10n builds. It was
 	  deleting way too much.
 	* SUNWgstreamer08-plugins.spec: Added code to %install to delete l10n

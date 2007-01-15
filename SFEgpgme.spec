@@ -16,6 +16,7 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires: SUNWlibgpg-error
 Requires: SUNWlibgpg-error
+Requires: SUNWtexi
 
 %prep
 %setup -q -n gpgme-%version
@@ -45,6 +46,27 @@ rm ${RPM_BUILD_ROOT}%{_datadir}/info/dir
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
+  echo 'infos="';
+  echo 'gawk gawkinet' ;
+  echo '"';
+  echo 'retval=0';
+  echo 'for info in $infos; do';
+  echo '  install-info --info-dir=%{_infodir} %{_infodir}/$info || retval=1';
+  echo 'done';
+  echo 'exit $retval' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
+
+%preun
+( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
+  echo 'infos="';
+  echo 'gawk gawkinet' ;
+  echo '"';
+  echo 'for info in $infos; do';
+  echo '  install-info --info-dir=%{_infodir} --delete %{_infodir}/$info';
+  echo 'done';
+  echo 'exit 0' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
+
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
@@ -60,6 +82,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/info/*
 
 %changelog
-* 
+* Mon Jan 15 2007 - daymobrew@users.sourceforge.net
+- Add SUNWtexi dependency. Add %post/%preun to update the info dir file.
 * Wed Dec 20 2006 - Eric Boutilier
 - Initial spec

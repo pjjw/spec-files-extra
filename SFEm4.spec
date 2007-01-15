@@ -17,6 +17,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
 Requires: SUNWpostrun
+Requires: SUNWtexi
 
 %prep
 %setup -q -n m4-%version
@@ -87,6 +88,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/m4.1
 
 %changelog
+* Mon Jan 15 2007 - daymobrew@users.sourceforge.net
+- Add SUNWtexi dependency.
 * Sat Jan  6 2007 - laca@sun.com
 - make /usr/gnu compliant
 - use a postrun script for updating the info dir

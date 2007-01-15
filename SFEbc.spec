@@ -17,6 +17,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires: SUNWlibms
 Requires: SUNWpostrun
 Requires: SFEreadline
+Requires: SUNWtexi
 BuildRequires: SFEreadline-devel
 
 %prep
@@ -100,5 +101,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Mon Jan 15 2007 - daymobrew@users.sourceforge.net
+- Add SUNWtexi dependency.
 * Sun Nov  5 2006 - laca@sun.com
 - Create

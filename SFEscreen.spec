@@ -48,6 +48,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 rm $RPM_BUILD_ROOT%{_datadir}/info/dir
 
+%{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
+
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -65,6 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/screen/*
 
 %changelog
-* 
+* Mon Jan 17 2007 - daymobrew@users.sourceforge.net
+- Add pkgbuild_postprocess step.
 * Wed Nov 08 2006 - Eric Boutilier
 - Initial spec

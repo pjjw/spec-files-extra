@@ -14,6 +14,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SFEm4
 Requires: SUNWpostrun
+Requires: SUNWtexi
 
 %prep
 %setup -q -n autoconf-%version
@@ -75,6 +76,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Mon Jan 15 2007 - daymobrew@users.sourceforge.net
+- Add SUNWtexi dependency.
 * Sat Jan  6 2007 - laca@sun.com
 - update for SFEm4 move to /usr/gnu
 - install info file and update info dir file using postrun scripts

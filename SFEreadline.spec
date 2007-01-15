@@ -13,6 +13,7 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWpostrun
+Requires: SUNWtexi
 
 %package devel
 Summary:                 %{summary} - development files
@@ -90,5 +91,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Mon Jan 15 2007 - daymobrew@users.sourceforge.net
+- Add SUNWtexi dependency.
 * Sun Nov  5 2006 - laca@sun.com
 - Create

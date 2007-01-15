@@ -16,9 +16,10 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
+Requires: SUNWtexi
+Requires: SUNWpostrun
 BuildRequires: SFEautoconf
 BuildRequires: SFEautomake
-Requires: SUNWpostrun
 
 %if %build_l10n
 %package l10n
@@ -140,6 +141,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Jan 15 2007 - daymobrew@users.sourceforge.net
+- Add SUNWtexi dependency.
 * Sat Jan  6 2007 - laca@sun.com
 - update for latest /usr/gnu proposal
 - add postrun script for updating info dir

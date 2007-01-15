@@ -13,6 +13,7 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:  SUNWpostrun
+Requires: SUNWtexi
 
 %prep
 %setup -q -n libtool-%version
@@ -80,6 +81,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/libtool/*
 
 %changelog
+* Mon Jan 15 2007 - daymobrew@users.sourceforge.net
+- Add SUNWtexi dependency.
 * Sun Jan  7 2007 - laca@sun.com
 - fix infodir permissions, update info dir file using postrun scripts
 * Wed Dec 20 2006 - Eric Boutilier

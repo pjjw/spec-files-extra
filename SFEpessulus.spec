@@ -21,6 +21,14 @@ BuildRequires: SUNWPython
 Requires: SUNWgnome-libs
 Requires: SUNWgnome-python-libs
 
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
+
 %prep
 %setup -q -n pessulus-%version
 
@@ -66,6 +74,15 @@ find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.pyo" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.pyc" -exec rm -f {} ';'
 
+%if %build_l10n
+%else
+# REMOVE l10n FILES
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/*/[a-z][a-z]
+%endif
+
+%{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):unsupported" $RPM_BUILD_ROOT}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -77,10 +94,18 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/pessulus.desktop
 %{_datadir}/pessulus
-%dir %attr (0755, root, other) %{_datadir}/locale
-%{_datadir}/locale/*/LC_MESSAGES/*.mo
+
+%if %build_l10n
+%files l10n
+%defattr (-, root, bin)
+%dir %attr (0755, root, sys) %{_datadir}
+%attr (-, root, other) %{_datadir}/locale
+%endif
+
 
 %changelog
+* Mon Jan 15 2007 - daymobrew@users.sourceforge.net
+- Add l10n package.
 * Mon Jan 08 2007 - matt.keenan@sun.com
 - Bump to 2.16.2
 * Fri Jun 30 2006 - laca@sun.com

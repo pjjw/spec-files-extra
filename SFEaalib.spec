@@ -14,6 +14,7 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWxwplt
+Requires: SUNWtexi
 
 %package devel
 Summary:                 %{summary} - development files
@@ -43,10 +44,32 @@ make -j$CPUS
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
+##rm ${RPM_BUILD_ROOT}%{_datadir}/info/dir
 rm ${RPM_BUILD_ROOT}%{_libdir}/libaa.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
+  echo 'infos="';
+  echo 'aalib.info' ;
+  echo '"';
+  echo 'retval=0';
+  echo 'for info in $infos; do';
+  echo '  install-info --info-dir=%{_infodir} %{_infodir}/$info || retval=1';
+  echo 'done';
+  echo 'exit $retval' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
+
+%preun
+( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
+  echo 'infos="';
+  echo 'aalib.info' ;
+  echo '"';
+  echo 'for info in $infos; do';
+  echo '  install-info --info-dir=%{_infodir} --delete %{_infodir}/$info';
+  echo 'done';
+  echo 'exit 0' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
 
 %files
 %defattr (-, root, bin)
@@ -79,7 +102,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net
-- Remove 'rm' from %install because the file is not installed.
+- Add SUNWtexi dependency. Add %post/%preun to update the info dir file.
 * Sun Jan  7 2007 - laca@sun.com
 - create -devel subpkg
 * The Dec 14 2006 - Eric Boutilier
