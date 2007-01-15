@@ -158,6 +158,14 @@ rmdir $RPM_BUILD_ROOT%{_bindir}
 
 rm -rf $RPM_BUILD_ROOT%{_mandir}/man1/gst-visualise-%{majmin}.1
 
+%if %build_l10n
+%else
+# REMOVE l10n FILES
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/*/[a-z][a-z]
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/*/[a-z][a-z]-[A-Z][A-Z]
+%endif
+
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 
 %clean
@@ -229,6 +237,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Jan 17 2007 - daymobrew@users.sourceforge.net
+- Added code to %install to delete l10n files when not doing l10n build.
 * Fri Jun  2 2006 - laca@sun.com
 - use post/postun scripts to install schemas into the merged gconf files
 * Mon May 15 2006 - laca@sun.com

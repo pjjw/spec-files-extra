@@ -93,7 +93,7 @@ rmdir $RPM_BUILD_ROOT%{_datadir}/omf
 %else
 # REMOVE l10n FILES
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
-rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/[a-z]*
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/*/[a-z][a-z]
 %endif
 
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):unsupported" $RPM_BUILD_ROOT}
@@ -196,6 +196,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %endif
 
 %changelog
+* Mon Jan 15 2007 - daymobrew@users.sourceforge.net
+- Correct rm line for non-l10n builds. It was deleting way too much.
 * Sat Oct 14 2006 - laca@sun.com
 - fix /usr/share/gnome attributes in l10n subpkg
 * Wed Oct 11 2006 - laca@sun.com

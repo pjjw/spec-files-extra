@@ -43,7 +43,6 @@ make -j$CPUS
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-rm ${RPM_BUILD_ROOT}%{_datadir}/info/dir
 rm ${RPM_BUILD_ROOT}%{_libdir}/libaa.la
 
 %clean
@@ -79,6 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Mon Jan 15 2007 - daymobrew@users.sourceforge.net
+- Remove 'rm' from %install because the file is not installed.
 * Sun Jan  7 2007 - laca@sun.com
 - create -devel subpkg
 * The Dec 14 2006 - Eric Boutilier

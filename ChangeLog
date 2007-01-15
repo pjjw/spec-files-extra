@@ -1,3 +1,12 @@
+2007-01-15  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEaalib.spec: Remove 'rm' from %install because the file is not
+	  installed.
+	* SUNWgnome-project.spec: Correct rm line for non-l10n builds. It was
+	  deleting way too much.
+	* SUNWgstreamer08-plugins.spec: Added code to %install to delete l10n
+	  files when not doing l10n build.
+
 2007-01-14  Mike Kiedrowski  <lakeside at cybrzn dot com>
 
         Perl GNOME2 modules.
