@@ -177,9 +177,9 @@
 +hal_find_drive (XineHalDriveType t);
 +
 +
---- /dev/null	2007-01-12 17:06:02.000000000 -0500
-+++ xine-lib-1.1.3/src/input/hal-find-drive.c	2007-01-12 17:05:55.456369000 -0500
-@@ -0,0 +1,132 @@
+--- /dev/null	2007-01-15 21:37:15.000000000 -0500
++++ xine-lib-1.1.3/src/input/hal-find-drive.c	2007-01-15 21:36:02.248381000 -0500
+@@ -0,0 +1,137 @@
 +#include <stdlib.h>
 +#include <string.h>
 +#include "hal-find-drive.h"
@@ -207,7 +207,7 @@
 +
 +  if ((hal_ctx = libhal_ctx_new ()) == NULL) {
 +    HAL_DEBUG_PRINTF ("libhal_ctx_new failed\n");
-+    return NULL;
++    goto out;
 +  }
 +
 +  dbus_error_init (&error);
@@ -217,7 +217,7 @@
 +		      error.message);
 +    dbus_error_free (&error);
 +    libhal_ctx_free (hal_ctx);
-+    return NULL;
++    goto out;
 +  }
 +
 +  libhal_ctx_set_dbus_connection (hal_ctx, dbus_connection);
@@ -226,7 +226,7 @@
 +    HAL_DEBUG_PRINTF ("libhal_ctx_init failed: %s\n", error.message);
 +    dbus_error_free (&error);
 +    libhal_ctx_free (hal_ctx);
-+    return NULL;
++    goto out;
 +  }
 +
 +  drives = libhal_find_device_by_capability (hal_ctx,
@@ -305,10 +305,15 @@
 +  libhal_ctx_free (hal_ctx);
 +  libhal_free_string_array (drives);
 +
++  out:
++
 +  if (!ret) {
 +    if(t == HAL_DRIVE_DVD) {
 +      return "/dev/dvd";
++    } else {
++      return "/dev/cdrom";
 +    }
 +  }
-+  return "/dev/cdrom";
++
++  return ret;
 +}

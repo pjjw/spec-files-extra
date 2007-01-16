@@ -9,6 +9,7 @@ Name:                    SFEdevhelp
 Summary:                 Devhelp provides word-processor-style highlighting and replacement of misspelled words in a GtkTextView widget.
 Version:                 0.12
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/devhelp/%{version}/devhelp-%{version}.tar.bz2
+URL:                     http://developer.imendio.com/projects/devhelp
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -16,6 +17,8 @@ Requires:                SUNWgnome-base-libs
 Requires:                SUNWfirefox
 BuildRequires:           SUNWgnome-base-libs-devel
 BuildRequires:           SUNWfirefox-devel
+Requires:                SUNWgnome-text-editor
+BuildRequires:           SUNWgnome-text-editor-devel
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -106,15 +109,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*
+%{_libdir}/gedit-2/plugins/devhelp*
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, bin) %{_datadir}/devhelp
 %{_datadir}/devhelp/*
-%dir %attr (0755, root, other) %{_datadir}/pixmaps
+%attr (0755, root, other) %{_datadir}/icons
 %dir %attr (0755, root, other) %{_datadir}/applications
-%dir %attr (0755, root, other) %{_datadir}/mime-info
-%{_datadir}/pixmaps/*
 %{_datadir}/applications/*
-%{_datadir}/mime-info/*
 
 %files root
 %defattr (0755, root, sys)
@@ -137,8 +138,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Jan 15 2007 - laca@sun.com
+- fix %files
 * Fri Jan 05 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.12.
-
 * Wed Jul 27 2006 - lin.ma@sun.com
 - Initial spec file

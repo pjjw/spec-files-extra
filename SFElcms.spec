@@ -21,7 +21,6 @@ Requires: SUNWzlib
 Requires: SUNWlibms
 Requires: SUNWPython
 Requires: SUNWlibC
-BuildRequires: SFEswig
 BuildRequires: SUNWPython-devel
 BuildRequires: SUNWTiff-devel
 BuildRequires: SUNWjpg-devel

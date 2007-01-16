@@ -9,7 +9,7 @@
 
 Name:                SFEfile
 Summary:             determine file type
-Version:             4.18
+Version:             4.19
 Source:              ftp://ftp.astron.com/pub/file/file-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
@@ -66,6 +66,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
-* 
+* Mon Jan 15 2007 - laca@sun.com
+- bump to 4.19
 * Tue Nov 07 2006 - Eric Boutilier
 - Initial spec

@@ -1,3 +1,9 @@
+2007-01-15  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEdevhelp.spec: fix %files
+	* SFEfile.spec: bump to 4.19
+	* patches/xine-lib-04-hal-support.diff: really fix...
+
 2007-01-15  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEscreen.spec: Add pkgbuild_postprocess step.
