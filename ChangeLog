@@ -1,3 +1,12 @@
+2007-01-17  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEmediawiki.spec: Add TODO note about 'config' dir perms. Delete
+	  pkgbuild script before packaging.
+
+2007-01-17  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEmediawiki.spec: Added. Requires Apache2 and MySQL.
+
 2007-01-15  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEdevhelp.spec: fix %files
