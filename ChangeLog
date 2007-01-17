@@ -1,5 +1,10 @@
 2007-01-17  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* SFEmediawiki.spec: Move files from root pkg to base pkg and just
+	  change basedir.
+
+2007-01-17  Damien Carbery <daymobrew@users.sourceforge.net>
+
 	* SFEmediawiki.spec: Add TODO note about 'config' dir perms. Delete
 	  pkgbuild script before packaging.
 

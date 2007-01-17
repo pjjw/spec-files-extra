@@ -9,17 +9,11 @@ Name:                    SFEmediawiki
 Summary:                 mediawiki - a free software wiki package originally written for Wikipedia
 Version:                 1.9.0
 Source:                  http://puzzle.dl.sourceforge.net/sourceforge/wikipedia/mediawiki-%{version}.tar.gz
-SUNW_BaseDir:            %{_basedir}
+SUNW_BaseDir:            /
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWapch2u
 Requires: SUNWmysqlu
-
-%package root
-Summary:                 %{summary} - / filesystem
-SUNW_BaseDir:            /
-%include default-depend.inc
-Requires: SUNWpostrun-root
 
 
 %prep
@@ -40,16 +34,15 @@ rm $RPM_BUILD_ROOT/var/apache2/htdocs/wiki/.pkgbuild.install.sh
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-# Empty base package because no files under /usr.
 %files
-
-%files root
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) /var
 # TODO: Consider making the /var/apache2/htdocs/wiki/config dir world writable.
 /var/*
 
 %changelog
+* Wed Jan 17 2007 - daymobrew@users.sourceforge.net
+- Move files from root pkg to base pkg and just change basedir.
 * Wed Jan 17 2007 - daymobrew@users.sourceforge.net
 - Add TODO note about 'config' dir perms. Delete pkgbuild script before
   packaging.
