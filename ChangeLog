@@ -1,3 +1,7 @@
+2007-01-18  Halton Huo  <halton.huo@sun.com>
+
+	* SFEtightvnc.spec: Fix build and install error, add package SFEvncviewer
+
 2007-01-18  Jerry Yu <jijun.yu@sun.com>
 	* SFEwbxml.spec:
 	  linux-specs/wbxml2.spec:
