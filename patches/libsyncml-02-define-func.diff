@@ -1,0 +1,13 @@
+--- libsyncml-0.4.2/libsyncml/syncml_internals.h.orig	2006-12-04 15:14:13.699078000 +0800
++++ libsyncml-0.4.2/libsyncml/syncml_internals.h	2006-12-04 15:21:16.248628000 +0800
+@@ -34,6 +34,10 @@
+ #include <errno.h>
+ extern int errno;
+ 
++#if defined(sun) && defined(__SVR4)
++#define __FUNCTION__ __func__
++#endif
++
+ #define smlAssert(x) if (!(x)) { fprintf(stderr, "%s:%i:E:%s: Assertion \"" #x "\" failed\n", __FILE__, __LINE__, __FUNCTION__); abort();}
+ #define smlAssertMsg(x, msg) if (!(x)) { fprintf(stderr, "%s:%i:E:%s: %s\n", __FILE__, __LINE__, __FUNCTION__, msg); abort();}
+ #define segfault_me char **blablabla = NULL; *blablabla = "test";

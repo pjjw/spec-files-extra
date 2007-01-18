@@ -22,6 +22,7 @@
 %use palm = libopensync-plugin-palm.spec
   %define plink_prefix /usr/sfw
 %endif
+%use syncml = libopensync-plugin-syncml.spec
 
 Name:               SFElibopensync-plugin
 Summary:            OpenSync - A data synchronization framework plugins
@@ -36,6 +37,9 @@ BuildRequires:      SFElibopensync-devel
   Requires:         SUNWpltlk
   BuildRequires:    SUNWsfwhea
 %endif
+Requires:           SFEwbxml
+Requires:           SFElibsyncml
+BuildRequires:      SFElibsyncml-devel
 
 %package devel
 Summary:       %{summary} - development files
@@ -52,6 +56,7 @@ mkdir -p %name-%version
 %if %with_pilot_link
   %palm.prep -d %name-%version
 %endif
+%syncml.prep -d %name-%version
 
 %build
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
@@ -69,6 +74,7 @@ export RPM_OPT_FLAGS="$CFLAGS"
 %if %with_pilot_link
   %palm.build -d %name-%version
 %endif
+%syncml.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -78,6 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %with_pilot_link
   %palm.install -d %name-%version
 %endif
+%syncml.install -d %name-%version
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -95,6 +102,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Fri Jan 11 2007 - jijun.yu@sun.com
+- Add new plugin: syncml
 * Fri Nov 17 2006 - halton.huo@sun.com
 - Add new plugin: file and palm
 * Tue Nov 14 2006 - halton.huo@sun.com
