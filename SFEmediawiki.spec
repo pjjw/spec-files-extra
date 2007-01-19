@@ -14,6 +14,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWapch2u
 Requires: SUNWmysqlu
+Requires: SFEphp
 
 
 %prep
@@ -41,6 +42,8 @@ rm -rf $RPM_BUILD_ROOT
 /var/*
 
 %changelog
+* Fri Jan 19 2007 - daymobrew@users.sourceforge.net
+- Add SFEphp dependency.
 * Wed Jan 17 2007 - daymobrew@users.sourceforge.net
 - Move files from root pkg to base pkg and just change basedir.
 * Wed Jan 17 2007 - daymobrew@users.sourceforge.net

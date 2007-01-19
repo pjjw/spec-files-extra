@@ -25,10 +25,9 @@ SUNW_BaseDir:            %{_basedir}
 %prep
 %setup -q -n vnc_unixsrc
 
-#correct cc path 
+#correct cc path
 cp ./Xvnc/config/cf/sun.cf ./Xvnc/config/cf/sun.cf.orig
-export cc_path=`which cc`
-export cc_dir=`dirname $cc_path`
+export cc_dir=`dirname $CC`
 echo $cc_dir|sed 's/\//\\\//g' > $$.1
 echo "s/\/opt\/SUNWspro\/bin/`cat $$.1`/g" > $$.2
 cat ./Xvnc/config/cf/sun.cf|sed -f $$.2 > ./Xvnc/config/cf/sun.cf.1
@@ -53,7 +52,8 @@ xmkmf
 make World
 cd Xvnc
 ./configure 
-make -j$CPUS
+#make -j $CPUS
+make
 
 %install
 mkdir -p $RPM_BUILD_ROOT%{_bindir}

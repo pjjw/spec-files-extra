@@ -1,3 +1,10 @@
+2007-01-19  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEphp.spec: Added. Needed by SFEmediawiki.
+	* SFEmediawiki.spec: Add SFEphp dependency.
+	* SFEtightvnc.spec: Use $CC instead of `which cc`. Remove '-j $CPUS'
+	  from 'make' call as it breaks the build.
+
 2007-01-18  Halton Huo  <halton.huo@sun.com>
 
 	* SFEtightvnc.spec: Fix build and install error, add package
