@@ -5,7 +5,7 @@
 
 %include Solaris.inc
 
-Name:                SFEqt4
+Name:                SFEqt
 Summary:             Cross-platform development framework/toolkit
 Version:             4.2.1
 Source:              ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz

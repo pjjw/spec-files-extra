@@ -1,3 +1,11 @@
+2007-01-19  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFErsync.spec: Removed -- rsync is now in Nevada
+	* SFEqt.spec: Fix: Name field was SFEqt4 -- correct value is SFEqt
+	* SFElibrsync.spec: Fixed source url
+	* SFEnut.spec: Fix: rmdir empty etc directory after `make install'
+	* SFEmtr.spec: Fixed source url; also corrected CFLAGS and LDFLAGS
+
 2007-01-19  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEphp.spec: Added. Needed by SFEmediawiki.

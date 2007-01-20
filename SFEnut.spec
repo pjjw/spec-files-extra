@@ -14,11 +14,6 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-%package root
-Summary:                 %{summary} - / filesystem
-SUNW_BaseDir:            /
-%include default-depend.inc
-
 %prep
 %setup -q -n nut-%version
 
@@ -34,8 +29,7 @@ export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
 
 ./configure --prefix=%{_prefix}  \
-            --mandir=%{_mandir} \
-            --sysconfdir=%{_sysconfdir}
+            --mandir=%{_mandir}
 
 make -j$CPUS
 
@@ -43,6 +37,8 @@ make -j$CPUS
 rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
+
+rmdir $RPM_BUILD_ROOT%/usr/etc
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -55,11 +51,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/*
-
-%files root
-%defattr (-, root, sys)
-%dir %attr (0755, root, sys) %{_sysconfdir}
-%{_sysconfdir}/*
 
 %changelog
 * 

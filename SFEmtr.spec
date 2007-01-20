@@ -10,8 +10,7 @@
 Name:                SFEmtr
 Summary:             Ping/Traceroute network diagnostic tool w/ GTK support
 Version:             0.72
-Source:              http://www.BitWizard.nl/mtr/mtr-%{version}.tar.gz
-
+Source:              ftp://www.BitWizard.nl/mtr/mtr-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -26,6 +25,10 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CC=/usr/sfw/bin/gcc
+# Must omit "-Wl,-zignore" or else GTK support won't work. 
+# I'm not sure why though...
+export LDFLAGS="-Wl,-zcombreloc -Wl,-Bdirect"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir}
@@ -54,6 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/*
 
 %changelog
-* 
+* Fri Jan 12 2007 - Eric Boutilier
+- Fix missing LDFLAGS and CFLAGS
 * Thu Jan 11 2007 - Eric Boutilier
 - Initial spec
