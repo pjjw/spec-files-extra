@@ -1,0 +1,48 @@
+--- libdts-0.0.2/libdts/Makefile.am.pic	2004-02-25 08:52:15.000000000 -0500
++++ libdts-0.0.2/libdts/Makefile.am	2007-01-16 20:17:16.812285000 -0500
+@@ -18,5 +18,5 @@
+ libdts_pic_a = libdts_pic.a
+ endif
+ libdts_pic_a_SOURCES = $(libdts_a_SOURCES)
+-libdts_pic_a_CPPFLAGS = -fPIC -DPIC
++libdts_pic_a_CPPFLAGS = @PICFLAGS@
+ 
+--- libdts-0.0.2/configure.ac.pic	2004-02-29 07:00:32.000000000 -0500
++++ libdts-0.0.2/configure.ac	2007-01-16 20:17:39.080641000 -0500
+@@ -26,6 +26,10 @@
+     TRY_CFLAGS="$OPT_CFLAGS -Wall"
+     AC_TRY_CFLAGS([$TRY_CFLAGS $CFLAGS],[OPT_CFLAGS=$TRY_CFLAGS])
+ 
++    dnl -fPIC
++    PICFLAGS="-fPIC -DPIC"
++    AC_SUBST(PICFLAGS)
++
+     dnl -O3
+     changequote(<<,>>)
+     TRY_CFLAGS=`echo "$OPT_CFLAGS $CFLAGS"|sed "s/-O[0-9]*//g"`
+@@ -62,15 +66,25 @@
+     dnl TenDRA portability checking compiler
+     TENDRA=yes
+     OPT_CFLAGS="-Xp -Yansi -f`pwd`/include/tendra.h -DELIDE_CODE"
++    PICFLAGS=FIXME:pic_flags_here
++    AC_SUBST(PICFLAGS)
+     enable_mlib=no
+     enable_oss=no
+     enable_solaris_audio=no
+ elif test x"$CC" = x"icc" -a x"`$CC -V 2>&1 | grep Intel`" != x""; then
+     dnl Intel C++ compiler
+     OPT_CFLAGS="-g -O3 -unroll -ip"; CFLAGS=""
++    PICFLAGS=FIXME:pic_flags_here
++    AC_SUBST(PICFLAGS)
+ else
+     dnl non-gcc flags - we probably need exact configuration triplets here.
+     case "$host" in
++    *solaris* )
++	PICFLAGS="-KPIC -DPIC"
++        AC_SUBST(PICFLAGS)
++        ;;
++    esac
++    case "$host" in
+     sparc-sun-solaris*)
+ 	TRY_CFLAGS="$OPT_CFLAGS -xCC -fast -xO5"
+ 	AC_TRY_CFLAGS([$TRY_CFLAGS $CFLAGS],[OPT_CFLAGS=$TRY_CFLAGS]);;

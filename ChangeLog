@@ -1,3 +1,15 @@
+2007-01-21  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEautomake.spec: add Summary tag
+	* SFEffmpeg.spec: fix devel pkg default attributes
+	* SFElibdts.spec: add patch picflags.diff
+	* patches/libdts-02-picflags.diff: (new) use the correct PIC
+	  flags for gcc and forte
+	* SFElibnotify.spec: add defattr tag to files
+	* SFEseamonkey.spec: bump to 1.1; remove --enable-calendar option
+	  as it's not longer supported
+	* SFExine-lib.spec: add missing defattr tag to %files
+
 2007-01-19  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFErsync.spec: Removed -- rsync is now in Nevada

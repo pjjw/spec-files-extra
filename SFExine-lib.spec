@@ -117,6 +117,7 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 rm -rf $RPM_BUILD_ROOT
 
 %files 
+%defattr (-, root, bin)
 %dir %attr (0755, root, bin) %dir %{_libdir}
 %{_libdir}/*.so*
 
@@ -150,5 +151,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Jan 21 2007 - laca@sun.com
+- add missing defattr tag to %files
 * Sun Jan  7 2007 - laca@sun.com
 - create

@@ -10,6 +10,7 @@ Summary:                 libdts  - a free library for decoding DTS Coherent Acou
 Version:                 0.0.2
 Source:                  http://download.videolan.org/pub/videolan/libdca/%{version}/libdca-%{version}.tar.gz
 Patch1:			 libdts-01-sigtype.diff
+Patch2:                  libdts-02-picflags.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -24,6 +25,7 @@ Requires: %name
 %prep
 %setup -q -n libdts-%version
 %patch1 -p1
+%patch2 -p1 -b .pic
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -31,9 +33,12 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 export CFLAGS="%optflags"
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export MSGFMT="/usr/bin/msgfmt"
 
+aclocal $ACLOCAL_FLAGS
+libtoolize --force
+autoheader
+automake
+autoconf
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
@@ -69,6 +74,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lib*.a
 
 %changelog
+* Sun Jan 21 2007 - laca@sun.com
+- add patch picflags.diff
 * Mon Jun 12 2006 - laca@sun.com
 - renamed to SFElibdts
 - changed to root:bin to follow other JDS pkgs.

@@ -6,6 +6,7 @@
 %include Solaris.inc
 
 Name:			SFEautomake
+Summary:                GNU automake
 %define minmaj          1.9
 Version:		%{minmaj}.6
 Vendor:			Sun Microsystems, Inc.

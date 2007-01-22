@@ -58,6 +58,7 @@ find $RPM_BUILD_ROOT%{_libdir} -type f -name "*.la" -exec rm -f {} ';'
 rm -rf $RPM_BUILD_ROOT
 
 %files 
+%defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %dir %{_libdir}
@@ -76,6 +77,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Jan 21 2007 - laca@sun.com
+- add defattr tag to files
 * Sun Jan  7 2007 - laca@sun.com
 - fix gtk-doc dir attributes
 * Thu Nov 23 2006 - jedy.wang@sun.com

@@ -67,6 +67,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 
 %files devel
+%defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
 # could not build this project as a shared lib
 %{_libdir}/lib*.a
@@ -78,5 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/postproc
 
 %changelog
+* Sun Jan 21 2007 - laca@sun.com
+- fix devel pkg default attributes
 * Wed Jan 10 2007 - laca@sun.com
 - create

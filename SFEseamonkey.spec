@@ -8,7 +8,7 @@
 
 Name:          SFEseamonkey
 Summary:       seamonkey - all-in-one internet application suite
-Version:       1.0.7
+Version:       1.1
 Source:        http://releases.mozilla.org/pub/mozilla.org/seamonkey/releases/%{version}/seamonkey-%{version}.source.tar.bz2
 URL:           http://www.mozilla.org/projects/seamonkey/
 SUNW_BaseDir:  %{_basedir}
@@ -75,7 +75,6 @@ ac_add_options --mandir=%{_mandir}
 ac_add_options --enable-application=suite
 ac_add_options --enable-optimize=-xO3
 ac_add_options --enable-crypto
-ac_add_options --enable-calendar
 ac_add_options --enable-xinerama
 ac_add_options --enable-image-decoders=all
 ac_add_options --enable-extensions=all
@@ -136,6 +135,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sun Jan 21 2007 - laca@sun.com
+- bump to 1.1; remove --enable-calendar option as it's not longer supported
 * Wed Jan  3 2007 - laca@sun.com
 - bump to 1.0.7
 * Thu Aug 17 2006 - laca@sun.com
