@@ -17,7 +17,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 #Requires: SUNWlibms
 BuildRequires: SUNWxwopt
 
-%package SFEvncviewer
+%package -n SFEvncviewer
 Summary:                 vncviewer - a vnc client from tightvnc
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
@@ -75,12 +75,19 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*
 
-%files SFEvncviewer
+%files -n SFEvncviewer
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/vncviewer
 
 %changelog
+* Mon Jan 22 2007 - daymobrew@users.sourceforge.net
+- Add -n so that the viewer pkg is SFEvncviewer not SFEtightvnc-SFEvncviewer.
+
+* Fri Jan 19 2007 - daymobrew@users.sourceforge.net
+- Use $CC instead of `which cc`. Remove '-j $CPUS' from 'make' call as it
+  breaks the build.
+
 * Thu Jan 18 2007 - halton.huo@sun.com
 - Make it can be built when SunStudio is not installed under /opt/SUNWspro
 - Fix build and install error
