@@ -120,6 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %dir %{_libdir}
 %{_libdir}/*.so*
+%{_libdir}/xine
+%dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/xine
 
 %files devel
 %defattr (-, root, bin)
@@ -133,7 +136,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/xine
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 %dir %attr (0755, root, bin) %{_mandir}
@@ -141,7 +143,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 %dir %attr (0755, root, bin) %{_mandir}/man5
 %{_mandir}/man5/*
-%{_datadir}/xine
 
 %if %build_l10n
 %files l10n
@@ -151,6 +152,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Jan 23 2007 - laca@sun.com
+- move skins and plugins to base pkg from devel
 * Sun Jan 21 2007 - laca@sun.com
 - add missing defattr tag to %files
 * Sun Jan  7 2007 - laca@sun.com

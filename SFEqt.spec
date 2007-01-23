@@ -15,7 +15,7 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 Requires: SUNWgccruntime
-Requires: SUNWxorg-mesa
+#FIXME: Requires: SUNWxorg-mesa
 # Guarantee X/freetype environment concisely (hopefully):
 Requires: SUNWGtku
 Requires: SUNWxwplt

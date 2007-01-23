@@ -1,3 +1,8 @@
+2007-01-23  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEqt.spec: comment out SUNWxorg-mesa dependency
+	* SFExine-lib.spec: move runtime bits from -devel to base
+
 2007-01-22  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEaalib.spec: fix info file installation
