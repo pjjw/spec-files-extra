@@ -36,7 +36,7 @@ export LDFLAGS="%_ldflags"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
-            --infodir=%{_datadir}/info \
+            --infodir=%{_infodir} \
 	    --enable-static=no
 
 make -j$CPUS
@@ -44,7 +44,7 @@ make -j$CPUS
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-##rm ${RPM_BUILD_ROOT}%{_datadir}/info/dir
+rm ${RPM_BUILD_ROOT}%{_infodir}/dir
 rm ${RPM_BUILD_ROOT}%{_libdir}/libaa.la
 
 %clean
@@ -101,6 +101,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Mon Jan 22 2007 - laca@sun.com
+- fixed info file installation
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net
 - Add SUNWtexi dependency. Add %post/%preun to update the info dir file.
 * Sun Jan  7 2007 - laca@sun.com

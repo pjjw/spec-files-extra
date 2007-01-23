@@ -1,3 +1,11 @@
+2007-01-22  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEaalib.spec: fix info file installation
+	* SFEwxwidgets.spec: rename wxgtk-01 to wxwidgets-02 now that
+	  SFEwxGTK is gone.
+	* patches/wxgtk-01-sqrt.diff: restore from svn history and rename
+	  to patches/wxwidgets-02-sqrt.diff
+
 2007-01-22  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEtightvnc.spec: Add -n so that the viewer pkg is SFEvncviewer not

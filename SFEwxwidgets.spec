@@ -13,7 +13,7 @@ Version:                 2.6.3
 %define tarball_version  2.6.3
 Source:			 http://easynews.dl.sourceforge.net/sourceforge/wxwindows/wxWidgets-%{tarball_version}.tar.bz2
 Patch1:                  wxwidgets-01-msgfmt.diff
-Patch11:                 wxgtk-01-sqrt.diff
+Patch2:                 wxwidgets-02-sqrt.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -38,7 +38,7 @@ Requires:                %{name}
 rm -rf %name-%version
 %setup -q -n wxWidgets-%tarball_version
 %patch1 -p1
-%patch11 -p1
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
