@@ -17,10 +17,10 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWgnutls
 Requires: SUNWlibgpg-error
-Requires: SFEpcre
+Requires: SUNWpcre
 Requires: %{name}-root
 BuildRequires: SUNWgnutls-devel
-BuildRequires: SFEpcre-devel
+BuildRequires: SUNWpcre-devel
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -108,6 +108,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jan 24 2007 - daymobrew@users.sourceforge.net
+- s/SFEpcre/SUNWpcre/ because SUNWpcre is in Vermillion Devel.
 * Wed Jan  3 2007 - laca@sun.com
 - bump to 0.5.5 (note: 0.5.6 doesn't compile on Solaris)
 - update download urls

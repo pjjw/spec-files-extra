@@ -16,8 +16,8 @@ Patch3:                  bluefish-03-update-mime.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires: SFEpcre
-BuildRequires: SFEpcre-devel
+Requires: SUNWpcre
+BuildRequires: SUNWpcre-devel
 Requires: SUNWaspell
 Requires: SUNWgnome-libs
 BuildRequires: SUNWgnome-libs-devel
@@ -80,6 +80,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jan 24 2007 - daymobrew@users.sourceforge.net
+- s/SFEpcre/SUNWpcre/ because SUNWpcre is in Vermillion Devel.
 * Fri Jan 07 2007 - daymobrew@users.sourceforge.net
 - Bump to 1.0.7. Update source url.
 * Mon Jun 12 2006 - laca@sun.com

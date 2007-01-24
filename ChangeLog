@@ -1,3 +1,9 @@
+2007-01-24  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEpcre.spec: Removed, available as SUNWpcre.spec in Vermillion Devel.
+	* SFEcherokee.spec, SFEbluefish.spec: s/SFEpcre/SUNWpcre/ because
+	  SUNWpcre is in Vermillion Devel.
+
 2007-01-23  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEqt.spec: comment out SUNWxorg-mesa dependency
