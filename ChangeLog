@@ -1,3 +1,8 @@
+2007-01-25  Glynn Foster  <glynn.foster@sun.com>
+
+	* KNOWN_ISSUES: Remove syncit from this list since it's been moved to
+        file-replicator.
+
 2007-01-24  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEpcre.spec: Removed, available as SUNWpcre.spec in Vermillion Devel.
