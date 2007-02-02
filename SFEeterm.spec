@@ -9,7 +9,7 @@ Name:                SFEeterm
 Summary:             Terminal emulator intended as a replacement for xterm
 Version:             0.9.4
 Source:              http://umn.dl.sourceforge.net/sourceforge/eterm/Eterm-%{version}.tar.gz
-
+Source2:			 http://www.eterm.org/download/Eterm-bg-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -51,6 +51,12 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 rm ${RPM_BUILD_ROOT}%{_libdir}/libEterm.la
 
+cd ..
+gtar fxvz %SOURCE2
+cd bg
+cp tile/* $RPM_BUILD_ROOT%{_datadir}/Eterm/pix/tile
+cp scale/* $RPM_BUILD_ROOT%{_datadir}/Eterm/pix/scale
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -68,6 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/Eterm/*
 
 %changelog
-* 
+* Thu Jan 28 2007 - mike kiedrowski (lakeside at cybrzn dot com)
+- Added backgrounds package.
 * Tue Nov 07 2006 - Eric Boutilier
 - Initial spec

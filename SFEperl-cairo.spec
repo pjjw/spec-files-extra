@@ -5,11 +5,14 @@
 #
 
 %include Solaris.inc
+
+%define tarball_version 1.022
+%define perl_version 5.8.4
+
 Name:                    SFEperl-cairo
-Summary:                 Cairo perl bindings
-Version:                 5.8.4
-%define file_type_version 1.022
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/gtk2-perl/Cairo-%{file_type_version}.tar.gz
+Summary:                 Cairo-%{tarball_version} PERL bindings
+Version:                 %{perl_version}.%{tarball_version}
+Source:                  http://easynews.dl.sourceforge.net/sourceforge/gtk2-perl/Cairo-%{tarball_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -20,7 +23,6 @@ Requires:		SFEperl-glib
 BuildRequires:	SFEperl-extutils-dep
 BuildRequires:	SFEperl-extutils-pkg
 
-%define perl_version 5.8.4
 %ifarch sparc
 %define perl_dir sun4-solaris-64int
 %else
@@ -31,7 +33,7 @@ BuildRequires:	SFEperl-extutils-pkg
 %setup -q	 -c -n %name-%version
 
 %build
-cd Cairo-%{file_type_version}
+cd Cairo-%{tarball_version}
 perl Makefile.PL \
     PREFIX=$RPM_BUILD_ROOT%{_prefix} \
     INSTALLSITELIB=$RPM_BUILD_ROOT%{_prefix}/perl5/vendor_perl/%{perl_version} \
@@ -43,7 +45,7 @@ make CC=$CC CCCDLFLAGS="%picflags" OPTIMIZE="%optflags" LD=$CC
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd Cairo-%{file_type_version}
+cd Cairo-%{tarball_version}
 make install
 
 rm -rf $RPM_BUILD_ROOT%{_prefix}/lib
@@ -66,5 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sun Jan 28 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
+- Updated how version is defined.
 * Fri Jan 12 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
 - Initial spec file

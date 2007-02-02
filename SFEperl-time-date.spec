@@ -5,10 +5,13 @@
 #
 
 %include Solaris.inc
-Name:                    SUNWperl-time-date
-Summary:                 TimeDate PERL module
-Version:                 5.8.4
+
 %define time_date_version 1.16
+%define perl_version 5.8.4
+
+Name:                    SFEperl-time-date
+Summary:                 TimeDate-%{time_date_version} PERL module
+Version:                 %{perl_version}.%{time_date_version}
 Source:                  http://www.cpan.org/modules/by-module/Time/TimeDate-%{time_date_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -16,7 +19,6 @@ Requires:                SUNWperl584core
 BuildRequires:           SUNWperl584core
 BuildRequires:           SUNWsfwhea
 
-%define perl_version 5.8.4
 %ifarch sparc
 %define perl_dir sun4-solaris-64int
 %else
@@ -69,6 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sun Jan 28 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
+- Updated how version is defined.
 * Tue Jul  4 2006 - laca@sun.com
 - rename to SFEperl-time-date
 - delete -devel-share subpkg

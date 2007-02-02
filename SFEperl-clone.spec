@@ -5,10 +5,13 @@
 #
 
 %include Solaris.inc
-Name:                    SFEperl-clone
-Summary:                 Clone PERL module
-Version:                 5.8.4
+
 %define clone_version 0.20
+%define perl_version 5.8.4
+
+Name:                    SFEperl-clone
+Summary:                 Clone-%{clone_version} PERL module
+Version:                 %{perl_version}.%{clone_version}
 Source:                  http://www.cpan.org/modules/by-module/Clone/Clone-%{clone_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -16,7 +19,6 @@ Requires:                SUNWperl584core
 BuildRequires:           SUNWperl584core
 BuildRequires:           SUNWsfwhea
 
-%define perl_version 5.8.4
 %ifarch sparc
 %define perl_dir sun4-solaris-64int
 %else
@@ -65,6 +67,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sun Jan 28 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
+- Updated how version is defined.
 * Sun Jul  2 2006 - laca@sun.com
 - rename to SFEperl-clone
 - delete -devel-share pkg

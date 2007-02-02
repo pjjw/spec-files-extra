@@ -5,11 +5,14 @@
 #
 
 %include Solaris.inc
+
+%define tarball_version 1.150
+%define perl_version 5.8.4
+
 Name:                    SFEperl-glib
-Summary:                 Perl Module for Glib2 Library
-Version:                 5.8.4
-%define file_type_version 1.150
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/gtk2-perl/Glib-%{file_type_version}.tar.gz
+Summary:                 Glib-%{tarball_version} PERL module
+Version:                 %{perl_version}.%{tarball_version}
+Source:                  http://easynews.dl.sourceforge.net/sourceforge/gtk2-perl/Glib-%{tarball_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -19,7 +22,6 @@ Requires:		SUNWgnome-base-libs
 BuildRequires:	SFEperl-extutils-dep
 BuildRequires:	SFEperl-extutils-pkg
 
-%define perl_version 5.8.4
 %ifarch sparc
 %define perl_dir sun4-solaris-64int
 %else
@@ -30,7 +32,7 @@ BuildRequires:	SFEperl-extutils-pkg
 %setup -q	 -c -n %name-%version
 
 %build
-cd Glib-%{file_type_version}
+cd Glib-%{tarball_version}
 perl Makefile.PL \
     PREFIX=$RPM_BUILD_ROOT%{_prefix} \
     INSTALLSITELIB=$RPM_BUILD_ROOT%{_prefix}/perl5/vendor_perl/%{perl_version} \
@@ -42,7 +44,7 @@ make CC=$CC CCCDLFLAGS="%picflags" OPTIMIZE="%optflags" LD=$CC
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd Glib-%{file_type_version}
+cd Glib-%{tarball_version}
 make install
 
 rm -rf $RPM_BUILD_ROOT%{_prefix}/lib
@@ -65,6 +67,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sun Jan 28 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
+- Updated how version is defined.
 * Fri Jan 12 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
 - Bump version to 1.150
 * Fri Aug 18 2006 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)

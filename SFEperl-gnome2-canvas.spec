@@ -5,11 +5,14 @@
 #
 
 %include Solaris.inc
+
+%define tarball_version 1.002
+%define perl_version 5.8.4
+
 Name:                    SFEperl-gnome2-canvas
-Summary:                 Perl Module for libgnomecanvas and libart.
-Version:                 5.8.4
-%define file_type_version 1.002
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/gtk2-perl/Gnome2-Canvas-%{file_type_version}.tar.gz
+Summary:                 Gnome2-Canvas-%{tarball_version} PERL Module for libgnomecanvas and libart.
+Version:                 %{perl_version}.%{tarball_version}
+Source:                  http://easynews.dl.sourceforge.net/sourceforge/gtk2-perl/Gnome2-Canvas-%{tarball_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -22,7 +25,6 @@ Requires:		SFEperl-cairo
 Requires:		SFEperl-glib
 Requires:		SFEperl-gtk2
 
-%define perl_version 5.8.4
 %ifarch sparc
 %define perl_dir sun4-solaris-64int
 %else
@@ -33,7 +35,7 @@ Requires:		SFEperl-gtk2
 %setup -q	-c -n %name-%version
 
 %build
-cd Gnome2-Canvas-%{file_type_version}
+cd Gnome2-Canvas-%{tarball_version}
 perl Makefile.PL \
     PREFIX=$RPM_BUILD_ROOT%{_prefix} \
     INSTALLSITELIB=$RPM_BUILD_ROOT%{_prefix}/perl5/vendor_perl/%{perl_version} \
@@ -44,7 +46,7 @@ make CC=$CC CCCDLFLAGS="%picflags" OPTIMIZE="%optflags" LD=$CC
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd Gnome2-Canvas-%{file_type_version}
+cd Gnome2-Canvas-%{tarball_version}
 make install
 
 rm -rf $RPM_BUILD_ROOT%{_prefix}/lib
@@ -67,6 +69,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sun Jan 28 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
+- Updated how version is defined.
 * Fri Aug 18 2006 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
 - Change name from SUNWperl-gnome2-canvas.spec to SFEperl-gnome2-canvas.spec
 * Sun Jul 02 2006 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)

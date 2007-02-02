@@ -6,18 +6,19 @@
 
 %include Solaris.inc
 
+%define tarball_version 1.07
+%define perl_version 5.8.4
+
 Name:                    SFEperl-extutils-pkg
-Summary:                 Simplistic front-end to pkg-config for Makefile.PLs.
-Version:                 5.8.4
-%define file_type_version 1.07
-Source:                  http://internap.dl.sourceforge.net/sourceforge/gtk2-perl/ExtUtils-PkgConfig-%{file_type_version}.tar.gz
+Summary:                 ExtUtils-PkgConfig-%{tarball_version} Simplistic front-end to pkg-config for Makefile.PLs.
+Version:                 %{perl_version}.%{tarball_version}
+Source:                  http://internap.dl.sourceforge.net/sourceforge/gtk2-perl/ExtUtils-PkgConfig-%{tarball_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires:           SUNWperl584core
 Requires:                SUNWperl584core
 
-%define perl_version 5.8.4
 %ifarch sparc
 %define perl_dir sun4-solaris-64int
 %else
@@ -28,7 +29,7 @@ Requires:                SUNWperl584core
 %setup -q	-c -n %name-%version
 
 %build
-cd ExtUtils-PkgConfig-%{file_type_version}
+cd ExtUtils-PkgConfig-%{tarball_version}
 perl Makefile.PL \
     PREFIX=$RPM_BUILD_ROOT%{_prefix} \
     INSTALLSITELIB=$RPM_BUILD_ROOT%{_prefix}/perl5/vendor_perl/%{perl_version} \
@@ -39,7 +40,7 @@ make CC=$CC CCCDLFLAGS="%picflags" OPTIMIZE="%optflags" LD=$CC
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd ExtUtils-PkgConfig-%{file_type_version}
+cd ExtUtils-PkgConfig-%{tarball_version}
 make install
 
 rm -rf $RPM_BUILD_ROOT%{_prefix}/lib
@@ -63,6 +64,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sun Jan 28 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
+- Updated how version is defined.
 * Sat Jan 13 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
 - Fix source package URL.
 * Fri Aug 18 2006 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)

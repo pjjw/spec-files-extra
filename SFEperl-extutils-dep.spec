@@ -5,18 +5,20 @@
 #
 
 %include Solaris.inc
+
+%define tarball_version 0.205
+%define perl_version 5.8.4
+
 Name:                    SFEperl-extutils-dep
-Summary:                 ExtUtils-Depends PERL module
-Version:                 5.8.4
-%define file_type_version 0.205
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/gtk2-perl/ExtUtils-Depends-%{file_type_version}.tar.gz
+Summary:                 ExtUtils-Depends-%{tarball_version} PERL module
+Version:                 %{perl_version}.%{tarball_version}
+Source:                  http://easynews.dl.sourceforge.net/sourceforge/gtk2-perl/ExtUtils-Depends-%{tarball_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:                SUNWperl584core
 BuildRequires:           SUNWperl584core
 
-%define perl_version 5.8.4
 %ifarch sparc
 %define perl_dir sun4-solaris-64int
 %else
@@ -27,7 +29,7 @@ BuildRequires:           SUNWperl584core
 %setup -q	-c -n %name-%version
 
 %build
-cd ExtUtils-Depends-%{file_type_version}
+cd ExtUtils-Depends-%{tarball_version}
 perl Makefile.PL \
     PREFIX=$RPM_BUILD_ROOT%{_prefix} \
     INSTALLSITELIB=$RPM_BUILD_ROOT%{_prefix}/perl5/vendor_perl/%{perl_version} \
@@ -38,7 +40,7 @@ make CC=$CC CCCDLFLAGS="%picflags" OPTIMIZE="%optflags" LD=$CC
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd ExtUtils-Depends-%{file_type_version}
+cd ExtUtils-Depends-%{tarball_version}
 make install
 
 rm -rf $RPM_BUILD_ROOT%{_prefix}/lib
@@ -62,6 +64,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sun Jan 28 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
+- Updated how version is defined.
 * Fri Aug 18 2006 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
 - Change name from SUNWperl-extutils-dep.spec to SFEperl-extutils-dep.spec
 * Sun Jul 02 2006 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)

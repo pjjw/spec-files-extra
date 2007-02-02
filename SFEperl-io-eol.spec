@@ -6,10 +6,13 @@
 
 
 %include Solaris.inc
-Name:                    SFEperl-io-eol
-Summary:                 PerlIO-eol PERL module
-Version:                 5.8.4
+
 %define io_eol_version 0.13
+%define perl_version 5.8.4
+
+Name:                    SFEperl-io-eol
+Summary:                 PerlIO-eol-%{io_eol_version} PERL module
+Version:                 %{perl_version}.%{io_eol_version}
 Source:                  http://www.cpan.org/modules/by-module/PerlIO/PerlIO-eol-%{io_eol_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -17,7 +20,6 @@ Requires:                SUNWperl584core
 BuildRequires:           SUNWperl584core
 BuildRequires:           SUNWsfwhea
 
-%define perl_version 5.8.4
 %ifarch sparc
 %define perl_dir sun4-solaris-64int
 %else
@@ -66,6 +68,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sun Jan 28 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
+- Updated how version is defined.
 * Sun Jul  2 2006 - laca@sun.com
 - rename to SFEperl-io-eol
 - delete -devel-share subpkg

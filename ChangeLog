@@ -1,3 +1,27 @@
+2007-02-02  Mike Kiedrowski  <lakeside at cybrzn dot com>
+
+	* SFEeterm.spec: add the Eterm backgrounds package to the spec.
+	  The backgrounds are all listed in the Eterm menubar,  but there
+	  installed by a seperate tarball
+	* SFEperl-time-date.spec: fix package name; update version
+	* SFEperl-algorithm-diff.spec, SFEperl-cairo.spec, SFEperl-clone.spec,
+	  SFEperl-data-hierarchy.spec, SFEperl-extutils-dep.spec,
+	  SFEperl-extutils-pkg.spec, SFEperl-extutils-pkgs.spec,
+	  SFEperl-file-type.spec, SFEperl-glib.spec,
+	  SFEperl-gnome2-canvas.spec, SFEperl-gnome2-gconf.spec,
+	  SFEperl-gnome2-print.spec, SFEperl-gnome2-rsvg.spec,
+	  SFEperl-gnome2-vfs.spec, SFEperl-gnome2-vte.spec,
+	  SFEperl-gnome2-wnck.spec, SFEperl-gnome2.spec,
+	  SFEperl-gtk2-gladexml.spec, SFEperl-gtk2-html2.spec,
+	  SFEperl-gtk2-mozembed.spec, SFEperl-gtk2-sourceview.spec,
+	  SFEperl-gtk2-trayicon.spec, SFEperl-gtk2.spec,
+	  SFEperl-io-digest.spec, SFEperl-io-dynamic.spec,
+	  SFEperl-io-eol.spec, SFEperl-io-symlink.spec,
+	  SFEperl-pod-escapes.spec, SFEperl-pod-simple.spec,
+	  SFEperl-regexp-shellish.spec, SFEperl-uri.spec,
+	  SFEperl-yaml.spec: update package version and summary to include
+	  the tarball version.
+
 2007-01-25  Glynn Foster  <glynn.foster@sun.com>
 
 	* KNOWN_ISSUES: Remove syncit from this list since it's been moved to

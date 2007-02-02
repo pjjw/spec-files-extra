@@ -5,11 +5,14 @@
 #
 
 %include Solaris.inc
+
+%define tarball_version 1.000
+%define perl_version 5.8.4
+
 Name:                    SFEperl-gnome2-print
-Summary:                 Perl Module for libgnomeprint and libgnomeprintui
-Version:                 5.8.4
-%define file_type_version 1.000
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/gtk2-perl/Gnome2-Print-%{file_type_version}.tar.gz
+Summary:                 Gnome2-Print-%{tarball_version} PERL Module for libgnomeprint and libgnomeprintui
+Version:                 %{perl_version}.%{tarball_version}
+Source:                  http://easynews.dl.sourceforge.net/sourceforge/gtk2-perl/Gnome2-Print-%{tarball_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -24,7 +27,6 @@ Requires:		SFEperl-glib
 Requires:		SFEperl-gtk2
 Requires:		SFEperl-cairo
 
-%define perl_version 5.8.4
 %ifarch sparc
 %define perl_dir sun4-solaris-64int
 %else
@@ -35,7 +37,7 @@ Requires:		SFEperl-cairo
 %setup -q	-c -n %name-%version
 
 %build
-cd Gnome2-Print-%{file_type_version}
+cd Gnome2-Print-%{tarball_version}
 perl Makefile.PL \
     PREFIX=$RPM_BUILD_ROOT%{_prefix} \
     INSTALLSITELIB=$RPM_BUILD_ROOT%{_prefix}/perl5/vendor_perl/%{perl_version} \
@@ -46,7 +48,7 @@ make CC=$CC CCCDLFLAGS="%picflags" OPTIMIZE="%optflags" LD=$CC
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd Gnome2-Print-%{file_type_version}
+cd Gnome2-Print-%{tarball_version}
 make install
 
 rm -rf $RPM_BUILD_ROOT%{_prefix}/lib
@@ -69,5 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sun Jan 28 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
+- Updated how version is defined.
 * Fri Jan 12 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
 - Initial spec file
