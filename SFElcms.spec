@@ -9,7 +9,7 @@
 
 Name:                    SFElcms
 Summary:                 Little ColorManagement System
-Version:                 1.15
+Version:                 1.16
 Source:                  http://www.littlecms.com/lcms-%{version}.tar.gz
 Patch1:                  lcms-01-python-libs.diff
 URL:                     http://www.littlecms.com
@@ -51,6 +51,8 @@ export CXX="${CXX} -norunpath"
 %endif
 export CXXFLAGS="%cxx_optflags"
 
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
+aclocal $ACLOCAL_FLAGS
 automake -c -f
 ./configure --prefix=%{_prefix} --bindir=%{_bindir}         \
             --libdir=%{_libdir}         \
@@ -91,6 +93,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Tue Feb  6 2007 - damien.carbery@sun.com
+- Bump to 1.16. Add aclocal call because automake version mismatch.
 * Fri Jun 23 2006 - laca@sun.com
 - rename to SFElcms
 - update file attributes to match JDS

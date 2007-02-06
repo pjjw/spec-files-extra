@@ -7,7 +7,7 @@
 
 Name:                    SFEinkscape
 Summary:                 Inkscape - vector graphics editor
-Version:                 0.44.1
+Version:                 0.45
 Source:                  http://easynews.dl.sourceforge.net/sourceforge/inkscape/inkscape-%{version}.tar.gz
 URL:                     http://www.inkscape.org
 Patch1:                  inkscape-01-no-ver-check.diff
@@ -19,12 +19,14 @@ Requires:      SUNWgnome-libs
 Requires:      SFEgtkmm
 Requires:      SFEglibmm
 Requires:      SFEsigcpp
+Requires:      SFElcms
 BuildRequires: SFEgtkmm-devel
 BuildRequires: SFEglibmm-devel
 BuildRequires: SFEsigcpp-devel
 BuildRequires: SFEhp-gc-devel
 BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWPython
+BuildRequires: SFElcms-devel
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -102,6 +104,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/gconf/schemas/inkscape.schemas
 
 %changelog
+* Tue Feb  6 2007 - damien.carbery@sun.com
+- Bump to 0.45. Add Build/Requires SFElcms/-devel.
 * Fri Oct 13 2006 - laca@sun.com
 - bump to 0.44.1
 * Thu Jul  6 2006 - laca@sun.com
