@@ -1,3 +1,7 @@
+2007-02-08  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEbeagle.spec: Bump to 0.2.16.
+
 2007-02-06  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFElcms.spec: Bump to 1.16. Add aclocal call because automake
