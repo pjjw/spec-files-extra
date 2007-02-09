@@ -1,3 +1,10 @@
+2007-02-09  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEproftpd.spec: Bump to 1.3.1rc2. Add devel package. Add patch to
+	  remove chown commands that break the build.
+	* patches/proftpd-01-no-chown.diff: Remove chown commands; remove
+	  user/group parameters to 'install' command. Both break the build.
+
 2007-02-09  Irene Huang <sh162551@users.sourceforge.net>
 
 	* SFEgnome-python-extras.spec: New spec for gnome-python-extras

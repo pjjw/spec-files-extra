@@ -14,22 +14,33 @@
 
 Name:                SFEproftpd
 Summary:             Highly configurable FTP server
-Version:             1.3.0
+Version:             1.3.1rc2
+License:             GPL
+Group:               Applications/Internet
+URL:                 http://www.proftpd.org/
 Source:              ftp://ftp.proftpd.org/distrib/source/proftpd-%{version}.tar.gz
-
+Patch1:              proftpd-01-no-chown.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 Requires: %name-root
+BuildRequires: SUNWhea
 
 %package root
 Summary:                 %{summary} - / filesystem
 SUNW_BaseDir:            /
 %include default-depend.inc
 
+%package devel
+Summary:                 %{summary} - development files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+
 %prep
 %setup -q -n proftpd-%version
+%patch1 -p1
 
 %build
 
@@ -58,6 +69,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 rmdir ${RPM_BUILD_ROOT}%{_prefix}/libexec
 rmdir ${RPM_BUILD_ROOT}%{_prefix}/var/proftpd
 rmdir ${RPM_BUILD_ROOT}%{_prefix}/var
+rmdir ${RPM_BUILD_ROOT}%{_datadir}/locale
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -78,7 +90,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_sysconfdir}
 %{_sysconfdir}/proftpd.conf
 
+%files devel
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
+
+
 %changelog
-* 
+* Fri Feb  9 2007 - Damien Carbery <daymobrew@users.sourceforge.net>
+- Bump to 1.3.1rc2. Add devel package. Add patch to remove chown commands
+  that break the build.
+
 * Tue Nov 14 2006 - Eric Boutilier
 - Initial spec
