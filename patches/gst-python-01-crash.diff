@@ -1,0 +1,16 @@
+index: gst/interfacesmodule.c
+===================================================================
+RCS file: /cvs/gstreamer/gst-python/gst/interfacesmodule.c,v
+retrieving revision 1.2
+diff -u -p -u -r1.2 interfacesmodule.c
+--- gst/interfacesmodule.c	17 Mar 2004 12:41:07 -0000	1.2
++++ gst/interfacesmodule.c	14 Dec 2006 21:34:48 -0000
+@@ -38,6 +38,8 @@ initinterfaces (void)
+ {
+ 	PyObject *m, *d;
+ 
++        init_pygobject ();
++
+ 	m = Py_InitModule ("interfaces", pyinterfaces_functions);
+ 	d = PyModule_GetDict (m);
+ 

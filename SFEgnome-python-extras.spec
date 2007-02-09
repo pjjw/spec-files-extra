@@ -1,28 +1,25 @@
 #
-# spec file for package SFEgst-python
+# spec file for package SFEgnome-python-extras
 #
-# includes module(s): gst-python
+# includes module(s): gnome-python-extras
 #
 
 %include Solaris.inc
-Name:                    SFEgst-python
-Summary:                 Python bindings for the GStreamer streaming media framework
-URL:                     http://gstreamer.freedesktop.org/src/gst-python/
-Version:                 0.10.7
-Source:                  http://gstreamer.freedesktop.org/src/gst-python/gst-python-%{version}.tar.bz2
-Patch1:			 gst-python-01-crash.diff
+Name:                    SFEgnome-python-extras
+Summary:                 Python bindings GNOME
+URL:                     http://ftp.gnome.org/pub/GNOME/sources/gnome-python-extras
+Version:                 2.14.2
+Source:                  http://ftp.gnome.org/pub/GNOME/sources/gnome-python-extras/2.14/gnome-python-extras-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:                SUNWPython
-BuildRequires:           SUNWgnome-media
 
 %include default-depend.inc
 
 %define pythonver 2.4
 
 %prep
-%setup -q -n gst-python-%version
-%patch1 -p0
+%setup -q -n gnome-python-extras-%version
 
 %build
 ./configure --prefix=%{_prefix}
@@ -46,18 +43,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/python%{pythonver}/vendor-packages/gst-0.10/*
-%{_libdir}/python%{pythonver}/vendor-packages/pygst.pth
-%{_libdir}/python%{pythonver}/vendor-packages/pygst.py
+%{_libdir}/python%{pythonver}/vendor-packages/gtk-2.0/*
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/gst-python
+%{_datadir}/pygtk/*
+%{_datadir}/gtk-doc/*
 
 %changelog
-* Fri Feb 9 2007  - irene.huang@sun.com
-- bump to 0.10.7
-* Thu Jan 11 2007 - laca@sun.com
-- bump to 0.10.6
-* Mon Sep 11 2006 - laca@sun.com
+* Fri Feb 9 2007 - irene.huang@sun.com
 - created
