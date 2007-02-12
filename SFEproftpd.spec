@@ -19,7 +19,6 @@ License:             GPL
 Group:               Applications/Internet
 URL:                 http://www.proftpd.org/
 Source:              ftp://ftp.proftpd.org/distrib/source/proftpd-%{version}.tar.gz
-Patch1:              proftpd-01-no-chown.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -40,7 +39,6 @@ Requires:                %{name}
 
 %prep
 %setup -q -n proftpd-%version
-%patch1 -p1
 
 %build
 
@@ -53,7 +51,7 @@ export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
 
 export install_user=$LOGNAME
-export install_group=other
+export install_group=`groups | awk '{print $1}'`
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
@@ -97,6 +95,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Feb 12 2007 - Damien Carbery <daymobrew@users.sourceforge.net>
+- Remove patch, 01-no-chown, and use current user's name and group in call to
+  configure.
+
 * Fri Feb  9 2007 - Damien Carbery <daymobrew@users.sourceforge.net>
 - Bump to 1.3.1rc2. Add devel package. Add patch to remove chown commands
   that break the build.

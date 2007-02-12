@@ -1,3 +1,10 @@
+2007-02-12  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEproftpd.spec: Remove patch, 01-no-chown, and use current user's
+	  name and group in call to configure.
+	* patches/proftpd-01-no-chown.diff: Removed; not required after
+	  correcting how current user's group determined.
+
 2007-02-11  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEgimp-texturize.spec: (new) gimp texturize plugin
