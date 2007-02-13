@@ -31,11 +31,12 @@ fi
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
 export GETOPT=/usr/gnu/bin/getopt
-export FIND=/usr/gnu/bin/find
 ./configure --prefix=%{_prefix}			\
 	    --bindir=%{_bindir}			\
 	    --mandir=%{_mandir}			\
-            --libdir=%{_libdir}
+            --libdir=%{_libdir}                 \
+            --with-find=/usr/gnu/bin/find       \
+            --with-getopt=/usr/gnu/bin/getopt
 
 make -j$CPUS 
 
