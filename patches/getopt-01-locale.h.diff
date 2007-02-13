@@ -1,0 +1,10 @@
+--- getopt-1.1.4/nls.h.orig	2007-02-13 13:18:04.289795000 -0500
++++ getopt-1.1.4/nls.h	2007-02-13 13:18:35.263303000 -0500
+@@ -24,6 +24,7 @@
+  * util-linux nls definitions
+  */
+ 
++#include <locale.h>
+ #ifdef NOT_UTIL_LINUX
+ 
+ #ifndef GETOPT_NLS
