@@ -1,3 +1,10 @@
+2007-02-16  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEmuttng.spec: Bummped to 20061125
+	* SFEmjpegtools.spec: removed -j from make
+	* SFEemacs-xft.spec: removed -j from make
+	* SFElibsexy.spec: Fixed perm for gtk-doc directory
+
 2007-02-15  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFEmeld.spec: Add meld, http://meld.sourceforge.net.

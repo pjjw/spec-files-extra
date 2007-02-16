@@ -51,8 +51,9 @@ export PERL=/usr/perl5/bin/perl
             --localstatedir=%{_localstatedir} \
             --with-gtk --enable-font-backend --with-xft
 
-make bootstrap -j$CPUS
-make -j$CPUS 
+# Parallel make spits dummy -j removed - Doug Scott
+make bootstrap # -j$CPUS
+make # -j$CPUS 
 
 %install
 cd emacs
@@ -108,5 +109,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Fri Feb 16 2007 - dougs@truemail.co.th
+- Removed -j from make
 * Sun Nov  5 2006 - laca@sun.com
 - create

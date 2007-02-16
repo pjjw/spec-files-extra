@@ -70,12 +70,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %dir %{_includedir}/libsexy
 %{_includedir}/libsexy/*
 %dir %attr (0755, root, sys) %dir %{_datadir}
-%dir %attr (0755, root, sys) %dir %{_datadir}/gtk-doc
+%dir %attr (0755, root, bin) %dir %{_datadir}/gtk-doc
 %{_datadir}/gtk-doc/*
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Feb 16 2007 - Doug Scott <dougs@truemail.co.th>
+- Fixed perm for gtk-doc directory
 * Wed Nov 22 2006 - jedy.wang@sun.com
 - Initial spec

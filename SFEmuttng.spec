@@ -7,7 +7,7 @@
 
 Name:                SFEmuttng
 Summary:             Fork of the mutt e-mail client
-Version:             20060912
+Version:             20061125
 Source:              http://nion.modprobe.de/mutt-ng/snapshots/muttng-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
@@ -72,6 +72,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
+* Fri Feb 16 2007 - Doug Scott
+- Bumped to 20061125
 * Mon Nov 06 2006 - Eric Boutilier
 - Fix attributes
 * Sat Sep 30 2006 - Eric Boutilier

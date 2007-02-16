@@ -51,7 +51,8 @@ CPPFLAGS="-I/usr/X11/include -I/usr/sfw/include" \
             --enable-shared		     \
 	    --disable-static                 
 
-make -j$CPUS 
+# Parallel make spits dummy -j removed - Doug Scott
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -79,6 +80,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Feb 16 2007 - dougs@truemail.co.th
+- Removed -j from make
 * Tue Nov 28 2006 - laca@sun.com
 - make it work with either SFEwxwidgets or SFEwxGTK
 * Thu Nov 22 2006 - dougs@truemail.co.th
