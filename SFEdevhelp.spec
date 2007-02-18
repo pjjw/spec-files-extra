@@ -7,7 +7,7 @@
 %include Solaris.inc
 Name:                    SFEdevhelp
 Summary:                 Devhelp provides word-processor-style highlighting and replacement of misspelled words in a GtkTextView widget.
-Version:                 0.12
+Version:                 0.13
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/devhelp/%{version}/devhelp-%{version}.tar.bz2
 URL:                     http://developer.imendio.com/projects/devhelp
 SUNW_BaseDir:            %{_basedir}
@@ -138,6 +138,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Feb 18 2007 - laca@sun.com
+- bump to 0.13
 * Mon Jan 15 2007 - laca@sun.com
 - fix %files
 * Fri Jan 05 2007 - daymobrew@users.sourceforge.net
