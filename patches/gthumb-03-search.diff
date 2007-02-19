@@ -8,13 +8,13 @@
  
  	if (! file_is_image (filename, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
  		return FALSE;
-@@ -902,7 +903,10 @@
- 	else
- 		name_only = filename;
+@@ -895,8 +895,10 @@
+ 		 && (time > data->search_data->date + ONE_DAY))
+ 		match_date = TRUE;
  
--	result = (match_patterns (data->file_patterns, name_only)
 +	base_name_only = file_name_from_path (filename);
-+
+ 	name_only = filename + strlen (data->search_data->start_from);
+-	result = (match_patterns (data->file_patterns, name_only)
 +	result = ((match_patterns (data->file_patterns, name_only)
 +		  || match_patterns (data->file_patterns, base_name_only))
  		  && match_patterns (data->comment_patterns, comment)

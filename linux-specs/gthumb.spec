@@ -8,12 +8,12 @@
 Name:		gthumb
 License:	GPL
 Group:		Applications/Multimedia
-Version:	2.7.9
+Version:	2.9.2
 Release:	1
 Distribution:	Java Desktop System
 Vendor:		Sun Microsystems, Inc.
 Summary:	An image viewer and browser for GNOME.
-Source:		http://ftp.gnome.org/pub/GNOME/sources/gthumb/2.7/%{name}-%{version}.tar.bz2
+Source:		http://ftp.gnome.org/pub/GNOME/sources/gthumb/2.9/%{name}-%{version}.tar.bz2
 Patch1:         gthumb-01-menu-entry.diff
 Patch2:         gthumb-02-fix-makefile.diff
 Patch3:		gthumb-03-search.diff
@@ -90,8 +90,8 @@ export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 make DESTDIR=$RPM_BUILD_ROOT install
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 #Clean up unpackage files
-rm $RPM_BUILD_ROOT%{_libdir}/gthumb/*.a
-rm $RPM_BUILD_ROOT%{_libdir}/gthumb/*.la
+rm $RPM_BUILD_ROOT%{_libdir}/*.a
+rm $RPM_BUILD_ROOT%{_libdir}/*.la
 rm $RPM_BUILD_ROOT%{_libdir}/gthumb/modules/*.a
 rm $RPM_BUILD_ROOT%{_libdir}/gthumb/modules/*.la
 
@@ -137,6 +137,8 @@ done
 %doc %{_datadir}/gnome/help/gthumb
 
 %changelog
+* Mon Feb 19 2007 - damien.carbery@sun.com
+- Bump to 2.9.2. Minor change to deletion of *.a & *.la.
 * Thu Nov 20 2006 - laca@sun.com
 - bump to 2.7.9
 * Sat May 13 2006 - laca@sun.com

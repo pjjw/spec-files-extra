@@ -85,6 +85,7 @@ export LDFLAGS="%_ldflags -lm -L/usr/sfw/lib -R/usr/sfw/lib"
 
 # Delete unneeded scrollkeeper files.
 rm -rf $RPM_BUILD_ROOT%{_prefix}/var
+rm -rf $RPM_BUILD_ROOT/var
 
 %if %build_l10n
 %else
@@ -94,7 +95,7 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/*/[a-z]*
 rm -rf $RPM_BUILD_ROOT%{_datadir}/omf/*/*-[a-z]*.omf
 %endif
 
-%{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}(gthumb):$RPM_ARCH:%(date +%%Y-%%m-%%d):unsupported" $RPM_BUILD_ROOT/usr/sfw}
+%{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}(gthumb):$RPM_ARCH:%(date +%%Y-%%m-%%d):unsupported" $RPM_BUILD_ROOT/usr}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -145,11 +146,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/bonobo/servers/*
-%{_libdir}/gthumb/lib*.so*
+%{_libdir}/libgthumb.so
 %{_libdir}/gthumb/modules/lib*.so*
-%{_libexecdir}/gthumb-image-viewer
-%{_libexecdir}/gthumb-catalog-view
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
@@ -157,7 +155,6 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_datadir}/application-registry/*
 %dir %attr (0755, root, other) %{_datadir}/gnome
 %{_datadir}/gnome/help/*/C
-%{_datadir}/gnome-2.0
 %{_datadir}/gthumb
 %attr (-, root, other) %{_datadir}/icons
 %dir %attr(0755, root, bin) %{_mandir}
@@ -169,6 +166,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) %{_datadir}
 %attr (-, root, other) %{_datadir}/locale
+%dir %attr (0755, root, other) %{_datadir}/gnome
+%{_datadir}/gnome/help/gthumb/[a-z][a-z]
 %endif
 
 %files root
@@ -177,6 +176,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_sysconfdir}/gconf/schemas/gthumb.schemas
 
 %changelog
+* Mon Feb 19 2007 - damien.carbery@sun.com
+- Minor updates for new gthumb tarball.
 * Wed Oct 11 2006 - laca@sun.com
 - fix icondir permissions
 * Fri Jun  2 2006 - laca@sun.com

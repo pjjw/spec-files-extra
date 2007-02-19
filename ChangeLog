@@ -1,3 +1,11 @@
+2007-02-12  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* linux-specs/gthumb.spec: Bump to 2.9.2. Minor change to deletion of
+	  *.a & *.la.
+	* patches/gthumb-02-fix-makefile.diff,patches/gthumb-03-search.diff:
+	  Rework for new tarball.
+	* SUNWgnome-img-organiser.spec: Minor updates for new gthumb tarball.
+
 2007-02-18  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEdevhelp.spec: bump to 0.13
