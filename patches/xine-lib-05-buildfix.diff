@@ -1,0 +1,10 @@
+--- xine-lib-1.1.4/src/libffmpeg/libavcodec/mlib/Makefile.am.buildfix	2007-02-21 12:33:01.086139000 -0500
++++ xine-lib-1.1.4/src/libffmpeg/libavcodec/mlib/Makefile.am	2007-02-21 12:33:18.164894000 -0500
+@@ -1,6 +1,6 @@
+ include $(top_srcdir)/misc/Makefile.common
+ 
+-AM_CPPFLAGS = $(LIBFFMPEG_CPPFLAGS) -I$(top_srcdir)/src/libffmpeg/libavutil
++AM_CPPFLAGS = $(LIBFFMPEG_CPPFLAGS) -I$(top_srcdir)/src/libffmpeg/libavutil -I$(top_srcdir)/src/libffmpeg
+ AM_CFLAGS = -fno-strict-aliasing
+ ASFLAGS =
+ 

@@ -1,5 +1,11 @@
 2007-02-21  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFExine-lib.spec: add patch buildfix.diff; disable the opengl
+	  plugin because it breaks the build -- need to investigate more
+	* patches/xine-lib-05-buildfix.diff: add a missing -I to a makefile
+
+2007-02-21  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEcurl.spec: bump to 7.16.1
 	* SFExine-lib.spec: bump to 1.1.4; re-enable the Xv video out
 	  plugin unless on snv_51..55.

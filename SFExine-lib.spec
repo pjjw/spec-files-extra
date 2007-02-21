@@ -17,6 +17,7 @@ Patch1:       xine-lib-01-sysi86.diff
 Patch2:       xine-lib-02-asm-pic.diff
 Patch3:       xine-lib-03-gettext.diff
 Patch4:       xine-lib-04-hal-support.diff
+Patch5:       xine-lib-05-buildfix.diff
 URL:          http://xinehq.de/index.php/home
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
@@ -68,6 +69,7 @@ Requires:                %{name}
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -88,7 +90,8 @@ export LDFLAGS="%{_ldflags} -L/usr/X11/lib -R/usr/X11/lib -L/usr/sfw/lib -R/usr/
 ./configure --prefix=%{_prefix} \
             --with-w32-path=%{mplayer.codecdir} \
             --with-external-libmad \
-            --with-external-dvdnav
+            --with-external-dvdnav \
+            --disable-opengl
 make -j $CPUS
 
 %install
@@ -168,6 +171,9 @@ rm -rf $RPM_BUILD_ROOT
 - re-enable the Xv video out plugin on snv_56 and later as libXv.so was fixed.
 - bump to 1.1.4
 - merge patches
+- add patch buildfix.diff that adds a missing -I to a makefile
+- disable the opengl plugin because it breaks the build -- need to investigate
+  more
 * Tue Jan 23 2007 - laca@sun.com
 - move skins and plugins to base pkg from devel
 * Sun Jan 21 2007 - laca@sun.com
