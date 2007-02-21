@@ -1,3 +1,11 @@
+2007-02-21  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEcurl.spec: bump to 7.16.1
+	* SFExine-lib.spec: bump to 1.1.4; re-enable the Xv video out
+	  plugin unless on snv_51..55.
+	* patches/xine-lib-02-asm-pic.diff: merge
+	* patches/xine-lib-04-hal-support.diff: merge
+
 2007-02-12  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* linux-specs/gthumb.spec: Bump to 2.9.2. Minor change to deletion of

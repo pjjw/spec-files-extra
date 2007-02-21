@@ -10,7 +10,7 @@
 Name:         SFExine-lib
 License:      GPL
 Group:        System/Libraries
-Version:      1.1.3
+Version:      1.1.4
 Summary:      xine-lib - the core engine of the xine video player
 Source:       http://easynews.dl.sourceforge.net/sourceforge/xine/xine-lib-%{version}.tar.gz
 Patch1:       xine-lib-01-sysi86.diff
@@ -98,14 +98,26 @@ rm $RPM_BUILD_ROOT%{_libdir}/lib*.la
 
 for doc in README.dvb README.dxr3 README.freebsd README.irix README.opengl \
             README.solaris README.syncfb README; do
-  rm $RPM_BUILD_ROOT%{_datadir}/doc/xine/$doc
+  rm $RPM_BUILD_ROOT%{_datadir}/doc/xine-lib/$doc
 done
 
 # the xv video driver causes a deadlock in 1.1.3
 # still works in 1.1.2, but the problem doesn't seem to be in the xv
 # driver itself; still investigating
-# (Laca)
-rm $RPM_BUILD_ROOT%{_libdir}/xine/plugins/*/xineplug_vo_out_xv.so
+#
+# More info from Bernd Markgraf: the deadlock only happens starting from
+# snv_51.
+#
+# Even more info from Alan Coopersmith: this is caused by libXv.so.1
+# build issues in snv_51 to snv_44 (bugster 6494070)
+snv_build=`uname -v`
+case "$snv_build" in
+    snv_5[1-6])
+    echo "Deleting the XV video out plugin because it causes a deadlock in"
+    echo "snv_51 to snv_55.  Please upgrade to snv_56 or later"
+    rm $RPM_BUILD_ROOT%{_libdir}/xine/plugins/*/xineplug_vo_out_xv.so
+    ;;
+esac
 
 %if %build_l10n
 %else
@@ -152,6 +164,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Feb 21 2007 - laca@sun.com
+- re-enable the Xv video out plugin on snv_56 and later as libXv.so was fixed.
+- bump to 1.1.4
+- merge patches
 * Tue Jan 23 2007 - laca@sun.com
 - move skins and plugins to base pkg from devel
 * Sun Jan 21 2007 - laca@sun.com
