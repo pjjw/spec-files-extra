@@ -7,7 +7,7 @@
 
 Name:                    SFEemacs-xft
 Summary:                 GNU Emacs text editor with experimental Xft support
-Version:                 23.0.2006.11.05
+Version:                 23.0.2007.02.25
 %define emacs_version    23.0.0
 Source:                  http://pkgbuild.sf.net/spec-files-extra/tarballs/emacs-xft-%{version}.tar.bz2
 URL:                     http://www.emacswiki.org/cgi-bin/wiki/XftGnuEmacs
@@ -109,6 +109,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Sun Feb 25 2007 - laca@sun.com
+- update to new cvs snapshot tarball
 * Fri Feb 16 2007 - dougs@truemail.co.th
 - Removed -j from make
 * Sun Nov  5 2006 - laca@sun.com
