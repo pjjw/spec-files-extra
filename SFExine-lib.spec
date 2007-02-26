@@ -169,6 +169,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Feb 26 2007 - markgraf@med.ovgu.de
+- fix xine-lib-04-hal-support
+  xineplug_inp_dvd.so needs to link LIBHAL_LIBS
 * Fri Feb 23 2007 - markgraf@med.ovgu.de
 - add patch to fix two hiccups with OSS 4.0x 
   (SOUND_PCM_SETFMT/SNDCTL_DSP_SETFMT and 
