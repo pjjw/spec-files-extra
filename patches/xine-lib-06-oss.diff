@@ -1,0 +1,54 @@
+diff -urN xine-lib-1.1.4/src/audio_out/audio_oss_out.c xine-lib-1.1.4.b/src/audio_out/audio_oss_out.c
+--- xine-lib-1.1.4/src/audio_out/audio_oss_out.c	2006-07-16 18:18:09.000000000 +0200
++++ xine-lib-1.1.4.b/src/audio_out/audio_oss_out.c	2007-02-23 07:58:32.420704437 +0100
+@@ -789,9 +789,21 @@
+    */
+ 
+   arg = AFMT_S16_NE; 
+-  status = ioctl(audio_fd, SOUND_PCM_SETFMT, &arg);
++  status = ioctl(audio_fd,
++  #if OSS_VERSION >= 0x040000
++		 SNDCTL_DSP_SETFMT,
++  #else
++		 SOUND_PCM_SETFMT,
++  #endif 
++		 &arg);
+   arg = 44100;
+-  status = ioctl(audio_fd, SOUND_PCM_WRITE_RATE, &arg);
++  status = ioctl(audio_fd, 
++  #if OSS_VERSION >= 0x040001
++		 SNDCTL_DSP_SPEED, 
++  #else
++		 SOUND_PCM_WRITE_RATE,
++  #endif
++		 &arg);
+ 
+   /*
+    * find out which sync method to use
+@@ -903,12 +915,24 @@
+   this->capabilities = 0;
+   
+   arg = AFMT_U8;
+-  if( ioctl(audio_fd, SOUND_PCM_SETFMT, &arg) != -1  && arg == AFMT_U8)
++  if( ioctl(audio_fd, 
++  #if OSS_VERSION >= 0x040000
++	    SNDCTL_DSP_SETFMT, 
++  #else
++	    SOUND_PCM_SETFMT,
++  #endif
++	    &arg) != -1  && arg == AFMT_U8)
+     this->capabilities |= AO_CAP_8BITS;
+   
+   /* switch back to 16bits, because some soundcards otherwise do not report all their capabilities */
+   arg = AFMT_S16_NE;
+-  if (ioctl(audio_fd, SOUND_PCM_SETFMT, &arg) == -1 || arg != AFMT_S16_NE) {
++  if (ioctl(audio_fd, 
++  #if OSS_VERSION >= 0x040000
++	    SNDCTL_DSP_SETFMT, 
++  #else
++	    SOUND_PCM_SETFMT,
++  #endif 
++	    &arg) == -1 || arg != AFMT_S16_NE) {
+     xprintf(class->xine, XINE_VERBOSITY_DEBUG, "audio_oss_out: switching the soundcard to 16 bits mode failed\n");
+     free(this);
+     close(audio_fd);

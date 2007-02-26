@@ -18,6 +18,7 @@ Patch2:       xine-lib-02-asm-pic.diff
 Patch3:       xine-lib-03-gettext.diff
 Patch4:       xine-lib-04-hal-support.diff
 Patch5:       xine-lib-05-buildfix.diff
+Patch6:       xine-lib-06-oss.diff	
 URL:          http://xinehq.de/index.php/home
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
@@ -70,6 +71,7 @@ Requires:                %{name}
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -167,6 +169,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Feb 23 2007 - markgraf@med.ovgu.de
+- add patch to fix two hiccups with OSS 4.0x 
+  (SOUND_PCM_SETFMT/SNDCTL_DSP_SETFMT and 
+   SOUND_PCM_WRITE_RATE/SNDCTL_DSP_SPEED)
 * Wed Feb 21 2007 - laca@sun.com
 - re-enable the Xv video out plugin on snv_56 and later as libXv.so was fixed.
 - bump to 1.1.4
