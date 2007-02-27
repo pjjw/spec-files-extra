@@ -1,0 +1,32 @@
+diff -Naur ethereal-0.99.0.orig/epan/emem.h ethereal-0.99.0/epan/emem.h
+--- ethereal-0.99.0.orig/epan/emem.h	2006-04-17 22:46:53.000000000 +0800
++++ ethereal-0.99.0/epan/emem.h	2007-02-26 19:57:11.761259000 +0800
+@@ -168,7 +168,8 @@
+ 	struct _se_tree_node_t *right;
+ 	union {
+ 		guint32 rb_color;
+-	};
++	} _clr;
++#define rb_color _clr.rb_color
+ 	guint32 key32;
+ 	void *data;
+ } se_tree_node_t;
+diff -Naur ethereal-0.99.0.orig/Makefile.in ethereal-0.99.0/Makefile.in
+--- ethereal-0.99.0.orig/Makefile.in	2006-04-25 00:21:52.000000000 +0800
++++ ethereal-0.99.0/Makefile.in	2007-02-27 00:13:03.205320000 +0800
+@@ -996,6 +996,7 @@
+ 	@SNMP_LIBS@ @SSL_LIBS@ 		\
+ 	$(plugin_ldadd)			\
+ 	@PCRE_LIBS@			\
++	@SOCKET_LIBS@ @NSL_LIBS@	\
+ 	@PCAP_LIBS@ @GTK_LIBS@ @ADNS_LIBS@ @KRB5_LIBS@ @FRAMEWORKS@ \
+ 	@LIBGNUTLS_LIBS@
+ 
+@@ -1097,6 +1098,7 @@
+ dumpcap_LDADD = \
+ 	$(dumpcap_additional_libs)	\
+ 	@GLIB_LIBS@			\
++	@SOCKET_LIBS@ @NSL_LIBS@	\
+ 	@PCAP_LIBS@
+ 
+ 
