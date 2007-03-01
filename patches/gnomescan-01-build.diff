@@ -1,5 +1,6 @@
---- gnomescan-0.3/flegita/flegitaactionwidget.c.orig	2006-11-08 17:13:30.264984000 -0500
-+++ gnomescan-0.3/flegita/flegitaactionwidget.c	2006-11-08 17:13:38.045080000 -0500
+diff -Nur gnomescan-0.4.0.4/flegita/flegitaactionwidget.c gnomescan-0.4.0.4-new/flegita/flegitaactionwidget.c
+--- gnomescan-0.4.0.4/flegita/flegitaactionwidget.c	2006-12-19 01:53:20.000000000 +0800
++++ gnomescan-0.4.0.4-new/flegita/flegitaactionwidget.c	2007-02-28 18:12:47.129518000 +0800
 @@ -151,6 +151,7 @@
  };
  
@@ -8,9 +9,10 @@
    N_SIGNALS
  };
  
---- gnomescan-0.3/libgnomescan/gnomescancontext.c.orig	2006-11-08 17:06:41.545221000 -0500
-+++ gnomescan-0.3/libgnomescan/gnomescancontext.c	2006-11-08 17:06:32.234729000 -0500
-@@ -947,7 +947,7 @@
+diff -Nur gnomescan-0.4.0.4/libgnomescan/gnomescancontext.c gnomescan-0.4.0.4-new/libgnomescan/gnomescancontext.c
+--- gnomescan-0.4.0.4/libgnomescan/gnomescancontext.c	2006-12-19 01:51:51.000000000 +0800
++++ gnomescan-0.4.0.4-new/libgnomescan/gnomescancontext.c	2007-02-28 18:12:47.131625000 +0800
+@@ -1056,7 +1056,7 @@
        result = g_boxed_copy (GNOME_TYPE_SCAN_RESULT, result);
        image = result->image;
        result->image = gdk_pixbuf_rotate_simple (image, priv->rotation);
@@ -19,9 +21,10 @@
        g_object_unref (image);
      }
      g_signal_emit_by_name (context, "image-received", result);
---- gnomescan-0.3/libgnomescan/gnomescanner.c.orig	2006-11-08 17:07:47.917684000 -0500
-+++ gnomescan-0.3/libgnomescan/gnomescanner.c	2006-11-08 17:08:32.867622000 -0500
-@@ -52,6 +52,7 @@
+diff -Nur gnomescan-0.4.0.4/libgnomescan/gnomescanner.c gnomescan-0.4.0.4-new/libgnomescan/gnomescanner.c
+--- gnomescan-0.4.0.4/libgnomescan/gnomescanner.c	2006-12-19 02:41:50.000000000 +0800
++++ gnomescan-0.4.0.4-new/libgnomescan/gnomescanner.c	2007-02-28 18:12:47.133290000 +0800
+@@ -55,6 +55,7 @@
  };
  
  enum {
@@ -29,9 +32,10 @@
    N_SIGNALS
  };
  
---- gnomescan-0.3/libgnomescanui/gnomescanpreview.c.orig	2006-11-08 17:10:13.571447000 -0500
-+++ gnomescan-0.3/libgnomescanui/gnomescanpreview.c	2006-11-08 17:10:22.389769000 -0500
-@@ -41,6 +41,7 @@
+diff -Nur gnomescan-0.4.0.4/libgnomescanui/gnomescanareaselector.c gnomescan-0.4.0.4-new/libgnomescanui/gnomescanareaselector.c
+--- gnomescan-0.4.0.4/libgnomescanui/gnomescanareaselector.c	2006-12-19 00:30:08.000000000 +0800
++++ gnomescan-0.4.0.4-new/libgnomescanui/gnomescanareaselector.c	2007-02-28 18:06:37.538795000 +0800
+@@ -108,6 +108,7 @@
  };
  
  enum {
@@ -39,9 +43,10 @@
    N_SIGNALS
  };
  
---- gnomescan-0.3/libgnomescanui/gnomescanadvancedpreview.c.orig	2006-11-08 17:08:59.889778000 -0500
-+++ gnomescan-0.3/libgnomescanui/gnomescanadvancedpreview.c	2006-11-08 17:09:17.432529000 -0500
-@@ -85,6 +85,7 @@
+diff -Nur gnomescan-0.4.0.4/libgnomescanui/gnomescanliststore.c gnomescan-0.4.0.4-new/libgnomescanui/gnomescanliststore.c
+--- gnomescan-0.4.0.4/libgnomescanui/gnomescanliststore.c	2006-12-19 20:27:01.000000000 +0800
++++ gnomescan-0.4.0.4-new/libgnomescanui/gnomescanliststore.c	2007-02-28 18:08:05.025994000 +0800
+@@ -92,6 +92,7 @@
  };
  
  enum {
@@ -49,8 +54,9 @@
    N_SIGNALS
  };
  
---- gnomescan-0.3/libgnomescanui/gnomescanoptionwidget.c.orig	2006-11-08 17:09:42.469238000 -0500
-+++ gnomescan-0.3/libgnomescanui/gnomescanoptionwidget.c	2006-11-08 17:09:51.727540000 -0500
+diff -Nur gnomescan-0.4.0.4/libgnomescanui/gnomescanoptionwidget.c gnomescan-0.4.0.4-new/libgnomescanui/gnomescanoptionwidget.c
+--- gnomescan-0.4.0.4/libgnomescanui/gnomescanoptionwidget.c	2006-12-18 00:59:06.000000000 +0800
++++ gnomescan-0.4.0.4-new/libgnomescanui/gnomescanoptionwidget.c	2007-02-28 18:12:47.135156000 +0800
 @@ -66,6 +66,7 @@
  };
  
@@ -59,9 +65,10 @@
    N_SIGNALS
  };
  
---- gnomescan-0.3/libgnomescanui/gnomescanpreviewarea.c.orig	2006-11-08 17:10:42.599585000 -0500
-+++ gnomescan-0.3/libgnomescanui/gnomescanpreviewarea.c	2006-11-08 17:10:52.015489000 -0500
-@@ -63,6 +63,7 @@
+diff -Nur gnomescan-0.4.0.4/libgnomescanui/gnomescanpreviewarea.c gnomescan-0.4.0.4-new/libgnomescanui/gnomescanpreviewarea.c
+--- gnomescan-0.4.0.4/libgnomescanui/gnomescanpreviewarea.c	2006-12-19 21:07:39.000000000 +0800
++++ gnomescan-0.4.0.4-new/libgnomescanui/gnomescanpreviewarea.c	2007-02-28 18:12:47.137911000 +0800
+@@ -66,6 +66,7 @@
  };
  
  enum {
@@ -69,9 +76,10 @@
    N_SIGNALS
  };
  
---- gnomescan-0.3/libgnomescanui/gnomescanresolutionselector.c.orig	2006-11-08 17:11:14.020401000 -0500
-+++ gnomescan-0.3/libgnomescanui/gnomescanresolutionselector.c	2006-11-08 17:11:21.034307000 -0500
-@@ -79,6 +79,7 @@
+diff -Nur gnomescan-0.4.0.4/libgnomescanui/gnomescanresolutionselector.c gnomescan-0.4.0.4-new/libgnomescanui/gnomescanresolutionselector.c
+--- gnomescan-0.4.0.4/libgnomescanui/gnomescanresolutionselector.c	2006-12-19 19:49:58.000000000 +0800
++++ gnomescan-0.4.0.4-new/libgnomescanui/gnomescanresolutionselector.c	2007-02-28 18:12:47.139560000 +0800
+@@ -89,6 +89,7 @@
  };
  
  enum {
@@ -79,9 +87,10 @@
    N_SIGNALS
  };
  
---- gnomescan-0.3/libgnomescanui/gnomescansourceselector.c.orig	2006-11-08 17:12:18.347172000 -0500
-+++ gnomescan-0.3/libgnomescanui/gnomescansourceselector.c	2006-11-08 17:12:25.573334000 -0500
-@@ -76,6 +76,7 @@
+diff -Nur gnomescan-0.4.0.4/libgnomescanui/gnomescansourceselector.c gnomescan-0.4.0.4-new/libgnomescanui/gnomescansourceselector.c
+--- gnomescan-0.4.0.4/libgnomescanui/gnomescansourceselector.c	2006-12-18 22:24:36.000000000 +0800
++++ gnomescan-0.4.0.4-new/libgnomescanui/gnomescansourceselector.c	2007-02-28 18:12:47.140686000 +0800
+@@ -80,6 +80,7 @@
  };
  
  enum {

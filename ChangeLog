@@ -1,3 +1,8 @@
+2007-03-01  simon.zheng  <simon.zheng@sun.com>
+
+	* SFEgnomescan.spec: Bump to 0.4.0.4
+	* patches/gnomescan-01-build.diff: Rework for new version.
+
 2007-02-27  Ivan Wang  <ivwang@gmail.com>
 
 	* SFEethereal.spec: (new) Ethereal network protocol analyzer

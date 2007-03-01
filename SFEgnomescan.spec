@@ -7,7 +7,7 @@
 
 Name:                    SFEgnomescan
 Summary:                 gnomescan - scanner client for the GNOME desktop
-Version:                 0.3
+Version:                 0.4.0.4
 Source:			 http://download.gna.org/gnomescan/gnomescan-%{version}.tar.gz
 Patch1:                  gnomescan-01-build.diff
 URL:                     http://home.gna.org/gnomescan/index
@@ -102,5 +102,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Mar  1 2007 - simon.zheng@sun.com
+- Bump to 0.4.0.4.
+- Rework patch gnomescan-01-build.diff.
+
 * Wed Nov  8 2006 - laca@sun.com
 - Create
