@@ -11,6 +11,7 @@ Summary:                 netpbm - network portable bitmap tools
 Version:                 10.35
 Patch1:			 netpbm-01-strings.diff
 Patch2:			 netpbm-Makefile.conf
+Patch3:			 netpbm-02-stdlib.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -34,6 +35,7 @@ rm -rf netpbm
 [ ! -d netpbm ] && bunzip2 -c ../../SOURCES/netpbm-%version.tar.bz2 | tar fxp -
 cd netpbm
 %patch1 -p1
+%patch3 -p1
 cat Makefile.config.in %{PATCH2} > Makefile.config
 touch Makefile.depend
 
@@ -85,5 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Wed Feb 28 2007 - markgraf@med.ovgu.de
+- need to include stdlib.h in generator/ppmrough.c
 * Thu Nov 22 2006 - dougs@truemail.co.th
 - Initial version
