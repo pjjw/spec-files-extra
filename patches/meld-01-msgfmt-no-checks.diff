@@ -1,0 +1,10 @@
+diff -urN meld-1.1.4/po/GNUmakefile meld-1.1.4-hacked/po/GNUmakefile
+--- meld-1.1.4/po/GNUmakefile	2005-10-26 11:58:09.000000000 +1300
++++ meld-1.1.4-hacked/po/GNUmakefile	2006-11-28 12:37:30.059340000 +1300
+@@ -25,5 +25,5 @@
+ 	mkdir -m 755 -p $(dir $@) && install -m 644 $< $@
+ 
+ %/LC_MESSAGES/meld.mo : %.po
+-	mkdir -m 755 -p $(dir $@) && msgfmt -c -o $@ $<
++	mkdir -m 755 -p $(dir $@) && msgfmt -o $@ $<
+ 
