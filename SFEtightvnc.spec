@@ -7,7 +7,7 @@
 
 Name:                    SFEtightvnc
 Summary:                 tightvnc - remote control software package derived from the popular VNC software
-Version:                 1.2.9
+Version:                 1.3.8
 Source:                  http://mesh.dl.sourceforge.net/sourceforge/vnc-tight/tightvnc-%{version}_unixsrc.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -81,6 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/vncviewer
 
 %changelog
+* Mon Mar 05 2007 - nonsea@users.sourceforge.net
+- Bump to 1.3.8.
+
 * Mon Jan 22 2007 - daymobrew@users.sourceforge.net
 - Add -n so that the viewer pkg is SFEvncviewer not SFEtightvnc-SFEvncviewer.
 
