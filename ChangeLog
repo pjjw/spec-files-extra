@@ -1,3 +1,9 @@
+2007-03-04  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFElighttpd.spec: (new) A light httpd
+	* SFElibidn.spec: (new) GNU IDN conversion library
+	* SFEsnort.spec Bump to 2.6.1.3 and several misc improvements
+
 2007-03-05  Glynn Foster  <glynn.foster@sun.com>
 
 	* patches/meld-01-msgfmt-no-checks.diff: Add patch as pointed

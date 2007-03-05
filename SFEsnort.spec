@@ -7,16 +7,22 @@
 
 Name:                SFEsnort
 Summary:             Network intrusion prevention and detection system
-Version:             2.6.0.1
-Source:              http://www.snort.org/dl/current/snort-%{version}.tar.gz
-
+Version:             2.6.1.3
+Source:              http://snort.org/dl/current/snort-2.6.1.3.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
 
-Requires: SFEpcre
+Requires: SUNWpcre
+BuildRequires: SUNWpcre-devel
 Requires: SFElibpcap
+BuildRequires: SFElibpcap-devel
+Requires: SUNWgccruntime
+BuildRequires: SUNWpostgr-devel
+Requires: SUNWpostgr-server
+# The above line also guarantees these: SUNWpostgr, 
+# SUNWpostgr-libs, SUNWpostgr-server-data
 
 %prep
 %setup -q -n snort-%version
@@ -27,11 +33,17 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags"
-export LDFLAGS="%{_ldflags}"
+export CC=/usr/sfw/bin/gcc
+export CXX=/usr/sfw/bin/g++
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+export LDFLAGS="%_ldflags"
 
 ./configure --prefix=%{_prefix}  \
+            --enable-static=no \
+            --with-postgresql=yes \
+            --with-pgsql-includes=/usr/include/pgsql \
             --mandir=%{_mandir}
+
 make -j$CPUS
 
 %install
@@ -39,7 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
 
-rm -f ${RPM_BUILD_ROOT}%{_libdir}/snort_dynamicengine/*.la
+mv ${RPM_BUILD_ROOT}%{_prefix}/src ${RPM_BUILD_ROOT}%{_datadir}
+rm ${RPM_BUILD_ROOT}%{_libdir}/snort_dynamicengine/*.la
+rm ${RPM_BUILD_ROOT}%{_libdir}/snort_dynamicpreprocessor/*.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -48,15 +62,20 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
-%dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
+%dir %attr (0755, root, bin) %{_libdir}/snort_dynamicengine
+%dir %attr (0755, root, bin) %{_libdir}/snort_dynamicpreprocessor
+%{_libdir}/snort_dynamic*/libsf*.so*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/*
-
-# Note: datadir is */share
+%dir %attr (0755, root, sys) %{_datadir}/src
+%dir %attr (0755, root, bin) %{_datadir}/src/snort_dynamicsrc
+%{_datadir}/src/snort_dynamicsrc/*
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man8
+%{_mandir}/man8/snort.8
 
 %changelog
-* 
+* Sun Mar 04 2007 - Eric Boutilier
+- Bump to 2.6.1.3 
+- Several misc improvements
 * Fri Sep 01 2006 - Eric Boutilier
 - Initial spec
-
