@@ -1,5 +1,9 @@
 2007-03-06  Halton Huo  <halton.huo@sun.com>
 
+	* SFEswig.spec: Bump to 1.3.31
+
+2007-03-06  Halton Huo  <halton.huo@sun.com>
+
 	* SFEscons.spec: (new) software construction tool
 	* SFEcheck.spec: (new) unit testing framework for C
 	* patches/check-01-suncc-define.diff: Added patch, RequestUD #1674626

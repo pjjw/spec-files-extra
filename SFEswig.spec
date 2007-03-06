@@ -7,7 +7,7 @@
 
 Name:                    SFEswig
 Summary:                 SWIG Interface compiler
-Version:                 1.3.30
+Version:                 1.3.31
 Source:                  http://internap.dl.sourceforge.net/sourceforge/swig/swig-%{version}.tar.gz
 URL:                     http://www.swig.org/
 SUNW_BaseDir:            %{_basedir}
@@ -53,6 +53,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
+* Tue Mar 06 2007 - nonsea@users.sourceforge.net
+- Bump to 1.3.31
 * Tue Nov 11 2006 - halton.huo@sun.com
 - Bump to 1.3.30
 * Fri Jun 23 2006 - laca@sun.com
