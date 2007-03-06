@@ -1,3 +1,10 @@
+2007-03-06  Halton Huo  <halton.huo@sun.com>
+
+	* SFEscons.spec: (new) software construction tool
+	* SFEcheck.spec: (new) unit testing framework for C
+	* patches/check-01-suncc-define.diff: Added patch, RequestUD #1674626
+	* patches/check-02-suncc-fail.diff: Added patch, RequestUD #1674627
+
 2007-03-06  Irene Huang  <sh162551@users.sourceforge.net>
 
         * SFEgnonlin.spec: New spec, requirement of pitivi
