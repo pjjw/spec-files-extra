@@ -1,22 +1,18 @@
 #
-# spec file for package SFEgcc
+# spec file for package SFEbinutils
 #
-# includes module(s): GNU gcc
+# includes module(s): GNU binutils
 #
 %include Solaris.inc
 %include usr-gnu.inc
 
-Name:                SFEgcc
-Summary:             GNU gcc
-Version:             4.1.2
-Source:              ftp://ftp.gnu.org/pub/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.bz2
+Name:                SFEbinutils
+Summary:             GNU binutils
+Version:             2.17
+Source:              http://ftp.gnu.org/gnu/binutils/binutils-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires: SFEgmp-devel
-BuildRequires: SFEbinutils
-Requires: SFEbinutils
-Requires: SFEgmp
 Requires: SUNWpostrun
 
 %package devel
@@ -35,7 +31,9 @@ Requires:                %{name}
 
 %prep
 %setup -q -c -n %name-%version
-mkdir gcc
+%ifarch amd64 sparcv9
+cp -pr binutils-%{version} binutils-%{version}-64
+%endif
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -43,40 +41,65 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-cd gcc
-
 %if %build_l10n
 nlsopt=-enable-nls
 %else
 nlsopt=-disable-nls
 %endif
 
-export CONFIG_SHELL=/usr/bin/bash
+export CFLAGS32="%optflags"
+export CFLAGS64="%optflags64"
+export LDFLAGS32="%_ldflags"
+export LDFLAGS64="%_ldflags"
+
+%ifarch amd64 sparcv9
+export CC=${CC64:-$CC}
+export CFLAGS="$CFLAGS64"
+export LDFLAGS="$LDFLAGS64"
+
+cd binutils-%{version}-64
+
+./configure --prefix=%{_prefix}			\
+            --libdir=%{_libdir}/%{_arch64}	\
+            --libexecdir=%{_libdir}/%{_arch64}	\
+            --mandir=%{_mandir}			\
+	    --infodir=%{_infodir}		\
+	    --enable-shared			\
+	    --disable-static			\
+	    $nlsopt
+
+make -j$CPUS
+cd ..
+%endif
+
+cd binutils-%{version}
+
 export CC=${CC32:-$CC}
 export CFLAGS="$CFLAGS32"
-export LDFLAGS="$LDFLAGS32 -L/usr/gnu/lib -R/usr/gnu/lib"
+export LDFLAGS="$LDFLAGS32"
 
-../gcc-%{version}/configure			\
-	--prefix=%{_prefix}			\
-        --libdir=%{_libdir}			\
-        --libexecdir=%{_libexecdir}		\
-        --mandir=%{_mandir}			\
-	--infodir=%{_infodir}			\
-	--with-as=/usr/gnu/bin/as		\
-	--with-gnu-as				\
-	--with-ld=/usr/ccs/bin/ld		\
-	--without-gnu-ld			\
-	--enable-languages=c,c++,fortran	\
-	--enable-shared				\
-	--disable-static			\
-	$nlsopt
+./configure --prefix=%{_prefix}			\
+            --libdir=%{_libdir}			\
+            --libexecdir=%{_libexecdir}		\
+            --mandir=%{_mandir}			\
+	    --infodir=%{_infodir}		\
+	    --enable-shared			\
+	    --disable-static			\
+	    $nlsopt
 
 make -j$CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
+%ifarch amd64 sparcv9
+cd binutils-%{version}-64
+make install DESTDIR=$RPM_BUILD_ROOT
+rm -f $RPM_BUILD_ROOT/%{_libdir}/%{_arch64}/*.a
+rm -f $RPM_BUILD_ROOT/%{_libdir}/%{_arch64}/*.la
+cd ..
+%endif
 
-cd gcc
+cd binutils-%{version}
 make install DESTDIR=$RPM_BUILD_ROOT
 
 cd $RPM_BUILD_ROOT%{_prefix}
@@ -92,8 +115,6 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{_arch64}/lib*.a
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{_arch64}/lib*.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -101,7 +122,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 ( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
   echo 'infos="';
-  echo 'gcc.info cpp.info gccint.info cppinternals.info gccinstall.info gfortran.info' ;
+  echo 'as.info binutils.info autosprintf.info gprof.info standards.info bfd.info configure.info ld.info' ;
   echo '"';
   echo 'retval=0';
   echo 'for info in $infos; do';
@@ -112,7 +133,7 @@ rm -rf $RPM_BUILD_ROOT
 %preun
 ( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
   echo 'infos="';
-  echo 'gcc.info cpp.info gccint.info cppinternals.info gccinstall.info gfortran.info' ;
+  echo 'as.info binutils.info autosprintf.info gprof.info standards.info bfd.info configure.info ld.info' ;
   echo '"';
   echo 'for info in $infos; do';
   echo '  install-info --info-dir=%{_infodir} --delete %{_infodir}/$info';
@@ -123,17 +144,15 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_prefix}
 %{_prefix}/man
+%{_prefix}/*-solaris*
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
-%{_libdir}/gcc
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*.1
-%dir %attr (0755, root, bin) %{_mandir}/man7
-%{_mandir}/man7/*.7
 %dir %attr(0755, root, sys) %{_std_datadir}
 %dir %attr(0755, root, bin) %{_infodir}
 %{_infodir}/*
@@ -144,7 +163,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr (-, root, bin)
-%{_includedir}
+%dir %attr (0755, root, bin) %{_prefix}
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
+%dir %attr (0755, root, sys) %{_datadir}
 
 %if %build_l10n
 %files l10n
@@ -154,7 +176,5 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Sun Mar  7 2007 - Doug Scott <dougs@truemail.co.th>
-- change to use GNU as from SFEbinutils
-* Sun Mar  7 2007 - Doug Scott <dougs@truemail.co.th>
+* Tue Feb  7 2007 - Doug Scott <dougs@truemail.co.th>
 - Initial spec

@@ -1,4 +1,10 @@
 2007-03-07  Doug Scott      <dougs@truemail.co.th>
+
+	* SFEbinutils.spec: new - GNU binutils (/usr/gnu)
+	* SFEgcc.spec: change to use GNU as from SFEbinutils
+
+2007-03-07  Doug Scott      <dougs@truemail.co.th>
+
 	* Solaris.inc: added cxx_optflags64
 	* SFEreadline.spec: enabled 64-bit build
 	* SFEmpfr.spec: new - maths library required for gcc/fortran build
