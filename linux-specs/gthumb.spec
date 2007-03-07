@@ -8,7 +8,7 @@
 Name:		gthumb
 License:	GPL
 Group:		Applications/Multimedia
-Version:	2.9.2
+Version:	2.9.3
 Release:	1
 Distribution:	Java Desktop System
 Vendor:		Sun Microsystems, Inc.
@@ -137,6 +137,8 @@ done
 %doc %{_datadir}/gnome/help/gthumb
 
 %changelog
+* Wed Mar 07 2007 - daymobrew@users.sourceforge.net
+- Bump to 2.9.3.
 * Mon Feb 19 2007 - damien.carbery@sun.com
 - Bump to 2.9.2. Minor change to deletion of *.a & *.la.
 * Thu Nov 20 2006 - laca@sun.com

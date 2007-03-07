@@ -1,13 +1,19 @@
+2007-03-07  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEgraphviz.spec: Bump to 2.12. Delete more *.la files in %install.
+	  Add URL field.
+	* linux-specs/gthumb.spec: Bump to 2.9.3.
+
 2007-03-07  simon.zheng  <simon.zheng@sun.com>
 
 	* SFExsane.spec: Bump to version 0.994 and enable gimp-plugin
 
-2007-03-07  Doug Scott      <dougs@truemail.co.th>
+2007-03-07  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEbinutils.spec: new - GNU binutils (/usr/gnu)
 	* SFEgcc.spec: change to use GNU as from SFEbinutils
 
-2007-03-07  Doug Scott      <dougs@truemail.co.th>
+2007-03-07  Doug Scott  <dougs@truemail.co.th>
 
 	* Solaris.inc: added cxx_optflags64
 	* SFEreadline.spec: enabled 64-bit build

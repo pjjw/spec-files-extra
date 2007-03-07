@@ -6,10 +6,10 @@
 %include Solaris.inc
 
 Name:                SFEgraphviz
-Summary:             graph drawing tools and libraries
-Version:             2.8
+Summary:             Graph drawing tools and libraries
+Version:             2.12
 Source:              http://www.graphviz.org/pub/graphviz/ARCHIVE/graphviz-%{version}.tar.gz
-
+URL:                 http://www.graphviz.org
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -46,7 +46,7 @@ rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
 
-rm ${RPM_BUILD_ROOT}%{_libdir}/libltdl.la
+rm ${RPM_BUILD_ROOT}%{_libdir}/*.la
 rm ${RPM_BUILD_ROOT}%{_libdir}/graphviz/*.la
 
 rmdir ${RPM_BUILD_ROOT}%{_mandir}/mann
@@ -81,6 +81,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/graphviz/*
 
 %changelog
-* 
+* Wed Mar 07 2007 - daymobrew@users.sourceforge.net
+- Bump to 2.12. Delete more *.la files in %install. Add URL field.
+
 * Tue Nov 07 2006 - Eric Boutilier
 - Initial spec
