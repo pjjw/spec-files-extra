@@ -69,14 +69,16 @@ Vendor:			   http://pkgbuild.sf.net/spec-files-extra
 
 %ifarch sparc
 %define optflags           %_cc_opt_level -mv8plus -Xlinker -i %picflags
-%define cxx_optflags       %_cxx_opt_level -mv8plus -Xlinker -i %picflags
 %define optflags64	   %_cc_opt_level -mcpu=ultrasparc -m64 -Xlinker -i %picflags
+%define cxx_optflags       %_cxx_opt_level -mv8plus -Xlinker -i %picflags
+%define	cxx_optflags64     %optflags64
 %endif
 
 %ifarch i386
 %define optflags           %_cc_opt_level -march=i586 -Xlinker -i -fno-omit-frame-pointers %picflags
-%define cxx_optflags       %_cc_opt_level -march=i586 -Xlinker -i -fno-omit-frame-pointers %picflags
 %define optflags64	   %_cc64_opt_level -march=opteron -m64 -Xlinker -i -fno-omit-frame-pointers %picflags
+%define cxx_optflags       %_cc_opt_level -march=i586 -Xlinker -i -fno-omit-frame-pointers %picflags
+%define cxx_optflags64     %optflags64
 %endif
 
 %else
@@ -86,14 +88,16 @@ Vendor:			   http://pkgbuild.sf.net/spec-files-extra
 
 %ifarch sparc
 %define optflags           -i %_cc_opt_level -xstrconst -xarch=v8a -mr
-%define cxx_optflags       -i %_cxx_opt_level -xarch=v8a -mr -norunpath
 %define optflags64	   -i %_cc_opt_level -xstrconst -xarch=v9 -xcode=pic32 -mr
+%define cxx_optflags       -i %_cxx_opt_level -xarch=v8a -mr -norunpath
+%define cxx_optflags64     -i %_cxx_opt_level -xarch=v9 -xcode=pic32 -mr -norunpath
 %endif
 
 %ifarch i386
 %define optflags           -i %_cc_opt_level -xstrconst -xpentium -mr -xregs=no%%frameptr
-%define cxx_optflags       -i %_cxx_opt_level -pentium -mr -norunpath -xregs=no%%frameptr
 %define optflags64	   -i -xarch=generic64 -Kpic -xregs=no%%frameptr
+%define cxx_optflags       -i %_cxx_opt_level -pentium -mr -norunpath -xregs=no%%frameptr
+%define cxx_optflags64     -i %_cxx_opt_level -xarch=generic64 -Kpic -pentium -mr -norunpath -xregs=no%%frameptr
 %endif
 
 %endif
@@ -109,6 +113,8 @@ Vendor:			   http://pkgbuild.sf.net/spec-files-extra
 
 # ChangeLog:
 #
+# 2007-03-07  Doug Scott    <dougs@truemail.co.th>
+# - added cxx_optflags64
 # 2006-06-18  Laszlo Peter  <laca@sun.com>
 # - review and update for spec-files-extra
 # 2006-06-02  Laszlo Peter  <laca@sun.com>

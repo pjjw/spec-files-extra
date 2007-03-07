@@ -22,7 +22,10 @@ SUNW_BaseDir:            %{_basedir}
 Requires: %name
 
 %prep
-%setup -q -n readline-%version
+%setup -q -c -n %name-%version
+%ifarch amd64 sparcv9
+cp -pr readline-%{version} readline-%{version}-64
+%endif
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -30,8 +33,39 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 
-export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP"
+export CFLAGS32="%optflags -I/usr/sfw/include -DANSICPP"
+export CFLAGS64="%optflags64 -I/usr/sfw/include -DANSICPP"
+export LDFLAGS32="%_ldflags"
+export LDFLAGS64="%_ldflags"
+
+%ifarch amd64 sparcv9
+export CC=${CC64:-$CC}
+export CXX=${CXX64:-$CXX}
+export CFLAGS="$CFLAGS64"
+export CXXFLAGS="$CXXFLAGS64"
+export LDFLAGS="$LDFLAGS64"
+
+cd readline-%{version}-64
+
+./configure --prefix=%{_prefix}				\
+	    --libdir=%{_libdir}/%{_arch64}		\
+	    --libexecdir=%{_libexecdir}/%{_arch64}	\
+	    --mandir=%{_mandir}                 	\
+	    --datadir=%{_datadir}               	\
+            --infodir=%{_datadir}/info
+	    		
+make -j$CPUS
+cd ..
+%endif
+
+cd readline-%{version}
+
+export CC=${CC32:-$CC}
+export CFLAGS="$CFLAGS32"
+export LDFLAGS="$LDFLAGS32"
+
 ./configure --prefix=%{_prefix}			\
+	    --libdir=%{_libdir}                 \
 	    --libexecdir=%{_libexecdir}         \
 	    --mandir=%{_mandir}                 \
 	    --datadir=%{_datadir}               \
@@ -41,6 +75,15 @@ make -j$CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
+%ifarch amd64 sparcv9
+cd readline-%{version}-64
+make install DESTDIR=$RPM_BUILD_ROOT
+rm -f $RPM_BUILD_ROOT/%{_libdir}/%{_arch64}/*.a
+rm -f $RPM_BUILD_ROOT/%{_libdir}/%{_arch64}/*.la
+cd ..
+%endif
+
+cd readline-%{version}
 make install DESTDIR=$RPM_BUILD_ROOT
 
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man3gnu
@@ -84,6 +127,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/*
 %{_mandir}/*/*
+%ifarch amd64 sparcv9
+%dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
+%{_libdir}/%{_arch64}/lib*.so*
+%endif
 
 %files devel
 %defattr (-, root, bin)
@@ -91,6 +138,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Tue Mar  7 2007 - dougs@truemail.co.th
+- enabled 64-bit build
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net
 - Add SUNWtexi dependency.
 * Sun Nov  5 2006 - laca@sun.com

@@ -1,3 +1,11 @@
+2007-03-07  Doug Scott      <dougs@truemail.co.th>
+	* Solaris.inc: added cxx_optflags64
+	* SFEreadline.spec: enabled 64-bit build
+	* SFEmpfr.spec: new - maths library required for gcc/fortran build
+	* SFEgmp.spec: enabled 64-bit build and added speedup patch for AMD64
+	* SFEgettext.spec: add - GNU gettext (/usr/gnu)
+	* SFEgcc.spec: add - gcc 4.1.2 (/usr/gnu)
+
 2007-03-06  Eric Boutilier  <eric.boutilier@sun.com>
 
 	SFExbindkeys.spec: (new) An events grabbing program for X windows.
