@@ -1,3 +1,7 @@
+2007-03-07  simon.zheng  <simon.zheng@sun.com>
+
+	* SFExsane.spec: Bump to version 0.994 and enable gimp-plugin
+
 2007-03-07  Doug Scott      <dougs@truemail.co.th>
 
 	* SFEbinutils.spec: new - GNU binutils (/usr/gnu)
