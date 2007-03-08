@@ -1,3 +1,9 @@
+2007-03-08  Halton Huo  <nonsea@users.sourceforge.net>
+
+	* SFElibnotify.spec: Bump to 0.4.4.
+	* SFEnotification-daemon.spec: Bump to 0.3.7, add package -l10n,
+	  add LDFLAGS value to make it build pass
+
 2007-03-07  Ivan Wang  <ivwang@gmail.com>
 	
 	* SFEethereal.spec:  Add to launch menu, add icons, strip executables

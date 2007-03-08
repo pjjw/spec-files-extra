@@ -9,7 +9,7 @@
 Name:         SFElibnotify
 License:      Other
 Group:        System/Libraries
-Version:      0.4.3
+Version:      0.4.4
 Summary:      libnotify is a notification system for the GNOME desktop environment.
 Source:       http://www.galago-project.org/files/releases/source/libnotify/libnotify-%{version}.tar.bz2
 URL:          http://www.galago-project.org/news/index.php
@@ -77,6 +77,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Mar 08 2007 - nonsea@users.sourceforge.net
+- Bump to 0.4.4
 * Sun Jan 21 2007 - laca@sun.com
 - add defattr tag to files
 * Sun Jan  7 2007 - laca@sun.com
