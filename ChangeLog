@@ -1,3 +1,8 @@
+2007-03-07  Ivan Wang  <ivwang@gmail.com>
+	
+	* SFEethereal.spec:  Add to launch menu, add icons, strip executables
+	* patches/ethereal-01-emem.diff: update
+
 2007-03-07  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEgraphviz.spec: Bump to 2.12. Delete more *.la files in %install.
@@ -24,8 +29,8 @@
 
 2007-03-06  Eric Boutilier  <eric.boutilier@sun.com>
 
-	SFExbindkeys.spec: (new) An events grabbing program for X windows.
-	SFErecode.spec: (new) converts files between character sets and usages
+	* SFExbindkeys.spec: (new) An events grabbing program for X windows.
+	* SFErecode.spec: (new) converts files between character sets and usages
 
 2007-03-06  Halton Huo  <halton.huo@sun.com>
 
@@ -60,7 +65,7 @@
 2007-03-05  Glynn Foster  <glynn.foster@sun.com>
 
 	* patches/meld-01-msgfmt-no-checks.diff: Add patch as pointed
-        out by Ivan Wang.
+          out by Ivan Wang.
 
 2007-02-28   markgraf@med.ovgu.de
 

@@ -11,6 +11,22 @@ diff -Naur ethereal-0.99.0.orig/epan/emem.h ethereal-0.99.0/epan/emem.h
  	guint32 key32;
  	void *data;
  } se_tree_node_t;
+diff -Naur ethereal-0.99.0.orig/ethereal.desktop ethereal-0.99.0/ethereal.desktop
+--- ethereal-0.99.0.orig/ethereal.desktop	2006-04-17 22:46:57.000000000 +0800
++++ ethereal-0.99.0/ethereal.desktop	2007-03-06 20:29:19.848508000 +0800
+@@ -78,11 +78,4 @@
+ Path=
+ Terminal=false
+ MimeType=
+-Categories=Application;GTK;Network;X-Red-Hat-Extra;
+-# Found in Suse 9.1:
+-X-KDE-SubstituteUID=true
+-# Deprecated:
+-# TerminalOptions=
+-# BinaryPattern=ethereal
+-# MapNotify=true
+-# Protocols=
++Categories=Application;System;
 diff -Naur ethereal-0.99.0.orig/Makefile.in ethereal-0.99.0/Makefile.in
 --- ethereal-0.99.0.orig/Makefile.in	2006-04-25 00:21:52.000000000 +0800
 +++ ethereal-0.99.0/Makefile.in	2007-02-27 00:13:03.205320000 +0800
