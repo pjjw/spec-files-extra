@@ -1,0 +1,193 @@
+--- aspell-0.60.4/modules/speller/default/affix.cpp-orig	2006-01-25 12:48:22.221889000 -0800
++++ aspell-0.60.4/modules/speller/default/affix.cpp	2006-01-25 12:48:39.274322000 -0800
+@@ -172,8 +172,8 @@ struct AffixLess
+ //     typedef const char * Value;
+ //     typedef const char * Key;
+ //     static const bool is_multi = false;
+-//     hash<const char *> hfun;
+-//     size_t hash(const char * s) {return hfun(s);}
++//     hash<const char *> thehash;
++//     size_t hash(const char * s) {return thehash(s);}
+ //     bool equal(const char * x, const char * y) {return strcmp(x,y) == 0;}
+ //     const char * key(const char * c) {return c;}
+ //   };
+@@ -193,8 +193,8 @@ struct CondsLookupParms {
+   typedef const Conds * Value;
+   typedef const char * Key;
+   static const bool is_multi = false;
+-  hash<const char *> hfun;
+-  size_t hash(const char * s) {return hfun(s);}
++  hash<const char *> thehash;
++  size_t hash(const char * s) {return thehash(s);}
+   bool equal(const char * x, const char * y) {return strcmp(x,y) == 0;}
+   const char * key(const Conds * c) {return c->str;}
+ };
+--- aspell-0.60.4/modules/speller/default/affix.hpp-orig	2006-01-25 08:56:19.726654000 -0800
++++ aspell-0.60.4/modules/speller/default/affix.hpp	2006-01-25 08:56:33.890263000 -0800
+@@ -107,7 +107,7 @@ namespace aspeller {
+     {
+       return expand(word,aff,buf,0);
+     }
+-    WordAff * expand_suffix(ParmString word, const unsigned char * new_aff,
++    WordAff * expand_suffix(ParmString word, const unsigned char * aff,
+                             ObjStack &, int limit = INT_MAX,
+                             unsigned char * new_aff = 0, WordAff * * * l = 0,
+                             ParmString orig_word = 0) const;
+--- aspell-0.60.4/common/string.hpp-orig	2006-01-25 08:48:03.868105000 -0800
++++ aspell-0.60.4/common/string.hpp	2006-01-25 08:48:10.228839000 -0800
+@@ -492,7 +492,7 @@ namespace acommon {
+ 
+ namespace std
+ {
+-  template<> static inline void swap(acommon::String & x, acommon::String & y) {return x.swap(y);}
++  template<> inline void swap(acommon::String & x, acommon::String & y) {return x.swap(y);}
+ }
+ 
+ #endif
+--- aspell-0.60.4/common/convert.cpp-orig	2006-01-25 08:51:18.821841000 -0800
++++ aspell-0.60.4/common/convert.cpp	2006-01-25 08:54:00.865108000 -0800
+@@ -238,7 +238,7 @@ namespace acommon {
+   }
+ 
+   template <class T>
+-  static void free_norm_table(NormTable<T> * d)
++  void free_norm_table(NormTable<T> * d)
+   {
+     for (T * cur = d->data; cur != d->end; ++cur) {
+       if (cur->sub_table) 
+--- aspell-0.60.4/prog/aspell.cpp-orig	2006-01-25 10:47:40.169624000 -0800
++++ aspell-0.60.4/prog/aspell.cpp	2006-01-25 10:48:01.320279000 -0800
+@@ -1880,7 +1880,7 @@ struct SML_Parms {
+   typedef SML_WordEntry Value;
+   typedef const char * Key;
+   static const bool is_multi = false;
+-  hash<const char *> hash;
++  hash<const char *> thehash;
+   bool equal(Key x, Key y) {return strcmp(x,y) == 0;}
+   Key key(const Value & v) {return v.word;}
+ };
+@@ -2031,7 +2031,7 @@ struct CML_Parms {
+   typedef CML_Entry Value;
+   typedef const char * Key;
+   static const bool is_multi = true;
+-  hash<const char *> hash;
++  hash<const char *> thehash;
+   bool equal(Key x, Key y) {return strcmp(x,y) == 0;}
+   Key key(const Value & v) {return v.word;}
+ };
+--- aspell-0.60.4/common/hash-t.hpp-orig	2006-01-25 10:48:42.926184000 -0800
++++ aspell-0.60.4/common/hash-t.hpp	2006-01-25 11:21:46.641457000 -0800
+@@ -136,7 +136,7 @@ namespace acommon {
+   template <class P>
+   typename HashTable<P>::iterator HashTable<P>::find_i(const Key & to_find, bool & have)
+   {
+-    Size pos = parms_.hash(to_find) % table_size_;
++    Size pos = parms_.thehash(to_find) % table_size_;
+     Node * * n = table_ + pos;
+     have = false;
+     while (true) {
+@@ -199,7 +199,7 @@ namespace acommon {
+     for (Node * * i = old_table; i != old_end; ++i) {
+       Node * n = *i;
+       while (n != 0) {
+-	Node * * put_me_here = table_ + (parms_.hash(parms_.key(n->data)) % table_size_);
++	Node * * put_me_here = table_ + (parms_.thehash(parms_.key(n->data)) % table_size_);
+ 	Node * tmp = n;
+ 	n = n->next;
+ 	tmp->next = *put_me_here;
+--- aspell-0.60.4/common/hash.hpp-orig	2006-01-25 11:41:57.215601000 -0800
++++ aspell-0.60.4/common/hash.hpp	2006-01-25 11:43:22.913496000 -0800
+@@ -259,10 +259,10 @@ namespace acommon {
+     typedef K Value;
+     typedef const K Key;
+     static const bool is_multi = m;
+-    HF hash;
++    HF thehash;
+     E  equal;
+     const K & key(const K & v) {return v;}
+-    HashSetParms(const HF & h = HF(), const E & e = E()) : hash(h), equal(e) {}
++    HashSetParms(const HF & h = HF(), const E & e = E()) : thehash(h), equal(e) {}
+   };
+ 
+   template <typename K, typename HF = hash<K>, typename E = std::equal_to<K> >
+@@ -293,12 +293,12 @@ namespace acommon {
+     typedef std::pair<const K,V> Value;
+     typedef const K         Key;
+     static const bool is_multi = m;
+-    HF hash;
++    HF thehash;
+     E  equal;
+     const K & key(const Value & v) {return v.first;}
+     HashMapParms() {}
+-    HashMapParms(const HF & h) : hash(h) {}
+-    HashMapParms(const HF & h, const E & e) : hash(h), equal(e) {}
++    HashMapParms(const HF & h) : thehash(h) {}
++    HashMapParms(const HF & h, const E & e) : thehash(h), equal(e) {}
+   };
+ 
+   template <typename K, typename V, typename HF = hash<K>, typename E = std::equal_to<K> >
+--- aspell-0.60.4/modules/speller/default/readonly_ws.cpp-orig	2006-01-25 08:58:10.945381000 -0800
++++ aspell-0.60.4/modules/speller/default/readonly_ws.cpp	2006-01-25 09:36:00.510958000 -0800
+@@ -197,7 +197,7 @@ namespace {
+     struct WordLookupParms {
+       const char * block_begin;
+       WordLookupParms() {}
+-      typedef BlockVector<const u32int> Vector;
++      typedef BlockVector<const u32int> TheVector;
+       typedef u32int                    Value;
+       typedef const char *              Key;
+       static const bool is_multi = false;
+@@ -727,7 +727,7 @@ namespace {
+   struct WordLookupParms {
+     const char * block_begin;
+     WordLookupParms() {}
+-    typedef Vector<u32int>      Vector;
++    typedef Vector<u32int>      TheVector;
+     typedef u32int              Value;
+     typedef const char *        Key;
+     static const bool is_multi = false;
+--- aspell-0.60.4/modules/speller/default/vector_hash.hpp-orig	2006-01-25 09:36:22.487585000 -0800
++++ aspell-0.60.4/modules/speller/default/vector_hash.hpp	2006-01-25 09:37:36.261195000 -0800
+@@ -147,9 +147,9 @@ namespace aspeller {
+ 
+   template <class Parms>
+   class VectorHashTable {
+-    typedef typename Parms::Vector           Vector;
++    typedef typename Parms::TheVector           Vector;
+   public:
+-    typedef typename Parms::Vector           vector_type;
++    typedef typename Parms::TheVector           vector_type;
+     typedef typename Vector::value_type      value_type;
+     typedef typename Vector::size_type       size_type;
+     typedef typename Vector::difference_type difference_type;
+--- aspell-0.60.4/common/string_map.hpp-orig	2006-01-25 12:10:54.229184000 -0800
++++ aspell-0.60.4/common/string_map.hpp	2006-01-25 12:11:01.101685000 -0800
+@@ -28,7 +28,7 @@ public: // but don't use
+     typedef const char * Key;
+     const char * key(const Value & v) {return v.first;}
+     static const bool is_multi = false;
+-    acommon::hash<const char *>  hash;
++    acommon::hash<const char *>  thehash;
+     bool equal(const char * x, const char * y) {return strcmp(x,y) == 0;}
+   };
+   typedef StringPair Value_;
+--- aspell-0.60.4/gen/mk-static-filter.pl-orig	2006-01-25 13:22:28.191252000 -0800
++++ aspell-0.60.4/gen/mk-static-filter.pl	2006-01-25 13:36:24.392225000 -0800
+@@ -158,11 +158,17 @@ while ($filter = shift @filterhashes) {
+   printf STATICFILTERS "\n  };\n";
+   printf STATICFILTERS "\n  const KeyInfo * ".${$filter}{"NAME"}."_options_begin = ".
+                                               ${$filter}{"NAME"}."_options;\n";
++# If structure is empty, set options_end to same as options_begin.
++if ($firstopt == 1) {
++  printf STATICFILTERS "\n  const KeyInfo * ".${$filter}{"NAME"}."_options_end = ".
++                                              ${$filter}{"NAME"}."_options;\n";
++} else {
+   printf STATICFILTERS "\n  const KeyInfo * ".${$filter}{"NAME"}."_options_end = ".
+                                               ${$filter}{"NAME"}."_options+sizeof(".
+                                               ${$filter}{"NAME"}."_options)/".
+                                               "sizeof(KeyInfo);\n";
+ }
++}
+ 
+ #finally create filter modules list.
+ printf STATICFILTERS  "\n\n  static ConfigModule filter_modules[] = {\n";
