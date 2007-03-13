@@ -39,9 +39,13 @@ export LDFLAGS="%_ldflags"
 
 make -j$CPUS
 
-# On-the-fly patch needed because (currently) wish is called wish8.3 and 
-# lives in /usr/sfw/bin
+# Uncomment this "in-line patch" and remove --disable-tk above if you want
+# to enable the little tk script thingy (not worth in my opinion):
+
 # perl -i.orig -lpe 's|^exec wish |exec /usr/sfw/bin/wish8.3 |' xbindkeys_show
+
+# It corrects for the fact that wish is called wish8.3 and 
+# lives in /usr/sfw/bin
 
 %install
 rm -rf $RPM_BUILD_ROOT
