@@ -1,14 +1,14 @@
---- ../gthumb-2.6.5.old/src/dlg-search.c	2005-06-15 10:38:39.207208552 +0100
+--- ../gthumb-2.9.3.old/src/dlg-search.c	2005-06-15 10:38:39.207208552 +0100
 +++ ./src/dlg-search.c	2005-06-15 10:42:06.937628728 +0100
-@@ -840,6 +840,7 @@
+@@ -838,6 +838,7 @@
+ 	int          keywords_n;
  	time_t       time = 0;
- 	const char  *home_dir;
  	const char  *name_only;
 +	const char  *base_name_only;
  
- 	if (! file_is_image (filename, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
+ 	if (! file_is_image_video_or_audio (filename, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
  		return FALSE;
-@@ -895,8 +895,10 @@
+@@ -894,8 +894,10 @@
  		 && (time > data->search_data->date + ONE_DAY))
  		match_date = TRUE;
  

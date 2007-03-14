@@ -1,13 +1,22 @@
+2007-03-14  Damien Carbery <damien.carbery@sun.com>
+
+        * patches/gthumb-01-menu-entry.diff, patches/gthumb-03-search.diff:
+          Reworked for new tarball.
+
 2007-03-13  Eric Boutilier  <eric.boutilier@sun.com>
-	* SFEavfs.spec: (new) Lib for virtual file access (archived, remote, gz/zip/etc..)
+
+	* SFEavfs.spec: (new) Lib for virtual file access (archived, remote,
+	  gz/zip/etc..)
 	* SFEworker.spec: (new) File mgr similar to midnight cmdr; supports avfs
 	* SFEgkrellm.spec: (new) Popular (ubiquitous) system monitor; GTK-based
 
 2007-03-12  Eric Boutilier  <eric.boutilier@sun.com>
+
 	* SFElibiconv.spec: (new) GNU iconv -- Code set conversion
 	* SFEfreetds.spec: (new) TDS (SQL Server/Sybase) protocol implementation
 
 2007-03-12  Jeff Cai <jeff.cai@sun.com>
+
 	* SFEaspell.spec: added.
 	* SFEaspell-en.spec: added.
 	* linux-specs/aspell.spec: added.
