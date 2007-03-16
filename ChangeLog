@@ -1,3 +1,10 @@
+2007-03-16  Irene Huang <sh162551@users.sourceforge.net> 
+
+	* SFEgrip.spec: New spec for grip the cd player and cd ripper
+	for GNOME desktop.
+	* linux-specs/grip.spec: linux spec for grip
+	* patches/grip-01-i386.diff: patch for grip to build on Solaris.
+
 2007-03-14  Damien Carbery <damien.carbery@sun.com>
 
         * patches/gthumb-01-menu-entry.diff, patches/gthumb-03-search.diff:

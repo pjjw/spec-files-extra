@@ -1,0 +1,11 @@
+--- grip-3.3.1/src/grip.h.orig	2007-03-16 13:13:16.596858000 +0800
++++ grip-3.3.1/src/grip.h	2007-03-16 13:19:28.580170000 +0800
+@@ -53,7 +53,7 @@
+ 
+ #define MAILER "/usr/sbin/sendmail -i -t"
+ 
+-#elif defined(__sparc__)
++#elif defined __sun
+ 
+ #define MAILER "/usr/lib/sendmail -i -t"
+ 
