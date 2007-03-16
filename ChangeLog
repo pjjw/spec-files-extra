@@ -1,5 +1,9 @@
 2007-03-16  Irene Huang <sh162551@users.sourceforge.net> 
 
+	* SFEgrip.spec: Add BuildRequires SFEcurl
+
+2007-03-16  Irene Huang <sh162551@users.sourceforge.net> 
+
 	* SFEgrip.spec: New spec for grip the cd player and cd ripper
 	for GNOME desktop.
 	* linux-specs/grip.spec: linux spec for grip

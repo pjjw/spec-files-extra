@@ -13,6 +13,7 @@ Source:                  http://prdownloads.sourceforge.net/grip/grip-%{version}
 Patch1:			 grip-01-i386.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+BuildRequires:		 SFEcurl
 
 %include default-depend.inc
 
