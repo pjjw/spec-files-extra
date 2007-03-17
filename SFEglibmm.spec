@@ -1,5 +1,5 @@
 #
-# spec file for package SUNWglibmm
+# spec file for package SFEglibmm
 #
 # includes module(s): glibmm
 #
@@ -7,7 +7,8 @@
 
 Name:                    SFEglibmm
 Summary:                 glibmm - C++ Wrapper for the Glib2 Library
-Version:                 2.12.4
+Version:                 2.12.7
+URL:                     http://www.gtkmm.org/
 Source:                  http://ftp.acc.umu.se/pub/GNOME/sources/glibmm/2.12/glibmm-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -73,6 +74,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Fri Mar 16 2007 - laca@sun.com
+- bump to 2.12.7
 * Wed Jan 03 2007 - daymobrew@users.sourceforge.net
 - Bump to 2.12.4
 * Fri Jun 23 2006 - laca@sun.com

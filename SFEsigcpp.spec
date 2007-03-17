@@ -8,6 +8,7 @@
 Name:                    SFEsigcpp
 Summary:                 libsigc++ Typesafe Callback System for Standard C++
 Version:                 2.0.17
+URL:                     http://libsigc.sourceforge.net/
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/libsigc++/2.0/libsigc++-%{version}.tar.bz2
 Patch1:                  sigcpp-01-build-fix.diff
 SUNW_BaseDir:            %{_basedir}

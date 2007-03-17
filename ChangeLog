@@ -1,3 +1,15 @@
+2007-03-16  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEcairomm.spec: (new) c++ bindings for the Cairo Graphics library
+	* SFEglibmm.spec: bump to 2.12.7
+	* SFEgtkmm.spec: bump to 2.10.8
+	* SFEsigcpp.spec: add url
+	* include/Solaris.inc: copied from JDS spec-files
+	* include/arch64.inc: copied from JDS spec-files
+	* include/base.inc: copied from JDS spec-files and update for SFE
+	* include/prod.inc: copied from JDS spec-files
+	* include/x86_sse2.inc: copied from JDS spec-files
+
 2007-03-16  Irene Huang <sh162551@users.sourceforge.net> 
 
 	* SFEgrip.spec: Add BuildRequires SFEcurl

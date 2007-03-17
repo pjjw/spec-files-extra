@@ -1,122 +1,120 @@
 #
-# Default settings for GNOME packages on Solaris
+# Macro definitions for Solaris packages
 #
-# Portions Copyright 2006 Sun Microsystems, Inc.
-# Author: laca@sun.com and others
+# Copyright 2007 Sun Microsystems, Inc.
 #
-SUNW_ProdName:             SpecFilesExtra
-SUNW_ProdVers:             1.0
 
-# Note: you need JDS CBE 1.4.1 or later for these 3:
-%{?!jds_version:#}SUNW_Pkg_AllZones:         false
-%{?!jds_version:#}SUNW_Pkg_Hollow:           false
-%{?!jds_version:#}SUNW_Pkg_ThisZone:         false
+%include prod.inc
 
-# the version of JDS this is based on:
-%define default_pkg_version 2.14.1
-%{?jds_version:#}%define jds_version JDSosol
-%define default_category   SFE,application
-%define support_level      unsupported
+SUNW_Pkg_AllZones:         false
+SUNW_Pkg_Hollow:           false
+SUNW_Pkg_ThisZone:         false
+
 %define cc_is_gcc %(test "x`basename $CC`" = xgcc && echo 1 || echo 0)
+
+# Command line configurable build options:
+
+# use --with-build-l10n to build the SUNWfoo-l10n packages
+# default: no l10n packages
 %define build_l10n %{?_with_l10n:1}%{?!_with_l10n:0}
+
+# use --with-debug to build binaries with debug info (-g) and not to strip
+# them.
+# default: don't include debug info and strip the binaries (strip -x)
 %define debug_build %{?_with_debug:1}%{?!_with_debug:0}
+
+# use --without-gtk-doc to disable building gtk-docs (it takes quite
+# a while to build them)
+# default: build gtk-doc API docs
+%define gtk_doc_option %{?!_without_gtk_doc:--enable-gtk-doc}%{?_without_gtk_doc:--disable-gtk-doc}
+
+# end of command line configurable build options
+
 %define is_nevada %(test `uname -r` = 5.11 && echo 1 || echo 0)
+%define is_s10    %(test `uname -r` = 5.10 && echo 1 || echo 0)
+%define _patch_options --fuzz=0 --unified
 
 SUNW_Category:             %{default_category}
 SUNW_HotLine:              Please contact your local service provider
 SUNW_MaxInst:              1000
 SUNW_Rev:		   110.0.4.%(date +%Y.%m.%d.%H.%M)
 SUNW_Copyright:            default-copyright.txt
-Vendor:			   http://pkgbuild.sf.net/spec-files-extra
 
 %define _libexecdir        %{_prefix}/lib
 %define _mandir		   %{_datadir}/man
 
-%if %debug_build
-%define _ldflags
-%else
-%define _ldflags           -Wl,-zignore -Wl,-zcombreloc -Wl,-Bdirect
-%endif
-
-%ifarch sparcv9
-%define	_arch64		   sparcv9
-%endif
-
-%ifarch amd64
-%define _arch64            amd64
-%endif
-
-%if %debug_build
-%define pkgbuild_postprocess /bin/true
-%define _cc_opt_level      -g
-%define _cc64_opt_level    -g
-%define _cxx_opt_level     -g
-%else
-%if %cc_is_gcc
-%define _cc_opt_level      -O2
-%define _cc64_opt_level    -O2
-%define _cxx_opt_level     -O2
-%else
-%define _cc_opt_level      -xO4 -xspace
-%define _cc64_opt_level    -xO2 -xspace
-%define _cxx_opt_level     -xO3 -xspace
-%endif
-%endif
-
-%if %cc_is_gcc
-
-%define picflags -fPIC -DPIC
-
+# by default we don't build optimised versions
+%define opt_sparcv9 0
+%define opt_amd64   0
+%define opt_sse2    0
+# opt_arch64 means opt_sparcv9 or opt_amd64
+%define opt_arch64  0
+# can_isaexec gets redefined to 1 if multiple isas are built
+%define can_isaexec 0
 %ifarch sparc
-%define optflags           %_cc_opt_level -mv8plus -Xlinker -i %picflags
-%define optflags64	   %_cc_opt_level -mcpu=ultrasparc -m64 -Xlinker -i %picflags
-%define cxx_optflags       %_cxx_opt_level -mv8plus -Xlinker -i %picflags
-%define	cxx_optflags64     %optflags64
-%endif
-
-%ifarch i386
-%define optflags           %_cc_opt_level -march=i586 -Xlinker -i -fno-omit-frame-pointers %picflags
-%define optflags64	   %_cc64_opt_level -march=opteron -m64 -Xlinker -i -fno-omit-frame-pointers %picflags
-%define cxx_optflags       %_cc_opt_level -march=i586 -Xlinker -i -fno-omit-frame-pointers %picflags
-%define cxx_optflags64     %optflags64
-%endif
-
+%define base_isa sparcv7
+%define base_arch sparc
 %else
-# cc is not gcc
-
-%define picflags -KPIC
-
-%ifarch sparc
-%define optflags           -i %_cc_opt_level -xstrconst -xarch=v8a -mr
-%define optflags64	   -i %_cc_opt_level -xstrconst -xarch=v9 -xcode=pic32 -mr
-%define cxx_optflags       -i %_cxx_opt_level -xarch=v8a -mr -norunpath
-%define cxx_optflags64     -i %_cxx_opt_level -xarch=v9 -xcode=pic32 -mr -norunpath
+%define base_isa i86
+%define base_arch i386
 %endif
 
-%ifarch i386
-%define optflags           -i %_cc_opt_level -xstrconst -xpentium -mr -xregs=no%%frameptr
-%define optflags64	   -i -xarch=generic64 -Kpic -xregs=no%%frameptr
-%define cxx_optflags       -i %_cxx_opt_level -pentium -mr -norunpath -xregs=no%%frameptr
-%define cxx_optflags64     -i %_cxx_opt_level -xarch=generic64 -Kpic -pentium -mr -norunpath -xregs=no%%frameptr
+%if %debug_build
+%define _ldflags           %{?arch_ldadd} %{?ldadd} ${EXTRA_LDFLAGS}
+%else
+%define _ldflags           %{?arch_ldadd} %{?ldadd} -Wl,-zignore -Wl,-zcombreloc -Wl,-Bdirect ${EXTRA_LDFLAGS}
 %endif
 
+%define gcc_picflags -fPIC -DPIC
+%define suncc_picflags -KPIC
+
+# ifarch doesn't support checking for sse2
+# this macros allows you to use %if %arch_sse2 instead
+%define arch_sse2 %(isainfo -x | grep sse2 > /dev/null && echo 1 || echo 0)
+
+# temporary, until all spec files are converted to the new multi-isa build
+# technique
+%ifarch amd64 sparcv9
+%include arch64.inc
 %endif
+
+%include base.inc
 
 %define _basedir           /usr
 %define _subdir            
 %define _prefix		   %{_basedir}
 %define _sysconfdir	   /etc
-%define _localedir	   %{_libdir}/locale
-%define _localstatedir     /var
+%define _localstatedir	   /var
+%define _localedir	   %{_datadir}/locale
 %define _pkg_config_path   %{_libdir}/pkgconfig
-%define _pkg_config_path64 %{_libdir}/%{_arch64}/pkgconfig
 
 # ChangeLog:
-#
-# 2007-03-07  Doug Scott    <dougs@truemail.co.th>
-# - added cxx_optflags64
-# 2006-06-18  Laszlo Peter  <laca@sun.com>
-# - review and update for spec-files-extra
+# 2007-03-15  Laszlo (Laca) Peter  <laca@sun.com>
+# - move product specific tags and macros to prod.inc
+# - define can_isaexec, base_isa, base_arch
+# - define arch_sse2
+# - move 32-bit compiler flags to base.inc and include base.inc
+# - move 64-bit compiler flags to arch64.inc and include it temporarily,
+#   but it will not be needed once all spec files that build 64-bit are
+#   rewritten to the new style
+# 2007-01-28  Laszlo Peter  <laca@sun.com>
+# - define %is_s10
+# 2006-12-06  Damien Carbery  <damien.carbery@sun.com>
+# - Bump SUNW_ProdVers and default_pkg_version to 2.17.3.
+# 2006-11-23  Damien Carbery  <damien.carbery@sun.com>
+# - Bump SUNW_ProdVers and default_pkg_version to 2.17.1.
+# 2006-11-03  Laszlo Peter  <laca@sun.com>
+# - define %gtk_doc_option, lets the user disable building gtk-docs
+#   using --without-gtk-doc; also added comments about usage
+# 2006-10-03  Laszlo Peter  <laca@sun.com>
+# - define %_patch_options, this specifies extra options for gpatch when
+#   using pkgbuild 1.1.1 or later
+# 2006-10-03  Damien Carbery <damien.carbery@sun.com>
+# - Bump SUNW_ProdVers and default_pkg_version to 2.16.1.
+# 2006-09-18  Laszlo Peter  <laca@sun.com>
+# - define cxx_optflags64
+# 2006-08-23  Laszlo Peter  <laca@sun.com>
+# - define _localstatedir
 # 2006-06-02  Laszlo Peter  <laca@sun.com>
 # - add the date string back into REV
 # 2005-11-28  Laszlo Peter  <laca@sun.com>
