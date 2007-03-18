@@ -55,6 +55,7 @@ export LDFLAGS="%{_ldflags}"
             --libdir=%{_libdir} \
             --libexecdir=%{_libexecdir} \
             --without-gnome-screensaver \
+            --disable-scrollkeeper \
             --sysconfdir=%{_sysconfdir}
 
 make -j $CPUS
@@ -74,6 +75,8 @@ perl -pi -e 's/^#!\/bin\/sh/#!\/bin\/bash/' $RPM_BUILD_ROOT%{_bindir}/f-spot
 %else
 # REMOVE l10n FILES
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/f-spot/[a-z]*
+rm -f $RPM_BUILD_ROOT%{_datadir}/omf/f-spot/f-spot-[a-z]*.omf
 %endif
 
 %clean 
@@ -90,17 +93,24 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
-%dir %attr (0755, root, other) %{_datadir}/pixmaps
-%{_datadir}/pixmaps/*
+%attr (0755, root, other) %{_datadir}/icons
+%dir %attr (0755, root, other) %{_datadir}/gnome
+%{_datadir}/gnome/help/f-spot/C
+%{_datadir}/omf/f-spot/f-spot-C.omf
 
 %if %build_l10n
 %files l10n
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) %{_datadir}
 %attr (-, root, other) %{_datadir}/locale
+%dir %attr (0755, root, other) %{_datadir}/gnome
+%{_datadir}/gnome/help/f-spot/[a-z]*
+%{_datadir}/omf/f-spot/f-spot-[a-z]*.omf
 %endif
 
 %changelog
+* Sat Mar 17 2007 - laca@sun.com
+- update %files for 0.3.5
 * Mon Mar 05 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.3.5.
 * Wed Oct 25 2006 - markgraf@neuro2.med.uni-magdeburg.de

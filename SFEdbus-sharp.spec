@@ -17,6 +17,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:	SUNWdbus
 BuildRequires:  SFEmono-devel
 Requires:       SFEmono
+Requires:       SFEgtk-sharp
 
 %prep
 rm -rf %name-%version

@@ -1,0 +1,13 @@
+--- gnome-sharp-2.16.0/configure.in.orig	2007-03-17 23:01:48.671366000 -0400
++++ gnome-sharp-2.16.0/configure.in	2007-03-17 23:02:24.488087000 -0400
+@@ -58,7 +58,9 @@
+ # not 64 bit clean in cross-compile
+ AC_CHECK_SIZEOF(void *, 4)
+ 
+-CFLAGS='-g -Wall -Wunused -Wmissing-prototypes -Wmissing-declarations -Wstrict-prototypes  -Wmissing-prototypes -Wnested-externs  -Wshadow -Wpointer-arith -Wno-cast-qual -Wcast-align -Wwrite-strings'
++if [ "x$GCC" = xyes ]; then
++  CFLAGS='-g -Wall -Wunused -Wmissing-prototypes -Wmissing-declarations -Wstrict-prototypes  -Wmissing-prototypes -Wnested-externs  -Wshadow -Wpointer-arith -Wno-cast-qual -Wcast-align -Wwrite-strings'
++fi
+ 
+ if test "x$enable_maintainer_mode" = "xyes"; then
+ DEBUG_FLAGS='-debug'

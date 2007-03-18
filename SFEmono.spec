@@ -9,7 +9,7 @@
 Name:         SFEmono
 License:      Other
 Group:        System/Libraries
-Version:      1.2
+Version:      1.2.3.1
 Summary:      mono - .NET framework
 Source:       http://go-mono.com/sources/mono/mono-%{version}.tar.gz
 URL:          http://www.mono-project.com/Main_Page
@@ -104,7 +104,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %dir %{_datadir}
 %dir %attr (0755, root, sys) %dir %{_datadir}/jay
 %{_datadir}/jay/*
-%{_datadir}/mono
+%{_datadir}/mono*
 %{_datadir}/libgc-mono
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/man1mono
@@ -118,12 +118,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr (-, root, bin)
-%{_includedir}/mono
+%{_includedir}/mono*
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sat Mar 17 2007 - laca@sun.com
+- bump to 1.2.3.1
 * Thu Nov 30 2006 - laca@sun.com
 - bump to 1.2
 * Sat Oct 14 2006 - laca@sun.com

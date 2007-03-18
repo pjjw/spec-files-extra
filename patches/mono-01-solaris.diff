@@ -1,5 +1,5 @@
---- mono-1.1.18/mono/mini/mini-arch.h.patch01	2006-08-25 15:35:16.000000000 -0400
-+++ mono-1.1.18/mono/mini/mini-arch.h	2006-10-14 15:40:26.924195000 -0400
+--- mono-1.2/mono/mini/mini-arch.h.patch01	2006-08-25 15:35:16.000000000 -0400
++++ mono-1.2/mono/mini/mini-arch.h	2007-03-17 20:13:01.212596000 -0400
 @@ -1,13 +1,13 @@
  #ifndef __MONO_MINI_ARCH_H__
  #define __MONO_MINI_ARCH_H__
@@ -16,8 +16,8 @@
  #include "mini-sparc.h"
  #elif defined(__s390__) || defined(s390)
  # if defined(__s390x__)
---- mono-1.1.18/mono/mini/mini-ops.h.patch01	2006-10-11 20:10:21.000000000 -0400
-+++ mono-1.1.18/mono/mini/mini-ops.h	2006-10-14 15:40:27.444256000 -0400
+--- mono-1.2/mono/mini/mini-ops.h.patch01	2006-10-11 20:10:21.000000000 -0400
++++ mono-1.2/mono/mini/mini-ops.h	2007-03-17 20:13:01.214396000 -0400
 @@ -525,7 +525,7 @@
  MINI_OP(OP_MEMORY_BARRIER, "memory_barrier")
  
@@ -36,8 +36,8 @@
  MINI_OP(OP_SPARC_OUTARG_REGPAIR,   "sparc_outarg_regpair")
  MINI_OP(OP_SPARC_OUTARG_MEM,       "sparc_outarg_mem")
  MINI_OP(OP_SPARC_OUTARG_MEMPAIR,   "sparc_outarg_mempair")
---- mono-1.1.18/mono/mini/mini-x86.c.patch01	2006-10-11 20:10:22.000000000 -0400
-+++ mono-1.1.18/mono/mini/mini-x86.c	2006-10-14 15:40:27.471743000 -0400
+--- mono-1.2/mono/mini/mini-x86.c.patch01	2006-11-02 13:09:51.000000000 -0500
++++ mono-1.2/mono/mini/mini-x86.c	2007-03-17 20:16:35.645913000 -0400
 @@ -24,6 +24,10 @@
  #include "inssel.h"
  #include "cpu-x86.h"
@@ -48,8 +48,8 @@
 +
  /* On windows, these hold the key returned by TlsAlloc () */
  static gint lmf_tls_offset = -1;
- static gint appdomain_tls_offset = -1;
-@@ -507,7 +511,22 @@
+ static gint lmf_addr_tls_offset = -1;
+@@ -513,7 +517,22 @@
  cpuid (int id, int* p_eax, int* p_ebx, int* p_ecx, int* p_edx)
  {
  	int have_cpuid = 0;
@@ -73,7 +73,7 @@
  	__asm__  __volatile__ (
  		"pushfl\n"
  		"popl %%eax\n"
-@@ -524,6 +543,7 @@
+@@ -530,6 +549,7 @@
  		:
  		: "%eax", "%edx"
  	);
@@ -81,7 +81,7 @@
  #else
  	__asm {
  		pushfd
-@@ -573,11 +593,19 @@
+@@ -579,11 +599,19 @@
  #ifndef _MSC_VER
  	guint16 fpcw;
  
@@ -101,19 +101,8 @@
  #else
  	_control87 (_PC_53, MCW_PC);
  #endif
---- mono-1.1.18/mono/mini/mini-codegen.c.patch01	2006-10-11 20:10:22.000000000 -0400
-+++ mono-1.1.18/mono/mini/mini-codegen.c	2006-10-14 15:42:37.812408000 -0400
-@@ -27,7 +27,7 @@
- #elif defined(__sparc__) || defined(sparc)
- const char * const sparc_desc [OP_LAST];
- static const char*const * ins_spec = sparc_desc;
--#elif defined(__i386__)
-+#elif defined(__i386__) || defined(__i386)
- extern const char * const x86_desc [OP_LAST];
- static const char*const * ins_spec = x86_desc;
- #elif defined(__ia64__)
---- mono-1.1.18/scripts/mono-find-provides.in.patch01	2006-08-25 15:35:14.000000000 -0400
-+++ mono-1.1.18/scripts/mono-find-provides.in	2006-10-14 15:40:28.049081000 -0400
+--- mono-1.2/scripts/mono-find-provides.in.patch01	2006-08-25 15:35:14.000000000 -0400
++++ mono-1.2/scripts/mono-find-provides.in	2007-03-17 20:13:01.224707000 -0400
 @@ -9,7 +9,7 @@
  #
  
@@ -123,8 +112,8 @@
  monolist=($(printf "%s\n" "${filelist[@]}" | egrep "\\.(exe|dll)\$"))
  
  # Only include files with /gac/ in path
---- mono-1.1.18/scripts/mono-find-requires.in.patch01	2006-08-25 15:35:14.000000000 -0400
-+++ mono-1.1.18/scripts/mono-find-requires.in	2006-10-14 15:40:28.391832000 -0400
+--- mono-1.2/scripts/mono-find-requires.in.patch01	2006-08-25 15:35:14.000000000 -0400
++++ mono-1.2/scripts/mono-find-requires.in	2007-03-17 20:13:01.225433000 -0400
 @@ -9,7 +9,7 @@
  #
  
@@ -134,8 +123,8 @@
  monolist=($(printf "%s\n" "${filelist[@]}" | egrep "\\.(exe|dll)\$"))
  
  a=`which "$0"`
---- mono-1.1.18/mcs/class/Mono.Posix/Mono.Unix/Catalog.cs.patch01	2006-07-05 17:59:23.000000000 -0400
-+++ mono-1.1.18/mcs/class/Mono.Posix/Mono.Unix/Catalog.cs	2006-10-14 15:40:28.392798000 -0400
+--- mono-1.2/mcs/class/Mono.Posix/Mono.Unix/Catalog.cs.patch01	2006-07-05 17:59:23.000000000 -0400
++++ mono-1.2/mcs/class/Mono.Posix/Mono.Unix/Catalog.cs	2007-03-17 20:13:01.226512000 -0400
 @@ -40,12 +40,12 @@
  	public class Catalog {
  		private Catalog () {}
@@ -170,8 +159,8 @@
  		static extern IntPtr ngettext (IntPtr singular, IntPtr plural, Int32 n);
  		
  		public static String GetPluralString (String s, String p, Int32 n)
---- mono-1.1.18/mcs/class/Mono.Posix/Mono.Posix/Catalog.cs.patch01	2006-04-14 13:50:00.000000000 -0400
-+++ mono-1.1.18/mcs/class/Mono.Posix/Mono.Posix/Catalog.cs	2006-10-14 15:40:28.393599000 -0400
+--- mono-1.2/mcs/class/Mono.Posix/Mono.Posix/Catalog.cs.patch01	2006-04-14 13:50:00.000000000 -0400
++++ mono-1.2/mcs/class/Mono.Posix/Mono.Posix/Catalog.cs	2007-03-17 20:13:01.227484000 -0400
 @@ -37,12 +37,12 @@
  
  	[Obsolete ("Use Mono.Unix.Catalog")]
@@ -206,9 +195,9 @@
  		static extern IntPtr ngettext (IntPtr singular, IntPtr plural, Int32 n);
  		
  		public static String GetPluralString (String s, String p, Int32 n)
---- mono-1.1.18/configure.in.patch01	2006-10-11 20:10:33.000000000 -0400
-+++ mono-1.1.18/configure.in	2006-10-14 15:40:28.395892000 -0400
-@@ -1373,9 +1373,9 @@
+--- mono-1.2/configure.in.patch01	2006-11-02 13:09:53.000000000 -0500
++++ mono-1.2/configure.in	2007-03-17 20:13:01.229897000 -0400
+@@ -1395,9 +1395,9 @@
  	],
  	AC_MSG_RESULT(no)))
  
