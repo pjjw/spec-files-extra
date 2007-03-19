@@ -12,7 +12,7 @@ Source:			 http://ftp.gnu.org/gnu/autoconf/autoconf-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires: SFEm4
+Requires: SUNWgm4
 Requires: SUNWpostrun
 Requires: SUNWtexi
 
@@ -76,6 +76,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Mon Mar 18 2007 - dougs@truemail.co.th
+- Changed Required Gnu m4 from SFEm4 SUNWgm4
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net
 - Add SUNWtexi dependency.
 * Sat Jan  6 2007 - laca@sun.com

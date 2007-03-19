@@ -115,6 +115,8 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.la
+# Clashes with autoconf
+rm $RPM_BUILD_ROOT%{_std_datadir}/info/standards.info
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -122,7 +124,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 ( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
   echo 'infos="';
-  echo 'as.info binutils.info autosprintf.info gprof.info standards.info bfd.info configure.info ld.info' ;
+  echo 'as.info binutils.info autosprintf.info gprof.info bfd.info configure.info ld.info' ;
   echo '"';
   echo 'retval=0';
   echo 'for info in $infos; do';
@@ -133,7 +135,7 @@ rm -rf $RPM_BUILD_ROOT
 %preun
 ( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
   echo 'infos="';
-  echo 'as.info binutils.info autosprintf.info gprof.info standards.info bfd.info configure.info ld.info' ;
+  echo 'as.info binutils.info autosprintf.info gprof.info bfd.info configure.info ld.info' ;
   echo '"';
   echo 'for info in $infos; do';
   echo '  install-info --info-dir=%{_infodir} --delete %{_infodir}/$info';
@@ -176,5 +178,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Mar 18 2007 - Doug Scott <dougs@truemail.co.th>
+- Removed standards.info
 * Tue Feb  7 2007 - Doug Scott <dougs@truemail.co.th>
 - Initial spec

@@ -1,3 +1,9 @@
+2007-03-18  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEcmake.spec: (new) Cross platform make system - used to build KDE4
+	* SFEautoconf.spec: Changed Required Gnu m4 from SFEm4 SUNWgm4
+	* SFEbinutils.spec: Removed standards.info
+
 2007-03-18  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFElsof.spec: (new) List open files
