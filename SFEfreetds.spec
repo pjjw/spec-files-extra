@@ -42,7 +42,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CC=/usr/sfw/bin/gcc
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
 export LDFLAGS="%_ldflags"
 
 ./configure \
@@ -88,6 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
-* 
+* Mon Mar 19 2007 - dougs@truemail.co.th
+- Fixed -fno-omit-frame-pointer flag
 * Mon Mar 13 2007 - Eric Boutilier
 - Initial spec

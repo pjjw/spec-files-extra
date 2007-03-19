@@ -30,7 +30,7 @@ fi
 
 export CC=/usr/sfw/bin/gcc
 export CXX=/usr/sfw/bin/g++
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
 export LDFLAGS="%_ldflags"
 
 ./configure --prefix=%{_prefix}  \
@@ -65,6 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xbindkeys*.1
 
 %changelog
-* 
+* Mon Mar 19 2007 - dougs@truemail.co.th
+- Fixed -fno-omit-frame-pointer flag
 * Mon Mar 05 2007 - Eric Boutilier
 - Initial spec

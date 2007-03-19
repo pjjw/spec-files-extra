@@ -49,7 +49,7 @@
 %endif
 
 %ifarch i386
-%define gcc_optflags64           %_gcc64_opt_level -march=opteron -m64 -Xlinker -i -fno-omit-frame-pointers %gcc_picflags
+%define gcc_optflags64           %_gcc64_opt_level -march=opteron -m64 -Xlinker -i -fno-omit-frame-pointer %gcc_picflags
 %define gcc_cxx_optflags64       %gcc_optflags64
 %endif
 
@@ -91,6 +91,8 @@
 %endif
 
 # ChangeLog:
+# 2007-03-19  Doug Scott  <dougs@truemail.co.th>
+# - Fixed -fno-omit-frame-pointer flag
 # 2007-03-15  Laszlo (Laca) Peter  <laca@sun.com>
 # - renamed from amd64.inc
 # - updated to work for either amd64 or sparcv9

@@ -30,8 +30,8 @@
 %endif
 %endif
 
-%define gcc_optflags           %_gcc_opt_level -mcpu=pentiumpro -mtune=pentiumpro -msse2 -Xlinker -i -fno-omit-frame-pointers %gcc_picflags
-%define gcc_cxx_optflags       %_gxx_opt_level -mcpu=pentiumpro -mtune=pentiumpro -msse2 -Xlinker -i -fno-omit-frame-pointers %gcc_picflags
+%define gcc_optflags           %_gcc_opt_level -mcpu=pentiumpro -mtune=pentiumpro -msse2 -Xlinker -i -fno-omit-frame-pointer %gcc_picflags
+%define gcc_cxx_optflags       %_gxx_opt_level -mcpu=pentiumpro -mtune=pentiumpro -msse2 -Xlinker -i -fno-omit-frame-pointer %gcc_picflags
 
 %define suncc_optflags           -i %_cc_opt_level -xstrconst -xarch=sse2 -xvector -mr -xregs=no%%frameptr
 %define suncc_cxx_optflags       -i %_cxx_opt_level -xarch=sse2 -xvector -mr -norunpath -xregs=no%%frameptr
@@ -57,6 +57,8 @@
 %define _pkg_config_path %{_libdir}/%{bld_arch}/pkgconfig
 
 # ChangeLog:
+# 2007-03-19  Doug Scott  <dougs@truemail.co.th>
+# - Fixed -fno-omit-frame-pointer flag
 # 2007-03-15  Laszlo (Laca) Peter  <laca@sun.com>
 # - define suncc_optflags, suncc_cxx_optflags, gcc_optflags, gcc_cxx_optflags
 # 2007-03-12  Doug Scott <dougs@truemail.co.th>

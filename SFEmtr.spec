@@ -28,7 +28,7 @@ export CC=/usr/sfw/bin/gcc
 # Must omit "-Wl,-zignore" or else GTK support won't work. 
 # I'm not sure why though...
 export LDFLAGS="-Wl,-zcombreloc -Wl,-Bdirect"
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir}
@@ -57,6 +57,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/*
 
 %changelog
+* Mon Mar 19 2007 - dougs@truemail.co.th
+- Fixed -fno-omit-frame-pointer flag
 * Fri Jan 12 2007 - Eric Boutilier
 - Fix missing LDFLAGS and CFLAGS
 * Thu Jan 11 2007 - Eric Boutilier

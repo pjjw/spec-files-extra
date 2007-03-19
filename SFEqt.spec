@@ -7,7 +7,7 @@
 
 Name:                SFEqt
 Summary:             Cross-platform development framework/toolkit
-Version:             4.2.1
+Version:             4.2.3
 Source:              ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
@@ -40,7 +40,7 @@ fi
 
 export CC=/usr/sfw/bin/gcc
 export CXX=/usr/sfw/bin/g++
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
 export LDFLAGS="%_ldflags"
 
 echo yes | ./configure -prefix %{_prefix} \
@@ -90,6 +90,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
-* 
+* Mon Mar 19 2007 - dougs@truemail.co.th
+- Fixed -fno-omit-frame-pointer flag
+- Bump to 4.2.3
 * Thu Dec 07 2006 - Eric Boutilier
 - Initial spec

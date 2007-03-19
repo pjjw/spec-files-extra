@@ -33,7 +33,7 @@ fi
 
 export CC=/usr/sfw/bin/gcc
 export CXX=/usr/sfw/bin/g++
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
 export LDFLAGS="%_ldflags"
 
 # Apparently sed usage in this source is GNU-specific, so
@@ -66,6 +66,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*
 
 %changelog
-* 
+* Mon Mar 19 2007 - dougs@truemail.co.th
+- Fixed -fno-omit-frame-pointer flag
 * Mon Mar 12 2007 - Eric Boutilier
 - Initial spec

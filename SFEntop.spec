@@ -43,7 +43,7 @@ fi
 # This source is gcc-centric, therefore...
 export CC=/usr/sfw/bin/gcc
 # export CFLAGS="%optflags"
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
 
 export LDFLAGS="%{_ldflags} -lsocket -lnsl"
 
@@ -82,6 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_localstatedir}/*
 
 %changelog
+* Mon Mar 19 2007 - dougs@truemail.co.th
+- Fixed -fno-omit-frame-pointer flag
 * Sun Nov 05 2006 - Eric Boutilier
 - Force gcc; adjust dependencies 
 * Fri Sep 29 2006 - Eric Boutilier

@@ -28,7 +28,7 @@ fi
 
 export CC=/usr/sfw/bin/gcc
 export CXX=/usr/sfw/bin/g++
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
 export LDFLAGS="%_ldflags"
 
 cd src-QT4
@@ -56,6 +56,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
-* 
+* Mon Mar 19 2007 - dougs@truemail.co.th
+- Fixed -fno-omit-frame-pointer flag
 * Fri Dec 07 2006 - Eric Boutilier
 - Initial spec

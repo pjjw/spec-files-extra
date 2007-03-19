@@ -32,7 +32,7 @@ fi
 # This source is gcc-centric, therefore...
 export CC=/usr/sfw/bin/gcc
 # export CFLAGS="%optflags"
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
 
 export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib"
 

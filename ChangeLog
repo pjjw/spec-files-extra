@@ -1,4 +1,33 @@
-2007-03-18  Doug Scott  <dougs@truemail.co.th>
+2007-03-19  Doug Scott  <dougs@truemail.co.th>
+
+	* include/arch64.inc: Fixed -fno-omit-frame-pointer flag
+	* include/base.inc: Fixed -fno-omit-frame-pointer flag
+	* include/x86_sse2.inc: Fixed -fno-omit-frame-pointer flag
+	* SFEettercap.spec: Fixed -fno-omit-frame-pointer flag
+	* SFEeterm.spec: Fixed -fno-omit-frame-pointer flag
+	* SFEganglia.spec: Fixed -fno-omit-frame-pointer flag
+	* SFEtcpdump.spec: Fixed -fno-omit-frame-pointer flag
+	* SFElibnet.spec: Fixed -fno-omit-frame-pointer flag
+	* SFEmono.spec: Fixed -fno-omit-frame-pointer flag
+	* SFErrdtool.spec: Fixed -fno-omit-frame-pointer flag
+	* SFEfreetds.spec: Fixed -fno-omit-frame-pointer flag
+	* SFEsyslog-ng.spec: Fixed -fno-omit-frame-pointer flag
+	* SFEallegro.spec: Fixed -fno-omit-frame-pointer flag
+	* SFElibevent.spec: Fixed -fno-omit-frame-pointer flag
+	* SFEworker.spec: Fixed -fno-omit-frame-pointer flag
+	* SFEgkrellm.spec: Fixed -fno-omit-frame-pointer flag
+	* SFEsnort.spec: Fixed -fno-omit-frame-pointer flag
+	* SFEntop.spec: Fixed -fno-omit-frame-pointer flag
+	* SFEstunnel.spec: Fixed -fno-omit-frame-pointer flag
+	* SFEkdiff3.spec: Fixed -fno-omit-frame-pointer flag
+	* SFEqt.spec: Fixed -fno-omit-frame-pointer flag and Bump to 4.2.3
+	* SFElibast.spec: Fixed -fno-omit-frame-pointer flag
+	* SFElibcaca.spec: Fixed -fno-omit-frame-pointer flag
+	* SFElibrsync.spec: Fixed -fno-omit-frame-pointer flag
+	* SFExbindkeys.spec: Fixed -fno-omit-frame-pointer flag
+	* SFEmtr.spec: Fixed -fno-omit-frame-pointer flag
+
+2007-03-19  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEcmake.spec: (new) Cross platform make system - used to build KDE4
 	* SFEautoconf.spec: Changed Required Gnu m4 from SFEm4 SUNWgm4

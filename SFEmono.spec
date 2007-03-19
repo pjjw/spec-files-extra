@@ -46,7 +46,7 @@ fi
 
 # doesn't currently build with Forte
 export CC=/usr/sfw/bin/gcc
-export CFLAGS="-fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+export CFLAGS="-fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
 
 #export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
@@ -124,6 +124,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Mar 19 2007 - dougs@truemail.co.th
+- Fixed -fno-omit-frame-pointer flag
 * Sat Mar 17 2007 - laca@sun.com
 - bump to 1.2.3.1
 * Thu Nov 30 2006 - laca@sun.com

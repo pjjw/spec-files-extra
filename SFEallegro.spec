@@ -42,7 +42,7 @@ fi
 # This source is gcc-centric, therefore...
 export CC=/usr/sfw/bin/gcc
 # export CFLAGS="%optflags"
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers -I/usr/X11/include"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer -I/usr/X11/include"
 
 export LDFLAGS="%{_ldflags} -R/usr/gnu/lib"
 
@@ -122,6 +122,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Mon Mar 19 2007 - dougs@truemail.co.th
+- Fixed -fno-omit-frame-pointer flag
 * Sat Jan  6 2007 - laca@sun.com
 - make /usr/gnu compliant
 * Wed Jan  3 2007 - laca@sun.com

@@ -40,8 +40,8 @@
 %endif
 
 %ifarch i386
-%define gcc_optflags           %_gcc_opt_level -march=i586 -Xlinker -i -fno-omit-frame-pointers %gcc_picflags
-%define gcc_cxx_optflags       %_gxx_opt_level -march=i586 -Xlinker -i -fno-omit-frame-pointers %gcc_picflags
+%define gcc_optflags           %_gcc_opt_level -march=i586 -Xlinker -i -fno-omit-frame-pointer %gcc_picflags
+%define gcc_cxx_optflags       %_gxx_opt_level -march=i586 -Xlinker -i -fno-omit-frame-pointer %gcc_picflags
 %endif
 
 %ifarch sparc
@@ -76,6 +76,8 @@
 %define _sysconfdir      /etc
 
 # ChangeLog:
+# 2007-03-19  Doug Scott  <dougs@truemail.co.th>
+# - Fixed -fno-omit-frame-pointer flag
 # 2007-03-15  Laszlo (Laca) Peter  <laca@sun.com>
 # - copied from x86_sse2.inc
 # - new include file that resets macros to their default (32-bit build)

@@ -36,7 +36,7 @@ fi
 
 # This source is gcc-centric, therefore...
 export CC=/usr/sfw/bin/gcc
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
 export LDFLAGS="%_ldflags"
 
 ./configure --prefix=%{_prefix} \
@@ -75,6 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/stunnel/stunnel.conf-sample
 
 %changelog
+* Mon Mar 19 2007 - dougs@truemail.co.th
+- Fixed -fno-omit-frame-pointer flag
 * Sun Jan  7 2007 - laca@sun.com
 - bump to 4.20
 * Mon Dec 18 2006 - Eric Boutilier

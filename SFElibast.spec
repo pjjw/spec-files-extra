@@ -33,7 +33,7 @@ fi
 # This source is gcc-centric, therefore...
 export CC=/usr/sfw/bin/gcc
 # export CFLAGS="%optflags"
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
 
 export LDFLAGS="%_ldflags"
 
@@ -66,6 +66,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
-*
+* Mon Mar 19 2007 - dougs@truemail.co.th
+- Fixed -fno-omit-frame-pointer flag
 * Tue Nov 07 2006 - Eric Boutilier
 - Initial spec

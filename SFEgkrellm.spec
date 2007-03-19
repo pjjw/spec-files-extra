@@ -47,7 +47,7 @@ fi
 
 
 export CC=/usr/sfw/bin/gcc
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
+export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
 export LDFLAGS="%_ldflags"
 
 # A couple patches follow. TODO: Transpose these into proper patches or
@@ -105,6 +105,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/gkrellm.pc
 
 %changelog
-* 
+* Mon Mar 19 2007 - dougs@truemail.co.th
+- Fixed -fno-omit-frame-pointer flag
 * Sun Mar 11 2007 - Eric Boutilier
 - Initial spec
