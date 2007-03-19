@@ -1,3 +1,9 @@
+2007-03-18  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFElsof.spec: (new) List open files
+	* SFEsfind.spec: (new) Fast POSIX-compliant tar
+	* SFErdiff-backup.spec: (new) Transparent local/remote mirror, incremental backup
+
 2007-03-17  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEdbus-sharp.spec: add gtk-sharp dep
