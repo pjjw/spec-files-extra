@@ -1,3 +1,16 @@
+2007-03-20  simon.zheng  <simon.zheng@sun.com>
+
+	* SFEgnomescan.spec:
+	* SFEsane-backends.spec:
+	* SFExsane.spec:
+	* linux-specs/gnomescan.spec:
+	* linux-specs/sane-backends.spec:
+	* linux-specs/xsane.spec:
+          Split into 2 files, linux-specific spec file are
+          put under linux-specs.
+	* patches/sane-backends-01-disable-saned.diff:
+	  Add a patch to disable network scanning.
+
 2007-03-19  Doug Scott  <dougs@truemail.co.th>
 
 	* include/arch64.inc: Fixed -fno-omit-frame-pointer flag

@@ -4,19 +4,19 @@
 # includes module(s): xsane
 #
 %include Solaris.inc
+%use xsane = xsane.spec
 
 Name:                    SFExsane
-Summary:                 XSane - graphical scanning frontend
-Version:                 0.994
-Source:			 http://www.xsane.org/download/xsane-%{version}.tar.gz
-Patch1:                  xsane-01-gettext.diff
+Summary:                 Graphical scanning frontend for the SANE scanner interface.
+Version:                 %{default_pkg_version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
-Requires: SUNWgnome-base-libs
-BuildRequires: SUNWgnome-base-libs-devel
-Requires: SFEsane-backends
-BuildRequires: SFEsane-backends-devel
+Requires:                SUNWgnome-base-libs
+BuildRequires:           SUNWgnome-base-libs-devel
+Requires:                SFEsane-backends
+BuildRequires:           SFEsane-backends-devel
 
 %if %build_l10n
 %package l10n
@@ -27,37 +27,22 @@ Requires:                %{name}
 %endif
 
 %prep
-%setup -q -n xsane-%version
-%patch1 -p1
+rm -rf %name-%version
+mkdir %name-%version
+%xsane.prep -d %name-%version
+cd %{_builddir}/%name-%version
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-    CPUS=1
-fi
-
 # /usr/sfw needed for libusb
-export CPPFLAGS="-I/usr/sfw/include"
 export CFLAGS="%optflags -I/usr/sfw/include"
 export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib"
-
-aclocal -I m4
-libtoolize --force
-glib-gettextize --force
-autoconf -f
-./configure --prefix=%{_prefix}			\
-	    --libexecdir=%{_libexecdir}         \
-            --sysconfdir=%{_sysconfdir}         \
-	    --mandir=%{_mandir}                 \
-	    --datadir=%{_datadir}               \
-            --infodir=%{_datadir}/info
+%xsane.build -d %name-%version
 	    		
-make -j$CPUS RANLIB=/usr/ccs/bin/ranlib
-
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT MKINSTALLDIRS=`pwd`/mkinstalldirs
-rmdir $RPM_BUILD_ROOT%{_sbindir}
+%xsane.install -d %name-%version
+find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
+find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 
 #Create a link to xsane binary for gimp plugin
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/gimp/2.0/plug-ins
@@ -96,6 +81,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Mar 20 2007 - simon.zheng@sun.com
+- Split into 2 files, SFExsane.spec and 
+  linux-specs/xsane.spec.
+
 * Wed Mar  7 2007 - simon.zheng@sun.com
 - Bump to version 0.994
 - Modify %file to enable gimp-plugin

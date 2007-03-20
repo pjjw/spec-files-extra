@@ -4,17 +4,18 @@
 # includes module(s): sane-backends
 #
 %include Solaris.inc
+%use backends = sane-backends.spec
 
 Name:                    SFEsane-backends
 Summary:                 SANE - Scanner Access Now Easy - backends
-Version:                 1.0.18
-Source:			 http://alioth.debian.org/frs/download.php/1669/sane-backends-%{version}.tar.gz
+Version:                 %{default_pkg_version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
-Requires: %name-root
-Requires: SUNWlibusb
-BuildRequires: SUNWsfwhea
+Requires:                %name-root
+Requires:                SUNWlibusb
+BuildRequires:           SUNWsfwhea
 
 %package devel
 Summary:                 %{summary} - development files
@@ -37,35 +38,25 @@ Requires:                %{name}
 %endif
 
 %prep
-%setup -q -n sane-backends-%version
+rm -rf %name-%version
+mkdir %name-%version
+%backends.prep -d %name-%version
+cd %{_builddir}/%name-%version
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-    CPUS=1
-fi
-
 # /usr/sfw needed for libusb
 export CPPFLAGS="-I/usr/sfw/include"
 export CFLAGS="%optflags -I/usr/sfw/include"
 export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib"
-./configure --prefix=%{_prefix}			\
-	    --libexecdir=%{_libexecdir}         \
-            --sysconfdir=%{_sysconfdir}         \
-	    --mandir=%{_mandir}                 \
-            --docdir=%{_datadir}/doc            \
-	    --datadir=%{_datadir}               \
-            --infodir=%{_datadir}/info
-	    		
-make -j$CPUS
+
+%backends.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-
-rm $RPM_BUILD_ROOT%{_libdir}/lib*a
-rm $RPM_BUILD_ROOT%{_libdir}/sane/lib*a
-
+%backends.install -d %name-%version
+find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
+find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
+rm -rf $RPM_BUILD_ROOT%{_sbindir}/
 mv $RPM_BUILD_ROOT%{_prefix}/doc $RPM_BUILD_ROOT%{_datadir}
 
 %if %build_l10n
@@ -81,8 +72,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
-%dir %attr (0755, root, bin) %{_sbindir}
-%{_sbindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %{_libdir}/sane
@@ -112,5 +101,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Mar 20 2007 - simon.zheng@sun.com
+- Split into 2 files, SFEsane-backends.spec and
+  linux-specs/sane-backends.spec
+
 * Sun Nov  5 2006 - laca@sun.com
 - Create

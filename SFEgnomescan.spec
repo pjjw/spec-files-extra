@@ -4,20 +4,19 @@
 # includes module(s): gnomescan
 #
 %include Solaris.inc
+%use gnomescan = gnomescan.spec
 
 Name:                    SFEgnomescan
-Summary:                 gnomescan - scanner client for the GNOME desktop
-Version:                 0.4.0.4
-Source:			 http://download.gna.org/gnomescan/gnomescan-%{version}.tar.gz
-Patch1:                  gnomescan-01-build.diff
-URL:                     http://home.gna.org/gnomescan/index
+Summary:                 Scanner client for the GNOME desktop
+Version:                 %{default_pkg_version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
-Requires: SUNWgnome-libs
-BuildRequires: SUNWgnome-libs-devel
-Requires: SFEsane-backends
-BuildRequires: SFEsane-backends-devel
+Requires:                SUNWgnome-libs
+BuildRequires:           SUNWgnome-libs-devel
+Requires:                SFEsane-backends
+BuildRequires:           SFEsane-backends-devel
 
 %package devel
 Summary:                 %{summary} - development files
@@ -36,32 +35,19 @@ Requires:                %{name}
 %endif
 
 %prep
-%setup -q -n gnomescan-%version
-%patch1 -p1
+rm -rf %name-%version
+mkdir %name-%version
+%gnomescan.prep -d %name-%version
+cd %{_builddir}/%name-%version
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-    CPUS=1
-fi
-
-aclocal
-libtoolize --force
-glib-gettextize --force
-autoconf -f
-./configure --prefix=%{_prefix}			\
-	    --libexecdir=%{_libexecdir}         \
-            --sysconfdir=%{_sysconfdir}         \
-	    --mandir=%{_mandir}                 \
-	    --datadir=%{_datadir}               \
-            --infodir=%{_datadir}/info
-	    		
-make -j$CPUS
+%gnomescan.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-rm $RPM_BUILD_ROOT%{_libdir}/lib*a
+%gnomescan.install -d %name-%version
+find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
+find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 
 %if %build_l10n
 %else
@@ -102,6 +88,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Mar 20 2007 - simon.zheng@sun.com
+- Split into 2 files, SFEgnomescan.spec and
+  linux-specs/gnomescane.spec
+
 * Wed Mar  1 2007 - simon.zheng@sun.com
 - Bump to 0.4.0.4.
 - Rework patch gnomescan-01-build.diff.

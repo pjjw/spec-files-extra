@@ -1,0 +1,45 @@
+diff -Nur sane-backends-1.0.18/backend/Makefile.in sane-backends-1.0.18-new/backend/Makefile.in
+--- sane-backends-1.0.18/backend/Makefile.in	2006-06-11 19:10:59.000000000 +0800
++++ sane-backends-1.0.18-new/backend/Makefile.in	2007-02-26 16:21:41.921609000 +0800
+@@ -73,7 +73,7 @@
+ ALL_BACKENDS = $(PRELOADABLE_BACKENDS) dll
+ 
+ LIBS = $(addprefix libsane-,$(addsuffix .la,$(ALL_BACKENDS)))
+-CONFIGS = $(addsuffix .conf,$(ALL_BACKENDS)) saned.conf
++CONFIGS = $(addsuffix .conf,$(ALL_BACKENDS)) # saned.conf
+ 
+ EXTRA = sane_strstatus.lo ../sanei/sanei_init_debug.lo ../sanei/sanei_config.lo
+ 
+diff -Nur sane-backends-1.0.18/configure sane-backends-1.0.18-new/configure
+--- sane-backends-1.0.18/configure	2006-07-03 06:22:09.000000000 +0800
++++ sane-backends-1.0.18-new/configure	2007-02-26 16:21:42.062457000 +0800
+@@ -28945,7 +28945,7 @@
+   echo "*** disabling saned (sys/socket.h not found)"
+   SANED=
+ else
+-  SANED=saned
++  SANED=
+ fi
+ 
+ 
+diff -Nur sane-backends-1.0.18/frontend/Makefile.in sane-backends-1.0.18-new/frontend/Makefile.in
+--- sane-backends-1.0.18/frontend/Makefile.in	2005-10-29 22:39:30.000000000 +0800
++++ sane-backends-1.0.18-new/frontend/Makefile.in	2007-02-26 16:22:07.444012000 +0800
+@@ -76,7 +76,7 @@
+ 	  $(LIBTOOL) $(MINST) $(INSTALL_PROGRAM) $${program} \
+ 	    $(DESTDIR)$(bindir)/$${program}; \
+ 	done
+-	@for program in $(SBINPROGS); do \
++	@list="$(SBINPROGS)"; for program in $$list; do \
+ 	  $(LIBTOOL) $(MINST) $(INSTALL_PROGRAM) $${program} \
+ 	    $(DESTDIR)$(sbindir)/$${program}; \
+ 	done
+@@ -85,7 +85,7 @@
+ 	@for program in $(BINPROGS); do \
+ 	  rm -f $(bindir)/$${program}; \
+ 	done
+-	@for program in $(SBINPROGS); do \
++	@list="$(SBINPROGS)"; for program in $$list; do \
+ 	  rm -f $(sbindir)/$${program}; \
+ 	done
+ 
