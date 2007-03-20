@@ -30,8 +30,8 @@
 %endif
 %endif
 
-%define gcc_optflags           %_gcc_opt_level -mcpu=pentiumpro -mtune=pentiumpro -msse2 -Xlinker -i -fno-omit-frame-pointer %gcc_picflags
-%define gcc_cxx_optflags       %_gxx_opt_level -mcpu=pentiumpro -mtune=pentiumpro -msse2 -Xlinker -i -fno-omit-frame-pointer %gcc_picflags
+%define gcc_optflags           %_gcc_opt_level -mcpu=pentiumpro -mtune=pentiumpro -msse2 -mfpmath=sse -Xlinker -i -fno-omit-frame-pointer %gcc_picflags
+%define gcc_cxx_optflags       %_gxx_opt_level -mcpu=pentiumpro -mtune=pentiumpro -msse2 -mfpmath=sse -Xlinker -i -fno-omit-frame-pointer %gcc_picflags
 
 %define suncc_optflags           -i %_cc_opt_level -xstrconst -xarch=sse2 -xvector -mr -xregs=no%%frameptr
 %define suncc_cxx_optflags       -i %_cxx_opt_level -xarch=sse2 -xvector -mr -norunpath -xregs=no%%frameptr
@@ -56,7 +56,25 @@
 %define _libexecdir	 %{_prefix}/lib/%{bld_arch}
 %define _pkg_config_path %{_libdir}/%{bld_arch}/pkgconfig
 
+# Define some standard directories
+%define gnu_bin         /usr/gnu/bin/%{bld_arch}
+%define gnu_inc         /usr/gnu/include
+%define gnu_lib         /usr/gnu/lib/%{bld_arch}
+%define gnu_lib_path	-L%gnu_lib -L/usr/gnu/lib -R%gnu_lib -R/usr/gnu/lib
+%define sfw_bin         /usr/sfw/bin/%{bld_arch}
+%define sfw_inc         /usr/sfw/include
+%define sfw_lib         /usr/sfw/lib/%{bld_arch}
+%define sfw_lib_path	-L%sfw_lib -L/usr/sfw/lib -R%sfw_lib -R/usr/sfw/lib
+%define xorg_bin        /usr/X11/bin/%{bld_arch}
+%define xorg_lib        /usr/X11/lib/%{bld_arch}
+%define xorg_inc        /usr/X11/include
+%define xorg_lib_path	-L%xorg_lib -L/usr/X11/lib -R%xorg_lib -R/usr/X11/lib
+
 # ChangeLog:
+# 2007-03-20  Doug Scott  <dougs@truemail.co.th>
+# added standard directories definitions
+# 2007-03-20  Doug Scott  <dougs@truemail.co.th>
+# - Add -mfpmath=sse for gcc.
 # 2007-03-19  Doug Scott  <dougs@truemail.co.th>
 # - Fixed -fno-omit-frame-pointer flag
 # 2007-03-15  Laszlo (Laca) Peter  <laca@sun.com>

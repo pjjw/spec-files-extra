@@ -4,50 +4,58 @@
 # package are under the same license as the package itself.
 
 %include Solaris.inc
+%include usr-gnu.inc
 
-# Relegating to /usr/gnu to avoid name collisions with regular curses files
-%define _prefix %{_basedir}/gnu
+%ifarch amd64 sparcv9
+%include arch64.inc
+%use ncurses_64 = ncurses.spec
+%endif
+
+%include base.inc
+%use ncurses = ncurses.spec
 
 Name:                SFEncurses
 Summary:             Emulation of SVR4 curses
 Version:             5.5
-Source:              http://ftp.gnu.org/pub/gnu/ncurses/ncurses-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
+%package devel
+Summary:                 %{summary} - development files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires: %name
+
 %prep
-%setup -q -n ncurses-%version
+rm -rf %name-%version
+mkdir %name-%version
+
+%ifarch amd64 sparcv9
+mkdir %name-%version/%_arch64
+%ncurses_64.prep -d %name-%version/%_arch64
+%endif
+
+mkdir %name-%version/%{base_arch}
+%ncurses.prep -d %name-%version/%{base_arch}
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-     CPUS=1
-fi
+%ifarch amd64 sparcv9
+%ncurses_64.build -d %name-%version/%_arch64
+%endif
 
-export CFLAGS="%optflags"
-export LDFLAGS="%{_ldflags} -R/usr/gnu/lib"
-
-./configure --prefix=%{_prefix}  \
-	    --with-shared \
-            --mandir=%{_mandir}
-
-# The following hack sets LD_LIBRARY_PATH in run_tic.sh. It's necessary
-# because that script -- which is only run during make install -- fails
-# to find the ncurses .so libraries when the install is being done with 
-# DESTDIR set. If, for your purposes, /usr/gnu is not the ultimate destination 
-# for installation of this package, you need to adjust this accordingly.
-
-perl -i.orig -lne 'print ; if (/^test -z "\${DESTDIR}" \&\& DESTDIR/) {print q^LD_LIBRARY_PATH="$DESTDIR/usr/gnu/lib"; export LD_LIBRARY_PATH^}' misc/run_tic.sh
-
-make -j$CPUS
+%ncurses.build -d %name-%version/%{base_arch}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make install DESTDIR=$RPM_BUILD_ROOT
+%ifarch amd64 sparcv9
+%ncurses_64.install -d %name-%version/%_arch64
+# 64-bit binaries are of no benefit
+rm -rf $RPM_BUILD_ROOT%{_bindir}/%_arch64
+%endif
 
-rm -f ${RPM_BUILD_ROOT}%{_libdir}/*.a
+%ncurses.install -d %name-%version/%{base_arch}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -68,14 +76,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man5/*.5*
 %dir %attr (0755, root, bin) %{_mandir}/man7
 %{_mandir}/man7/*.7*
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
 %dir %attr (0755, root, other) %{_datadir}/tabset
 %{_datadir}/tabset/*
 %dir %attr (0755, root, other) %{_datadir}/terminfo
 %{_datadir}/terminfo/*
 
+%files devel
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
+
 %changelog
-* 
+* Tue Mar 20 2007 - dougs@truemail.co.th
+- Move build to a base spec. Added 64bit build
 * Wed Nov 08 2006 - Eric Boutilier
 - Initial spec

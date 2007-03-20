@@ -1,0 +1,190 @@
+Building the same code for multiple ISAs
+
+
+1 Introduction
+
+  Building both 32-bit and 64-bit variants of the same library is now really
+  easy.  What's more, adding more ISAs, for example SSE2 is also easy.
+  This document explains how to change a 32-bit only spec file to support
+  multiple ISAs.
+
+2 Include files
+
+  There are a bunch of include files in the include subdirectory that
+  define macros useful for building code for various ISAs:
+
+  base.inc - default macros, used for building 32-bit binaries
+             automatically included by Solaris.inc, but you can
+             include this to reset macros to the defaults after
+	     including one of the other includes below.
+
+  arch64.inc - macros for building 64-bit binaries: amd64 or sparcv9
+
+  x86_sse2.inc - macros for building binaries that make use of Intel SSE2
+             extensions.
+
+  You need to include Solaris.inc before including any of these files.
+
+  What they do is, they set macros that define the compiler flags:
+
+  %gcc_optflags - C compiler flags for building with gcc
+  %suncc_optflags - C compiler flags for building with Sun Studio cc
+  %gcc_cxx_optflags - C++ compiler flags for building with g++
+  %suncc_cxx_optflags - C++ compiler flags for building with Sun Studio CC
+
+  %optflags - C compiler flags for the current C compiler ($CC)
+  %cxx_optflags - C++ compiler flags for the current C++ compiler ($CXX)
+
+  and update the directory macros for the given architecture:
+
+  %_bindir - set to %{_prefix}/bin/<ISA specific dir>, e.g. /usr/bin/amd64
+  %_libdir - same with /usr/lib/<ISA>
+  %_libexecdir - same as %_libdir
+  %_pkg_config_path - directory that contains the pkgconfig files for
+             this ISA, e.g. /usr/lib/sparcv9/pkgconfig
+
+  They also define some handy macros:
+
+  can_isaexec - 1 if multiple ISAs are built, 0 if only 32-bit
+                If 1, we can use isaexec to automatically run the
+                executable that best matches the current system, see
+                details in "Using isaexec" below.
+  gtk_doc_option - always set to --disable-gtk-doc for non-default
+                ISAs so that we only build the gtk docs for the base ISA.
+		In the case of the base ISA, you can continue to the
+		--without-gtk-doc or --with-gtk-doc to control whether
+		or not to build the gtk-doc API documentation
+
+3 Using the ISA specific include files
+
+  pkgbuild processes the "child" spec files when it reads the %use line.
+  Macros defined in the parent spec file before the %use line are visible
+  in the child spec file, macros defined or redefined after the %use line
+  do not affect the child spec file.
+
+  This means that changing %{_libdir} to /usr/lib/amd64 using %define
+  before the %use line will cause the libdir of the child spec to be
+  /usr/lib/amd64, if it uses the --libdir=%{_libdir} configure option.
+  We can also control the compiler flags used in the child spec by
+  defining optflags before the %use line and setting CFLAGS="%optflags"
+  in the child spec.
+
+  So adding a new ISA of a library is as simple as including the
+  appropriate .inc file (which sets up optflags, _libdir, etc.) and then
+  using %use:
+
+    %include Solaris.inc              <- always include before arch64.inc
+
+    %ifarch amd64 sparcv9
+    %include arch64.inc               <- sets %optflags, %_libdir, etc.
+    %use flac_64 = flac.spec          <- process the child spec
+    %endif
+
+    %include base.inc                 <- reset %optflags, %_libdir, etc.
+    %use flac = flac.spec             <- process the child spec again
+                                         note that we assign a different
+                                         label from the 64-bit variant
+
+  Then we add another section for %prep:
+
+    %prep
+    rm -rf %name-%version
+    mkdir %name-%version
+
+    %ifarch amd64 sparcv9
+    mkdir %name-%version/%_arch64
+    %flac_64.prep -d %name-%version/%_arch64
+    %endif
+
+    mkdir %name-%version/%base_arch
+    %flac.prep -d %name-%version/%base_arch
+
+  The above sets up the following directory structure under
+  %_topdir/BUILD (considering an amd64 platform for this example):
+
+    .../packages/BUILD
+	   |
+           +-----> SUNWflac-1.1.4
+                       |
+                       +-----> i86
+                       |        |
+                       |        +-----> flac-1.1.4
+                       |
+                       +-----> amd64
+                                |
+                                +-----> flac-1.1.4
+
+  Now we need to build both source trees:
+
+    %build
+    %ifarch amd64 sparcv9
+    %flac_64.build -d %name-%version/%_arch64
+    %endif
+
+    %flac.build -d %name-%version/%base_arch
+
+  And then install both trees:
+
+    %install
+    rm -rf $RPM_BUILD_ROOT
+
+    %ifarch amd64 sparcv9
+    %flac_64.install -d %name-%version/%_arch64
+    %endif
+
+    %flac.install -d %name-%version/%base_arch
+
+  Finally, update %files to include the 64-bit binaries:
+
+    %ifarch amd64 sparcv9
+    %dir %attr (0755, root, bin) %{_bindir}/%{_arch64}
+    %{_bindir}/%{_arch64}/*
+    %dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
+    %{_libdir}/%{_arch64}/lib*.so*
+    %endif
+
+  Note that we didn't need to touch base-specs/flac.spec for this.
+  We do need to make sure that:
+    - it sets CFLAGS="%optflags" and LDFLAGS="%{_ldflags}"
+    - it passes at least --libdir=%{_libdir} and --bindir=%{_bindir}
+      to configure (for modules using the GNU autotools)
+
+4 Using isaexec
+
+  There is one more trick we can do: setting up the executables so that
+  the OS will automatically execute the one best suited for the
+  architecture it's running on.
+
+  To do that, we need to move the base executables into a subdirectory
+  under the bin directory and hard link /usr/lib/isaexec using the name
+  of the executable.  isaexec will look for executables with the same
+  name under the ISA-specific subdirectories, in the order printed by
+  isalist, for example:
+
+    laca@ultra20:~> isalist
+    amd64 pentium_pro+mmx pentium_pro pentium+mmx pentium i486 i386 i86
+
+  I.e. the binary in bin/amd64 will be run if it's found, if not then
+  bin/pentium_pro+mmx, etc. finally i86.
+
+  In the following example we're moving the 32-bit "flac" binary into the
+  i86 subdir.  Note that the 64-bit version is automatically installed
+  in the amd64 subdir, because arch64.inc sets _bindir to
+  %{_prefix}/bin/amd64.
+
+  This goes into %install:
+
+    %if %can_isaexec
+    mkdir $RPM_BUILD_ROOT%{_bindir}/%{base_isa}
+    cd $RPM_BUILD_ROOT%{_bindir}
+    mv flac metaflac %{base_isa}
+    ln -s ../../usr/lib/isaexec flac
+    ln -s ../../usr/lib/isaexec metaflac
+    %endif
+
+  In the %file list, %{_bindir}/flac and %{_bindir}/metaflac must be
+  flagged at hard links using the %hard flag.  You need pkgbuild 1.1.2
+  or later for hard links.
+
+    %hard %{_bindir}/flac
+    %hard %{_bindir}/metaflac

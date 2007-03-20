@@ -59,7 +59,7 @@
 %endif
 
 %ifarch i386
-%define suncc_optflags64           -i -xstrconst -xarch=generic64 -Kpic -xregs=no%%frameptr
+%define suncc_optflags64           -i %_cc64_opt_level -xstrconst -xarch=generic64 -Kpic -xregs=no%%frameptr
 %define suncc_cxx_optflags64       -i %_cxx64_opt_level -xarch=generic64 -Kpic -pentium -mr -norunpath -xregs=no%%frameptr
 %endif
 
@@ -90,7 +90,24 @@
 
 %endif
 
+# Define some standard directories
+%define gnu_bin         /usr/gnu/bin/%{bld_arch}
+%define gnu_inc         /usr/gnu/include
+%define gnu_lib         /usr/gnu/lib/%{bld_arch}
+%define gnu_lib_path    -L%gnu_lib -R%gnu_lib
+%define sfw_bin         /usr/sfw/bin/%{bld_arch}
+%define sfw_inc         /usr/sfw/include
+%define sfw_lib         /usr/sfw/lib/%{bld_arch}
+%define sfw_lib_path    -L%sfw_lib -R%sfw_lib
+%define xorg_bin        /usr/X11/bin/%{bld_arch}
+%define xorg_lib        /usr/X11/lib/%{bld_arch}
+%define xorg_inc        /usr/X11/include
+%define xorg_lib_path   -L%xorg_lib -R%xorg_lib
+
 # ChangeLog:
+# 2007-03-20  Doug Scott  <dougs@truemail.co.th>
+# added %_cc64_opt_level to suncc_optflags64
+# added standard directories definitions
 # 2007-03-19  Doug Scott  <dougs@truemail.co.th>
 # - Fixed -fno-omit-frame-pointer flag
 # 2007-03-15  Laszlo (Laca) Peter  <laca@sun.com>

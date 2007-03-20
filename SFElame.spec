@@ -5,18 +5,32 @@
 #
 %include Solaris.inc
 
+%ifarch amd64 sparcv9
+%include arch64.inc
+%use lame_64 = lame.spec
+%use toolame_64 = toolame.spec
+%endif
+
+%if %arch_sse2
+%include x86_sse2.inc
+%use lame_sse2 = lame.spec
+%use toolame_sse2 = toolame.spec
+%endif
+
+%include base.inc
+
+%use lame = lame.spec
+%use toolame = toolame.spec
+
 Name:                    SFElame
-Summary:                 lame  - Ain't an MP3 Encoder
+Summary:                 MP3 Encoders - lame and toolame
 Version:                 3.97
-Source:                  http://kent.dl.sourceforge.net/sourceforge/lame/lame-%{version}b2.tar.gz
-%define toolame_version   02l
-Source2:                  http://kent.dl.sourceforge.net/sourceforge/toolame/toolame-%{toolame_version}.tgz
-Patch1:                   lame-01-brhist.diff
-Patch2:                   lame-02-inline.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
+BuildRequires: SFEncurses-devel
+Requires: SFEncurses
 
 %package devel
 Summary:                 %{summary} - development files
@@ -25,45 +39,72 @@ SUNW_BaseDir:            %{_basedir}
 Requires: %name
 
 %prep
-%setup -q -n lame-%version
-%patch1 -p1
-%patch2 -p1
-cd ..
-gtar fxvz %SOURCE2
-cd toolame-%{toolame_version}
+rm -rf %name-%version
+mkdir %name-%version
+
+%ifarch amd64 sparcv9
+mkdir %name-%version/%_arch64
+%lame_64.prep -d %name-%version/%_arch64
+%toolame_64.prep -d %name-%version/%_arch64
+%endif
+
+%if %arch_sse2
+mkdir %name-%version/%sse2_arch
+%lame_sse2.prep -d %name-%version/%{sse2_arch}
+%toolame_sse2.prep -d %name-%version/%{sse2_arch}
+%endif
+
+mkdir %name-%version/%{base_arch}
+%lame.prep -d %name-%version/%{base_arch}
+%toolame.prep -d %name-%version/%{base_arch}
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-    CPUS=1
-fi
-export CFLAGS="%optflags"
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export MSGFMT="/usr/bin/msgfmt"
 
-libtoolize --force
-autoconf
-autoheader
-automake -a -c -f
-./configure --prefix=%{_prefix} --mandir=%{_mandir} \
-            --libdir=%{_libdir}              \
-            --libexecdir=%{_libexecdir}      \
-            --sysconfdir=%{_sysconfdir}      \
-            --enable-fpm=%{fp_arch}          \
-            --enable-shared		     \
-	    --disable-static
-make -j$CPUS LDFLAGS="%{_ldflags}"
+%ifarch amd64 sparcv9
+%lame_64.build -d %name-%version/%_arch64
+%toolame_64.build -d %name-%version/%_arch64
+%endif
 
-cd ../toolame-%{toolame_version}
-make -j$CPUS
+%if %arch_sse2
+%lame_sse2.build -d %name-%version/%{sse2_arch}
+%toolame_sse2.build -d %name-%version/%{sse2_arch}
+%endif
+
+%lame.build -d %name-%version/%{base_arch}
+%toolame.build -d %name-%version/%{base_arch}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-cd ../toolame-%{toolame_version}
-#make install DESTDIR=$RPM_BUILD_ROOT
-install -m 755 toolame $RPM_BUILD_ROOT%{_bindir}/toolame
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
+
+%ifarch amd64 sparcv9
+%lame_64.install -d %name-%version/%_arch64
+%toolame_64.install -d %name-%version/%_arch64
+%endif
+
+%if %arch_sse2
+%lame_sse2.install -d %name-%version/%{sse2_arch}
+%toolame_sse2.install -d %name-%version/%{sse2_arch}
+%endif
+
+%lame.install -d %name-%version/%{base_arch}
+%toolame.install -d %name-%version/%{base_arch}
+
+%if %can_isaexec
+mkdir $RPM_BUILD_ROOT%{_bindir}/%{base_isa}
+mv $RPM_BUILD_ROOT%{_bindir}/lame $RPM_BUILD_ROOT%{_bindir}/%{base_isa}
+mv $RPM_BUILD_ROOT%{_bindir}/toolame $RPM_BUILD_ROOT%{_bindir}/%{base_isa}
+%endif
+
+%{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
+
+%if %can_isaexec
+%post
+ln ${BASEDIR}/lib/isaexec ${BASEDIR}/bin/lame
+ln ${BASEDIR}/lib/isaexec ${BASEDIR}/bin/toolame
+installf $PKGINST %{_bindir}/lame || exit 2
+installf $PKGINST %{_bindir}/toolame || exit 2
+installf -f $PKGINST || exit 2
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -71,13 +112,30 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
+%if %can_isaexec
+%{_bindir}/%{base_isa}
+%else
+%{_bindir}/lame
+%{_bindir}/toolame
+%endif
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
+%{_libdir}/lib*.so*
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*
+%ifarch amd64 sparcv9
+%dir %attr (0755, root, bin) %{_bindir}/%{_arch64}
+%{_bindir}/%{_arch64}/*
+%dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
+%{_libdir}/%{_arch64}/lib*.so*
+%endif
+%if %arch_sse2
+%dir %attr (0755, root, bin) %{_bindir}/%{sse2_arch}
+%{_bindir}/%{sse2_arch}/*
+%dir %attr (0755, root, bin) %{_libdir}/%{sse2_arch}
+%{_libdir}/%{sse2_arch}/lib*.so*
+%endif
 
 %files devel
 %defattr (-, root, bin)
@@ -88,6 +146,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Tue Mar 20 2007 - dougs@truemail.co.th
+- Moved lame and toolame to base spec. Added 64bit and x86_sse2 builds
 * Mon Jun 12 2006 - laca@sun.com
 - rename to SFElame
 - change to root:bin to follow other JDS pkgs.

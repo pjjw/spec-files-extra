@@ -75,7 +75,23 @@
 %define _pkg_config_path %{_libdir}/pkgconfig
 %define _sysconfdir      /etc
 
+# Define some standard directories
+%define gnu_bin         /usr/gnu/bin
+%define gnu_inc         /usr/gnu/include
+%define gnu_lib         /usr/gnu/lib
+%define gnu_lib_path    -L%gnu_lib -R%gnu_lib
+%define sfw_bin         /usr/sfw/bin
+%define sfw_inc         /usr/sfw/include
+%define sfw_lib         /usr/sfw/lib
+%define sfw_lib_path    -L%sfw_lib -R%sfw_lib
+%define xorg_bin        /usr/X11/bin
+%define xorg_lib        /usr/X11/lib
+%define xorg_inc        /usr/X11/include
+%define xorg_lib_path   -L%xorg_lib -R%xorg_lib
+
 # ChangeLog:
+# 2007-03-20  Doug Scott  <dougs@truemail.co.th>
+# added standard directories definitions
 # 2007-03-19  Doug Scott  <dougs@truemail.co.th>
 # - Fixed -fno-omit-frame-pointer flag
 # 2007-03-15  Laszlo (Laca) Peter  <laca@sun.com>

@@ -1,3 +1,20 @@
+2007-03-20  Doug Scott  <dougs@truemail.co.th>
+
+	* include/arch64.inc: added %_cc64_opt_level to suncc_optflags64
+	- added standard directories definitions
+	* include/base.inc: added standard directories definitions
+	* include/x86_sse2.inc: added standard directories definitions
+	* SFElame.spec: Moved build of lame and toolame into base specs
+	- Added 64bit and x86_sse2 optimised builds
+	* SFEgcc.spec: Added LD_OPTION to find libstdc and libgcc
+	* .pkgtoolrc: added base-specs to the search path
+	* base-specs/lame.spec: Split from SFElame.spec
+	* base-specs/toolame.spec: Split from SFElame.spec
+	* base-specs/ncurses.spec: Split from SFEncurses.spec
+	* patches/toolame-01-makefile.diff: Allow setting of CFLAGS etc
+	* SFEncurses.spec: Moved build to base spec to add 64bit build
+	* docs/multi-ISA.txt: Added multi-ISA.txt documentation from Laca
+
 2007-03-20  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEgnomescan.spec:

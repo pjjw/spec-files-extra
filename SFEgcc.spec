@@ -5,6 +5,7 @@
 #
 %include Solaris.inc
 %include usr-gnu.inc
+%include base.inc
 
 Name:                SFEgcc
 Summary:             GNU gcc
@@ -16,6 +17,8 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 BuildRequires: SFEgmp-devel
 BuildRequires: SFEbinutils
 Requires: SFEbinutils
+BuildRequires: SFEmpfr-devel
+Requires: SFEmpfr
 Requires: SFEgmp
 Requires: SUNWpostrun
 
@@ -51,10 +54,14 @@ nlsopt=-enable-nls
 nlsopt=-disable-nls
 %endif
 
+%define ld_options      -zignore -zcombreloc -Bdirect -i
+
 export CONFIG_SHELL=/usr/bin/bash
-export CC=${CC32:-$CC}
-export CFLAGS="$CFLAGS32"
-export LDFLAGS="$LDFLAGS32 -L/usr/gnu/lib -R/usr/gnu/lib"
+export CFLAGS=""
+export STAGE1_CFLAGS="$(CFLAGS)"
+export CFLAGS_FOR_TARGET="-g -O3"
+export LDFLAGS="%_ldflags %gnu_lib_path"
+export LD_OPTIONS="%ld_options %gnu_lib_path"
 
 ../gcc-%{version}/configure			\
 	--prefix=%{_prefix}			\
@@ -71,10 +78,18 @@ export LDFLAGS="$LDFLAGS32 -L/usr/gnu/lib -R/usr/gnu/lib"
 	--disable-static			\
 	$nlsopt
 
-make -j$CPUS
+make -j$CPUS bootstrap
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
+export CONFIG_SHELL=/usr/bin/bash
+export CFLAGS="%optflags"
+export CFLAGS="%optflags"
+export STAGE1_CFLAGS="$(CFLAGS)"
+export CFLAGS_FOR_TARGET="-g -O3"
+export LDFLAGS="%_ldflags %gnu_lib_path"
+export LD_OPTIONS="%ld_options %gnu_lib_path"
 
 cd gcc
 make install DESTDIR=$RPM_BUILD_ROOT
@@ -154,6 +169,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Mar 20 2007 - Doug Scott <dougs@truemail.co.th>
+- Added LD_OPTIONS so libs in /usr/gnu/lib will be found
 * Sun Mar  7 2007 - Doug Scott <dougs@truemail.co.th>
 - change to use GNU as from SFEbinutils
 * Sun Mar  7 2007 - Doug Scott <dougs@truemail.co.th>
