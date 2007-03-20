@@ -40,7 +40,7 @@ export LDFLAGS="%_ldflags"
             --mandir=%{_mandir} \
             --enable-static=no
 
-make -j$CPUS
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -102,6 +102,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Tue Mar 20 2007 - daymobrew@users.sourceforge.net
+- Use single thread make so as not to break build.
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net
 - Add SUNWtexi dependency. Add %post/%preun to update the info dir file.
 * Wed Dec 20 2006 - Eric Boutilier
