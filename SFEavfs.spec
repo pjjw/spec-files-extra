@@ -47,7 +47,6 @@ make install DESTDIR=$RPM_BUILD_ROOT
 rm ${RPM_BUILD_ROOT}%{_libdir}/libavfs.la
 rm ${RPM_BUILD_ROOT}%{_bindir}/{dav,ftp}pass
 rmdir ${RPM_BUILD_ROOT}%{_sbindir}
-rm -r ${RPM_BUILD_ROOT}/usr/etc
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -68,6 +67,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/virtual.h
 
 %changelog
-* 
+* Tue Mar 20 2007 - daymobrew@users.sourceforge.net
+- Remove from %install the code that removes the non-existant /usr/etc dir.
+
 * Mon Mar 12 2007 - Eric Boutilier
 - Initial spec

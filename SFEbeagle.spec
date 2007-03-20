@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 Name:         SFEbeagle
-Version:      0.2.16.2
+Version:      0.2.16.3
 Summary:      beagle - desktop search tool
 Source:       http://ftp.gnome.org/pub/GNOME/sources/beagle/0.2/beagle-%{version}.tar.gz
 URL:          http://beagle-project.org
@@ -17,11 +17,13 @@ Docdir:	      %{_defaultdocdir}/doc
 Autoreqprov:  on
 BuildRequires: SFEmono-devel
 BuildRequires: SFEgtk-sharp
+BuildRequires: SFEgnome-sharp
 BuildRequires: SFEgmime-devel
 BuildRequires: SFEsqlite-devel
 Requires: %name-root
 Requires: SFEmono
 Requires: SFEgtk-sharp
+Requires: SFEgnome-sharp
 Requires: SFEgmime
 Requires: SFEsqlite
 
@@ -48,6 +50,7 @@ Requires:                %{name}
 %setup -q -c -n %name-%version
 cd beagle-%{version}
 %patch1 -p1
+dos2unix po/ru.po po/ru.po
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -63,7 +66,8 @@ export LDFLAGS="%_ldflags"
 		--mandir=%{_mandir} \
 		--libdir=%{_libdir} \
 		--libexecdir=%{_libexecdir} \
-		--sysconfdir=%{_sysconfdir}
+		--sysconfdir=%{_sysconfdir} \
+		%{gtk_doc_option}
 make -j $CPUS
 
 %install
@@ -117,6 +121,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr (-, root, bin)
+%dir %attr (0755, root, sys) %dir %{_datadir}
+%{_datadir}/gtk-doc
 %dir %attr (0755, root, bin) %dir %{_includedir}
 %{_includedir}/*
 %dir %attr (0755, root, bin) %dir %{_libdir}
@@ -131,6 +137,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Mar 20 2007 - daymobrew@users.sourceforge.net
+- Bump to 0.2.16.3. Add Build/Requires SFEgnome-sharp to bring in gconf-sharp
+  and gnome-vfs-sharp. Add %{gtk_doc_option} to configure call.
 * Fri Feb 23 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.2.16.2.
 * Thu Feb 08 2007 - daymobrew@users.sourceforge.net

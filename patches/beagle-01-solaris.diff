@@ -55,10 +55,11 @@ diff -u -r beagle-0.2.5/bludgeon/beagled.dummy beagle-0.2.5/bludgeon/beagled.dum
  
  # This is just a convenience thing that changes the directory
  # for the beagled.
-diff -u -r beagle-0.2.5/glue/thread-glue.c beagle-0.2.5/glue/thread-glue.c
---- beagle-0.2.5/glue/thread-glue.c	Sat Apr 15 02:22:40 2006
-+++ beagle-0.2.5/glue/thread-glue.c	Tue Jul 11 13:48:28 2006
-@@ -1,6 +1,5 @@
+diff -u -r beagle-0.2.16.3/glue/thread-glue.c beagle-0.2.5/glue/thread-glue.c
+--- beagle-0.2.16.3/glue/thread-glue.c	Sat Apr 15 02:22:40 2006
++++ beagle-0.2.16.3/glue/thread-glue.c	Tue Jul 11 13:48:28 2006
+@@ -27,7 +27,6 @@
+ 
  #include <sys/types.h>
  #include <unistd.h>
 -#include <linux/unistd.h>
@@ -93,21 +94,20 @@ diff -u -r beagle-0.2.5/libbeagle/beagle/beagle-request.c beagle-0.2.5/libbeagle
  		g_set_error (err, BEAGLE_ERROR, BEAGLE_ERROR,
  			     "Unable to connect to Beagle daemon");
  		return FALSE;
-diff -u -r beagle-0.2.5/libbeagle/beagle/beagle-util.c beagle-0.2.5/libbeagle/beagle/beagle-util.c
---- beagle-0.2.5/libbeagle/beagle/beagle-util.c	Tue Apr  4 03:49:43 2006
-+++ beagle-0.2.5/libbeagle/beagle/beagle-util.c	Tue Jul 11 13:48:28 2006
-@@ -64,7 +64,7 @@
- 	gchar *socket_dir;
+diff -u -r beagle-0.2.16.3/libbeagle/beagle/beagle-util.c beagle-0.2.16.3/libbeagle/beagle/beagle-util.c
+--- beagle-0.2.16.3/libbeagle/beagle/beagle-util.c	Tue Apr  4 03:49:43 2006
++++ beagle-0.2.16.3/libbeagle/beagle/beagle-util.c	Tue Jul 11 13:48:28 2006
+@@ -118,16 +118,16 @@
+ {
  	gchar *socket_path;
  	int sockfd;
 -	struct sockaddr_un sun;
 +	struct sockaddr_un s_un;
  
- 	beagle_home = g_getenv ("BEAGLE_HOME");
- 	if (beagle_home == NULL)
-@@ -73,9 +73,9 @@
- 	socket_dir = g_build_filename (beagle_home, ".beagle", NULL);
- 	socket_path = g_build_filename (socket_dir, "socket", NULL);
+ 	socket_path = beagle_util_get_socket_path (NULL);
+ 
+ 	if (socket_path == NULL)
+ 		return FALSE;
  
 -	bzero (&sun, sizeof (sun));
 -	sun.sun_family = AF_UNIX;
@@ -117,7 +117,7 @@ diff -u -r beagle-0.2.5/libbeagle/beagle/beagle-util.c beagle-0.2.5/libbeagle/be
 +	snprintf (s_un.sun_path, sizeof (s_un.sun_path), socket_path);
  
  	g_free (socket_path);
- 	g_free (socket_dir);
+ 
 @@ -85,7 +85,7 @@
  		return FALSE;
  	}

@@ -1,3 +1,13 @@
+2007-03-20  Damien Carbery <damien.carbery@sun.com>
+
+	* SFEallegro.spec: Use single thread make so as not to break build.
+	* SFEavfs.spec: Remove from %install the code that removes the
+	  non-existant /usr/etc dir.
+	* SFEbeagle.spec: Bump to 0.2.16.3. Add Build/Requires SFEgnome-sharp
+	  to bring in gconf-sharp and gnome-vfs-sharp. Add %{gtk_doc_option}
+	  to configure call.
+	* patches/beagle-01-solaris.diff: Rework for 0.2.16.3 tarball.
+
 2007-03-20  Doug Scott  <dougs@truemail.co.th>
 
 	* include/arch64.inc: added %_cc64_opt_level to suncc_optflags64

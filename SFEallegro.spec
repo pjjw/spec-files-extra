@@ -57,7 +57,7 @@ perl -i.orig -lpe 's/^(SHELL = \/bin\/sh).*/#$1/ and print "SHELL = /bin/bash"' 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir}
 
-make -j$CPUS
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -122,6 +122,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Tue Mar 20 2007 - daymobrew@users.sourceforge.net
+- Use single thread make so as not to break build.
 * Mon Mar 19 2007 - dougs@truemail.co.th
 - Fixed -fno-omit-frame-pointer flag
 * Sat Jan  6 2007 - laca@sun.com
