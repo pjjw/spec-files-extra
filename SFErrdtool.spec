@@ -7,9 +7,9 @@
 
 Name:                SFErrdtool
 Summary:             Data analysis tool generating graphical representations
-Version:             1.2.15
-Source:              http://people.ee.ethz.ch/~oetiker/webtools/rrdtool/pub/rrdtool-%{version}.tar.gz
-
+Version:             1.2.19
+Source:              http://oss.oetiker.ch/rrdtool/pub/rrdtool-%{version}.tar.gz
+URL:                 http://oss.oetiker.ch/rrdtool/
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -69,6 +69,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/rrdtool/*
 
 %changelog
+* Wed Mar 21 2007 - daymobrew@users.sourceforge.net
+- Bump to 1.2.19. Update URL.
 * Mon Mar 19 2007 - dougs@truemail.co.th
 - Fixed -fno-omit-frame-pointer flag
 * Sun Nov 05 2006 - Eric Boutilier
