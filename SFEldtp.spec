@@ -8,10 +8,10 @@
 
 Name:          SFEldtp
 Summary:       Linux Desktop Testing Project
-Version:       0.7.0
+Version:       0.8.0
 SUNW_BaseDir:  %{_basedir}
 BuildRoot:     %{_tmppath}/%{name}-%{version}-build
-Source:        http://download.freedesktop.org/ldtp/0.x/0.7.x/ldtp-%{version}.tar.bz2
+Source:        http://download.freedesktop.org/ldtp/0.x/0.7.x/ldtp-%{version}.tar.gz
 URL:           http://ldtp.freedesktop.org
 %include default-depend.inc
 Requires: SUNWPython
@@ -60,6 +60,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Mar 21 2007 - daymobrew@users.sourceforge.net
+- Bump to 0.8.0.
 * Wed Oct 11 2006 - laca@sun.com
 - remove -I flags from aclocal call
 * Wed Jul  5 2006 - laca@sun.com

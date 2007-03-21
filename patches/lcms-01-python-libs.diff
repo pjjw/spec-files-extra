@@ -1,8 +1,8 @@
---- lcms-1.15/python/Makefile.am.orig	2006-03-22 17:54:47.668089000 +0000
-+++ lcms-1.15/python/Makefile.am	2006-03-22 17:55:06.540547000 +0000
-@@ -22,7 +22,7 @@
-                     -L/usr/lib/python$(PYTHON_VERSION)/config \
-                     -L/usr/local/lib/python$(PYTHON_VERSION)/config 
+--- lcms-1.16/python/Makefile.am.orig	2007-03-21 12:19:00.583465000 +0000
++++ lcms-1.16/python/Makefile.am	2007-03-21 12:19:41.652464000 +0000
+@@ -25,7 +25,7 @@
+ _lcms_la_LDFLAGS = -no-undefined -module -avoid-version \
+                     -L$(LCMS_PYLIB)/config 
  
 -_lcms_la_LIBADD = $(top_builddir)/src/liblcms.la -lpython$(PYTHON_VERSION)
 +_lcms_la_LIBADD = $(top_builddir)/src/liblcms.la -lpython$(PYTHON_VERSION) -lc -lCrun

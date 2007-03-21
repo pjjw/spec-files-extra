@@ -1,4 +1,10 @@
-2007-03-21  Damien Carbery <damien.carbery@sun.com>
+2007-03-21  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEldtp.spec: Bump to 0.8.0.
+	* SFEwbxml.spec: Add devel package and correct file permissions.
+	* patches/lcms-01-python-libs.diff: Rework for new tarball.
+
+2007-03-21  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEgrip.spec: Correct %files perms and add l10n package for l10n.
 	* SFEganglia.spec: Add patch, ganglia-01-solaris, to build on Solaris.
@@ -9,7 +15,7 @@
 	* SFEdevhelp.spec: Removed, now in spec-files repository on
 	  svn.opensolaris.org.
 
-2007-03-20  Damien Carbery <damien.carbery@sun.com>
+2007-03-20  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEautogen.spec, SFEallegro.spec: Use single thread make so as not to
 	  break build.
