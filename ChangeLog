@@ -1,3 +1,14 @@
+2007-03-21  Damien Carbery <damien.carbery@sun.com>
+
+	* SFEgrip.spec: Correct %files perms and add l10n package for l10n.
+	* SFEganglia.spec: Add patch, ganglia-01-solaris, to build on Solaris.
+	* patches/ganglia-01-solaris.diff: Added, to fix build issues.
+	* SFEethereal.spec: Add BuildRequires SUNWbinutils and set PATH during
+	  %install to pick up GNU strip which is required (it uses
+	  --strip-unneeded parameter).
+	* SFEdevhelp.spec: Removed, now in spec-files repository on
+	  svn.opensolaris.org.
+
 2007-03-20  Damien Carbery <damien.carbery@sun.com>
 
 	* SFEautogen.spec, SFEallegro.spec: Use single thread make so as not to

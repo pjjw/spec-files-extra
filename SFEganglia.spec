@@ -9,12 +9,14 @@ Name:                SFEganglia
 Summary:             Ganglia cluster monitor, monitoring daemon
 Version:             3.0.3
 Source:              http://umn.dl.sourceforge.net/sourceforge/ganglia/ganglia-%{version}.tar.gz
-
+Patch1:              ganglia-01-solaris.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 Requires: SUNWgccruntime
+Requires: SFEcheck
+BuildRequires: SFEcheck
 
 # If gmetad support is desired, then see documentation about
 # needing rrdtool, etc. and uncomment the following line:
@@ -23,6 +25,7 @@ Requires: SUNWgccruntime
 
 %prep
 %setup -q -n ganglia-%version
+%patch1 -p1
 
 %build
 

@@ -17,6 +17,14 @@ BuildRequires:		 SFEcurl
 
 %include default-depend.inc
 
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
+
 %prep
 %setup -q -n grip-%version
 %patch1 -p1
@@ -33,20 +41,42 @@ make install DESTDIR=$RPM_BUILD_ROOT
 #move locale to /usr/share
 mv $RPM_BUILD_ROOT%{_libdir}/locale $RPM_BUILD_ROOT%{_datadir}/
 rm -rf $RPM_BUILD_ROOT%{_libdir}
+
+%if %build_l10n
+%else
+# REMOVE l10n FILES
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-, root, root)
+%defattr(-, root, bin)
 %doc README ChangeLog CREDITS COPYING INSTALL NEWS AUTHORS TODO ABOUT-NLS
+%dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/grip
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/gnome/help/grip
+%dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/grip.desktop
+%dir %attr (0755, root, other) %{_datadir}/gnome
+%dir %attr (0755, root, bin) %{_datadir}/gnome/help
+%{_datadir}/gnome/help/grip
+%dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/gripicon.png
 %{_datadir}/pixmaps/griptray.png
-%{_datadir}/locale/*/LC_MESSAGES/grip-2.2.mo
+
+%if %build_l10n
+%files l10n
+%defattr (-, root, bin)
+%dir %attr (0755, root, sys) %{_datadir}
+%attr (-, root, other) %{_datadir}/locale
+%endif
+
 
 %changelog
+* Wed Mar 21 2007 - daymobrew@users.sourceforge.net
+- Correct %files perms and add l10n package for l10n.
+
 * Fri Mar 16 2007  - irene.huang@sun.com
 - created

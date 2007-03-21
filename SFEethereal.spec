@@ -22,6 +22,7 @@ BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWopenssl-include
 BuildRequires: SFEsed
 BuildRequires: SFElibpcap-devel
+BuildRequires: SUNWbinutils
 
 %prep
 %setup -q -n ethereal-%version
@@ -49,6 +50,12 @@ make -j$CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
+# Modify path to find GNU strip.
+%ifarch sparc
+export PATH=/usr/sfw/sparc-sun-solaris2.11/bin:$PATH
+%else
+export PATH=/usr/sfw/i386-pc-solaris2.11/bin/:$PATH
+%endif
 make DESTDIR=$RPM_BUILD_ROOT install-strip
 [ -d ${RPM_BUILD_ROOT}%{_datadir}/ethereal/image ] || \
   mkdir ${RPM_BUILD_ROOT}%{_datadir}/ethereal/image
@@ -92,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man4/*
 
 %changelog
+* Wed Mar 21 2007 - daymobrew@users.sourceforge.net
+- Add BuildRequires SUNWbinutils and set PATH during %install to pick up GNU
+  strip which is required (it uses --strip-unneeded parameter).
 * Tue Feb 27 2007 - ivwang@gmail.com
 - Add icons, strip executables
 * Tue Feb 27 2007 - laca@sun.com

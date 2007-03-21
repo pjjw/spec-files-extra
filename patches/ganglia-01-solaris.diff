@@ -1,0 +1,42 @@
+--- ganglia-3.0.3/srclib/confuse/tests/check_confuse.c.orig	2007-03-21 12:46:02.919469000 +0000
++++ ganglia-3.0.3/srclib/confuse/tests/check_confuse.c	2007-03-21 12:47:06.754208000 +0000
+@@ -1,5 +1,5 @@
+ #include <check.h>
+-#include "confuse.h"
++#include "../src/confuse.h"
+ 
+ Suite *single_suite(void);
+ Suite *dup_suite(void);
+--- ganglia-3.0.3/srclib/confuse/tests/suite_single.c.orig	2007-03-21 12:46:41.346888000 +0000
++++ ganglia-3.0.3/srclib/confuse/tests/suite_single.c	2007-03-21 12:46:52.111031000 +0000
+@@ -6,7 +6,7 @@
+ #include <sys/socket.h>
+ #include <netinet/in.h>
+ #include <arpa/inet.h>
+-#include <net/ethernet.h>
++#include <sys/ethernet.h>
+ #ifdef linux
+ # include <netinet/ether.h>
+ #endif
+--- ganglia-3.0.3/srclib/confuse/tests/Makefile.am.orig	2007-03-21 12:48:33.614813000 +0000
++++ ganglia-3.0.3/srclib/confuse/tests/Makefile.am	2007-03-21 12:48:46.528978000 +0000
+@@ -3,7 +3,7 @@
+ check_confuse_SOURCES=check_confuse.c suite_single.c suite_dup.c suite_list.c suite_validate.c \
+ 					  suite_func.c
+ check_confuse_INCLUDES=-I$(top_srcdir)/src @CHECK_CFLAGS@
+-check_confuse_LDADD=-L../src/ @CHECK_LIBS@ ../src/libconfuse.la $(LTLIBINTL)
++check_confuse_LDADD=-L../src/ @CHECK_LIBS@ ../src/libconfuse.la $(LTLIBINTL) -lsocket -lnsl
+ EXTRA_DIST=a.conf b.conf
+ CLEANFILES=*~ \#*\#
+ 
+--- ganglia-3.0.3/srclib/confuse/tests/Makefile.in.orig	2007-03-21 13:13:37.173036000 +0000
++++ ganglia-3.0.3/srclib/confuse/tests/Makefile.in	2007-03-21 13:14:18.391115000 +0000
+@@ -209,7 +209,7 @@
+ 					  suite_func.c
+ 
+ check_confuse_INCLUDES = -I$(top_srcdir)/src @CHECK_CFLAGS@
+-check_confuse_LDADD = -L../src/ @CHECK_LIBS@ ../src/libconfuse.la $(LTLIBINTL)
++check_confuse_LDADD = -L../src/ @CHECK_LIBS@ ../src/libconfuse.la $(LTLIBINTL)  -lsocket -lnsl
+ EXTRA_DIST = a.conf b.conf
+ CLEANFILES = *~ \#*\#
+ all: all-am
