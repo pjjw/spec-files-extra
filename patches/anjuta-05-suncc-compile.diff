@@ -1,0 +1,77 @@
+Index: anjuta-head/plugins/sourceview/sourceview-autocomplete.c
+===================================================================
+--- anjuta-head/plugins/sourceview/sourceview-autocomplete.c	(revision 2875)
++++ anjuta-head/plugins/sourceview/sourceview-autocomplete.c	(working copy)
+@@ -38,6 +38,7 @@
+ 
+ struct _SourceviewAutocompletePrivate {
+ 	/* Place Private Members Here */
++	int tmp;
+ };
+ 
+ G_DEFINE_TYPE(SourceviewAutocomplete, sourceview_autocomplete, TAG_TYPE_WINDOW);
+Index: anjuta-head/plugins/class-inheritance/class-inherit.c
+===================================================================
+--- anjuta-head/plugins/class-inheritance/class-inherit.c	(revision 2875)
++++ anjuta-head/plugins/class-inheritance/class-inherit.c	(working copy)
+@@ -32,10 +32,10 @@
+ 
+ /* some macros to access deep graphviz's node structures */
+ #define NODE_LOWER_LEFT(node,main_index,rec_index) \
+-	((point)((field_t*)ND_shape_info (node))->fld[main_index]->fld[rec_index]->b.LL)
++	(((field_t*)ND_shape_info (node))->fld[main_index]->fld[rec_index]->b.LL)
+ 
+ #define NODE_UPPER_RIGHT(node,main_index,rec_index) \
+-	((point)((field_t*)ND_shape_info (node))->fld[main_index]->fld[rec_index]->b.UR)
++	(((field_t*)ND_shape_info (node))->fld[main_index]->fld[rec_index]->b.UR)
+ 
+ #define NODE_NUM_FIELDS(node) \
+ 	((field_t*)ND_shape_info (node))->n_flds
+Index: anjuta-head/plugins/debug-manager/disassemble.c
+===================================================================
+--- anjuta-head/plugins/debug-manager/disassemble.c	(revision 2875)
++++ anjuta-head/plugins/debug-manager/disassemble.c	(working copy)
+@@ -102,7 +102,7 @@
+ 	DmaSparseBufferNode parent;
+ 	guint size;
+ 	
+-	DmaDisassemblyLine data[0];
++	DmaDisassemblyLine data[];
+ };
+ 
+ #define DMA_DISASSEMBLY_BUFFER_TYPE              (dma_disassembly_buffer_get_type ())
+Index: anjuta-head/plugins/class-gen/window.c
+===================================================================
+--- anjuta-head/plugins/class-gen/window.c	(revision 2875)
++++ anjuta-head/plugins/class-gen/window.c	(working copy)
+@@ -1105,7 +1105,7 @@
+ 	button = GTK_CHECK_BUTTON (glade_xml_get_widget (priv->gxml,
+ 	                                                 "add_project"));
+ 
+-	return gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), enable);
++	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), enable);
+ }
+ 
+ void
+@@ -1119,7 +1119,7 @@
+ 	button = GTK_CHECK_BUTTON (glade_xml_get_widget (priv->gxml,
+ 	                                                 "add_repository"));
+ 
+-	return gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), enable);
++	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), enable);
+ }
+ 
+ gboolean
+Index: anjuta-head/libanjuta/anjuta-launcher.c
+===================================================================
+--- anjuta-head/libanjuta/anjuta-launcher.c	(revision 2875)
++++ anjuta-head/libanjuta/anjuta-launcher.c	(working copy)
+@@ -429,7 +429,7 @@
+  *
+  * Return value: Process ID of the child.
+  */
+-pid_t
++gint
+ anjuta_launcher_get_child_pid (AnjutaLauncher *launcher)
+ {
+   if (anjuta_launcher_is_busy (launcher))

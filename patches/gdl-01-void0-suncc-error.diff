@@ -1,0 +1,41 @@
+Index: gdl-head/gdl/gdl-dock-item.c
+===================================================================
+--- gdl-head/gdl/gdl-dock-item.c	(revision 344)
++++ gdl-head/gdl/gdl-dock-item.c	(working copy)
+@@ -861,7 +861,7 @@
+ 
+     if (GTK_WIDGET_DRAWABLE (widget) && event->window == widget->window) {
+         gdl_dock_item_paint (widget, event);
+-        GDL_CALL_PARENT (GTK_WIDGET_CLASS, expose_event, (widget, event));
++        GDL_CALL_PARENT_GBOOLEAN(GTK_WIDGET_CLASS, expose_event, (widget, event));
+     }
+   
+     return FALSE;
+Index: gdl-head/gdl/gdl-dock-tablabel.c
+===================================================================
+--- gdl-head/gdl/gdl-dock-tablabel.c	(revision 344)
++++ gdl-head/gdl/gdl-dock-tablabel.c	(working copy)
+@@ -387,7 +387,7 @@
+     g_return_val_if_fail (event != NULL, FALSE);
+ 
+     if (GTK_WIDGET_VISIBLE (widget) && GTK_WIDGET_MAPPED (widget)) {
+-        GDL_CALL_PARENT (GTK_WIDGET_CLASS, expose_event, (widget, event));
++        GDL_CALL_PARENT_GBOOLEAN(GTK_WIDGET_CLASS, expose_event, (widget, event));
+         gdl_dock_tablabel_paint (widget, event);
+     };
+   
+Index: gdl-head/gdl/gdl-tools.h
+===================================================================
+--- gdl-head/gdl/gdl-tools.h	(revision 344)
++++ gdl-head/gdl/gdl-tools.h	(working copy)
+@@ -139,6 +139,10 @@
+ 	((parent_class_cast(parent_class)->name != NULL) ?      \
+ 	 parent_class_cast(parent_class)->name args : (void)0)
+ 
++#define GDL_CALL_PARENT_GBOOLEAN(parent_class_cast, name, args)          \
++	((parent_class_cast(parent_class)->name != NULL) ?      \
++	 parent_class_cast(parent_class)->name args : (gboolean)0)
++
+ /* Same as above, but in case there is no implementation, it evaluates
+  * to def_return */
+ #define GDL_CALL_PARENT_WITH_DEFAULT(parent_class_cast,                 \

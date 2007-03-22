@@ -1,0 +1,495 @@
+--- anjuta-2.1.1/plugins/debug-manager/debugger.c.orig	2007-03-21 22:06:43.665457000 +0800
++++ anjuta-2.1.1/plugins/debug-manager/debugger.c	2007-03-21 22:27:29.599539000 +0800
+@@ -357,7 +357,7 @@
+ 			gchar *name;
+ 			gchar *value;
+ 		} var;
+-	};
++	}union_data;
+ 	struct _DmaQueueCommand *next;
+ } DmaQueueCommand;
+ 
+@@ -529,40 +529,40 @@
+ 	case INSPECT_COMMAND:
+ 	case EVALUATE_COMMAND:
+ 	case WRITE_REGISTER_COMMAND:
+-		if (cmd->watch.name != NULL) g_free (cmd->watch.name);
+-		if (cmd->watch.value != NULL) g_free (cmd->watch.value);
++		if (cmd->union_data.watch.name != NULL) g_free (cmd->union_data.watch.name);
++		if (cmd->union_data.watch.value != NULL) g_free (cmd->union_data.watch.value);
+ 		break;
+ 	case START_COMMAND:
+-		if (cmd->start.args) g_free (cmd->start.args);
++		if (cmd->union_data.start.args) g_free (cmd->union_data.start.args);
+ 		break;
+ 	case LOAD_COMMAND:
+-		if (cmd->load.file) g_free (cmd->load.file);
+-		if (cmd->load.type) g_free (cmd->load.type);
+-        g_list_foreach (cmd->load.dirs, (GFunc)g_free, NULL);
+-        g_list_free (cmd->load.dirs);
++		if (cmd->union_data.load.file) g_free (cmd->union_data.load.file);
++		if (cmd->union_data.load.type) g_free (cmd->union_data.load.type);
++        g_list_foreach (cmd->union_data.load.dirs, (GFunc)g_free, NULL);
++        g_list_free (cmd->union_data.load.dirs);
+ 		break;
+ 	case ATTACH_COMMAND:
+-        g_list_foreach (cmd->attach.dirs, (GFunc)g_free, NULL);
+-        g_list_free (cmd->attach.dirs);
++        g_list_foreach (cmd->union_data.attach.dirs, (GFunc)g_free, NULL);
++        g_list_free (cmd->union_data.attach.dirs);
+ 		break;
+ 	case RUN_TO_COMMAND:
+ 	case BREAK_LINE_COMMAND:
+ 	case BREAK_FUNCTION_COMMAND:
+ 	case BREAK_ADDRESS_COMMAND:
+-		if (cmd->pos.file) g_free (cmd->pos.file);
+-		if (cmd->pos.function) g_free (cmd->pos.function);
++		if (cmd->union_data.pos.file) g_free (cmd->union_data.pos.file);
++		if (cmd->union_data.pos.function) g_free (cmd->union_data.pos.function);
+ 		break;
+ 	case CONDITION_BREAK_COMMAND:
+-		if (cmd->brk.condition) g_free (cmd->brk.condition);
++		if (cmd->union_data.brk.condition) g_free (cmd->union_data.brk.condition);
+ 		break;
+ 	case USER_COMMAND:
+-		if (cmd->user.cmd) g_free (cmd->user.cmd);
++		if (cmd->union_data.user.cmd) g_free (cmd->union_data.user.cmd);
+ 		break;
+ 	case PRINT_COMMAND:
+-		if (cmd->print.var) g_free (cmd->print.var);
++		if (cmd->union_data.print.var) g_free (cmd->union_data.print.var);
+ 		break;
+ 	case HANDLE_SIGNAL_COMMAND:
+-		if (cmd->signal.name) g_free (cmd->signal.name);
++		if (cmd->union_data.signal.name) g_free (cmd->union_data.signal.name);
+ 		break;
+ 	case DELETE_VARIABLE:
+ 	case ASSIGN_VARIABLE:
+@@ -570,7 +570,7 @@
+ 	case EVALUATE_VARIABLE:
+ 	case LIST_VARIABLE_CHILDREN:
+ 	case UPDATE_VARIABLE:
+-		if (cmd->var.name) g_free (cmd->var.name);
++		if (cmd->union_data.var.name) g_free (cmd->union_data.var.name);
+ 		break;
+     }
+ }
+@@ -1112,10 +1112,10 @@
+ 	 	    ianjuta_debugger_initialize (this->debugger, on_debugger_output, this, &err);
+ 		    break;
+ 		case LOAD_COMMAND:
+-			ianjuta_debugger_load (this->debugger, cmd->load.file, cmd->load.type, cmd->load.dirs, cmd->load.terminal, &err);	
++			ianjuta_debugger_load (this->debugger, cmd->union_data.load.file, cmd->union_data.load.type, cmd->union_data.load.dirs, cmd->union_data.load.terminal, &err);	
+ 			break;
+   	    case ATTACH_COMMAND:
+-			ianjuta_debugger_attach (this->debugger, cmd->attach.pid, cmd->load.dirs, &err);	
++			ianjuta_debugger_attach (this->debugger, cmd->union_data.attach.pid, cmd->union_data.load.dirs, &err);	
+ 			break;
+ 		case UNLOAD_COMMAND:
+ 		    ianjuta_debugger_unload (this->debugger, &err);
+@@ -1129,13 +1129,13 @@
+ 			ianjuta_debugger_abort (this->debugger, &err);
+ 			break;
+ 		case START_COMMAND:
+-			ianjuta_debugger_start (this->debugger, cmd->start.args, &err);
++			ianjuta_debugger_start (this->debugger, cmd->union_data.start.args, &err);
+ 		    break;
+ 		case RUN_COMMAND:
+ 			ianjuta_debugger_run (this->debugger, &err);	
+ 			break;
+ 		case RUN_TO_COMMAND:
+-			ianjuta_debugger_run_to (this->debugger, cmd->pos.file, cmd->pos.line, &err);	
++			ianjuta_debugger_run_to (this->debugger, cmd->union_data.pos.file, cmd->union_data.pos.line, &err);	
+ 			break;
+ 		case STEP_IN_COMMAND:
+ 			ianjuta_debugger_step_in (this->debugger, &err);	
+@@ -1156,19 +1156,19 @@
+ 			ianjuta_debugger_interrupt (this->debugger, &err);	
+ 			break;
+ 		case ENABLE_BREAK_COMMAND:
+-			ianjuta_debugger_enable_breakpoint (this->debugger, cmd->brk.id, cmd->brk.enable == IANJUTA_DEBUGGER_YES ? TRUE : FALSE, cmd->callback, cmd->user_data, &err);	
++			ianjuta_debugger_enable_breakpoint (this->debugger, cmd->union_data.brk.id, cmd->union_data.brk.enable == IANJUTA_DEBUGGER_YES ? TRUE : FALSE, cmd->callback, cmd->user_data, &err);	
+ 			break;
+ 		case IGNORE_BREAK_COMMAND:
+-			ianjuta_debugger_ignore_breakpoint (this->debugger, cmd->brk.id, cmd->brk.ignore, cmd->callback, cmd->user_data, &err);	
++			ianjuta_debugger_ignore_breakpoint (this->debugger, cmd->union_data.brk.id, cmd->union_data.brk.ignore, cmd->callback, cmd->user_data, &err);	
+ 			break;
+ 		case REMOVE_BREAK_COMMAND:
+-			ianjuta_debugger_clear_breakpoint (this->debugger, cmd->brk.id, cmd->callback, cmd->user_data, &err);	
++			ianjuta_debugger_clear_breakpoint (this->debugger, cmd->union_data.brk.id, cmd->callback, cmd->user_data, &err);	
+ 			break;
+ 		case INSPECT_COMMAND:
+-			ianjuta_debugger_inspect (this->debugger, cmd->watch.name, cmd->callback, cmd->user_data, &err);
++			ianjuta_debugger_inspect (this->debugger, cmd->union_data.watch.name, cmd->callback, cmd->user_data, &err);
+ 		    break;
+ 		case EVALUATE_COMMAND:
+-			ianjuta_debugger_evaluate (this->debugger, cmd->watch.name, cmd->watch.value, cmd->callback, cmd->user_data, &err);
++			ianjuta_debugger_evaluate (this->debugger, cmd->union_data.watch.name, cmd->union_data.watch.value, cmd->callback, cmd->user_data, &err);
+ 		    break;
+ 		case LIST_LOCAL_COMMAND:
+ 			ianjuta_debugger_list_local (this->debugger, cmd->callback, cmd->user_data, &err);	
+@@ -1204,7 +1204,7 @@
+ 			ianjuta_debugger_info_variables (this->debugger, cmd->callback, cmd->user_data, &err);	
+ 			break;
+ 		case SET_FRAME_COMMAND:
+-			ianjuta_debugger_set_frame (this->debugger, cmd->frame.frame, &err);	
++			ianjuta_debugger_set_frame (this->debugger, cmd->union_data.frame.frame, &err);	
+ 			break;
+ 		case LIST_FRAME_COMMAND:
+ 			ianjuta_debugger_list_frame (this->debugger, cmd->callback, cmd->user_data, &err);	
+@@ -1216,52 +1216,52 @@
+ 			ianjuta_cpu_debugger_update_register (this->cpu_debugger, cmd->callback, cmd->user_data, &err);	
+ 			break;
+ 		case WRITE_REGISTER_COMMAND:
+-			reg.num = cmd->watch.id;
+-		    reg.name = cmd->watch.name;
+-		    reg.value = cmd->watch.value;
++			reg.num = cmd->union_data.watch.id;
++		    reg.name = cmd->union_data.watch.name;
++		    reg.value = cmd->union_data.watch.value;
+ 			ianjuta_cpu_debugger_write_register (this->cpu_debugger, &reg, &err);	
+ 			break;
+ 		case INSPECT_MEMORY_COMMAND:
+-			ianjuta_cpu_debugger_inspect_memory (this->cpu_debugger, cmd->mem.address, cmd->mem.length, cmd->callback, cmd->user_data, &err);	
++			ianjuta_cpu_debugger_inspect_memory (this->cpu_debugger, cmd->union_data.mem.address, cmd->union_data.mem.length, cmd->callback, cmd->user_data, &err);	
+ 			break;
+ 		case DISASSEMBLE_COMMAND:
+-			ianjuta_cpu_debugger_disassemble (this->cpu_debugger, cmd->mem.address, cmd->mem.length, cmd->callback, cmd->user_data, &err);	
++			ianjuta_cpu_debugger_disassemble (this->cpu_debugger, cmd->union_data.mem.address, cmd->union_data.mem.length, cmd->callback, cmd->user_data, &err);	
+ 			break;
+ 		case BREAK_LINE_COMMAND:
+-			ianjuta_debugger_set_breakpoint_at_line (this->debugger, cmd->pos.file, cmd->pos.line, cmd->callback, cmd->user_data, &err);	
++			ianjuta_debugger_set_breakpoint_at_line (this->debugger, cmd->union_data.pos.file, cmd->union_data.pos.line, cmd->callback, cmd->user_data, &err);	
+ 			break;
+ 		case BREAK_FUNCTION_COMMAND:
+-			ianjuta_debugger_set_breakpoint_at_function (this->debugger, cmd->pos.file, cmd->pos.function, cmd->callback, cmd->user_data, &err);	
++			ianjuta_debugger_set_breakpoint_at_function (this->debugger, cmd->union_data.pos.file, cmd->union_data.pos.function, cmd->callback, cmd->user_data, &err);	
+ 			break;
+ 		case BREAK_ADDRESS_COMMAND:
+-			ianjuta_debugger_set_breakpoint_at_address (this->debugger, cmd->pos.address, cmd->callback, cmd->user_data, &err);	
++			ianjuta_debugger_set_breakpoint_at_address (this->debugger, cmd->union_data.pos.address, cmd->callback, cmd->user_data, &err);	
+ 			break;
+ 		case CONDITION_BREAK_COMMAND:
+-			ianjuta_debugger_condition_breakpoint (this->debugger, cmd->brk.id, cmd->brk.condition, cmd->callback, cmd->user_data, &err);	
++			ianjuta_debugger_condition_breakpoint (this->debugger, cmd->union_data.brk.id, cmd->union_data.brk.condition, cmd->callback, cmd->user_data, &err);	
+ 			break;
+ 		case USER_COMMAND:
+-			ianjuta_debugger_send_command (this->debugger, cmd->user.cmd, &err);	
++			ianjuta_debugger_send_command (this->debugger, cmd->union_data.user.cmd, &err);	
+ 			break;
+ 		case PRINT_COMMAND:
+-			ianjuta_debugger_print (this->debugger, cmd->print.var, cmd->callback, cmd->user_data, &err);	
++			ianjuta_debugger_print (this->debugger, cmd->union_data.print.var, cmd->callback, cmd->user_data, &err);	
+ 			break;
+ 		case HANDLE_SIGNAL_COMMAND:
+-			ianjuta_debugger_handle_signal (this->debugger, cmd->signal.name, cmd->signal.stop, cmd->signal.print, cmd->signal.ignore, &err);	
++			ianjuta_debugger_handle_signal (this->debugger, cmd->union_data.signal.name, cmd->union_data.signal.stop, cmd->union_data.signal.print, cmd->union_data.signal.ignore, &err);	
+ 			break;
+ 		case DELETE_VARIABLE:
+-			ianjuta_variable_debugger_delete_var (IANJUTA_VARIABLE_DEBUGGER (this->debugger), cmd->var.name, NULL);
++			ianjuta_variable_debugger_delete_var (IANJUTA_VARIABLE_DEBUGGER (this->debugger), cmd->union_data.var.name, NULL);
+ 			break;
+ 		case ASSIGN_VARIABLE:
+-			ianjuta_variable_debugger_assign (IANJUTA_VARIABLE_DEBUGGER (this->debugger), cmd->var.name, cmd->var.value, &err);
++			ianjuta_variable_debugger_assign (IANJUTA_VARIABLE_DEBUGGER (this->debugger), cmd->union_data.var.name, cmd->union_data.var.value, &err);
+ 			break;
+ 		case EVALUATE_VARIABLE:
+-			ianjuta_variable_debugger_evaluate (IANJUTA_VARIABLE_DEBUGGER (this->debugger), cmd->var.name, cmd->callback, cmd->user_data, &err);
++			ianjuta_variable_debugger_evaluate (IANJUTA_VARIABLE_DEBUGGER (this->debugger), cmd->union_data.var.name, cmd->callback, cmd->user_data, &err);
+ 			break;
+ 		case LIST_VARIABLE_CHILDREN:
+-			ianjuta_variable_debugger_list_children (IANJUTA_VARIABLE_DEBUGGER (this->debugger), cmd->var.name, cmd->callback, cmd->user_data, &err);
++			ianjuta_variable_debugger_list_children (IANJUTA_VARIABLE_DEBUGGER (this->debugger), cmd->union_data.var.name, cmd->callback, cmd->user_data, &err);
+ 			break;
+ 		case CREATE_VARIABLE:
+-			ianjuta_variable_debugger_create (IANJUTA_VARIABLE_DEBUGGER (this->debugger), cmd->var.name, cmd->callback, cmd->user_data, &err);
++			ianjuta_variable_debugger_create (IANJUTA_VARIABLE_DEBUGGER (this->debugger), cmd->union_data.var.name, cmd->callback, cmd->user_data, &err);
+ 			break;
+ 		case UPDATE_VARIABLE:
+ 			ianjuta_variable_debugger_update (IANJUTA_VARIABLE_DEBUGGER (this->debugger), cmd->callback, cmd->user_data, &err);
+@@ -1442,15 +1442,15 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_LOAD_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->load.file = g_strdup (file);
+-	cmd->load.type = g_strdup (mime_type);
+-	cmd->load.dirs = NULL;
+-	cmd->load.terminal = terminal;
++	cmd->union_data.load.file = g_strdup (file);
++	cmd->union_data.load.type = g_strdup (mime_type);
++	cmd->union_data.load.dirs = NULL;
++	cmd->union_data.load.terminal = terminal;
+ 	for (node = search_dirs; node != NULL; node = g_list_next (node))
+ 	{
+-		cmd->load.dirs = g_list_prepend (cmd->load.dirs, g_strdup (node->data));
++		cmd->union_data.load.dirs = g_list_prepend (cmd->union_data.load.dirs, g_strdup (node->data));
+ 	}
+-	cmd->load.dirs = g_list_reverse (cmd->load.dirs);
++	cmd->union_data.load.dirs = g_list_reverse (cmd->union_data.load.dirs);
+ 
+ 	dma_debugger_queue_execute (this);
+ 
+@@ -1467,13 +1467,13 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_ATTACH_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 	
+-	cmd->attach.pid = pid;
+-	cmd->attach.dirs = NULL;
++	cmd->union_data.attach.pid = pid;
++	cmd->union_data.attach.dirs = NULL;
+ 	for (node = search_dirs; node != NULL; node = g_list_next (node))
+ 	{
+-		cmd->attach.dirs = g_list_prepend (cmd->attach.dirs, g_strdup (node->data));
++		cmd->union_data.attach.dirs = g_list_prepend (cmd->union_data.attach.dirs, g_strdup (node->data));
+ 	}
+-	cmd->attach.dirs = g_list_reverse (cmd->attach.dirs);
++	cmd->union_data.attach.dirs = g_list_reverse (cmd->union_data.attach.dirs);
+ 	
+ 	dma_debugger_queue_execute (this);
+ 
+@@ -1489,7 +1489,7 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_START_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->start.args = args == NULL ? NULL : g_strdup (args);
++	cmd->union_data.start.args = args == NULL ? NULL : g_strdup (args);
+ 	dma_debugger_queue_execute (this);
+ 	
+ 	return TRUE;
+@@ -1589,8 +1589,8 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_RUN_TO_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 	
+-	cmd->pos.file = g_strdup (file);
+-	cmd->pos.line = line;
++	cmd->union_data.pos.file = g_strdup (file);
++	cmd->union_data.pos.line = line;
+ 	dma_debugger_queue_execute (this);
+ 	
+ 	return TRUE;
+@@ -1647,8 +1647,8 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_BREAK_LINE_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->pos.file = g_strdup (file);
+-	cmd->pos.line = line;
++	cmd->union_data.pos.file = g_strdup (file);
++	cmd->union_data.pos.line = line;
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);
+@@ -1665,8 +1665,8 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_BREAK_FUNCTION_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->pos.file = g_strdup (file);
+-	cmd->pos.function = g_strdup (function);
++	cmd->union_data.pos.file = g_strdup (file);
++	cmd->union_data.pos.function = g_strdup (function);
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);
+@@ -1683,7 +1683,7 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_BREAK_ADDRESS_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->pos.address = address;
++	cmd->union_data.pos.address = address;
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);
+@@ -1700,8 +1700,8 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_ENABLE_BREAK_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->brk.id = id;
+-	cmd->brk.enable = enable;
++	cmd->union_data.brk.id = id;
++	cmd->union_data.brk.enable = enable;
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);
+@@ -1718,8 +1718,8 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_IGNORE_BREAK_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->brk.id = id;
+-	cmd->brk.ignore = ignore;
++	cmd->union_data.brk.id = id;
++	cmd->union_data.brk.ignore = ignore;
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);
+@@ -1736,8 +1736,8 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_CONDITION_BREAK_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->brk.id = id;
+-	cmd->brk.condition = g_strdup (condition);
++	cmd->union_data.brk.id = id;
++	cmd->union_data.brk.condition = g_strdup (condition);
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);
+@@ -1754,7 +1754,7 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_REMOVE_BREAK_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->brk.id = id;
++	cmd->union_data.brk.id = id;
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);
+@@ -1771,7 +1771,7 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_INSPECT_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->watch.name = g_strdup (expression);
++	cmd->union_data.watch.name = g_strdup (expression);
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);
+@@ -1788,8 +1788,8 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_EVALUATE_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->watch.name = g_strdup (name);
+-	cmd->watch.value = g_strdup (value);
++	cmd->union_data.watch.name = g_strdup (name);
++	cmd->union_data.watch.value = g_strdup (value);
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);
+@@ -1806,7 +1806,7 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_USER_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->user.cmd = g_strdup (command);
++	cmd->union_data.user.cmd = g_strdup (command);
+ 	dma_debugger_queue_execute (this);
+ 	
+ 	return TRUE;
+@@ -1821,7 +1821,7 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_PRINT_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->print.var = g_strdup (variable);
++	cmd->union_data.print.var = g_strdup (variable);
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);
+@@ -1902,10 +1902,10 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_HANDLE_SIGNAL_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->signal.name = g_strdup (name);
+-	cmd->signal.stop = stop;
+-	cmd->signal.print = print;
+-	cmd->signal.ignore = ignore;
++	cmd->union_data.signal.name = g_strdup (name);
++	cmd->union_data.signal.stop = stop;
++	cmd->union_data.signal.print = print;
++	cmd->union_data.signal.ignore = ignore;
+ 	dma_debugger_queue_execute (this);
+ 	
+ 	return TRUE;
+@@ -1920,7 +1920,7 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_INFO_FRAME_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->frame.frame = frame;
++	cmd->union_data.frame.frame = frame;
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);
+@@ -2033,7 +2033,7 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_SET_FRAME_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->frame.frame = frame;
++	cmd->union_data.frame.frame = frame;
+ 	dma_debugger_queue_execute (this);
+ 	
+ 	return TRUE;
+@@ -2203,9 +2203,9 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_WRITE_REGISTER_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->watch.id = value->num;
+-	cmd->watch.name = value->name != NULL ? g_strdup (value->name) : NULL;
+-	cmd->watch.value = value->value != NULL ? g_strdup (value->value) : NULL;
++	cmd->union_data.watch.id = value->num;
++	cmd->union_data.watch.name = value->name != NULL ? g_strdup (value->name) : NULL;
++	cmd->union_data.watch.value = value->value != NULL ? g_strdup (value->value) : NULL;
+ 	dma_debugger_queue_execute (this);
+ 	
+ 	return TRUE;
+@@ -2220,8 +2220,8 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_INSPECT_MEMORY_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 
+-	cmd->mem.address = address;
+-	cmd->mem.length = length;
++	cmd->union_data.mem.address = address;
++	cmd->union_data.mem.length = length;
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);
+@@ -2238,8 +2238,8 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_DISASSEMBLE_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 
+-	cmd->mem.address = address;
+-	cmd->mem.length = length;
++	cmd->union_data.mem.address = address;
++	cmd->union_data.mem.length = length;
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);
+@@ -2269,7 +2269,7 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_DELETE_VARIABLE_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->var.name = g_strdup(name);
++	cmd->union_data.var.name = g_strdup(name);
+ 	dma_debugger_queue_execute (this);
+ 	
+ 	return TRUE;
+@@ -2284,7 +2284,7 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_EVALUATE_VARIABLE_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->var.name = g_strdup(name);
++	cmd->union_data.var.name = g_strdup(name);
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);
+@@ -2301,8 +2301,8 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_ASSIGN_VARIABLE_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->var.name = g_strdup(name);
+-	cmd->var.value = g_strdup(value);
++	cmd->union_data.var.name = g_strdup(name);
++	cmd->union_data.var.value = g_strdup(value);
+ 	dma_debugger_queue_execute (this);
+ 	
+ 	return TRUE;
+@@ -2317,7 +2317,7 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_LIST_VARIABLE_CHILDREN_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->var.name = g_strdup(name);
++	cmd->union_data.var.name = g_strdup(name);
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);
+@@ -2334,7 +2334,7 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_CREATE_VARIABLE_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->var.name = g_strdup(name);
++	cmd->union_data.var.name = g_strdup(name);
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+ 	dma_debugger_queue_execute (this);

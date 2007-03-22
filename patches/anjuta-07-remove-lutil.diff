@@ -1,0 +1,32 @@
+Index: anjuta-head/manuals/reference/libanjuta/Makefile.am
+===================================================================
+--- anjuta-head/manuals/reference/libanjuta/Makefile.am	(revision 2875)
++++ anjuta-head/manuals/reference/libanjuta/Makefile.am	(working copy)
+@@ -76,7 +76,6 @@
+ 	$(LIBANJUTA_CFLAGS)
+ 
+ GTKDOC_LIBS =						\
+-	-lutil \
+ 	$(top_builddir)/libanjuta/libanjuta.la \
+ 	$(top_builddir)/libanjuta/interfaces/libanjuta-interfaces.la \
+ 	$(top_builddir)/plugins/editor/scintilla/libanjuta-scintilla.la \
+@@ -89,7 +88,6 @@
+ 	$(LIBANJUTA_CFLAGS)
+ 	
+ GTKDOC_LIBS =						\
+-	-lutil \
+ 	$(top_builddir)/libanjuta/libanjuta.la \
+ 	$(top_builddir)/libanjuta/interfaces/libanjuta-interfaces.la \
+ 	$(LIBANJUTA_LIBS)
+Index: anjuta-head/libanjuta/Makefile.am
+===================================================================
+--- anjuta-head/libanjuta/Makefile.am	(revision 2875)
++++ anjuta-head/libanjuta/Makefile.am	(working copy)
+@@ -19,7 +19,6 @@
+ lib_LTLIBRARIES=libanjuta.la
+ 
+ libanjuta_la_LIBADD = \
+-	-lutil \
+ 	$(GNOME_UI_LIBS) \
+ 	$(GLADE_LIBS) \
+ 	$(top_builddir)/libegg/libanjuta-egg.la \
