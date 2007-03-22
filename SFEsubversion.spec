@@ -8,7 +8,7 @@
 Name:			SFEsubversion
 License:		Apache,LGPL,BSD
 Group:			system/dscm
-Version:		1.4.0
+Version:		1.4.3
 Release:		1
 Summary:		Subversion SCM
 Source:			http://subversion.tigris.org/downloads/subversion-%{version}.tar.bz2
@@ -24,10 +24,9 @@ Requires: SUNWzlib
 Requires: SUNWpostrun
 Requires: SUNWopenssl-libraries
 Requires: SUNWlexpt
-Requires: SFEneon
+Requires: SUNWneon
 BuildRequires: SUNWopenssl-include
 BuildRequires: SFEgdbm-devel
-BuildRequires: SFEneon-devel
 BuildConflicts: CBEsvn
 
 %description
@@ -53,10 +52,9 @@ Requires:                %{name}
 %patch1 -p1 -b .patch01
 
 %build
-export CFLAGS="%optflags -I/usr/sfw/include -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
-export CPPFLAGS="-I/usr/sfw/include"
+export CFLAGS="%optflags -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
 export LD=/usr/ccs/bin/ld
-export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib -L$RPM_BUILD_ROOT%{_libdir}"
+export LDFLAGS="%_ldflags -L$RPM_BUILD_ROOT%{_libdir}"
 export PATH=$PATH:/usr/apache2/bin
 aclocal -I build/ac-macros
 autoconf
@@ -119,6 +117,11 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Mar 22 2007 - nonsea@users.sourceforge.net
+- Bump to 1.4.3.
+- Remove "-I/usr/sfw/include" from CFLAGS and 
+  "-L/usr/sfw/lib -R/usr/sfw/lib" from LDFLAGS to build pass
+- Nevada bundle neon, Change require from SFEneon to SUNWneon
 * Sat Oct 14 2006 - laca@sun.com
 - disable parallel build as it breaks on multicpu systems
 - bump to 1.4.0

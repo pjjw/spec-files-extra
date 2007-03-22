@@ -8,7 +8,7 @@
 Name:			SFEneon
 License:		LGPL
 Group:			system/dscm
-Version:		0.25.5
+Version:		0.26.3
 Release:		1
 Summary:		neon http and webdav client library
 Source:			http://www.webdav.org/neon/neon-%{version}.tar.gz
@@ -29,6 +29,14 @@ SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires:                %{name}
 Requires:                SUNWbash
+
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
 
 %prep
 %setup -q -n neon-%{version}
@@ -63,6 +71,12 @@ rm -rf $RPM_BUILD_ROOT%{_infodir}
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.exp
 
+%if %build_l10n
+%else
+# REMOVE l10n FILES
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -91,7 +105,17 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
 
+%if %build_l10n
+%files l10n
+%defattr (-, root, other)
+%dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/locale
+%endif
+
 %changelog
+* Thu Mar 22 2007 - nonsea@users.sourceforge.net
+- Bump to 0.26.3
+- Add back l10n package
 * Mon Nov  6 2006 - laca@sun.com
 - delete l10n subpkg -- no l10n files
 * Sat Oct 14 2006 - laca@sun.com

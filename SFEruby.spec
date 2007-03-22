@@ -7,9 +7,9 @@
 
 Name:         SFEruby
 Summary:      ruby - object oriented scripting language
-Version:      1.8.5
+URL:          http://www.ruby-lang.org/en/
+Version:      1.8.6
 Source:	      ftp://ftp.ruby-lang.org/pub/ruby/ruby-%{version}.tar.gz
-Patch1:       ruby-01-ieeefp.diff
 URL:          http://www.ruby-lang.org
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
@@ -20,7 +20,6 @@ Requires:     SUNWzlib
 
 %prep
 %setup -q -n ruby-%version
-%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -54,6 +53,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*
 
 %changelog
+* Thu Mar 22 2007 - nonsea@users.sourceforge.net
+- Bump to 1.8.6
+- Add URL
+- Remove patch ieeefp.diff, upstreamed.
 * Tue Sep 26 2006 - halton.huo@sun.com
 - Add Requires after check-deps.pl run
 * Mon Sep 11 2006 - halton.huo@sun.com

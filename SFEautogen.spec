@@ -7,16 +7,17 @@
 
 Name:                SFEautogen
 Summary:             Templatized program/text generation system
-Version:             5.8.8
+URL:                 http://autogen.sourceforge.net/
+Version:             5.9
 Source:              http://umn.dl.sourceforge.net/sourceforge/autogen/autogen-%{version}.tar.bz2
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-BuildRequires: SFEguile
+Requires: SUNWbash
+Requires: SUNWlxml
 Requires: SFEguile
-Requires: SUNWtexi
 
 %package devel
 Summary:                 %{summary} - development files
@@ -102,6 +103,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Thu Mar 22 2007 - nonsea@users.sourceforge.net
+- Bump to 5.9
+- Add Requires/BuildRequries after check-deps.pl run.
 * Tue Mar 20 2007 - daymobrew@users.sourceforge.net
 - Use single thread make so as not to break build.
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net

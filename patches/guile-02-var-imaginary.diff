@@ -1,0 +1,19 @@
+--- guile-1.8.1/libguile/numbers.c.orig1	2007-03-21 12:29:49.931031000 +0800
++++ guile-1.8.1/libguile/numbers.c	2007-03-21 12:30:00.503712000 +0800
+@@ -5336,13 +5336,13 @@
+ }
+ 
+ SCM_DEFINE (scm_make_rectangular, "make-rectangular", 2, 0, 0,
+-            (SCM real, SCM imaginary),
++            (SCM real, SCM imaginary1),
+ 	    "Return a complex number constructed of the given @var{real} and\n"
+-	    "@var{imaginary} parts.")
++	    "@var{imaginary1} parts.")
+ #define FUNC_NAME s_scm_make_rectangular
+ {
+   struct dpair xy;
+-  scm_two_doubles (real, imaginary, FUNC_NAME, &xy);
++  scm_two_doubles (real, imaginary1, FUNC_NAME, &xy);
+   return scm_c_make_rectangular (xy.x, xy.y);
+ }
+ #undef FUNC_NAME

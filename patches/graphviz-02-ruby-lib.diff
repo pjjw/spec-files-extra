@@ -1,0 +1,11 @@
+--- graphviz-2.12/configure.ac.orig1	2007-03-20 18:15:06.881711000 +0800
++++ graphviz-2.12/configure.ac	2007-03-20 18:15:39.997512000 +0800
+@@ -715,7 +715,7 @@
+ AC_CHECK_PROG(RUBY,ruby,ruby)
+ if test "x$RUBY" != "x"; then
+   RUBY_INCLUDES="-I`$RUBY $srcdir/config/config_ruby.rb INCLUDES`"
+-  RUBY_LIBS="-L`$RUBY $srcdir/config/config_ruby.rb lib` -lruby"
++  RUBY_LIBS="-L`$RUBY $srcdir/config/config_ruby.rb lib` -lruby-static"
+   save_CPPFLAGS=$CPPFLAGS
+   CPPFLAGS="$CPPFLAGS $RUBY_INCLUDES"
+   AC_CHECK_HEADER(ruby.h,,[

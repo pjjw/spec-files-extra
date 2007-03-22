@@ -20,7 +20,7 @@
 %use file = libopensync-plugin-file.spec
 %if %with_pilot_link
 %use palm = libopensync-plugin-palm.spec
-  %define plink_prefix /usr/sfw
+  %define plink_prefix /usr
 %endif
 %use syncml = libopensync-plugin-syncml.spec
 
@@ -30,15 +30,20 @@ Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires:           SFEswig
-Requires:           SFEpylibs-httplib2
-BuildRequires:      SFElibopensync-devel
+
+Requires: SUNWevolution-data-server
+Requires: SUNWgnome-base-libs
+Requires: SUNWlxml
+Requires: SFEswig
+Requires: SFElibopensync
+Requires: SFEpylibs-httplib2
 %if %with_pilot_link
-  Requires:         SUNWpltlk
-  BuildRequires:    SUNWsfwhea
+  Requires:         SUNWpilot-link
+  BuildRequires:    SUNWpilot-link-devel
 %endif
 Requires:           SFEwbxml
 Requires:           SFElibsyncml
+BuildRequires:      SFElibopensync-devel
 BuildRequires:      SFElibsyncml-devel
 
 %package devel
@@ -61,7 +66,7 @@ mkdir -p %name-%version
 %build
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 %if %with_pilot_link
-  export CFLAGS="-I%{_includedir} %optflags -I%{plink_prefix}/include"
+  export CFLAGS="-I%{_includedir} %optflags -I%{plink_prefix}/include/libpisock"
   export LDFLAGS="-L%{_libdir} -R%{_libdir} -L%{plink_prefix}/lib -R%{plink_prefix}/lib"
 %else
   export CFLAGS="-I%{_includedir} %optflags"
@@ -102,6 +107,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Thu Mar 22 2007 - nonsea@users.sourceforge.net
+- Add Requires/BuildRequries after check-deps.pl run.
+- Change plink_prefix from /usr/sfw to /usr
 * Fri Jan 11 2007 - jijun.yu@sun.com
 - Add new plugin: syncml
 * Fri Nov 17 2006 - halton.huo@sun.com

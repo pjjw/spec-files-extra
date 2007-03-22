@@ -19,11 +19,14 @@ Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires:           SFEsqlite
-Requires:           SFEswig
-Requires:           SFElibopensync
-BuildRequires:      SFEsqlite-devel
-BuildRequires:      SFElibopensync-devel
+
+Requires: SUNWgnome-base-libs
+Requires: SUNWlxml
+Requires: SUNWmlib
+Requires: SUNWzlib
+Requires: SFEsqlite
+Requires: SFEswig
+Requires: SFElibopensync
 
 
 %prep
@@ -80,4 +83,7 @@ test -x $BASEDIR/lib/postrun || exit 0
 
 
 %changelog
+* Thu Mar 22 2007 - nonsea@users.sourceforge.net
+- Add Requires/BuildRequries after check-deps.pl run.
+* Tue Nov 14 2006 - halton.huo@sun.com
 - initial version created

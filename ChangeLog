@@ -1,3 +1,31 @@
+2007-03-22  Halton Huo  <halton.huo@sun.com>
+
+	  Add Requires/BuildRequries after check-deps.pl run.
+	* SFEaria.spec:
+	* SFEautogen.spec: Bump to 5.9
+	* SFEgraphviz.spec: Add patch tclsh.diff and ruby-lib.diff
+	* SFEguile.spec: Bump to 1.8.1, Seperate package -devel,
+	  Add patch suncc-inline.diff and var-imaginary.diff.
+	* SFElibopensync-plugin.spec: Change plink_prefix from /usr/sfw to /usr
+	* SFElibopensync.spec:
+	* SFElibsyncml.spec: Add attr (0755, root, sys) %{_datadir}
+	* SFElibtool.spec:
+	* SFEmplayer.spec:
+	* SFEmultisync.spec:
+	* SFEneon.spec: Bump to 0.26.3, Add back l10n package
+	* SFEruby.spec: Bump to 1.8.6, Add URL,
+	  Remove patch ieeefp.diff, upstreamed.
+	* SFEsubversion.spec: Bump to 1.4.3,
+	  Remove "-I/usr/sfw/include" from CFLAGS and
+	  "-L/usr/sfw/lib -R/usr/sfw/lib" from LDFLAGS to build pass,
+	  Nevada bundle neon, Change require from SFEneon to SUNWneon.
+	* SFEtightvnc.spec:
+	* patches/graphviz-01-tclsh.diff: Added, fix build issues.
+	* patches/graphviz-02-ruby-lib.diff:  Added, fix build issues.
+	* patches/guile-01-suncc-inline.diff: Added, fix build issues.
+	* patches/guile-02-var-imaginary.diff:  Added, fix build issues.
+	* patches/ruby-01-ieeefp.diff: Removed, upstreamed.
+
 2007-03-22  Lin Ma  <Lin.Ma@Sun.COM>
 
 	* SFEnotification-daemon.spec: Missing default attribute in the

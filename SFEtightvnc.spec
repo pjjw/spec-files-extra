@@ -12,15 +12,22 @@ Source:                  http://mesh.dl.sourceforge.net/sourceforge/vnc-tight/ti
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-#Requires: SUNWxwrtl
-#Requires: SUNWzlib
-#Requires: SUNWlibms
+
+Requires: SUNWjpg
+Requires: SUNWlibmsr
+Requires: SUNWperl584core
+Requires: SUNWxwplt
+Requires: SUNWzlib
 BuildRequires: SUNWxwopt
 
 %package -n SFEvncviewer
 Summary:                 vncviewer - a vnc client from tightvnc
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
+Requires: SUNWjpg
+Requires: SUNWlibmsr
+Requires: SUNWxwplt
+Requires: SUNWzlib
 
 %prep
 %setup -q -n vnc_unixsrc
@@ -81,6 +88,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/vncviewer
 
 %changelog
+* Thu Mar 22 2007 - nonsea@users.sourceforge.net
+- Add Requires/BuildRequries after check-deps.pl run.
+
 * Mon Mar 05 2007 - nonsea@users.sourceforge.net
 - Bump to 1.3.8.
 

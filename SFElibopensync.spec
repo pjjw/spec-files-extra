@@ -19,9 +19,13 @@ SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 #Source1:           %{name}-manpages-0.1.tar.gz
-Requires:           SFEsqlite
-Requires:           SFEswig
-BuildRequires:      SFEsqlite-devel
+
+Requires: SUNWPython
+Requires: SUNWgnome-base-libs
+Requires: SUNWlxml
+Requires: SUNWzlib
+Requires: SFEsqlite
+Requires: SFEswig
 
 %package devel
 Summary:       %{summary} - development files
@@ -68,5 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Mar 22 2007 - nonsea@users.sourceforge.net
+- Add Requires/BuildRequries after check-deps.pl run.
 * Tue Nov 14 2006 - halton.huo@sun.com
 - initial version created

@@ -19,6 +19,13 @@ SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
+Requires: SUNWgnutls
+Requires: SUNWlibC
+Requires: SUNWlibgcrypt
+Requires: SUNWlibgpg-error
+Requires: SUNWlibmsr
+
+
 %if %build_l10n
 %package l10n
 Summary:                 %{summary} - l10n files
@@ -72,5 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Mar 22 2007 - nonsea@users.sourceforge.net
+- Add Requires/BuildRequries after check-deps.pl run.
 * Tue Dec 19 2006 - halton.huo@sun.com
 - initial version created

@@ -1,0 +1,165 @@
+--- guile-1.8.1/libguile/numbers.c.orig	2007-03-22 17:46:53.913105000 +0800
++++ guile-1.8.1/libguile/numbers.c	2007-03-22 17:47:09.790497000 +0800
+@@ -183,7 +183,11 @@
+ 
+ 
+ 
++#ifdef __GNUC__
+ SCM_C_INLINE_KEYWORD SCM
++#else
++SCM
++#endif
+ scm_i_mkbig ()
+ {
+   /* Return a newly created bignum. */
+@@ -192,7 +196,11 @@
+   return z;
+ }
+ 
++#ifdef __GNUC__
+ SCM_C_INLINE_KEYWORD SCM
++#else
++SCM
++#endif
+ scm_i_long2big (long x)
+ {
+   /* Return a newly created bignum initialized to X. */
+@@ -201,7 +209,11 @@
+   return z;
+ }
+ 
++#ifdef __GNUC__
+ SCM_C_INLINE_KEYWORD SCM
++#else
++SCM
++#endif
+ scm_i_ulong2big (unsigned long x)
+ {
+   /* Return a newly created bignum initialized to X. */
+@@ -210,7 +222,11 @@
+   return z;
+ }
+ 
++#ifdef __GNUC__
+ SCM_C_INLINE_KEYWORD SCM
++#else
++SCM
++#endif
+ scm_i_clonebig (SCM src_big, int same_sign_p)
+ {
+   /* Copy src_big's value, negate it if same_sign_p is false, and return. */
+@@ -231,7 +247,11 @@
+   return result;
+ }
+ 
++#ifdef __GNUC__
+ SCM_C_INLINE_KEYWORD SCM
++#else
++SCM
++#endif
+ scm_i_dbl2big (double d)
+ {
+   /* results are only defined if d is an integer */
+--- guile-1.8.1/libguile/inline.h.orig	2007-03-22 17:46:58.568383000 +0800
++++ guile-1.8.1/libguile/inline.h	2007-03-22 17:54:51.422844000 +0800
+@@ -38,12 +38,14 @@
+ #include "libguile/pairs.h"
+ 
+ 
++#ifdef __GNUC__
+ SCM_API SCM scm_cell (scm_t_bits car, scm_t_bits cdr);
+ SCM_API SCM scm_double_cell (scm_t_bits car, scm_t_bits cbr,
+ 			     scm_t_bits ccr, scm_t_bits cdr);
+ 
+ SCM_API SCM scm_array_handle_ref (scm_t_array_handle *h, ssize_t pos);
+ SCM_API void scm_array_handle_set (scm_t_array_handle *h, ssize_t pos, SCM val);
++#endif
+ 
+ 
+ #if defined SCM_C_INLINE || defined SCM_INLINE_C_INCLUDING_INLINE_H
+@@ -59,10 +61,10 @@
+ /* definitely inlining */
+ #ifdef __GNUC__
+ extern
++SCM_C_INLINE
+ #else
+ static
+ #endif
+-SCM_C_INLINE
+ #endif
+ SCM
+ scm_cell (scm_t_bits car, scm_t_bits cdr)
+@@ -135,10 +137,10 @@
+ /* definitely inlining */
+ #ifdef __GNUC__
+ extern
++SCM_C_INLINE
+ #else
+ static
+ #endif
+-SCM_C_INLINE
+ #endif
+ SCM
+ scm_double_cell (scm_t_bits car, scm_t_bits cbr,
+@@ -210,10 +212,10 @@
+ /* definitely inlining */
+ #ifdef __GNUC__
+ extern
++SCM_C_INLINE
+ #else
+ static
+ #endif
+-SCM_C_INLINE
+ #endif
+ SCM
+ scm_array_handle_ref (scm_t_array_handle *h, ssize_t p)
+@@ -225,10 +227,10 @@
+ /* definitely inlining */
+ #ifdef __GNUC__
+ extern
++SCM_C_INLINE
+ #else
+ static
+ #endif
+-SCM_C_INLINE
+ #endif
+ void
+ scm_array_handle_set (scm_t_array_handle *h, ssize_t p, SCM v)
+@@ -240,10 +242,10 @@
+ /* definitely inlining */
+ #ifdef __GNUC__
+ extern
++SCM_C_INLINE
+ #else
+ static
+ #endif
+-SCM_C_INLINE
+ #endif
+ int
+ scm_is_pair (SCM x)
+--- guile-1.8.1/libguile/strings.c.orig	2007-03-22 17:47:02.616411000 +0800
++++ guile-1.8.1/libguile/strings.c	2007-03-22 17:47:09.801582000 +0800
+@@ -124,7 +124,11 @@
+ 
+ /* Return a new stringbuf whose underlying storage consists of the LEN+1
+    octets pointed to by STR (the last octet is zero).  */
++#ifdef __GNUC__
+ SCM_C_INLINE_KEYWORD SCM
++#else
++SCM
++#endif
+ scm_i_take_stringbufn (char *str, size_t len)
+ {
+   scm_gc_register_collectable_memory (str, len + 1, "stringbuf");
+--- guile-1.8.1/libguile/pairs.h.orig	2007-03-22 17:55:15.533768000 +0800
++++ guile-1.8.1/libguile/pairs.h	2007-03-22 17:57:42.877947000 +0800
+@@ -78,7 +78,9 @@
+ SCM_API void scm_error_pair_access (SCM);
+ #endif
+ 
++#ifdef __GNUC__
+ SCM_API int scm_is_pair (SCM x);
++#endif
+ 
+ SCM_API SCM scm_cons (SCM x, SCM y);
+ SCM_API SCM scm_cons2 (SCM w, SCM x, SCM y);

@@ -66,6 +66,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*.so*
+%dir %attr (0755, root, sys) %{_datadir}
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/*
 %{_mandir}/*/*
@@ -86,5 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Mar 22 2007 - nonsea@users.sourceforge.net
+- Add attr (0755, root, sys) %{_datadir}
 * Thu Jan 11 2006 - jijun.yu@sun.com
 - initial version created

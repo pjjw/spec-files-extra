@@ -12,8 +12,9 @@ Source:              ftp://ftp.gnu.org/gnu/libtool/libtool-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires:  SUNWpostrun
-Requires: SUNWtexi
+
+Requires: SUNWbash
+Requires: SUNWpostrun
 
 %prep
 %setup -q -n libtool-%version
@@ -81,6 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/libtool/*
 
 %changelog
+* Thu Mar 22 2007 - nonsea@users.sourceforge.net
+- Add Requires/BuildRequries after check-deps.pl run.
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net
 - Add SUNWtexi dependency.
 * Sun Jan  7 2007 - laca@sun.com

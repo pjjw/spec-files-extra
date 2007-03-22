@@ -49,6 +49,7 @@ Requires: SUNWlibtheora
 Requires: SUNWgccruntime
 Requires: SUNWlibcdio
 Requires: SUNWgnome-base-libs
+Requires: SUNWsmbau
 BuildRequires: SFElibsndfile-devel
 BuildRequires: SFElibfame-devel
 BuildRequires: SFElibdvdplay-devel
@@ -149,6 +150,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Thu Mar 22 2007 - nonsea@users.sourceforge.net
+- Add Requires SUNWsmbau after check-deps.pl run.
 * Sun Jan  7 2007 - laca@sun.com
 - split the codecs out into SFEmplayer-codecs
 * Wed Jan  3 2007 - laca@sun.com
