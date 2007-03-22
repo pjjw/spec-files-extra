@@ -1,4 +1,23 @@
-2007-03-22  Halton Huo  <halton.huo@sun.com>
+2007-03-22  Halton Huo  <nonsea@users.sourceforge.net>
+
+	* SFEanjuta.spec: (new) GNOME IDE for C and C++
+	* SFEgdl.spec, linux-specs/gdl.spec:
+	  (new) Components and library for GNOME development tools
+	* SFEgnome-build.spec, linux-specs/gnome-build.spec:
+	  (new) GNOME Build Framework
+	* patches/anjuta-01-wall.diff: Added.
+	* patches/anjuta-02-suncc-inline.diff: Added.
+	* patches/anjuta-03-suncc-union.diff: Added.
+	* patches/anjuta-04-lack-headers.diff: Added.
+	* patches/anjuta-05-suncc-compile.diff: Added.
+	* patches/anjuta-06-idl.diff: Added.
+	* patches/anjuta-07-remove-lutil.diff: Added.
+	* patches/gdl-01-void0-suncc-error.diff: Added.
+	* patches/gdl-02-solaris-find.diff: Added.
+	* patches/gnome-build-01-gnu-regex.diff: Added.
+	* patches/gnome-build-02-debug-define.diff: Added.
+
+2007-03-22  Halton Huo  <nonsea@users.sourceforge.net>
 
 	  Add Requires/BuildRequries after check-deps.pl run.
 	* SFEaria.spec:
