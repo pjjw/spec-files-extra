@@ -58,14 +58,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/worker
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, sys) %{_datadir}/pixmaps
 %dir %attr (0755, root, other) %{_datadir}/worker
-%dir %attr (0755, root, bin) %{_mandir}
 %{_datadir}/worker/*
+%dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
+%dir %attr (0755, root, bin) %{_mandir}
 %{_mandir}/*
 
 %changelog
+* Thu Mark 22 2007 - daymobrew@users.sourceforge.net
+- Fix perms for pixmaps dir.
 * Mon Mar 19 2007 - dougs@truemail.co.th
 - Fixed -fno-omit-frame-pointer flag
 * Mon Mar 12 2007 - Eric Boutilier

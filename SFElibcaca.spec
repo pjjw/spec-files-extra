@@ -4,13 +4,13 @@
 # package are under the same license as the package itself.
 
 %include Solaris.inc
-%define tarball_version 0.99.beta11
 
 Name:                SFElibcaca
 Summary:             A colour ASCII art library.
 Version:             0.99
-Source:              http://sam.zoy.org/projects/libcaca/libcaca-%{tarball_version}.tar.gz
-
+%define tarball_version 0.99.beta11
+Source:              http://libcaca.zoy.org/files/libcaca-%{tarball_version}.tar.gz
+URL:                 http://libcaca.zoy.org/
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -87,6 +87,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Mar 22 2007 - daymobrew@users.sourceforge.net
+- Update Source location and add URL.
 * Mon Mar 19 2007 - dougs@truemail.co.th
 - Fixed -fno-omit-frame-pointer flag
 * Wed Dec 20 2006 - Eric Boutilier

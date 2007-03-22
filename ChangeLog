@@ -1,3 +1,8 @@
+2007-03-22  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFElibcaca.spec: Update Source location and add URL.
+	* SFEworker.spec: Fix perms for pixmaps dir.
+
 2007-03-22  Halton Huo  <nonsea@users.sourceforge.net>
 
 	* SFEanjuta.spec: (new) GNOME IDE for C and C++
