@@ -79,6 +79,7 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 rm -rf $RPM_BUILD_ROOT
 
 %files 
+%defattr (-, root, bin)
 %dir %attr (0755, root, bin) %dir %{_libdir}/notification-daemon-1.0
 %dir %attr (0755, root, bin) %dir %{_libdir}/notification-daemon-1.0/engines
 %{_libdir}/notification-daemon-1.0/engines/*.so*
@@ -103,6 +104,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Mar 22 2006 - lin.ma@sun.com
+- Missing default attribute in the section "files"
 * Thu Mar 08 2006 - nonsea@users.sourceforge.net
 - Bump to 0.3.7
 - Add package -l10n

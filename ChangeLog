@@ -1,3 +1,8 @@
+2007-03-22  Lin Ma  <Lin.Ma@Sun.COM>
+
+	* SFEnotification-daemon.spec: Missing default attribute in the
+	section "files"
+
 2007-03-21  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFErrdtool.spec: Bump to 1.2.19. Update URL.
