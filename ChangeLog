@@ -1,5 +1,7 @@
 2007-03-22  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* SFEvlc.spec: Added. It's a cross-platform media player and streaming
+	  server. It is not building yet.
 	* SFElibcaca.spec: Update Source location and add URL.
 	* SFEworker.spec: Fix perms for pixmaps dir.
 
