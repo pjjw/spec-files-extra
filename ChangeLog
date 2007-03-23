@@ -1,3 +1,10 @@
+2007-03-23  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEexpat.spec: (new) expat XML parser library
+	* SFEmonkey-bubble.spec: add Sun Studio compiler patch info
+	* SFExplanet.spec: add Sun Studio compiler patch info
+	* linux-specs/expat.spec: base spec for the expat XML parser library
+
 2007-03-23  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEvlc.spec: Add two patches, 01-configure-no-pipe and 02-solaris.
