@@ -1,0 +1,20 @@
+--- vlc-0.8.6a/configure.ac.orig	2007-03-23 15:06:50.706143916 +0000
++++ vlc-0.8.6a/configure.ac	2007-03-23 15:07:00.294852545 +0000
+@@ -903,17 +903,6 @@
+     OBJCFLAGS_save="-Wsign-compare ${OBJCFLAGS_save}"; OBJCFLAGS="${OBJCFLAGS_save}"
+ fi
+ 
+-dnl Check for -pipe
+-AC_CACHE_CHECK([if \$CC accepts -pipe],
+-    [ac_cv_c_pipe],
+-    [CFLAGS="${CFLAGS_save} -pipe"
+-     AC_TRY_COMPILE([],,ac_cv_c_pipe=yes, ac_cv_c_pipe=no)])
+-if test "${ac_cv_c_pipe}" != "no"; then
+-    CFLAGS_save="${CFLAGS_save} -pipe"; CFLAGS="${CFLAGS_save}"
+-    CXXFLAGS_save="${CXXFLAGS_save} -pipe"; CXXFLAGS="${CXXFLAGS_save}"
+-    OBJCFLAGS_save="${OBJCFLAGS_save} -pipe"; OBJCFLAGS="${OBJCFLAGS_save}"
+-fi
+-
+ dnl Check for various optimization flags
+ AC_CACHE_CHECK([if \$CC accepts -Os],
+     [ac_cv_c_os],

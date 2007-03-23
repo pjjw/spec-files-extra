@@ -55,5 +55,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lib*.so*
 
 %changelog
+* Fri Mar 23 2007 - daymobrew@users.sourceforge.net
+- Add two patches, 01-configure-no-pipe and 02-solaris. Add multiple
+  dependencies. Getting closer but not quite building yet.
+  Patch 01-configure-no-pipe removes the '-pipe' test. It causes problems later
+  with -DSYS_SOLARIS being added after -pipe and being rejected by the linker.
+  Patch 02-solaris.diff fixes two compiler issues. First involves expansion of
+  ?: code; second changes AF_LOCAL to AF_UNIX as the former is not defined in
+  <sys/socket.h>.
+
 * Thu Mar 22 2007 - daymobrew@users.sourceforge.net
 - Initial version

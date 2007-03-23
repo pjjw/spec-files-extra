@@ -1,3 +1,14 @@
+2007-03-23  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEvlc.spec: Add two patches, 01-configure-no-pipe and 02-solaris.
+	  Add multiple dependencies. Getting closer but not quite building yet.
+	* patches/vlc-01-configure-no-pipe.diff: Added to remove the '-pipe'
+	  test. It causes problems later with -DSYS_SOLARIS being added after
+	  -pipe and being rejected by the linker.
+	* patches/vlc-02-solaris.diff: Added. Fixes two compiler issues. First
+	  involves expansion of ?: code; second changes AF_LOCAL to AF_UNIX as
+	  the former is not defined in <sys/socket.h>.
+
 2007-03-22  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEvlc.spec: Added. It's a cross-platform media player and streaming
