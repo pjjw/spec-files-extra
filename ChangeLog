@@ -1,3 +1,15 @@
+2007-03-26  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEphp-auth-sasl.spec: (new) PHP package: Abstraction of SASL mechanism responses
+	* SFEphp-net-smtp.spec: (new)   "  SMTP protocol
+	* SFEphp-net-socket.spec: (new) " Network Socket Interface
+	* SFEphp-xml-rpc.spec: (new)    " XML-RPC protocol
+	* SFEphp-pear-cmd-pkging.spec: (new) " make-rpm-spec command for PEAR packages
+	* SFEphp.spec: Work-around: Remove MySQL dependencies and --with-mysql
+	  Add: "--with-pgsql=/usr --with-bz2 --with-zlibs"
+	  Add: "cp php.ini-recommended $RPM_BUILD_ROOT%{_libdir}/php.ini"
+	  Bump: to 5.2.1
+
 2007-03-23  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEexpat.spec: (new) expat XML parser library

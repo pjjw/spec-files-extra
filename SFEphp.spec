@@ -7,7 +7,7 @@
 
 Name:                    SFEphp
 Summary:                 php - Hypertext Preprocessor - general-purpose scripting language for Web development
-Version:                 5.2.0
+Version:                 5.2.1
 # TODO: Get a good source url. php.net ones end with "/from/a/mirror"
 Source:                  http://www.php.net/download/php-%{version}.tar.bz2
 URL:                     http://www.php.net/
@@ -15,8 +15,6 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWapch2u
-Requires: SUNWmysqlu
-BuildRequires: SUNWmysqlS
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -41,8 +39,10 @@ export CFLAGS="%optflags"
 	    --mandir=%{_mandir}			\
 	    --libexec=%{_libexec}		\
 	    --sysconfdir=%{_sysconfdir}		\
+	    --with-bz2                          \
+	    --with-zlib                         \
 	    --with-apxs2=/usr/apache2/bin/apxs	\
-	    --with-mysql=/usr/sfw
+	    --with-pgsql=/usr
 	    
 make -j$CPUS
 
@@ -55,6 +55,8 @@ echo >${RPM_BUILD_ROOT}/etc/apache2/httpd.conf
 echo "LoadModule /usr/dummy.so" >>${RPM_BUILD_ROOT}/etc/apache2/httpd.conf
 
 make install INSTALL_ROOT=$RPM_BUILD_ROOT
+
+cp php.ini-recommended $RPM_BUILD_ROOT%{_libdir}/php.ini
 
 # Remove the dummy line and rename the file.
 awk '!/dummy/ {print}' ${RPM_BUILD_ROOT}/etc/apache2/httpd.conf > ${RPM_BUILD_ROOT}/etc/apache2/httpd-php.conf
@@ -80,6 +82,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/php
+%{_libdir}/php.ini
 %dir %attr (0755, root, bin) %dir %{_includedir}
 %{_includedir}/*
 %dir %attr(0755, root, sys) %{_datadir}
@@ -94,5 +97,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/apache2
 
 %changelog
+* Mon Mar 26 2007 - Eric Boutilielr
+- Work-around: Remove MySQL dependencies and --with-mysql
+- Add: --with-pgsql=/usr --with-bz2 --with-zlibs 
+- Add: cp php.ini-recommended $RPM_BUILD_ROOT%{_libdir}/php.ini
+- Bump: to 5.2.1
 * Fri Jan 19 2007 - daymobrew@users.sourceforge.net
 - Initial spec
