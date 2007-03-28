@@ -1,0 +1,61 @@
+diff -Nur gnome-power-manager-2.18.1/applets/brightness/Makefile.am gnome-power-manager-2.18.1-new/applets/brightness/Makefile.am
+--- gnome-power-manager-2.18.1/applets/brightness/Makefile.am	2007-03-05 01:35:42.000000000 +0800
++++ gnome-power-manager-2.18.1-new/applets/brightness/Makefile.am	2007-03-28 10:41:52.251388000 +0800
+@@ -25,7 +25,8 @@
+ 	../../src/gpm-marshal.c
+ 
+ gnome_brightness_applet_SOURCES=brightness-applet.c brightness-applet.h $(SRCDEPS)
+-gnome_brightness_applet_LDADD=$(GNOME_LIBS)
++gnome_brightness_applet_LDADD=$(GNOME_LIBS)	\
++                              $(DBUS_LIBS)
+ 
+ serverdir       = $(libdir)/bonobo/servers
+ server_in_files = GNOME_BrightnessApplet.server.in
+diff -Nur gnome-power-manager-2.18.1/applets/inhibit/Makefile.am gnome-power-manager-2.18.1-new/applets/inhibit/Makefile.am
+--- gnome-power-manager-2.18.1/applets/inhibit/Makefile.am	2007-03-05 01:35:42.000000000 +0800
++++ gnome-power-manager-2.18.1-new/applets/inhibit/Makefile.am	2007-03-28 10:42:34.611164000 +0800
+@@ -25,7 +25,8 @@
+ 	../../src/gpm-marshal.c
+ 
+ gnome_inhibit_applet_SOURCES=inhibit-applet.c inhibit-applet.h $(SRCDEPS)
+-gnome_inhibit_applet_LDADD=$(GNOME_LIBS)
++gnome_inhibit_applet_LDADD=$(GNOME_LIBS)	\
++                           $(DBUS_LIBS)
+ 
+ serverdir       = $(libdir)/bonobo/servers
+ server_in_files = GNOME_InhibitApplet.server.in
+diff -Nur gnome-power-manager-2.18.1/help/Makefile.am gnome-power-manager-2.18.1-new/help/Makefile.am
+--- gnome-power-manager-2.18.1/help/Makefile.am	2007-03-05 01:35:41.000000000 +0800
++++ gnome-power-manager-2.18.1-new/help/Makefile.am	2007-03-28 11:27:32.459920000 +0800
+@@ -21,4 +21,4 @@
+ 	figures/gpm-cell-capacity.png \
+ 	figures/gpm-suspend-problem.png
+ 
+-DOC_LINGUAS = es fr hu pa ru sv
++DOC_LINGUAS = es fr pa ru sv
+diff -Nur gnome-power-manager-2.18.1/src/Makefile.am gnome-power-manager-2.18.1-new/src/Makefile.am
+--- gnome-power-manager-2.18.1/src/Makefile.am	2007-03-05 01:35:32.000000000 +0800
++++ gnome-power-manager-2.18.1-new/src/Makefile.am	2007-03-27 18:41:42.821044000 +0800
+@@ -134,8 +134,10 @@
+ 	$(GNOME_LIBS)					\
+ 	$(HAL_LIBS)					\
+ 	$(DBUS_LIBS)					\
++        $(GPM_EXTRA_LIBS)                               \
+ 	$(NULL)
+ 
++
+ if HAVE_GTKUNIQUE
+ gnome_power_preferences_LDADD +=			\
+ 	$(GTKUNIQUE_LIBS)
+diff -Nur gnome-power-manager-2.18.1/src/gpm-debug.h gnome-power-manager-2.18.1-new/src/gpm-debug.h
+--- gnome-power-manager-2.18.1/src/gpm-debug.h	2007-03-05 01:35:31.000000000 +0800
++++ gnome-power-manager-2.18.1-new/src/gpm-debug.h	2007-03-27 18:35:32.581688000 +0800
+@@ -36,7 +36,7 @@
+ #define gpm_warning(...) gpm_warning_real (__FUNCTION__, __FILE__, __LINE__, __VA_ARGS__)
+ #else
+ #define gpm_debug
+-#define gpm_warning
++#define gpm_warning(...) gpm_warning_real ("", __FILE__, __LINE__, __VA_ARGS__)
+ #endif
+ 
+ void		gpm_debug_init			(gboolean	 debug);

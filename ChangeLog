@@ -1,3 +1,10 @@
+2007-03-28  simon.zheng  <simon.zheng@sun.com>
+
+	* SFEgnome-power-manager.spec:
+	* linux-specs/gnome-power-manager.spec:
+	* patches/gnome-power-manager-01-build.diff:
+          Add spec files for Gnome power manager.
+
 2007-03-26  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEphp-auth-sasl.spec: (new) PHP package: Abstraction of SASL mechanism responses
