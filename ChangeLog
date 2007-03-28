@@ -1,3 +1,9 @@
+2007-03-26  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEavfs.spec: Add EMACS='no': Makes non-creation of /usr/etc predictable
+	* SFEphp.spec: add --enable-mbstring and --with-gettext=/usr/gnu
+	* SFEsfind.spec: Wrong Summary text fixed
+
 2007-03-28  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEwput.spec: (new) File uploader with wget-like CLI interface

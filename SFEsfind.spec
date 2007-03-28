@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 Name:                SFEsfind
-Summary:             fast POSIX-compliant tar
+Summary:             Schily implementation of the find utility
 Version:             1.2
 Source:              ftp://ftp.berlios.de/pub/sfind/sfind-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
@@ -49,6 +49,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/sfind.1
 
 %changelog
-* 
+* Wed Mar 28 2007 - Eric Boutilier
+- Wrong Summary text fixed
 * Sun Mar 18 2007 - Eric Boutilier
 - Initial spec

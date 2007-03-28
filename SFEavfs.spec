@@ -30,6 +30,7 @@ fi
 
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
+export EMACS='no'
 
 ./configure \
         --prefix=%{_prefix}  \
@@ -67,8 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/virtual.h
 
 %changelog
+* Wed Mar 28 2007 - Eric Boutilier
+- Add EMACS='no' to make non-creation of /usr/etc predictable
 * Tue Mar 20 2007 - daymobrew@users.sourceforge.net
 - Remove from %install the code that removes the non-existant /usr/etc dir.
-
 * Mon Mar 12 2007 - Eric Boutilier
 - Initial spec

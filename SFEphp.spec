@@ -14,7 +14,10 @@ URL:                     http://www.php.net/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+
 Requires: SUNWapch2u
+BuildRequires: SFEgettext
+Requires: SFEgettext
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -41,6 +44,8 @@ export CFLAGS="%optflags"
 	    --sysconfdir=%{_sysconfdir}		\
 	    --with-bz2                          \
 	    --with-zlib                         \
+	    --enable-mbstring                   \
+	    --with-gettext=/usr/gnu             \
 	    --with-apxs2=/usr/apache2/bin/apxs	\
 	    --with-pgsql=/usr
 	    
@@ -97,7 +102,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/apache2
 
 %changelog
-* Mon Mar 26 2007 - Eric Boutilielr
+* Wed Mar 28 2007 - Eric Boutilier
+- add --enable-mbstring and --with-gettext=/usr/gnu
+* Mon Mar 26 2007 - Eric Boutilier
 - Work-around: Remove MySQL dependencies and --with-mysql
 - Add: --with-pgsql=/usr --with-bz2 --with-zlibs 
 - Add: cp php.ini-recommended $RPM_BUILD_ROOT%{_libdir}/php.ini
