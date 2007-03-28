@@ -1,3 +1,21 @@
+2007-03-28  Halton Huo  <set EMAIL_ADDRESS environment variable>
+
+	* SFEanjuta.spec: Reorganize patches.
+	* patches/anjuta-02-suncc-zero-struct-array.diff,
+	  patches/anjuta-03-suncc-inline.diff,
+	  patches/anjuta-04-wrong-define.diff,
+	  patches/anjuta-05-lack-headers.diff,
+	  patches/anjuta-06-remove-lutil.diff,
+	  patches/anjuta-07-suncc-union.diff,
+	  patches/anjuta-08-wrong-return.diff,
+	  patches/anjuta-09-invalid-cast.diff: Added.
+	* patches/anjuta-02-suncc-inline.diff,
+	  patches/anjuta-03-suncc-union.diff,
+	  patches/anjuta-04-lack-headers.diff,
+	  patches/anjuta-05-suncc-compile.diff,
+	  patches/anjuta-06-idl.diff,
+	  patches/anjuta-07-remove-lutil.diff: Removed.
+
 2007-03-28  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEgnome-power-manager.spec:

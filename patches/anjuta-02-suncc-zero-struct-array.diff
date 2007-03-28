@@ -1,0 +1,38 @@
+Index: anjuta-head/libanjuta/interfaces/libanjuta.idl
+===================================================================
+--- anjuta-head/libanjuta/interfaces/libanjuta.idl	(revision 2903)
++++ anjuta-head/libanjuta/interfaces/libanjuta.idl	(working copy)
+@@ -2796,7 +2796,7 @@
+ 	struct Disassembly
+ 	{
+ 		guint size;
+-		ALine data[0];	
++		ALine data[];	
+ 	}	
+ 
+ 	/* Call back functions */
+Index: anjuta-head/plugins/sourceview/sourceview-autocomplete.c
+===================================================================
+--- anjuta-head/plugins/sourceview/sourceview-autocomplete.c	(revision 2903)
++++ anjuta-head/plugins/sourceview/sourceview-autocomplete.c	(working copy)
+@@ -38,6 +38,7 @@
+ 
+ struct _SourceviewAutocompletePrivate {
+ 	/* Place Private Members Here */
++	int tmp;
+ };
+ 
+ G_DEFINE_TYPE(SourceviewAutocomplete, sourceview_autocomplete, TAG_TYPE_WINDOW);
+Index: anjuta-head/plugins/debug-manager/disassemble.c
+===================================================================
+--- anjuta-head/plugins/debug-manager/disassemble.c	(revision 2903)
++++ anjuta-head/plugins/debug-manager/disassemble.c	(working copy)
+@@ -103,7 +103,7 @@
+ 	DmaSparseBufferNode parent;
+ 	guint size;
+ 	
+-	DmaDisassemblyLine data[0];
++	DmaDisassemblyLine data[];
+ };
+ 
+ #define DMA_DISASSEMBLY_BUFFER_TYPE              (dma_disassembly_buffer_get_type ())
