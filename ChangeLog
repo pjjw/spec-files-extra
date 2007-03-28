@@ -1,3 +1,9 @@
+2007-03-28  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEwput.spec: (new) File uploader with wget-like CLI interface
+	* SFEtin.spec: (new) Curses based threaded UseNet newsreader
+	* SFEquagga.spec: (new) Routing software suite
+
 2007-03-28  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* linux-specs/gdl.spec: Bump to 0.7.3.
