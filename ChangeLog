@@ -1,3 +1,7 @@
+2007-03-28  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEphp-meta-SOAP: (new) php SOAP module and its 3 dependencies
+
 2007-03-28  Halton Huo  <set EMAIL_ADDRESS environment variable>
 
 	* SFEanjuta.spec: Reorganize patches.
