@@ -1,3 +1,7 @@
+2007-03-28  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* linux-specs/gdl.spec: Bump to 0.7.3.
+
 2007-03-28  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEphp-meta-SOAP: (new) php SOAP module and its 3 dependencies
@@ -29,11 +33,13 @@
 
 2007-03-26  Eric Boutilier  <eric.boutilier@sun.com>
 
-	* SFEphp-auth-sasl.spec: (new) PHP package: Abstraction of SASL mechanism responses
+	* SFEphp-auth-sasl.spec: (new) PHP package: Abstraction of SASL
+	  mechanism responses
 	* SFEphp-net-smtp.spec: (new)   "  SMTP protocol
 	* SFEphp-net-socket.spec: (new) " Network Socket Interface
 	* SFEphp-xml-rpc.spec: (new)    " XML-RPC protocol
-	* SFEphp-pear-cmd-pkging.spec: (new) " make-rpm-spec command for PEAR packages
+	* SFEphp-pear-cmd-pkging.spec: (new) " make-rpm-spec command for PEAR
+	  packages
 	* SFEphp.spec: Work-around: Remove MySQL dependencies and --with-mysql
 	  Add: "--with-pgsql=/usr --with-bz2 --with-zlibs"
 	  Add: "cp php.ini-recommended $RPM_BUILD_ROOT%{_libdir}/php.ini"
