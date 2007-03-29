@@ -63,6 +63,11 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %endif
 rm $RPM_BUILD_ROOT%{_datadir}/hal/device-manager/*.pyo
 
+# Rename sl_SI dir to sl as sl_SI is a symlink to sl and causing installation
+# problems as a dir.
+cd $RPM_BUILD_ROOT%{_datadir}/locale
+mv sl_SI sl
+
 %clean 
 rm -rf $RPM_BUILD_ROOT
 
@@ -80,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Mar 29 2007 - daymobrew@users.sourceforge.net
+- Rename sl_SI dir to sl in %install as sl_SI is a symlink to sl and causing
+  installation problems as a dir.
 * Wed Jan  3 2007 - laca@sun.com
 - fix %{_datadir} attributes
 * Wed Dec 13 2006 - jedy.wang@sun.com

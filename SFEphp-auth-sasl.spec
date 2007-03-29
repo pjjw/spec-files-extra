@@ -9,7 +9,7 @@
 %define topcat Auth
 %define Pname %{topcat}_SASL
 
-Name:                SFEphp-net-smtp
+Name:                SFEphp-auth-sasl
 Summary:             PHP package: Abstraction of SASL mechanism responses
 Version:             1.0.2
 URL:                 http://pear.php.net/package/%{Pname}

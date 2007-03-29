@@ -85,6 +85,10 @@ rm -f wx-config
 ln -s ../lib/wx/config/gtk2-unicode-release-* wx-config
 
 %if %build_l10n
+# Rename zh dir to zh_CN as zh is a symlink to zh_CN and causing installation
+# problems as a dir.
+cd $RPM_BUILD_ROOT%{_datadir}/locale
+mv zh zh_CN
 %else
 # REMOVE l10n FILES
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
@@ -118,6 +122,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Mar 29 2007 - daymobrew@users.sourceforge.net
+- Rename zh dir to zh_CN in %install as zh a symlink to zh_CN and causing
+  installation problems as a dir.
 * Tue Nov 28 2006 - laca@sun.com
 - enable mimetype (wxUSE_MIMETYPE), needed by dvdstyler
 - disable expat support as it conflicts with wxXML, which is also included

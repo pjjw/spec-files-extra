@@ -18,7 +18,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWpcre
 BuildRequires: SUNWpcre-devel
-Requires: SUNWaspell
+Requires: SUNWgnome-spell
 Requires: SUNWgnome-libs
 BuildRequires: SUNWgnome-libs-devel
 Requires: SUNWlibC
@@ -80,6 +80,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Mar 29 2007 - daymobrew@users.sourceforge.net
+- Change Requires of SUNWaspell to SUNWgnome-spell. Former has been obsoleted.
 * Wed Jan 24 2007 - daymobrew@users.sourceforge.net
 - s/SFEpcre/SUNWpcre/ because SUNWpcre is in Vermillion Devel.
 * Fri Jan 07 2007 - daymobrew@users.sourceforge.net

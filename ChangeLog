@@ -1,3 +1,23 @@
+2007-03-29  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEphp-auth-sasl.spec: Correct name: SFEphp-net-smtp to 
+	  SFEphp-auth-sasl.
+	* SFEbluefish.spec: Change Requires of SUNWaspell to SUNWgnome-spell.
+	  Former has been obsoleted.
+	* SFEbogofilter.spec: Bump to 1.1.5.
+	* SFEldtp.spec: Correct source url.
+	* SFEavfs.spec: Change sourceforge download mirror to one that is
+	  available.
+	* SFEgpgme.spec: Add '-lsocket -lnsl' to LDFLAGS for the
+	  accept/recvmsg/connect functions.
+	* SFEgnome-power-manager.spec: Include l10n files.
+	* SFEdevice-manager.spec: Rename sl_SI dir to sl in %install nas sl_SI
+	  is a symlink to sl and causing installation problems as a dir.
+	* SFEgrip.spec: Rename pl_PL dir to pl in %install as pl_PL is a
+	  symlink to pl and causing installation problems as a dir.
+	* SFEwxwidgets.spec: Rename zh dir to zh_CN in %install as zh a symlink
+	  to zh_CN and causing installation problems as a dir.
+
 2007-03-29  Halton Huo  <nonsea@users.sourceforge.net>
 
 	* SFEanjuta.spec: Bump to 2.1.2,
@@ -36,7 +56,8 @@
 
 2007-03-26  Eric Boutilier  <eric.boutilier@sun.com>
 
-	* SFEavfs.spec: Add EMACS='no': Makes non-creation of /usr/etc predictable
+	* SFEavfs.spec: Add EMACS='no': Makes non-creation of /usr/etc
+	  predictable.
 	* SFEphp.spec: add --enable-mbstring and --with-gettext=/usr/gnu
 	* SFEsfind.spec: Wrong Summary text fixed
 

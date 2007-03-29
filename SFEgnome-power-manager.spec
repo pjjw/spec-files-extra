@@ -183,9 +183,11 @@ test -x $BASEDIR/lib/postrun || exit 0
 %files l10n
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) %{_datadir}
-#%attr (-, root, other) %{_datadir}/locale
+%attr (-, root, other) %{_datadir}/locale
 %endif
 
 %changelog
-* Tue Mar 28 2007 - simon.zheng@sun.com
+* Thu Mar 29 2007 - daymobrew@users.sourceforge.net
+- Include l10n files.
+* Tue Mar 27 2007 - simon.zheng@sun.com
 - Create

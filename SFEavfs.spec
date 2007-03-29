@@ -8,7 +8,7 @@
 Name:                SFEavfs
 Summary:             Library for accessing virtual files (compressed, archived, remote, etc)
 Version:             0.9.7
-Source:              http://superb-west.dl.sourceforge.net/sourceforge/avf/avfs-%{version}.tar.gz
+Source:              http://umn.dl.sourceforge.net/sourceforge/avf/avfs-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -68,6 +68,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/virtual.h
 
 %changelog
+* Thu Mar 29 2007 - daymobrew@users.sourceforge.net
+- Change sourceforge download mirror to one that is available.
 * Wed Mar 28 2007 - Eric Boutilier
 - Add EMACS='no' to make non-creation of /usr/etc predictable
 * Tue Mar 20 2007 - daymobrew@users.sourceforge.net

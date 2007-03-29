@@ -7,9 +7,9 @@
 
 Name:                SFEbogofilter
 Summary:             A Bayesian spam filter.
-Version:             1.1.3
-Source:              http://superb-west.dl.sourceforge.net/sourceforge/bogofilter/bogofilter-%{version}.tar.gz
-
+Version:             1.1.5
+Source:              http://umn.dl.sourceforge.net/sourceforge/bogofilter/bogofilter-%{version}.tar.bz2
+URL:                 http://bogofilter.sourceforge.net/
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -64,6 +64,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/bogofilter.cf.example
 
 %changelog
+* Thu Mar 29 2007 - daymobrew@users.sourceforge.net
+- Bump to 1.1.5.
+
 * Fri Jan 05 2007 - daymobrew@users.sourceforge.net
 - Bump to 1.1.3.
 

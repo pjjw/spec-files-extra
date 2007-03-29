@@ -11,7 +11,7 @@ Summary:       Linux Desktop Testing Project
 Version:       0.8.0
 SUNW_BaseDir:  %{_basedir}
 BuildRoot:     %{_tmppath}/%{name}-%{version}-build
-Source:        http://download.freedesktop.org/ldtp/0.x/0.7.x/ldtp-%{version}.tar.gz
+Source:        http://download.freedesktop.org/ldtp/0.x/0.8.x/ldtp-%{version}.tar.gz
 URL:           http://ldtp.freedesktop.org
 %include default-depend.inc
 Requires: SUNWPython
@@ -60,6 +60,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Mar 29 2007 - daymobrew@users.sourceforge.net
+- Correct source url.
 * Wed Mar 21 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.8.0.
 * Wed Oct 11 2006 - laca@sun.com

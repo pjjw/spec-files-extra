@@ -28,7 +28,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags"
+export LDFLAGS="%_ldflags -lsocket -lnsl"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
@@ -82,6 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/info/*
 
 %changelog
+* Thu Mar 29 2007 - daymobrew@users.sourceforge.net
+- Add '-lsocket -lnsl' to LDFLAGS for the accept/recvmsg/connect functions.
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net
 - Add SUNWtexi dependency. Add %post/%preun to update the info dir file.
 * Wed Dec 20 2006 - Eric Boutilier

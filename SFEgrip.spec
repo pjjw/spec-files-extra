@@ -1,7 +1,5 @@
 #
-# spec file for package SFEgst-python
-#
-# includes module(s): gst-python
+# spec file for package SFEgrip
 #
 
 %include Solaris.inc
@@ -40,9 +38,13 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 #move locale to /usr/share
 mv $RPM_BUILD_ROOT%{_libdir}/locale $RPM_BUILD_ROOT%{_datadir}/
-rm -rf $RPM_BUILD_ROOT%{_libdir}
+rmdir $RPM_BUILD_ROOT%{_libdir}
 
 %if %build_l10n
+# Rename pl_PL dir to pl as pl_PL is a symlink to pl and causing installation
+# problems as a dir.
+cd $RPM_BUILD_ROOT%{_datadir}/locale
+mv pl_PL pl
 %else
 # REMOVE l10n FILES
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
@@ -75,6 +77,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Mar 29 2007 - daymobrew@users.sourceforge.net
+- Rename pl_PL dir to pl in %install as pl_PL is a symlink to pl and causing
+  installation problems as a dir.
+
 * Wed Mar 21 2007 - daymobrew@users.sourceforge.net
 - Correct %files perms and add l10n package for l10n.
 
