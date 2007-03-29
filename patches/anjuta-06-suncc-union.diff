@@ -1,6 +1,8 @@
---- anjuta-2.1.1/plugins/debug-manager/debugger.c.orig	2007-03-21 22:06:43.665457000 +0800
-+++ anjuta-2.1.1/plugins/debug-manager/debugger.c	2007-03-21 22:27:29.599539000 +0800
-@@ -357,7 +357,7 @@
+Index: anjuta-head/plugins/debug-manager/debugger.c
+===================================================================
+--- anjuta-head/plugins/debug-manager/debugger.c	(revision 2903)
++++ anjuta-head/plugins/debug-manager/debugger.c	(working copy)
+@@ -366,7 +366,7 @@
  			gchar *name;
  			gchar *value;
  		} var;
@@ -9,7 +11,7 @@
  	struct _DmaQueueCommand *next;
  } DmaQueueCommand;
  
-@@ -529,40 +529,40 @@
+@@ -540,40 +540,40 @@
  	case INSPECT_COMMAND:
  	case EVALUATE_COMMAND:
  	case WRITE_REGISTER_COMMAND:
@@ -65,7 +67,7 @@
  		break;
  	case DELETE_VARIABLE:
  	case ASSIGN_VARIABLE:
-@@ -570,7 +570,7 @@
+@@ -581,7 +581,7 @@
  	case EVALUATE_VARIABLE:
  	case LIST_VARIABLE_CHILDREN:
  	case UPDATE_VARIABLE:
@@ -74,7 +76,7 @@
  		break;
      }
  }
-@@ -1112,10 +1112,10 @@
+@@ -1123,10 +1123,10 @@
  	 	    ianjuta_debugger_initialize (this->debugger, on_debugger_output, this, &err);
  		    break;
  		case LOAD_COMMAND:
@@ -87,7 +89,7 @@
  			break;
  		case UNLOAD_COMMAND:
  		    ianjuta_debugger_unload (this->debugger, &err);
-@@ -1129,13 +1129,13 @@
+@@ -1138,13 +1138,13 @@
  			ianjuta_debugger_abort (this->debugger, &err);
  			break;
  		case START_COMMAND:
@@ -103,7 +105,7 @@
  			break;
  		case STEP_IN_COMMAND:
  			ianjuta_debugger_step_in (this->debugger, &err);	
-@@ -1156,19 +1156,19 @@
+@@ -1165,19 +1165,19 @@
  			ianjuta_debugger_interrupt (this->debugger, &err);	
  			break;
  		case ENABLE_BREAK_COMMAND:
@@ -128,7 +130,20 @@
  		    break;
  		case LIST_LOCAL_COMMAND:
  			ianjuta_debugger_list_local (this->debugger, cmd->callback, cmd->user_data, &err);	
-@@ -1204,7 +1204,7 @@
+@@ -1189,10 +1189,10 @@
+ 			ianjuta_debugger_list_thread (this->debugger, cmd->callback, cmd->user_data, &err);	
+ 			break;
+ 		case SET_THREAD_COMMAND:
+-			ianjuta_debugger_set_thread (this->debugger, cmd->frame.frame, &err);	
++			ianjuta_debugger_set_thread (this->debugger, cmd->union_data.frame.frame, &err);	
+ 			break;
+ 		case INFO_THREAD_COMMAND:
+-			ianjuta_debugger_info_thread (this->debugger, cmd->info.id, cmd->callback, cmd->user_data, &err);	
++			ianjuta_debugger_info_thread (this->debugger, cmd->union_data.info.id, cmd->callback, cmd->user_data, &err);	
+ 			break;
+ 		case INFO_SIGNAL_COMMAND:
+ 			ianjuta_debugger_info_signal (this->debugger, cmd->callback, cmd->user_data, &err);	
+@@ -1219,7 +1219,7 @@
  			ianjuta_debugger_info_variables (this->debugger, cmd->callback, cmd->user_data, &err);	
  			break;
  		case SET_FRAME_COMMAND:
@@ -137,7 +152,7 @@
  			break;
  		case LIST_FRAME_COMMAND:
  			ianjuta_debugger_list_frame (this->debugger, cmd->callback, cmd->user_data, &err);	
-@@ -1216,52 +1216,52 @@
+@@ -1231,52 +1231,52 @@
  			ianjuta_cpu_debugger_update_register (this->cpu_debugger, cmd->callback, cmd->user_data, &err);	
  			break;
  		case WRITE_REGISTER_COMMAND:
@@ -207,7 +222,7 @@
  			break;
  		case UPDATE_VARIABLE:
  			ianjuta_variable_debugger_update (IANJUTA_VARIABLE_DEBUGGER (this->debugger), cmd->callback, cmd->user_data, &err);
-@@ -1442,15 +1442,15 @@
+@@ -1464,15 +1464,15 @@
  	cmd = dma_debugger_queue_append (this, DMA_LOAD_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -229,7 +244,7 @@
  
  	dma_debugger_queue_execute (this);
  
-@@ -1467,13 +1467,13 @@
+@@ -1489,13 +1489,13 @@
  	cmd = dma_debugger_queue_append (this, DMA_ATTACH_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  	
@@ -247,7 +262,7 @@
  	
  	dma_debugger_queue_execute (this);
  
-@@ -1489,7 +1489,7 @@
+@@ -1511,7 +1511,7 @@
  	cmd = dma_debugger_queue_append (this, DMA_START_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -256,7 +271,7 @@
  	dma_debugger_queue_execute (this);
  	
  	return TRUE;
-@@ -1589,8 +1589,8 @@
+@@ -1611,8 +1611,8 @@
  	cmd = dma_debugger_queue_append (this, DMA_RUN_TO_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  	
@@ -267,7 +282,7 @@
  	dma_debugger_queue_execute (this);
  	
  	return TRUE;
-@@ -1647,8 +1647,8 @@
+@@ -1669,8 +1669,8 @@
  	cmd = dma_debugger_queue_append (this, DMA_BREAK_LINE_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -278,7 +293,7 @@
  	cmd->callback = callback;
  	cmd->user_data = user_data;
  	dma_debugger_queue_execute (this);
-@@ -1665,8 +1665,8 @@
+@@ -1687,8 +1687,8 @@
  	cmd = dma_debugger_queue_append (this, DMA_BREAK_FUNCTION_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -289,7 +304,7 @@
  	cmd->callback = callback;
  	cmd->user_data = user_data;
  	dma_debugger_queue_execute (this);
-@@ -1683,7 +1683,7 @@
+@@ -1705,7 +1705,7 @@
  	cmd = dma_debugger_queue_append (this, DMA_BREAK_ADDRESS_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -298,7 +313,7 @@
  	cmd->callback = callback;
  	cmd->user_data = user_data;
  	dma_debugger_queue_execute (this);
-@@ -1700,8 +1700,8 @@
+@@ -1722,8 +1722,8 @@
  	cmd = dma_debugger_queue_append (this, DMA_ENABLE_BREAK_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -309,7 +324,7 @@
  	cmd->callback = callback;
  	cmd->user_data = user_data;
  	dma_debugger_queue_execute (this);
-@@ -1718,8 +1718,8 @@
+@@ -1740,8 +1740,8 @@
  	cmd = dma_debugger_queue_append (this, DMA_IGNORE_BREAK_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -320,7 +335,7 @@
  	cmd->callback = callback;
  	cmd->user_data = user_data;
  	dma_debugger_queue_execute (this);
-@@ -1736,8 +1736,8 @@
+@@ -1758,8 +1758,8 @@
  	cmd = dma_debugger_queue_append (this, DMA_CONDITION_BREAK_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -331,7 +346,7 @@
  	cmd->callback = callback;
  	cmd->user_data = user_data;
  	dma_debugger_queue_execute (this);
-@@ -1754,7 +1754,7 @@
+@@ -1776,7 +1776,7 @@
  	cmd = dma_debugger_queue_append (this, DMA_REMOVE_BREAK_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -340,7 +355,7 @@
  	cmd->callback = callback;
  	cmd->user_data = user_data;
  	dma_debugger_queue_execute (this);
-@@ -1771,7 +1771,7 @@
+@@ -1793,7 +1793,7 @@
  	cmd = dma_debugger_queue_append (this, DMA_INSPECT_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -349,7 +364,7 @@
  	cmd->callback = callback;
  	cmd->user_data = user_data;
  	dma_debugger_queue_execute (this);
-@@ -1788,8 +1788,8 @@
+@@ -1810,8 +1810,8 @@
  	cmd = dma_debugger_queue_append (this, DMA_EVALUATE_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -360,7 +375,7 @@
  	cmd->callback = callback;
  	cmd->user_data = user_data;
  	dma_debugger_queue_execute (this);
-@@ -1806,7 +1806,7 @@
+@@ -1828,7 +1828,7 @@
  	cmd = dma_debugger_queue_append (this, DMA_USER_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -369,7 +384,7 @@
  	dma_debugger_queue_execute (this);
  	
  	return TRUE;
-@@ -1821,7 +1821,7 @@
+@@ -1843,7 +1843,7 @@
  	cmd = dma_debugger_queue_append (this, DMA_PRINT_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -378,7 +393,25 @@
  	cmd->callback = callback;
  	cmd->user_data = user_data;
  	dma_debugger_queue_execute (this);
-@@ -1902,10 +1902,10 @@
+@@ -1908,7 +1908,7 @@
+ 	cmd = dma_debugger_queue_append (this, DMA_SET_THREAD_COMMAND, err);
+ 	if (cmd == NULL) return FALSE;
+ 		
+-	cmd->frame.frame = thread;
++	cmd->union_data.frame.frame = thread;
+ 	dma_debugger_queue_execute (this);
+ 	
+ 	return TRUE;
+@@ -1925,7 +1925,7 @@
+ 		
+ 	cmd->callback = callback;
+ 	cmd->user_data = user_data;
+-	cmd->info.id = thread;
++	cmd->union_data.info.id = thread;
+ 	dma_debugger_queue_execute (this);
+ 	
+ 	return TRUE;
+@@ -1972,10 +1972,10 @@
  	cmd = dma_debugger_queue_append (this, DMA_HANDLE_SIGNAL_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -393,7 +426,7 @@
  	dma_debugger_queue_execute (this);
  	
  	return TRUE;
-@@ -1920,7 +1920,7 @@
+@@ -1990,7 +1990,7 @@
  	cmd = dma_debugger_queue_append (this, DMA_INFO_FRAME_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -402,7 +435,7 @@
  	cmd->callback = callback;
  	cmd->user_data = user_data;
  	dma_debugger_queue_execute (this);
-@@ -2033,7 +2033,7 @@
+@@ -2087,7 +2087,7 @@
  	cmd = dma_debugger_queue_append (this, DMA_SET_FRAME_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -411,7 +444,7 @@
  	dma_debugger_queue_execute (this);
  	
  	return TRUE;
-@@ -2203,9 +2203,9 @@
+@@ -2259,9 +2259,9 @@
  	cmd = dma_debugger_queue_append (this, DMA_WRITE_REGISTER_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -424,7 +457,7 @@
  	dma_debugger_queue_execute (this);
  	
  	return TRUE;
-@@ -2220,8 +2220,8 @@
+@@ -2276,8 +2276,8 @@
  	cmd = dma_debugger_queue_append (this, DMA_INSPECT_MEMORY_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  
@@ -435,7 +468,7 @@
  	cmd->callback = callback;
  	cmd->user_data = user_data;
  	dma_debugger_queue_execute (this);
-@@ -2238,8 +2238,8 @@
+@@ -2294,8 +2294,8 @@
  	cmd = dma_debugger_queue_append (this, DMA_DISASSEMBLE_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  
@@ -446,7 +479,7 @@
  	cmd->callback = callback;
  	cmd->user_data = user_data;
  	dma_debugger_queue_execute (this);
-@@ -2269,7 +2269,7 @@
+@@ -2325,7 +2325,7 @@
  	cmd = dma_debugger_queue_append (this, DMA_DELETE_VARIABLE_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -455,7 +488,7 @@
  	dma_debugger_queue_execute (this);
  	
  	return TRUE;
-@@ -2284,7 +2284,7 @@
+@@ -2340,7 +2340,7 @@
  	cmd = dma_debugger_queue_append (this, DMA_EVALUATE_VARIABLE_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -464,7 +497,7 @@
  	cmd->callback = callback;
  	cmd->user_data = user_data;
  	dma_debugger_queue_execute (this);
-@@ -2301,8 +2301,8 @@
+@@ -2357,8 +2357,8 @@
  	cmd = dma_debugger_queue_append (this, DMA_ASSIGN_VARIABLE_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -475,7 +508,7 @@
  	dma_debugger_queue_execute (this);
  	
  	return TRUE;
-@@ -2317,7 +2317,7 @@
+@@ -2373,7 +2373,7 @@
  	cmd = dma_debugger_queue_append (this, DMA_LIST_VARIABLE_CHILDREN_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
@@ -484,7 +517,7 @@
  	cmd->callback = callback;
  	cmd->user_data = user_data;
  	dma_debugger_queue_execute (this);
-@@ -2334,7 +2334,7 @@
+@@ -2390,7 +2390,7 @@
  	cmd = dma_debugger_queue_append (this, DMA_CREATE_VARIABLE_COMMAND, err);
  	if (cmd == NULL) return FALSE;
  		
