@@ -8,7 +8,9 @@
 Name:			SFEneon
 License:		LGPL
 Group:			system/dscm
-Version:		0.26.3
+# Be careful not to update this to a newer version without checking
+# if subversion will like it.  1.4.3 requires 0.25.5
+Version:		0.25.5
 Release:		1
 Summary:		neon http and webdav client library
 Source:			http://www.webdav.org/neon/neon-%{version}.tar.gz
@@ -59,6 +61,7 @@ export PATH=$PATH:/usr/apache2/bin
     --enable-shared \
     --mandir=%{_mandir} \
     --with-ssl \
+    --with-libxml2 \
     --infodir=%{_infodir} \
     %debug_option
 make
@@ -113,6 +116,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Mar 28 2007 - laca@sun.com
+- unbump to 0.25.5 otherwise subversion refuses to build with dav support
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Bump to 0.26.3
 - Add back l10n package

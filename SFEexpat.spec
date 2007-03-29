@@ -57,6 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (0755, root, bin)
+%dir %attr (0755, root, sys) %{_prefix}
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}

@@ -33,10 +33,15 @@ make
 
 %install
 make DESTDIR=$RPM_BUILD_ROOT install
+# create a temporary symlink until all consumers are rebuilt
+cd $RPM_BUILD_ROOT%{_libdir}
+ln -s libexpat.so.1 libexpat.so.0
 
 %clean
 rm -fr $RPM_BUILD_ROOT
 
 %changelog
+* Wed Mar 28 2007 - laca@sun.com
+- create temporary symlink libexpat.so.0
 * Fri Mar 25 2007 - laca@sun.com
 - create

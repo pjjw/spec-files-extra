@@ -176,9 +176,9 @@
 +hal_find_drive (XineHalDriveType t);
 +
 +
---- /dev/null	2007-01-15 21:37:15.000000000 -0500
-+++ xine-lib-1.1.3/src/input/hal-find-drive.c	2007-01-15 21:36:02.248381000 -0500
-@@ -0,0 +1,137 @@
+--- /dev/null	2007-03-28 21:22:00.000000000 -0400
++++ xine-lib-1.1.4/hal-find-drive.c	2007-03-28 21:22:37.511321947 -0400
+@@ -0,0 +1,138 @@
 +#include <stdlib.h>
 +#include <string.h>
 +#include "hal-find-drive.h"
@@ -236,18 +236,19 @@
 +    int i;
 +    for (i = 0; i < num_drives; i++) {
 +      LibHalDrive *drive;
-+      LibHalDriveType drive_type;
 +      HAL_DEBUG_PRINTF ("drive = '%s'\n", drives[i]);
++
 +      drive = libhal_drive_from_udi (hal_ctx, drives[i]);
 +
-+      drive_type = libhal_drive_get_type (drive);
-+      if (drive_type!=LIBHAL_DRIVE_TYPE_CDROM) {
-+	continue;
-+      }
-+
 +      if (drive != NULL) {
++       LibHalDriveType drive_type;
 +	char **volumes;
 +	int num_volumes;
++
++        drive_type = libhal_drive_get_type (drive);
++        if (drive_type != LIBHAL_DRIVE_TYPE_CDROM) {
++	    continue;
++        }
 +
 +	volumes = libhal_drive_find_all_volumes (hal_ctx, drive, &num_volumes);
 +	if (num_volumes > 0) {

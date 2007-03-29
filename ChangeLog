@@ -1,3 +1,12 @@
+2007-03-28  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEexpat.spec: add /usr (%_prefix) to %files because basedir is
+	  / to match the SFW package.
+	* SFEneon.spec: unbump to 0.25.5 because that's why subversion needs
+	* linux-specs/expat.spec: create temporary symlink for libexpat.so.0
+	* patches/xine-lib-04-hal-support.diff: fix for a crasher bug from
+	  Jaffar.Annab at sun dot com.
+
 2007-03-26  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEavfs.spec: Add EMACS='no': Makes non-creation of /usr/etc predictable
