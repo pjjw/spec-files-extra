@@ -6,30 +6,28 @@
 %include Solaris.inc
 
 Name:           SFEanjuta
-Version:        2.1.1
+Version:        2.1.2
 Summary:        GNOME IDE for C and C++
 Group:          Development/Tools
 License:        GPL
 URL:            http://anjuta.org/
-Source:         http://downloads.sourceforge.net/anjuta/anjuta-%{version}.tar.bz2
-# date:2006-03-28 bugzilla:423111 owner:nonsea type:bug
-Patch1:         anjuta-01-wall.diff
+Source:         http://download.gnome.org/sources/anjuta/2.1/anjuta-%{version}.tar.bz2
 # date:2006-03-28 bugzilla:423682 owner:nonsea type:bug
-Patch2:         anjuta-02-suncc-zero-struct-array.diff
+Patch1:         anjuta-01-suncc-zero-struct-array.diff
 # date:2006-03-28 bugzilla:423727 owner:nonsea type:bug
-Patch3:         anjuta-03-suncc-inline.diff
+Patch2:         anjuta-02-suncc-inline.diff
 # date:2006-03-28 bugzilla:423730 owner:nonsea type:bug
-Patch4:         anjuta-04-wrong-define.diff
+Patch3:         anjuta-03-wrong-define.diff
 # date:2006-03-28 bugzilla:423733 owner:nonsea type:bug
-Patch5:         anjuta-05-lack-headers.diff
+Patch4:         anjuta-04-lack-headers.diff
 # date:2006-03-28 bugzilla:423737 owner:nonsea type:bug
-Patch6:         anjuta-06-remove-lutil.diff
+Patch5:         anjuta-05-remove-lutil.diff
 # date:2006-03-28 bugzilla:423680 owner:nonsea type:bug
-Patch7:         anjuta-07-suncc-union.diff
+Patch6:         anjuta-06-suncc-union.diff
 # date:2006-03-28 bugzilla:423768 owner:nonsea type:bug
-Patch8:         anjuta-08-wrong-return.diff
+Patch7:         anjuta-07-wrong-return.diff
 # date:2006-03-28 bugzilla:423772 owner:nonsea type:bug
-Patch9:         anjuta-09-invalid-cast.diff
+Patch8:         anjuta-08-invalid-cast.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -95,7 +93,6 @@ Requires:                %{name}
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -219,6 +216,9 @@ test -x $BASEDIR/lib/postrun || exit 0
 %{_datadir}/gtk-doc
 
 %changelog
+* Thu Mar 28 2007 - nonsea@users.sourceforge.net
+- Bump to 2.1.2
+- Remove patch upstreamed anjuta-01-wall.diff and reorder.
 * Thu Mar 28 2007 - nonsea@users.sourceforge.net
 - Reorganize patches
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net

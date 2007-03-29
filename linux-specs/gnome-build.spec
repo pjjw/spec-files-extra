@@ -16,7 +16,9 @@ Vendor:         Sun Microsystems, Inc.
 URL:		http://www.gnome.org
 Summary:	GNOME Build Framework.
 Source:		http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.1/%{name}-%{version}.tar.bz2
+# date:2006-03-28 owner:nonsea type:branding
 Patch1:         %{name}-01-gnu-regex.diff
+# date:2006-03-28 bugzilla:423106 owner:nonsea type:bug
 Patch2:         %{name}-02-debug-define.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
@@ -105,5 +107,7 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Thu Mar 29 2007 nonsea@users.sourceforge.net
+- Add bug comments.
 * Thu Mar 22 2007 nonsea@users.sourceforge.net
 - Initial spec

@@ -1,3 +1,30 @@
+2007-03-29  Halton Huo  <nonsea@users.sourceforge.net>
+
+	* SFEanjuta.spec: Bump to 2.1.2,
+	  Remove patch upstreamed anjuta-01-wall.diff and reorder.
+	* linux-specs/gdl.spec: Add patch define-FUNCTION.diff.
+	* linux-specs/gnome-build.spec: Add bug comments.
+	* patches/anjuta-01-wall.diff: Removed.
+	* patches/gdl-02-define-FUNCTION.diff: Added.
+	* patches/gdl-02-solaris-find.diff: Removed, unused.
+	* patches/anjuta-02-suncc-zero-struct-array.diff,
+	  patches/anjuta-03-suncc-inline.diff,
+	  patches/anjuta-04-wrong-define.diff,
+	  patches/anjuta-05-lack-headers.diff,
+	  patches/anjuta-06-remove-lutil.diff,
+	  patches/anjuta-07-suncc-union.diff,
+	  patches/anjuta-08-wrong-return.diff,
+	  patches/anjuta-09-invalid-cast.diff,
+	  patches/anjuta-01-suncc-zero-struct-array.diff,
+	  patches/anjuta-02-suncc-inline.diff,
+	  patches/anjuta-03-wrong-define.diff,
+	  patches/anjuta-04-lack-headers.diff,
+	  patches/anjuta-05-remove-lutil.diff,
+	  patches/anjuta-06-suncc-union.diff,
+	  patches/anjuta-07-wrong-return.diff,
+	  patches/anjuta-08-invalid-cast.diff:
+	  Reordered.
+
 2007-03-28  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEexpat.spec: add /usr (%_prefix) to %files because basedir is
@@ -27,7 +54,7 @@
 
 	* SFEphp-meta-SOAP: (new) php SOAP module and its 3 dependencies
 
-2007-03-28  Halton Huo  <set EMAIL_ADDRESS environment variable>
+2007-03-29  Halton Huo  <nonsea@users.sourceforge.net>
 
 	* SFEanjuta.spec: Reorganize patches.
 	* patches/anjuta-02-suncc-zero-struct-array.diff,
