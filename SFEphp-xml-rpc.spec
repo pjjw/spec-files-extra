@@ -21,7 +21,7 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 BuildRequires: SFEphp
 Requires: SFEphp
 
-%define phplibdir %(pear config-get php_dir || echo "undefined")
+%define phplibdir %(test -x /usr/bin/pear && pear config-get php_dir || echo "/undefined")
 
 %prep
 %setup -q -n %{Pname}-%version
@@ -70,5 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 %{phplibdir}/tests/*
 
 %changelog
+* Thu Mar 29 2007 - Eric Boutilier 
+- Fixed missing test in %define phplibdir
 * Sat Mar 24 2007 - Eric Boutilier
 - Initial spec

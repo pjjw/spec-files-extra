@@ -1,3 +1,12 @@
+2007-03-29  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEphp-pear-cmd-pkging.spec: Fixed missing test in %define phplibdir
+	* SFEphp-xml-rpc.spec:           "
+	* SFEphp-auth-sasl.spec:         "
+	* SFEphp-meta-SOAP.spec:         "
+	* SFEphp-net-smtp.spec:          ", and fixed wrong dependency
+	* SFEphp-net-socket.spec: Removed; it's now in SFEphp-meta-SOAP
+
 2007-03-29  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEphp-auth-sasl.spec: Correct name: SFEphp-net-smtp to 
@@ -54,7 +63,7 @@
 	* patches/xine-lib-04-hal-support.diff: fix for a crasher bug from
 	  Jaffar.Annab at sun dot com.
 
-2007-03-26  Eric Boutilier  <eric.boutilier@sun.com>
+2007-03-28  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEavfs.spec: Add EMACS='no': Makes non-creation of /usr/etc
 	  predictable.

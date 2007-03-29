@@ -20,10 +20,13 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires: SFEphp
 Requires: SFEphp
-Requires: SFEphp-net-socket
 Requires: SFEphp-auth-sasl
+Requires: SFEphp-meta-SOAP
+# FIXME: Need to re-think meta packages. For example this package
+# doesn't actually require most of the modules in SFEphp-meta-SOAP, 
+# it only requires one: Net_Socket
 
-%define phplibdir %(pear config-get php_dir || echo "undefined")
+%define phplibdir %(test -x /usr/bin/pear && pear config-get php_dir || echo "/undefined")
 
 %prep
 %setup -q -n %{Pname}-%version
@@ -72,5 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 %{phplibdir}/tests/*
 
 %changelog
+* Thu Mar 29 2007 - Eric Boutilier 
+- Fixed missing test in %define phplibdir, and fixed wrong dependency
 * Sat Mar 24 2007 - Eric Boutilier
 - Initial spec
