@@ -10,13 +10,13 @@
 Name: 	 	libopensync-plugin-file
 License:	GPL
 Group:		Office
-Version: 	0.20
+Version: 	0.22
 Release: 	1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
 Summary: 	File plugin for opensync synchronization tool
-Source:		%{name}-%{version}.tar.gz
+Source:		%{name}-%{version}.tar.bz2
 Patch1:         %{name}-01-forte-wall.diff
 #date:2006-11-28 owner:harrylu type:bug
 Patch2:		%{name}-02-null-crash.diff
@@ -76,7 +76,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Mar 30 2007 - daymobrew@users.sourceforge.net
+- Bump to 0.22. Change source tarball to bz2.
+
 * Tue Nov 28 2006 - harry.lu@sun.com
 - Add patch libopensync-plugin-file-02-null-crash.diff
+
 * Fri Nov 17 2006 - halton.huo@sun.com
 - Initial version

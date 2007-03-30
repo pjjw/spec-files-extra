@@ -1,3 +1,28 @@
+2007-03-30  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEliveMedia.spec: Bump to 2007.02.20.
+	* linux-specs/libopensync-plugin-evo2.spec,
+	  linux-specs/libopensync-plugin-palm.spec,
+	  linux-specs/libopensync-plugin-file.spec,
+	  linux-specs/libopensync-plugin-syncml.spec,
+	  linux-specs/libopensync-plugin-gcal.spec: Bump to 0.22. Change source
+	  tarball to bz2.
+	* linux-specs/libsyncml.spec: Add patch 03-fail-null to add 'NULL' to
+	  empty 'fail()' calls.
+	* patches/libsyncml-03-fail-null.diff: Add 'NULL' to empty 'fail()'
+	  calls which otherwise end up with malformed #define expansion.
+
+2007-03-30  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFElibmng.spec: Change source URL to one working sourceforge mirror.
+	* linux-specs/libopensync.spec: Bump to 0.22. Remove upstream patch
+	  03-flock. Renumber rest.
+	* patches/libopensync-01-forte-wall.diff: Reworked.
+	* patches/libopensync-03-py-m4.diff: Reworked.
+	* patches/libopensync-03-flock.diff: Removed, upstream.
+	* patches/libopensync-03-py-m4.diff: Renamed from 04.
+	* patches/libopensync-04-null-crash.diff: Renamed from 05. Reworked too.
+
 2007-03-29  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEphp-pear-cmd-pkging.spec: Fixed missing test in %define phplibdir

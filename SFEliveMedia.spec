@@ -7,7 +7,7 @@
 
 Name:                    SFEliveMedia
 Summary:                 liveMedia - live555 Streaming Media
-Version:                 2007.01.11
+Version:                 2007.02.20
 Source:                  http://www.live555.com/liveMedia/public/live.%{version}.tar.gz
 Patch1:                  liveMedia-01-SOLARIS-macro.diff
 SUNW_BaseDir:            %{_basedir}
@@ -41,6 +41,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Fri Mar 30 2007 - daymobrew@users.souceforge.net
+- Bump to 2007.02.20.
 * Wed Jan 11 2007 - laca@sun.com
 - bump to 2007.01.11
 * Wed Jan  3 2007 - laca@sun.com

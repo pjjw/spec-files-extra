@@ -11,13 +11,13 @@
 Name: 	 	libopensync-plugin-syncml
 License:	GPL
 Group:		Office
-Version:        0.20
+Version:        0.22
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
 Summary: 	A plugin allows OpenSync to be synchronized against SyncML capable devices
-Source:		%{name}-%{version}.tar.gz
+Source:		%{name}-%{version}.tar.bz2
 Patch1: 	%{name}-01-forte-wall.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
@@ -83,6 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/opensync-1.0/opensync/*
 
 %changelog
+* Fri Mar 30 2007 - daymobrew@users.sourceforge.net
+- Bump to 0.22. Change source tarball to bz2.
+
 * Thu Jan 11 2007 - jijun.yu@sun.com
 - Initial version
 

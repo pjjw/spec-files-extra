@@ -9,13 +9,13 @@
 Name:           libopensync-plugin-palm
 License:        GPL
 Group:          Office
-Version:        0.20
+Version:        0.22
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
 Summary:        Palm plugin for OpenSync
-Source:         %{name}-%{version}.tar.gz
+Source:         %{name}-%{version}.tar.bz2
 Patch1:         %{name}-01-forte-wall.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
@@ -88,5 +88,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Mar 30 2007 - daymobrew@users.sourceforge.net
+- Bump to 0.22. Change source tarball to bz2.
+
 * Fri Nov 17 2006 - halton.huo@sun.com
 - Initial version

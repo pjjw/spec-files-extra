@@ -11,13 +11,13 @@
 Name: 	 	libopensync-plugin-evo2
 License:	GPL
 Group:		Office
-Version:        0.20
+Version:        0.22
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
 Summary: 	Evolution2 plugin for opensync synchronization tool
-Source:		%{real_name}-%{version}.tar.gz
+Source:		%{real_name}-%{version}.tar.bz2
 Patch1:         %{real_name}-01-forte-wall.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
@@ -85,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Mar 30 2007 - daymobrew@users.sourceforge.net
+- Bump to 0.22. Change source tarball to bz2.
+
 * Tue Nov 14 2006 - halton.huo@sun.com
 - Initial version
 
