@@ -7,8 +7,8 @@
 	  linux-specs/libopensync-plugin-syncml.spec,
 	  linux-specs/libopensync-plugin-gcal.spec: Bump to 0.22. Change source
 	  tarball to bz2.
-	* linux-specs/libsyncml.spec: Add patch 03-fail-null to add 'NULL' to
-	  empty 'fail()' calls.
+	* linux-specs/libsyncml.spec: Bump to 0.4.4. Add patch 03-fail-null to
+	  add 'NULL' to empty 'fail()' calls.
 	* patches/libsyncml-03-fail-null.diff: Add 'NULL' to empty 'fail()'
 	  calls which otherwise end up with malformed #define expansion.
 

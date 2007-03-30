@@ -11,7 +11,7 @@
 #
 
 Name:			libsyncml
-Version:		0.4.2
+Version:		0.4.4
 Release:		1
 License:		LGPL
 Group:			Development/Libraries
@@ -19,10 +19,11 @@ Distribution:		Java Desktop System
 Vendor:			Sun Microsystems, Inc.
 Summary:		C library implementation of the SyncML protocol
 URL:			libsyncml.opensync.org
-#Source:			http://libsyncml.opensync.org/attachment/wiki/download/%{name}-%{version}.tar.gz?format=raw
-Source:			%{name}-%{version}.tar.gz
+#Source:			http://libsyncml.opensync.org/attachment/wiki/download/%{name}-%{version}.tar.bz2?format=raw
+Source:			%{name}-%{version}.tar.bz2
 Patch1:			libsyncml-01-Makefile.diff 
 Patch2:			libsyncml-02-define-func.diff
+Patch3:			libsyncml-03-fail-null.diff
 BuildRoot:		%{_tmppath}/%{name}-%{version}-root
 Requires:		wbxml2 libsoup >= 2.2.91 
 BuildRequires:		wbxml2-devel libsoup-devel >= 2.2.91 
@@ -44,6 +45,7 @@ you will need to install %{name}-devel.
 %setup -q
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %ifos linux
@@ -116,5 +118,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Mar 30 2007 - daymobrew@users.sourceforge.net
+- Bump to 0.4.4. Add patch 03-fail-null to add 'NULL' to empty 'fail()' calls.
+
 * Thu Jan 11 2007 - jijun.yu@sun.com
 - Initial version
