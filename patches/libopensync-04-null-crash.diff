@@ -42,24 +42,24 @@
  	if (!queue)
 --- opensync/opensync/opensync_hashtable.c.111	2006-11-28 16:55:58.745458000 +0800
 +++ opensync/opensync/opensync_hashtable.c	2006-12-11 13:55:01.083765000 +0800
-@@ -212,7 +212,7 @@
- 	osync_assert_msg(change, "Change was NULL. Bug in a plugin");
+@@ -213,7 +213,7 @@
  	osync_assert_msg(change->uid, "No uid was set on change. Bug in a plugin");
  
--	osync_trace(TRACE_INTERNAL, "Updating hashtable with hash \"%s\" and changetype %i", change->hash, osync_change_get_changetype(change));
-+	osync_trace(TRACE_INTERNAL, "Updating hashtable with hash \"%s\" and changetype %i", change->hash?change->hash:"NULL", osync_change_get_changetype(change));
+ 	osync_trace(TRACE_INTERNAL, "Updating hashtable with hash \"%s\" and changetype %i",
+-			change->hash, osync_change_get_changetype(change));
++			change->hash?change->hash:"NULL", osync_change_get_changetype(change));
+ 
  	switch (osync_change_get_changetype(change)) {
  		case CHANGE_MODIFIED:
- 		case CHANGE_ADDED:
-@@ -325,7 +325,7 @@
- 
+@@ -304,7 +304,7 @@
+ {
  	char *orighash = NULL;
- 	osync_db_get_hash(table, uid, &orighash);
--	osync_trace(TRACE_INTERNAL, "Comparing %s with %s", hash, orighash);
-+	osync_trace(TRACE_INTERNAL, "Comparing %s with %s", hash, orighash?orighash:"NULL");
- 	
- 	if (orighash) {
- 		if (strcmp(hash, orighash) == 0)
+ 	osync_db_get_hash(table, chg->uid, osync_change_get_objtype(chg)->name, &orighash);
+-	osync_change_set_hash(chg, orighash);
++	osync_change_set_hash(chg, orighash?orighash:"NULL");
+ 	g_free(orighash);
+ }
+ 
 --- opensync/opensync/opensync_changecmds.c.111	2006-12-11 13:53:35.579124000 +0800
 +++ opensync/opensync/opensync_changecmds.c	2006-12-11 13:35:04.571561000 +0800
 @@ -362,7 +362,7 @@

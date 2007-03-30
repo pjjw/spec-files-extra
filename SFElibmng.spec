@@ -8,7 +8,7 @@
 Name:                    SFElibmng
 Summary:                 libmng  - the MNG reference library
 Version:                 1.0.9
-Source:                  http://superb-west.dl.sourceforge.net/sourceforge/libmng/libmng-%{version}.tar.gz
+Source:                  http://umn.dl.sourceforge.net/sourceforge/libmng/libmng-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -74,5 +74,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Fri Mar 30 2007 - daymobrew@users.sourceforge.net
+- Change source URL to one working sourceforge mirror
+
 * Sun Jan  7 2007 - laca@sun.com
 - create

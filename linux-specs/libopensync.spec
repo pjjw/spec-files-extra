@@ -18,7 +18,6 @@ Summary:        Data synchronization framework
 Source:         %{name}-%{version}.tar.gz
 Patch1:         %{name}-01-forte-wall.diff
 Patch2:         %{name}-02-define-func.diff
-Patch3:         %{name}-03-flock.diff
 Patch4:         %{name}-04-py-m4.diff
 #date:2006-11-28 owner:harrylu type:bug
 Patch5:		%{name}-05-null-crash.diff
@@ -63,7 +62,6 @@ you will need to install %{name}-devel.
 %setup -q
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 %patch4 -p1
 %patch5 -p1
 
