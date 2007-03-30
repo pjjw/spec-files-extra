@@ -1,5 +1,11 @@
 2007-03-30  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* linux-specs/msynctool.spec: Bump to 0.22. Change source tarball to
+	  bz2.
+	* patches/net6-01-close-prototype.diff: Rework.
+
+2007-03-30  Damien Carbery <daymobrew@users.sourceforge.net>
+
 	* SFEliveMedia.spec: Bump to 2007.02.20.
 	* linux-specs/libopensync-plugin-evo2.spec,
 	  linux-specs/libopensync-plugin-palm.spec,

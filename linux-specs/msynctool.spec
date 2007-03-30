@@ -9,13 +9,13 @@
 Name:		msynctool
 License:	GPL
 Group:		Applications
-Version:        0.20
+Version:        0.22
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:		http://www.opensync.org/
 Summary:	OpenSync data synchronization command line programs
-Source:	        %{name}-%{version}.tar.gz
+Source:	        %{name}-%{version}.tar.bz2
 Patch1:         %{name}-01-forte-wall.diff
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -75,6 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1*
 
 %changelog
+* Fri Mar 30 2007 - daymobrew@users.sourceforge.net
+- Bump to 0.22. Change source tarball to bz2.
+
 * Tue Nov 14 2006 - halton.huo@sun.com
 - Initial version
 
