@@ -1,3 +1,11 @@
+2007-03-31  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEgd.spec: split into SFEgd SFEgd-devel
+                      Bump to 2.0.34
+                      new Url / Source
+        * SFElibmhash.spec: (new) for: SFEphp
+        * SFElibmcrypt.spec: (new) for: SFEphp
+        * SFEmcrypt.spec: (new) uses SFElibmcrypt and SFElibmhash
+
 2007-03-31  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFExine-lib.spec: add some opt flags to CFLAGS

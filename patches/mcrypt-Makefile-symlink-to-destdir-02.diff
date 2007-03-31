@@ -1,0 +1,16 @@
+--- mcrypt-2.6.5.orig/Makefile.in	2007-02-19 07:47:03.000000000 +0100
++++ mcrypt-2.6.5/Makefile.in	2007-03-19 03:01:01.554239228 +0100
+@@ -636,10 +636,10 @@
+ 	uninstall uninstall-am uninstall-info-am uninstall-local
+ 
+ install-exec-hook:
+-	-$(RM) -f $(bindir)/mdecrypt
+-	$(LN_S) mcrypt $(bindir)/mdecrypt
++	-$(RM) -f ${DESTDIR}/$(bindir)/mdecrypt
++	$(LN_S) mcrypt ${DESTDIR}/$(bindir)/mdecrypt
+ uninstall-local:
+-	-$(RM) -f $(bindir)/mdecrypt
++	-$(RM) -f ${DESTDIR}/$(bindir)/mdecrypt
+ 
+ ChangeLog:
+ 	cvs2cl --utc --fsf -t -S --prune

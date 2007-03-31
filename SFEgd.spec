@@ -7,9 +7,9 @@
 
 Name:                SFEgd
 Summary:             library for the dynamic creation of images by programmers
-Version:             2.0.33
-Source:              http://www.boutell.com/gd/http/gd-%{version}.tar.gz
-
+Version:             2.0.34
+Source:              http://www.libgd.org/releases/gd-%{version}.tar.bz2
+Url:	    	     http://www.libgd.org/
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -20,6 +20,13 @@ BuildRequires: SUNWjpg
 Requires: SUNWxwplt
 Requires: SUNWpng
 Requires: SUNWjpg
+
+%package devel
+Summary:                 %{summary} - development files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires: %name
+
 
 %prep
 %setup -q -n gd-%version
@@ -56,10 +63,21 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
+
+%files devel
+%defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 
+
 %changelog
+*
+* Tue Mar 22 2007 - Thomas Wagner
+- split into SFEgd SFEgd-devel
+*
+* Tue Mar 20 2007 - Thomas Wagner
+- bump up version to 2.0.34
+- new Url / Source
 * 
 * Fri Sep 29 2006 - Eric Boutilier
 - Initial spec

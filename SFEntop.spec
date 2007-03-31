@@ -16,7 +16,7 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires: SFElibpcap-devel
 BuildRequires: SFEgdbm-devel
-BuildRequires: SFEgd
+BuildRequires: SFEgd-devel
 Requires: SFElibpcap
 Requires: SFEgdbm
 Requires: SFEgd
@@ -82,6 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_localstatedir}/*
 
 %changelog
+* Sat Mar 31 2007 - Thomas Wagner
+- change Build-Requires to be SFEgd-devel
 * Mon Mar 19 2007 - dougs@truemail.co.th
 - Fixed -fno-omit-frame-pointer flag
 * Sun Nov 05 2006 - Eric Boutilier

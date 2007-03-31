@@ -15,7 +15,7 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-BuildRequires: SFEgd
+BuildRequires: SFEgd-devel
 Requires: SFEgd
 BuildRequires: SUNWlexpt
 Requires: SUNWlexpt
@@ -84,5 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * 
+* Sat Mar 31 2007 - Thomas Wagner
+- change Build-Requires to be SFEgd-devel
+*
 * Wed Dec 13 2006 - Eric Boutilier
 - Initial spec
