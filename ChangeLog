@@ -1,3 +1,9 @@
+2007-03-31  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFExine-lib.spec: add some opt flags to CFLAGS
+	* patches/xine-lib-04-hal-support.diff: fix path to
+	  hal-find-drive.c
+
 2007-03-30  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* linux-specs/msynctool.spec: Bump to 0.22. Change source tarball to

@@ -87,7 +87,7 @@ automake -a -c -f
 autoconf
 export CXX=/usr/sfw/bin/gcc
 export CC=/usr/sfw/bin/gcc
-export CFLAGS="-O4 -fPIC -DPIC -I/usr/X11/include -I/usr/openwin/include -D_LARGEFILE64_SOURCE -I/usr/sfw/include"
+export CFLAGS="-O4 -fPIC -DPIC -I/usr/X11/include -I/usr/openwin/include -D_LARGEFILE64_SOURCE -I/usr/sfw/include -mcpu=pentiumpro -mtune=pentiumpro -msse2 -mfpmath=sse "
 export LDFLAGS="%{_ldflags} -L/usr/X11/lib -R/usr/X11/lib -L/usr/sfw/lib -R/usr/sfw/lib"
 ./configure --prefix=%{_prefix} \
             --with-w32-path=%{mplayer.codecdir} \
