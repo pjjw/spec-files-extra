@@ -1,4 +1,9 @@
-#   
+#
+# In theory this package could be named SFEpython-getmail instead of
+# SFEgetmail, but when a python (or perl or php) package delivers an
+# application or command(s) like this one does (as opposed to a library), it
+# seems to make more sense to omit the language name from the package name.
+#
 #
 %include Solaris.inc
 

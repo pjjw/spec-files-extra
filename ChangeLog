@@ -1,10 +1,17 @@
+2007-04-02  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEpython-pypdf.spec: (new) PDF toolkit library for Python
+	* SFEflvtool2.spec: (new) Manipulation tool for Macromedia Flash Video files (FLV)
+	* SFEruby-fastercsv.spec: (new) Improved, faster CSV library for Ruby
+	* SFEruby-facets.spec: (new) Large set of base extensions/libraries for Ruby
+
 2007-04-01  Eric Boutilier  <eric.boutilier@sun.com>
 
-	* SFEgetmail.spec:   Python App: Fetchmail replacement, plus add'l features
-	* SFElinkchecker.spec:  "    URL link checker
-	* SFEmoin.spec:         "    Clone of WikiWiki
-	* SFEofflineimap.spec:  "    Two-way sync of IMAP/Maildir email boxes
-	* SFEdenyhosts.spec:    "    Help thwart ssh server attacks
+	* SFEgetmail.spec: (new) Python App: Fetchmail replacement, plus add'l features
+	* SFElinkchecker.spec: (new) "    URL link checker
+	* SFEmoin.spec: (new)        "    Clone of WikiWiki
+	* SFEofflineimap.spec: (new) "    Two-way sync of IMAP/Maildir email boxes
+	* SFEdenyhosts.spec: (new)   "    Help thwart ssh server attacks
 
 2007-04-01  Jeff Cai <jeff.cai@sun.com>
 

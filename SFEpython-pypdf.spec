@@ -1,16 +1,15 @@
 #
-# In theory this package could be named SFEpython-moin instead of
-# SFEmoin, but when a python (or perl or php) package delivers an
-# application or command(s) like this one does (as opposed to a library), it
-# seems to make more sense to omit the language name from the package name.
-#
+# This package is named SFEpython-pypdf instead of just SFEpypdf
+# because when a python (or perl or php) package delivers a library (as opposed
+# to an application or commands) it seems to make more sense to include the
+# language name in the package name.
 #
 %include Solaris.inc
 
-Name:                SFEmoin
-Summary:             Clone of WikiWiki
-Version:             1.5.7
-Source:              http://umn.dl.sourceforge.net/sourceforge/moin/moin-%{version}.tar.gz
+Name:                SFEpython-pypdf
+Summary:             PDF toolkit library for Python
+Version:             1.9
+Source:              http://pybrary.net/pyPdf/pyPdf-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -19,7 +18,7 @@ BuildRequires: SUNWPython-devel
 Requires: SUNWPython
 
 %prep
-%setup -q -n moin-%version
+%setup -q -n pyPdf-%version
 
 %build
 # Bypass build because the Python distutils (setup.py) standard specifies 
@@ -39,16 +38,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
-%dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
-%dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, bin) %{_datadir}/moin
-%{_datadir}/moin/*
 
 %changelog
 * 
-* Sat Mar 31 2007 - Eric Boutilier
+* Mon Apr 02 2007 - Eric Boutilier
 - Initial spec
-- Python App: Clone of WikiWiki
