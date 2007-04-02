@@ -75,8 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1*
 
 %changelog
-* Fri Mar 30 2007 - daymobrew@users.sourceforge.net
-- Bump to 0.22. Change source tarball to bz2.
+* Mon Apr 02 2007 - daymobrew@users.sourceforge.net
+- Bump to 0.22.
 
 * Tue Nov 14 2006 - halton.huo@sun.com
 - Initial version

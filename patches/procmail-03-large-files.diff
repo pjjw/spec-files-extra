@@ -134,7 +134,7 @@ diff -urN procmail-3.22/src/mailfold.h procmail-3.22-hacked/src/mailfold.h
 --- procmail-3.22/src/mailfold.h	2000-12-31 19:08:34.000000000 +1300
 +++ procmail-3.22-hacked/src/mailfold.h	2005-10-21 13:22:42.510379200 +1300
 @@ -1,7 +1,7 @@
- /*$Id: procmail-03-large-files.diff 92 2005-12-16 00:19:06Z gman $*/
+ /*$Id: mailfold.h,v 1.24 2000/10/25 08:13:20 guenther Exp $*/
  
  long
 - dump P((const int s,const int type,const char*source,long len));

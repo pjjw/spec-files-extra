@@ -50,6 +50,10 @@ chmod -R 755 $RPM_BUILD_ROOT%{_libdir}/gimp
 cd $RPM_BUILD_ROOT%{_libdir} & ln -s %{_bindir}/xsane $RPM_BUILD_ROOT%{_libdir}/gimp/2.0/plug-ins
 
 %if %build_l10n
+# Rename zh dir to zh_CN as zh is a symlink to zh_CN and causing installation
+# problems as a dir.
+cd $RPM_BUILD_ROOT%{_datadir}/locale
+mv zh zh_CN
 %else
 # REMOVE l10n FILES
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
@@ -81,6 +85,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Apr 02 2007 - daymobrew@users.sourceforge.net
+- Rename zh dir to zh_CN in %install as zh a symlink to zh_CN and causing
+  installation problems as a dir.
+
 * Tue Mar 20 2007 - simon.zheng@sun.com
 - Split into 2 files, SFExsane.spec and 
   linux-specs/xsane.spec.

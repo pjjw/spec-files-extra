@@ -1,5 +1,5 @@
---- obby-0.3.0rc1/src/colour.cpp.orig	2005-11-17 19:11:23.907047000 -0500
-+++ obby-0.3.0rc1/src/colour.cpp	2005-11-17 19:12:18.050462000 -0500
+--- obby-0.4.0rc2/src/colour.cpp.orig	2007-04-02 10:24:23.693956591 +0100
++++ obby-0.4.0rc2/src/colour.cpp	2007-04-02 10:26:48.158738719 +0100
 @@ -46,9 +46,9 @@
  bool obby::colour::similar_colour(const colour& colour) const
  {
@@ -12,5 +12,4 @@
 +	       abs((long)(m_blue - colour.m_blue)) < 32;
  }
  
- std::string
- 
+ std::string serialise::default_context_to<obby::colour>::

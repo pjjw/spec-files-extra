@@ -1,16 +1,29 @@
+2007-04-02  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFExsane.spec: Rename zh dir to zh_CN in %install as zh a symlink to
+	  zh_CN and causing installation problems as a dir.
+	* linux-specs/msynctool.spec: Bump to 0.22.
+	* patches/obby-01-cast.diff, patches/net6-01-close-prototype.diff,
+	  patches/procmail-03-large-files.diff,
+	  patches/ufraw-01-ctime_r-fix.diff: Rework so that they apply.
+
 2007-04-02  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEpython-pypdf.spec: (new) PDF toolkit library for Python
-	* SFEflvtool2.spec: (new) Manipulation tool for Macromedia Flash Video files (FLV)
+	* SFEflvtool2.spec: (new) Manipulation tool for Macromedia Flash Video
+	  files (FLV)
 	* SFEruby-fastercsv.spec: (new) Improved, faster CSV library for Ruby
-	* SFEruby-facets.spec: (new) Large set of base extensions/libraries for Ruby
+	* SFEruby-facets.spec: (new) Large set of base extensions/libraries for
+	  Ruby
 
 2007-04-01  Eric Boutilier  <eric.boutilier@sun.com>
 
-	* SFEgetmail.spec: (new) Python App: Fetchmail replacement, plus add'l features
+	* SFEgetmail.spec: (new) Python App: Fetchmail replacement, plus add'l
+	  features
 	* SFElinkchecker.spec: (new) "    URL link checker
 	* SFEmoin.spec: (new)        "    Clone of WikiWiki
-	* SFEofflineimap.spec: (new) "    Two-way sync of IMAP/Maildir email boxes
+	* SFEofflineimap.spec: (new) "    Two-way sync of IMAP/Maildir email
+	  boxes
 	* SFEdenyhosts.spec: (new)   "    Help thwart ssh server attacks
 
 2007-04-01  Jeff Cai <jeff.cai@sun.com>
@@ -18,6 +31,7 @@
 	* SFEsdl-image.spec: added, sdl-image library.
 
 2007-03-31  Thomas Wagner <tom68@users.sourceforge.net>
+
         * SFEgd.spec: split into SFEgd SFEgd-devel
                       Bump to 2.0.34
                       new Url / Source
