@@ -16,10 +16,12 @@ Vendor:         Sun Microsystems, Inc.
 URL:		http://www.gnome.org
 Summary:	GNOME Build Framework.
 Source:		http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.1/%{name}-%{version}.tar.bz2
-# date:2006-03-28 owner:nonsea type:branding
+# date:2007-03-28 owner:nonsea type:branding
 Patch1:         %{name}-01-gnu-regex.diff
-# date:2006-03-28 bugzilla:423106 owner:nonsea type:bug
+# date:2007-03-28 bugzilla:423106 owner:nonsea type:bug
 Patch2:         %{name}-02-debug-define.diff
+# date:2007-04-04 bugzilla:425874 owner:nonsea type:bug
+Patch3:         %{name}-03-share-glue.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 Requires:	libglade >= 2.0.1
@@ -46,6 +48,7 @@ in your own programs.
 %setup -q
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %ifos linux
@@ -107,6 +110,8 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Wed Apr 04 2007 nonsea@users.sourceforge.net
+- Add patch share-glue.diff.
 * Thu Mar 29 2007 nonsea@users.sourceforge.net
 - Add bug comments.
 * Thu Mar 22 2007 nonsea@users.sourceforge.net

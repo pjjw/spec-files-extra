@@ -1,0 +1,108 @@
+Index: anjuta-head/plugins/gdb/plugin.h
+===================================================================
+--- anjuta-head/plugins/gdb/plugin.h	(revision 2903)
++++ anjuta-head/plugins/gdb/plugin.h	(working copy)
+@@ -22,7 +22,7 @@
+ #define GDB_PLUGIN_H
+ 
+ #include <glib.h>
+-#include "libanjuta/glue-plugin.h"
++#include <gbf/glue-plugin.h>
+ 
+ G_BEGIN_DECLS
+ 
+Index: anjuta-head/plugins/gdb/Makefile.am
+===================================================================
+--- anjuta-head/plugins/gdb/Makefile.am	(revision 2903)
++++ anjuta-head/plugins/gdb/Makefile.am	(working copy)
+@@ -23,12 +23,15 @@
+ INCLUDES= \
+ 	$(WARN_CFLAGS) \
+ 	$(DEPRECATED_FLAGS) \
++	$(PLUGIN_GNOMEBUILD_CFLAGS) \
+ 	$(LIBANJUTA_CFLAGS)
+ 
+ plugindir = $(anjuta_plugin_dir)
+ plugin_LTLIBRARIES = libanjuta-gdb.la
+ 
+-libanjuta_gdb_la_LIBADD = $(LIBANJUTA_LIBS)
++libanjuta_gdb_la_LIBADD = \
++	$(PLUGIN_GNOMEBUILD_LIBS) \
++	$(LIBANJUTA_LIBS)
+ 
+ libanjuta_gdb_la_SOURCES = \
+ 	gdbmi.c \
+Index: anjuta-head/libanjuta/glue-cpp.c
+===================================================================
+--- anjuta-head/libanjuta/glue-cpp.c	(revision 2903)
++++ anjuta-head/libanjuta/glue-cpp.c	(working copy)
+@@ -27,7 +27,6 @@
+  */
+ 
+ #include "glue-cpp.h"
+-#include "glue-factory.h"
+ 
+ #include <string.h>
+ #include <gmodule.h>
+Index: anjuta-head/libanjuta/glue-cpp.h
+===================================================================
+--- anjuta-head/libanjuta/glue-cpp.h	(revision 2903)
++++ anjuta-head/libanjuta/glue-cpp.h	(working copy)
+@@ -19,7 +19,7 @@
+ #ifndef GLUE_CPP_H
+ #define GLUE_CPP_H
+ 
+-#include "glue-factory.h"
++#include <gbf/glue-factory.h>
+ 
+ G_BEGIN_DECLS
+ 
+Index: anjuta-head/libanjuta/anjuta-plugin-manager.c
+===================================================================
+--- anjuta-head/libanjuta/anjuta-plugin-manager.c	(revision 2903)
++++ anjuta-head/libanjuta/anjuta-plugin-manager.c	(working copy)
+@@ -37,7 +37,7 @@
+ #include <libanjuta/anjuta-debug.h>
+ #include <libanjuta/anjuta-plugin-handle.h>
+ #include <libanjuta/anjuta-plugin.h>
+-#include <libanjuta/glue-factory.h>
++#include <gbf/glue-factory.h>
+ #include <libanjuta/glue-cpp.h>
+ 
+ enum
+--- anjuta-head/libanjuta/Makefile.am	2007-04-03 22:24:30.564219000 +0800
++++ anjuta-head/libanjuta/Makefile.am.new	2007-04-03 22:24:48.957434000 +0800
+@@ -3,6 +3,7 @@
+ 
+ INCLUDES = \
+ 	$(WARN_CFLAGS) \
++	$(PLUGIN_GNOMEBUILD_CFLAGS) \
+ 	$(DEPRECATED_FLAGS) \
+ 	$(GNOME_UI_CFLAGS) \
+ 	$(GLADE_CFLAGS) \
+@@ -19,6 +20,7 @@
+ lib_LTLIBRARIES=libanjuta.la
+ 
+ libanjuta_la_LIBADD = \
++	$(PLUGIN_GNOMEBUILD_LIBS) \
+ 	$(GNOME_UI_LIBS) \
+ 	$(GLADE_LIBS) \
+ 	$(top_builddir)/libegg/libanjuta-egg.la \
+@@ -49,8 +51,6 @@
+ 	anjuta-serializer.c \
+ 	resources.c \
+ 	resources.h \
+-	glue-plugin.c \
+-	glue-factory.c \
+ 	glue-cpp.h \
+ 	glue-cpp.c \
+ 	cell-renderer-captioned-image.c	\
+@@ -81,8 +81,6 @@
+ 	anjuta-session.h \
+ 	anjuta-save-prompt.h \
+ 	anjuta-serializer.h \
+-	glue-plugin.h \
+-	glue-factory.h \
+ 	resources.h
+ 
+ libanjutainclude_HEADERS = \

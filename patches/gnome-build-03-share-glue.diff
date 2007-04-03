@@ -1,0 +1,126 @@
+Index: gnome-build-trunk/src/gbf/glue-factory.c
+===================================================================
+--- gnome-build-trunk/src/gbf/glue-factory.c	(revision 421)
++++ gnome-build-trunk/src/gbf/glue-factory.c	(working copy)
+@@ -19,12 +19,6 @@
+   const gchar *name;
+ } LoadedPlugin;
+ 
+-typedef struct
+-{
+-  const gchar *path;
+-  GHashTable *loaded_plugins;
+-} PathEntry;
+-
+ struct _GlueFactory
+ {
+   GObject parent;
+@@ -117,6 +111,11 @@
+   return TRUE;
+ }
+ 
++GList* glue_factory_get_path(GlueFactory *factory)
++{
++  return factory->paths;
++}
++
+ static LoadedPlugin *
+ get_already_loaded_module (GlueFactory *factory,
+ 			   const gchar *component_name,
+@@ -174,14 +173,13 @@
+ 	  /* We have found a matching module */
+ 	  plugin_path = g_module_build_path (entry->path, plugin_name);
+ 	  module = g_module_open (plugin_path, 0);
+-	  g_free (plugin_path);
+ 	  if (module == NULL)
+ 	    {
+-	      g_print ("couldn't open module: %s\n", g_module_error ());
++	      g_warning ("Could not open module: %s\n", g_module_error ());
+ 	      goto move_to_next_dir;
+ 	    }
+ 
+-	  if (!g_module_symbol (module, "glue_get_component_type", (gpointer) &get_type_func))
++	  if (!g_module_symbol (module, "glue_get_component_type", (gpointer *)&get_type_func))
+ 	    {
+ 	      g_module_close (module);
+ 	      goto move_to_next_dir;
+Index: gnome-build-trunk/src/gbf/glue-factory.h
+===================================================================
+--- gnome-build-trunk/src/gbf/glue-factory.h	(revision 421)
++++ gnome-build-trunk/src/gbf/glue-factory.h	(working copy)
+@@ -3,6 +3,8 @@
+ 
+ #include <glib-object.h>
+ 
++G_BEGIN_DECLS
++
+ #define GLUE_TYPE_FACTORY            (glue_factory_get_type ())
+ #define GLUE_FACTORY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GLUE_TYPE_FACTORY, GlueFactory))
+ #define GLUE_FACTORY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GLUE_TYPE_FACTORY, GlueFactoryClass))
+@@ -10,6 +12,12 @@
+ #define GLUE_IS_FACTORY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), GLUE_TYPE_FACTORY))
+ #define GLUE_FACTORY_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), GLUE_TYPE_FACTORY, GlueFactoryClass))
+ 
++typedef struct
++{
++  const gchar *path;
++  GHashTable *loaded_plugins;
++} PathEntry;
++
+ typedef struct _GlueFactory      GlueFactory;
+ typedef struct _GlueFactoryClass GlueFactoryClass;
+ 
+@@ -25,4 +33,8 @@
+ 					   const gchar  *component_name,
+ 					   const gchar  *type_name,
+ 					   ...);
++
++GList*       glue_factory_get_path        (GlueFactory *factory);
++
++G_END_DECLS
+ #endif /* __GLUE_FACTORY_H__ */
+Index: gnome-build-trunk/src/gbf/Makefile.am
+===================================================================
+--- gnome-build-trunk/src/gbf/Makefile.am	(revision 421)
++++ gnome-build-trunk/src/gbf/Makefile.am	(working copy)
+@@ -53,6 +53,7 @@
+ 	gbf-project-model.h	\
+ 	gbf-project-view.h	\
+ 	gbf-project-util.h	\
++	glue-factory.h		\
+ 	glue-plugin.h
+ 
+ noinst_PROGRAMS = test test-project-view
+Index: gnome-build-trunk/src/gbf/glue-plugin.c
+===================================================================
+--- gnome-build-trunk/src/gbf/glue-plugin.c	(revision 421)
++++ gnome-build-trunk/src/gbf/glue-plugin.c	(working copy)
+@@ -56,7 +56,7 @@
+       return FALSE;
+     }
+   
+-  if (!g_module_symbol (plugin->module, "glue_register_components", (gpointer) &func))
++  if (!g_module_symbol (plugin->module, "glue_register_components", (gpointer *)&func))
+     {
+       g_warning ("could not load plugin: %s", g_module_error ());
+       g_module_close (plugin->module);
+Index: gnome-build-trunk/src/gbf/glue-plugin.h
+===================================================================
+--- gnome-build-trunk/src/gbf/glue-plugin.h	(revision 421)
++++ gnome-build-trunk/src/gbf/glue-plugin.h	(working copy)
+@@ -4,6 +4,8 @@
+ #include <glib-object.h>
+ #include <gmodule.h>
+ 
++G_BEGIN_DECLS
++
+ #define GLUE_TYPE_PLUGIN            (glue_plugin_get_type ())
+ #define GLUE_PLUGIN(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GLUE_TYPE_PLUGIN, GluePlugin))
+ #define GLUE_PLUGIN_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GLUE_TYPE_PLUGIN, GluePluginClass))
+@@ -69,4 +71,6 @@
+   return G_TYPE_INVALID; \
+ } 
+ 
++G_END_DECLS
++
+ #endif /* __GLUE_PLUGIN_H__ */
