@@ -9,7 +9,7 @@ Name:                SFElibpcap
 Summary:             Packet Capture library 
 Version:             0.9.4
 Source:              http://www.tcpdump.org/release/libpcap-%{version}.tar.gz
-
+Patch1:              libpcap-01-link-shared-lib.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
@@ -23,6 +23,7 @@ Requires: %name
 
 %prep
 %setup -q -n libpcap-%version
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -33,17 +34,9 @@ fi
 export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
 
-# Must use GNU ld, which is called gld on OpenSolaris and lives
-# in /usr/sfw/bin. Setting LD=/usr/sfw/bin/gld doesn't work
-# because this source's configure ignores $LD. So I've hacked
-# Makefile.in on-the-fly thusly:
-
-perl -i.orig -lpe 's/^\tld/\tgld/ if $. == 115' Makefile.in
-
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir}
 
-make -j$CPUS
 make -j$CPUS shared
 
 %install
@@ -53,7 +46,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 make install-shared DESTDIR=$RPM_BUILD_ROOT
 
 cd ${RPM_BUILD_ROOT}%{_libdir}
-rm libpcap.a
+ln -s libpcap.so.%version libpcap.so.0
 ln -s libpcap.so.%version libpcap.so
 
 %clean
@@ -74,6 +67,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/pcap.3
 
 %changelog
+* Tue Apr  3 2007 - laca@sun.com
+- add patch link-shared-lib.diff that fixes Makefile.in to create a proper
+  shared library
 * Wed Oct 25 2006 - Eric Boutilier
 - Added an on-the-fly patch to force it to use gld; also created devel subpkg
 * Fri Sep 29 2006 - Eric Boutilier

@@ -1,3 +1,9 @@
+2007-04-03  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFElibpcap.spec: add patch link-shared-lib.diff
+	* patches/libpcap-01-link-shared-lib.diff: (new) patch that fixes
+	  Makefile.in to create a proper shared library
+
 2007-04-03  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEpine.spec (new) University of Washington Pine mail user agent

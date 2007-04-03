@@ -1,0 +1,11 @@
+--- libpcap-0.9.4/Makefile.in.ld	2007-04-03 10:11:17.433632000 -0400
++++ libpcap-0.9.4/Makefile.in	2007-04-03 10:11:43.213008000 -0400
+@@ -112,7 +112,7 @@
+ #
+ libpcap.so: $(OBJ)
+ 	@rm -f $@
+-	ld -shared -o $@.`cat VERSION` $(OBJ)
++	ld $(LDFLAGS) -G -h libpcap.so.0 -o $@.`cat VERSION` $(OBJ) -lc -lsocket
+ 
+ # the following rule succeeds, but the result is untested.
+ libpcap.dylib: $(OBJ)
