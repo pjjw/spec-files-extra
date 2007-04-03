@@ -1,5 +1,5 @@
 #
-# This package is named SFEruby-fastercsv instead of just SFEfastercvs
+# This package is named SFEruby-fastercsv instead of just SFEfastercsv
 # because when a ruby (or perl or php) package delivers a library (as opposed
 # to an application or commands) it seems to make more sense to include the
 # language name in the package name.

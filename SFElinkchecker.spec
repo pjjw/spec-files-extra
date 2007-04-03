@@ -18,7 +18,7 @@ Requires: SUNWPython
 
 %build
 # Bypass build because the Python distutils (setup.py) standard specifies 
-# that the install step (below) implicately does a build anyway.
+# that the install step (below) implicitly does a build anyway.
 exit 0
 
 %install

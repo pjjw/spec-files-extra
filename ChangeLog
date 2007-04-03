@@ -1,3 +1,8 @@
+2007-04-03  Eric Boutilier  <eric.boutilier@sun.com>
+
+	* SFEpine.spec (new) University of Washington Pine mail user agent
+	* Seven recent additions: Corrected spelling error in comments
+
 2007-04-02  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFExsane.spec: Rename zh dir to zh_CN in %install as zh a symlink to
@@ -10,8 +15,7 @@
 2007-04-02  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEpython-pypdf.spec: (new) PDF toolkit library for Python
-	* SFEflvtool2.spec: (new) Manipulation tool for Macromedia Flash Video
-	  files (FLV)
+	* SFEflvtool2.spec: (new) Ruby app: Flash Video manipulation tools
 	* SFEruby-fastercsv.spec: (new) Improved, faster CSV library for Ruby
 	* SFEruby-facets.spec: (new) Large set of base extensions/libraries for
 	  Ruby
