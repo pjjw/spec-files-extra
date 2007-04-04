@@ -1,3 +1,7 @@
+2007-04-04  Halton Huo  <nonsea@users.sourceforge.net>
+
+	* patches/anjuta-09-share-glue.diff: rework.
+
 2007-04-03  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFElibopensync-plugin.spec: add openobex dependency
@@ -17,7 +21,7 @@
 	* patches/openobex-02-libusb.diff: (new) install a libusb.pc file
 	  and fix packed attributes
 
-2007-04-04  Halton Huo  <set EMAIL_ADDRESS environment variable>
+2007-04-04  Halton Huo  <nonsea@users.sourceforge.net>
 
 	* SFEanjuta.spec: Add patch.
 	* linux-specs/gnome-build.spec: Add patch.
