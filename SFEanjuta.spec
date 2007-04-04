@@ -30,6 +30,8 @@ Patch7:         anjuta-07-wrong-return.diff
 Patch8:         anjuta-08-invalid-cast.diff
 # date:2007-04-04 bugzilla:425850 owner:nonsea type:bug
 Patch9:         anjuta-09-share-glue.diff
+# date:2007-04-04 owner:nonsea type:branding
+Patch10:         anjuta-10-solaris-grep.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -96,6 +98,7 @@ Requires:                %{name}
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -219,6 +222,9 @@ test -x $BASEDIR/lib/postrun || exit 0
 %{_datadir}/gtk-doc
 
 %changelog
+* Wed Apr 04 2007 - nonsea@users.sourceforge.net
+- Add patch solaris-grep.diff for using /usr/xpg4/bin/grep 
+  instead /usr/bin/grep for -e option.
 * Wed Apr 04 2007 - nonsea@users.sourceforge.net
 - Add patch share-glue.diff.
 * Thu Mar 28 2007 - nonsea@users.sourceforge.net

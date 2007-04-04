@@ -1,5 +1,8 @@
-2007-04-04  Halton Huo  <nonsea@users.sourceforge.net>
+2007-04-04  Halton Huo  <set EMAIL_ADDRESS environment variable>
 
+	* SFEanjuta.spec: Add patch solaris-grep.diff for using
+	  /usr/xpg4/bin/grep instead /usr/bin/grep for -e option.
+	* patches/anjuta-10-solaris-grep.diff: Added patch.
 	* patches/anjuta-09-share-glue.diff: rework.
 
 2007-04-03  Laszlo (Laca) Peter  <laca@sun.com>
