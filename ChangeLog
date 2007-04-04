@@ -1,3 +1,22 @@
+2007-04-03  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFElibopensync-plugin.spec: add openobex dependency
+	* SFElibsyncml.spec: add openobex dependency
+	* SFEopenobex.spec: (new) open source implementation of the object
+	  exchange protocol
+	* linux-specs/libopensync-plugin-syncml.spec: enable obex support
+	* linux-specs/libopensync.spec: bump to 0.22; fix patch numbers
+	* linux-specs/libsyncml.spec: add patch cfmakeraw.diff; enable the
+	  openobex module
+	* linux-specs/openobex.spec: (new) openobex base spec file
+	* patches/libsyncml-04-cfmakeraw.diff: (new) patch that fixes the
+	  build of the openobex module on Solaris by substituting a cfmakeraw
+	  call
+	* patches/openobex-01-sun-studio.diff: (new) use #pragma pack instead
+	  of __attribute__((packed))
+	* patches/openobex-02-libusb.diff: (new) install a libusb.pc file
+	  and fix packed attributes
+
 2007-04-04  Halton Huo  <set EMAIL_ADDRESS environment variable>
 
 	* SFEanjuta.spec: Add patch.

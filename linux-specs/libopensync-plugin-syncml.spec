@@ -56,6 +56,7 @@ autoheader
 automake -a -c -f
 autoconf
 ./configure --prefix=%{_prefix}                 \
+            --enable-obex                       \
             --libexecdir=%{_libexecdir}         \
             --sysconfdir=%{_sysconfdir}         \
             --mandir=%{_mandir}                 \
@@ -83,9 +84,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/opensync-1.0/opensync/*
 
 %changelog
+* Tue Apr  3 2007 - laca@sun.com
+- enable obex support
 * Fri Mar 30 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.22. Change source tarball to bz2.
-
 * Thu Jan 11 2007 - jijun.yu@sun.com
 - Initial version
 

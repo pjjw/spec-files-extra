@@ -24,6 +24,7 @@ Source:			%{name}-%{version}.tar.bz2
 Patch1:			libsyncml-01-Makefile.diff 
 Patch2:			libsyncml-02-define-func.diff
 Patch3:			libsyncml-03-fail-null.diff
+Patch4:                 libsyncml-04-cfmakeraw.diff
 BuildRoot:		%{_tmppath}/%{name}-%{version}-root
 Requires:		wbxml2 libsoup >= 2.2.91 
 BuildRequires:		wbxml2-devel libsoup-devel >= 2.2.91 
@@ -46,6 +47,7 @@ you will need to install %{name}-devel.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %ifos linux
@@ -68,7 +70,8 @@ autoconf
             --libexecdir=%{_libexecdir}         \
             --sysconfdir=%{_sysconfdir}         \
             --mandir=%{_mandir}                 \
-	    --enable-http
+	    --enable-http                       \
+	    --enable-obex
 
 make -j $CPUS
 
@@ -118,8 +121,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Apr  3 2007 - laca@sun.com
+- add patch cfmakeraw.diff to fix build of the openobex module on Solaris
+- enable the openobex module
 * Fri Mar 30 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.4.4. Add patch 03-fail-null to add 'NULL' to empty 'fail()' calls.
-
 * Thu Jan 11 2007 - jijun.yu@sun.com
 - Initial version

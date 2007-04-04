@@ -45,6 +45,8 @@ Requires:           SFEwbxml
 Requires:           SFElibsyncml
 BuildRequires:      SFElibopensync-devel
 BuildRequires:      SFElibsyncml-devel
+Requires:           SFEopenobex
+BuildRequires:      SFEopenobex-devel
 
 %package devel
 Summary:       %{summary} - development files
@@ -107,6 +109,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Tue Apr  3 2007 - laca@sun.com
+- add openobex dependency
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Add Requires/BuildRequries after check-deps.pl run.
 - Change plink_prefix from /usr/sfw to /usr

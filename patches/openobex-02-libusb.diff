@@ -1,0 +1,48 @@
+--- /dev/null	2007-04-02 20:57:28.000000000 -0400
++++ openobex-1.3/libusb.pc	2007-04-02 21:00:50.640581000 -0400
+@@ -0,0 +1,11 @@
++prefix=/usr/sfw
++exec_prefix=${prefix}
++libdir=/usr/sfw/lib
++includedir=${prefix}/include
++
++Name: libusb
++Description: User space library for USB access
++Requires:
++Version: 0.1.7
++Libs: -L${libdir} -R${libdir} -lusb
++Cflags: -I${includedir}
+--- openobex-1.3/lib/usbobex.h.orig	2007-04-02 21:07:51.235683000 -0400
++++ openobex-1.3/lib/usbobex.h	2007-04-02 21:14:08.171260000 -0400
+@@ -56,8 +56,22 @@
+ 	usb_dev_handle *dev_data;		/* libusb handler for data interface */
+ };
+ 
++#ifdef __sun
++#include <sys/types.h>
++#define u_int8_t uint8_t
++#endif
++
++#ifdef __SUNPRO_C
++#define PACKED
++#else
++#define PACKED __attribute__ ((packed))
++#endif
++
+ /* "Union Functional Descriptor" from CDC spec 5.2.3.X
+  * used to find data/slave OBEX interface */
++#ifdef __SUNPRO_C
++#pragma pack(1)
++#endif
+ struct cdc_union_desc {
+ 	u_int8_t      bLength;
+ 	u_int8_t      bDescriptorType;
+@@ -65,7 +79,7 @@
+ 
+ 	u_int8_t      bMasterInterface0;
+ 	u_int8_t      bSlaveInterface0;
+-} __attribute__ ((packed));
++} PACKED;
+ 
+ /* CDC class and subclass types */
+ #define USB_CDC_CLASS			0x02
