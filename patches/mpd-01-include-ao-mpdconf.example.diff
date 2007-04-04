@@ -1,0 +1,19 @@
+--- mpd-0.12.2-orig/doc/mpdconf.example	2007-03-20 22:22:53.000000000 +0100
++++ mpd-0.12.2/doc/mpdconf.example	2007-04-05 00:10:57.078477236 +0200
+@@ -112,6 +112,16 @@
+ #        public                  "no"                    # optional
+ #}
+ #
++# An example of an ao output on Solaris:
++#
++
++audio_output {
++        type                    "ao"
++        name                    "libao audio device
++	driver			"sun"
++}
++
++#
+ # Force all decoded audio to be converted to this format before
+ # being passed to the audio outputs.
+ #

@@ -7,7 +7,7 @@
 
 Name:                    SFElibmpcdec
 Summary:                 libmpcdec - Portable Musepack decoder library
-Version:                 1.2.2
+Version:                 1.2.5
 Source:                  http://files2.musepack.net/source/libmpcdec-%{version}.tar.bz2
 Patch1:			 libmpcdec-01-configure.diff
 SUNW_BaseDir:            %{_basedir}
@@ -61,6 +61,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Thu Apr 05 2007 - Thomas Wagner
+- bump to 1.2.5
+- refresh patch/libmpcdec-01-configure.diff
 * Fri Jun 23 2006 - laca@sun.com
 - rename to SFElibmpcdec
 - update file attributes

@@ -3,7 +3,9 @@
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-# For the output section of ~/.mpdconf, this worked for me:
+
+
+# For the output section of ~/.mpdconf or /etc/mpd.conf try:
 #
 # audio_output {
 #     type	"ao"
@@ -15,18 +17,35 @@
 
 Name:                SFEmpd
 Summary:             Daemon for remote access music playing & managing playlists
-Version:             0.12.0
+Version:             0.12.2
 Source:              http://www.musicpd.org/uploads/files/mpd-%{version}.tar.bz2
+Patch1:              mpd-01-include-ao-mpdconf.example.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-BuildRequires: SFElibao
+BuildRequires: SFElibao-devel
+BuildRequires: SFElibmpcdec-devel
+BuildRequires: SFElibmad-devel
+BuildRequires: SFEfaad2-devel
+BuildRequires: SFElibid3tag-devel
+BuildRequires: SUNWogg-vorbis-devel
+BuildRequires: SUNWgnome-audio-devel
+BuildRequires: SUNWflac-devel
 Requires: SFElibao
+Requires: SFElibmpcdec
+Requires: SFElibmad
+Requires: SFEfaad2
+Requires: SFElibid3tag
+Requires: SFEid3lib
+Requires: SUNWogg-vorbis
+Requires: SUNWgnome-audio
+Requires: SUNWflac
 
 %prep
 %setup -q -n mpd-%version
+%patch1 -p1
 
 %build
 
@@ -43,8 +62,9 @@ export LDFLAGS="%{_ldflags}"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir}  \
-	    --enable-ao          \
-	    --disable-id3
+	    --enable-ao          
+
+#	    --disable-id3
 
 make -j$CPUS
 
@@ -55,6 +75,14 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+( echo 'PATH=/usr/bin; export PATH' ;
+  echo 'retval=0';
+  echo '[ -f /etc/mpd.conf ] || cp -p $PKG_INSTALL_ROOT%{_datadir}/doc/mpd/mpdconf.example $PKG_INSTALL_ROOT%{_sysconfdir}/mpd.conf'
+  echo 'exit $retval' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
+
+
 
 %files
 %defattr (-, root, bin)
@@ -70,6 +98,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Wed Apr 04 2007 - Thomas Wagner
+- bump to 0.12.2
+- added dependencies
+- modified configuration note to name /etc/mpd.conf
+- copy patched mdconf.example to /etc/mpd.conf
+- re-add id3 tags (untested)
 * Mon Nov 06 2006 - Eric Boutilier
 - Fix attributes
 * Tue Sep 26 2006 - Eric Boutilier
