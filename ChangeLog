@@ -1,5 +1,14 @@
 2007-04-05  Halton Huo  <nonsea@users.sourceforge.net>
 
+	* SFEanjuta.spec: Enable subversion support:
+	  Add require SUNWapch2u and SUNWneon.
+	  Add patch solaris-svn.diff.
+	  Add --with-svn-include --with-svn-lib --with-apr-config
+	  for ./configure.
+	* patches/anjuta-11-solaris-svn.diff: Added.
+
+2007-04-05  Halton Huo  <nonsea@users.sourceforge.net>
+
 	* linux-specs/gnome-build.spec: Remove patch share-glue.diff,
 	  since this problem is resolved in anjuta.
 	* patches/anjuta-09-share-glue.diff: rework.

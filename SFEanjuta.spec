@@ -32,6 +32,8 @@ Patch8:         anjuta-08-invalid-cast.diff
 Patch9:         anjuta-09-share-glue.diff
 # date:2007-04-04 owner:nonsea type:branding
 Patch10:         anjuta-10-solaris-grep.diff
+# date:2007-04-06 bugzilla:426701 owner:nonsea type:bug
+Patch11:         anjuta-11-solaris-svn.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -52,6 +54,8 @@ Requires: SUNWlxml
 Requires: SUNWlxsl
 Requires: SUNWperl584core
 Requires: SUNWpcre
+Requires: SUNWapch2u
+Requires: SUNWneon
 Requires: SFEgdl
 Requires: SFEgnome-build
 Requires: SFEgraphviz
@@ -99,6 +103,7 @@ Requires:                %{name}
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -116,11 +121,14 @@ aclocal $ACLOCAL_FLAGS
 autoheader
 automake -a -c -f
 autoconf
-./configure --prefix=%{_prefix}		\
-            --mandir=%{_mandir}		\
-	    --libdir=%{_libdir}		\
-	    --includedir=%{_includedir}	\
-            --sysconfdir=%{_sysconfdir}	\
+./configure --prefix=%{_prefix}						\
+            --mandir=%{_mandir}						\
+	    --libdir=%{_libdir}						\
+	    --includedir=%{_includedir}					\
+            --sysconfdir=%{_sysconfdir}					\
+	    --with-svn-include=%{_includedir}/svn			\
+	    --with-svn-lib=%{_libdir}/svn				\
+            --with-apr-config=%{_prefix}/apache2/bin/apr-1-config	\
             --disable-scrollkeeper
 
 make -j$CPUS
@@ -222,6 +230,12 @@ test -x $BASEDIR/lib/postrun || exit 0
 %{_datadir}/gtk-doc
 
 %changelog
+* Fri Apr 06 2007 - nonsea@users.sourceforge.net
+  Enable subversion support:
+- Add require SUNWapch2u and SUNWneon.
+- Add patch solaris-svn.diff.
+- Add --with-svn-include --with-svn-lib --with-apr-config
+  for ./configure.
 * Wed Apr 04 2007 - nonsea@users.sourceforge.net
 - Add patch solaris-grep.diff for using /usr/xpg4/bin/grep 
   instead /usr/bin/grep for -e option.

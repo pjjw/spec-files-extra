@@ -1,0 +1,15 @@
+Index: anjuta-trunk/configure.in
+===================================================================
+--- anjuta-trunk/configure.in	(revision 2915)
++++ anjuta-trunk/configure.in	(working copy)
+@@ -871,6 +871,10 @@
+ 						SVN_INCLUDE=$VALUE
+ 						break
+ 				fi
++				if test -f $VALUE/svn_types.h ; then
++						SVN_INCLUDE=$VALUE
++						break
++				fi
+ 		done
+ 		if test $SVN_INCLUDE ; then
+ 				AC_MSG_RESULT([found])
