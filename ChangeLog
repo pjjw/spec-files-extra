@@ -1,4 +1,11 @@
-2007-04-04  Halton Huo  <set EMAIL_ADDRESS environment variable>
+2007-04-05  Halton Huo  <nonsea@users.sourceforge.net>
+
+	* linux-specs/gnome-build.spec: Remove patch share-glue.diff,
+	  since this problem is resolved in anjuta.
+	* patches/anjuta-09-share-glue.diff: rework.
+	* patches/gnome-build-03-share-glue.diff: Removed.
+
+2007-04-04  Halton Huo  <nonsea@users.sourceforge.nt>
 
 	* SFEanjuta.spec: Add patch solaris-grep.diff for using
 	  /usr/xpg4/bin/grep instead /usr/bin/grep for -e option.
