@@ -8,8 +8,7 @@
 Name:                    SFEphp
 Summary:                 php - Hypertext Preprocessor - general-purpose scripting language for Web development
 Version:                 5.2.1
-# TODO: Get a good source url. php.net ones end with "/from/a/mirror"
-Source:                  http://www.php.net/download/php-%{version}.tar.bz2
+Source:                  http://www.php.net/get/php-%{version}.tar.bz2/from/this/mirror
 URL:                     http://www.php.net/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
