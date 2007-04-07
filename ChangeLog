@@ -1,3 +1,8 @@
+2007-04-07  Alvaro Lopez Ortega  <alvaro.lopez@sun.com>
+
+	* SFEcherokee.spec: Bumped to 0.6.0 Beta1. It adds SMF support as
+	well.
+
 2007-04-06  Alvaro Lopez Ortega  <alvaro@sun.com>
 
 	* SFEphp.spec (Source): It was not downloading the source tarball

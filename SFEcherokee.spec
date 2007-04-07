@@ -8,19 +8,13 @@
 
 Name:                    SFEcherokee
 Summary:                 cherokee - Fast, flexible, lightweight web server
-Version:                 0.5.5
-Source:                  http://www.cherokee-project.com/download/0.5/%{version}/cherokee-%{version}.tar.gz
+Version:                 0.6.0b700
+Source:                  http://www.cherokee-project.com/download/0.6/0.6.0/cherokee-%{version}.tar.gz
 URL:                     http://www.cherokee-project.com/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
-Requires: SUNWgnutls
-Requires: SUNWlibgpg-error
-Requires: SUNWpcre
-Requires: %{name}-root
-BuildRequires: SUNWgnutls-devel
-BuildRequires: SUNWpcre-devel
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -66,6 +60,45 @@ cp http-cherokee.xml ${RPM_BUILD_ROOT}/var/svc/manifest/network/http-cherokee.xm
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 
 
+%post -n SFEcherokee-root
+
+if [ -f /lib/svc/share/smf_include.sh ] ; then
+    . /lib/svc/share/smf_include.sh
+    smf_present
+    if [ $? -eq 0 ]; then
+       /usr/sbin/svccfg import /var/svc/manifest/network/http-cherokee.xml
+    fi
+fi
+
+exit 0
+
+%preun -n SFEcherokee-root
+if [  -f /lib/svc/share/smf_include.sh ] ; then
+    . /lib/svc/share/smf_include.sh
+    smf_present
+    if [ $? -eq 0 ]; then
+       if [ `svcs  -H -o STATE svc:/network/http:cherokee` != "disabled" ]; then
+           svcadm disable svc:/network/http:cherokee
+       fi
+    fi
+fi
+
+
+%postun -n SFEcherokee-root
+
+if [ -f /lib/svc/share/smf_include.sh ] ; then
+    . /lib/svc/share/smf_include.sh
+    smf_present
+    if [ $? -eq 0 ] ; then
+       /usr/sbin/svccfg export svc:/network/http > /dev/null 2>&1
+       if [ $? -eq 0 ] ; then
+           /usr/sbin/svccfg delete -f svc:/network/http:cherokee
+       fi
+    fi
+fi
+
+exit 0
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -85,8 +118,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/aclocal
 %{_datadir}/aclocal/*
 %{_datadir}/cherokee
-%dir %attr (0755, root, other) %{_datadir}/doc
-%{_datadir}/doc/*
+#%dir %attr (0755, root, other) %{_datadir}/doc
+#%{_datadir}/doc/*
 
 
 %files root
@@ -108,6 +141,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Set Apr 07 2007 - alvaro@sun.com
+- Bumped to 0.6.0 Beta1: 0.6.0b700
+- Added SMF support
 * Wed Jan 24 2007 - daymobrew@users.sourceforge.net
 - s/SFEpcre/SUNWpcre/ because SUNWpcre is in Vermillion Devel.
 * Wed Jan  3 2007 - laca@sun.com
