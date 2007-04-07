@@ -99,6 +99,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Wed Apr 04 2007 - Thomas Wagner
+- missing " in patch to mpdconf.example 
+* Wed Apr 04 2007 - Thomas Wagner
 - bump to 0.12.2
 - added dependencies
 - modified configuration note to name /etc/mpd.conf

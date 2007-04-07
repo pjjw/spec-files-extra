@@ -9,7 +9,7 @@
 +
 +audio_output {
 +        type                    "ao"
-+        name                    "libao audio device
++        name                    "libao audio device"
 +	driver			"sun"
 +}
 +
