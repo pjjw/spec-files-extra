@@ -1,1 +1,0 @@
-/export/home/bout/packages/SPECS/R/SFEopenvpn.spec
