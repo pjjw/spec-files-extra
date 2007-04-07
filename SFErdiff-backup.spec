@@ -19,16 +19,11 @@ BuildRequires: SUNWPython
 %setup -q -n rdiff-backup-%version
 
 %build
-export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags"
-python setup.py build
+exit 0
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
-python setup.py install --prefix=%{_prefix} \
---root=$RPM_BUILD_ROOT \
---install-lib=/usr/lib/python2.4/site-packages
+/usr/bin/python2.4 setup.py install --root=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -52,6 +47,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/rdiff-backup-1.1.9/*
 
 %changelog
-* 
+* Sat Apr 07 2007 - Eric Boutilier
+- Clean up build/install to be consistent w/ distutils (setup.py) design
 * Sat Mar 17 2007 - Eric Boutilier
 - Initial spec
