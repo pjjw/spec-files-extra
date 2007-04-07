@@ -8,7 +8,7 @@
 Name:                    SFEphp
 Summary:                 php - Hypertext Preprocessor - general-purpose scripting language for Web development
 Version:                 5.2.1
-Source:                  http://www.php.net/get/php-%{version}.tar.bz2/from/this/mirror
+Source:                  http://www.php.net/distributions/php-%{version}.tar.bz2
 URL:                     http://www.php.net/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -26,7 +26,8 @@ Requires: SUNWpostrun-root
 
 
 %prep
-%setup -q -n php-%version
+%setup -q -c -n php-%version
+cp -pr php-%version php-%{version}-fastcgi
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -36,6 +37,24 @@ fi
 
 export LDFLAGS="%{_ldflags}"
 export CFLAGS="%optflags"
+
+cd php-%{version}-fastcgi
+./configure --prefix=%{_prefix}			\
+	    --datadir=%{_datadir}		\
+	    --mandir=%{_mandir}			\
+	    --libexec=%{_libexec}		\
+	    --sysconfdir=%{_sysconfdir}		\
+         --enable-fastcgi                    \
+	    --with-bz2                          \
+	    --with-zlib                         \
+	    --enable-mbstring                   \
+	    --with-gettext=/usr/gnu             \
+	    --with-pgsql=/usr
+
+make -j$CPUS
+cd ..
+
+cd php-%version
 ./configure --prefix=%{_prefix}			\
 	    --datadir=%{_datadir}		\
 	    --mandir=%{_mandir}			\
@@ -45,9 +64,9 @@ export CFLAGS="%optflags"
 	    --with-zlib                         \
 	    --enable-mbstring                   \
 	    --with-gettext=/usr/gnu             \
-	    --with-apxs2=/usr/apache2/bin/apxs	\
-	    --with-pgsql=/usr
-	    
+	    --with-pgsql=/usr                   \
+	    --with-apxs2=/usr/apache2/bin/apxs	
+
 make -j$CPUS
 
 %install
@@ -58,7 +77,12 @@ mkdir -p $RPM_BUILD_ROOT/etc/apache2
 echo >${RPM_BUILD_ROOT}/etc/apache2/httpd.conf
 echo "LoadModule /usr/dummy.so" >>${RPM_BUILD_ROOT}/etc/apache2/httpd.conf
 
+cd php-%version
 make install INSTALL_ROOT=$RPM_BUILD_ROOT
+
+# Copy FastCGI binary
+mkdir -p $RPM_BUILD_ROOT%{_bindir}
+cp ../php-%{version}-fastcgi/sapi/cgi/php $RPM_BUILD_ROOT%{_bindir}/php-cgi
 
 cp php.ini-recommended $RPM_BUILD_ROOT%{_libdir}/php.ini
 

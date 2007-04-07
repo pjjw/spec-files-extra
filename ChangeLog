@@ -1,5 +1,9 @@
 2007-04-07  Alvaro Lopez Ortega  <alvaro.lopez@sun.com>
 
+	* SFEphp.spec: Added fastcgi support. Now it includes a new
+	php-cgi binary based on the SAPI cgi (with FastCGI support).  The
+	downloading path has been fixed as well.
+
 	* SFEcherokee.spec: Bumped to 0.6.0 Beta1. It adds SMF support as
 	well.
 
