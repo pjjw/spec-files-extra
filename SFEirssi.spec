@@ -6,12 +6,11 @@
 # package are under the same license as the package itself.
 
 %include Solaris.inc
-%define tarball_version 0.8.10a
 
 Name:                SFEirssi
 Summary:             irssi - a terminal based IRC client
-Version:             0.8.10
-Source:              http://www.irssi.org/files/irssi-%{tarball_version}.tar.gz
+Version:             0.8.11-rc1
+Source:              http://www.irssi.org/files/irssi-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -104,6 +103,8 @@ rm -rf $RPM_BUILD_ROOT
 # package required (which in this case would contain one file)?
 
 %changelog
+* Sun Apr 08 2007 - Thomas Wagner
+- bump to 0.8.11-rc1, removed tarball_version (re-add if ever needed)
 * 
 * Fri Sep 01 2006 - Eric Boutilier
 - Initial spec

@@ -1,3 +1,15 @@
+2007-04-08  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEirssi.spec: bump to 0.8.11-rc1
+        * added ChangeLog from 2007-04-07
+     
+2007-04-07  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEgmpc.spec: Gnome Music Player Client (great frontend to SFEmpd)
+        * SFEgmpc-plugin-*.spec: osd, cover art, lyrics, playlists by filter
+        * SFElibmpd.spec: mpd lib for SFEgmpc.spec
+        * SFExosd.spec: required by SFEgmpc-plugin-osd.spec (Alternatively
+          you could use SFEgmpc-plugin-qosd.spec doesn't require SFExosd.spec)
+        * SFEmpd.spec patch mpd-01-* added missing >"<
+
 2007-04-07  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEtun.spec: (new) Virtual Point-to-Point network device
