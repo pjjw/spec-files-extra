@@ -1,3 +1,6 @@
+2007-04-09  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEgmpc-plugin-*: align spec filename and solaris packagename (s/plugins/plugin/)
+
 2007-04-08  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEirssi.spec: bump to 0.8.11-rc1
         * added ChangeLog from 2007-04-07

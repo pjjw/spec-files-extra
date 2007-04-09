@@ -1,11 +1,11 @@
 #
-# spec file for package SFEgmpc-plugins-autoplaylist (plugin)
+# spec file for package SFEgmpc-plugin-autoplaylist (plugin)
 #
 # use gcc to compile
 #
 
 %include Solaris.inc
-Name:                    SFEgmpc-plugins-autoplaylist
+Name:                    SFEgmpc-plugin-autoplaylist
 Summary:                 gmpc-autoplaylist - auto-generate playlists by rulesets  - plugin for gmpc
 URL:                     http://sarine.nl/gmpc-plugins-autoplaylist
 Version:                 0.14.0

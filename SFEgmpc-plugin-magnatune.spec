@@ -1,11 +1,11 @@
 #
-# spec file for package SFEgmpc-plugins-magnatune (plugin)
+# spec file for package SFEgmpc-plugin-magnatune (plugin)
 #
 # use gcc to compile
 #
 
 %include Solaris.inc
-Name:                    SFEgmpc-plugins-magnatune
+Name:                    SFEgmpc-plugin-magnatune
 Summary:                 gmpc-magnatune - browse and preview albums from www.magnatune.com and fetch cover art - plugin for gmpc
 URL:                     http://sarine.nl/gmpc-plugins-magnatune
 Version:                 0.14.0

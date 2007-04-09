@@ -1,11 +1,11 @@
 #
-# spec file for package SFEgmpc-plugins-serverstats (plugin)
+# spec file for package SFEgmpc-plugin-serverstats (plugin)
 #
 # use gcc to compile
 #
 
 %include Solaris.inc
-Name:                    SFEgmpc-plugins-serverstats
+Name:                    SFEgmpc-plugin-serverstats
 Summary:                 gmpc-serverstats - server statistics and database details from mpd server  - plugin for gmpc
 URL:                     http://sarine.nl/gmpc-plugins-serverstats
 Version:                 0.14.0

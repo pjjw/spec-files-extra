@@ -1,11 +1,11 @@
 #
-# spec file for package SFEgmpc-plugins-lastfm (plugin)
+# spec file for package SFEgmpc-plugin-lastfm (plugin)
 #
 # use gcc to compile
 #
 
 %include Solaris.inc
-Name:                    SFEgmpc-plugins-lastfm
+Name:                    SFEgmpc-plugin-lastfm
 Summary:                 gmpc-lastfm - fetch artist images from last.fm  - plugin for gmpc
 URL:                     http://sarine.nl/gmpc-plugins-lastfm
 Version:                 0.14.0

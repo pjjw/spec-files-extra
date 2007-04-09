@@ -1,12 +1,12 @@
 #
-# spec file for package SFEgmpc-plugins-osd (plugin)
+# spec file for package SFEgmpc-plugin-osd (plugin)
 #
 # use gcc to compile
 #
 
 %include Solaris.inc
-Name:                    SFEgmpc-plugins-osd
-Summary:                 gmpc-plugins-osd - Xosd On Screen Display - plugin for gmpc
+Name:                    SFEgmpc-plugin-osd
+Summary:                 gmpc-plugin-osd - Xosd On Screen Display - plugin for gmpc
 URL:                     http://sarine.nl/xosd-on-screen-display
 Version:                 0.14.0
 %define gmpc_version 0.14.0

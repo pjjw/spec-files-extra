@@ -1,11 +1,11 @@
 #
-# spec file for package SFEgmpc-plugins-stopbutton (plugin)
+# spec file for package SFEgmpc-plugin-stopbutton (plugin)
 #
 # use gcc to compile
 #
 
 %include Solaris.inc
-Name:                    SFEgmpc-plugins-stopbutton
+Name:                    SFEgmpc-plugin-stopbutton
 Summary:                 gmpc-stopbutton - adds stop button to main window - plugin for gmpc
 URL:                     http://sarine.nl/gmpc-plugins-stopbutton
 Version:                 0.14.0

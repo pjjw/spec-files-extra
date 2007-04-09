@@ -1,11 +1,11 @@
 #
-# spec file for package SFEgmpc-plugins-mdcover (plugin)
+# spec file for package SFEgmpc-plugin-mdcover (plugin)
 #
 # use gcc to compile
 #
 
 %include Solaris.inc
-Name:                    SFEgmpc-plugins-mdcover
+Name:                    SFEgmpc-plugin-mdcover
 Summary:                 gmpc-mdcover - fetch cover art, artist art, album and artist art from the file system - plugin for gmpc
 URL:                     http://sarine.nl/gmpc-plugins-mdcover
 Version:                 0.14.0

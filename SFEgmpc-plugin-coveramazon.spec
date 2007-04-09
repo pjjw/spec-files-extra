@@ -1,11 +1,11 @@
 #
-# spec file for package SFEgmpc-plugins-coveramazon (plugin)
+# spec file for package SFEgmpc-plugin-coveramazon (plugin)
 #
 # use gcc to compile
 #
 
 %include Solaris.inc
-Name:                    SFEgmpc-plugins-coveramazon
+Name:                    SFEgmpc-plugin-coveramazon
 Summary:                 gmpc-coveramazon - fetch cover art and album informaiton from amazon - plugin for gmpc
 URL:                     http://sarine.nl/gmpc-plugins-coveramazon
 Version:                 0.14.0

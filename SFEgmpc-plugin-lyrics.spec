@@ -1,11 +1,11 @@
 #
-# spec file for package SFEgmpc-plugins-lyrics (plugin)
+# spec file for package SFEgmpc-plugin-lyrics (plugin)
 #
 # use gcc to compile
 #
 
 %include Solaris.inc
-Name:                    SFEgmpc-plugins-lyrics
+Name:                    SFEgmpc-plugin-lyrics
 Summary:                 gmpc-lyrics - fetch lyrics from the internet LyricWiki/LeosLyrics/Lyrics Tracker - plugin for gmpc
 URL:                     http://sarine.nl/gmpc-plugins-lyrics
 Version:                 0.14.0
