@@ -59,10 +59,13 @@ SUNW_Copyright:            default-copyright.txt
 %define base_arch i386
 %endif
 
+%define arch_ldadd
+%define ldadd
+
 %if %debug_build
-%define _ldflags           %{?arch_ldadd} %{?ldadd} ${EXTRA_LDFLAGS}
+%define _ldflags           %arch_ldadd %ldadd ${EXTRA_LDFLAGS}
 %else
-%define _ldflags           %{?arch_ldadd} %{?ldadd} -Wl,-zignore -Wl,-zcombreloc -Wl,-Bdirect ${EXTRA_LDFLAGS}
+%define _ldflags           %arch_ldadd %ldadd -Wl,-zignore -Wl,-zcombreloc -Wl,-Bdirect ${EXTRA_LDFLAGS}
 %endif
 
 %define gcc_picflags -fPIC -DPIC
@@ -89,6 +92,8 @@ SUNW_Copyright:            default-copyright.txt
 %define _pkg_config_path   %{_libdir}/pkgconfig
 
 # ChangeLog:
+# 2007-04-05  Laszlo (Laca) Peter  <laca@sun.com>
+# - fix _ldflags so that it includes the architecture specific flags
 # 2007-03-15  Laszlo (Laca) Peter  <laca@sun.com>
 # - move product specific tags and macros to prod.inc
 # - define can_isaexec, base_isa, base_arch

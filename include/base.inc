@@ -65,7 +65,7 @@
 
 %define picflags %suncc_picflags
 %define optflags %suncc_optflags ${EXTRA_CFLAGS}
-%define cxx_optflags %suncc_cxx_optflags ${EXTRA_LDFLAGS}
+%define cxx_optflags %suncc_cxx_optflags ${EXTRA_CXXFLAGS}
 
 %endif
 
@@ -90,6 +90,8 @@
 %define xorg_lib_path   -L%xorg_lib -R%xorg_lib
 
 # ChangeLog:
+# 2007-04-05  Laszlo (Laca) Peter  <laca@sun.com>
+# - fix cxx_optflags: use EXTRA_CXXFLAGS and not EXTRA_LDFLAGS
 # 2007-03-20  Doug Scott  <dougs@truemail.co.th>
 # added standard directories definitions
 # 2007-03-19  Doug Scott  <dougs@truemail.co.th>
