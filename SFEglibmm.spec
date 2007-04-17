@@ -7,7 +7,7 @@
 
 Name:                    SFEglibmm
 Summary:                 glibmm - C++ Wrapper for the Glib2 Library
-Version:                 2.12.7
+Version:                 2.12.8
 URL:                     http://www.gtkmm.org/
 Source:                  http://ftp.acc.umu.se/pub/GNOME/sources/glibmm/2.12/glibmm-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
@@ -74,6 +74,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Tue Apr 17 2007 - daymobrew@users.sourceforge.net
+- Bump to 2.12.8.
 * Fri Mar 16 2007 - laca@sun.com
 - bump to 2.12.7
 * Wed Jan 03 2007 - daymobrew@users.sourceforge.net

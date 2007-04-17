@@ -1,3 +1,8 @@
+2007-04-17  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEgtkmm.spec: Bump to 2.10.9.
+	* SFEglibmm.spec: Bump to 2.12.8.
+
 2007-04-16  Laszlo (Laca) Peter  <laca@sun.com>
 
         (update from the JDS spec-files repo)
@@ -33,13 +38,11 @@
 	* SFErdiff-backup.spec: Clean up build/install blocks to be consistent 
 	  with distutils (setup.py) design
 
-
 2007-04-07  Alvaro Lopez Ortega  <alvaro.lopez@sun.com>
 
 	* SFEphp.spec: Added fastcgi support. Now it includes a new
 	  php-cgi binary based on the SAPI cgi (with FastCGI support).  The
 	  downloading path has been fixed as well.
-
 	* SFEcherokee.spec: Bumped to 0.6.0 Beta1. It adds SMF support as
 	  well.
 
