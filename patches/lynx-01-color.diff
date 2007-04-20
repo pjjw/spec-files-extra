@@ -1,0 +1,11 @@
+diff -ur lynx2-8-6-orig/lynx.cfg lynx2-8-6/lynx.cfg
+--- lynx2-8-6-orig/lynx.cfg	2006-09-19 07:28:28.000000000 +0700
++++ lynx2-8-6/lynx.cfg	2007-04-17 14:10:23.443402941 +0700
+@@ -2942,7 +2942,6 @@
+ #COLOR:4:magenta:white
+ #COLOR:5:blue:white
+ #COLOR:6:red:white
+-COLOR:6:brightred:black
+ #COLOR:7:magenta:cyan
+ 
+ 

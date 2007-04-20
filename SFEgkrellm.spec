@@ -48,7 +48,8 @@ fi
 
 export CC=/usr/sfw/bin/gcc
 export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
-export LDFLAGS="%_ldflags"
+export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib"
+export LD_OPTIONS="-L/usr/sfw/lib -R/usr/sfw/lib"
 
 # A couple patches follow. TODO: Transpose these into proper patches or
 # (better yet) report them upstream.
@@ -105,6 +106,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/gkrellm.pc
 
 %changelog
+* Fri Apr 20 2007 - dougs@truemail.co.th
+- Added SFW libs (LDFLAGS,LD_OPTIONS)
 * Mon Mar 19 2007 - dougs@truemail.co.th
 - Fixed -fno-omit-frame-pointer flag
 * Sun Mar 11 2007 - Eric Boutilier

@@ -111,13 +111,15 @@ rm -f $RPM_BUILD_ROOT/%{_libdir}/%{_arch64}/*.la
 cd ..
 %endif
 
+
 cd gettext-%{version}
 make install DESTDIR=$RPM_BUILD_ROOT
 
 cd $RPM_BUILD_ROOT%{_prefix}
 ln -s share/man man
 
-rm -f $RPM_BUILD_ROOT%{_infodir}/dir
+rm -rf $RPM_BUILD_ROOT%{_infodir}
+rm $RPM_BUILD_ROOT%{_libdir}/charset.alias
 
 %if %build_l10n
 %else
@@ -131,27 +133,6 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.la
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
-  echo 'infos="';
-  echo 'gettext.info autosprintf.info' ;
-  echo '"';
-  echo 'retval=0';
-  echo 'for info in $infos; do';
-  echo '  install-info --info-dir=%{_infodir} %{_infodir}/$info || retval=1';
-  echo 'done';
-  echo 'exit $retval' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
-
-%preun
-( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
-  echo 'infos="';
-  echo 'gettext.info autosprintf.info' ;
-  echo '"';
-  echo 'for info in $infos; do';
-  echo '  install-info --info-dir=%{_infodir} --delete %{_infodir}/$info';
-  echo 'done';
-  echo 'exit 0' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
-
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_prefix}
@@ -160,7 +141,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
-%config %{_libdir}/charset.alias
 %dir %attr (0755, root, bin) %{_libdir}/gettext
 %{_libdir}/gettext/*
 %dir %attr (0755, root, sys) %{_datadir}
@@ -174,8 +154,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_mandir}/man3
 %{_mandir}/man3/*.3
 %dir %attr(0755, root, sys) %{_std_datadir}
-%dir %attr(0755, root, bin) %{_infodir}
-%{_infodir}/*
 %ifarch amd64 sparcv9
 %dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
 %{_libdir}/%{_arch64}/lib*.so*
@@ -201,5 +179,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Apr 20 2007 - Doug Scott <dougs@truemail.co.th>
+- Removed gettext.info autosprintf.info - conflicts with SUNWgnome-common-devel
+- Removed charset.alias - conficts with SFEcoreutils
 * Sun Mar  7 2007 - Doug Scott <dougs@truemail.co.th>
 - Initial spec

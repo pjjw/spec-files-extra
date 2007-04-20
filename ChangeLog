@@ -1,3 +1,11 @@
+2007-04-20  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEmailnotify.spec: Added mail-notification panel applet
+	* SFEgettext.spec: Removed .info files to stop conflict
+	* SFEgkrellm.spec: Added SFW libs (LDFLAGS,LD_OPTIONS)
+	* SFElynx.spec: Added lynx text browser
+	* patches/lynx-01-color.diff: Added patch for lynx (remove typo)
+
 2007-04-17  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEgtkmm.spec: Bump to 2.10.9.
