@@ -1,4 +1,8 @@
 2007-04-22  Doug Scott  <dougs@truemail.co.th>
+	
+	* SFEscourge.spec: Added game scourge
+
+2007-04-22  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEopencity.spec: Added opencity game
 	* patches/opencity-01-makefile.diff: Added opencity patch
