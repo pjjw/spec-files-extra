@@ -1,11 +1,17 @@
-2007-04-21  Doug Scott  <dougs@truemail.co.th>
+2007-04-22  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEopencity.spec: Added opencity game
+	* patches/opencity-01-makefile.diff: Added opencity patch
+	* patches/opencity-02-homedir.diff: Added opencity patch
+
+2007-04-22  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEsdl-mixer.spec: Added SDL_mixer
 	* SFEsdl-ttf.spec: Added SDL_ttf
 	* SFEsdl-net.spec: Added SDL_net
 	* SFEfreeciv.spec: Added SFEsdl-mixer and enabled sound
 
-2007-04-21  Doug Scott  <dougs@truemail.co.th>
+2007-04-22  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEfreeciv.spec: Added freeciv game
 	* patches/freeciv-03-strlcpy.diff: Added freeciv patch
