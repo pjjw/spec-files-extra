@@ -1,5 +1,12 @@
 2007-04-21  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEfreeciv.spec: Added freeciv game
+	* patches/freeciv-03-strlcpy.diff: Added freeciv patch
+	* patches/freeciv-01-signedchar.diff: Added freeciv patch
+	* patches/freeciv-02-output_type.diff: Added freeciv patch
+
+2007-04-21  Doug Scott  <dougs@truemail.co.th>
+
 	* SFElibiconv.spec: Added -L/usr/gnu/lib -R/usr/gnu/lib
 	* SFEgnome-subtitles.spec: Added Video subtitling for the Gnome Desktop
 
