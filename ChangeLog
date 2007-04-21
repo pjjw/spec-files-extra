@@ -1,3 +1,8 @@
+2007-04-21  Thomas Wagner <tom68@users.sourceforge.net>
+
+        * SFEcpio.spec: Added gnu cpio (--no-absolute-filenames)
+          Note: installs in /usr/gnu/bin/cpio
+
 2007-04-20  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEdevice-manager.spec: Fixed configure.in typo
