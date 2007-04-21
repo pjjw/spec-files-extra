@@ -1,5 +1,10 @@
 2007-04-21  Doug Scott  <dougs@truemail.co.th>
 
+	* SFElibiconv.spec: Added -L/usr/gnu/lib -R/usr/gnu/lib
+	* SFEgnome-subtitles.spec: Added Video subtitling for the Gnome Desktop
+
+2007-04-21  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEgettext.spec:  Fixed %{_datadir}/doc group
 	* base-specs/lame.spec: Forced automake to automake-1.9
 	* SFEliveMedia.spec: Bump to 2007.04.20

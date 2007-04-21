@@ -30,11 +30,13 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags"
+export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib"
 
 ./configure \
-        --prefix=%{_prefix}  \
-        --mandir=%{_mandir}  \
+        --prefix=%{_prefix}	\
+        --libdir=%{_libdir}	\
+        --datadir=%{_datadir}	\
+        --mandir=%{_mandir}	\
         --enable-static=no
 
 make -j$CPUS
@@ -70,6 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
-* 
+* Sun Apr 21 2007 - Doug Scott
+- Added -L/usr/gnu/lib -R/usr/gnu/lib
 * Mon Mar 12 2007 - Eric Boutilier
 - Initial spec
