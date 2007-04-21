@@ -80,7 +80,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 autoconf
-automake -a -c -f
+automake-1.9 -a -c -f
 CFLAGS="$RPM_OPT_FLAGS"			\
 ./configure --prefix=%{_prefix}		\
             --sysconfdir=%{_sysconfdir} \
@@ -127,6 +127,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python?.?/vendor-packages/*
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Forced automake-1.9
+
 * Fri Jul 21 2006 - brian.cameron@sun.com
 - Add patch to move dbus-daemon to /usr/lib, required by ARC.
 

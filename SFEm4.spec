@@ -18,6 +18,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires: SUNWlibms
 Requires: SUNWpostrun
 Requires: SUNWtexi
+BuildConflicts: SUNWgm4
 
 %prep
 %setup -q -n m4-%version
@@ -88,6 +89,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/m4.1
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Added BuildConflicts: SUNWgm4
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net
 - Add SUNWtexi dependency.
 * Sat Jan  6 2007 - laca@sun.com

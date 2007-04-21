@@ -43,9 +43,9 @@ export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
 
 libtoolize --copy --force
-aclocal $ACLOCAL_FLAGS
+aclocal-1.9 $ACLOCAL_FLAGS
 autoheader
-automake -a -c -f
+automake-1.9 -a -c -f
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
             --infodir=%{_datadir}/info \
@@ -103,6 +103,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Use automake-1.9 and aclocal-1.9
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Bump to 1.8.1.
 - Add patch suncc-inline.diff and var-imaginary.diff

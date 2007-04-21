@@ -51,9 +51,13 @@ export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
 
 export LDFLAGS="%_ldflags"
 
-./configure --prefix=%{_prefix}  \
-            --mandir=%{_mandir} \
-	    --enable-gtk \
+./configure --prefix=%{_prefix}		\
+            --bindir=%{_bindir}		\
+            --libdir=%{_libdir}		\
+            --datadir=%{_datadir}	\
+            --libexecdir=%{_libexecdir}	\
+            --mandir=%{_mandir}		\
+	    --enable-gtk		\
             --sysconfdir=%{_sysconfdir}
 
 # I'm pretty sure that if ncurses and/or pcre are installed,
@@ -67,6 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
 
+rm $RPM_BUILD_ROOT%{_libdir}/ettercap/*.la
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -74,6 +80,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
+%{_libdir}
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/*
 
@@ -83,6 +90,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Added %{_libdir} to %files
 * Mon Mar 19 2007 - dougs@truemail.co.th
 - Fixed -fno-omit-frame-pointer flag
 * Sun Nov 05 2006 - Eric Boutilier

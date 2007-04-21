@@ -13,6 +13,8 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
+BuildRequires: SUNWlibnotify-devel
+Requires: SUNWlibnotify
 BuildRequires: SUNWgnome-panel-devel
 Requires: SUNWgnome-panel
 BuildRequires: SUNWopenssl-include
@@ -94,5 +96,7 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_sysconfdir}
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Added Requires: SUNWlibnotify
 * Fri Apr 20 2007 - dougs@truemail.co.th
 - Initial spec

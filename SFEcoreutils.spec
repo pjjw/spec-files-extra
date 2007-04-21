@@ -52,7 +52,7 @@ autoconf
 	    --mandir=%{_mandir}                 \
             --infodir=%{_infodir}
 
-make -j$CPUS
+gmake -j$CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -141,6 +141,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Use gmake rather than /usr/bin/make
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net
 - Add SUNWtexi dependency.
 * Sat Jan  6 2007 - laca@sun.com

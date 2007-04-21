@@ -47,6 +47,10 @@ fi
 
 cd f-spot-%{version}
 
+# These are actually for libusb.so
+export LIBGPHOTO2_CFLAGS="-I/usr/sfw/include"
+export LIBGPHOTO2_LIBS="-L/usr/sfw/lib -R/usr/sfw/lib"
+
 export PATH=/usr/mono/bin:$PATH
 export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
@@ -109,6 +113,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- added gphoto cflags and libs so configure can find libusb.so
 * Sat Mar 17 2007 - laca@sun.com
 - update %files for 0.3.5
 * Mon Mar 05 2007 - daymobrew@users.sourceforge.net

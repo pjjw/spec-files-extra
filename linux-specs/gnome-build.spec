@@ -70,7 +70,7 @@ autoconf
     --datadir=%{_datadir} --includedir=%{_includedir} \
     --sysconfdir=%{_sysconfdir}
 
-make -j $CPUS
+make # -j $CPUS
 
 %install
 [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
@@ -107,12 +107,14 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
-* thu Apr 05 2007 nonsea@users.sourceforge.net
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Disabled parallel make. Can be a problem on a multicpu system
+* Thu Apr 05 2007 - nonsea@users.sourceforge.net
 - Remove patch share-glue.diff, since this problem
   is resolved in anjuta.
-* Wed Apr 04 2007 nonsea@users.sourceforge.net
+* Wed Apr 04 2007 - nonsea@users.sourceforge.net
 - Add patch share-glue.diff.
-* Thu Mar 29 2007 nonsea@users.sourceforge.net
+* Thu Mar 29 2007 - nonsea@users.sourceforge.net
 - Add bug comments.
-* Thu Mar 22 2007 nonsea@users.sourceforge.net
+* Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Initial spec

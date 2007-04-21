@@ -15,7 +15,7 @@ SUNW_BaseDir:		%{_basedir}
 BuildRoot:		%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:               SUNWperl584core
-Requires:               SFEm4
+Requires:               SUNWgm4
 Requires:               SUNWpostrun
 
 %prep
@@ -85,6 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 # %{_datadir}/aclocal/*
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Changed Required Gnu m4 from SUNWgm4
 * Sat Jan  6 2006 - laca@sun.com
 - add /usr/gnu/share/aclocal to the aclocal search path
 - install info files and update info dir file using postrun scripts

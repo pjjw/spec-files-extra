@@ -48,7 +48,7 @@ export CFLAGS="%optflags"
 
 cd netpbm-%version
 cd netpbm
-make -j$CPUS 
+make # -j$CPUS 
 
 %install
 cd netpbm-%version
@@ -87,6 +87,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Disabled parallel make. Can be a problem on a multicpu system
 * Wed Feb 28 2007 - markgraf@med.ovgu.de
 - need to include stdlib.h in generator/ppmrough.c
 * Thu Nov 22 2006 - dougs@truemail.co.th

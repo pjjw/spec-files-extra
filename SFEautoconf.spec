@@ -15,6 +15,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires: SUNWgm4
 Requires: SUNWpostrun
 Requires: SUNWtexi
+Requires: SFEemacs
 
 %prep
 %setup -q -n autoconf-%version
@@ -76,6 +77,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Add Requires: SFEemacs
 * Mon Mar 18 2007 - dougs@truemail.co.th
 - Changed Required Gnu m4 from SFEm4 SUNWgm4
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net

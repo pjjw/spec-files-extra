@@ -13,6 +13,7 @@ Group:        System/GUI
 Version:      0.5.8.1
 Summary:      Device-manager is a GUI interface provided by hal to display information about devices.
 Source:       http://people.freedesktop.org/~david/dist/hal-%{version}.tar.gz
+Patch1:	      hal-01-configure.diff
 URL:          http://www.freedesktop.org/wiki/Software_2fhal
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
@@ -37,6 +38,7 @@ Requires:                %{name}
 
 %prep
 %setup -q -n hal-%version
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -65,8 +67,10 @@ rm $RPM_BUILD_ROOT%{_datadir}/hal/device-manager/*.pyo
 
 # Rename sl_SI dir to sl as sl_SI is a symlink to sl and causing installation
 # problems as a dir.
+%if %build_l10n
 cd $RPM_BUILD_ROOT%{_datadir}/locale
 mv sl_SI sl
+%endif
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
@@ -85,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Fixed configure.in typo
+- Fixed non l10n build
 * Thu Mar 29 2007 - daymobrew@users.sourceforge.net
 - Rename sl_SI dir to sl in %install as sl_SI is a symlink to sl and causing
   installation problems as a dir.

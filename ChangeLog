@@ -1,5 +1,37 @@
 2007-04-20  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEdevice-manager.spec: Fixed configure.in typo
+	* SFEettercap.spec: Added %{_libdir} to %files
+	* SFEcoreutils.spec: Use gmake rather than /usr/bin/make
+	* SFEm4.spec: Added BuildConflicts: SUNWgm4
+	* SFEmailnotify.spec: Added Requires: SUNWlibnotify
+	* SFEaspell.spec: Added BuildConflicts: SUNWaspell
+	* SFEcherokee.spec: Fixed sbin to find cherokee-admin
+	* SFEautomake.spec: Changed Required Gnu m4 from SUNWgm4
+	* SFEfetchmail.spec: Added automake to build
+	* SFEcscope.spec: Added BuildConflicts: SPROsslnk
+	* SFEguile.spec: Use automake-1.9 and aclocal-1.9
+	* SFEf-spot.spec: added gphoto cflags and libs so configure
+	  can find libusb.so
+	* SFEnetpbm.spec: Disabled parallel make. Can be a problem on
+	  a multicpu system
+	* SFEautoconf.spec: Add Requires: SFEemacs (overkill)
+	* SFEanjuta.spec: Added Required: SUNWsvn, and modified patch
+	  solaris-11-svn.diff
+	  Note: Currently has issues. There are patches in anjuta svn. 
+	  Have to wait for next version hopefully for fix....
+	* SFEruby.spec: added isinf to configure.in to force configure
+	  to not add internal isinf for Solaris 11
+	* linux-specs/dbus.spec: Forced automake-1.9
+	* linux-specs/aria2.spec: Forced build to used automake-1.9
+	* linux-specs/gnome-build.spec: Disabled parallel make. Can be
+	  a problem on a multicpu system
+	* patches/anjuta-11-solaris-svn.diff: fixed svn headers for SUNWsvn
+	* patches/ruby-01-isinf.diff: Added isinf patch
+	* patches/hal-01-configure.diff: added patch to fix typo in configure.in
+
+2007-04-20  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEmailnotify.spec: Added mail-notification panel applet
 	* SFEgettext.spec: Removed .info files to stop conflict
 	* SFEgkrellm.spec: Added SFW libs (LDFLAGS,LD_OPTIONS)

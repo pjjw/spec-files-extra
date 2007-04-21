@@ -60,9 +60,9 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 libtoolize --force
-#aclocal $ACLOCAL_FLAGS -I .
+# aclocal $ACLOCAL_FLAGS -I .
 autoheader
-automake -a -c -f
+automake-1.9 -a -c -f
 autoconf
 ./configure --prefix=%{_prefix}                 \
             --libexecdir=%{_libexecdir}         \
@@ -90,5 +90,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/aria2c*
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Forced build to used automake-1.9
 * Tue Dec 19 2006 - halton.huo@sun.com
 - Initial version

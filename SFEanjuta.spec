@@ -60,6 +60,7 @@ Requires: SFEgdl
 Requires: SFEgnome-build
 Requires: SFEgraphviz
 Requires: SFEautogen
+Requires: SUNWsvn
 BuildRequires: SUNWpcre-devel
 BuildRequires: SFEgdl-devel
 BuildRequires: SFEgnome-build-devel
@@ -156,6 +157,13 @@ rm -rf $RPM_BUILD_ROOT
 ( echo 'test -x /usr/bin/scrollkeeper-update || exit 0';
   echo '/usr/bin/scrollkeeper-update'
 ) | $BASEDIR/lib/postrun -b -u -c JDS
+( touch %{_datadir}/icons/hicolor || :
+  touch %{_datadir}/icons/gnome || :
+  if [ -x %{_bindir}/gtk-update-icon-cache ]; then
+	%{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+	%{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/gnome || :
+  fi
+) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u
 
 %postun
 test -x $BASEDIR/lib/postrun || exit 0
@@ -168,6 +176,13 @@ test -x $BASEDIR/lib/postrun || exit 0
 ( echo 'test -x /usr/bin/scrollkeeper-update || exit 0';
   echo '/usr/bin/scrollkeeper-update'
 ) | $BASEDIR/lib/postrun -b -u -c JDS
+( touch %{_datadir}/icons/hicolor  || :
+  touch %{_datadir}/icons/gnome || :
+  if [ -x %{_bindir}/gtk-update-icon-cache ]; then
+	%{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+	%{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/gnome || :
+  fi
+) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u
 
 %files
 %defattr (-, root, bin)
@@ -230,6 +245,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %{_datadir}/gtk-doc
 
 %changelog
+* Sat Apr 20 2007 - dougs@truemail.co.th
+- Added Required: SUNWsvn, and modified patch solaris-11-svn.diff
 * Fri Apr 06 2007 - nonsea@users.sourceforge.net
   Enable subversion support:
 - Add require SUNWapch2u and SUNWneon.

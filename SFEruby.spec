@@ -10,6 +10,7 @@ Summary:      ruby - object oriented scripting language
 URL:          http://www.ruby-lang.org/en/
 Version:      1.8.6
 Source:	      ftp://ftp.ruby-lang.org/pub/ruby/ruby-%{version}.tar.gz
+Patch1:	      ruby-01-isinf.diff
 URL:          http://www.ruby-lang.org
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
@@ -20,13 +21,14 @@ Requires:     SUNWzlib
 
 %prep
 %setup -q -n ruby-%version
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-export CFLAGS="%optflags"
+export CFLAGS="-xc99 %optflags"
 export LDFLAGS="%_ldflags"
 autoconf
 ./configure --prefix=%{_prefix}              \
@@ -53,6 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- added isinf to configure.in to force configureto not add internal isinf
+- for Solaris 11
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Bump to 1.8.6
 - Add URL

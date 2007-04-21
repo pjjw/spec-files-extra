@@ -13,6 +13,7 @@ URL:                     http://cscope.sourceforge.net/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+BuildConflicts:	SPROsslnk
 
 %prep
 %setup -q -n cscope-%version
@@ -45,6 +46,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Added BuildConflicts: SPROsslnk
 * Fri Jan 05 2007 - daymobrew@users.sourceforge.net
 - Bump to 15.6.
 * Fri Jun 23 2006 - laca@sun.com

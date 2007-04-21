@@ -35,14 +35,17 @@ export CFLAGS="%optflags -I%{_includedir}"
 export RPM_OPT_FLAGS="$CFLAGS"
 export LDFLAGS="%_ldflags"
 ./configure --prefix=%{_prefix}                 \
-            --enable-os-string="OpenSolaris"    \
-            --enable-pthreads                   \
+            --bindir=%{_bindir}			\
+            --sbindir=%{_sbindir}		\
+            --libdir=%{_libdir}			\
             --libexecdir=%{_libexecdir}         \
             --datadir=%{_datadir}               \
             --mandir=%{_mandir}                 \
             --infodir=%{_infodir}               \
             --sysconfdir=%{_sysconfdir}         \
             --localstatedir=%{_localstatedir}   \
+            --enable-os-string="OpenSolaris"    \
+            --enable-pthreads                   \
             --with-wwwroot=%{_localstatedir}/cherokee
 make -j$CPUS
 
@@ -107,7 +110,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_sbindir}
-%{_sbindir}/cherokee
+%{_sbindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %{_libdir}/cherokee
@@ -141,7 +144,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Set Apr 07 2007 - alvaro@sun.com
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Fixed sbin to find cherokee-admin
+* Sat Apr 07 2007 - alvaro@sun.com
 - Bumped to 0.6.0 Beta1: 0.6.0b700
 - Added SMF support
 * Wed Jan 24 2007 - daymobrew@users.sourceforge.net

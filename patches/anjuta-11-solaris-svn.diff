@@ -1,15 +1,86 @@
-Index: anjuta-trunk/configure.in
-===================================================================
---- anjuta-trunk/configure.in	(revision 2915)
-+++ anjuta-trunk/configure.in	(working copy)
-@@ -871,6 +871,10 @@
+diff -ur anjuta-2.1.2-orig/configure.in anjuta-2.1.2/configure.in
+--- anjuta-2.1.2-orig/configure.in	2007-03-28 17:07:50.000000000 +0700
++++ anjuta-2.1.2/configure.in	2007-04-21 13:18:13.624592447 +0700
+@@ -856,7 +856,7 @@
+ 		SVNLD="`$SVNCONFIG --ldflags 2> /dev/null`"
+ 		SVN_LIB="`$SVNCONFIG --libs --cflags 2> /dev/null` -lsvn_client-1"
+ 		dnl ugly hack for subversion svn-config problems in 0.14.x, to be removed when svn-config is fixed
+-		SVN_INCLUDE="`$SVNCONFIG --includes 2> /dev/null` -I$_SVNCONFIG/include/subversion-1/"
++		SVN_INCLUDE="`$SVNCONFIG --includes 2> /dev/null` -I$_SVNCONFIG/include/svn/"
+ 		AC_MSG_RESULT(yes)
+ else
+ 		AC_MSG_RESULT(not found)
+@@ -875,7 +875,7 @@
+ 		AC_MSG_CHECKING([for Subversion headers])
+ 		SVN_INCLUDE=""
+ 		for VALUE in $SVN_INCLUDES ; do
+-				if test -f $VALUE/subversion-1/svn_types.h ; then
++				if test -f $VALUE/svn/svn_types.h ; then
  						SVN_INCLUDE=$VALUE
  						break
  				fi
-+				if test -f $VALUE/svn_types.h ; then
-+						SVN_INCLUDE=$VALUE
-+						break
-+				fi
- 		done
- 		if test $SVN_INCLUDE ; then
- 				AC_MSG_RESULT([found])
+Only in anjuta-2.1.2: configure.in~
+diff -ur anjuta-2.1.2-orig/plugins/subversion/svn-auth.c anjuta-2.1.2/plugins/subversion/svn-auth.c
+--- anjuta-2.1.2-orig/plugins/subversion/svn-auth.c	2007-01-02 15:59:06.000000000 +0700
++++ anjuta-2.1.2/plugins/subversion/svn-auth.c	2007-04-21 13:14:33.203813529 +0700
+@@ -16,8 +16,8 @@
+  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+  */
+ 
+-#include <subversion-1/svn_auth.h>
+-#include <subversion-1/svn_pools.h>
++#include <svn/svn_auth.h>
++#include <svn/svn_pools.h>
+ #include "svn-backend-priv.h"
+ #include "svn-auth.h"
+ #include "plugin.h"
+diff -ur anjuta-2.1.2-orig/plugins/subversion/svn-backend-priv.h anjuta-2.1.2/plugins/subversion/svn-backend-priv.h
+--- anjuta-2.1.2-orig/plugins/subversion/svn-backend-priv.h	2007-01-02 15:59:06.000000000 +0700
++++ anjuta-2.1.2/plugins/subversion/svn-backend-priv.h	2007-04-21 13:15:22.964573670 +0700
+@@ -19,7 +19,7 @@
+ #ifndef SVN_BACKEND_PRIV_H
+ #define SVN_BACKEND_PRIV_H
+ 
+-#include "subversion-1/svn_client.h"
++#include <svn/svn_client.h>
+ #include <glib.h>
+ #include "svn-backend.h"
+ 
+diff -ur anjuta-2.1.2-orig/plugins/subversion/svn-backend.c anjuta-2.1.2/plugins/subversion/svn-backend.c
+--- anjuta-2.1.2-orig/plugins/subversion/svn-backend.c	2007-01-02 15:59:06.000000000 +0700
++++ anjuta-2.1.2/plugins/subversion/svn-backend.c	2007-04-21 13:15:46.253230989 +0700
+@@ -24,8 +24,8 @@
+ #include "plugin.h"
+ #include "libanjuta/anjuta-debug.h"
+ 
+-#include <subversion-1/svn_pools.h>
+-#include <subversion-1/svn_config.h>
++#include <svn/svn_pools.h>
++#include <svn/svn_config.h>
+ /*
+ #include <apr.h>
+ #include <apr_date.h>
+diff -ur anjuta-2.1.2-orig/plugins/subversion/svn-backend.h anjuta-2.1.2/plugins/subversion/svn-backend.h
+--- anjuta-2.1.2-orig/plugins/subversion/svn-backend.h	2007-01-02 15:59:06.000000000 +0700
++++ anjuta-2.1.2/plugins/subversion/svn-backend.h	2007-04-21 13:16:05.245405230 +0700
+@@ -22,7 +22,7 @@
+ #include <glib-object.h>
+ #include <gnome.h>
+ #include <libanjuta/anjuta-plugin.h>
+-#include <subversion-1/svn_client.h>
++#include <svn/svn_client.h>
+ 
+ typedef struct _SVNBackend SVNBackend;
+ typedef struct _SVNBackendClass SVNBackendClass;
+diff -ur anjuta-2.1.2-orig/plugins/subversion/svn-notify.h anjuta-2.1.2/plugins/subversion/svn-notify.h
+--- anjuta-2.1.2-orig/plugins/subversion/svn-notify.h	2007-01-29 04:49:43.000000000 +0700
++++ anjuta-2.1.2/plugins/subversion/svn-notify.h	2007-04-21 13:16:21.125967441 +0700
+@@ -19,7 +19,7 @@
+ #ifndef SVN_NOTIFY
+ #define SVN_NOTIFY
+ 
+-#include <subversion-1/svn_client.h>
++#include <svn/svn_client.h>
+ #include "svn-backend.h"
+ 
+ void

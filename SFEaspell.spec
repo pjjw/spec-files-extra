@@ -22,6 +22,7 @@ Requires:      SUNWlibC
 Requires:      SUNWlibms
 Requires:      SUNWlibmsr
 Requires:      SUNWperl584core
+BuildConflicts:	SUNWaspell
 
 %package devel
 Summary:       %{summary} - development files
@@ -69,6 +70,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Added BuildConflicts: SUNWaspell
 * Tue Mar 13 2007 - jeff.cai@sun.com
 - Move to sourceforge from opensolaris.
 * Sun Jun 11 2006 - laca@sun.com
@@ -94,4 +97,3 @@ rm -rf $RPM_BUILD_ROOT
 - added %pkgbuild_postprocess
 * Thu Mar 11 2004 - <laca@sun.com>
 - initial version created
-

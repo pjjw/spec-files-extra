@@ -46,6 +46,7 @@ glib-gettextize -f
 libtoolize --copy --force
 aclocal $ACLOCAL_FLAGS
 autoheader
+automake --add-missing
 autoconf
 
 ./configure --prefix=%{_prefix}			\
@@ -93,6 +94,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Apr 21 2007 - dougs@truemail.co.th
+- Added automake to build
 * Thu Jan 11 2007 - laca@sun.com
 - bump to 6.3.6
 * Mon Jun 12 2006 - laca@sun.com
