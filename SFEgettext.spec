@@ -146,8 +146,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, bin) %{_datadir}/gettext
 %{_datadir}/gettext/*
-%dir %attr (0755, root, bin) %{_datadir}/doc
-%{_datadir}/doc/*
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*.1
@@ -161,6 +159,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}/%{_arch64}/gettext
 %{_libdir}/%{_arch64}/gettext/*
 %endif
+%defattr (-, root, other)
+%{_datadir}/doc
 
 %files devel
 %defattr (-, root, bin)
@@ -179,6 +179,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Apr 20 2007 - Doug Scott <dougs@truemail.co.th>
+- Fixed %{_datadir}/doc group
 * Fri Apr 20 2007 - Doug Scott <dougs@truemail.co.th>
 - Removed gettext.info autosprintf.info - conflicts with SUNWgnome-common-devel
 - Removed charset.alias - conficts with SFEcoreutils

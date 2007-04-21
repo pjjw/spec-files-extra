@@ -1,3 +1,15 @@
+2007-04-21  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEgettext.spec:  Fixed %{_datadir}/doc group
+	* base-specs/lame.spec: Forced automake to automake-1.9
+	* SFEliveMedia.spec: Bump to 2007.04.20
+	* SFEdoxygen.spec: Add Doxygen documentation system
+	* base-specs/doxygen.spec: Add Doxygen documentation system
+	* patches/doxygen-01-iconv.diff: Add Doxygen patch
+	* patches/doxygen-02-nameconflict.diff: Add Doxygen patch
+	* patches/doxygen-03-solaris.diff: Add Doxygen patch
+	  Still need to remove a lot of hard coding :(
+
 2007-04-21  Thomas Wagner <tom68@users.sourceforge.net>
 
         * SFEcpio.spec: Added gnu cpio (--no-absolute-filenames)

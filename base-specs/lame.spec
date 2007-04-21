@@ -33,7 +33,7 @@ export LD_OPTIONS="%gnu_lib_path"
 libtoolize --force
 autoconf
 autoheader
-automake -a -c -f
+automake-1.9 -a -c -f
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --bindir=%{_bindir}              \
             --libdir=%{_libdir}              \
@@ -51,6 +51,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Sun Apr 22 2007 - dougs@truemail.co.th
+- Forced automake to automake-1.9
 * Tue Mar 20 2007 - dougs@truemail.co.th
 - Changed to be a base spec
 * Mon Jun 12 2006 - laca@sun.com

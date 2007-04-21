@@ -1,0 +1,96 @@
+diff -ur doxygen-1.5.2-orig/Makefile.in doxygen-1.5.2/Makefile.in
+--- doxygen-1.5.2-orig/Makefile.in	2006-10-31 02:52:25.000000000 +0700
++++ doxygen-1.5.2/Makefile.in	2007-04-21 19:59:04.253650424 +0700
+@@ -47,26 +47,26 @@
+ 
+ DATE=$(shell date "+%B %Y")
+ 
+-MAN1DIR = man/man1
++MAN1DIR = share/man/man1
+ 
+ install: doxywizard_install 
+-	$(INSTTOOL) -d $(INSTALL)/bin
+-	$(INSTTOOL) -m 755 bin/doxygen    $(INSTALL)/bin
+-	$(INSTTOOL) -m 755 bin/doxytag    $(INSTALL)/bin
+-	$(INSTTOOL) -d $(INSTALL)/$(MAN1DIR)
+-	cat doc/doxygen.1    | sed -e "s/DATE/$(DATE)/g" -e "s/VERSION/$(VERSION)/g" > $(INSTALL)/$(MAN1DIR)/doxygen.1 ; \
+-	cat doc/doxytag.1    | sed -e "s/DATE/$(DATE)/g" -e "s/VERSION/$(VERSION)/g" > $(INSTALL)/$(MAN1DIR)/doxytag.1 ; \
+-	cat doc/doxywizard.1 | sed -e "s/DATE/$(DATE)/g" -e "s/VERSION/$(VERSION)/g" > $(INSTALL)/$(MAN1DIR)/doxywizard.1 ;
++	mkdir -p $(DESTDIR)/$(INSTALL)/bin
++	$(INSTTOOL) -m 755 bin/doxygen    $(DESTDIR)/$(INSTALL)/bin
++	$(INSTTOOL) -m 755 bin/doxytag    $(DESTDIR)/$(INSTALL)/bin
++	mkdir -p $(DESTDIR)/$(INSTALL)/$(MAN1DIR)
++	cat doc/doxygen.1    | sed -e "s/DATE/$(DATE)/g" -e "s/VERSION/$(VERSION)/g" > $(DESTDIR)/$(INSTALL)/$(MAN1DIR)/doxygen.1 ; \
++	cat doc/doxytag.1    | sed -e "s/DATE/$(DATE)/g" -e "s/VERSION/$(VERSION)/g" > $(DESTDIR)/$(INSTALL)/$(MAN1DIR)/doxytag.1 ; \
++	cat doc/doxywizard.1 | sed -e "s/DATE/$(DATE)/g" -e "s/VERSION/$(VERSION)/g" > $(DESTDIR)/$(INSTALL)/$(MAN1DIR)/doxywizard.1 ;
+ 
+ install_docs: 
+-	$(INSTTOOL) -d $(DOCDIR)
++	mkdir -p $(DESTDIR)/$(DOCDIR)
+ 	$(MAKE) -C examples
+ 	$(MAKE) -C doc 
+ 	$(MAKE) -C latex 
+-	cp latex/doxygen_manual.pdf $(DOCDIR)
++	cp latex/doxygen_manual.pdf $(DESTDIR)/$(DOCDIR)
+ 	#cp -r doc $(DOCDIR)
+-	cp -r examples $(DOCDIR)
+-	cp -r html $(DOCDIR)
++	cp -r examples $(DESTDIR)/$(DOCDIR)
++	cp -r html $(DESTDIR)/$(DOCDIR)
+ 	#echo "DOXYGEN  = $(INSTALL)" >  $(DOCDIR)/doc/Makefile
+ 	#echo "DOXYDOCS = .."         >> $(DOCDIR)/doc/Makefile
+ 	#echo "VERSION  = $(VERSION)" >> $(DOCDIR)/doc/Makefile
+diff -ur doxygen-1.5.2-orig/configure doxygen-1.5.2/configure
+--- doxygen-1.5.2-orig/configure	2007-04-04 01:45:31.000000000 +0700
++++ doxygen-1.5.2/configure	2007-04-21 19:28:39.994875837 +0700
+@@ -203,9 +203,9 @@
+       f_platform=sunos-g++
+       ;;
+     SunOS:5*)
+-      f_platform=solaris-g++
++      f_platform=solaris-cc
+       if test "$f_insttool" = NO; then
+-        f_insttool=/usr/bin/install
++        f_insttool=install
+       fi
+       ;;
+     ULTRIX:*)
+@@ -332,7 +332,7 @@
+ echo -n "  Checking for GNU install tool... "
+ if test "$f_insttool" = NO; then
+   install_names="ginstall install"
+-  install_dirs="/usr/bin /usr/local/bin /bin /sbin /usr/ucb $bin_dirs"
++  install_dirs="/opt/jdsbld/bin /usr/sfw/bin /usr/bin /usr/local/bin /bin /sbin /usr/ucb $bin_dirs"
+   install_prog=NO
+   install_found=NO
+   for i in $install_names; do
+diff -ur doxygen-1.5.2-orig/tmake/lib/solaris-cc/tmake.conf doxygen-1.5.2/tmake/lib/solaris-cc/tmake.conf
+--- doxygen-1.5.2-orig/tmake/lib/solaris-cc/tmake.conf	2006-07-22 02:54:14.000000000 +0700
++++ doxygen-1.5.2/tmake/lib/solaris-cc/tmake.conf	2007-04-21 19:37:17.148184570 +0700
+@@ -11,7 +11,7 @@
+ TMAKE_CFLAGS		=
+ TMAKE_CFLAGS_WARN_ON	=
+ TMAKE_CFLAGS_WARN_OFF	= -w
+-TMAKE_CFLAGS_RELEASE	= -O
++TMAKE_CFLAGS_RELEASE	= -xO4 -xspace -xstrconst -mr -xregs=no%frameptr
+ TMAKE_CFLAGS_DEBUG	= -g
+ TMAKE_CFLAGS_SHLIB	= -KPIC
+ TMAKE_CFLAGS_YACC	=
+@@ -20,7 +20,7 @@
+ TMAKE_CXXFLAGS		= $$TMAKE_CFLAGS
+ TMAKE_CXXFLAGS_WARN_ON	= $$TMAKE_CFLAGS_WARN_ON
+ TMAKE_CXXFLAGS_WARN_OFF	= $$TMAKE_CFLAGS_WARN_OFF
+-TMAKE_CXXFLAGS_RELEASE	= -O2
++TMAKE_CXXFLAGS_RELEASE	= -xO4 -xspace -mr -xregs=no%frameptr
+ TMAKE_CXXFLAGS_DEBUG	= $$TMAKE_CFLAGS_DEBUG
+ TMAKE_CXXFLAGS_SHLIB	= -PIC
+ TMAKE_CXXFLAGS_YACC	= $$TMAKE_CFLAGS_YACC
+@@ -38,7 +38,7 @@
+ # Jan Wortelboer <janw@wins.uva.nl> suggests avoiding $LD_LIBRARY_PATH:
+ TMAKE_LINK_SHLIB	= CC -R$(QTDIR)/lib:/usr/openwin/lib
+ TMAKE_LFLAGS		=
+-TMAKE_LFLAGS_RELEASE	=
++TMAKE_LFLAGS_RELEASE	= -Wl,-zignore -Wl,-zcombreloc -Wl,-Bdirect
+ TMAKE_LFLAGS_DEBUG	=
+ TMAKE_LFLAGS_SHLIB	= -G -h $(TARGET1)
+ TMAKE_LFLAGS_SONAME	=
