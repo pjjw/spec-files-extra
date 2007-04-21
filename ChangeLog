@@ -1,5 +1,12 @@
 2007-04-21  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEsdl-mixer.spec: Added SDL_mixer
+	* SFEsdl-ttf.spec: Added SDL_ttf
+	* SFEsdl-net.spec: Added SDL_net
+	* SFEfreeciv.spec: Added SFEsdl-mixer and enabled sound
+
+2007-04-21  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEfreeciv.spec: Added freeciv game
 	* patches/freeciv-03-strlcpy.diff: Added freeciv patch
 	* patches/freeciv-01-signedchar.diff: Added freeciv patch

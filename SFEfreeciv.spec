@@ -15,12 +15,10 @@ Patch3:                  freeciv-03-strlcpy.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-
-%package share
-Summary:                 freeciv - platform independant files, /usr/share
-SUNW_BaseDir:            %{_basedir}
-Requires: %name
-%include default-depend.inc
+BuildRequires:	SFEsdl-devel
+Requires:	SFEsdl
+BuildRequires:	SFEsdl-mixer-devel
+Requires:	SFEsdl-mixer
 
 %prep
 %setup -q -n freeciv-%version
@@ -51,28 +49,24 @@ make -j$CPUS
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
-# Sounds are working, Hmmm something to fix!!!
-rm -rf $RPM_BUILD_ROOT/%{datadir}freeciv/stdsounds*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr (-, root, other)
-%dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
-
-%files share
-%defattr (-, root, other)
+%defattr (-, root, bin)
+%{_bindir}
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, bin) %{_mandir}
-%dir %attr (0755, root, bin) %{_mandir}/man6
-%{_mandir}/man6/*
-%{_datadir}/applications
+%{_mandir}
 %{_datadir}/freeciv
+%defattr (-, root, other)
+%{_datadir}/applications
 %{_datadir}/pixmaps
 
 %changelog
+* Sun Apr 21 2006 - dougs@truemail.co.th
+- Added SFEsdl-mixer and enabled sound
+- A slight tidy up of spec file
 * Sun Apr 21 2006 - dougs@truemail.co.th
 - Bumped to 2.1.0-beta4
 * Mon May  8 2006 - drdoug007@yahoo.com.au
