@@ -12,8 +12,12 @@ Source:              http://downloads.sourceforge.net/gnome-subtitles/gnome-subt
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires: SFEmono
+BuildRequires: SFEmono-devel
+BuildRequires: SFEgtk-sharp
+BuildRequires: SFEgnome-sharp
+Requires: SFEmono
 Requires: SFEgtk-sharp
+Requires: SFEgnome-sharp
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -76,5 +80,9 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_sysconfdir}
 
 %changelog
+* Sun Apr 22 2007 - Damien Carbery <daymobrew@users.sourceforge.net>
+- Add Build/Requires SFEmono-devel, SFEgtk-sharp, SFEgnome-sharp in order to
+  get it to build.
+
 * Sat Apr 21 2007 - dougs@truemail.co.th
 - Initial spec
