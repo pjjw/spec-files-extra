@@ -1,3 +1,11 @@
+2007-04-23  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEfontforge.spec: Add Fontforge - An outline fonteditor
+	* patches/fontforge-01-destdir.diff: Add fontforge build patch
+	* SFEwine.spec: add wine - Open Source implementation of the Windows API
+	* patches/wine-02-configure.diff: Add wine Configure Patch
+	* patches/wine-01-nameconfict.diff: Add wine name confict patch
+
 2007-04-23 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* patches/compiz-01-solaris-port.diff: patch for compiz 0.5.0

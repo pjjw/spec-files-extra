@@ -1,0 +1,306 @@
+diff -ur fontforge-20070312-orig/Makefile.dynamic.in fontforge-20070312/Makefile.dynamic.in
+--- fontforge-20070312-orig/Makefile.dynamic.in	2006-11-21 03:09:56.000000000 +0700
++++ fontforge-20070312/Makefile.dynamic.in	2007-04-23 20:36:15.826417466 +0700
+@@ -52,44 +52,44 @@
+ 
+ install_libs: libs
+ # You may need to be root to do the install
+-	mkdir -p $(libdir)
++	mkdir -p $(DESTDIR)/$(libdir)
+ 	#-rm $(libdir)/libgdraw.so* $(libdir)/libgunicode.so.*
+-	$(LIBTOOL) --mode=install $(INSTALL) -c libgunicode.la $(libdir)/libgunicode.la
+-	$(LIBTOOL) --mode=install $(INSTALL) -c libgdraw.la $(libdir)/libgdraw.la
+-	$(LIBTOOL) --mode=finish $(libdir)
+-	mkdir -p $(libdir)/pkgconfig
+-	$(INSTALL_DATA) fontforge.pc $(libdir)/pkgconfig
++	$(LIBTOOL) --mode=install $(INSTALL) -c libgunicode.la $(DESTDIR)/$(libdir)/libgunicode.la
++	$(LIBTOOL) --mode=install $(INSTALL) -c libgdraw.la $(DESTDIR)/$(libdir)/libgdraw.la
++	$(LIBTOOL) --mode=finish $(DESTDIR)/$(libdir)
++	mkdir -p $(DESTDIR)/$(libdir)/pkgconfig
++	$(INSTALL_DATA) fontforge.pc $(DESTDIR)/$(libdir)/pkgconfig
+ 
+ install_docs:
+-	mkdir -p $(docdir)
+-	mkdir -p $(docdir)/flags $(docdir)/ja
++	mkdir -p $(DESTDIR)/$(docdir)
++	mkdir -p $(DESTDIR)/$(docdir)/flags $(DESTDIR)/$(docdir)/ja
+ #explicit use of sh to make sure we don't invoke csh with different "if" syntax
+-	-sh -c "if test -d $(srcdir)/htdocs/ja >/dev/null ; then mkdir -p $(docdir)/ja ; fi"
+-	-$(INSTALL_DATA) $(srcdir)/htdocs/*.{html,png,gif,pdf} $(docdir)
+-	-$(INSTALL_DATA) $(srcdir)/htdocs/flags/* $(docdir)/flags
+-	-$(INSTALL_DATA) $(srcdir)/htdocs/ja/* $(docdir)/ja
++	-sh -c "if test -d $(srcdir)/htdocs/ja >/dev/null ; then mkdir -p $(DESTDIR)/$(docdir)/ja ; fi"
++	-$(INSTALL_DATA) $(srcdir)/htdocs/*.{html,png,gif,pdf} $(DESTDIR)/$(docdir)
++	-$(INSTALL_DATA) $(srcdir)/htdocs/flags/* $(DESTDIR)/$(docdir)/flags
++	-$(INSTALL_DATA) $(srcdir)/htdocs/ja/* $(DESTDIR)/$(docdir)/ja
+ 
+ install_po:
+ 	( cd po ; make install )
+ 
+ install: $(sharedir) all install_libs install_po
+ # You may need to be root to do the install
+-	mkdir -p $(bindir)
+-	mkdir -p $(mandir)/man1
+-	mkdir -p $(sharedir)
+-	$(LIBTOOL) --mode=install $(INSTALL) -c fontforge/fontforge $(bindir)
+-	$(LIBTOOL) --mode=install $(INSTALL) -c fontforge/sfddiff $(bindir)
+-	$(LIBTOOL) --mode=install $(INSTALL) -c fontforge/fontimage $(bindir)
+-#	-rm -f $(bindir)/pfaedit
+-#	(cd $(bindir) ; ln -s fontforge pfaedit)
+-#	$(INSTALL_DATA) fontforge/pfaedit-*.ui $(sharedir)
++	mkdir -p $(DESTDIR)/$(bindir)
++	mkdir -p $(DESTDIR)/$(mandir)/man1
++	mkdir -p $(DESTDIR)/$(sharedir)
++	$(LIBTOOL) --mode=install $(INSTALL) -c fontforge/fontforge $(DESTDIR)/$(bindir)
++	$(LIBTOOL) --mode=install $(INSTALL) -c fontforge/sfddiff $(DESTDIR)/$(bindir)
++	$(LIBTOOL) --mode=install $(INSTALL) -c fontforge/fontimage $(DESTDIR)/$(bindir)
++#	-rm -f $(DESTDIR)/$(bindir)/pfaedit
++#	(cd $(DESTDIR)/$(bindir) ; ln -s fontforge pfaedit)
++#	$(INSTALL_DATA) fontforge/pfaedit-*.ui $(DESTDIR)/$(sharedir)
+ #The next line will fail for most installs. If you have downloaded the cidmaps
+ # this will install them. If you haven't it won't. You only need the cidmaps
+ # if you are editing CID keyed files (and even then you can live without them
+-	-$(INSTALL_DATA) $(srcdir)/cidmap/*.cidmap $(sharedir) >/dev/null 2>&1
+-	$(INSTALL_DATA) $(srcdir)/fontforge/fontforge.1 $(mandir)/man1
+-	$(INSTALL_DATA) $(srcdir)/fontforge/sfddiff.1 $(mandir)/man1
+-	$(INSTALL_DATA) $(srcdir)/fontforge/fontimage.1 $(mandir)/man1
++	-$(INSTALL_DATA) $(srcdir)/cidmap/*.cidmap $(DESTDIR)/$(sharedir) >/dev/null 2>&1
++	$(INSTALL_DATA) $(srcdir)/fontforge/fontforge.1 $(DESTDIR)/$(mandir)/man1
++	$(INSTALL_DATA) $(srcdir)/fontforge/sfddiff.1 $(DESTDIR)/$(mandir)/man1
++	$(INSTALL_DATA) $(srcdir)/fontforge/fontimage.1 $(DESTDIR)/$(mandir)/man1
+ #explicit use of sh to make sure we don't invoke csh with different "if" syntax
+ 	sh -c "if test -d $(srcdir)/htdocs >/dev/null ; then $(MAKE) install_docs ; fi"
+ 	sh < systemspecific
+@@ -107,4 +107,4 @@
+ 	-rm -rf $(docdir)/*
+ 
+ $(sharedir):
+-	mkdir -p $(sharedir)
++	mkdir -p $(DESTDIR)/$(sharedir)
+diff -ur fontforge-20070312-orig/Makefile.in fontforge-20070312/Makefile.in
+--- fontforge-20070312-orig/Makefile.in	2006-11-21 03:09:56.000000000 +0700
++++ fontforge-20070312/Makefile.in	2007-04-23 20:25:56.581877967 +0700
+@@ -52,44 +52,44 @@
+ 
+ install_libs: libs
+ # You may need to be root to do the install
+-	mkdir -p $(libdir)
++	mkdir -p $(DESTDIR)/$(libdir)
+ 	#-rm $(libdir)/libgdraw.so* $(libdir)/libgunicode.so.*
+-	$(LIBTOOL) --mode=install $(INSTALL) -c libgunicode.la $(libdir)/libgunicode.la
+-	$(LIBTOOL) --mode=install $(INSTALL) -c libgdraw.la $(libdir)/libgdraw.la
+-	$(LIBTOOL) --mode=finish $(libdir)
+-	mkdir -p $(libdir)/pkgconfig
+-	$(INSTALL_DATA) fontforge.pc $(libdir)/pkgconfig
++	$(LIBTOOL) --mode=install $(INSTALL) -c libgunicode.la $(DESTDIR)/$(libdir)/libgunicode.la
++	$(LIBTOOL) --mode=install $(INSTALL) -c libgdraw.la $(DESTDIR)/$(libdir)/libgdraw.la
++	$(LIBTOOL) --mode=finish $(DESTDIR)/$(libdir)
++	mkdir -p $(DESTDIR)/$(libdir)/pkgconfig
++	$(INSTALL_DATA) fontforge.pc $(DESTDIR)/$(libdir)/pkgconfig
+ 
+ install_docs:
+-	mkdir -p $(docdir)
+-	mkdir -p $(docdir)/flags $(docdir)/ja
++	mkdir -p $(DESTDIR)/$(docdir)
++	mkdir -p $(DESTDIR)/$(docdir)/flags $(DESTDIR)/$(docdir)/ja
+ #explicit use of sh to make sure we don't invoke csh with different "if" syntax
+-	-sh -c "if test -d $(srcdir)/htdocs/ja >/dev/null ; then mkdir -p $(docdir)/ja ; fi"
+-	-$(INSTALL_DATA) $(srcdir)/htdocs/*.{html,png,gif,pdf} $(docdir)
+-	-$(INSTALL_DATA) $(srcdir)/htdocs/flags/* $(docdir)/flags
+-	-$(INSTALL_DATA) $(srcdir)/htdocs/ja/* $(docdir)/ja
++	-sh -c "if test -d $(srcdir)/htdocs/ja >/dev/null ; then mkdir -p $(DESTDIR)/$(docdir)/ja ; fi"
++	-$(INSTALL_DATA) $(srcdir)/htdocs/*.{html,png,gif,pdf} $(DESTDIR)/$(docdir)
++	-$(INSTALL_DATA) $(srcdir)/htdocs/flags/* $(DESTDIR)/$(docdir)/flags
++	-$(INSTALL_DATA) $(srcdir)/htdocs/ja/* $(DESTDIR)/$(docdir)/ja
+ 
+ install_po:
+ 	( cd po ; make install )
+ 
+ install: $(sharedir) all install_libs install_po
+ # You may need to be root to do the install
+-	mkdir -p $(bindir)
+-	mkdir -p $(mandir)/man1
+-	mkdir -p $(sharedir)
+-	$(LIBTOOL) --mode=install $(INSTALL) -c fontforge/fontforge $(bindir)
+-	$(LIBTOOL) --mode=install $(INSTALL) -c fontforge/sfddiff $(bindir)
+-	$(LIBTOOL) --mode=install $(INSTALL) -c fontforge/fontimage $(bindir)
+-#	-rm -f $(bindir)/pfaedit
+-#	(cd $(bindir) ; ln -s fontforge pfaedit)
+-#	$(INSTALL_DATA) fontforge/pfaedit-*.ui $(sharedir)
++	mkdir -p $(DESTDIR)/$(bindir)
++	mkdir -p $(DESTDIR)/$(mandir)/man1
++	mkdir -p $(DESTDIR)/$(sharedir)
++	$(LIBTOOL) --mode=install $(INSTALL) -c fontforge/fontforge $(DESTDIR)/$(bindir)
++	$(LIBTOOL) --mode=install $(INSTALL) -c fontforge/sfddiff $(DESTDIR)/$(bindir)
++	$(LIBTOOL) --mode=install $(INSTALL) -c fontforge/fontimage $(DESTDIR)/$(bindir)
++#	-rm -f $(DESTDIR)/$(bindir)/pfaedit
++#	(cd $(DESTDIR)/$(bindir) ; ln -s fontforge pfaedit)
++#	$(INSTALL_DATA) fontforge/pfaedit-*.ui $(DESTDIR)/$(sharedir)
+ #The next line will fail for most installs. If you have downloaded the cidmaps
+ # this will install them. If you haven't it won't. You only need the cidmaps
+ # if you are editing CID keyed files (and even then you can live without them
+-	-$(INSTALL_DATA) $(srcdir)/cidmap/*.cidmap $(sharedir) >/dev/null 2>&1
+-	$(INSTALL_DATA) $(srcdir)/fontforge/fontforge.1 $(mandir)/man1
+-	$(INSTALL_DATA) $(srcdir)/fontforge/sfddiff.1 $(mandir)/man1
+-	$(INSTALL_DATA) $(srcdir)/fontforge/fontimage.1 $(mandir)/man1
++	-$(INSTALL_DATA) $(srcdir)/cidmap/*.cidmap $(DESTDIR)/$(sharedir) >/dev/null 2>&1
++	$(INSTALL_DATA) $(srcdir)/fontforge/fontforge.1 $(DESTDIR)/$(mandir)/man1
++	$(INSTALL_DATA) $(srcdir)/fontforge/sfddiff.1 $(DESTDIR)/$(mandir)/man1
++	$(INSTALL_DATA) $(srcdir)/fontforge/fontimage.1 $(DESTDIR)/$(mandir)/man1
+ #explicit use of sh to make sure we don't invoke csh with different "if" syntax
+ 	sh -c "if test -d $(srcdir)/htdocs >/dev/null ; then $(MAKE) install_docs ; fi"
+ 	sh < systemspecific
+@@ -107,4 +107,4 @@
+ 	-rm -rf $(docdir)/*
+ 
+ $(sharedir):
+-	mkdir -p $(sharedir)
++	mkdir -p $(DESTDIR)/$(sharedir)
+diff -ur fontforge-20070312-orig/Makefile.static.in fontforge-20070312/Makefile.static.in
+--- fontforge-20070312-orig/Makefile.static.in	2006-11-21 03:09:56.000000000 +0700
++++ fontforge-20070312/Makefile.static.in	2007-04-23 20:36:28.842743503 +0700
+@@ -47,35 +47,35 @@
+ install_libs: libs
+ 
+ install_docs:
+-	mkdir -p $(docdir)
+-	mkdir -p $(docdir)/flags $(docdir)/ja
++	mkdir -p $(DESTDIR)/$(docdir)
++	mkdir -p $(DESTDIR)/$(docdir)/flags $(DESTDIR)/$(docdir)/ja
+ #explicit use of sh to make sure we don't invoke csh with different "if" syntax
+-	-sh -c "if test -d $(srcdir)/htdocs/ja >/dev/null ; then mkdir -p $(docdir)/ja ; fi"
+-	-$(INSTALL_DATA) $(srcdir)/htdocs/*.{html,png,gif,pdf} $(docdir)
+-	-$(INSTALL_DATA) $(srcdir)/htdocs/flags/* $(docdir)/flags
+-	-$(INSTALL_DATA) $(srcdir)/htdocs/ja/* $(docdir)/ja
++	-sh -c "if test -d $(srcdir)/htdocs/ja >/dev/null ; then mkdir -p $(DESTDIR)/$(docdir)/ja ; fi"
++	-$(INSTALL_DATA) $(srcdir)/htdocs/*.{html,png,gif,pdf} $(DESTDIR)/$(docdir)
++	-$(INSTALL_DATA) $(srcdir)/htdocs/flags/* $(DESTDIR)/$(docdir)/flags
++	-$(INSTALL_DATA) $(srcdir)/htdocs/ja/* $(DESTDIR)/$(docdir)/ja
+ 
+ install_po:
+ 	( cd po ; make install )
+ 
+ install: $(sharedir) all install_libs install_po
+ # You may need to be root to do the install
+-	mkdir -p $(bindir)
+-	mkdir -p $(mandir)/man1
+-	mkdir -p $(sharedir)
+-	cp fontforge/fontforge $(bindir)
+-	cp fontforge/sfddiff $(bindir)
+-	cp fontforge/fontimage $(bindir)
+-#	$(INSTALL_DATA) fontforge/pfaedit-*.ui $(sharedir)
++	mkdir -p $(DESTDIR)/$(bindir)
++	mkdir -p $(DESTDIR)/$(mandir)/man1
++	mkdir -p $(DESTDIR)/$(sharedir)
++	cp fontforge/fontforge $(DESTDIR)/$(bindir)
++	cp fontforge/sfddiff $(DESTDIR)/$(bindir)
++	cp fontforge/fontimage $(DESTDIR)/$(bindir)
++#	$(INSTALL_DATA) fontforge/pfaedit-*.ui $(DESTDIR)/$(sharedir)
+ #The next line will fail for most installs. If you have downloaded the cidmaps
+ # this will install them. If you haven't it won't. You only need the cidmaps
+ # if you are editing CID keyed files (and even then you can live without them
+-	-$(INSTALL_DATA) $(srcdir)/cidmap/*.cidmap $(sharedir) >/dev/null 2>&1
+-	$(INSTALL_DATA) $(srcdir)/fontforge/fontforge.1 $(mandir)/man1
+-	$(INSTALL_DATA) $(srcdir)/fontforge/sfddiff.1 $(mandir)/man1
+-	$(INSTALL_DATA) $(srcdir)/fontforge/fontimage.1 $(mandir)/man1
+-	mkdir -p $(libdir)/pkgconfig
+-	$(INSTALL_DATA) fontforge.pc $(libdir)/pkgconfig
++	-$(INSTALL_DATA) $(srcdir)/cidmap/*.cidmap $(DESTDIR)/$(sharedir) >/dev/null 2>&1
++	$(INSTALL_DATA) $(srcdir)/fontforge/fontforge.1 $(DESTDIR)/$(mandir)/man1
++	$(INSTALL_DATA) $(srcdir)/fontforge/sfddiff.1 $(DESTDIR)/$(mandir)/man1
++	$(INSTALL_DATA) $(srcdir)/fontforge/fontimage.1 $(DESTDIR)/$(mandir)/man1
++	mkdir -p $(DESTDIR)/$(libdir)/pkgconfig
++	$(INSTALL_DATA) fontforge.pc $(DESTDIR)/$(libdir)/pkgconfig
+ #explicit use of sh to make sure we don't invoke csh with different "if" syntax
+ 	sh -c "if test -d $(srcdir)/htdocs >/dev/null ; then $(MAKE) install_docs ; fi"
+ 	sh < systemspecific
+@@ -91,4 +91,4 @@
+ 	-rm -rf $(docdir)/*
+ 
+ $(sharedir):
+-	mkdir -p $(sharedir)
++	mkdir -p $(DESTDIR)/$(sharedir)
+diff -ur fontforge-20070312-orig/configure fontforge-20070312/configure
+--- fontforge-20070312-orig/configure	2007-02-08 04:26:57.000000000 +0700
++++ fontforge-20070312/configure	2007-04-23 20:50:20.851756041 +0700
+@@ -24271,8 +24271,8 @@
+ 
+  for localefile in po/*.po; do
+    locale=`echo $localefile | sed 's/po\///' | sed 's/\.po//'`
+-   echo '	mkdir -p $(localedir)/'$locale'/LC_MESSAGES' >> po/Makefile.in
+-   echo '	$(INSTALL_DATA)' $locale.mo '$(localedir)/'$locale'/LC_MESSAGES/FontForge.mo' >> po/Makefile.in
++   echo '	mkdir -p $(DESTDIR)/$(localedir)/'$locale'/LC_MESSAGES' >> po/Makefile.in
++   echo '	$(INSTALL_DATA)' $locale.mo '$(DESTDIR)/$(localedir)/'$locale'/LC_MESSAGES/FontForge.mo' >> po/Makefile.in
+  done
+ else
+  cat </dev/null >po/Makefile.in
+diff -ur fontforge-20070312-orig/configure.dynamic fontforge-20070312/configure.dynamic
+--- fontforge-20070312-orig/configure.dynamic	2007-02-08 04:43:54.000000000 +0700
++++ fontforge-20070312/configure.dynamic	2007-04-23 20:50:33.435808086 +0700
+@@ -24271,8 +24271,8 @@
+ 
+  for localefile in po/*.po; do
+    locale=`echo $localefile | sed 's/po\///' | sed 's/\.po//'`
+-   echo '	mkdir -p $(localedir)/'$locale'/LC_MESSAGES' >> po/Makefile.in
+-   echo '	$(INSTALL_DATA)' $locale.mo '$(localedir)/'$locale'/LC_MESSAGES/FontForge.mo' >> po/Makefile.in
++   echo '	mkdir -p $(DESTDIR)/$(localedir)/'$locale'/LC_MESSAGES' >> po/Makefile.in
++   echo '	$(INSTALL_DATA)' $locale.mo '$(DESTDIR)/$(localedir)/'$locale'/LC_MESSAGES/FontForge.mo' >> po/Makefile.in
+  done
+ else
+  cat </dev/null >po/Makefile.in
+diff -ur fontforge-20070312-orig/configure.dynamic.in fontforge-20070312/configure.dynamic.in
+--- fontforge-20070312-orig/configure.dynamic.in	2007-02-08 04:44:05.000000000 +0700
++++ fontforge-20070312/configure.dynamic.in	2007-04-23 20:51:07.892716226 +0700
+@@ -530,8 +530,8 @@
+ 
+  for localefile in po/*.po; do
+    locale=`echo $localefile | sed 's/po\///' | sed 's/\.po//'`
+-   echo '	mkdir -p $(localedir)/'$locale'/LC_MESSAGES' >> po/Makefile.in
+-   echo '	$(INSTALL_DATA)' $locale.mo '$(localedir)/'$locale'/LC_MESSAGES/FontForge.mo' >> po/Makefile.in
++   echo '	mkdir -p $(DESTDIR)/$(localedir)/'$locale'/LC_MESSAGES' >> po/Makefile.in
++   echo '	$(INSTALL_DATA)' $locale.mo '$(DESTDIR)/$(localedir)/'$locale'/LC_MESSAGES/FontForge.mo' >> po/Makefile.in
+  done
+ else
+  cat </dev/null >po/Makefile.in
+diff -ur fontforge-20070312-orig/configure.in fontforge-20070312/configure.in
+--- fontforge-20070312-orig/configure.in	2007-02-08 04:26:27.000000000 +0700
++++ fontforge-20070312/configure.in	2007-04-23 20:51:23.676881151 +0700
+@@ -530,8 +530,8 @@
+ 
+  for localefile in po/*.po; do
+    locale=`echo $localefile | sed 's/po\///' | sed 's/\.po//'`
+-   echo '	mkdir -p $(localedir)/'$locale'/LC_MESSAGES' >> po/Makefile.in
+-   echo '	$(INSTALL_DATA)' $locale.mo '$(localedir)/'$locale'/LC_MESSAGES/FontForge.mo' >> po/Makefile.in
++   echo '	mkdir -p $(DESTDIR)/$(localedir)/'$locale'/LC_MESSAGES' >> po/Makefile.in
++   echo '	$(INSTALL_DATA)' $locale.mo '$(DESTDIR)/$(localedir)/'$locale'/LC_MESSAGES/FontForge.mo' >> po/Makefile.in
+  done
+ else
+  cat </dev/null >po/Makefile.in
+diff -ur fontforge-20070312-orig/configure.static fontforge-20070312/configure.static
+--- fontforge-20070312-orig/configure.static	2006-12-03 08:51:17.000000000 +0700
++++ fontforge-20070312/configure.static	2007-04-23 20:45:19.344204076 +0700
+@@ -8375,8 +8375,8 @@
+ 
+  for localefile in po/*.po; do
+    locale=`echo $localefile | sed 's/po\///' | sed 's/\.po//'`
+-   echo '	mkdir -p $(localedir)/'$locale'/LC_MESSAGES' >> po/Makefile.in
+-   echo '	$(INSTALL_DATA)' $locale.mo '$(localedir)/'$locale'/LC_MESSAGES/FontForge.mo' >> po/Makefile.in
++   echo '	mkdir -p $(DESTDIR)/$(localedir)/'$locale'/LC_MESSAGES' >> po/Makefile.in
++   echo '	$(INSTALL_DATA)' $locale.mo '$(DESTDIR)/$(localedir)/'$locale'/LC_MESSAGES/FontForge.mo' >> po/Makefile.in
+  done
+ else
+  cat </dev/null >po/Makefile.in
+diff -ur fontforge-20070312-orig/configure.static.in fontforge-20070312/configure.static.in
+--- fontforge-20070312-orig/configure.static.in	2006-12-03 09:03:55.000000000 +0700
++++ fontforge-20070312/configure.static.in	2007-04-23 20:51:47.413318013 +0700
+@@ -380,8 +380,8 @@
+ 
+  for localefile in po/*.po; do
+    locale=`echo $localefile | sed 's/po\///' | sed 's/\.po//'`
+-   echo '	mkdir -p $(localedir)/'$locale'/LC_MESSAGES' >> po/Makefile.in
+-   echo '	$(INSTALL_DATA)' $locale.mo '$(localedir)/'$locale'/LC_MESSAGES/FontForge.mo' >> po/Makefile.in
++   echo '	mkdir -p $(DESTDIR)/$(localedir)/'$locale'/LC_MESSAGES' >> po/Makefile.in
++   echo '	$(INSTALL_DATA)' $locale.mo '$(DESTDIR)/$(localedir)/'$locale'/LC_MESSAGES/FontForge.mo' >> po/Makefile.in
+  done
+ else
+  cat </dev/null >po/Makefile.in

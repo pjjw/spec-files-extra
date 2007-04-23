@@ -1,0 +1,240 @@
+diff -ur wine-0.9.35-orig/dlls/msi/dialog.c wine-0.9.35/dlls/msi/dialog.c
+--- wine-0.9.35-orig/dlls/msi/dialog.c	2007-04-13 22:47:52.000000000 +0700
++++ wine-0.9.35/dlls/msi/dialog.c	2007-04-23 16:39:40.909080233 +0700
+@@ -1003,7 +1003,7 @@
+     HBITMAP hOleBitmap = 0, hBitmap = 0, hOldSrcBitmap, hOldDestBitmap;
+     MSIRECORD *rec = NULL;
+     IStream *stm = NULL;
+-    IPicture *pic = NULL;
++    IPicture *picture = NULL;
+     HDC srcdc, destdc;
+     BITMAP bm;
+     UINT r;
+@@ -1017,7 +1017,7 @@
+     if( r != ERROR_SUCCESS )
+         goto end;
+ 
+-    r = OleLoadPicture( stm, 0, TRUE, &IID_IPicture, (LPVOID*) &pic );
++    r = OleLoadPicture( stm, 0, TRUE, &IID_IPicture, (LPVOID*) &picture );
+     IStream_Release( stm );
+     if( FAILED( r ) )
+     {
+@@ -1025,7 +1025,7 @@
+         goto end;
+     }
+ 
+-    r = IPicture_get_Handle( pic, (OLE_HANDLE*) &hOleBitmap );
++    r = IPicture_get_Handle( picture, (OLE_HANDLE*) &hOleBitmap );
+     if( FAILED( r ) )
+     {
+         ERR("failed to get bitmap handle\n");
+@@ -1059,8 +1059,8 @@
+     DeleteDC( destdc );
+ 
+ end:
+-    if ( pic )
+-        IPicture_Release( pic );
++    if ( picture )
++        IPicture_Release( picture );
+     return hBitmap;
+ }
+ 
+diff -ur wine-0.9.35-orig/dlls/msrle32/msrle32.c wine-0.9.35/dlls/msrle32/msrle32.c
+--- wine-0.9.35-orig/dlls/msrle32/msrle32.c	2007-04-13 22:47:52.000000000 +0700
++++ wine-0.9.35/dlls/msrle32/msrle32.c	2007-04-23 16:58:03.056336128 +0700
+@@ -89,7 +89,7 @@
+ 			       LPCBITMAPINFOHEADER lpbiOut);
+ static LRESULT DecompressBegin(CodecInfo *pi, LPCBITMAPINFOHEADER lpbiIn,
+ 			       LPCBITMAPINFOHEADER lpbiOut);
+-static LRESULT Decompress(CodecInfo *pi, ICDECOMPRESS *pic, DWORD dwSize);
++static LRESULT Decompress(CodecInfo *pi, ICDECOMPRESS *xxpic, DWORD dwSize);
+ static LRESULT DecompressEnd(CodecInfo *pi);
+ static LRESULT DecompressGetPalette(CodecInfo *pi, LPCBITMAPINFOHEADER lpbiIn,
+ 				    LPBITMAPINFOHEADER lpbiOut);
+@@ -1695,36 +1695,36 @@
+   return ICERR_OK;
+ }
+ 
+-static LRESULT Decompress(CodecInfo *pi, ICDECOMPRESS *pic, DWORD dwSize)
++static LRESULT Decompress(CodecInfo *pi, ICDECOMPRESS *xxpic, DWORD dwSize)
+ {
+-  TRACE("(%p,%p,%u)\n",pi,pic,dwSize);
++  TRACE("(%p,%p,%u)\n",pi,xxpic,dwSize);
+ 
+   /* pre-condition */
+   assert(pi != NULL);
+ 
+   /* check parameters */
+-  if (pic == NULL)
++  if (xxpic == NULL)
+     return ICERR_BADPARAM;
+-  if (pic->lpbiInput == NULL || pic->lpInput == NULL ||
+-      pic->lpbiOutput == NULL || pic->lpOutput == NULL)
++  if (xxpic->lpbiInput == NULL || xxpic->lpInput == NULL ||
++      xxpic->lpbiOutput == NULL || xxpic->lpOutput == NULL)
+     return ICERR_BADPARAM;
+ 
+   /* check formats */
+   if (! pi->bDecompress) {
+-    LRESULT hr = DecompressBegin(pi, pic->lpbiInput, pic->lpbiOutput);
++    LRESULT hr = DecompressBegin(pi, xxpic->lpbiInput, xxpic->lpbiOutput);
+     if (hr != ICERR_OK)
+       return hr;
+-  } else if (DecompressQuery(pi, pic->lpbiInput, pic->lpbiOutput) != ICERR_OK)
++  } else if (DecompressQuery(pi, xxpic->lpbiInput, xxpic->lpbiOutput) != ICERR_OK)
+     return ICERR_BADFORMAT;
+ 
+-  assert(pic->lpbiInput->biWidth  == pic->lpbiOutput->biWidth);
+-  assert(pic->lpbiInput->biHeight == pic->lpbiOutput->biHeight);
++  assert(xxpic->lpbiInput->biWidth  == xxpic->lpbiOutput->biWidth);
++  assert(xxpic->lpbiInput->biHeight == xxpic->lpbiOutput->biHeight);
+ 
+-  pic->lpbiOutput->biSizeImage = DIBWIDTHBYTES(*pic->lpbiOutput) * pic->lpbiOutput->biHeight;
+-  if (pic->lpbiInput->biBitCount == 4)
+-    return MSRLE32_DecompressRLE4(pi, pic->lpbiOutput, pic->lpInput, pic->lpOutput);
++  xxpic->lpbiOutput->biSizeImage = DIBWIDTHBYTES(*xxpic->lpbiOutput) * xxpic->lpbiOutput->biHeight;
++  if (xxpic->lpbiInput->biBitCount == 4)
++    return MSRLE32_DecompressRLE4(pi, xxpic->lpbiOutput, xxpic->lpInput, xxpic->lpOutput);
+   else
+-    return MSRLE32_DecompressRLE8(pi, pic->lpbiOutput, pic->lpInput, pic->lpOutput);
++    return MSRLE32_DecompressRLE8(pi, xxpic->lpbiOutput, xxpic->lpInput, xxpic->lpOutput);
+ }
+ 
+ static LRESULT DecompressEnd(CodecInfo *pi)
+diff -ur wine-0.9.35-orig/dlls/oleaut32/tests/olepicture.c wine-0.9.35/dlls/oleaut32/tests/olepicture.c
+--- wine-0.9.35-orig/dlls/oleaut32/tests/olepicture.c	2007-04-13 22:47:52.000000000 +0700
++++ wine-0.9.35/dlls/oleaut32/tests/olepicture.c	2007-04-23 17:13:30.315585480 +0700
+@@ -117,7 +117,7 @@
+ static void
+ test_pic_with_stream(LPSTREAM stream, unsigned int imgsize)
+ {
+-	IPicture*	pic = NULL;
++	IPicture*	picture = NULL;
+ 	HRESULT		hres;
+ 	LPVOID		pvObj = NULL;
+ 	OLE_HANDLE	handle, hPal;
+@@ -129,15 +129,15 @@
+ 
+ 	pvObj = NULL;
+ 	hres = pOleLoadPicture(stream, imgsize, TRUE, &IID_IPicture, &pvObj);
+-	pic = pvObj;
++	picture = pvObj;
+ 
+ 	ok(hres == S_OK,"OLP (NULL,..) does not return 0, but 0x%08x\n",hres);
+-	ok(pic != NULL,"OLP (NULL,..) returns NULL, instead of !NULL\n");
+-	if (pic == NULL)
++	ok(picture != NULL,"OLP (NULL,..) returns NULL, instead of !NULL\n");
++	if (picture == NULL)
+ 		return;
+ 
+ 	pvObj = NULL;
+-	hres = IPicture_QueryInterface (pic, &IID_IPicture, &pvObj);
++	hres = IPicture_QueryInterface (picture, &IID_IPicture, &pvObj);
+ 
+ 	ok(hres == S_OK,"IPicture_QI does not return S_OK, but 0x%08x\n", hres);
+ 	ok(pvObj != NULL,"IPicture_QI does return NULL, instead of a ptr\n");
+@@ -145,37 +145,37 @@
+ 	IPicture_Release ((IPicture*)pvObj);
+ 
+ 	handle = 0;
+-	hres = IPicture_get_Handle (pic, &handle);
++	hres = IPicture_get_Handle (picture, &handle);
+ 	ok(hres == S_OK,"IPicture_get_Handle does not return S_OK, but 0x%08x\n", hres);
+ 	ok(handle != 0, "IPicture_get_Handle returns a NULL handle, but it should be non NULL\n");
+ 
+ 	width = 0;
+-	hres = IPicture_get_Width (pic, &width);
++	hres = IPicture_get_Width (picture, &width);
+ 	ok(hres == S_OK,"IPicture_get_Width does not return S_OK, but 0x%08x\n", hres);
+ 	ok(width != 0, "IPicture_get_Width returns 0, but it should not be 0.\n");
+ 
+ 	height = 0;
+-	hres = IPicture_get_Height (pic, &height);
++	hres = IPicture_get_Height (picture, &height);
+ 	ok(hres == S_OK,"IPicture_get_Height does not return S_OK, but 0x%08x\n", hres);
+ 	ok(height != 0, "IPicture_get_Height returns 0, but it should not be 0.\n");
+ 
+ 	type = 0;
+-	hres = IPicture_get_Type (pic, &type);
++	hres = IPicture_get_Type (picture, &type);
+ 	ok(hres == S_OK,"IPicture_get_Type does not return S_OK, but 0x%08x\n", hres);
+ 	ok(type == PICTYPE_BITMAP, "IPicture_get_Type returns %d, but it should be PICTYPE_BITMAP(%d).\n", type, PICTYPE_BITMAP);
+ 
+ 	attr = 0;
+-	hres = IPicture_get_Attributes (pic, &attr);
++	hres = IPicture_get_Attributes (picture, &attr);
+ 	ok(hres == S_OK,"IPicture_get_Attributes does not return S_OK, but 0x%08x\n", hres);
+ 	ok(attr == 0, "IPicture_get_Attributes returns %d, but it should be 0.\n", attr);
+ 
+ 	hPal = 0;
+-	hres = IPicture_get_hPal (pic, &hPal);
++	hres = IPicture_get_hPal (picture, &hPal);
+ 	ok(hres == S_OK,"IPicture_get_hPal does not return S_OK, but 0x%08x\n", hres);
+ 	/* a single pixel b/w image has no palette */
+ 	ok(hPal == 0, "IPicture_get_hPal returns %d, but it should be 0.\n", hPal);
+ 
+-	res = IPicture_Release (pic);
++	res = IPicture_Release (picture);
+ 	ok (res == 0, "refcount after release is %d, but should be 0?\n", res);
+ }
+ 
+@@ -250,7 +250,7 @@
+ static void test_empty_image(void) {
+ 	LPBYTE		data;
+ 	LPSTREAM	stream;
+-	IPicture*	pic = NULL;
++	IPicture*	picture = NULL;
+ 	HRESULT		hres;
+ 	LPVOID		pvObj = NULL;
+ 	HGLOBAL		hglob;
+@@ -273,24 +273,24 @@
+ 
+ 	pvObj = NULL;
+ 	hres = pOleLoadPicture(stream, 8, TRUE, &IID_IPicture, &pvObj);
+-	pic = pvObj;
++	picture = pvObj;
+ 	ok(hres == S_OK,"empty picture not loaded, hres 0x%08x\n", hres);
+-	ok(pic != NULL,"empty picture not loaded, pic is NULL\n");
++	ok(picture != NULL,"empty picture not loaded, pic is NULL\n");
+ 
+-	hres = IPicture_get_Type (pic, &type);
++	hres = IPicture_get_Type (picture, &type);
+ 	ok (hres == S_OK,"empty picture get type failed with hres 0x%08x\n", hres);
+ 	ok (type == PICTYPE_NONE,"type is %d, but should be PICTYPE_NONE(0)\n", type);
+ 
+-	hres = IPicture_get_Handle (pic, &handle);
++	hres = IPicture_get_Handle (picture, &handle);
+ 	ok (hres == S_OK,"empty picture get handle failed with hres 0x%08x\n", hres);
+ 	ok (handle == 0, "empty picture get handle did not return 0, but 0x%08x\n", handle);
+-	IPicture_Release (pic);
++	IPicture_Release (picture);
+ }
+ 
+ static void test_empty_image_2(void) {
+ 	LPBYTE		data;
+ 	LPSTREAM	stream;
+-	IPicture*	pic = NULL;
++	IPicture*	picture = NULL;
+ 	HRESULT		hres;
+ 	LPVOID		pvObj = NULL;
+ 	HGLOBAL		hglob;
+@@ -314,15 +314,15 @@
+ 
+ 	pvObj = NULL;
+ 	hres = pOleLoadPicture(stream, 8, TRUE, &IID_IPicture, &pvObj);
+-	pic = pvObj;
++	picture = pvObj;
+ 	ok(hres == S_OK,"empty picture not loaded, hres 0x%08x\n", hres);
+-	ok(pic != NULL,"empty picture not loaded, pic is NULL\n");
++	ok(picture != NULL,"empty picture not loaded, picture is NULL\n");
+ 
+-	hres = IPicture_get_Type (pic, &type);
++	hres = IPicture_get_Type (picture, &type);
+ 	ok (hres == S_OK,"empty picture get type failed with hres 0x%08x\n", hres);
+ 	ok (type == PICTYPE_NONE,"type is %d, but should be PICTYPE_NONE(0)\n", type);
+ 
+-	IPicture_Release (pic);
++	IPicture_Release (picture);
+ }
+ 
+ static void test_Invoke(void)
