@@ -1,3 +1,11 @@
+2007-04-23 Erwann Chenede - <erwann.chenede@sun.com>
+
+	* patches/compiz-01-solaris-port.diff: patch for compiz 0.5.0
+	* SFEcompiz-settings.spec: Added compiz-settings (originally written
+	  by Mike kiedrowski)
+	* SFEcompiz.spec: Add compiz (originally written by Mike kiedrowski
+	  and Doug Scott)
+
 2007-04-23  Doug Scott  <dougs@truemail.co.th>
 
 	* include/x86_sse2.inc: move -xvector the optimized flags as

@@ -1,0 +1,314 @@
+diff -rup compiz-0.5.0/configure.ac ../compiz-0.5.0.solaris/configure.ac
+--- compiz-0.5.0/configure.ac	2007-04-02 20:48:18.000000000 +0200
++++ ../compiz-0.5.0.solaris/configure.ac	2007-04-20 10:54:54.011355000 +0200
+@@ -83,12 +83,28 @@ AC_SUBST(plugindir)
+ imagedir=$datadir/compiz
+ AC_SUBST(imagedir)
+ 
++compiling_on_solaris=no
++case "$host" in
++        *-*-solaris*)
++	  AC_MSG_CHECKING(if compiling on Solaris)
++	  compiling_on_solaris=yes
++	  use_xinerama=
++	  AC_MSG_RESULT($compiling_on_solaris)
++	  AC_DEFINE(SOLARIS, 1, [Compiling on Solaris enabled])
++	;;
++	*)
++	  use_xinerama="xinerama"
++	  AC_DEFINE(HAVE_XORG_XINERAMA, 1, [Compiling with Xinerama enabled])
++	;;
++esac
++
++
+ COMPIZ_REQUIRES="libpng	    \
++		 $use_xinerama \
+ 		 xcomposite \
+ 		 xfixes	    \
+ 		 xdamage    \
+ 		 xrandr	    \
+-		 xinerama   \
+ 		 ice	    \
+ 		 sm	    \
+ 		 libstartup-notification-1.0 >= 0.7"
+diff -rup compiz-0.5.0/include/compiz.h ../compiz-0.5.0.solaris/include/compiz.h
+--- compiz-0.5.0/include/compiz.h	2007-04-02 20:15:28.000000000 +0200
++++ ../compiz-0.5.0.solaris/include/compiz.h	2007-04-20 10:54:54.012946000 +0200
+@@ -35,7 +35,9 @@
+ #include <X11/Xutil.h>
+ #include <X11/extensions/Xdamage.h>
+ #include <X11/extensions/Xcomposite.h>
++#ifdef HAVE_XORG_XINERAMA
+ #include <X11/extensions/Xinerama.h>
++#endif
+ #include <X11/extensions/sync.h>
+ #include <X11/Xregion.h>
+ #include <X11/XKBlib.h>
+@@ -718,12 +720,15 @@ struct _CompDisplay {
+     Bool xkbExtension;
+     int  xkbEvent, xkbError;
+ 
++#ifdef HAVE_XORG_XINERAMA    
+     Bool xineramaExtension;
+     int  xineramaEvent, xineramaError;
+ 
+     XineramaScreenInfo *screenInfo;
++#endif    
+     int		       nScreenInfo;
+ 
++
+     SnDisplay *snDisplay;
+ 
+     Atom supportedAtom;
+diff -rup compiz-0.5.0/plugins/compiz.schemas.in ../compiz-0.5.0.solaris/plugins/compiz.schemas.in
+--- compiz-0.5.0/plugins/compiz.schemas.in	2007-04-02 20:15:28.000000000 +0200
++++ ../compiz-0.5.0.solaris/plugins/compiz.schemas.in	2007-04-20 10:57:51.763850000 +0200
+@@ -32049,7 +32049,7 @@
+             <applyto>/apps/compiz/plugins/zoom/allscreens/options/initiate_button</applyto>
+             <owner>compiz</owner>
+             <type>string</type>
+-            <default>&lt;Super&gt;Button3</default>
++            <default>Disabled</default>
+             <locale name="C">
+                 <short>Initiate</short>
+                 <long>Zoom In</long>
+@@ -32370,7 +32370,7 @@
+             <applyto>/apps/compiz/plugins/zoom/allscreens/options/zoom_in_button</applyto>
+             <owner>compiz</owner>
+             <type>string</type>
+-            <default>&lt;Super&gt;Button4</default>
++            <default>&lt;Control&gt;Button3</default>
+             <locale name="C">
+                 <short>Zoom In</short>
+                 <long>Zoom In</long>
+Only in ../compiz-0.5.0.solaris/plugins: compiz.schemas.in~
+diff -rup compiz-0.5.0/plugins/decoration.c ../compiz-0.5.0.solaris/plugins/decoration.c
+--- compiz-0.5.0/plugins/decoration.c	2007-04-02 20:15:28.000000000 +0200
++++ ../compiz-0.5.0.solaris/plugins/decoration.c	2007-04-20 10:54:54.013685000 +0200
+@@ -32,12 +32,12 @@
+ #include <string.h>
+ #include <math.h>
+ #include <unistd.h>
++#include <compiz.h>
++#include <decoration.h>
+ 
+ #include <X11/Xatom.h>
+ #include <X11/extensions/shape.h>
+ 
+-#include <compiz.h>
+-#include <decoration.h>
+ 
+ typedef struct _Vector {
+     int	dx;
+diff -rup compiz-0.5.0/plugins/video.c ../compiz-0.5.0.solaris/plugins/video.c
+--- compiz-0.5.0/plugins/video.c	2007-04-02 20:15:30.000000000 +0200
++++ ../compiz-0.5.0.solaris/plugins/video.c	2007-04-20 10:54:54.015905000 +0200
+@@ -29,10 +29,10 @@
+ #include <math.h>
+ #include <unistd.h>
+ 
++#include <compiz.h>
+ #include <X11/Xatom.h>
+ #include <X11/extensions/shape.h>
+ 
+-#include <compiz.h>
+ #include <decoration.h>
+ 
+ #define VIDEO_YV12_DEFAULT TRUE
+diff -rup compiz-0.5.0/src/cursor.c ../compiz-0.5.0.solaris/src/cursor.c
+--- compiz-0.5.0/src/cursor.c	2007-04-02 20:15:30.000000000 +0200
++++ ../compiz-0.5.0.solaris/src/cursor.c	2007-04-20 10:54:54.016308000 +0200
+@@ -26,6 +26,7 @@
+ #include <compiz.h>
+ 
+ #include <stdlib.h>
++#include "../config.h"
+ 
+ static void
+ setCursorMatrix (CompCursor *c)
+@@ -53,7 +54,10 @@ addCursor (CompScreen *s)
+ 
+ 	updateCursor (c, 0, 0, 0);
+ 
++#ifdef SOLARIS
++#else
+ 	XFixesHideCursor (s->display->display, s->root);
++#endif	
+     }
+ }
+ 
+diff -rup compiz-0.5.0/src/display.c ../compiz-0.5.0.solaris/src/display.c
+--- compiz-0.5.0/src/display.c	2007-04-02 20:15:30.000000000 +0200
++++ ../compiz-0.5.0.solaris/src/display.c	2007-04-20 10:54:54.017587000 +0200
+@@ -738,6 +738,59 @@ shade (CompDisplay     *d,
+ 
+     return TRUE;
+ }
++#ifdef SOLARIS
++#include <stdarg.h>
++#include <values.h>
++int asprintf(char **out, const char *fmt, ...)
++{
++    va_list ap;
++    int ret_status = EOF;
++    char dir_name[2001];
++    char file_name[2000];
++    FILE *fp = NULL;
++    char *work = NULL;
++
++    va_start(ap, fmt);
++
++    /* Warning: tmpfile() does not work well on Windows (MinGW)
++     *          if user does not have write access on the drive where 
++     *          working dir is? */
++#ifdef __MINGW32__
++    /* file_name = G_tempfile(); */
++    GetTempPath ( 2000, dir_name );
++    GetTempFileName ( dir_name, "asprintf", 0, file_name );
++    fp = fopen ( file_name, "w+" );
++#else
++    fp = tmpfile(); 
++#endif /* __MINGW32__ */
++
++    if ( fp ) {
++        int count;
++
++        count = vfprintf(fp, fmt, ap);
++        if (count >= 0) {
++            work = calloc(count + 1, sizeof(char));
++            if (work != NULL) {
++                rewind(fp);
++                ret_status = fread(work, sizeof(char), count, fp);
++                if (ret_status != count) {
++                    ret_status = EOF;
++                    free(work);
++                    work = NULL;
++                }
++            }
++        }
++        fclose(fp);
++#ifdef __MINGW32__
++        unlink ( file_name );
++#endif /* __MINGW32__ */
++    }
++    va_end(ap);
++    *out = work;
++
++    return ret_status;
++}
++#endif
+ 
+ static void
+ compDisplayInitOptions (CompDisplay *display,
+@@ -2847,6 +2900,8 @@ addDisplay (char *name,
+ 	d->xkbEvent = d->xkbError = -1;
+     }
+ 
++    d->nScreenInfo = 0;
++#ifdef HAVE_XORG_XINERAMA    
+     d->xineramaExtension = XineramaQueryExtension (dpy,
+ 						   &d->xineramaEvent,
+ 						   &d->xineramaError);
+@@ -2859,6 +2914,7 @@ addDisplay (char *name,
+ 	d->screenInfo  = NULL;
+ 	d->nScreenInfo = 0;
+     }
++#endif    
+ 
+     compDisplays = d;
+ 
+diff -rup compiz-0.5.0/src/option.c ../compiz-0.5.0.solaris/src/option.c
+--- compiz-0.5.0/src/option.c	2007-04-02 20:15:30.000000000 +0200
++++ ../compiz-0.5.0.solaris/src/option.c	2007-04-20 10:54:54.017928000 +0200
+@@ -30,6 +30,7 @@
+ #include <strings.h>
+ #include <ctype.h>
+ #include <math.h>
++#include "../config.h"
+ 
+ #include <compiz.h>
+ 
+@@ -549,6 +550,29 @@ buttonBindingToString (CompDisplay      
+ 
+     return binding;
+ }
++#ifdef SOLARIS
++#include <ctype.h>
++char *
++strcasestr (char *haystack, char *needle)
++{
++	char *p, *startn = 0, *np = 0;
++
++	for (p = haystack; *p; p++) {
++		if (np) {
++			if (toupper(*p) == toupper(*np)) {
++				if (!*++np)
++					return startn;
++			} else
++				np = 0;
++		} else if (toupper(*p) == toupper(*needle)) {
++			np = needle + 1;
++			startn = p;
++		}
++	}
++
++	return 0;
++}
++#endif
+ 
+ static unsigned int
+ stringToModifiers (CompDisplay *d,
+diff -rup compiz-0.5.0/src/screen.c ../compiz-0.5.0.solaris/src/screen.c
+--- compiz-0.5.0/src/screen.c	2007-04-02 20:15:30.000000000 +0200
++++ ../compiz-0.5.0.solaris/src/screen.c	2007-04-20 10:54:54.019035000 +0200
+@@ -344,6 +344,7 @@ updateOutputDevices (CompScreen	*s)
+ 
+ 	if (s->display->nScreenInfo)
+ 	{
++#ifdef HAVE_XORG_XINERAMA
+ 	    for (i = 0; i < s->display->nScreenInfo; i++)
+ 	    {
+ 		r.extents.x1 = s->display->screenInfo[i].x_org;
+@@ -353,6 +354,7 @@ updateOutputDevices (CompScreen	*s)
+ 
+ 		XUnionRegion (region, &r, region);
+ 	    }
++#endif	    
+ 	}
+ 	else
+ 	{
+@@ -397,6 +399,7 @@ detectOutputDevices (CompScreen *s)
+ 	    if (!value.list.value)
+ 		return;
+ 
++#ifdef HAVE_XORG_XINERAMA	    
+ 	    for (i = 0; i < n; i++)
+ 	    {
+ 		snprintf (output, size, "%dx%d+%d+%d",
+@@ -407,6 +410,7 @@ detectOutputDevices (CompScreen *s)
+ 
+ 		value.list.value[i].s = strdup (output);
+ 	    }
++#endif	    
+ 	}
+ 	else
+ 	{
+diff -rup compiz-0.5.0/src/window.c ../compiz-0.5.0.solaris/src/window.c
+--- compiz-0.5.0/src/window.c	2007-04-02 20:15:30.000000000 +0200
++++ ../compiz-0.5.0.solaris/src/window.c	2007-04-20 10:54:54.020424000 +0200
+@@ -1681,6 +1681,7 @@ updateWindowStruts (CompWindow *w)
+ 	int x1, y1, x2, y2;
+ 	int i;
+ 
++#ifdef HAVE_XORG_XINERAMA	
+ 	/* applications expect us to clip struts to xinerama edges */
+ 	for (i = 0; i < w->screen->display->nScreenInfo; i++)
+ 	{
+@@ -1725,6 +1726,7 @@ updateWindowStruts (CompWindow *w)
+ 		new.bottom.height = y2 - strutY1;
+ 	    }
+ 	}
++#endif	
+     }
+ 
+     if (hasOld != hasNew || (hasNew && hasOld &&
