@@ -89,7 +89,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CFLAGS="-O2 -D__hidden=\"\""
-export LDFLAGS="-L%{x11}/lib -L/usr/sfw/lib" 
+export LDFLAGS="-L%{x11}/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib" 
 export CC=gcc
 
 bash ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
@@ -150,6 +150,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Sun Apr 22 2007 - dougs@truemail.co.th
+- Added /usr/gnu/libs to LDFLAGS
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Add Requires SUNWsmbau after check-deps.pl run.
 * Sun Jan  7 2007 - laca@sun.com

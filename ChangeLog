@@ -1,7 +1,25 @@
+2007-04-23  Doug Scott  <dougs@truemail.co.th>
+
+	* include/x86_sse2.inc: move -xvector the optimized flags as
+	  it required -xO3 or higher
+	* SFEmplayer.spec: Added /usr/gnu/libs to LDFLAGS
+	* base-specs/fftw2.spec: Added for Multi-isa build
+	* base-specs/fftw3.spec: Added for Multi-isa build
+	* SFEscourge.spec: Fixed Summary
+	* SFEfftw.spec: Change to build version 2 and 3. Multi-isa build
+	* patches/dangerdeep-01-sconstruct.diff: Added dangerdeep patch
+	* patches/dangerdeep-03-isfinite.diff: Added dangerdeep patch
+	* patches/dangerdeep-02-backtrace.diff: Added dangerdeep patch
+	* patches/dangerdeep-04-filenames.diff: Added dangerdeep patch
+
 2007-04-22  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEgnome-subtitles.spec: Add Build/Requires SFEmono-devel, 
 	  SFEgtk-sharp, SFEgnome-sharp in order to get it to build.
+
+2007-04-22  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEmplayer.spec: Added /usr/gnu/libs to LDFLAGS
 
 2007-04-22  Doug Scott  <dougs@truemail.co.th>
 	

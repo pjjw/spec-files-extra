@@ -1,0 +1,62 @@
+diff -ur dangerdeep-0.2.0-orig/SConstruct dangerdeep-0.2.0/SConstruct
+--- dangerdeep-0.2.0-orig/SConstruct	2006-10-13 01:44:44.000000000 +0700
++++ dangerdeep-0.2.0/SConstruct	2007-04-23 13:10:31.248136721 +0700
+@@ -115,6 +115,58 @@
+                         env.Append(LINKFLAGS = '--unresolved-symbols=ignore-all')
+                         env.Append(LINKFLAGS = '-Xlinker --unresolved-symbols -Xlinker ignore-all')
+ 
++elif (sys.platform == 'sunos5'):
++	print "Compiling for Solaris Environment"
++	env = Environment(ENV = os.environ)
++	env.Replace(CC = os.environ['CC'])
++	env.Replace(CXX = os.environ['CXX'])
++	env.Replace(CCFLAGS = os.environ['CFLAGS'])
++	env.Replace(CXXFLAGS = os.environ['CXXFLAGS'])
++	env.Replace(LINKFLAGS = os.environ['LDFLAGS'])
++	env.Append(CPPPATH = ['/usr/include/SDL', '/usr/include/GL'])
++	libpath = ['/usr/X11R6/lib']
++	gllibs = ['GL', 'GLU']
++	sdllibs = ['SDL', 'SDL_image']
++	ccflags = '`sdl-config --cflags` -I/usr/X11/include'
++	env.Append(LINKFLAGS = '-L/usr/X11/lib')
++	mmxsupported = False
++	ssesupported = False
++	if (usex86sse == 0) and (mmxsupported and ssesupported):
++		usex86sse = 1
++	if usex86sse >= 1:
++		env.Append(CPPDEFINES = ['USE_SSE'])
++		osspecificsrc += ['water_sse.cpp']
++		if (usex86sse >= 3):
++			env.Append(CPPDEFINES = ['USE_SSE_INTRINSICS', 'USE_SSE_ALWAYS'])
++			env.Append(CCFLAGS = '-msse')
++			print 'Using x86 SSE/MMX optimizations with GCC intrinsics ALWAYS WITHOUT DETECTION!'
++		elif (usex86sse >= 2):
++			env.Append(CPPDEFINES = ['USE_SSE_INTRINSICS'])
++			env.Append(CCFLAGS = '-msse')
++			print 'Using x86 SSE/MMX optimizations with GCC intrinsics.'
++		else:
++			print 'Using x86 SSE/MMX optimizations.'
++	env.Append(CCFLAGS = ccflags)
++	datadir = '/usr/share/dangerdeep'
++	build_dir = 'sunos5'
++	# check for broken libGL, ignore undefined symbols then
++	if (os.system('grep glBindProgram /usr/include/GL/gl*.h > /dev/null') == 0):
++		gllibdirs = ['/usr/X11/lib/', '/usr/lib/']
++		gllibdir = ''
++		for i in gllibdirs:
++			if (os.system('test -f '+i+'libGL.so') == 0):
++				gllibdir = i
++				break
++		if (gllibdir == ''):
++			print 'ERROR: no libGL.so detected!'
++		else:
++			print 'Found GL library "'+gllibdir+'libGL.so"'
++		if (os.system('grep glBindProgram '+gllibdir+'libGL.so > /dev/null') != 0):
++			print 'GL headers declare glBindProgram, but libGL.so has no such symbol! Ignoring all undefined symbols...'
++			# I'm not sure which option will hopefully fix the problem... so i use both...
++			env.Append(LINKFLAGS = ' -z ignore')
++
++
+ else:
+ 	print "Compiling for Unix/Posix/Linux Environment"
+ 	env = Environment(ENV = os.environ)

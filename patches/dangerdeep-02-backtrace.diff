@@ -1,0 +1,31 @@
+diff -ur dangerdeep-0.2.0-orig/src/faulthandler.h dangerdeep-0.2.0/src/faulthandler.h
+--- dangerdeep-0.2.0-orig/src/faulthandler.h	2006-10-13 01:16:09.000000000 +0700
++++ dangerdeep-0.2.0/src/faulthandler.h	2007-04-23 13:18:28.911356853 +0700
+@@ -25,7 +25,11 @@
+ 
+ #ifndef WIN32
+ 
++// backtrace support is yet to be added to Open Solaris
++// *** FIXME *** need to check for support in SConstruct
++#if !defined(sun)
+ #include <execinfo.h>
++#endif
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <cxxabi.h>      // Needed for __cxa_demangle
+@@ -37,6 +41,7 @@
+ 
+ inline void print_stack_trace()
+ {
++#if !defined(sun)
+ 	void *array[16];
+ 	int size = backtrace(array, 16);
+ 	if (size < 0) {
+@@ -105,6 +110,7 @@
+ 			fprintf(stderr, "%s\n", it->c_str());
+ 		}
+ 	}
++#endif
+ }
+ 
+ void sigsegv_handler(int )

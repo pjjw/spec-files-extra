@@ -1,0 +1,54 @@
+diff -ur dangerdeep-0.2.0-orig/src/bspline.h dangerdeep-0.2.0/src/bspline.h
+--- dangerdeep-0.2.0-orig/src/bspline.h	2006-10-13 01:16:09.000000000 +0700
++++ dangerdeep-0.2.0/src/bspline.h	2007-04-23 13:21:30.211061642 +0700
+@@ -36,8 +36,14 @@
+ #define isfinite(x) _finite(x)
+ #endif
+ #else
++#if defined(sun)
++#ifndef isfinite
++#define isfinite(val) (val <= std::numeric_limits<double>::max())
++#endif
++#else
+ using std::isfinite;
+ #endif
++#endif
+ 
+ 
+ ///\brief Represents a non-uniform-B-spline interpolation object
+diff -ur dangerdeep-0.2.0-orig/src/make_mesh.cpp dangerdeep-0.2.0/src/make_mesh.cpp
+--- dangerdeep-0.2.0-orig/src/make_mesh.cpp	2006-10-13 01:16:12.000000000 +0700
++++ dangerdeep-0.2.0/src/make_mesh.cpp	2007-04-23 13:21:52.691812043 +0700
+@@ -33,8 +33,14 @@
+ #define isfinite(x) _finite(x)
+ #endif
+ #else
++#if defined(sun)
++#ifndef isfinite
++#define isfinite(val) (val <= std::numeric_limits<double>::max())
++#endif
++#else
+ using std::isfinite;
+ #endif
++#endif
+ 
+ using namespace std;
+ 
+diff -ur dangerdeep-0.2.0-orig/src/model.cpp dangerdeep-0.2.0/src/model.cpp
+--- dangerdeep-0.2.0-orig/src/model.cpp	2006-10-13 01:16:12.000000000 +0700
++++ dangerdeep-0.2.0/src/model.cpp	2007-04-23 13:21:16.355461518 +0700
+@@ -38,8 +38,14 @@
+ #define isfinite(x) _finite(x)
+ #endif
+ #else
++#if defined(sun)
++#ifndef isfinite
++#define isfinite(val) (val <= std::numeric_limits<double>::max())
++#endif
++#else
+ using std::isfinite;
+ #endif
++#endif
+ 
+ #include "system.h"
+ #include "datadirs.h"

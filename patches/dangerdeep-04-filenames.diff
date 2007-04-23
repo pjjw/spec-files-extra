@@ -1,0 +1,39 @@
+diff -ur dangerdeep-0.2.0-orig/src/global_data.h dangerdeep-0.2.0/src/global_data.h
+--- dangerdeep-0.2.0-orig/src/global_data.h	2006-10-13 01:16:09.000000000 +0700
++++ dangerdeep-0.2.0/src/global_data.h	2007-04-23 14:49:50.062312406 +0700
+@@ -37,15 +37,15 @@
+ 
+ // fixme: remove this ugly crap, move to .cpp
+ #define se_submarine_torpedo_launch "liquidblast.ogg"
+-#define se_torpedo_detonation		"shell explosion.ogg"
+-#define se_small_gun_firing			"deck gun firing.ogg"
+-#define se_medium_gun_firing		"medium gun firing.ogg"
+-#define se_large_gun_firing			"big gun firing.ogg"
+-#define se_depth_charge_firing		"depth charge launching.ogg"
+-#define se_depth_charge_exploding	"depth charge exploding.ogg"
++#define se_torpedo_detonation		"shell_explosion.ogg"
++#define se_small_gun_firing			"deck_gun_firing.ogg"
++#define se_medium_gun_firing		"medium_gun_firing.ogg"
++#define se_large_gun_firing			"big_gun_firing.ogg"
++#define se_depth_charge_firing		"depth_charge_launching.ogg"
++#define se_depth_charge_exploding	"depth_charge_exploding.ogg"
+ #define se_ping						"ping.ogg"
+-#define se_shell_exploding			"shell explosion.ogg"
+-#define se_shell_splash				"shell splash.ogg"
++#define se_shell_exploding			"shell_explosion.ogg"
++#define se_shell_splash				"shell_splash.ogg"
+ #define se_sub_screws_slow			"screws_slow.ogg"
+ #define se_sub_screws_normal		"screws_normal.ogg"
+ #define se_sub_screws_fast			"screws_fast.ogg"
+diff -ur dangerdeep-0.2.0-orig/src/subsim.cpp dangerdeep-0.2.0/src/subsim.cpp
+--- dangerdeep-0.2.0-orig/src/subsim.cpp	2006-10-13 01:16:12.000000000 +0700
++++ dangerdeep-0.2.0/src/subsim.cpp	2007-04-23 14:51:12.576407393 +0700
+@@ -1605,7 +1605,7 @@
+ /* test:
+ 	mmusic->append_track("ping.ogg");
+ 	mmusic->append_track("liquidblast.ogg");
+-	mmusic->append_track("shell explosion.ogg");
++	mmusic->append_track("shell_explosion.ogg");
+ */
+ 	mmusic->append_track("ImInTheMood.ogg");
+ 	mmusic->append_track("Betty_Roche-Trouble_Trouble.ogg");

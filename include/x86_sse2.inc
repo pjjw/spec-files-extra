@@ -25,16 +25,16 @@
 %define _gcc_opt_level     -O3
 %define _gxx_opt_level     -O3
 %else
-%define _cc_opt_level      -xO4 -xspace
-%define _cxx_opt_level     -xO3 -xspace
+%define _cc_opt_level      -xO4 -xspace -xvector
+%define _cxx_opt_level     -xO3 -xspace -xvector
 %endif
 %endif
 
 %define gcc_optflags           %_gcc_opt_level -mcpu=pentiumpro -mtune=pentiumpro -msse2 -mfpmath=sse -Xlinker -i -fno-omit-frame-pointer %gcc_picflags
 %define gcc_cxx_optflags       %_gxx_opt_level -mcpu=pentiumpro -mtune=pentiumpro -msse2 -mfpmath=sse -Xlinker -i -fno-omit-frame-pointer %gcc_picflags
 
-%define suncc_optflags           -i %_cc_opt_level -xstrconst -xarch=sse2 -xvector -mr -xregs=no%%frameptr
-%define suncc_cxx_optflags       -i %_cxx_opt_level -xarch=sse2 -xvector -mr -norunpath -xregs=no%%frameptr
+%define suncc_optflags           -i %_cc_opt_level -xstrconst -xarch=sse2 -mr -xregs=no%%frameptr
+%define suncc_cxx_optflags       -i %_cxx_opt_level -xarch=sse2 -mr -norunpath -xregs=no%%frameptr
 
 %if %cc_is_gcc
 
@@ -71,6 +71,8 @@
 %define xorg_lib_path	-L%xorg_lib -L/usr/X11/lib -R%xorg_lib -R/usr/X11/lib
 
 # ChangeLog:
+# 2007-04-23  Doug Scott  <dougs@truemail.co.th>
+# - move -xvector the optimized flags as it required -xO3 or higher
 # 2007-03-20  Doug Scott  <dougs@truemail.co.th>
 # added standard directories definitions
 # 2007-03-20  Doug Scott  <dougs@truemail.co.th>

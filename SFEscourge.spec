@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 Name:                    SFEscourge
-Summary:                 scourge - a HTTP and WebDAV client library
+Summary:                 S.C.O.U.R.G.E Game
 Version:                 0.17
 Source:                  http://nchc.dl.sourceforge.net/sourceforge/scourge/scourge-%{version}.src.tar.gz
 Source2:		 http://nchc.dl.sourceforge.net/sourceforge/scourge/scourge-%{version}.data.tar.gz
@@ -84,5 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/scourge_data
 
 %changelog
+* Mon Apr 23 2006 - dougs@truemail.co.th
+- Fixed Summary
 * Sun Apr 22 2006 - dougs@truemail.co.th
 - Initial version

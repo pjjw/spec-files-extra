@@ -5,60 +5,131 @@
 
 %include Solaris.inc
 
-Name:                SFEfftw
-Summary:             Collection of fast C routines to compute DFTs
-Version:             2.1.5
-Source:              ftp://ftp.fftw.org/pub/fftw/fftw-%{version}.tar.gz
+%ifarch amd64 sparcv9
+%include arch64.inc
+%use fftw3_64 = fftw3.spec
+%use fftw2_64 = fftw2.spec
+%endif
 
+%if %arch_sse2
+%include x86_sse2.inc
+%use fftw3_sse2 = fftw3.spec
+%use fftw2_sse2 = fftw2.spec
+%endif
+
+%include base.inc
+
+%use fftw3 = fftw3.spec
+%use fftw2 = fftw2.spec
+
+Name:                SFEfftw
+Summary:             %{fftw3.summary}
+Version:             %{fftw3.version}
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
+%package devel
+Summary:       %{summary} - development files
+SUNW_BaseDir:  %{_basedir}
+%include default-depend.inc
+Requires:      %name
+
 %prep
-%setup -q -n fftw-%version
+rm -rf %name-%version
+mkdir %name-%version
+
+%ifarch amd64 sparcv9
+mkdir %name-%version/%_arch64
+%fftw3_64.prep -d %name-%version/%_arch64
+%fftw2_64.prep -d %name-%version/%_arch64
+%endif
+
+%if %arch_sse2
+mkdir %name-%version/%sse2_arch
+%fftw3_sse2.prep -d %name-%version/%{sse2_arch}
+%fftw2_sse2.prep -d %name-%version/%{sse2_arch}
+%endif
+
+mkdir %name-%version/%{base_arch}
+%fftw3.prep -d %name-%version/%{base_arch}
+%fftw2.prep -d %name-%version/%{base_arch}
 
 %build
+%ifarch amd64 sparcv9
+export LD_OPTIONS="-64"
+%fftw3_64.build -d %name-%version/%_arch64
+%fftw2_64.build -d %name-%version/%_arch64
+unset LD_OPTIONS
+%endif
 
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-     CPUS=1
-fi
+%if %arch_sse2
+%fftw3_sse2.build -d %name-%version/%{sse2_arch}
+%fftw2_sse2.build -d %name-%version/%{sse2_arch}
+%endif
 
-export CFLAGS="%optflags"
-export LDFLAGS="%{_ldflags}"
-
-# Can't figure out how to tell configure to install the provided
-# html or ps docs... it installs the info files though. Punt.
-
-./configure --prefix=%{_prefix}  \
-            --mandir=%{_mandir} \
-            --infodir=%{_infodir} \
-            --enable-shared=yes \
-            --enable-static=no
-
-make -j$CPUS
+%fftw3.build -d %name-%version/%{base_arch}
+%fftw2.build -d %name-%version/%{base_arch}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make install DESTDIR=$RPM_BUILD_ROOT
+%ifarch amd64 sparcv9
+%fftw3_64.install -d %name-%version/%_arch64
+%fftw2_64.install -d %name-%version/%_arch64
+%endif
 
-rm ${RPM_BUILD_ROOT}%{_libdir}/librfftw.la
-rm ${RPM_BUILD_ROOT}%{_libdir}/libfftw.la
+%if %arch_sse2
+%fftw3_sse2.install -d %name-%version/%{sse2_arch}
+%fftw2_sse2.install -d %name-%version/%{sse2_arch}
+%endif
+
+%fftw3.install -d %name-%version/%{base_arch}
+%fftw2.install -d %name-%version/%{base_arch}
+
+rm ${RPM_BUILD_ROOT}%{_datadir}/info/dir
+
+%{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
+%{_libdir}/lib*.so*
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/*
+%ifarch amd64 sparcv9
+%dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
+%{_libdir}/%{_arch64}/lib*.so*
+%endif
+%if %arch_sse2
+%dir %attr (0755, root, bin) %{_libdir}/%{sse2_arch}
+%{_libdir}/%{sse2_arch}/lib*.so*
+%endif
+
+
+%files devel
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*.pc
+%ifarch amd64 sparcv9
+%dir %attr (0755, root, other) %{_libdir}/%{_arch64}/pkgconfig
+%{_libdir}/%{_arch64}/pkgconfig/*.pc
+%endif
+%if %arch_sse2
+%dir %attr (0755, root, other) %{_libdir}/%{sse2_arch}/pkgconfig
+%{_libdir}/%{sse2_arch}/pkgconfig/*.pc
+%endif
 
 %changelog
-* 
+* Mon Apr 23 2007 - Doug Scott
+- Change to build version 2 and 3. Multi-isa build 
 * Wed Sep 27 2006 - Eric Boutilier
 - Initial spec
