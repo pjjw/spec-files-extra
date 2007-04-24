@@ -1,3 +1,7 @@
+2007-04-24  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEcabextract.spec: Add cabextract - MS CAB file extraction tool
+
 2007-04-23  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEfontforge.spec: Add Fontforge - An outline fonteditor
