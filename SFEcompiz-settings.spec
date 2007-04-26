@@ -58,7 +58,7 @@ cp compiz.png $RPM_BUILD_ROOT%{_datadir}/pixmaps
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr (-, root, bin)
+%defattr (-, root, sys)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr(0755, root, sys) %{_datadir}
