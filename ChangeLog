@@ -1,3 +1,14 @@
+2007-04-26  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEmpd.spec: Patch2: make filesystem_charset in mpdconf.example UTF-8
+          NOTE: If directories/files with UTF-8 names missing in the 
+          database, then update your existing /etc/mpd.conf|~/.mpd.conf 
+          and recreate the db (mpd --create-db).
+        * patches/mpd-02-filesystem_charset-UTF-8-mpdconf.example.diff: Added
+
+          NOTE2: SFEmpd: does not compile with libflac from vermillion_62
+
+        * SFEmediawiki.spec: bump to 1.9.3, new download-url
+
 2007-04-26  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEsdl.spec: Added BuildConflicts: SUNWlibsdl

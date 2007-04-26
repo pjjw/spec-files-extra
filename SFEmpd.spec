@@ -20,6 +20,7 @@ Summary:             Daemon for remote access music playing & managing playlists
 Version:             0.12.2
 Source:              http://www.musicpd.org/uploads/files/mpd-%{version}.tar.bz2
 Patch1:              mpd-01-include-ao-mpdconf.example.diff
+Patch2:              mpd-02-filesystem_charset-UTF-8-mpdconf.example.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -46,6 +47,7 @@ Requires: SUNWflac
 %prep
 %setup -q -n mpd-%version
 %patch1 -p1
+%patch2 -p1
 
 %build
 
@@ -98,6 +100,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Thu Apr 26 2007 - Thomas Wagner
+- make filesystem_charset in mpdconf.example default to UTF-8
+  NOTE: If directories/files with UTF-8 names missing in the 
+  database, then update your existing /etc/mpd.conf|~/.mpd.conf 
+  and recreate the db (mpd --create-db).
+  does not compile with libflac from vermillion_62
 * Wed Apr 04 2007 - Thomas Wagner
 - missing " in patch to mpdconf.example 
 * Wed Apr 04 2007 - Thomas Wagner

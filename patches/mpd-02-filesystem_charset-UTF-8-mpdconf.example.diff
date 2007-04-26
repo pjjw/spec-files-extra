@@ -1,0 +1,10 @@
+--- mpd-0.12.2-orig/doc/mpdconf.example	Tue Mar 20 22:22:53 2007
++++ mpd-0.12.2/doc/mpdconf.example	Thu Apr 26 12:45:42 2007
+@@ -223,6 +233,7 @@
+ # after changing this (use mpd --create-db).
+ #
+ #filesystem_charset              "ISO-8859-1"
++filesystem_charset              "UTF-8"
+ #
+ # The encoding that ID3v1 tags should be converted from.
+ #

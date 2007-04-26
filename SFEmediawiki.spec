@@ -7,8 +7,8 @@
 
 Name:                    SFEmediawiki
 Summary:                 mediawiki - a free software wiki package originally written for Wikipedia
-Version:                 1.9.0
-Source:                  http://puzzle.dl.sourceforge.net/sourceforge/wikipedia/mediawiki-%{version}.tar.gz
+Version:                 1.9.3
+Source:                  http://prdownloads.sourceforge.net/wikipedia/mediawiki-%{version}.tar.gz
 SUNW_BaseDir:            /
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -42,6 +42,9 @@ rm -rf $RPM_BUILD_ROOT
 /var/*
 
 %changelog
+* Sat Apr 21 2007 - Thomas Wagner
+- bump to 1.9.3
+- new download-url
 * Fri Jan 19 2007 - daymobrew@users.sourceforge.net
 - Add SFEphp dependency.
 * Wed Jan 17 2007 - daymobrew@users.sourceforge.net
