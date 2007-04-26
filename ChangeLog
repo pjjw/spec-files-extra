@@ -1,3 +1,9 @@
+2007-04-26  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEmpd.spec: --disable-flac, --disable-oggflac
+          mpd possibly has to be updated to reflect new libFLAC includes
+          does not compile with libflac from vermillion_64 (sorry, 62 was a typo)
+          you may enable *flac if using older libFLAC versions
+
 2007-04-26 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* SFEcompiz-settings.spec: changed defattr to fit with 

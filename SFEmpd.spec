@@ -64,6 +64,8 @@ export LDFLAGS="%{_ldflags}"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir}  \
+            --disable-flac       \
+            --disable-oggflac    \
 	    --enable-ao          
 
 #	    --disable-id3
@@ -100,6 +102,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Thu Apr 26 2007 - Thomas Wagner
+- --disable-flac, --disable-oggflac
+  mpd possibly has to be updated to reflect new libFLAC includes
+  does not compile with libflac from vermillion_64 (sorry, 62 was a typo)
+  you may enable *flac if using oder versions of libFLAC
 * Thu Apr 26 2007 - Thomas Wagner
 - make filesystem_charset in mpdconf.example default to UTF-8
   NOTE: If directories/files with UTF-8 names missing in the 
