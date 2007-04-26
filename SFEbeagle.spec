@@ -11,6 +11,7 @@ Summary:      beagle - desktop search tool
 Source:       http://ftp.gnome.org/pub/GNOME/sources/beagle/0.2/beagle-%{version}.tar.gz
 URL:          http://beagle-project.org
 Patch1:       beagle-01-solaris.diff
+Patch2:       beagle-02-dllimport.diff
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
@@ -50,6 +51,7 @@ Requires:                %{name}
 %setup -q -c -n %name-%version
 cd beagle-%{version}
 %patch1 -p1
+%patch2 -p1
 dos2unix po/ru.po po/ru.po
 
 %build
@@ -59,9 +61,10 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 cd beagle-%{version}
 
+export MSGFMT="/usr/bin/msgfmt"
 export PATH=/usr/mono/bin:$PATH
 export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags"
+export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib"
 ./configure --prefix=%{_prefix} \
 		--mandir=%{_mandir} \
 		--libdir=%{_libdir} \
@@ -137,6 +140,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Apr 26 2007 - dougs@truemail.co.th
+- Added dll patch to find libX11.so
 * Tue Mar 20 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.2.16.3. Add Build/Requires SFEgnome-sharp to bring in gconf-sharp
   and gnome-vfs-sharp. Add %{gtk_doc_option} to configure call.

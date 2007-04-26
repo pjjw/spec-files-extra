@@ -1,3 +1,11 @@
+2007-04-26  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEsdl.spec: Added BuildConflicts: SUNWlibsdl
+	* SFEcompiz-settings.spec: Added root package
+	* SFEbeagle.spec: Added dll patch to find libX11.so
+	* patches/compiz-settings-solaris.2-3-7.diff: Added to repository
+	* patches/beagle-02-dllimport.diff: Added - Remore libX11 version
+
 2007-04-24  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEcabextract.spec: Add cabextract - MS CAB file extraction tool

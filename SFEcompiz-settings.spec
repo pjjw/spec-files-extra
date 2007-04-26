@@ -10,13 +10,18 @@ Version:                 0.07
 %define tarball_version 0.07-2
 Source:			 http://www.gnome.org/~erwannc/compiz/compiz-settings_%{tarball_version}.tar.gz
 Source1:		 http://www.gnome.org/~erwannc/compiz/jds-integration.tar.bz2
-Patch1:			 compiz-settings-solaris.2-3-7.diff 
-#SUNW_BaseDir:            %{_basedir}
+Patch1:			 compiz-settings-solaris.2-3-7.diff
+#SUNW_BaseDir:           %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:		 SFEcompiz
 Requires: 		 SUNWgnome-base-libs
 BuildRequires: 	 SUNWgnome-base-libs-devel
+
+%package root
+Summary:         %summary - platform dependent files, / filesystem
+SUNW_BaseDir:            /
+%include default-depend.inc
 
 %prep
 %setup -q -n compizsettings-trunk
@@ -63,9 +68,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 #%dir %attr(0755, root, sys) %{_sysconfdir}/xdg
 #%dir %attr(0755, root, sys) %{_sysconfdir}/xdg/autostart
-%{_sysconfdir}/xdg/autostart/*
+
+%files root
+%defattr (-, root, sys)
+%{_sysconfdir}
 
 %changelog
+* Thu Apr 26 2007 - dougs@truemail.co.th
+- added root package
 * Mon Apr 23 2007 - Erwann Chenede <erwann at sun com>
 - added Gnome integration scripts and icons
 * Tue Mar 06 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)

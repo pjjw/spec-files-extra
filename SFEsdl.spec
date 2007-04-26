@@ -15,6 +15,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires: SUNWlibms
 Requires: SUNWxwrtl
 Requires: SUNWxwplt
+BuildConflicts: SUNWlibsdl
 
 %package devel
 Summary:                 %{summary} - development files
@@ -76,6 +77,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Apr 26 2007 - dougs@truemail.co.th
+- Added BuildConflicts: SUNWlibsdl
 * Tue Sep 26 2006 - halton.huo@sun.com
 - Bump version to 1.2.11
 * Mon Jun 12 2006 - laca@sun.com

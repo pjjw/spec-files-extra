@@ -1,0 +1,287 @@
+diff -rup tmp/compizsettings-trunk/configure.in compizsettings-trunk/configure.in
+--- tmp/compizsettings-trunk/configure.in	2006-12-28 06:24:13.000000000 +0100
++++ compizsettings-trunk/configure.in	2007-03-02 17:25:26.250854000 +0100
+@@ -15,7 +15,7 @@ PKG_CHECK_MODULES(PACKAGE, [$pkg_modules
+ AC_SUBST(PACKAGE_CFLAGS)
+ AC_SUBST(PACKAGE_LIBS)
+ 
+-  LDFLAGS="$LDFLAGS -rdynamic"
++  LDFLAGS="$LDFLAGS"
+   AC_TRY_LINK([], [], [RDYNAMIC=-rdynamic], [RDYNAMIC=])
+   AC_SUBST(RDYNAMIC)
+ 
+diff -rup tmp/compizsettings-trunk/src/Makefile.am compizsettings-trunk/src/Makefile.am
+--- tmp/compizsettings-trunk/src/Makefile.am	2006-12-25 20:08:20.000000000 +0100
++++ compizsettings-trunk/src/Makefile.am	2007-03-01 12:08:15.554045000 +0100
+@@ -12,5 +12,5 @@ compiz_settings_SOURCES = \
+ 	main.c 
+ 
+ compiz_settings_LDADD = @PACKAGE_LIBS@ $(INTLLIBS) 
+-compiz_settings_LDFLAGS = -rdynamic -fno-strict-aliasing
++compiz_settings_LDFLAGS = 
+ 
+diff -rup tmp/compizsettings-trunk/src/functions.c compizsettings-trunk/src/functions.c
+--- tmp/compizsettings-trunk/src/functions.c	2006-12-29 01:33:21.000000000 +0100
++++ compizsettings-trunk/src/functions.c	2007-03-01 12:07:34.046603000 +0100
+@@ -168,8 +168,6 @@ GSList * remove_from_gslist(GSList * lis
+   return new_list;
+ }
+    
+-
+-
+ GSList * activate_plugin_dependencies(GSList * list, gchar * string) {
+ 
+  /* First make sure the plugin is not already in the active list */
+@@ -183,29 +181,38 @@ GSList * activate_plugin_dependencies(GS
+   /* Doubt anyones going to have any mroe plugins than that :) */
+   int match_position = 99999;
+ 
+-  void find_position(gchar *load_before) {
+-    printf("Load before %s\n", load_before);
+-     gboolean match;
+-     int position = -1;
+-	void loop_through_active(gchar *plugin) {
+-	 position++;
+-         printf("	Compairing %s, %s\n", load_before, plugin);
+-	 if (!strcmp(load_before, plugin)) {
+-	  match = TRUE;
+-	  if (match_position > position) {
+-	   match_position = position;
+-	  }
+-	 
+-         printf("	Match found so should load plugin at %d position %d\n", position, match_position);
+-	 }
++    {
++      GSList *tmp_load_before_list = load_before_list;
++      while (tmp_load_before_list)
++	{
++	  gchar *load_before = (gchar *) tmp_load_before_list->data;
++	  gboolean match;
++	  int position = -1;
++	  GSList *tmp_active_plugins = active_plugins;
++	  printf("Load before %s\n", load_before);
++	  while (tmp_active_plugins)
++	    {
++	      gchar *plugin = (gchar*)tmp_active_plugins->data;
++	      position++;
++	      printf("	Compairing %s, %s\n", load_before, plugin);
++	      if (!strcmp(load_before, plugin)) 
++		{
++
++		match = TRUE;
++		if (match_position > position) 
++		  {
++		  match_position = position;
++		}
++
++		printf("	Match found so should load plugin at %d position %d\n", position, match_position);
++	      }
++	      tmp_active_plugins = tmp_active_plugins->next;
++	    }
++	  tmp_load_before_list = tmp_load_before_list->next;
+ 	}
+-      g_slist_foreach (active_plugins, (GFunc) loop_through_active, NULL);
++    }
+ 
+-   }
+   
+-   g_slist_foreach (load_before_list, (GFunc) find_position, NULL);
+-
+-
+   /* Get load after Key */
+   GSList * load_after_list = NULL;
+   load_after_list = CompizSettings_get_load_after_list(string);
+@@ -537,24 +544,24 @@ void keyboard_grab_key_pressed(GtkWidget
+ 
+ void mouse_shortcut_pressed(GtkWidget *widget, GdkEventButton *key, GtkWidget * entry) {
+ 
+-	gchar * name = egg_virtual_accelerator_name ((gint) NULL, (gint) NULL, key->state);
+-	gchar * ButtonString = g_strdup_printf("Button%d", key->button);
+-	gchar * final_string = g_strdup_printf("%s%s", name, ButtonString);
+-
+-	if (!strcmp(final_string, "Button1")) {
+-	   g_free(final_string);
+-	   final_string = g_strdup_printf("Disabled");
+-
+-	}
+-	   	gtk_entry_set_text (GTK_ENTRY(entry), final_string);
+-   		gtk_button_set_label (GTK_BUTTON(current_focus_mouse), "Grab Mouse");
+-		gdk_pointer_ungrab (GDK_CURRENT_TIME);	   
+-		g_signal_handlers_disconnect_by_func(window1, mouse_shortcut_pressed, entry);
+-	 	g_signal_stop_emission_by_name (G_OBJECT (window1), "button_press_event");
+-
+-	g_free(name);
+-	g_free(ButtonString);
+-	g_free(final_string);
++  gchar * name = egg_virtual_accelerator_name ((gint) NULL, (gint) NULL, key->state);
++  gchar * ButtonString = g_strdup_printf("Button%d", key->button);
++  gchar * final_string = g_strdup_printf("%s%s", name, ButtonString);
++
++  if (!strcmp(final_string, "Button1")) {
++    g_free(final_string);
++    final_string = g_strdup_printf("Disabled");
++
++  }
++  gtk_entry_set_text (GTK_ENTRY(entry), final_string);
++  gtk_button_set_label (GTK_BUTTON(current_focus_mouse), "Grab Mouse");
++  gdk_pointer_ungrab (GDK_CURRENT_TIME);	   
++  g_signal_handlers_disconnect_by_func(window1, mouse_shortcut_pressed, entry);
++  g_signal_stop_emission_by_name (G_OBJECT (window1), "button_press_event");
++
++  g_free(name);
++  g_free(ButtonString);
++  g_free(final_string);
+ }
+ 
+ 
+@@ -582,31 +589,34 @@ GSList * backend_apply_option_filter(GSL
+ /* Applying filter */
+ 
+   GSList * new_list = NULL;
++  GSList * tmp = list;
+   /* Return a GSlist all all available options for a plugin on screen xxxxx */
++  
++  while (tmp)
++    {
++      CompizSettingsOption * option = (CompizSettingsOption *) tmp->data; 
++      gchar * key_name = g_strdup(option->key);
++
++      //for the string filter plugin_path should be changed to option name (when you can be arsed :)
++      if (option_filter == CompizSettingsOptionIntORFloatORBoolORString && (option->type == CompizSettingsOptionInt || option->type == CompizSettingsOptionColor || option->type == CompizSettingsOptionFloat || option->type == CompizSettingsOptionBool || option->type == CompizSettingsOptionString) && strmatch_in_gslist(key_name, must_contain) && (!strmatch_in_gslist(key_name, must_not_contain) || must_not_contain == NULL)) {
++
++	new_list = g_slist_append(new_list, option);
++      }  else if (option_filter == (int)NULL && strmatch_in_gslist(key_name, must_contain) && (!strmatch_in_gslist(key_name, must_not_contain) || must_not_contain == NULL)) {
++	new_list = g_slist_append(new_list, option);
++      } else if (option_filter == CompizSettingsOptionString && option->type == CompizSettingsOptionString && strmatch_in_gslist(key_name, must_contain) && (!strmatch_in_gslist(key_name, must_not_contain) || must_not_contain == NULL)) {
++	new_list = g_slist_append(new_list, option);
++      } else if (option_filter == CompizSettingsOptionBool && option->type == CompizSettingsOptionBool && strmatch_in_gslist(key_name, must_contain) && (!strmatch_in_gslist(key_name, must_not_contain) || must_not_contain == NULL)) {
++	new_list = g_slist_append(new_list, option);
++      } else if (option_filter == CompizSettingsOptionAction && option->type == CompizSettingsOptionAction && strmatch_in_gslist(key_name, must_contain) && (!strmatch_in_gslist(key_name, must_not_contain) || must_not_contain == NULL)) {
++	new_list = g_slist_append(new_list, option);
++      }
+ 
+-   void entry_to_plugin_path(CompizSettingsOption * option) { 
+-		  gchar * key_name = g_strdup(option->key);
+-
+-	//for the string filter plugin_path should be changed to option name (when you can be arsed :)
+-		    if (option_filter == CompizSettingsOptionIntORFloatORBoolORString && (option->type == CompizSettingsOptionInt || option->type == CompizSettingsOptionColor || option->type == CompizSettingsOptionFloat || option->type == CompizSettingsOptionBool || option->type == CompizSettingsOptionString) && strmatch_in_gslist(key_name, must_contain) && (!strmatch_in_gslist(key_name, must_not_contain) || must_not_contain == NULL)) {
+-
+-		   new_list = g_slist_append(new_list, option);
+-		  }  else if (option_filter == (int)NULL && strmatch_in_gslist(key_name, must_contain) && (!strmatch_in_gslist(key_name, must_not_contain) || must_not_contain == NULL)) {
+-		   new_list = g_slist_append(new_list, option);
+-		  } else if (option_filter == CompizSettingsOptionString && option->type == CompizSettingsOptionString && strmatch_in_gslist(key_name, must_contain) && (!strmatch_in_gslist(key_name, must_not_contain) || must_not_contain == NULL)) {
+-		   new_list = g_slist_append(new_list, option);
+-		  } else if (option_filter == CompizSettingsOptionBool && option->type == CompizSettingsOptionBool && strmatch_in_gslist(key_name, must_contain) && (!strmatch_in_gslist(key_name, must_not_contain) || must_not_contain == NULL)) {
+-		   new_list = g_slist_append(new_list, option);
+-		  } else if (option_filter == CompizSettingsOptionAction && option->type == CompizSettingsOptionAction && strmatch_in_gslist(key_name, must_contain) && (!strmatch_in_gslist(key_name, must_not_contain) || must_not_contain == NULL)) {
+-		   new_list = g_slist_append(new_list, option);
+-		  }
+-
+-		  g_free(key_name);
++      g_free(key_name);
+ 
+-   }
++      tmp = tmp->next;
++    }
+ 
+ 
+-   g_slist_foreach(list, (GFunc)entry_to_plugin_path,  NULL);
+    new_list = g_slist_sort (new_list, (GCompareFunc)order_alphabetically);
+ 
+    return new_list;
+diff -rup tmp/compizsettings-trunk/src/gconf-backend.c compizsettings-trunk/src/gconf-backend.c
+--- tmp/compizsettings-trunk/src/gconf-backend.c	2006-12-28 03:07:06.000000000 +0100
++++ compizsettings-trunk/src/gconf-backend.c	2007-02-27 18:33:51.246748000 +0100
+@@ -182,46 +182,46 @@ gpointer * backend_get_option(gchar * pl
+     return data;
+ }
+ 
++ gboolean all_other_extensions_exist(gchar *key) {
++    int i = 0;
++    while (i <= 4) {
++      GConfValue * entry;
++      gchar * tmp = g_strdup_printf("%s%s", key, action_extentions[i]);
++      entry = gconf_client_get (client, tmp, NULL);
++      //i != 3 is a backwards compatability hack for schema's that don't have edgebutton
++      if(entry == NULL && i != 3) {
++	return FALSE;
++      }
++      g_free(tmp);
++
++      if (entry != NULL) {
++	gconf_value_free(entry);
++      }
+ 
+-gint backend_is_action_key(gchar * full_path) {
+-/* I have speperated this becaause with gconf there is no easily way to detect an action key and i wanted to keep backend_get_option_type() as clean as possible, with dbus it can probably be removed */
+-gchar * key = g_strdup(full_path);
+-
++      i++;
++    }
++    return TRUE;
++  }
+ 
+-int i = 0;
+-while (i <= 4) {
+-	key = (gchar *) str_replace(key, action_extentions[i], "");
+-i++;
+-}
++gint backend_is_action_key(gchar * full_path) {
++  /* I have speperated this becaause with gconf there is no easily way to detect an action key and i wanted to keep backend_get_option_type() as clean as possible, with dbus it can probably be removed */
++  gchar * key = g_strdup(full_path);
+ 
+ 
++  int i = 0;
++  while (i <= 4) {
++    key = (gchar *) str_replace(key, action_extentions[i], "");
++    i++;
++  }
+ 
+-gboolean all_other_extensions_exist(gchar *key) {
+-  i = 0;
+-	while (i <= 4) {
+-	   GConfValue * entry;
+-	   gchar * tmp = g_strdup_printf("%s%s", key, action_extentions[i]);
+-	   entry = gconf_client_get (client, tmp, NULL);
+-	   //i != 3 is a backwards compatability hack for schema's that don't have edgebutton
+-	   if(entry == NULL && i != 3) {
+-	     return FALSE;
+-	   }
+-	   g_free(tmp);
+-	  	
+-		if (entry != NULL) {
+-	   		gconf_value_free(entry);
+-		}
+ 
+-		i++;
+-	}
+-   return TRUE;
+-}
+ 
++ 
+   /* Almost certainly an action key, but not reliable enough */
+-  	if (all_other_extensions_exist(key) == TRUE) {
+-  	/*Certainly an action key */
+-	  return CompizSettingsOptionAction;
+-  	}
++  if (all_other_extensions_exist(key) == TRUE) {
++    /*Certainly an action key */
++    return CompizSettingsOptionAction;
++  }
+ 
+   return (int)NULL;
+ 
+diff -rup tmp/compizsettings-trunk/src/gtk-functions.c compizsettings-trunk/src/gtk-functions.c
+--- tmp/compizsettings-trunk/src/gtk-functions.c	2006-12-29 02:57:30.000000000 +0100
++++ compizsettings-trunk/src/gtk-functions.c	2007-03-01 12:05:45.742338000 +0100
+@@ -146,7 +146,9 @@ GtkWidget * new_section_title(gchar * te
+ 
+   GtkStyle * widget_style = gtk_style_copy(widget->style);  
+   widget_style->font_desc = pango_font_description_from_string("Nimbus Sans L 9");
+-  widget_style->fg[GTK_STATE_NORMAL] = (GdkColor) color;
++  widget_style->fg[GTK_STATE_NORMAL].red = color.red;
++  widget_style->fg[GTK_STATE_NORMAL].green = color.green;
++  widget_style->fg[GTK_STATE_NORMAL].blue = color.blue;
+   gtk_widget_set_style(widget,widget_style);
+ 
+   gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
