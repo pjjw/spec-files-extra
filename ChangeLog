@@ -1,3 +1,9 @@
+2007-04-27  simon.zheng  <simon.zheng@sun.com>
+
+	* linux-specs/gnome-power-manager.spec:
+	* patches/gnome-power-manager-01-build.diff:
+	Bump to version 2.18.2. Rework the patch.
+
 2007-04-26  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEmpd.spec: --disable-flac, --disable-oggflac
           mpd possibly has to be updated to reflect new libFLAC includes

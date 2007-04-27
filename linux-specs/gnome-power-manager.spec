@@ -5,7 +5,7 @@
 Name:           gnome-power-manager
 License:        GPL
 Group:		X11/Applications
-Version:        2.18.1
+Version:        2.18.2
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -125,5 +125,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Apr 27 2007 - simon.zheng@sun.com
+- Bump to version 2.18.2
+
 * Tue Mar 28 2007 - simon.zheng@sun.com
 - initial version for pkgbuild
