@@ -1,0 +1,13 @@
+diff -ur vice-1.21-orig/configure.in vice-1.21/configure.in
+--- vice-1.21-orig/configure.in	2007-03-05 04:58:50.000000000 +0700
++++ vice-1.21/configure.in	2007-04-27 08:33:21.747659336 +0700
+@@ -629,6 +629,9 @@
+     RESID_LIBS="\$(top_builddir)/src/resid/libresid.a"
+     RESID_INCLUDES="-I\$(top_builddir)/src/resid"
+     RESID_DEP=libresid
++    if test x"`basename $CXX`" = x"CC-wrapper"; then
++        RESID_LIBS="$RESID_LIBS /usr/lib/libCrun.so.1"
++    fi
+   else
+     dnl reSID is installed elsewhere, no need to configure.
+     no_recursion=yes

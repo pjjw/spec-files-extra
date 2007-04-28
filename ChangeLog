@@ -1,3 +1,21 @@
+2007-04-28  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEbochs.spec: Added bochs IA32 emulator
+	* SFEmonodoc.spec: Build fix - make -j does not always work
+	* SFEvice.spec: Added c64 c128 etc emulator
+	* patches/vice-03-locale.diff: vice locale patch
+	* patches/vice-01-crun.diff: adds -lCrun
+	* patches/vice-02-fonts.diff: Fixes font issues
+	* include/CC-wrapper: CC wrapper need for vice
+	* SFEdosbox.spec: Added dosbox - DOS emulator
+	* patches/dosbox-01-socket.diff: Solaris socket fixes
+	* SFEfvwm.spec: Added fvwm windowmanager
+	* base-specs/fvwm.spec: Added fvwm base spec
+	* SFEfvwm-themes.spec: Added - themes for fvwm
+	* base-specs/fvwm-themes.spec: Added fvwm-themes base spec
+	* patches/fvwm-themes-01-postrun.diff: Move config to postrun
+	* patches/fvwm-themes-02-xlsfonts.diff: hardcode xlsfonts path
+
 2007-04-27  simon.zheng  <simon.zheng@sun.com>
 
 	* linux-specs/gnome-power-manager.spec:

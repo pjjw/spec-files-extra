@@ -1,0 +1,27 @@
+diff -ur vice-1.21-orig/data/fonts/Makefile.am vice-1.21/data/fonts/Makefile.am
+--- vice-1.21-orig/data/fonts/Makefile.am	2006-01-31 04:48:17.000000000 +0700
++++ vice-1.21/data/fonts/Makefile.am	2007-04-27 12:47:18.772199481 +0700
+@@ -8,6 +8,6 @@
+ install: install-data-am
+ 	@echo "Preparing fontdir..." ; \
+ 	cd $(DESTDIR)$(fontsdir) ; \
+-	bdftopcf -o vice-cbm.pcf vice-cbm.bdf ; \
++	/usr/openwin/bin/bdftopcf -o vice-cbm.pcf vice-cbm.bdf ; \
+ 	rm vice-cbm.bdf ; \
+-	mkfontdir .
++	/usr/openwin/bin/mkfontdir .
+diff -ur vice-1.21-orig/data/fonts/Makefile.in vice-1.21/data/fonts/Makefile.in
+--- vice-1.21-orig/data/fonts/Makefile.in	2007-03-05 05:06:04.000000000 +0700
++++ vice-1.21/data/fonts/Makefile.in	2007-04-27 12:47:57.936490183 +0700
+@@ -452,9 +452,9 @@
+ install: install-data-am
+ 	@echo "Preparing fontdir..." ; \
+ 	cd $(DESTDIR)$(fontsdir) ; \
+-	bdftopcf -o vice-cbm.pcf vice-cbm.bdf ; \
++	/usr/openwin/bin/bdftopcf -o vice-cbm.pcf vice-cbm.bdf ; \
+ 	rm vice-cbm.bdf ; \
+-	mkfontdir .
++	/usr/openwin/bin/mkfontdir .
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.
+ .NOEXPORT:

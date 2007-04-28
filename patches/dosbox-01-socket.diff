@@ -1,0 +1,54 @@
+diff -ur dosbox-0.70-orig/configure.in dosbox-0.70/configure.in
+--- dosbox-0.70-orig/configure.in	2007-03-01 02:56:16.000000000 +0700
++++ dosbox-0.70/configure.in	2007-04-26 16:54:48.480120877 +0700
+@@ -292,6 +292,11 @@
+   AC_MSG_WARN([Can't find libSDL_sound, libSDL_sound support disabled])
+ fi
+ 
++dnl Check for -lsocket -lnsl
++
++AC_CHECK_FUNC(gethostent, , AC_CHECK_LIB(nsl, gethostent))
++AC_CHECK_FUNC(setsockopt, , AC_CHECK_LIB(socket, setsockopt))
++
+ dnl Check for mprotect. Needed for 64 bits linux 
+ AH_TEMPLATE(C_HAVE_MPROTECT,[Define to 1 if you have the mprotect function])
+ AC_CHECK_HEADER([sys/mman.h], [
+diff -ur dosbox-0.70-orig/src/hardware/serialport/misc_util.cpp dosbox-0.70/src/hardware/serialport/misc_util.cpp
+--- dosbox-0.70-orig/src/hardware/serialport/misc_util.cpp	2007-02-19 20:28:47.000000000 +0700
++++ dosbox-0.70/src/hardware/serialport/misc_util.cpp	2007-04-26 16:43:00.778432189 +0700
+@@ -6,7 +6,7 @@
+ // C++ SDLnet wrapper
+ 
+ // Socket inheritance
+-#if defined LINUX || defined OS2
++#if defined LINUX || defined OS2 
+ #define CAPWORD (NETWRAPPER_TCP|NETWRAPPER_TCP_NATIVESOCKET)
+ #ifdef OS2
+ typedef int     socklen_t;
+@@ -28,6 +28,13 @@
+ #include <netinet/in.h>
+ #define SOCKET socklen_t
+ 
++#elif defined sun
++#define CAPWORD (NETWRAPPER_TCP|NETWRAPPER_TCP_NATIVESOCKET)
++#include <sys/types.h>
++#include <sys/socket.h>
++#include <netinet/in.h>
++#define SOCKET socklen_t
++
+ #else
+ #define CAPWORD NETWRAPPER_TCP
+ #endif
+diff -ur dosbox-0.70-orig/src/hardware/serialport/misc_util.h dosbox-0.70/src/hardware/serialport/misc_util.h
+--- dosbox-0.70-orig/src/hardware/serialport/misc_util.h	2007-02-19 20:28:47.000000000 +0700
++++ dosbox-0.70/src/hardware/serialport/misc_util.h	2007-04-26 16:43:28.714907896 +0700
+@@ -12,6 +12,9 @@
+ #elif defined WIN32 
+ #define NATIVESOCKETS
+ 
++#elif defined sun
++#define NATIVESOCKETS
++
+ #else
+ #endif
+ 

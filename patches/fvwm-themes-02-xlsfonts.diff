@@ -1,0 +1,65 @@
+diff -ur fvwm-themes-0.7.0-orig/bin/fvwm-themes-config.in fvwm-themes-0.7.0/bin/fvwm-themes-config.in
+--- fvwm-themes-0.7.0-orig/bin/fvwm-themes-config.in	2003-10-20 21:45:50.000000000 +0700
++++ fvwm-themes-0.7.0/bin/fvwm-themes-config.in	2007-04-28 07:48:19.788655883 +0700
+@@ -453,7 +453,7 @@
+ 		my @fonts = split(',', $arg);
+ 		foreach (@fonts) {
+ 			s/^\s+//; s/\s+$//;
+-			return 0 if `xlsfonts -fn '$_' 2> /dev/null` eq "";
++			return 0 if `/usr/openwin/binxlsfonts -fn '$_' 2> /dev/null` eq "";
+ 		}
+ 		return 1;
+ 	}
+diff -ur fvwm-themes-0.7.0-orig/bin/fvwm-themes-script.in fvwm-themes-0.7.0/bin/fvwm-themes-script.in
+--- fvwm-themes-0.7.0-orig/bin/fvwm-themes-script.in	2003-06-07 00:47:52.000000000 +0700
++++ fvwm-themes-0.7.0/bin/fvwm-themes-script.in	2007-04-28 07:43:15.016790837 +0700
+@@ -254,7 +254,7 @@
+ 				for ($k = 1; $k < 15; $k++) {
+ 					$tmpFilter .= '-' . $filterList[$k]; 
+ 				}
+-				open(XLS,"xlsfonts -fn '$tmpFilter' 2>/dev/null |") || 
++				open(XLS,"/usr/openwin/bin/xlsfonts -fn '$tmpFilter' 2>/dev/null |") || 
+ 		 			($return = "Impossible to open xlsfont\n");
+ 				while(<XLS> && $notdone) { $notdone = 0 }
+ 				close(XLS);
+@@ -281,7 +281,7 @@
+ 		for ($k = 12; $k < 15; $k++) {
+ 			$tmpFilter .= '-' . $filterList[$k];
+ 		}
+-		open(XLS,"xlsfonts -fn '$tmpFilter' 2>/dev/null |") || 
++		open(XLS,"/usr/openwin/bin/xlsfonts -fn '$tmpFilter' 2>/dev/null |") || 
+ 		 	($return = "Impossible to open xlsfont\n");
+ 		while(<XLS> && $adjustable !=2) { $adjustable = 2 }
+ 		close(XLS);
+@@ -313,7 +313,7 @@
+ 					else { $tmpFilter .= '-' . $filterList[$k] }
+ 				}
+ 			}
+-			open(XLS,"xlsfonts -fn '$tmpFilter'|") || 
++			open(XLS,"/usr/openwin/bin/xlsfonts -fn '$tmpFilter'|") || 
+ 				($return = "Impossible to open xlsfont\n");
+ 		
+ 			$i = 0;
+@@ -580,7 +580,7 @@
+ 	my $i = 0;
+ 	my @s;
+ 
+-	open(XLS,"xlsfonts -fn '$filter'|") || 
++	open(XLS,"/usr/openwin/bin/xlsfonts -fn '$filter'|") || 
+ 		die "Impossible to open xlsfont\n";
+ 
+ 	while(<XLS>) {
+@@ -612,11 +612,11 @@
+ 	my $return .= "";
+ 	my $obtained = "";
+ 
+-	open(XLS,"xlsfonts -fn '$fontCurrent'|") || 
++	open(XLS,"/usr/openwin/bin/xlsfonts -fn '$fontCurrent'|") || 
+ 				($return = "Impossible to open xlsfont\n");
+ 	while(<XLS>) { chomp; $obtained = $_ if $obtained eq ""; } 
+ 	close(XLS);
+-	open(XLS,"xlsfonts -ll -fn '$obtained'|") || 
++	open(XLS,"/usr/openwin/bin/xlsfonts -ll -fn '$obtained'|") || 
+ 				($return = "Impossible to open xlsfont\n");
+ 	my $count = 1;
+ 	my $a;

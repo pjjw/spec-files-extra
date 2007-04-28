@@ -38,7 +38,7 @@ export LDFLAGS="%_ldflags"
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
             --sysconfdir=%{_sysconfdir}
-make -j $CPUS
+make # -j $CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -62,5 +62,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Sat Apr 27 2007 - dougs@truemail.co.th
+- make -j does not always work
 * Sat Mar 17 2007 - laca@sun.com
 - Initial spec
