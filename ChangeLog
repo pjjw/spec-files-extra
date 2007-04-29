@@ -1,3 +1,18 @@
+2007-04-30  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEaterm.spec: Added afterstep terminal
+	* base-specs/aterm.spec: Added afterstep terminal
+	* base-specs/afterstep.spec: Added afterstep basespec
+	* SFEafterstep.spec: Added afterstep (Needs work....)
+	* patches/afterstep-01-lX11.diff: Add -lX11
+	* patches/afterstep-02-sharedlib.diff: Solaris shared libs
+	* patches/afterstep-03-typo.diff: Missing quote
+	* patches/afterstep-04-debug.diff: segv hack
+	* SFEwine.spec: Added freetype requirement for nice TTF fonts
+	* patches/wine-02-configure.diff: Fixed nodefs hack
+	* SFEfreetype.spec: Added, some apps need a modern freetype
+	* patches/freetype-01-options.diff: patch to add features
+
 2007-04-28  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEbochs.spec: Added bochs IA32 emulator

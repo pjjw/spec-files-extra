@@ -1,0 +1,12 @@
+diff -ur AfterStep-2.2.5-orig/afterstep/database AfterStep-2.2.5/afterstep/database
+--- AfterStep-2.2.5-orig/afterstep/database	2007-04-25 05:48:42.000000000 +0700
++++ AfterStep-2.2.5/afterstep/database	2007-04-28 16:23:26.535168675 +0700
+@@ -41,7 +41,7 @@
+ Style   "ASMenu"        NoButton 1, NoButton 3
+ 
+ # Several AfterStep tools :
+-Style   "ASRun		Icon logos/AfterStep
++Style   "ASRun"		Icon logos/AfterStep
+ Style	"GWCommand"	FocusOnMap
+ 
+ # Wharf apps and AfterStep close apps and terms

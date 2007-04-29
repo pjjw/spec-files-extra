@@ -1,0 +1,12 @@
+diff -ur AfterStep-2.2.5-orig/src/afterstep/dirtree.c AfterStep-2.2.5/src/afterstep/dirtree.c
+--- AfterStep-2.2.5-orig/src/afterstep/dirtree.c	2006-12-09 03:01:54.000000000 +0700
++++ AfterStep-2.2.5/src/afterstep/dirtree.c	2007-04-28 17:21:30.440273069 +0700
+@@ -273,7 +273,7 @@
+ 	ASSERT_TREE(dc);
+ 	ASSERT_TREE(ct);
+ 
+-	LOCAL_DEBUG_OUT( "DesktopCategory \"%s\", has %d entries", dc->name, PVECTOR_USED(dc->entries) );
++	// LOCAL_DEBUG_OUT( "DesktopCategory \"%s\", has %d entries", dc->name, PVECTOR_USED(dc->entries) );
+ 	entries = desktop_category_get_entries( ct, dc, include_children?1:0, exclusions, &valid_entries_num);
+ 
+ 	if( entries ) 

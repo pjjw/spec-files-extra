@@ -7,14 +7,14 @@ diff -ur wine-0.9.35-orig/configure wine-0.9.35/configure
  
 -      { echo "$as_me:$LINENO: checking whether the compiler supports -fPIC -shared -Wl,-Bsymbolic,-z,defs" >&5
 -echo $ECHO_N "checking whether the compiler supports -fPIC -shared -Wl,-Bsymbolic,-z,defs... $ECHO_C" >&6; }
-+      { echo "$as_me:$LINENO: checking whether the compiler supports -fPIC -Wl,G,-Bsymbolic,-z,defs,-z,ignore,z,combreloc" >&5
-+echo $ECHO_N "checking whether the compiler supports -fPIC -Wl,G,-Bsymbolic,-z,defs,-z,ignore,z,combreloc... $ECHO_C" >&6; }
++      { echo "$as_me:$LINENO: checking whether the compiler supports -fPIC -Wl,G,-Bsymbolic,-z,defs" >&5
++echo $ECHO_N "checking whether the compiler supports -fPIC -Wl,G,-Bsymbolic,-z,defs... $ECHO_C" >&6; }
  if test "${ac_cv_cflags__fPIC__shared__Wl__Bsymbolic__z_defs+set}" = set; then
    echo $ECHO_N "(cached) $ECHO_C" >&6
  else
    ac_wine_try_cflags_saved=$CFLAGS
 -CFLAGS="$CFLAGS -fPIC -shared -Wl,-Bsymbolic,-z,defs"
-+CFLAGS="$CFLAGS -fPIC -Wl,G,-Bsymbolic,-z,defs,-z,ignore,-z,combreloc"
++CFLAGS="$CFLAGS -fPIC -Wl,G,-Bsymbolic,-z,defs"
  cat >conftest.$ac_ext <<_ACEOF
  /* confdefs.h.  */
  _ACEOF
@@ -39,7 +39,7 @@ diff -ur wine-0.9.35-orig/configure.ac wine-0.9.35/configure.ac
 +                                       [LDSHARED="\$(CC) -Wl,-G \$(SONAME:%=-Wl,-h,%)"])])
  
 -      WINE_TRY_CFLAGS([-fPIC -shared -Wl,-Bsymbolic,-z,defs], [LDDLLFLAGS="$LDDLLFLAGS,-z,defs"])
-+      WINE_TRY_CFLAGS([-fPIC -Wl,-G,-Bsymbolic,-z,nodefs], [LDDLLFLAGS="$LDDLLFLAGS,-z,defs"])
++      WINE_TRY_CFLAGS([-fPIC -Wl,-G,-Bsymbolic,-z,defs], [LDDLLFLAGS="$LDDLLFLAGS,-z,defs"])
  
        WINE_TRY_CFLAGS([-fPIC -shared -Wl,-Bsymbolic,-init,__wine_spec_init,-fini,__wine_spec_fini],
                        [LDDLLFLAGS="$LDDLLFLAGS,-init,__wine_spec_init,-fini,__wine_spec_fini"])

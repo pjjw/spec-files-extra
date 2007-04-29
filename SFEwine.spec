@@ -10,7 +10,7 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                0.9.35
+Version:                0.9.36
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
 Patch2:			wine-02-configure.diff
@@ -26,6 +26,8 @@ Requires:	SUNWdbus
 Requires:	SUNWxorg-clientlibs
 BuildRequires:	SFEfontforge-devel
 Requires:	SFEfontforge
+BuildRequires:	SFEfreetype-devel
+Requires:	SFEfreetype
 
 %package devel
 Summary:                 wine - developer files, /usr
@@ -48,10 +50,9 @@ SFWLIB="-L/usr/SFW/lib -R/usr/SFW/lib"
 GNULIB="-L/usr/gnu/lib -R/usr/gnu/lib"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CC=/usr/sfw/bin/gcc
-export CPPFLAGS="-I/usr/sfw/include -I/usr/X11/include -I/usr/gnu/include"
+export CPPFLAGS="-I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/include"
 export CFLAGS="-O3 -fno-omit-frame-pointer -fpic -Dpic"
-export LDFLAGS="-zignore $X11LIB $SFWLIB $GNULIB"
-export LD_OPTIONS="-zignore"
+export LDFLAGS="$X11LIB $GNULIB $SFWLIB"
 export LD=/usr/ccs/bin/ld
 ./configure --prefix=%{_prefix}		\
 	    --bindir=%{_bindir}		\
@@ -111,7 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
-* Mon Apr 23 2006 - dougs@truemail.co.th
+* Mon Apr 30 2007 - dougs@truemail.co.th
+- Added Requires: SFEfreetype to fix bad fonts
+* Mon Apr 23 2007 - dougs@truemail.co.th
 - Fixed Summary
-* Sun Apr 22 2006 - dougs@truemail.co.th
+* Sun Apr 22 2007 - dougs@truemail.co.th
 - Initial version

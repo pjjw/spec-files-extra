@@ -1,0 +1,127 @@
+diff -ur AfterStep-2.2.5-orig/autoconf/Makefile.common.lib.in AfterStep-2.2.5/autoconf/Makefile.common.lib.in
+--- AfterStep-2.2.5-orig/autoconf/Makefile.common.lib.in	2007-04-21 05:10:45.000000000 +0700
++++ AfterStep-2.2.5/autoconf/Makefile.common.lib.in	2007-04-28 14:54:56.940641247 +0700
+@@ -245,8 +245,8 @@
+ 	$(LN_S) -f $(LIB_SHARED).$(LIBVER) $(LIB_SHARED).$(LIBVERMAJOR)
+ 
+ $(LIB_SHARED).$(LIBVER): $(LIB_OBJS) $(LIB_INCS)
+-	$(CC) -shared -Wl,-soname,$(LIB_SHARED).$(LIBVERMAJOR) -o $(LIB_SHARED).$(LIBVER) \
+-	 $(LIB_OBJS)
++	$(CC) -Wl,-G,-h,$(LIB_SHARED).$(LIBVERMAJOR) -o $(LIB_SHARED).$(LIBVER) \
++	 $(LIB_OBJS) $(USER_LD_FLAGS) $(LIBS_ALL)
+ 
+ install:	install.lib install.bin
+ 
+diff -ur AfterStep-2.2.5-orig/autoconf/configure.in AfterStep-2.2.5/autoconf/configure.in
+--- AfterStep-2.2.5-orig/autoconf/configure.in	2007-04-24 04:17:11.000000000 +0700
++++ AfterStep-2.2.5/autoconf/configure.in	2007-04-28 14:10:35.486922756 +0700
+@@ -144,7 +144,6 @@
+   if test -z "`echo $CFLAGS | grep '\-fPIC' 2> /dev/null`" ; then
+     CFLAGS="$CFLAGS -fPIC"
+   fi
+-  LDFLAGS="$LDFLAGS -rdynamic"
+ fi
+ 
+ dnl# Add -g
+diff -ur AfterStep-2.2.5-orig/autoconf/configure.libs.in AfterStep-2.2.5/autoconf/configure.libs.in
+--- AfterStep-2.2.5-orig/autoconf/configure.libs.in	2005-03-22 23:10:50.000000000 +0700
++++ AfterStep-2.2.5/autoconf/configure.libs.in	2007-04-28 14:10:24.006460177 +0700
+@@ -116,9 +116,6 @@
+   CFLAGS="$CFLAGS -Wuninitialized -Wwrite-strings -Wcast-qual -Wbad-function-cast -Wpointer-arith -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wnested-externs -Wconversion -Wcomment -Wcast-align -Winline -Wshadow -Wredundant-decls -Wid-clash-31"
+ fi
+ 
+-if test "x$GCC" = "xyes"; then
+-   LDFLAGS="$LDFLAGS -rdynamic"
+-fi
+ 
+ dnl# done with flags - lets export those for our children to use :
+ export CFLAGS
+diff -ur AfterStep-2.2.5-orig/configure AfterStep-2.2.5/configure
+--- AfterStep-2.2.5-orig/configure	2007-04-24 04:17:11.000000000 +0700
++++ AfterStep-2.2.5/configure	2007-04-28 15:15:14.431259619 +0700
+@@ -3197,7 +3197,6 @@
+   if test -z "`echo $CFLAGS | grep '\-fPIC' 2> /dev/null`" ; then
+     CFLAGS="$CFLAGS -fPIC"
+   fi
+-  LDFLAGS="$LDFLAGS -rdynamic"
+ fi
+ 
+ STRIP_BINARIES=
+diff -ur AfterStep-2.2.5-orig/libAfterBase/Makefile.in AfterStep-2.2.5/libAfterBase/Makefile.in
+--- AfterStep-2.2.5-orig/libAfterBase/Makefile.in	2007-04-21 05:10:45.000000000 +0700
++++ AfterStep-2.2.5/libAfterBase/Makefile.in	2007-04-28 15:18:03.176642692 +0700
+@@ -325,7 +325,7 @@
+ 	$(LN_S) -f $(LIB_SHARED).$(LIBVER) $(LIB_SHARED).$(LIBVERMAJOR)
+ 
+ $(LIB_SHARED).$(LIBVER): $(LIB_OBJS) $(LIB_INCS)
+-	$(CC) -shared -Wl,-soname,$(LIB_SHARED).$(LIBVERMAJOR) -o $(LIB_SHARED).$(LIBVER) \
++	$(CC) -Wl,-G,-h,$(LIB_SHARED).$(LIBVERMAJOR) -o $(LIB_SHARED).$(LIBVER) \
+ 	 $(USER_LD_FLAGS) $(LIBS_X) $(LIB_OBJS)
+ 
+ install:	install.lib
+diff -ur AfterStep-2.2.5-orig/libAfterBase/configure AfterStep-2.2.5/libAfterBase/configure
+--- AfterStep-2.2.5-orig/libAfterBase/configure	2007-04-24 04:17:11.000000000 +0700
++++ AfterStep-2.2.5/libAfterBase/configure	2007-04-28 15:15:03.495068645 +0700
+@@ -2468,7 +2468,6 @@
+       if test -z "`echo $CFLAGS | grep '\-fPIC' 2> /dev/null`" ; then
+ 		CFLAGS="$CFLAGS -fPIC"
+ 	  fi
+-	  LDFLAGS="$LDFLAGS -rdynamic"
+ 	fi
+ 
+ else
+diff -ur AfterStep-2.2.5-orig/libAfterBase/configure.in AfterStep-2.2.5/libAfterBase/configure.in
+--- AfterStep-2.2.5-orig/libAfterBase/configure.in	2007-04-24 04:17:11.000000000 +0700
++++ AfterStep-2.2.5/libAfterBase/configure.in	2007-04-28 14:10:48.455016197 +0700
+@@ -74,7 +74,6 @@
+       if test -z "`echo $CFLAGS | grep '\-fPIC' 2> /dev/null`" ; then
+ 		CFLAGS="$CFLAGS -fPIC"
+ 	  fi
+-	  LDFLAGS="$LDFLAGS -rdynamic"
+ 	fi
+ 
+ else
+@@ -93,7 +92,6 @@
+       if test -z "`echo $CFLAGS | grep '\-fPIC' 2> /dev/null`" ; then
+ 		CFLAGS="$CFLAGS -fPIC"
+ 	  fi
+-	  LDFLAGS="$LDFLAGS -rdynamic"
+ 	fi
+ 
+ 	dnl# Add -g
+diff -ur AfterStep-2.2.5-orig/libAfterImage/Makefile.in AfterStep-2.2.5/libAfterImage/Makefile.in
+--- AfterStep-2.2.5-orig/libAfterImage/Makefile.in	2007-04-21 05:10:45.000000000 +0700
++++ AfterStep-2.2.5/libAfterImage/Makefile.in	2007-04-28 15:13:48.451534309 +0700
+@@ -383,8 +383,8 @@
+ 	$(LN_S) -f $(LIB_SHARED).$(LIBVER) $(LIB_SHARED).$(LIBVERMAJOR)
+ 
+ $(LIB_SHARED).$(LIBVER): $(LIB_OBJS) $(LIB_INCS) config.h
+-	$(CC) -shared -Wl,-soname,$(LIB_SHARED).$(LIBVERMAJOR) -o $(LIB_SHARED).$(LIBVER) \
+-	 $(LIB_OBJS)
++	$(CC) -Wl,-G,-h,$(LIB_SHARED).$(LIBVERMAJOR) -o $(LIB_SHARED).$(LIBVER) \
++	 $(LIB_OBJS) $(USER_LD_FLAGS) $(LIBRARIES)
+ 
+ install.man:
+ 		@if [ -d doc/man ] ; then \
+diff -ur AfterStep-2.2.5-orig/libAfterImage/configure AfterStep-2.2.5/libAfterImage/configure
+--- AfterStep-2.2.5-orig/libAfterImage/configure	2007-04-24 04:17:11.000000000 +0700
++++ AfterStep-2.2.5/libAfterImage/configure	2007-04-28 15:14:57.935903505 +0700
+@@ -2628,7 +2628,6 @@
+   if test -z "`echo $CFLAGS | grep '\-fPIC' 2> /dev/null`" ; then
+   	CFLAGS="$CFLAGS -fPIC"
+   fi
+-  LDFLAGS="$LDFLAGS -rdynamic"
+ fi
+ 
+ 
+diff -ur AfterStep-2.2.5-orig/libAfterImage/configure.in AfterStep-2.2.5/libAfterImage/configure.in
+--- AfterStep-2.2.5-orig/libAfterImage/configure.in	2007-04-24 04:17:12.000000000 +0700
++++ AfterStep-2.2.5/libAfterImage/configure.in	2007-04-28 14:09:53.534088916 +0700
+@@ -75,7 +75,6 @@
+   if test -z "`echo $CFLAGS | grep '\-fPIC' 2> /dev/null`" ; then
+   	CFLAGS="$CFLAGS -fPIC"
+   fi
+-  LDFLAGS="$LDFLAGS -rdynamic"
+ fi
+ 
+ 
