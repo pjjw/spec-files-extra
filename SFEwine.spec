@@ -14,6 +14,7 @@ Version:                0.9.36
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
 Patch2:			wine-02-configure.diff
+Patch3:			wine-03-shell.diff
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -39,6 +40,7 @@ Requires: %name
 %setup -q -n %{src_name}-%{version}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -113,7 +115,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Mon Apr 30 2007 - dougs@truemail.co.th
+- Changed some scripts to use bash
+* Mon Apr 30 2007 - dougs@truemail.co.th
 - Added Requires: SFEfreetype to fix bad fonts
+- bump to 0.9.36
 * Mon Apr 23 2007 - dougs@truemail.co.th
 - Fixed Summary
 * Sun Apr 22 2007 - dougs@truemail.co.th

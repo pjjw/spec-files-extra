@@ -1,5 +1,10 @@
 2007-04-30  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEwine.spec: Added patch for scripts
+	* patches/wine-03-shell.diff: Some scripts need to run with bash
+
+2007-04-30  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEaterm.spec: Added afterstep terminal
 	* base-specs/aterm.spec: Added afterstep terminal
 	* base-specs/afterstep.spec: Added afterstep basespec
@@ -9,6 +14,7 @@
 	* patches/afterstep-03-typo.diff: Missing quote
 	* patches/afterstep-04-debug.diff: segv hack
 	* SFEwine.spec: Added freetype requirement for nice TTF fonts
+          Bump to 0.9.36
 	* patches/wine-02-configure.diff: Fixed nodefs hack
 	* SFEfreetype.spec: Added, some apps need a modern freetype
 	* patches/freetype-01-options.diff: patch to add features
