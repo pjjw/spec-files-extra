@@ -1,5 +1,10 @@
 2007-04-30  Doug Scott  <dougs@truemail.co.th>
 
+	* SFExdialog.spec: Added XDialog
+	* SFEwine.spec: Remove $RPM_BUILD_ROOT before install
+
+2007-04-30  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEwine.spec: Added patch for scripts
 	* patches/wine-03-shell.diff: Some scripts need to run with bash
 

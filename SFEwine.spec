@@ -69,6 +69,7 @@ export LD=/usr/ccs/bin/ld
 make -j$CPUS 
 
 %install
+rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
 %post
@@ -114,6 +115,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Mon Apr 30 2007 - dougs@truemail.co.th
+- Remove $RPM_BUILD_ROOT before install
 * Mon Apr 30 2007 - dougs@truemail.co.th
 - Changed some scripts to use bash
 * Mon Apr 30 2007 - dougs@truemail.co.th
