@@ -1,3 +1,20 @@
+2007-05-01  Doug Scott  <dougs@truemail.co.th>
+
+	* SFExdialog.spec: Fixed src_url and Summary
+	* SFEmplayer.spec: Removed SFEsdl from the Required.
+          Conflicts with SUNWlibsdl from Vermillion
+	* SFEopenal.spec: Added. Cross-Platform 3D Audio API
+	* patches/openal-01-inline.diff: Fixed __inline
+	* patches/openal-02-nasm.diff: Force x86 to build MMX optimised
+	* SFEyasm.spec: Added Yet Another Assembler
+	* SFEfltk2.spec: C++ user interface toolkit (fltk2 v2)
+	* patches/fltk2-01-scandir.diff: Solaris HAS scandir
+	* patches/fltk2-02-lX11.diff: Add -lX11
+	* patches/fltk2-03-test.diff: Dont build tests
+	* patches/fltk2-04-fltk2-config.diff: Use bash as shell
+	* patches/fltk2-05-destdir.diff: Add DESTDIR to install
+	* patches/fltk2-06-install.diff: Fix Makefile (very hacky)
+
 2007-04-30  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFElibsndfile.spec: bump to 1.0.17; add gentoo patch that makes

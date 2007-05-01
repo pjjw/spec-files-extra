@@ -35,7 +35,7 @@ Requires: SFElame
 Requires: SFEtwolame
 Requires: SFEfaad2
 Requires: SFElibmpcdec
-Requires: SFEsdl
+#Requires: SFEsdl
 Requires: SUNWsmbau
 Requires: SUNWgnome-audio
 Requires: SUNWxorg-clientlibs
@@ -60,7 +60,7 @@ BuildRequires: SFElame-devel
 BuildRequires: SFEtwolame-devel
 BuildRequires: SFEfaad2-devel
 BuildRequires: SFElibmpcdec-devel
-BuildRequires: SFEsdl-devel
+#BuildRequires: SFEsdl-devel
 BuildRequires: SUNWgnome-audio-devel
 
 %define x11	/usr/openwin
@@ -150,6 +150,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Tue May  1 2007 - dougs@truemail.co.th
+- Removed SFEsdl from the Required. Conflicts with SUNWlibsdl
 * Sun Apr 22 2007 - dougs@truemail.co.th
 - Added /usr/gnu/libs to LDFLAGS
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net

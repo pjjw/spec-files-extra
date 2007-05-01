@@ -1,0 +1,26 @@
+diff -ur openal-0.0.8-orig/configure.ac openal-0.0.8/configure.ac
+--- openal-0.0.8-orig/configure.ac	2006-02-11 16:36:55.000000000 +0700
++++ openal-0.0.8/configure.ac	2007-05-01 10:08:14.201861816 +0700
+@@ -377,6 +377,13 @@
+     AC_MSG_RESULT([$openal_x86_mmx_support_yn])
+     ;;
+ esac
++case "$target" in
++    i386*solaris2.1*)
++        AC_MSG_CHECKING([forced Solaris MMX support])
++        openal_x86_mmx_support_yn=yes
++	AC_MSG_RESULT([$openal_x86_mmx_support_yn])
++    ;;
++esac
+ 
+ if test "x$openal_x86_mmx_support_yn" = xyes; then
+ case "$target" in
+@@ -393,7 +400,7 @@
+             fi
+ 
+             case "$target" in
+-            *linux*)
++            *linux* | *solaris*)
+                 NASM_FORMAT="-f elf"
+                 ;;
+             *cygwin* | *mingw*)

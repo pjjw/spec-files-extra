@@ -1,23 +1,25 @@
 #
-# spec file for package SFExdialog.spec
+# spec file for package SFEyasm.spec
 #
-# includes module(s): xdialog
+# includes module(s): yasm
 #
 %include Solaris.inc
 
-%define src_name	Xdialog
-%define src_url		http://thgodef.nerim.net/xdialog
+%define src_name	yasm
+%define src_url		http://www.tortall.net/projects/yasm/releases
 
-Name:                   SFExdialog
-Summary:                Xdialog is a X11 drop in replacement for cdialog
-Version:                2.3.1
-Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
+Name:                   SFEyasm
+Summary:                Yet another assembler
+Version:                0.6.0
+Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-BuildRequires:	SUNWgnome-base-libs-devel
-Requires:	SUNWgnome-base-libs
+%package devel
+Summary:                 %{summary} - development files
+SUNW_BaseDir:            %{_prefix}
+%include default-depend.inc
 
 %prep
 %setup -q -n %{src_name}-%{version}
@@ -28,7 +30,6 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 
-libtoolize --force
 
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
@@ -40,9 +41,7 @@ export LDFLAGS="%_ldflags"
             --libexecdir=%{_libexecdir} \
             --sysconfdir=%{_sysconfdir} \
             --enable-shared		\
-	    --disable-static		\
-	    --with-gtk2
-
+	    --disable-static
 make -j$CPUS 
 
 %install
@@ -56,13 +55,14 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %{_bindir}
+%dir %attr (0755,root,sys) %{_datadir}
 %{_mandir}
-%dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, other) %{_datadir}/doc
-%{_datadir}/doc/*
+
+%files devel
+%defattr (-, root, bin)
+%{_includedir}
+%{_libdir}
 
 %changelog
-* Mon Apr 30 2007 - dougs@truemail.co.th
-- Fixed src_url and Summary
 * Mon Apr 30 2007 - dougs@truemail.co.th
 - Initial version
