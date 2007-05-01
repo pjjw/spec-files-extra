@@ -1,3 +1,11 @@
+2007-04-30  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFElibsndfile.spec: bump to 1.0.17; add gentoo patch that makes
+	  it build with flac 1.1.3; add patch that fixes the cpp_test test
+	  program when built with sun studio
+	* patches/libsndfile-01-flac-1.1.3.diff: (new)
+	* patches/libsndfile-02-cpp_test.diff: (new)
+
 2007-04-30  Doug Scott  <dougs@truemail.co.th>
 
 	* SFExdialog.spec: Added XDialog

@@ -7,8 +7,10 @@
 
 Name:                    SFElibsndfile
 Summary:                 libsndfile  - a library of C routines for reading and writing files containing sampled audio data
-Version:                 1.0.16
+Version:                 1.0.17
 Source:                  http://www.mega-nerd.com/libsndfile/libsndfile-%{version}.tar.gz
+Patch1:                  libsndfile-01-flac-1.1.3.diff
+Patch2:                  libsndfile-02-cpp_test.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -23,6 +25,8 @@ Requires: %name
 
 %prep
 %setup -q -n libsndfile-%version
+%patch1 -p1
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -31,6 +35,11 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
+export CXXFLAGS="%cxx_optflags -features=extensions"
+%if %cc_is_gcc
+%else
+export CXX="${CXX} -norunpath"
+%endif
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
@@ -73,6 +82,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Mon Apr 30 2007 - laca@sun.com
+- bump to 1.0.17
+- add gentoo patch that makes it build with flac 1.1.3
+- add patch that fixes the cpp_test test program when built with sun studio
 * Mon Jun 12 2006 - laca@sun.com
 - rename to SFElibsndfile
 - change to root:bin to follow other JDS pkgs.
