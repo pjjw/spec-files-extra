@@ -1,3 +1,14 @@
+2007-05-03  Halton Huo  <nonsea@users.sourceforge.net>
+
+	* SFEfile.spec: Bump to 4.20, add patch file-01-REG_STARTEND.diff
+	* SFEgc.spec: (new) A garbage collector for C and C++
+	* SFEgmime.spec: Bump to 2.2.8, add check mono condition.
+	* SFEsqlite.spec: Bump to 3.3.17
+	* SFEtracker.spec: (new) Desktop search tool
+	* SFEw3m.spec: (new) A text-based web browser
+	* patches/file-01-REG_STARTEND.diff: Added.
+	* patches/tracker-01-stdout.diff: Added.
+
 2007-05-01  Doug Scott  <dougs@truemail.co.th>
 
 	* SFExdialog.spec: Fixed src_url and Summary

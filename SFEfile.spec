@@ -9,8 +9,10 @@
 
 Name:                SFEfile
 Summary:             determine file type
-Version:             4.19
+Version:             4.20
 Source:              ftp://ftp.astron.com/pub/file/file-%{version}.tar.gz
+# date:2007-05-03 owner:nonsea type:bug
+Patch1:              file-01-REG_STARTEND.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -18,6 +20,7 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 %prep
 %setup -q -n file-%version
+%patch1 -p1
 
 %build
 
@@ -40,7 +43,8 @@ rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
 
-rm ${RPM_BUILD_ROOT}%{_libdir}/libmagic.la
+find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
+find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 rmdir ${RPM_BUILD_ROOT}%{_mandir}/man5
 
 %clean
@@ -50,9 +54,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 %dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/file/*
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*.1
@@ -60,12 +67,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*.3
 %dir %attr (0755, root, bin) %{_mandir}/man4
 %{_mandir}/man4/*.4
-%dir %attr (0755, root, other) %{_datadir}/file
-%{_datadir}/file/*
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
 
 %changelog
+* Thu May 03 2007 - nonsea@users.sourceforge.net
+- Bump to 4.20.
+- Add patch file-01-REG_STARTEND.diff, get original copy from
+  ftp://ftp.astron.com/pub/file/patch-4.20-REG_STARTEND
 * Mon Jan 15 2007 - laca@sun.com
 - bump to 4.19
 * Tue Nov 07 2006 - Eric Boutilier

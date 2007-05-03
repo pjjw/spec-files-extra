@@ -4,12 +4,12 @@
 # includes module(s): gmime
 #
 %include Solaris.inc
+%define with_mono %(pkginfo -q SFEmono && echo 1 || echo 0)
 
 Name:         SFEgmime
 License:      Other
-Version:      2.2.3
+Version:      2.2.8
 Release:      1
-Distribution: N/A
 Summary:      Libraries and binaries to parse and index mail messages
 Source:       http://spruce.sourceforge.net/gmime/sources/v2.2/gmime-%{version}.tar.gz
 URL:          http://spruce.sourceforge.net/gmime/
@@ -17,10 +17,12 @@ SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
 Autoreqprov:  on
-BuildRequires: SUNWgnome-base-libs-devel
-BuildRequires: SFEmono-devel
 Requires: SUNWgnome-base-libs
-Requires: SFEmono
+BuildRequires: SUNWgnome-base-libs-devel
+%if %with_mono
+  Requires: SFEmono
+  BuildRequires: SFEmono-devel
+%endif
 
 %package devel
 Summary:       %{summary} - development files
@@ -38,8 +40,13 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 cd gmime-%{version}
+%if %with_mono
+  export PATH=/usr/mono/bin:$PATH
+  %define mono_option --enable-mono
+%else
+  %define mono_option
+%endif
 
-export PATH=/usr/mono/bin:$PATH
 export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
 ./configure --prefix=%{_prefix} \
@@ -47,13 +54,14 @@ export LDFLAGS="%{_ldflags}"
             --libdir=%{_libdir} \
             --libexecdir=%{_libexecdir} \
             --sysconfdir=%{_sysconfdir} \
-			--enable-mono
+	    %mono_option
+
 make -j $CPUS
 
 %install
 cd gmime-%{version}
 make DESTDIR=$RPM_BUILD_ROOT install
-rm $RPM_BUILD_ROOT%{_libdir}/lib*.a
+find $RPM_BUILD_ROOT%{_libdir} -type f -name "*.a" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT%{_libdir} -type f -name "*.la" -exec rm -f {} ';'
 
 # conflicts with SUNWesu
@@ -67,14 +75,18 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, bin)
 %dir %attr (0755, root, bin) %dir %{_libdir}
 %{_libdir}/*.so*
-%dir %attr (0755, root, bin) %dir %{_libdir}/mono
-%{_libdir}/mono/*
-%dir %attr (0755, root, sys) %dir %{_datadir}
-%dir %attr (0755, root, bin) %dir %{_datadir}/gapi-2.0
-%{_datadir}/gapi-2.0/*
+%if %with_mono
+  %dir %attr (0755, root, bin) %dir %{_libdir}/mono
+  %{_libdir}/mono/*
+  %dir %attr (0755, root, sys) %dir %{_datadir}
+  %dir %attr (0755, root, bin) %dir %{_datadir}/gapi-2.0
+  %{_datadir}/gapi-2.0/*
+%endif
 
 %files devel
 %defattr(-, root, bin)
+%dir %attr (0755, root, bin) %dir %{_includedir}
+%{_includedir}/*
 %dir %attr (0755, root, bin) %dir %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %dir %{_libdir}
@@ -82,11 +94,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %dir %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 %dir %attr (0755, root, sys) %dir %{_datadir}
-%dir %attr (0755, root, bin) %dir %{_includedir}
-%{_includedir}/*
 %{_datadir}/gtk-doc
 
 %changelog
+* Wed May  2 2007 - halton.huo@sun.com
+- Bump to 2.2.8.
+- Add check mono condition.
 * Wed Sep  7 2006 - jedy.wang@sun.com
 - bump to 2.2.3
 * Sun Jul 13 2006 - laca@sun.com
