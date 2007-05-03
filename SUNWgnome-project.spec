@@ -9,7 +9,6 @@
 #
 
 %include Solaris.inc
-%use libgsf = libgsf.spec
 %use planner = planner.spec
 
 Name:                    SUNWgnome-project
@@ -34,6 +33,7 @@ Requires: SUNWlibpopt
 Requires: SUNWlxml
 Requires: SUNWlxsl
 Requires: SUNWzlib
+Requires: SFElibgsf
 BuildRequires: SUNWgnome-component-devel
 BuildRequires: SUNWgnome-config-devel
 BuildRequires: SUNWgnome-vfs-devel
@@ -41,6 +41,7 @@ BuildRequires: SUNWgnome-python-libs-devel
 BuildRequires: SUNWgnome-print-devel
 BuildRequires: SUNWlibpopt-devel
 BuildRequires: SUNWPython-devel
+BuildRequires: SFElibgsf-devel
 Requires: SUNWpostrun
 
 %package root
@@ -67,11 +68,10 @@ Requires:                %{name}
 %prep
 rm -rf %name-%version
 mkdir %name-%version
-%libgsf.prep -d %name-%version
 %planner.prep -d %name-%version
 
 %build
-export PKG_CONFIG_PATH=../libgsf-%{libgsf.version}:%{_pkg_config_path}
+export PKG_CONFIG_PATH=%{_pkg_config_path}
 export MSGFMT="/usr/bin/msgfmt"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export PERL5LIB=%{_prefix}/perl5/site_perl/5.6.1/sun4-solaris-64int
@@ -79,12 +79,10 @@ export CFLAGS="%optflags -I%{_includedir}"
 export RPM_OPT_FLAGS="$CFLAGS"
 export LDFLAGS="%_ldflags"
 
-%libgsf.build -d %name-%version
 %planner.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%libgsf.install -d %name-%version
 %planner.install -d %name-%version
 
 rmdir $RPM_BUILD_ROOT%{_datadir}/omf
@@ -122,9 +120,7 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
   echo 'export GCONF_CONFIG_SOURCE';
   echo "SDIR=%{_sysconfdir}/gconf/schemas";
   echo 'retval=0';
-  echo 'for schemas in gsf-office-thumbnailer planner; do \';
-  echo '  /usr/bin/gconftool-2 --makefile-install-rule $SDIR/$schemas.schemas || retval=1';
-  echo 'done';
+  echo '/usr/bin/gconftool-2 --makefile-install-rule $SDIR/planner.schemas || retval=1';
   echo 'exit $retval'
 ) | $PKG_INSTALL_ROOT/usr/lib/postrun
 
@@ -138,9 +134,7 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
   echo 'export GCONF_CONFIG_SOURCE';
   echo "SDIR=%{_sysconfdir}/gconf/schemas";
   echo 'retval=0';
-  echo 'for schemas in gsf-office-thumbnailer planner; do \';
-  echo '  /usr/bin/gconftool-2 --makefile-uninstall-rule $SDIR/$schemas.schemas || retval=1';
-  echo 'done';
+  echo '  /usr/bin/gconftool-2 --makefile-uninstall-rule $SDIR/planner.schemas || retval=1';
   echo 'exit $retval'
 ) | $PKG_INSTALL_ROOT/usr/lib/postrun
 
@@ -150,18 +144,13 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
-%{_libdir}/planner/file-modules/lib*.so*
-%{_libdir}/planner/plugins/lib*.so*
-%{_libdir}/planner/storage-modules/lib*.so*
+%{_libdir}/planner
 %attr (-, root, bin) %{_libdir}/python*
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/gnome
 %{_datadir}/gnome/help/planner/C
-%dir %attr (0755, root, bin) %{_mandir}
-%dir %attr (0755, root, bin) %{_mandir}/man1
-%{_mandir}/man1/*
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*png
 %{_datadir}/planner
@@ -172,8 +161,7 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %files devel
 %defattr (0755, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/libgsf-1
-%{_includedir}/planner-1.0
+%{_includedir}/planner*
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
@@ -183,7 +171,6 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %files root
 %defattr (-, root, sys)
 %attr (0755, root, sys) %dir %{_sysconfdir}
-%{_sysconfdir}/gconf/schemas/gsf-office-thumbnailer.schemas
 %{_sysconfdir}/gconf/schemas/planner.schemas
 
 %if %build_l10n
@@ -196,6 +183,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %endif
 
 %changelog
+* Fri May 04 2007 - nonsea@users.sourceforge.net
+- Move libgsf thing into SFElibgsf.spec
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net
 - Correct rm line for non-l10n builds. It was deleting way too much.
 * Sat Oct 14 2006 - laca@sun.com

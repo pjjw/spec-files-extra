@@ -4,18 +4,17 @@
 # package are under the same license as the package itself.
 
 %include Solaris.inc
-%define with_gstremer %(pkginfo -q SUNWgnome-media-devel && echo 1 || echo 0)
-%define with_libpng   %(pkginfo -q SUNWpng-devel && echo 1 || echo 0)
-%define with_libvorbis %(pkginfo -q SUNWogg-vorbis-devel && echo 1 || echo 0)
-%define with_libexif %(pkginfo -q SUNWlibexif-devel && echo 1 || echo 0)
+%define with_libgsf %(pkginfo -q SFElibgsf && echo 1 || echo 0)
+%define with_w3m    %(pkginfo -q SFEw3m && echo 1 || echo 0)
 
 Name:		SFEtracker
+License:        GPL
 Summary:	Desktop search tool
 Version:	0.5.4
+URL:            http://www.tracker-project.org
 Source:		http://www.gnome.org/~jamiemcc/tracker/tracker-%{version}.tar.gz
-Patch1:		tracker-01-stdout.diff
-SUNW_BaseDir:        %{_basedir}
-BuildRoot:           %{_tmppath}/%{name}-%{version}-build
+SUNW_BaseDir:   %{_basedir}
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:       SUNWgnome-base-libs
 Requires:       SUNWdbus
@@ -39,6 +38,13 @@ BuildRequires:  SUNWogg-vorbis-devel
 BuildRequires:  SUNWlibexif-devel
 BuildRequires:  SUNWgnome-pdf-viewer-devel
 BuildRequires:  SUNWlxsl-devel
+%if %with_libgsf
+Requires:       SFElibgsf
+BuildRequires:  SFElibgsf-devel
+%endif
+%if %with_w3m
+Requires:       SFEw3m
+%endif
 
 %package devel
 Summary:        %{summary} - development files
@@ -61,7 +67,6 @@ Requires:                %{name}
 
 %prep
 %setup -q -n tracker-%version
-%patch1 -p1
 
 %build
 
@@ -135,5 +140,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Tue Feb 08 2007 - jedy.wang@sun.com
+* Fri May 04 2007 - nonsea@users.sourceforge.net
+- Add conditional Require SFElibgsf SFEw3m
+- Remove upstreamed patch tracker-01-stdout.diff
+- Add URL and License.
+* Fri May 04 2007 - nonsea@users.sourceforge.net
 - Initial spec

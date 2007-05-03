@@ -13,7 +13,7 @@
 Name:			libgsf
 License:		LGPL
 Group:			System/Libraries
-Version:		1.14.1
+Version:		1.14.3
 Release:	 	1	
 Distribution:		Java Desktop System
 Vendor:			Sun Microsystems, Inc.
@@ -106,7 +106,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 CFLAGS="$RPM_OPT_FLAGS"			\
-aclocal $ACLOCAL_FLAGS
+aclocal $ACLOCAL_FLAGS  -I ./m4
 automake -a -c -f
 autoconf
 ./configure --prefix=%{_prefix}			\
@@ -117,15 +117,14 @@ autoconf
             --mandir=%{_mandir}                 \
 	    --with-gnome			\
 	    --with-bz2				\
-	    --enable-gtk-doc			\
-	    --with-html-dir=%{_datadir}/gtk-doc/html/libgsf
+	     %gtk_doc_option
 make -j $CPUS
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
 #Clean up unpackaged files
-rm $RPM_BUILD_ROOT%{_libdir}/*.a
-rm $RPM_BUILD_ROOT%{_libdir}/*.la
+find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
+find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -167,6 +166,11 @@ gconftool-2 --makefile-uninstall-rule %{_sysconfdir}/gconf/schemas/gsf-office-th
 %{_datadir}/gtk-doc/html/libgsf/*
 
 %changelog
+* Thu May 03 2007 - nonsea@users.sourceforge.net
+- Bump to 1.14.3.
+- use %gtk_doc_option in configure so that it can be
+  disabled using --without-gtk-doc
+
 * Fri Jun 09 2006 - damien.carbery@sun.com
 - Bump to 1.14.1.
 
