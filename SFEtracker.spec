@@ -6,6 +6,7 @@
 %include Solaris.inc
 %define with_libgsf %(pkginfo -q SFElibgsf && echo 1 || echo 0)
 %define with_w3m    %(pkginfo -q SFEw3m && echo 1 || echo 0)
+%define with_mv     %(pkginfo -q SFEwv && echo 1 || echo 0)
 
 Name:		SFEtracker
 License:        GPL
@@ -20,12 +21,14 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Requires:       SUNWgnome-base-libs
 Requires:       SUNWdbus
 Requires:       SUNWzlib
+Requires:       SFEsqlite
 Requires:       SFEfile
 Requires:       SFEgmime
 BuildRequires:  SUNWgnome-base-libs-devel
 BuildRequires:  SUNWdbus-devel
 BuildRequires:  SFEfile
 BuildRequires:  SFEgmime-devel
+BuildRequires:  SFEsqlite-devel
 #Additional recommended packages
 Requires:       SUNWgnome-media
 Requires:       SUNWpng
@@ -45,6 +48,10 @@ BuildRequires:  SFElibgsf-devel
 %endif
 %if %with_w3m
 Requires:       SFEw3m
+%endif
+%if %with_w3m
+Requires:       SFEwv
+BuildRequires:  SFEwv-devel
 %endif
 
 %package devel
@@ -145,6 +152,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Fri May 04 2007 - nonsea@users.sourceforge.net
+- Add Requires to SFEsqlite
+- Add conditional Requires to SFEwv
 - Revert patch tracker-01-stdout.diff.
 - Add attr (0755, root, other) to %{_datadir}/pixmaps
   and %{_datadir}/applications

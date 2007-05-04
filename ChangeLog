@@ -1,5 +1,11 @@
 2007-05-04  Halton Huo  <nonsea@users.sourceforge.net>
 
+	* SFEtracker.spec: Add Requires to SFEsqlite, 
+	  Add conditional Requires to SFEwv
+	* SFEwv.spec: (new) A library that allows access to Microsoft Word files
+
+2007-05-04  Halton Huo  <nonsea@users.sourceforge.net>
+
 	* SFEtracker.spec: Revert patch tracker-01-stdout.diff,
 	  Add attr (0755, root, other) to %{_datadir}/pixmaps
 	  and %{_datadir}/applications 
