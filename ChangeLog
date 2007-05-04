@@ -1,3 +1,7 @@
+2007-05-04  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SUNWperl-devel-size.spec: (new): Devel::Size PERL module
+
 2007-05-04  Halton Huo  <nonsea@users.sourceforge.net>
 
 	* linux-specs/libgsf.spec: Bump to 1.14.3, use %gtk_doc_option
