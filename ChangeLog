@@ -1,3 +1,10 @@
+2007-05-04  Halton Huo  <nonsea@users.sourceforge.net>
+
+	* SFEtracker.spec: Revert patch tracker-01-stdout.diff,
+	  Add attr (0755, root, other) to %{_datadir}/pixmaps
+	  and %{_datadir}/applications 
+	* patches/tracker-01-stdout.diff: (reverted), it is not upstreamed.
+
 2007-05-04  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SUNWperl-devel-size.spec: (new): Devel::Size PERL module

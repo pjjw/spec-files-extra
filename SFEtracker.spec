@@ -14,6 +14,7 @@ Version:	0.5.4
 URL:            http://www.tracker-project.org
 Source:		http://www.gnome.org/~jamiemcc/tracker/tracker-%{version}.tar.gz
 SUNW_BaseDir:   %{_basedir}
+Patch1:         tracker-01-stdout.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:       SUNWgnome-base-libs
@@ -67,6 +68,7 @@ Requires:                %{name}
 
 %prep
 %setup -q -n tracker-%version
+%patch1 -p1
 
 %build
 
@@ -111,7 +113,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/tracker
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/tracker
+%dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*.desktop
+%dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/tracker
 %dir %attr (0755, root, bin) %{_datadir}/dbus-1
 %dir %attr (0755, root, bin) %{_datadir}/dbus-1/services
@@ -140,6 +144,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri May 04 2007 - nonsea@users.sourceforge.net
+- Revert patch tracker-01-stdout.diff.
+- Add attr (0755, root, other) to %{_datadir}/pixmaps
+  and %{_datadir}/applications
 * Fri May 04 2007 - nonsea@users.sourceforge.net
 - Add conditional Require SFElibgsf SFEw3m
 - Remove upstreamed patch tracker-01-stdout.diff
