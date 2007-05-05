@@ -7,7 +7,7 @@
 
 Name:                    SFEphp
 Summary:                 php - Hypertext Preprocessor - general-purpose scripting language for Web development
-Version:                 5.2.1
+Version:                 5.2.2
 Source:                  http://www.php.net/distributions/php-%{version}.tar.bz2
 URL:                     http://www.php.net/
 SUNW_BaseDir:            %{_basedir}
@@ -125,6 +125,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/apache2
 
 %changelog
+* Sat May 5 2007 - Thomas Wagner
+- Bump: to 5.2.2 (mainly security fixes)
 * Wed Mar 28 2007 - Eric Boutilier
 - add --enable-mbstring and --with-gettext=/usr/gnu
 * Mon Mar 26 2007 - Eric Boutilier

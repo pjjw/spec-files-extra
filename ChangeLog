@@ -1,3 +1,6 @@
+2007-05-05  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEphp.spec: Bump: to 5.2.2 (mainly security fixes)
+
 2007-05-04  Halton Huo  <nonsea@users.sourceforge.net>
 
 	* SFEtracker.spec: Add Requires to SFEsqlite, 
