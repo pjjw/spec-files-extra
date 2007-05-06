@@ -1,0 +1,11 @@
+diff -ur physfs-1.1.1-orig/physfs_internal.h physfs-1.1.1/physfs_internal.h
+--- physfs-1.1.1-orig/physfs_internal.h	2007-04-03 12:16:06.000000000 +0700
++++ physfs-1.1.1/physfs_internal.h	2007-05-06 13:37:18.264755453 +0700
+@@ -17,6 +17,7 @@
+ #include "physfs.h"
+ 
+ #include <stdlib.h>  /* make sure NULL is defined... */
++#include <alloca.h>
+ 
+ #ifdef HAVE_ASSERT_H
+ #include <assert.h>

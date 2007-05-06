@@ -1,0 +1,12 @@
+diff -ur libgii-1.0.2-orig/configure.in libgii-1.0.2/configure.in
+--- libgii-1.0.2-orig/configure.in	2007-01-17 02:52:56.000000000 +0700
++++ libgii-1.0.2/configure.in	2007-05-06 08:05:53.490831366 +0700
+@@ -214,8 +214,6 @@
+ 
+ GGI_CHECK_DLOPEN
+ GGI_CHECK_STRING_FUNCS
+-GGI_CC_CHECK4_OPTION([Wall])
+-GGI_CC_CHECK4_OPTION([pedantic])
+ GGI_CHECK_IMPLICIT_DECLARATIONS
+ 
+ dnl font-lock-mode prettyfier '

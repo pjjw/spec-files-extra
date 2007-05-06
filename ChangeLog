@@ -1,3 +1,26 @@
+2007-05-01  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEfreedroidrpg.spec: added FreeroidRPG Game
+	* patches/freedroidrpg-01-wall.diff: added remove -Wall
+	* patches/freedroidrpg-02-inline.diff: remove inlines on externs
+	* SFEsupertux.spec: added supertux game - Needs joystick driver
+	* SFEggi.spec: Added General Graphics Interface library
+	* base-specs/libggigcp.spec: added ggi library
+	* base-specs/libggi.spec: added ggi library
+	* base-specs/libgii.spec: added ggi library
+	* base-specs/libggimisc.spec: added ggi library
+	* base-specs/libggiwmh.spec: added ggi library
+	* base-specs/libgiigic.spec: added ggi library
+	* patches/libgii-01-gcc-options.diff: patch to remove gcc options
+	* SFEdillo.spec: Added dillo lightweight browser
+	* SFEheroes.spec: Added Heroes game
+	* SFEphysfs.spec: Added physfs library
+	* patches/physfs-01-alloca.diff: added. Solaris needs alloca.h
+	* SFEportaudio.spec: Added portaudio library
+	* patches/portaudio-01-oss.diff: added patch for oss
+	* patches/portaudio-02-pthread.diff: remove -pthread from compile
+	* SFEjam.spec: Added jam (a make lookalike)
+
 2007-05-05  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEphp.spec: Bump: to 5.2.2 (mainly security fixes)
 

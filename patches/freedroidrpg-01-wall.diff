@@ -1,0 +1,59 @@
+diff -ur freedroidrpg-0.10.1-orig/configure freedroidrpg-0.10.1/configure
+--- freedroidrpg-0.10.1-orig/configure	2007-02-25 04:41:18.000000000 +0700
++++ freedroidrpg-0.10.1/configure	2007-05-06 17:14:54.143877999 +0700
+@@ -5950,8 +5950,6 @@
+ 	CFLAGS="$CFLAGS $X_CFLAGS"
+ fi
+ 
+-CFLAGS="$CFLAGS -Wall -Wno-unused"
+-
+ case "$target" in
+ 	*-*-cygwin* | *-*-mingw32*)
+ 	CFLAGS="$CFLAGS  -DFD_DATADIR='\".\"'"
+@@ -5973,6 +5971,12 @@
+ 	bsd=true
+ 	;;
+ 
++	*solaris*)
++	CFLAGS="$CFLAGS  -DFD_DATADIR='\"\$(pkgdatadir)\"'"   #avoidexpansion of $pkgdatadir !
++	SYS_GL_LIB=GL
++	solaris=true
++	;;
++
+ 	*)
+ 	CFLAGS="$CFLAGS  -DFD_DATADIR='\"\$(pkgdatadir)\"'"   #avoid expansion of $pkgdatadir !
+ 	LDFLAGS="$LDFLAGS -rdynamic"
+@@ -7371,7 +7375,7 @@
+         # who knows whether they'll stub that too in a future libc.)  So,
+         # we'll just look for -pthreads and -lpthread first:
+ 
+-        acx_pthread_flags="-pthread -pthreads pthread -mt $acx_pthread_flags"
++        acx_pthread_flags="-mt $acx_pthread_flags"
+         ;;
+ esac
+ 
+diff -ur freedroidrpg-0.10.1-orig/configure.ac freedroidrpg-0.10.1/configure.ac
+--- freedroidrpg-0.10.1-orig/configure.ac	2007-02-25 04:41:11.000000000 +0700
++++ freedroidrpg-0.10.1/configure.ac	2007-05-06 17:16:02.006061415 +0700
+@@ -27,8 +27,6 @@
+ 	CFLAGS="$CFLAGS $X_CFLAGS"
+ fi
+ 
+-CFLAGS="$CFLAGS -Wall -Wno-unused"
+-
+ case "$target" in
+ 	*-*-cygwin* | *-*-mingw32*)
+ 	CFLAGS="$CFLAGS  -DFD_DATADIR='\".\"'"
+@@ -43,6 +41,12 @@
+ 	macosx=true
+ 	;;
+ 
++	*solaris*)
++	CFLAGS="$CFLAGS  -DFD_DATADIR='\"\$(pkgdatadir)\"'"   #avoidexpansion of $pkgdatadir ! 
++	SYS_GL_LIB=GL
++	solaris=true
++	;;
++
+ 	*bsd*)
+ 	CFLAGS="$CFLAGS  -DFD_DATADIR='\"\$(pkgdatadir)\"'"   #avoidexpansion of $pkgdatadir ! 
+ 	LDFLAGS="$LDFLAGS -rdynamic"

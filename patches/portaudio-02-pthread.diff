@@ -1,0 +1,12 @@
+diff -ur portaudio-orig/configure.in portaudio/configure.in
+--- portaudio-orig/configure.in	2006-09-04 16:55:57.000000000 +0700
++++ portaudio/configure.in	2007-05-01 20:47:47.771177359 +0700
+@@ -287,7 +287,7 @@
+                 AC_DEFINE(PA_USE_ASIHPI)
+ 	fi
+ 	
+-	THREAD_CFLAGS="-pthread"
++	THREAD_CFLAGS=""
+ 	DLL_LIBS="$DLL_LIBS -lm -lpthread";
+ 	LIBS="$LIBS -lm -lpthread";
+ 	PADLL="libportaudio.so";
