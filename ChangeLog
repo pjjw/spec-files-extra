@@ -1,5 +1,18 @@
 2007-05-01  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEwordnet.spec: Added lexical database for the English language
+	* SFEfreeglut.spec: Added Free OpenGL Library
+	* SFECg.spec: Added Nvidia Graphics Library (binaries)
+	* SFElib3ds.spec: Added library to decode 3ds files
+	* patches/lib3ds-01-sharedlib.spec: patch to build shared libs
+	* SFEode.spec: Added physics library
+	* patches/ode-01-gcc-args.diff: patch for usual gcc issues
+	* SFEbullet.spec: Added physics library
+	* SFEjam.spec: Fixed doc directory
+	* SFEcal3d.spec: added skeletal based 3D character animation library
+
+2007-05-01  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEfreedroidrpg.spec: added FreeroidRPG Game
 	* patches/freedroidrpg-01-wall.diff: added remove -Wall
 	* patches/freedroidrpg-02-inline.diff: remove inlines on externs

@@ -31,9 +31,9 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/docs/jam
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/doc/jam
 cp ./bin.solaris/jam $RPM_BUILD_ROOT%{_bindir}
-cp README *.html $RPM_BUILD_ROOT%{_datadir}/docs/jam
+cp README *.html $RPM_BUILD_ROOT%{_datadir}/doc/jam
 
 
 %clean
@@ -43,9 +43,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %{_bindir}
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, other) %{_datadir}/docs
-%{_datadir}/docs/jam
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/jam
 
 %changelog
-* Mon Apr 30 2007 - dougs@truemail.co.th
+* Sun May  6 2007 - dougs@truemail.co.th
+- Fixed doc directory
+* Sun May  6 2007 - dougs@truemail.co.th
 - Initial version
