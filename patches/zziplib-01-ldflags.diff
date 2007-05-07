@@ -1,0 +1,14 @@
+diff -ur zziplib-0.13.49-orig/configure.ac zziplib-0.13.49/configure.ac
+--- zziplib-0.13.49-orig/configure.ac	2007-03-18 23:31:43.000000000 +0700
++++ zziplib-0.13.49/configure.ac	2007-05-07 09:32:48.564865726 +0700
+@@ -280,6 +280,10 @@
+     ZZIPLIB_LDFLAGS="-no-undefined -export-all-symbols -mconsole"
+     RESOLVES=' '
+   ;;
++  *solaris*)
++    ZZIPLIB_LDFLAGS=""
++    RESOLVES=' # '
++  ;;
+   *)
+     ZZIPLIB_LDFLAGS="--export-dynamic"
+     RESOLVES=' # '

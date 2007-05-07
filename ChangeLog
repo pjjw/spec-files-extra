@@ -1,4 +1,22 @@
-2007-05-01  Doug Scott  <dougs@truemail.co.th>
+2007-05-07  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEogre.spec: Added orge Graphics Rendering Engine
+	* patches/ogre-01-rpath.diff: remove rpath
+	* SFEcegui.spec: Added Crazy Eddies Graphics Library
+	* patches/cegui-01-dlopen.diff: solaris dlopen type
+	* patches/cegui-02-gtk.diff: solaris uses gtk+
+	* SFEopenexr.spec: Added industrial light & magic HDR image format lib
+	* SFElibdevil.spec: Added Cross-platform image library
+	* patches/libdevil-01-wall.diff: remove -Wall
+	* SFEilmbase.spec: Added base library for OpenEXR
+	* SFEfreeimage.spec: Added free image library
+	* patches/freeimage-01-makefile.diff: solaris makefile fixes
+	* SFEcppunit.spec: Added C++ port of JUnit
+	* SFEzziplib.spec: Added ZZIPlib library
+	* patches/zziplib-01-ldflags.diff: fix LDFLAGS
+	* patches/zziplib-02-export-inline.diff: fix extern inline
+
+2007-05-06  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEwordnet.spec: Added lexical database for the English language
 	* SFEfreeglut.spec: Added Free OpenGL Library
@@ -11,7 +29,7 @@
 	* SFEjam.spec: Fixed doc directory
 	* SFEcal3d.spec: added skeletal based 3D character animation library
 
-2007-05-01  Doug Scott  <dougs@truemail.co.th>
+2007-05-06  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEfreedroidrpg.spec: added FreeroidRPG Game
 	* patches/freedroidrpg-01-wall.diff: added remove -Wall

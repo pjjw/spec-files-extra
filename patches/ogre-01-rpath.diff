@@ -1,0 +1,78 @@
+diff -ur ogrenew-orig/OgreMain/src/Makefile.am ogrenew/OgreMain/src/Makefile.am
+--- ogrenew-orig/OgreMain/src/Makefile.am	2007-04-23 23:36:07.000000000 +0700
++++ ogrenew/OgreMain/src/Makefile.am	2007-05-07 13:30:43.144188012 +0700
+@@ -185,7 +185,7 @@
+ 
+ platformdir = $(libdir)
+ libOgreMain_la_LIBADD= $(STLPORT_LIBS) $(FT2_LIBS) $(ZZIPLIB_LIBS) $(GTK_LIBS) $(OGRE_THREAD_LIBS) $(PLATFORM_LIBS)
+-libOgreMain_la_LDFLAGS = $(SHARED_FLAGS) -release @PACKAGE_VERSION@ -Wl,-rpath,$(platformdir)
++libOgreMain_la_LDFLAGS = $(SHARED_FLAGS) -release @PACKAGE_VERSION@
+ #-version-info @OGREMAIN_VERSION_INFO@ -Wl,-rpath,$(platformdir)
+ #-Wl,--version-script=$(top_srcdir)/OgreMain/src/ogremain.map
+ 
+diff -ur ogrenew-orig/OgreMain/src/Makefile.in ogrenew/OgreMain/src/Makefile.in
+--- ogrenew-orig/OgreMain/src/Makefile.in	2007-05-06 16:01:17.000000000 +0700
++++ ogrenew/OgreMain/src/Makefile.in	2007-05-07 14:04:15.368550602 +0700
+@@ -44,7 +44,7 @@
+ @USE_DEVIL_TRUE@                         OgreILCodecs.cpp \
+ @USE_DEVIL_TRUE@                         OgreILUtil.cpp
+ 
+-#-version-info @OGREMAIN_VERSION_INFO@ -Wl,-rpath,$(platformdir)
++#-version-info @OGREMAIN_VERSION_INFO@
+ #-Wl,--version-script=$(top_srcdir)/OgreMain/src/ogremain.map
+ @OGRE_BUILD_SSE_TRUE@am__append_3 = libSSEsupport.la
+ subdir = OgreMain/src
+@@ -488,7 +488,7 @@
+ libOgreMain_la_LIBADD = $(STLPORT_LIBS) $(FT2_LIBS) $(ZZIPLIB_LIBS) \
+ 	$(GTK_LIBS) $(OGRE_THREAD_LIBS) $(PLATFORM_LIBS) \
+ 	$(am__append_3)
+-libOgreMain_la_LDFLAGS = $(SHARED_FLAGS) -release @PACKAGE_VERSION@ -Wl,-rpath,$(platformdir)
++libOgreMain_la_LDFLAGS = $(SHARED_FLAGS) -release @PACKAGE_VERSION@
+ all: all-am
+ 
+ .SUFFIXES:
+@@ -550,7 +550,7 @@
+ 	  rm -f "$${dir}/so_locations"; \
+ 	done
+ libOgreMain.la: $(libOgreMain_la_OBJECTS) $(libOgreMain_la_DEPENDENCIES) 
+-	$(CXXLINK) -rpath $(libdir) $(libOgreMain_la_LDFLAGS) $(libOgreMain_la_OBJECTS) $(libOgreMain_la_LIBADD) $(LIBS)
++	$(CXXLINK) $(libdir) $(libOgreMain_la_LDFLAGS) $(libOgreMain_la_OBJECTS) $(libOgreMain_la_LIBADD) $(LIBS)
+ libSSEsupport.la: $(libSSEsupport_la_OBJECTS) $(libSSEsupport_la_DEPENDENCIES) 
+ 	$(CXXLINK)  $(libSSEsupport_la_LDFLAGS) $(libSSEsupport_la_OBJECTS) $(libSSEsupport_la_LIBADD) $(LIBS)
+ 
+diff -ur ogrenew-orig/PlugIns/CgProgramManager/src/Makefile.am ogrenew/PlugIns/CgProgramManager/src/Makefile.am
+--- ogrenew-orig/PlugIns/CgProgramManager/src/Makefile.am	2007-02-26 23:29:31.000000000 +0700
++++ ogrenew/PlugIns/CgProgramManager/src/Makefile.am	2007-05-07 13:42:18.893991855 +0700
+@@ -8,4 +8,4 @@
+                              OgreCgProgramManagerDll.cpp 
+ 
+ Plugin_CgProgramManager_la_LDFLAGS = -module $(PLUGIN_FLAGS) -L$(top_builddir)/OgreMain/src -Wl,-z,defs
+-Plugin_CgProgramManager_la_LIBADD = -lOgreMain -lCg $(OGRE_THREAD_LIBS)
++Plugin_CgProgramManager_la_LIBADD = -lOgreMain -lCg $(OGRE_THREAD_LIBS) -lc
+diff -ur ogrenew-orig/PlugIns/OctreeSceneManager/src/Makefile.am ogrenew/PlugIns/OctreeSceneManager/src/Makefile.am
+--- ogrenew-orig/PlugIns/OctreeSceneManager/src/Makefile.am	2007-02-26 23:29:32.000000000 +0700
++++ ogrenew/PlugIns/OctreeSceneManager/src/Makefile.am	2007-05-07 13:41:08.756423755 +0700
+@@ -19,4 +19,4 @@
+ 
+ 
+ Plugin_OctreeSceneManager_la_LDFLAGS = -module $(PLUGIN_FLAGS) -L$(top_builddir)/OgreMain/src -Wl,-z,defs
+-Plugin_OctreeSceneManager_la_LIBADD = -lOgreMain $(OGRE_THREAD_LIBS)
++Plugin_OctreeSceneManager_la_LIBADD = -lOgreMain $(OGRE_THREAD_LIBS) -lc
+diff -ur ogrenew-orig/PlugIns/ParticleFX/src/Makefile.am ogrenew/PlugIns/ParticleFX/src/Makefile.am
+--- ogrenew-orig/PlugIns/ParticleFX/src/Makefile.am	2007-02-26 23:29:32.000000000 +0700
++++ ogrenew/PlugIns/ParticleFX/src/Makefile.am	2007-05-07 13:39:03.426036893 +0700
+@@ -22,4 +22,4 @@
+ 						OgreScaleAffector.cpp 
+ 
+ Plugin_ParticleFX_la_LDFLAGS = -module $(PLUGIN_FLAGS) -L$(top_builddir)/OgreMain/src -Wl,-z,defs
+-Plugin_ParticleFX_la_LIBADD = -lOgreMain $(OGRE_THREAD_LIBS)
++Plugin_ParticleFX_la_LIBADD = -lOgreMain $(OGRE_THREAD_LIBS) -lc
+diff -ur ogrenew-orig/RenderSystems/GL/src/Makefile.am ogrenew/RenderSystems/GL/src/Makefile.am
+--- ogrenew-orig/RenderSystems/GL/src/Makefile.am	2007-02-26 23:29:32.000000000 +0700
++++ ogrenew/RenderSystems/GL/src/Makefile.am	2007-05-07 13:45:41.833786462 +0700
+@@ -41,4 +41,4 @@
+     $(top_builddir)/RenderSystems/GL/src/GLSL/src/libGLSL.la \
+     $(top_builddir)/RenderSystems/GL/src/nvparse/libnvparse.la \
+     $(top_builddir)/RenderSystems/GL/src/atifs/src/libatifs.la \
+-    $(GL_LIBS) $(GLSUPPORT_LIBS) -lOgreMain $(OGRE_THREAD_LIBS)
++    $(GL_LIBS) $(GLSUPPORT_LIBS) -lOgreMain $(OGRE_THREAD_LIBS) -lc

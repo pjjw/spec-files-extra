@@ -1,0 +1,21 @@
+diff -ur zziplib-0.13.49-orig/zzip/zip.c zziplib-0.13.49/zzip/zip.c
+--- zziplib-0.13.49-orig/zzip/zip.c	2007-03-18 22:27:49.000000000 +0700
++++ zziplib-0.13.49/zzip/zip.c	2007-05-07 09:25:32.452247243 +0700
+@@ -85,7 +85,7 @@
+ 				 struct zzip_dir_hdr ** hdr_return,
+ 				 zzip_plugin_io_t io);
+ 
+-_zzip_inline char* __zzip_aligned4(char* p);
++char* __zzip_aligned4(char* p);
+ 
+ /* ------------------------  harden routines ------------------------------ */
+ 
+@@ -342,7 +342,7 @@
+  * to pointer types but we do need only the lower bits in this implementation,
+  * so we can just cast the value to a long value.
+  */
+-_zzip_inline char* __zzip_aligned4(char* p)
++char* __zzip_aligned4(char* p)
+ {
+ #define aligned4   __zzip_aligned4
+     p += ((long)p)&1;            /* warnings about truncation of a "pointer" */
