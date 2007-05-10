@@ -5,12 +5,12 @@
 Name:           gnome-power-manager
 License:        GPL
 Group:		X11/Applications
-Version:        2.18.2
+Version:        2.19.1
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 Summary:	GNOME Power Manager
-Source0:	http://ftp.gnome.org/pub/gnome/sources/gnome-power-manager/2.18/%{name}-%{version}.tar.bz2
+Source0:	http://ftp.gnome.org/pub/gnome/sources/gnome-power-manager/2.19/%{name}-%{version}.tar.bz2
 Patch1:         gnome-power-manager-01-build.diff
 URL:		http://www.gnome.org/projects/gnome-power-manager/
 BuildRequires:	autoconf >= 2.52
@@ -79,13 +79,6 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-aclocal $ACLOCAL_FLAGS
-libtoolize --force
-glib-gettextize --force --copy
-intltoolize --force --automake
-autoheader
-automake -a -f -c --gnu
-autoconf
 ./configure --prefix=%{_prefix}			\
 	    --libexecdir=%{_libexecdir}         \
             --sysconfdir=%{_sysconfdir}         \
@@ -112,7 +105,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_sysconfdir}/dbus-1/system.d/gnome-power-manager.conf
 %{_libdir}/bonobo/servers/GNOME_BrightnessApplet.server
 %{_libdir}/bonobo/servers/GNOME_InhibitApplet.server
 %{_datadir}/gnome/autostart/gnome-power-manager.desktop
@@ -125,6 +117,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue May 08 2007 - simon.zheng@sun.com
+- Bump to version 2.19.1
+
 * Fri Apr 27 2007 - simon.zheng@sun.com
 - Bump to version 2.18.2
 

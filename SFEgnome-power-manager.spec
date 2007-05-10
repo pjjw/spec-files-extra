@@ -7,7 +7,6 @@
 %use gpm = gnome-power-manager.spec
 
 %define with_hal %(pkginfo -q SUNWhal && echo 1 || echo 0)
-%define with_libnotify %(pkginfo -q SUNWlibnotify && echo 1 || echo 0)
 
 Name:                    SFEgnome-power-manager
 Summary:                 GNOME Power Manager
@@ -28,10 +27,6 @@ BuildRequires:           SUNWdbus-bindings-devel
 Requires:                SUNWhal
 %endif
 Requires:                SUNWdbus-bindings
-%if %with_libnotify
-Requires:                SUNWlibnotify
-BuildRequires:           SUNWlibnotify-devel
-%endif
 Requires:                SUNWgnome-panel
 BuildRequires:           SUNWgnome-panel-devel
 Requires:                SUNWpostrun
@@ -167,6 +162,9 @@ test -x $BASEDIR/lib/postrun || exit 0
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/24x24/
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/24x24/apps/
 %{_datadir}/icons/hicolor/24x24/apps/*
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/48x48/
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/48x48/apps/
+%{_datadir}/icons/hicolor/48x48/apps/*
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/man1
 
@@ -175,9 +173,6 @@ test -x $BASEDIR/lib/postrun || exit 0
 %defattr (0755, root, sys)
 %dir %attr (0755, root, sys) %{_sysconfdir}
 %{_sysconfdir}/gconf/schemas/gnome-power-manager.schemas
-%dir %attr (0755, root, bin) %{_sysconfdir}/dbus-1
-%dir %attr (0755, root, bin) %{_sysconfdir}/dbus-1/system.d
-%{_sysconfdir}/dbus-1/system.d/gnome-power-manager.conf
 
 %if %build_l10n
 %files l10n
