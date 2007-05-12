@@ -1,3 +1,7 @@
+2007-05-05  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEre2c.spec: Added re2c for generating high efficient code
+          for regular expression matching
+
 2007-05-10  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEgnome-power-manager.spec:

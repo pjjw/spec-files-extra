@@ -59,6 +59,8 @@ fi
 export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
 
+export PKG_CONFIG=/usr/lib/pkgconfig
+
 # Note: mp3 decoding and id3tag support is not configured 
 # in here (it probably should be though)
 
@@ -66,7 +68,8 @@ export LDFLAGS="%{_ldflags}"
             --mandir=%{_mandir}  \
             --disable-flac       \
             --disable-oggflac    \
-	    --enable-ao          
+	    --enable-ao          \
+	    --enable-shout       
 
 #	    --disable-id3
 
