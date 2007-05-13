@@ -5,35 +5,21 @@
 
 %include Solaris.inc
 
+# Fixme:
+# As root, ln -s /usr/lib/libdb.so.1 /usr/lib/libdb.so, it is build requirement;
+# or, depend on package SUNWevolution-bdb-devel, which is in jds spec-files/closed
+# now, use second way.
 Name:           SFEanjuta
-Version:        2.1.2
+Version:        2.1.3
 Summary:        GNOME IDE for C and C++
 Group:          Development/Tools
 License:        GPL
 URL:            http://anjuta.org/
 Source:         http://download.gnome.org/sources/anjuta/2.1/anjuta-%{version}.tar.bz2
-# date:2007-03-28 bugzilla:423682 owner:nonsea type:bug
-Patch1:         anjuta-01-suncc-zero-struct-array.diff
-# date:2007-03-28 bugzilla:423727 owner:nonsea type:bug
-Patch2:         anjuta-02-suncc-inline.diff
-# date:2007-03-28 bugzilla:423730 owner:nonsea type:bug
-Patch3:         anjuta-03-wrong-define.diff
-# date:2007-03-28 bugzilla:423733 owner:nonsea type:bug
-Patch4:         anjuta-04-lack-headers.diff
-# date:2007-03-28 bugzilla:423737 owner:nonsea type:bug
-Patch5:         anjuta-05-remove-lutil.diff
-# date:2007-03-28 bugzilla:423680 owner:nonsea type:bug
-Patch6:         anjuta-06-suncc-union.diff
-# date:2007-03-28 bugzilla:423768 owner:nonsea type:bug
-Patch7:         anjuta-07-wrong-return.diff
-# date:2007-03-28 bugzilla:423772 owner:nonsea type:bug
-Patch8:         anjuta-08-invalid-cast.diff
-# date:2007-04-04 bugzilla:425850 owner:nonsea type:bug
-Patch9:         anjuta-09-share-glue.diff
 # date:2007-04-04 owner:nonsea type:branding
-Patch10:         anjuta-10-solaris-grep.diff
-# date:2007-04-06 bugzilla:426701 owner:nonsea type:bug
-Patch11:         anjuta-11-solaris-svn.diff
+Patch1:         anjuta-01-solaris-grep.diff
+# date:2007-05-14 owner:nonsea type:branding
+Patch2:         anjuta-02-ld-z-text.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -66,6 +52,7 @@ BuildRequires: SFEgdl-devel
 BuildRequires: SFEgnome-build-devel
 BuildRequires: SFEgraphviz-devel
 BuildRequires: SFEautogen-devel
+BuildRequires: SUNWevolution-bdb-devel
 
 
 %description
@@ -95,16 +82,6 @@ Requires:                %{name}
 %prep
 %setup -q -n anjuta-%{version}
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -131,6 +108,8 @@ autoconf
 	    --with-svn-lib=%{_libdir}/svn				\
             --with-apr-config=%{_prefix}/apache2/bin/apr-1-config	\
             --disable-scrollkeeper
+
+%patch2 -p1
 
 make -j$CPUS
 
@@ -245,6 +224,11 @@ test -x $BASEDIR/lib/postrun || exit 0
 %{_datadir}/gtk-doc
 
 %changelog
+* Sun May 13 2007 - nonsea@users.sourceforge.net
+- Bump to 2.1.3
+- Remove upstreamed patch and reorder.
+- Add patch ld-z-text.diff.
+- Add BuildRequires SUNWevolution-bdb-devel
 * Sat Apr 20 2007 - dougs@truemail.co.th
 - Added Required: SUNWsvn, and modified patch solaris-11-svn.diff
 * Fri Apr 06 2007 - nonsea@users.sourceforge.net

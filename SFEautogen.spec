@@ -8,7 +8,7 @@
 Name:                SFEautogen
 Summary:             Templatized program/text generation system
 URL:                 http://autogen.sourceforge.net/
-Version:             5.9
+Version:             5.9.1
 Source:              http://umn.dl.sourceforge.net/sourceforge/autogen/autogen-%{version}.tar.bz2
 
 SUNW_BaseDir:        %{_basedir}
@@ -103,6 +103,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Sun May 13 2007 - nonsea@users.sourceforge.net
+- Bump to 5.9.1
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Bump to 5.9
 - Add Requires/BuildRequries after check-deps.pl run.

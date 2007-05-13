@@ -9,7 +9,7 @@
 Name:		gdl
 License:	GPL
 Group:		Development/Libraries
-Version:	0.7.3
+Version:	0.7.5
 Release:	1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -18,8 +18,6 @@ Summary:	Components and library for GNOME development tools.
 Source:		http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.7/%{name}-%{version}.tar.bz2
 # date:2006-03-28 bugzilla:407393 owner:nonsea type:bug
 Patch1:         %{name}-01-void0-suncc-error.diff
-# date:2006-03-28 bugzilla:423802 owner:nonsea type:bug
-Patch2:         %{name}-02-define-FUNCTION.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
 Requires: 	gtk2 >= 2.4.0
@@ -55,7 +53,6 @@ own programs.
 %prep
 %setup -q
 %patch1 -p1
-%patch2 -p1
 
 %build
 %ifos linux
@@ -110,6 +107,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/lib/pkgconfig/*
 
 %changelog
+* Sun May 13 2007 - nonsea@users.sourceforge.net
+- Bump to 0.7.5.
+- Remove upstreamed patch define-FUNCTION.diff.
+
 * Thu Mar 29 2007 nonsea@users.sourceforge.net
 - Add patch define-FUNCTION.diff.
 

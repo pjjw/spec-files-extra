@@ -9,7 +9,7 @@ Name:                SFEguile
 URL:                 http://www.gnu.org/software/guile/
 Summary:             Embeddable Scheme implementation written in C
 Version:             1.8.1
-Source:              ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
+Source:              http://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
 Patch1:              guile-01-suncc-inline.diff
 Patch2:              guile-02-var-imaginary.diff
 
@@ -103,6 +103,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sun May 13 2007 - nonsea@users.sourceforge.net
+- Fix Source from ftp to http.
 * Sat Apr 21 2007 - dougs@truemail.co.th
 - Use automake-1.9 and aclocal-1.9
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net

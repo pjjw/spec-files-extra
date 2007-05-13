@@ -9,7 +9,7 @@
 Name:		gnome-build
 License:	GPL
 Group:		Development/Libraries
-Version:	0.1.5
+Version:	0.1.6
 Release:	1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -18,8 +18,6 @@ Summary:	GNOME Build Framework.
 Source:		http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.1/%{name}-%{version}.tar.bz2
 # date:2007-03-28 owner:nonsea type:branding
 Patch1:         %{name}-01-gnu-regex.diff
-# date:2007-03-28 bugzilla:423106 owner:nonsea type:bug
-Patch2:         %{name}-02-debug-define.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 Requires:	libglade >= 2.0.1
@@ -45,7 +43,6 @@ in your own programs.
 %prep
 %setup -q
 %patch1 -p1
-%patch2 -p1
 
 %build
 %ifos linux
@@ -107,6 +104,9 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sun May 13 2007 - nonsea@users.sourceforge.net
+- Bump to 0.1.6.
+- Remove upstreamed patch debug-define.diff.
 * Sat Apr 21 2007 - dougs@truemail.co.th
 - Disabled parallel make. Can be a problem on a multicpu system
 * Thu Apr 05 2007 - nonsea@users.sourceforge.net

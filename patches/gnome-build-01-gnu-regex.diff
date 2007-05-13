@@ -1,7 +1,7 @@
-Index: gnome-build-head/src/backends/libgbf_am/regex-gnu.h
+Index: gnome-build-trunk/src/backends/libgbf_am/regex-gnu.h
 ===================================================================
---- gnome-build-head/src/backends/libgbf_am/regex-gnu.h	(revision 0)
-+++ gnome-build-head/src/backends/libgbf_am/regex-gnu.h	(revision 0)
+--- gnome-build-trunk/src/backends/libgbf_am/regex-gnu.h	(revision 0)
++++ gnome-build-trunk/src/backends/libgbf_am/regex-gnu.h	(revision 0)
 @@ -0,0 +1,542 @@
 +/* Definitions for data structures and routines for the regular
 +   expression library, version 0.12.
@@ -545,10 +545,10 @@ Index: gnome-build-head/src/backends/libgbf_am/regex-gnu.h
 +trim-versions-without-asking: nil
 +End:
 +*/
-Index: gnome-build-head/src/backends/libgbf_am/regex.c
+Index: gnome-build-trunk/src/backends/libgbf_am/regex.c
 ===================================================================
---- gnome-build-head/src/backends/libgbf_am/regex.c	(revision 0)
-+++ gnome-build-head/src/backends/libgbf_am/regex.c	(revision 0)
+--- gnome-build-trunk/src/backends/libgbf_am/regex.c	(revision 0)
++++ gnome-build-trunk/src/backends/libgbf_am/regex.c	(revision 0)
 @@ -0,0 +1,5892 @@
 +/* Extended regular expression matching and search library,
 +   version 0.12.
@@ -6442,10 +6442,10 @@ Index: gnome-build-head/src/backends/libgbf_am/regex.c
 +#endif
 +
 +#endif /* not emacs  */
-Index: gnome-build-head/src/backends/libgbf_am/gbf-am-build.c
+Index: gnome-build-trunk/src/backends/libgbf_am/gbf-am-build.c
 ===================================================================
---- gnome-build-head/src/backends/libgbf_am/gbf-am-build.c	(revision 411)
-+++ gnome-build-head/src/backends/libgbf_am/gbf-am-build.c	(working copy)
+--- gnome-build-trunk/src/backends/libgbf_am/gbf-am-build.c	(revision 431)
++++ gnome-build-trunk/src/backends/libgbf_am/gbf-am-build.c	(working copy)
 @@ -27,7 +27,7 @@
  #include <stdlib.h>
  #include <unistd.h>
@@ -6455,10 +6455,10 @@ Index: gnome-build-head/src/backends/libgbf_am/gbf-am-build.c
  #include "gbf-i18n.h"
  #include "gbf-am-build.h"
  
-Index: gnome-build-head/src/backends/libgbf_am/Makefile.am
+Index: gnome-build-trunk/src/backends/libgbf_am/Makefile.am
 ===================================================================
---- gnome-build-head/src/backends/libgbf_am/Makefile.am	(revision 411)
-+++ gnome-build-head/src/backends/libgbf_am/Makefile.am	(working copy)
+--- gnome-build-trunk/src/backends/libgbf_am/Makefile.am	(revision 431)
++++ gnome-build-trunk/src/backends/libgbf_am/Makefile.am	(working copy)
 @@ -24,7 +24,9 @@
  	gbf-am-config.c \
  	gbf-am-config.h \
@@ -6468,12 +6468,12 @@ Index: gnome-build-head/src/backends/libgbf_am/Makefile.am
 +	regex.c \
 +	regex-gnu.h
  
- libgbf_am_la_LDFLAGS = -version-info $(LTVERSION)
+ libgbf_am_la_LDFLAGS = -module -avoid-version -no-undefined
  libgbf_am_la_LIBADD = \
-Index: gnome-build-head/src/backends/libgbf_mkfile/gbf-mkfile-build.c
+Index: gnome-build-trunk/src/backends/libgbf_mkfile/gbf-mkfile-build.c
 ===================================================================
---- gnome-build-head/src/backends/libgbf_mkfile/gbf-mkfile-build.c	(revision 411)
-+++ gnome-build-head/src/backends/libgbf_mkfile/gbf-mkfile-build.c	(working copy)
+--- gnome-build-trunk/src/backends/libgbf_mkfile/gbf-mkfile-build.c	(revision 431)
++++ gnome-build-trunk/src/backends/libgbf_mkfile/gbf-mkfile-build.c	(working copy)
 @@ -32,7 +32,7 @@
  #include <stdlib.h>
  #include <unistd.h>

@@ -1,3 +1,29 @@
+2007-05-14  Halton Huo  <nonsea@users.sourceforge.net>
+
+	* SFEanjuta.spec:  Bump to 2.1.3, Remove upstreamed patch and reorder.
+	  Add patch ld-z-text.diff, Add BuildRequires SUNWevolution-bdb-devel
+	* SFEautogen.spec: Bump to 5.9.1
+	* SFEguile.spec: Fix Source from ftp to http
+	* linux-specs/gdl.spec: Bump to 0.7.5, 
+	  Remove upstreamed patch define-FUNCTION.diff.
+	* linux-specs/gnome-build.spec: Bump to 0.1.6,
+	  Remove upstreamed patch debug-define.diff.
+	* patches/anjuta-01-suncc-zero-struct-array.diff,
+	  patches/anjuta-02-suncc-inline.diff,
+	  patches/anjuta-03-wrong-define.diff,
+	  patches/anjuta-04-lack-headers.diff,
+	  patches/anjuta-05-remove-lutil.diff,
+	  patches/anjuta-06-suncc-union.diff,
+	  patches/anjuta-07-wrong-return.diff,
+	  patches/anjuta-08-invalid-cast.diff,
+	  patches/anjuta-09-share-glue.diff,
+	  patches/anjuta-11-solaris-svn.diff, 
+	  patches/gdl-02-define-FUNCTION.diff,
+	  patches/gnome-build-02-debug-define.diff: remove upstreamed patch.
+	* patches/anjuta-10-solaris-grep.diff: rename to 01
+	* patches/anjuta-02-ld-z-text.diff: Add patch for libtool
+	* patches/gnome-build-01-gnu-regex.diff: rework
+
 2007-05-14  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEwine.spec: bump to 0.9.37 (somethimes new wine is better)
