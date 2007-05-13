@@ -1,0 +1,19 @@
+diff -ur jogl-src-orig/gluegen/make/gluegen.properties jogl-src/gluegen/make/gluegen.properties
+--- jogl-src-orig/gluegen/make/gluegen.properties	2006-08-01 16:22:52.000000000 +0700
++++ jogl-src/gluegen/make/gluegen.properties	2007-05-13 18:59:11.067284612 +0700
+@@ -8,13 +8,13 @@
+ # including the name of the jar
+ #
+ # Windows
+-antlr.jar=C:/Users/kbr/ANTLR/antlr-2.7.2/antlr.jar
++#antlr.jar=C:/Users/kbr/ANTLR/antlr-2.7.2/antlr.jar
+ # Linux
+ # antlr.jar=/home/kbr/antlr-2.7.2/antlr.jar
+ # Mac OS X
+ # antlr.jar=/Users/kbr/antlr-2.7.2/antlr.jar
+ # Solaris
+-# antlr.jar=/export/kbr/ANTLR/antlr-2.7.2/antlr.jar
++antlr.jar=/usr/lib/antlr.jar
+ 
+ # If you are building the native code for the GlueGen run-time library
+ # on Windows and have the Microsoft Visual C++ compilers installed,

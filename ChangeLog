@@ -1,5 +1,10 @@
 2007-05-14  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEjogl.spec: Java bindings for OpenGL - JSR-231
+	* patches/jogl-01-solaris.diff: Patch to add solaris modifications
+
+2007-05-14  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEruby-gnome2.spec: Added ruby bindings for gnome2
 	* SFEsshmenu.spec: Added ssh panel menu
 	* SFEportaudio.spec: Fixed typo
