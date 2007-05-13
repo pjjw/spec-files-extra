@@ -1,5 +1,9 @@
 2007-05-14  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEwine.spec: bump to 0.9.37 (somethimes new wine is better)
+
+2007-05-14  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEjogl.spec: Java bindings for OpenGL - JSR-231
 	* patches/jogl-01-solaris.diff: Patch to add solaris modifications
 
