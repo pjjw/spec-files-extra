@@ -1,3 +1,14 @@
+2007-05-14  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEruby-gnome2.spec: Added ruby bindings for gnome2
+	* SFEsshmenu.spec: Added ssh panel menu
+	* SFEportaudio.spec: Fixed typo
+	* SFEantlr.spec: Added www.antlr.org
+	* patches/antlr-01-destdir.diff: Patch to add DESTDIR for install
+	* SFEjoal.spec: Added Java OpenAL bindings
+	* patches/joal-01-solaris.diff: Patch to add solaris modifications
+	* SFEsdl-gfx.spec: Added libSDL graphics library
+
 2007-05-05  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEre2c.spec: Added re2c for generating high efficient code
           for regular expression matching

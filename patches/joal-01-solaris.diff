@@ -1,0 +1,31 @@
+diff -ur joal-src-orig/gluegen/make/gluegen.properties joal-src/gluegen/make/gluegen.properties
+--- joal-src-orig/gluegen/make/gluegen.properties	2006-08-01 16:22:52.000000000 +0700
++++ joal-src/gluegen/make/gluegen.properties	2007-05-13 17:44:17.692301141 +0700
+@@ -8,13 +8,13 @@
+ # including the name of the jar
+ #
+ # Windows
+-antlr.jar=C:/Users/kbr/ANTLR/antlr-2.7.2/antlr.jar
++#antlr.jar=C:/Users/kbr/ANTLR/antlr-2.7.2/antlr.jar
+ # Linux
+ # antlr.jar=/home/kbr/antlr-2.7.2/antlr.jar
+ # Mac OS X
+ # antlr.jar=/Users/kbr/antlr-2.7.2/antlr.jar
+ # Solaris
+-# antlr.jar=/export/kbr/ANTLR/antlr-2.7.2/antlr.jar
++antlr.jar=/usr/lib/antlr.jar
+ 
+ # If you are building the native code for the GlueGen run-time library
+ # on Windows and have the Microsoft Visual C++ compilers installed,
+diff -ur joal-src-orig/joal/make/joal.properties joal-src/joal/make/joal.properties
+--- joal-src-orig/joal/make/joal.properties	2006-08-11 17:21:34.000000000 +0700
++++ joal-src/joal/make/joal.properties	2007-05-13 17:45:40.835199614 +0700
+@@ -27,7 +27,7 @@
+ # Mac OS X
+ # joal.lib.dir=/System/Library/Frameworks/OpenAL.framework
+ # Solaris (not yet supported)
+-# joal.lib.dir=/usr/lib
++joal.lib.dir=/usr/lib
+ 
+ # If you are building on Windows and have the Microsoft Visual C++
+ # compilers installed, you can choose an alternate compiler with which
