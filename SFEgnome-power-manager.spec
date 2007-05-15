@@ -53,7 +53,7 @@ mkdir %name-%version
 cd %{_builddir}/%name-%version
 
 %build
-export LDFLAGS="%_ldflags -lX11"
+export LDFLAGS="%_ldflags -lX11 -lkstat"
 %gpm.build -d %name-%version
 
 %install
@@ -76,6 +76,9 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 rm -rf $RPM_BUILD_ROOT
 
 %post
+( echo 'test -x /usr/bin/gtk-update-icon-cache || exit 0';
+  echo '/usr/bin/gtk-update-icon-cache --force %{_datadir}/icons/hicolor'
+) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u -t 5
 ( echo 'test -x /usr/bin/update-desktop-database || exit 0';
   echo '/usr/bin/update-desktop-database'
 ) | $BASEDIR/lib/postrun -b -u -c JDS_wait
