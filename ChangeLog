@@ -1,3 +1,8 @@
+2007-05-16  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEreadline.spec: Forced to link with libcurses
+	* SFEgcc.spec: Bump to 4.2.0
+
 2007-05-15  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEgnome-power-manager.spec:

@@ -35,8 +35,8 @@ fi
 
 export CFLAGS32="%optflags -I/usr/sfw/include -DANSICPP"
 export CFLAGS64="%optflags64 -I/usr/sfw/include -DANSICPP"
-export LDFLAGS32="%_ldflags"
-export LDFLAGS64="%_ldflags"
+export LDFLAGS32="%_ldflags -lcurses"
+export LDFLAGS64="%_ldflags -lcurses"
 
 %ifarch amd64 sparcv9
 export CC=${CC64:-$CC}
@@ -138,6 +138,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Mon May 14 2007 - dougs@truemail.co.th
+- Forced to link with libcurses
 * Tue Mar  7 2007 - dougs@truemail.co.th
 - enabled 64-bit build
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net

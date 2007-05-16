@@ -9,7 +9,7 @@
 
 Name:                SFEgcc
 Summary:             GNU gcc
-Version:             4.1.2
+Version:             4.2.0
 Source:              ftp://ftp.gnu.org/pub/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -142,6 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
+%{_libdir}/lib*.spec
 %{_libdir}/gcc
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, bin) %{_mandir}
@@ -155,6 +156,7 @@ rm -rf $RPM_BUILD_ROOT
 %ifarch amd64 sparcv9
 %dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
 %{_libdir}/%{_arch64}/lib*.so*
+%{_libdir}/%{_arch64}/lib*.spec
 %endif
 
 %files devel
@@ -169,6 +171,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed May 16 2007 - Doug Scott <dougs@truemail.co.th>
+- Bump to 4.2.0
 * Tue Mar 20 2007 - Doug Scott <dougs@truemail.co.th>
 - Added LD_OPTIONS so libs in /usr/gnu/lib will be found
 * Sun Mar  7 2007 - Doug Scott <dougs@truemail.co.th>
