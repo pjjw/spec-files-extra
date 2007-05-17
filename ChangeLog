@@ -1,3 +1,8 @@
+2007-05-17  Halton Huo  <nonsea@users.sourceforge.net>
+
+	* SFEimage-magic.spec: (new)  A software suite to create, edit,
+	  and compose bitmap images
+
 2007-05-16  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEreadline.spec: Forced to link with libcurses
