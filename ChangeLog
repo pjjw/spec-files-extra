@@ -1,3 +1,8 @@
+2007-05-21  Halton Huo  <nonsea@users.sourceforge.net>
+
+	* SFEimage-magic.spec: removed since SUNWimagick.spec is already
+	  in the JDS spec-files.
+
 2007-05-17  Halton Huo  <nonsea@users.sourceforge.net>
 
 	* SFEimage-magic.spec: (new)  A software suite to create, edit,
