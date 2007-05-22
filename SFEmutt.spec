@@ -5,10 +5,11 @@
 
 %include Solaris.inc
 
-Name:                SFEmuttng
-Summary:             Fork of the mutt e-mail client
-Version:             20061125
-Source:              http://nion.modprobe.de/mutt-ng/snapshots/muttng-%{version}.tar.gz
+Name:                SFEmutt
+Summary:             The mutt e-mail client
+Version:             1.4.2.2
+Source:              ftp://ftp.mutt.org/mutt/mutt-%{version}i.tar.gz
+Patch1:              mutt-01-makefile.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -24,7 +25,8 @@ SUNW_BaseDir:            /
 %include default-depend.inc
 
 %prep
-%setup -q -n muttng-%version
+%setup -q -n mutt-%version
+%patch1 -p1
 
 %build
 
@@ -77,13 +79,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
-* Mon May 21 2007
+* Mon May 21 2007 - dick@nagual.nl
 - Added CPPFLAGS and LDFLAGS (/usr/sfw) to support openssl
-  Without it ssl is not supported by muttng
+  Without it ssl is not supported by mutt
+- Added a patch for Makefile.in to change mime.types to mutt-mime.types
+  to exclude a clash with a system mime.types in /etc
 - Forced dependency from libcurses to slang
-* Fri Feb 16 2007 - Doug Scott
-- Bumped to 20061125
-* Mon Nov 06 2006 - Eric Boutilier
-- Fix attributes
-* Sat Sep 30 2006 - Eric Boutilier
+* Sun May 20 2007 - dick@nagual.nl
 - Initial spec
