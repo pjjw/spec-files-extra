@@ -4,12 +4,12 @@
 # package are under the same license as the package itself.
 
 %include Solaris.inc
-%define tarball_version 2.1pre23
+%define tarball_version 2.1pre28
 
 Name:                SFElinks
 Summary:             Text mode browser, similar to Lynx
 Version:             2.1
-Source:              http://links.twibright.com/download/links-%{tarball_version}.tar.gz
+Source:              http://links.twibright.com/download/links-2.1pre28.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

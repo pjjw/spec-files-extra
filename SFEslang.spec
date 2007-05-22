@@ -7,8 +7,8 @@
 
 Name:                SFEslang
 Summary:             multi-platform programmer's library
-Version:             2.0.5
-Source:              ftp://space.mit.edu/pub/davis/slang/v2.0/slang-%{version}.tar.gz
+Version:             2.0.7
+Source:              ftp://ftp.fu-berlin.de/pub/unix/misc/slang/v2.0/slang-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -84,6 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/slsh.rc
 
 %changelog
-* 
+* Mon May 21 2007 - dick@nagual.nl
+- Bump to 2.0.7
 * Thu Dec 14 2006 - Eric Boutilier
 - Initial spec

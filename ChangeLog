@@ -1,3 +1,23 @@
+2007-05-21  Dick Hoogendijk  <dick@nagual.nl>
+	* SFEmutt.spec: (new) The Mutt E-mail client (original)
+	* SFEmuttng.spec: Forced dependency from libcurses to slang;
+	  changed some compilerflags to get good SSL support
+	* SFEslang.spec: Bumped to version 2.0.7
+
+2007-05-20  Dick Hoogendijk  <dick@nagual.nl>
+	* SFEmplayer-plugin: Bumped to version 3.40 and up
+	  Patchfiles changed to support newest code
+  	  mpplugin-01-makefile.diff ADDED
+	  mpplugin-02-strings_h.diff ADDED
+	  mpplugin-03-strstr.diff ADDED
+	  mpplugin-04-ndelay.diff ADDED
+	  mpplugin-05-install.diff ADDED
+	  mplayer-plugin-01-makefile.diff DELETED
+	  mplayer-plugin-02-strings_h.diff DELETED
+	  mplayer-plugin-03-strstr.diff DELETED
+	  mplayer-pplugin-04-ndelay.diff DELETED
+	  mplayer-plugin-05-install.diff DELETED
+
 2007-05-21  Halton Huo  <nonsea@users.sourceforge.net>
 
 	* SFEimage-magic.spec: removed since SUNWimagick.spec is already

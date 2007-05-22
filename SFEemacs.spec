@@ -9,7 +9,7 @@ Name:                    SFEemacs
 Summary:                 GNU Emacs - an operating system in a text editor
 Version:                 21.4
 %define emacs_version    21.4a
-Source:                  ftp://ftp.gnu.org/pub/gnu/emacs/emacs-%{emacs_version}.tar.gz
+Source:                  http://ftp.gnu.org/pub/gnu/emacs/emacs-%{emacs_version}.tar.gz
 URL:                     http://www.gnu.org/software/emacs/emacs.html
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build

@@ -1,0 +1,45 @@
+--- mplayerplug-in/Makefile.in-p1	Fri Jan 19 20:17:53 2007
++++ mplayerplug-in/Makefile.in	Sat May 19 11:57:07 2007
+@@ -12,7 +12,7 @@
+ 
+ CC= @CC@
+ CXX= @CXX@
+-CFLAGS= -Wall -DXP_UNIX -DMOZ_X11 @MOZPLUG_CFLAGS@ @CFLAGS@ @CPPFLAGS@ @CXXFLAGS@ @CXXFLAGS64@ -Iinclude -fPIC @GECKO_DEFINES@ @GTK_CFLAGS@ @GTHREAD_CFLAGS@ @GTK_DEFINES@
++CFLAGS= -DXP_UNIX -DMOZ_X11 @MOZPLUG_CFLAGS@ @CFLAGS@ @CPPFLAGS@ @CXXFLAGS@ @CXXFLAGS64@ -Iinclude -fPIC @GECKO_DEFINES@ @GTK_CFLAGS@ @GTHREAD_CFLAGS@ @GTK_DEFINES@
+ LDFLAGS= @LDFLAGS@ @LDFLAGS64@ @LIBS@ @XEXT_LIBS@ @XPM_LIBS@ @GTK_LIBS@ @GTHREAD_LIBS@
+ LIBOBJS= @LIBOBJS@
+ OBJ= plugin.o nsScriptablePeer.o npp_gate.o np_entry.o npn_gate.o \
+@@ -57,26 +57,27 @@
+ default all: @CREATE@ languages
+ 
+ $(SHAREDTARGET): $(OBJ)
+-	$(CXX) -shared -o $(SHAREDTARGET).so $(OBJ) $(CFLAGS) $(LDFLAGS)
++	$(CXX) -G -o $(SHAREDTARGET).so $(OBJ) $(CFLAGS) $(LDFLAGS)
+ 	cp Source/nsIScriptableMplayerPlugin.xpt mplayerplug-in.xpt
++
+ $(SHAREDTARGET)-wmp: $(OBJ_WMP)
+-	$(CXX) -shared -o $(SHAREDTARGET)-wmp.so $(OBJ_WMP) $(CFLAGS) $(LDFLAGS)
++	$(CXX) -G -o $(SHAREDTARGET)-wmp.so $(OBJ_WMP) $(CFLAGS) $(LDFLAGS)
+ 	cp Source/nsIScriptableMplayerPlugin.xpt mplayerplug-in-wmp.xpt
+ 
+ $(SHAREDTARGET)-qt: $(OBJ_QT)
+-	$(CXX) -shared -o $(SHAREDTARGET)-qt.so $(OBJ_QT) $(CFLAGS) $(LDFLAGS)
++	$(CXX) -G -o $(SHAREDTARGET)-qt.so $(OBJ_QT) $(CFLAGS) $(LDFLAGS)
+ 	cp Source/nsIScriptableMplayerPlugin.xpt mplayerplug-in-qt.xpt
+ 
+ $(SHAREDTARGET)-rm: $(OBJ_RM)
+-	$(CXX) -shared -o $(SHAREDTARGET)-rm.so $(OBJ_RM) $(CFLAGS) $(LDFLAGS)
++	$(CXX) -G -o $(SHAREDTARGET)-rm.so $(OBJ_RM) $(CFLAGS) $(LDFLAGS)
+ 	cp Source/nsIScriptableMplayerPlugin.xpt mplayerplug-in-rm.xpt
+ 
+ $(SHAREDTARGET)-gmp: $(OBJ_GMP)
+-	$(CXX) -shared -o $(SHAREDTARGET)-gmp.so $(OBJ_GMP) $(CFLAGS) $(LDFLAGS)
++	$(CXX) -G -o $(SHAREDTARGET)-gmp.so $(OBJ_GMP) $(CFLAGS) $(LDFLAGS)
+ 	cp Source/nsIScriptableMplayerPlugin.xpt mplayerplug-in-gmp.xpt
+ 
+ $(SHAREDTARGET)-dvx: $(OBJ_DVX)
+-	$(CXX) -shared -o $(SHAREDTARGET)-dvx.so $(OBJ_DVX) $(CFLAGS) $(LDFLAGS)
++	$(CXX) -G -o $(SHAREDTARGET)-dvx.so $(OBJ_DVX) $(CFLAGS) $(LDFLAGS)
+ 	cp Source/nsIScriptableMplayerPlugin.xpt mplayerplug-in-dvx.xpt
+ 
+ np_entry.o: plugingate/np_entry.cpp

@@ -6,15 +6,14 @@
 %include Solaris.inc
 
 Name:                    SFEmplayer-plugin
-Summary:                 mplayerplug-in - MPlayer plugin for firefox
-Version:                 3.31
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/mplayerplug-in/mplayerplug-in-daily.tar.gz
-#Source:                  http://mplayerplug-in.sourceforge.net/mplayerplug-in-daily.tar.gz
-Patch1:			 mplayerplugin-01-makefile.diff
-Patch2:                  mplayerplugin-02-strings_h.diff
-Patch3:                  mplayerplugin-03-strstr.diff
-Patch4:                  mplayerplugin-04-ndelay.diff
-Patch5:                  mplayerplugin-05-install.diff
+Summary:                 MPlayer plugin for firefox on Nevada
+Version:                 3.40
+Source:                  http://mplayerplug-in.sourceforge.net/mplayerplug-in-daily.tar.gz
+Patch1:			 mpplugin-01-makefile.diff
+Patch2:                  mpplugin-02-strings_h.diff
+Patch3:                  mpplugin-03-strstr.diff
+Patch4:                  mpplugin-04-ndelay.diff
+Patch5:                  mpplugin-05-install.diff
 URL:                     http://mplayerplug-in.sourceforge.net/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -103,6 +102,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun May 20 2007 - dick@nagual.nl
+- Changed the code patchfiles to apply to the latest code
+  As of this writing version 3.40 (and higher)
 * Fri Jan  5 2007 - laca@sun.com
 - add -I/usr/include/mps to CFLAGS because some headers are no longer
   delivered in SUNWfirefox in favour of mps

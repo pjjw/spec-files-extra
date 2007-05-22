@@ -44,7 +44,6 @@ export LD_OPTIONS="-L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib"
             --datadir=%{_datadir}	\
             --sysconfdir=%{_sysconfdir}	\
 	    --with-ssl			\
-	    --with-socks		\
 	    --with-screen=ncurses	\
 	    --enable-color-style	\
 	    --enable-scrollbar		\

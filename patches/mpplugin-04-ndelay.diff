@@ -1,0 +1,16 @@
+--- mplayerplug-in/Source/plugin-threads.cpp-p4	Thu Feb 15 04:59:40 2007
++++ mplayerplug-in/Source/plugin-threads.cpp	Sat May 19 12:06:47 2007
+@@ -228,9 +228,11 @@
+ 	// make the operations on the control pipe non-blocking
+ 	flags = fcntl(*control, F_GETFL, 0);
+ 	flags |= O_NONBLOCK;
+-#ifndef BSD
+-	flags |= O_NDELAY;
++
++#if defined(BSD) || !defined(_POSIX_C_SOURCE)
++ 	flags |= O_NDELAY;
+ #endif
++
+ 	fcntl(*control, F_SETFL, flags);
+ 
+ 	retfd = fdopen(filedesr[0], "r");

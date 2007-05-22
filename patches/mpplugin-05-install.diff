@@ -1,0 +1,24 @@
+--- mplayerplug-in/install.sh.in-p5	Thu Jul 20 22:14:45 2006
++++ mplayerplug-in/install.sh.in	Sat May 19 12:53:48 2007
+@@ -17,8 +17,8 @@
+ 	$INSTALL -b -D -m0644 mplayerplug-in.types ${DESTDIR}/etc/mplayerplug-in.types 
+ 	for mod in @CREATE@
+ 	do
+-		$INSTALL -D -m0755 ${mod}.so ${DESTDIR}${libdir}/mozilla/plugins/${mod}.so 
+-		$INSTALL -D -m0755 Source/nsIScriptableMplayerPlugin.xpt ${DESTDIR}${libdir}/mozilla/plugins/${mod}.xpt 
++		$INSTALL -D -m0755 ${mod}.so ${DESTDIR}${libdir}/firefox/plugins/${mod}.so 
++		$INSTALL -D -m0755 Source/nsIScriptableMplayerPlugin.xpt ${DESTDIR}${libdir}/firefox/components/${mod}.xpt 
+ 	done
+ 	make install -C po LOCALEDIR="${LOCALEDIR}" INSTALL="$INSTALL" DESTDIR="$DESTDIR"
+ 
+@@ -29,8 +29,8 @@
+ 		echo "Installing for user `whoami`"
+ 		for mod in @CREATE@
+ 		do
+-			$INSTALL -D -m0755 ${mod}.so ${HOME}/.mozilla/plugins/${mod}.so 
+-			$INSTALL -D -m0755 Source/nsIScriptableMplayerPlugin.xpt ${HOME}/.mozilla/plugins/${mod}.xpt 
++			$INSTALL -D -m0755 ${mod}.so ${DESTDIR}${libdir}/firefox/plugins/${mod}.so 
++			$INSTALL -D -m0755 Source/nsIScriptableMplayerPlugin.xpt ${DESTDIR}${libdir}/firefox/components/${mod}.xpt 
+ 		done
+ 		$INSTALL -b -D -m0644 mplayerplug-in.conf ${HOME}/.mozilla/mplayerplug-in.conf 
+ 		$INSTALL -b -D -m0644 mplayerplug-in.types ${HOME}/.mozilla/mplayerplug-in.types 

@@ -14,6 +14,7 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
+Requires: SFEslang
 Requires: %{name}-root
 
 %package root
@@ -33,12 +34,15 @@ fi
 
 export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
+export CPPFLAGS="-I/usr/sfw/include"
+export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir}  \
             --sysconfdir=%{_sysconfdir} \
 	    --with-docdir=%{_docdir}/muttng \
 	    --disable-nls \
+	    --with-slang=/usr/lib \
 	    --with-ssl=/usr/sfw \
 	    --enable-pop \
 	    --enable-imap
@@ -72,6 +76,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
+* Mon May 21 2007
+- Added CPPFLAGS and LDFLAGS (/usr/sfw) to support openssl
+  Without it ssl is not supported by muttng
+- Forced dependency form libcurses to slang
 * Fri Feb 16 2007 - Doug Scott
 - Bumped to 20061125
 * Mon Nov 06 2006 - Eric Boutilier

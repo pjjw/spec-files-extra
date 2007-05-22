@@ -1,0 +1,15 @@
+--- mplayerplug-in/Source/plugin-list.cpp-p3	Thu Feb 15 14:53:00 2007
++++ mplayerplug-in/Source/plugin-list.cpp	Sat May 19 12:03:48 2007
+@@ -140,9 +140,9 @@
+     char tagtarget[128];
+     char tagurl[1024];
+ 
+-    endvideo = strstr(smilbuffer, "</video");
+-    startarea = strstr(smilbuffer, "<area");
+-
++    endvideo = strstr((char *)smilbuffer, "</video");
++    startarea = strstr((char *)smilbuffer, "<area");
++ 
+     while (startarea && startarea < endvideo) {
+ 	start = strstr(startarea + 5, "begin=");
+ 	if (start) {
