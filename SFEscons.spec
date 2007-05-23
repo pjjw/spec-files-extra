@@ -7,7 +7,8 @@
 %include Solaris.inc
 Name:                    SFEscons
 Summary:                 SCons - a software construction tool
-Version:                 0.96.95
+Version:                 0.97
+URL:                     http://www.scons.org/
 Source:                  http://prdownloads.sourceforge.net/scons/scons-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -47,5 +48,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man*/*
 
 %changelog
+* Wed May 23 2007 - nonsea@users.sourceforge.net
+- Bump to 0.97
 * Tue Mar 06 2007 - nonsea@users.sourceforge.net
 - Initial spec file

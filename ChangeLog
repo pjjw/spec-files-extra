@@ -1,3 +1,7 @@
+2007-05-23  Halton Huo  <nonsea@users.sourceforge.net>
+
+	* SFEscons.spec: Bump to 0.97
+
 2007-05-21  Dick Hoogendijk  <dick@nagual.nl>
 	* SFEmutt.spec: (new) The Mutt E-mail client (original)
 	* SFEmuttng.spec: Forced dependency from libcurses to slang;
