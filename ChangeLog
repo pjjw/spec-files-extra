@@ -1,3 +1,7 @@
+2007-05-23  Dick Hoogendijk <dick@nagual.nl>
+
+	* SFEmutt.spec: Bump to 1.5.15 (devel)
+
 2007-05-23  Halton Huo  <nonsea@users.sourceforge.net>
 
 	* SFEscons.spec: Bump to 0.97
@@ -6,10 +10,10 @@
 	* SFEmutt.spec: (new) The Mutt E-mail client (original)
 	* SFEmuttng.spec: Forced dependency from libcurses to slang;
 	  changed some compilerflags to get good SSL support
-	* SFEslang.spec: Bumped to version 2.0.7
+	* SFEslang.spec: Bump to v2.0.7
 
 2007-05-20  Dick Hoogendijk  <dick@nagual.nl>
-	* SFEmplayer-plugin: Bumped to version 3.40 and up
+	* SFEmplayer-plugin: Bump to v3.40 and up
 	  Patchfiles changed to support newest code
   	  mpplugin-01-makefile.diff ADDED
 	  mpplugin-02-strings_h.diff ADDED

@@ -1,11 +1,11 @@
---- mutt-1.4.2.2/Makefile.in-p1	2006-07-14 20:38:58.000000000 +0200
-+++ mutt-1.4.2.2/Makefile.in	2007-05-21 13:41:40.422427000 +0200
-@@ -1000,7 +1000,7 @@
- 		$(INSTALL) -m 644 $(srcdir)/Muttrc $(DESTDIR)$(sysconfdir) ; \
+--- mutt-1.5.15/Makefile.in-p1	Fri Apr  6 22:05:40 2007
++++ mutt-1.5.15/Makefile.in	Wed May 23 15:38:13 2007
+@@ -1056,7 +1056,7 @@
+ 		$(INSTALL) -m 644 Muttrc $(DESTDIR)$(sysconfdir) ; \
  	fi
  	-if [ ! -f $(DESTDIR)$(sysconfdir)/mime.types ]; then \
 -		$(INSTALL) -m 644 $(srcdir)/mime.types $(DESTDIR)$(sysconfdir); \
-+		$(INSTALL) -m 644 $(srcdir)/mime.types $(DESTDIR)$(sysconfdir)/mutt-mime.types; \
++		$(INSTALL) -m 644 $(srcdir)/mime.types $(DESTDIR)$(sysconfdir)/mime.types.mutt; \
  	fi
  
- # Don't make this one ChangeLog - it's intended to be
+ uninstall-local:

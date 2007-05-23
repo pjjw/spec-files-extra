@@ -7,8 +7,8 @@
 
 Name:                SFEmutt
 Summary:             The mutt e-mail client
-Version:             1.4.2.2
-Source:              ftp://ftp.mutt.org/mutt/mutt-%{version}i.tar.gz
+Version:             1.5.15
+Source:              ftp://ftp.mutt.org/mutt/devel/mutt-%{version}.tar.gz
 Patch1:              mutt-01-makefile.diff
 
 SUNW_BaseDir:        %{_basedir}
@@ -43,7 +43,7 @@ export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib"
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir}  \
             --sysconfdir=%{_sysconfdir} \
-	    --with-docdir=%{_docdir}/muttng \
+	    --with-docdir=%{_docdir}/mutt \
 	    --disable-nls \
 	    --with-slang=/usr/lib \
 	    --with-ssl=/usr/sfw \
@@ -79,6 +79,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
+* Wed May 23 2007 - dick@nagual.nl
+- Bump to v1.5.15 (devel)
 * Mon May 21 2007 - dick@nagual.nl
 - Added CPPFLAGS and LDFLAGS (/usr/sfw) to support openssl
   Without it ssl is not supported by mutt
