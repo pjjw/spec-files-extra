@@ -34,9 +34,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CFLAGS="%optflags"
-export LDFLAGS="%{_ldflags}"
+export LDFLAGS="%{_ldflags} -R/usr/sfw/lib"
 export CPPFLAGS="-I/usr/sfw/include"
-export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir}  \
@@ -77,6 +76,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
+* Sat May 26 2007
+- Corrected LDFLAGS setting
 * Mon May 21 2007
 - Added CPPFLAGS and LDFLAGS (/usr/sfw) to support openssl
   Without it ssl is not supported by muttng
