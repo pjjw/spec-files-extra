@@ -1,3 +1,8 @@
+2007-05-26  Dick Hoogendijk <dick@nagual.nl>
+
+	* SFEmutt.spec: corrected ldflags
+	* SFEmuttng: corrected ldflags
+
 2007-05-23  Dick Hoogendijk <dick@nagual.nl>
 
 	* SFEmutt.spec: Bump to 1.5.15 (devel)
