@@ -1,0 +1,12 @@
+diff -ur hercules-3.04.1-orig/configure.ac hercules-3.04.1/configure.ac
+--- hercules-3.04.1-orig/configure.ac	2006-03-25 20:13:58.000000000 +0700
++++ hercules-3.04.1/configure.ac	2007-05-28 12:38:39.625669924 +0700
+@@ -27,7 +27,7 @@
+ #        Unfortunatelly, these are gcc flags.. so going to have
+ #        to find something better...
+ #
+-CFLAGS="$CFLAGS -W -Wall"
++#CFLAGS="$CFLAGS -W -Wall"
+ 
+ AC_PROG_CC()                            # (back to using this again)
+ 

@@ -1,0 +1,26 @@
+diff -ur hercules-3.04.1-orig/hsccmd.c hercules-3.04.1/hsccmd.c
+--- hercules-3.04.1-orig/hsccmd.c	2006-03-25 19:48:55.000000000 +0700
++++ hercules-3.04.1/hsccmd.c	2007-05-28 13:06:04.871306715 +0700
+@@ -44,9 +44,9 @@
+ int process_script_file(char *,int);
+ 
+ ///////////////////////////////////////////////////////////////////////
+-/* $test_cmd - do something or other */
++/* test_cmd - do something or other */
+ 
+-int $test_cmd(int argc, char *argv[],char *cmdline)
++int test_cmd(int argc, char *argv[],char *cmdline)
+ {
+     UNREFERENCED(argc);
+     UNREFERENCED(argv);
+@@ -4135,8 +4135,8 @@
+ COMMAND ( "suspend",   suspend_cmd,   "Suspend hercules" )
+ COMMAND ( "resume",    resume_cmd,    "Resume hercules\n" )
+ 
+-#define   TEST_CMD "$test"          // (hidden internal command)
+-COMMAND ( TEST_CMD, $test_cmd,        "(hidden internal command)" )
++#define   TEST_CMD "test"          // (hidden internal command)
++COMMAND ( TEST_CMD, test_cmd,        "(hidden internal command)" )
+ 
+ COMMAND ( NULL, NULL, NULL )         /* (end of table) */
+ };

@@ -1,0 +1,163 @@
+diff -ur hercules-3.04.1-orig/configure.ac hercules-3.04.1/configure.ac
+--- hercules-3.04.1-orig/configure.ac	2006-03-25 20:13:58.000000000 +0700
++++ hercules-3.04.1/configure.ac	2007-05-28 14:08:40.391494418 +0700
+@@ -280,6 +280,14 @@
+         hc_cv_is_apple=no
+         ;;
+ 
++    solaris*)
++
++        hc_cv_is_nix=yes
++        hc_cv_is_windows=no
++        hc_cv_is_mingw32=no
++        hc_cv_is_apple=no
++        ;;
++
+     mingw*)
+ 
+         hc_cv_is_nix=no
+@@ -1104,6 +1112,8 @@
+     hc_cv_dash_pthread_needed=no
+ fi
+ 
++hc_cv_dash_pthread_needed=no
++
+ AC_MSG_RESULT( [$hc_cv_dash_pthread_needed] )
+ 
+ #------------------------------------------------------------------
+diff -ur hercules-3.04.1-orig/hercifc.h hercules-3.04.1/hercifc.h
+--- hercules-3.04.1-orig/hercifc.h	2006-03-02 20:16:06.000000000 +0700
++++ hercules-3.04.1/hercifc.h	2007-05-28 14:18:05.971708944 +0700
+@@ -11,6 +11,12 @@
+ #ifndef __HERCIFC_H_
+ #define __HERCIFC_H_
+ 
++#if defined(sun)
++#define __EXTENSIONS__
++#include <net/if.h>
++#include <sys/sockio.h>
++#endif
++
+ #if ( (!defined(WIN32) && \
+        !(defined(HAVE_LINUX_IF_TUN_H) || defined(HAVE_NET_IF_H)) ) || \
+       (defined(WIN32) && !defined(HAVE_NET_IF_H)) )
+diff -ur hercules-3.04.1-orig/hercules.h hercules-3.04.1/hercules.h
+--- hercules-3.04.1-orig/hercules.h	2006-03-02 20:16:06.000000000 +0700
++++ hercules-3.04.1/hercules.h	2007-05-28 13:28:57.234159037 +0700
+@@ -115,4 +115,11 @@
+ #include "hstructs.h"     // (Hercules-wide structures)
+ #include "hexterns.h"     // (Hercules-wide extern function prototypes)
+ 
++#if defined(sun)
++typedef uint8_t u_int8_t;
++typedef uint16_t u_int16_t;
++typedef uint32_t u_int32_t;
++typedef uint64_t u_int64_t;
++#endif
++
+ #endif // _HERCULES_H
+diff -ur hercules-3.04.1-orig/hostopts.h hercules-3.04.1/hostopts.h
+--- hercules-3.04.1-orig/hostopts.h	2006-03-02 20:16:06.000000000 +0700
++++ hercules-3.04.1/hostopts.h	2007-05-28 13:28:57.234485595 +0700
+@@ -201,6 +201,35 @@
+ 
+ 
+ /*-------------------------------------------------------------------*/
++/* Hard-coded Solaris-specific features and options...               */
++/*-------------------------------------------------------------------*/
++#elif defined(sun)	                /* "Solaris" options         */
++
++#define DLL_IMPORT   extern
++#define DLL_EXPORT
++
++#undef  OPTION_SCSI_TAPE                /* No SCSI tape support      */
++#undef  OPTION_SCSI_ERASE_TAPE          /* (NOT supported)           */
++#undef  OPTION_SCSI_ERASE_GAP           /* (NOT supported)           */
++#undef  OPTION_FBA_BLKDEVICE            /* (no FBA BLKDEVICE support)*/
++
++#undef  OPTION_TUNTAP_SETNETMASK        /* TUNTAP_SetNetMask broken  */
++#undef  OPTION_TUNTAP_SETMACADDR        /* TUNTAP_SetMACAddr broken  */
++#undef  OPTION_TUNTAP_DELADD_ROUTES     /* Del/Add Routes    broken  */
++
++#define MAX_DEVICE_THREADS          0   /* (0 == unlimited)          */
++#define MIXEDCASE_FILENAMES_ARE_UNIQUE  /* ("Foo" and "fOo" unique)  */
++
++#define DEFAULT_HERCPRIO    0
++#define DEFAULT_TOD_PRIO  -20
++#define DEFAULT_CPU_PRIO   15
++#define DEFAULT_DEV_PRIO    8
++
++#define HOW_TO_IMPLEMENT_SH_COMMAND       USE_ANSI_SYSTEM_API_FOR_SH_COMMAND
++#define SET_CONSOLE_CURSOR_SHAPE_METHOD   CURSOR_SHAPE_NOT_SUPPORTED
++
++
++/*-------------------------------------------------------------------*/
+ /* Hard-coded FreeBSD-specific features and options...               */
+ /*-------------------------------------------------------------------*/
+ #elif defined(__FreeBSD__)              /* "FreeBSD" options         */
+diff -ur hercules-3.04.1-orig/tuntap.c hercules-3.04.1/tuntap.c
+--- hercules-3.04.1-orig/tuntap.c	2006-03-25 19:48:55.000000000 +0700
++++ hercules-3.04.1/tuntap.c	2007-05-28 14:06:32.205091293 +0700
+@@ -311,13 +311,13 @@
+ int             TUNTAP_SetMTU( char*   pszNetDevName,
+                                char*   pszMTU )
+ {
+-    struct ifreq        ifreq;
++    struct lifreq       lifreq;
+     struct sockaddr_in* sin;
+     int                 iMTU;
+ 
+-    memset( &ifreq, 0, sizeof( struct ifreq ) );
++    memset( &lifreq, 0, sizeof( struct lifreq ) );
+ 
+-    sin = (struct sockaddr_in*)&ifreq.ifr_addr;
++    sin = (struct sockaddr_in*)&lifreq.lifr_addr;
+ 
+     sin->sin_family = AF_INET;
+ 
+@@ -328,7 +328,7 @@
+         return -1;
+     }
+ 
+-    strcpy( ifreq.ifr_name, pszNetDevName );
++    strcpy( lifreq.lifr_name, pszNetDevName );
+ 
+     if( !pszMTU  || !*pszMTU )
+     {
+@@ -346,9 +346,9 @@
+         return -1;
+     }
+ 
+-    ifreq.ifr_mtu = iMTU;
++    lifreq.lifr_mtu = iMTU;
+ 
+-    return TUNTAP_IOCtl( 0, SIOCSIFMTU, (char*)&ifreq );
++    return TUNTAP_IOCtl( 0, SIOCSIFMTU, (char*)&lifreq );
+ }
+ 
+ //
+@@ -687,7 +687,7 @@
+         }
+ 
+         /* Terminate TunTap on shutdown */
+-        hdl_adsc("tuntap_term", tuntap_term, NULL);
++        hdl_adsc("tuntap_term", (void *)tuntap_term, NULL);
+     }
+ 
+     // Populate some common fields
+diff -ur hercules-3.04.1-orig/tuntap.h hercules-3.04.1/tuntap.h
+--- hercules-3.04.1-orig/tuntap.h	2006-01-13 15:42:11.000000000 +0700
++++ hercules-3.04.1/tuntap.h	2007-05-28 14:06:32.205161515 +0700
+@@ -65,6 +65,12 @@
+ // Helper Macros
+ //
+ 
++#if defined(sun)
++#define __EXTENSIONS__
++#include <net/if.h>
++#include <sys/sockio.h>
++#endif
++
+ #if defined( WIN32 )
+   #define TUNTAP_Open     tt32_open
+   #define TUNTAP_Close    tt32_close

@@ -1,3 +1,10 @@
+2007-05-28  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEhercules.spec: Added IBM Mainframe emulator
+	* patches/hercules-01-wall.diff: Usual -Wall removal
+	* patches/hercules-02-solaris.diff: Solaris configuration
+	* patches/hercules-03-test_cmd.diff: function starting with $
+
 2007-05-26  Dick Hoogendijk <dick@nagual.nl>
 
 	* SFEmutt.spec: corrected ldflags
