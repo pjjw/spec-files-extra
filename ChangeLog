@@ -1,5 +1,10 @@
 2007-05-28  Dick Hoogendijk
 
+	* SFEtcl.spec: added package devel
+	* SFEtk.spec: added package devel
+
+2007-05-28  Dick Hoogendijk
+
 	* SFEtcl.spec: (new) Tcl - Tool Command Language v8.4.14
 	* SFEtk.spec: (new) Tk - TCL GUI Toolkit v8.4.14
 
