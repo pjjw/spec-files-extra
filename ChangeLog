@@ -1,3 +1,8 @@
+2007-05-28  Dick Hoogendijk
+
+	* SFEtcl.spec: (new) Tcl - Tool Command Language v8.4.14
+	* SFEtk.spec: (new) Tk - TCL GUI Toolkit v8.4.14
+
 2007-05-28  Doug Scott  <dougs@truemail.co.th>
 
 	* SFElibfribidi.spec: added fribidi library
