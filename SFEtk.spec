@@ -22,6 +22,12 @@ Requires: SUNWxwplt
 Requires: SUNWxwrtl
 Requires: SFEtcl
 
+%package devel
+Summary: %{summary} - development files
+SUNW_BaseDir:        %{_basedir}
+%include default-depend.inc
+Requires: %name
+
 %prep
 %setup -q -n tk%version/unix
 
@@ -45,6 +51,8 @@ make -j$CPUS
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
+mv $RPM_BUILD_ROOT/%{_mandir}/mann/* $RPM_BUILD_ROOT/%{_mandir}/man3
+rm -rf $RPM_BUILD_ROOT/%{_mandir}/mann
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -53,8 +61,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/tkConfig.sh
 %{_libdir}/libtk*
@@ -62,7 +68,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/tk8.4/*
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, bin) %{_mandir}
-%{_mandir}/*
+%dir %attr (0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/*
+
+%files devel
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man3
+%{_mandir}/man3/*
 
 %changelog
 * Mon May 28 2007 - dick@nagual.nl
