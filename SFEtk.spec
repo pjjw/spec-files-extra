@@ -51,8 +51,6 @@ make -j$CPUS
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-mv $RPM_BUILD_ROOT/%{_mandir}/mann/* $RPM_BUILD_ROOT/%{_mandir}/man3
-rm -rf $RPM_BUILD_ROOT/%{_mandir}/mann
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -69,7 +67,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
+%dir %attr (0755, root, bin) %{_mandir}/mann
 %{_mandir}/man1/*
+%{_mandir}/mann/*
 
 %files devel
 %defattr (-, root, bin)
@@ -81,5 +81,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sun Jun 03 2007 - dick@nagual.nl
+- Corrected the location of the mann directory
 * Mon May 28 2007 - dick@nagual.nl
 - Initial spec

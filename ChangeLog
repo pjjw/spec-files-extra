@@ -1,3 +1,8 @@
+2007-06-03  Dick Hoogendijk
+
+	* SFEtcl.spec: corrected the location of the mann directory
+	* SFEtk.spec: corrected the location of the mann directory
+
 2007-05-28  Dick Hoogendijk
 
 	* SFEtcl.spec: added package devel
