@@ -7,16 +7,18 @@
 Name:                    SFEgmpc
 Summary:                 gmpc - A gnome frontend for the mpd daemon
 URL:                     http://sarine.nl/gmpc/
-Version:                 0.14.0
-Source:                  http://download.sarine.nl/gmpc-0.14.0/gmpc-%{version}.tar.gz
+Version:                 0.15.0
+Source:                  http://download.sarine.nl/gmpc-0.15.0/gmpc-%{version}.tar.gz
 
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires:		 SFElibmpd-devel
 BuildRequires:		 SFEcurl-devel
+#test#BuildRequires:           SFEavahi-devel
 Requires:		 SFElibmpd
 Requires:		 SFEcurl
+#test#Requires:		       SFEavahi
 
 %include default-depend.inc
 
@@ -45,7 +47,7 @@ export CC=/usr/sfw/bin/gcc
 export CXX=/usr/sfw/bin/g++
 
 #TODO: check --disable-sm 
-./configure --prefix=%{_prefix} \
+CC=/usr/sfw/bin/gcc CXX=/usr/sfw/bin/g++ ./configure --prefix=%{_prefix} \
             --disable-sm
 make
 
@@ -53,15 +55,6 @@ make
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
-%if %build_l10n
-#TODO check if needed  # Rename pl_PL dir to pl as pl_PL is a symlink to pl and causing installation
-#TODO check if needed  # problems as a dir.
-#TODO check if needed  cd $RPM_BUILD_ROOT%{_datadir}/locale
-#TODO check if needed  mv pl_PL pl
-%else
-# REMOVE l10n FILES
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
-%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -99,5 +92,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat May 26 2007  - Thomas Wagner
+- bump to 0.15.0
+- set compiler to gcc
+- builds with Avahi, if present
 * Thu Apr 06 2007  - Thomas Wagner
 - Initial spec

@@ -2,6 +2,8 @@
 # spec file for package SFExosd
 #
 
+# Note: builds only with  gcc !
+
 %include Solaris.inc
 Name:                    SFExosd
 Summary:                 xosd - simple library to display shaped text on X Display
@@ -38,7 +40,8 @@ Requires:                %{name}
 
 %build
 
-./configure --prefix=%{_prefix}  \
+
+CC=/usr/sfw/bin/gcc CXX=/usr/sfw/bin/g++ ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir}   \
             --disable-static
 
@@ -50,19 +53,9 @@ rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
 #empty directories (xmms):
-rm -r $RPM_BUILD_ROOT/opt
+test -d $RPM_BUILD_ROOT/opt && rm -r $RPM_BUILD_ROOT/opt
 
 rm -r $RPM_BUILD_ROOT/%{_libdir}/*la
-
-%if %build_l10n
-#TODO check if needed  # Rename pl_PL dir to pl as pl_PL is a symlink to pl and causing installation
-#TODO check if needed  # problems as a dir.
-#TODO check if needed  cd $RPM_BUILD_ROOT%{_datadir}/locale
-#TODO check if needed  mv pl_PL pl
-%else
-# REMOVE l10n FILES
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
-%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -100,5 +93,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu May 31 2007  - Thomas Wagner
+- force compiler to gcc.
+- conditional rm -r $RPM_BUILD_ROOT/opt (really needed?)
+- builds only with gcc
 * Thu Apr 07 2007  - Thomas Wagner
 - Initial spec

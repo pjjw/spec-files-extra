@@ -3,7 +3,7 @@
 @@ -26,7 +26,13 @@
  AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE",[Gettext package name])
  
- ALL_LINGUAS="be cs de el es fi fr gl hu it ja ko lt nl pa pt ru sq sr sv vi zh_TW"
+ ALL_LINGUAS="be ca cs de el es fi fr gl hu it ja ko lt nl pa pt ru sq sr sv uk vi zh_CN zh_TW"
 -AM_GNU_GETTEXT
 +AM_GLIB_GNU_GETTEXT
 +USE_INCLUDED_LIBINTL=no

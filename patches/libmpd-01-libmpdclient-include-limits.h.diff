@@ -1,0 +1,12 @@
+This is already fixed in the CVS version (should be obsolete in > 0.14.0)
+
+--- libmpd-0.14.0/src/libmpdclient.c.orig	2007-05-26 17:06:15.058485006 +0200
++++ libmpd-0.14.0/src/libmpdclient.c	2007-05-26 17:02:10.472415458 +0200
+@@ -41,6 +41,7 @@
+ #include <unistd.h>
+ #include <stdlib.h>
+ #include <fcntl.h>
++#include <limits.h>
+ 
+ #ifdef WIN32
+ #  include <ws2tcpip.h>

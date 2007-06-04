@@ -8,8 +8,8 @@
 Name:                    SFEgmpc-plugin-serverstats
 Summary:                 gmpc-serverstats - server statistics and database details from mpd server  - plugin for gmpc
 URL:                     http://sarine.nl/gmpc-plugins-serverstats
-Version:                 0.14.0
-%define gmpc_version 0.14.0
+Version:                 0.15.0
+%define gmpc_version 0.15.0
 Source:                  http://download.sarine.nl/gmpc-%{gmpc_version}/plugins/gmpc-serverstats-%{version}.tar.gz
 
 
@@ -30,7 +30,7 @@ export LDFLAGS="-lX11"
 export CC=/usr/sfw/bin/gcc
 export CXX=/usr/sfw/bin/g++
 
-./configure --prefix=%{_prefix}
+CC=/usr/sfw/bin/gcc CXX=/usr/sfw/bin/g++ ./configure --prefix=%{_prefix}
 
 make
 
@@ -53,5 +53,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat May 26 2007  - Thomas Wagner
+- bump to 0.15.0
+- set compiler to gcc
 * Thu Apr 06 2007  - Thomas Wagner
 - Initial spec

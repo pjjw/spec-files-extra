@@ -1,0 +1,10 @@
+--- mpd-0.13.0/doc/mpdconf.example.orig	2007-05-28 15:37:29.000000000 +0200
++++ mpd-0.13.0/doc/mpdconf.example	2007-05-29 01:42:41.216630386 +0200
+@@ -252,6 +252,7 @@
+ # The encoding that ID3v1 tags should be converted from.
+ #
+ #id3v1_encoding                  "ISO-8859-1"
++id3v1_encoding                  "UTF-8"
+ #
+ ################################################################
+ 

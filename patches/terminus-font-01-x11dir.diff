@@ -1,0 +1,11 @@
+--- terminus-font-4.20/Makefile.orig	2007-06-03 23:00:24.000000000 +0200
++++ terminus-font-4.20/Makefile	2007-06-03 23:04:53.631956141 +0200
+@@ -79,7 +79,7 @@
+ DESTDIR	= 
+ prefix	= /usr
+ psfdir	= $(prefix)/share/consolefonts
+-x11dir	= $(prefix)/X11R6/lib/X11/fonts/local
++x11dir	= $(prefix)/openwin/lib/X11/fonts/pcf
+ 
+ install: $(PSF) $(PCF)
+ 	mkdir -p $(DESTDIR)$(psfdir)

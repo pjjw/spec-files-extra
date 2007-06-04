@@ -1,3 +1,48 @@
+2007-06-04  Thomas Wagner <tom68@users.sourceforge.net>
+
+        * SFEmpd.spec: bump to 0.13.0, re- --enable-flac --enable-oggflac
+                       mpd now compiles with newer flac versions
+                       (new feature) --enable-shout for streaming:t
+                       "the net is the music"
+                       if SFEavahi is present, mpd resources will
+                       be announced with zeroconf/avahi/mDNS broadcasts
+                       patch3: make id3_charset in mpdconf.example
+                       default to UTF-8
+
+        * SFEavahi.spec: (new) implemetation of service discovery in
+                       local LAN (see Rendezvous/Bonjour/Zeroconf and ...
+                       nwam in the future)
+        * SFElibdaemon.spec: (new) library for building daemons (for avahi)
+
+        * SFEgmpc.spec: (new feature) AVAHI zeroconf support
+                        (new feature) icecast/shout stream to local client (needs: ogg123)
+                        bump to 0.15.0, set compiler to gcc
+        * SFEgmpc-(lyrics|serverstats|coveramazon|autoplaylist|qosd|stopbutton|lastfm|magnatune|osd|mdcover).spec
+                        bump to 0.15.0, set compiler to gcc
+        * SFElibmpd.spec: bump to 0.14.0
+                        temporary patch libmpd-01-libmpdclient-include-limits.h.diff
+
+        * SFExosd.spec: set compiler to gcc
+
+        * SFEgtodo2.spec: (new) GNOME todo list with priorities and due date
+
+        * SFEcurl.spec: bump to 7.16.2, --disable-static
+
+        * SFExchat.spec: bump to 2.8.2
+                         /usr/bin/msgfmt errors, use /opt/sfw/bin/msgfmt
+                         reworked patch for 2.8.2
+
+        * SFEicecast.spec: (new) stream musik over http to the LAN/WAN network
+        * SFElibshout.spec: (new) Support Library for icecast audio streaming
+
+        * SFEpulseaudio.spec: (new) first shot.
+        * SFElibsamplerate.spec: (new) samplerate conversion for pulseaudio
+        * SFEpavumeter.spec: (new) volume meter
+
+        * SFEfont-terminus.spec: (new) nice readably font
+
+        * SFElynx.spec: bump to 2.8.6, new download-URL since not in /current/-diry
+
 2007-06-03  Dick Hoogendijk
 
 	* SFEtcl.spec: corrected the location of the mann directory

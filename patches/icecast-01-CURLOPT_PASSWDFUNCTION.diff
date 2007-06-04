@@ -1,0 +1,47 @@
+URL: http://www.nabble.com/Install-problem-t3597301.html
+Re: Install problem
+Click to flag this post 3 stars [3 stars] [3 stars]
+
+by Karl Heyes Apr 17, 2007; 10:27pm :: Rate this Message: - Use ratings to moderate (?)
+
+Reply | Reply to Author | View Threaded | Show Only this Message
+riscphree wrote:
+> I get this error when installing icecast using the 'make' command. I
+> used the latest version of the dependencies:
+
+[stuff deleted from original posting ...]
+
+yeah, latest libcurl (7.16) dropped a setting, the fix should be
+trivial, I've attached a diff below if you want to try it out.
+
+karl. 
+
+--- icecast-2.3.1/src/auth_url.c.orig	Mi Nov 30 19:16:17 2005
++++ icecast-2.3.1/src/auth_url.c	Mi Mai  9 00:31:29 2007
+@@ -111,7 +111,7 @@
+     free (url);
+ }
+ 
+-
++#ifdef CURLOPT_PASSWDFUNCTION
+ /* make sure that prompting at the console does not occur */
+ static int my_getpass(void *client, char *prompt, char *buffer, int buflen)
+ {
+@@ -118,6 +118,7 @@
+     buffer[0] = '\0';
+     return 0;
+ }
++#endif
+ 
+ 
+ static int handle_returned_header (void *ptr, size_t size, size_t nmemb, void *stream)
+@@ -518,7 +519,9 @@
+     curl_easy_setopt (url_info->handle, CURLOPT_WRITEDATA, url_info->handle);
+     curl_easy_setopt (url_info->handle, CURLOPT_NOSIGNAL, 1L);
+     curl_easy_setopt (url_info->handle, CURLOPT_TIMEOUT, 15L);
++#ifdef CURLOPT_PASSWDFUNCTION
+     curl_easy_setopt (url_info->handle, CURLOPT_PASSWDFUNCTION, my_getpass);
++#endif
+     curl_easy_setopt (url_info->handle, CURLOPT_ERRORBUFFER, &url_info->errormsg[0]);
+ 
+     if (url_info->username && url_info->password)

@@ -5,18 +5,12 @@
 # package are under the same license as the package itself.
 
 
-# IMPORTANT NOTE: compile with "gcc" - the code uses unnamed unions/structs
-
 %include Solaris.inc
 
-Name:                SFElibmpd
-Summary:             libmpd for gmpc
-Version:             0.14.0
-#needed for download-URL:
-%define gmpc_version 0.15.0
-Source:              http://download.sarine.nl/gmpc-%{gmpc_version}/libmpd-%{version}.tar.gz
-# pls remove patch1 if Version > 0.14.0 has #include <limits.h>
-Patch1:              libmpd-01-libmpdclient-include-limits.h.diff
+Name:                SFElibsamplerate
+Summary:             libsamplerate - Sample Rate Converter for audio
+Version:             0.1.2
+Source:              http://www.mega-nerd.com/SRC/libsamplerate-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -31,9 +25,7 @@ Requires: %name
 
 
 %prep
-%setup -q -n libmpd-%version
-# pls remove patch1 if Version > 0.14.0 has #include <limits.h>
-%patch1 -p1
+%setup -q -n libsamplerate-%version
 
 
 %build
@@ -43,13 +35,10 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
-export LDFLAGS="%_ldflags"                                          
- 
-export CC=/usr/sfw/bin/gcc
-export CXX=/usr/sfw/bin/g++
+export CFLAGS="%optflags"
+export LDFLAGS="%_ldflags"
 
-CC=/usr/sfw/bin/gcc CXX=/usr/sfw/bin/g++ ./configure --prefix=%{_prefix} \
+./configure --prefix=%{_prefix} \
             --mandir=%{_mandir} \
             --enable-static=no
 
@@ -70,10 +59,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
+
 
 
 %files devel
@@ -83,9 +75,6 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sat May 26 2007  - Thomas Wagner
-- bump to 0.14.0 (corresponding to gmpc version 0.15.0)
-- added patch1, pls remove this if Version > 0.14.0 has #include <limits.h>
-* 20070406 Thomas Wagner
+* 20070522 Thomas Wagner
 - Initial spec
 

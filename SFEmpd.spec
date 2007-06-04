@@ -17,10 +17,11 @@
 
 Name:                SFEmpd
 Summary:             Daemon for remote access music playing & managing playlists
-Version:             0.12.2
+Version:             0.13.0
 Source:              http://www.musicpd.org/uploads/files/mpd-%{version}.tar.bz2
 Patch1:              mpd-01-include-ao-mpdconf.example.diff
 Patch2:              mpd-02-filesystem_charset-UTF-8-mpdconf.example.diff
+Patch3:              mpd-03-id3-tags-UTF-8-mpdconf.example.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -34,6 +35,9 @@ BuildRequires: SFElibid3tag-devel
 BuildRequires: SUNWogg-vorbis-devel
 BuildRequires: SUNWgnome-audio-devel
 BuildRequires: SUNWflac-devel
+BuildRequires: SFElibshout-devel
+#TODO# BuildRequires: SFElibpulse-devel
+BuildRequires: SFEavahi-devel
 Requires: SFElibao
 Requires: SFElibmpcdec
 Requires: SFElibmad
@@ -43,6 +47,9 @@ Requires: SFEid3lib
 Requires: SUNWogg-vorbis
 Requires: SUNWgnome-audio
 Requires: SUNWflac
+Requires: SFElibshout
+#TODO# Requires: SFElibpulse-devel
+Requires: SFEavahi
 
 %prep
 %setup -q -n mpd-%version
@@ -59,19 +66,17 @@ fi
 export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
 
-export PKG_CONFIG=/usr/lib/pkgconfig
 
 # Note: mp3 decoding and id3tag support is not configured 
 # in here (it probably should be though)
 
+#test#libtoolize --force
+
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir}  \
-            --disable-flac       \
-            --disable-oggflac    \
 	    --enable-ao          \
-	    --enable-shout       
-
-#	    --disable-id3
+	    --enable-shout       \
+	    --enable-pulse
 
 make -j$CPUS
 
@@ -105,6 +110,23 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Mon May 28 2007 Thomas Wagner
+- bump to 0.13.0
+- --enable-flac --enable-oggflac
+  mpd now compiles with newer flac versions
+- --enable-shout for buffered streaming to the net in ogg format
+- add depency SFElibshout(-devel)
+- if SFEavahi is present, mpd resources will be announced with
+  zeroconf/avahi/mDNS broadcasts
+- patch3: make id3_charset in mpdconf.example default to UTF-8
+  NOTE: If files with special characters in id3_tags are missing in your
+  database, then update your existing /etc/mpd.conf|~/.mpdconf to set
+      id3v1_encoding  "UTF-8"
+  and recreate the db (mpd --create-db).
+- removed wrong export PKG_CONFIG=/usr/lib/pkgconfig
+* May 17 2007 - Thomas Wagner
+- --enable-shout - you need gcc to have configure detect shout libs
+- added dependcies SFElibshout(-devel)
 * Thu Apr 26 2007 - Thomas Wagner
 - --disable-flac, --disable-oggflac
   mpd possibly has to be updated to reflect new libFLAC includes

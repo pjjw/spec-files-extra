@@ -8,7 +8,7 @@
 
 Name:                    SFEcurl
 Summary:                 curl - Get a file from FTP or HTTP server.
-Version:                 7.16.1
+Version:                 7.16.2
 Source:			 http://curl.haxx.se/download/curl-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -42,7 +42,8 @@ export MSGFMT="/usr/bin/msgfmt"
 	    --bindir=%{_bindir}			\
 	    --includedir=%{_includedir}		\
 	    --mandir=%{_mandir}			\
-            --libdir=%{_libdir}
+            --libdir=%{_libdir}                 \
+            --disable-static
 
 make -j$CPUS 
 
@@ -84,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Mon May 28 2007 - Thomas Wagner
+- bump to 7.16.2
+- --disable-static
 * Thu Feb 15 2007 - laca@sun.com
 - bump to 7.16.1
 * Wed Jan  3 2007 - laca@sun.com

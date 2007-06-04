@@ -10,7 +10,7 @@
 
 Name:                    SFExchat
 Summary:                 XChat IRC Client
-Version:                 2.8.0
+Version:                 2.8.2
 Source:                  http://www.xchat.org/files/source/2.8/xchat-%{version}.tar.bz2
 Patch1:                  xchat-01-gettext.diff
 Patch2:                  xchat-02-zero-index.diff
@@ -62,7 +62,7 @@ export RPM_OPT_FLAGS="$CFLAGS"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CPPFLAGS="-I/usr/sfw/include"
 export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib"
-export MSGFMT="/usr/bin/msgfmt"
+export MSGFMT="/opt/sfw/bin/msgfmt"
 
 glib-gettextize -f
 libtoolize --copy --force
@@ -155,6 +155,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue May 29 2007 - Thomas Wagner
+- bump to 2.8.2
+- /usr/bin/msgfmt errors, use /opt/sfw/bin/msgfmt
+- reworked patch for 2.8.2
 * Sun Jan  7 2007 - laca@sun.com
 - bump to 2.8.0, merge patches, update %files
 * Mon Jul 31 2006 - glynn.foster@sun.com

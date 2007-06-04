@@ -3,25 +3,20 @@
 # Copyright (c) 2006 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
-
-
-# IMPORTANT NOTE: compile with "gcc" - the code uses unnamed unions/structs
+#
+# Note: This spec file will only work if CC is gcc. Do it at the command line
+# before invoking this spec file (as opposed to putting it in %build below).
+# That way the macros in Solaris.inc will know you've set it.
 
 %include Solaris.inc
 
-Name:                SFElibmpd
-Summary:             libmpd for gmpc
-Version:             0.14.0
-#needed for download-URL:
-%define gmpc_version 0.15.0
-Source:              http://download.sarine.nl/gmpc-%{gmpc_version}/libmpd-%{version}.tar.gz
-# pls remove patch1 if Version > 0.14.0 has #include <limits.h>
-Patch1:              libmpd-01-libmpdclient-include-limits.h.diff
-
+Name:                SFElibdaemon
+Summary:             libdaemon
+Version:             0.10
+Source:              http://0pointer.de/lennart/projects/libdaemon/libdaemon-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-
 
 %package devel
 Summary:                 %{summary} - development files
@@ -29,11 +24,8 @@ SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
 
-
 %prep
-%setup -q -n libmpd-%version
-# pls remove patch1 if Version > 0.14.0 has #include <limits.h>
-%patch1 -p1
+%setup -q -n libdaemon-%version
 
 
 %build
@@ -43,15 +35,19 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
-export LDFLAGS="%_ldflags"                                          
- 
-export CC=/usr/sfw/bin/gcc
-export CXX=/usr/sfw/bin/g++
+export CFLAGS="-I/usr/sfw/include -L/usr/sfw/lib -I/opt/sfw/include -L/opt/sfw/lib"
+export CFLAGS="$CFLAGS -D_XOPEN_SOURCE=500 -D__EXTENSIONS__"
 
-CC=/usr/sfw/bin/gcc CXX=/usr/sfw/bin/g++ ./configure --prefix=%{_prefix} \
+export LDFLAGS="%{_ldflags} -lsocket -lnsl -L/usr/sfw/lib"
+#fuer SunCC
+#export LDFLAGS="-lsocket -lnsl -L/usr/sfw/lib"
+#export LDFLAGS="-lsocket -lnsl -L/usr/sfw/lib"
+
+./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
-            --enable-static=no
+	    --localstatedir=%{_localstatedir} \
+	    --sysconfdir=%{_sysconfdir} \
+            --disable-lynx
 
             
 
@@ -63,6 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 
 
 %clean
@@ -71,21 +68,18 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/lib*
+%{_libdir}/lib*.so*
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
-
 
 %files devel
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 
-
 %changelog
-* Sat May 26 2007  - Thomas Wagner
-- bump to 0.14.0 (corresponding to gmpc version 0.15.0)
-- added patch1, pls remove this if Version > 0.14.0 has #include <limits.h>
-* 20070406 Thomas Wagner
+* Mon May 28 Thomas Wagner
+- split into runtime and -devel
+* 20070130 Thomas Wagner
 - Initial spec
 

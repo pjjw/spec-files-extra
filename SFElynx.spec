@@ -7,8 +7,8 @@
 
 Name:		SFElynx
 Summary:	Text mode browser
-Version:	2.8.6rel.4
-Source:		http://lynx.isc.org/current/lynx%{version}.tar.bz2
+Version:	2.8.6
+Source:		http://lynx.isc.org/lynx%{version}/lynx%{version}.tar.bz2
 Patch1:		lynx-01-color.diff
 SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
@@ -74,5 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}
 
 %changelog
+* Sat May 26 2007 - Thomas Wagner
+- version bump to 2.8.6, new download-URL since not in /current/-diry
 * Fri Apr 20 2007 - Doug Scott
 - Initial spec

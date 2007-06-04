@@ -1,0 +1,11 @@
+--- avahi-0.6.19/avahi-utils/stdb.c.orig	2007-04-13 00:14:48.000000000 +0200
++++ avahi-0.6.19/avahi-utils/stdb.c	2007-05-29 03:19:29.536804528 +0200
+@@ -190,7 +190,7 @@
+             key = gdbm_nextkey(gdbm_file, key);
+ #endif
+ #ifdef HAVE_DBM
+-            key = dbm_nextkey(dbm_file, key);
++            key = dbm_nextkey(dbm_file);
+ #endif
+         }
+ 
