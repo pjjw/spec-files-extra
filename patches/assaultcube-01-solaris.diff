@@ -1,0 +1,23 @@
+--- AssaultCube/source/src/Makefile.orig	2007-06-05 19:39:45.783649384 +0700
++++ AssaultCube/source/src/Makefile	2007-06-05 19:42:10.178423870 +0700
+@@ -1,9 +1,8 @@
+-CXXOPTFLAGS=-O3 -fomit-frame-pointer
+ INCLUDES=-I/usr/X11R6/include -I../enet/include `sdl-config --cflags`
+-CXXFLAGS=$(CXXOPTFLAGS) $(INCLUDES) -fsigned-char -Wall -Wno-deprecated
++CXXFLAGS=$(CXXOPTFLAGS) $(INCLUDES)
+ 
+ PLATFORM_PREFIX=native
+-CLIENT_LIBS=-L/usr/X11R6/lib -L../enet -lenet `sdl-config --libs` -lSDL_image -lSDL_mixer -lz -lGL -lGLU 
++CLIENT_LIBS=-L/usr/X11R6/lib -L../enet -lenet `sdl-config --libs` -lSDL_image -lSDL_mixer -lz -lGL -lGLU -lX11 -lsocket -lnsl
+ CLIENT_OBJS= \
+ 	client.o \
+ 	clientgame.o \
+@@ -48,7 +47,7 @@
+ 	bot/ac_bot_ai.o 
+ 
+ 
+-SERVER_LIBS=-L../enet -lenet
++SERVER_LIBS=-L../enet -lenet -lsocket -lnsl
+ SERVER_FILES= \
+ 	serverms.cpp \
+ 	server.cpp \

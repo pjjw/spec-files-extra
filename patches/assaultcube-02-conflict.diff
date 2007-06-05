@@ -1,0 +1,69 @@
+--- AssaultCube/source/src/renderhud.cpp.orig	2007-06-05 19:58:47.757027557 +0700
++++ AssaultCube/source/src/renderhud.cpp	2007-06-05 19:59:21.560872172 +0700
+@@ -4,7 +4,7 @@
+ 
+ void drawicon(Texture *tex, float x, float y, float s, int col, int row, float ts)
+ {
+-    if(tex && tex->xs == tex->ys) quad(tex->id, x, y, s, ts*col, ts*row, ts);
++    if(tex && tex->xs == tex->ys) a_quad(tex->id, x, y, s, ts*col, ts*row, ts);
+ }
+ 
+ void drawequipicon(float x, float y, int col, int row, float blend)
+@@ -177,7 +177,7 @@
+     if(showmap) 
+     {
+         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
+-        quad(minimaptex, 0, 0, radarviewsize, (centerpos.x-res/2)/worldsize, (centerpos.y-res/2)/worldsize, res/worldsize);
++        a_quad(minimaptex, 0, 0, radarviewsize, (centerpos.x-res/2)/worldsize, (centerpos.y-res/2)/worldsize, res/worldsize);
+         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+         glDisable(GL_BLEND);
+     }
+@@ -225,7 +225,7 @@
+         glColor3f(1, 1, 1);
+         static Texture *overlaytex = NULL;
+         if(!overlaytex) overlaytex = textureload("packages/misc/radaroverlays.png", 3);
+-        quad(overlaytex->id, VIRTW-overlaysize-10, 10, overlaysize, m_teammode ? 0.5f*team_int(player1->team) : 0, m_teammode ? 0 : 0.5f, 0.5f, 0.5f); 
++        a_quad(overlaytex->id, VIRTW-overlaysize-10, 10, overlaysize, m_teammode ? 0.5f*team_int(player1->team) : 0, m_teammode ? 0 : 0.5f, 0.5f, 0.5f); 
+         glEnable(GL_CULL_FACE);
+     }
+ }
+@@ -237,7 +237,7 @@
+     glColor3f(1, 1, 1);
+     static Texture *icons = NULL;
+     if(!icons) icons = textureload("packages/misc/teamicons.png");
+-    quad(icons->id, VIRTW-VIRTH/12-10, 10, VIRTH/12, team_int(player1->team) ? 0.5f : 0, 0, 0.5f, 0.5f);
++    a_quad(icons->id, VIRTW-VIRTH/12-10, 10, VIRTH/12, team_int(player1->team) ? 0.5f : 0, 0, 0.5f, 0.5f);
+     glEnable(GL_CULL_FACE);
+ }
+ 
+@@ -410,7 +410,7 @@
+     loopi(fmt ? 1 : 2)
+     {
+         glClear(GL_COLOR_BUFFER_BIT);
+-        quad(logo->id, (VIRTW-VIRTH)/2, 0, VIRTH, 0, 0, 1);
++        a_quad(logo->id, (VIRTW-VIRTH)/2, 0, VIRTH, 0, 0, 1);
+         if(fmt)
+         {
+             glEnable(GL_BLEND);
+--- AssaultCube/source/src/protos.h.orig	2007-06-05 19:58:15.342674093 +0700
++++ AssaultCube/source/src/protos.h	2007-06-05 19:58:17.823304475 +0700
+@@ -61,7 +61,7 @@
+ extern void dot(int x, int y, float z);
+ extern void linestyle(float width, int r, int g, int b);
+ extern void blendbox(int x1, int y1, int x2, int y2, bool border, int tex = -1);
+-extern void quad(GLuint tex, float x, float y, float s, float tx, float ty, float tsx, float tsy = 0);
++extern void a_quad(GLuint tex, float x, float y, float s, float tx, float ty, float tsx, float tsy = 0);
+ extern void circle(GLuint tex, float x, float y, float r, float tx, float ty, float tr, int subdiv = 32);
+ extern void gl_drawframe(int w, int h, float changelod, float curfps);
+ extern void clearminimap();
+--- AssaultCube/source/src/rendergl.cpp.orig	2007-06-05 19:58:03.463233585 +0700
++++ AssaultCube/source/src/rendergl.cpp	2007-06-05 19:58:17.822921121 +0700
+@@ -108,7 +108,7 @@
+     xtraverts += 4;
+ }   
+ 
+-void quad(GLuint tex, float x, float y, float s, float tx, float ty, float tsx, float tsy)
++void a_quad(GLuint tex, float x, float y, float s, float tx, float ty, float tsx, float tsy)
+ {
+     if(!tsy) tsy = tsx;
+     glBindTexture(GL_TEXTURE_2D, tex);

@@ -1,5 +1,12 @@
 2007-06-05  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEassaultcube.spec: Added AssaultCube Game Engine
+	* patches/assaultcube-01-solaris.diff: patch for Solaris
+	* patches/assaultcube-02-conflict.diff: patch for Solaris
+	* patches/assaultcube-03-cmds.diff: patch for Solaris
+
+2007-06-05  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEpstoedit.spec: Added Converts PS and PDF
 	* SFEsauerbraten.spec: Added Sauerbraten game engine
 	* patches/sauerbraten-01-solaris.diff: patch for Solaris
