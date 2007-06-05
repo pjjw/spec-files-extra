@@ -15,6 +15,7 @@ Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+BuildRequires: SFEjam
 
 %package devel
 Summary:                 %{summary} - development files
@@ -70,5 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/X11/include
 
 %changelog
+* Tue Jun  5 2007 - dougs@truemail.co.th
+- Added SFEjam as a build requirement
 * Sun May  6 2007 - dougs@truemail.co.th
 - Initial version

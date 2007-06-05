@@ -6,13 +6,12 @@
 %include Solaris.inc
 
 %define src_name	ode
-%define src_url		http://opende.sourceforge.net/snapshots
+%define src_url		http://nchc.dl.sourceforge.net/sourceforge/opende
 
 Name:                   SFEode
 Summary:                high performance library for simulating rigid body dynamics
-Version:                060223
-Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
-Patch1:			ode-01-gcc-args.diff
+Version:                0.8
+Source:                 %{src_url}/%{src_name}-src-%{version}.zip
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -24,14 +23,12 @@ SUNW_BaseDir:            %{_prefix}
 
 %prep
 %setup -q -n %{src_name}-%{version}
-%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-
 
 bash ./autogen.sh
 export CC=/usr/sfw/bin/gcc
@@ -69,5 +66,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Tue Jun  5 2007 - dougs@truemail.co.th
+- Bumped to 0.8, and removed patch
 * Sun May  6 2007 - dougs@truemail.co.th
 - Initial version

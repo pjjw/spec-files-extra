@@ -1,0 +1,12 @@
+diff -ur openal-0.0.8-orig/src/audioconvert/ac_misc.c openal-0.0.8/src/audioconvert/ac_misc.c
+--- openal-0.0.8-orig/src/audioconvert/ac_misc.c	2006-01-20 03:58:51.000000000 +0700
++++ openal-0.0.8/src/audioconvert/ac_misc.c	2007-05-14 20:11:24.281015146 +0700
+@@ -37,7 +37,7 @@
+ 	ALshort iSamp1;
+ 	ALshort iSamp2;
+ }
+-#ifdef __GNUC__
++#if defined __GNUC__ || __SUNPRO_C > 8
+  __attribute__ ((packed));
+ #else
+  __attribute__;
