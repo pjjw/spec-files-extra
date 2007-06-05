@@ -1,5 +1,23 @@
 2007-05-28  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEsdl-image.spec: Change to isabuild
+	* base-specs/sdl-image.spec: Change to isabuild
+	* SFEsdl-mixer.spec: Change to isabuild
+	* base-specs/sdl-mixer.spec: Change to isabuild
+	* patches/sdl-mixer-01-cflags.diff: Add CFLAGS
+	* SFEsdl-gfx.spec: Change to isabuild
+	* base-specs/sdl-gfx.spec: Change to isabuild
+	* SFEsdl-net.spec: Change to isabuild
+	* base-specs/sdl-net.spec: Change to isabuild
+	* SFEsdl-ttf.spec: Change to isabuild
+	* base-specs/sdl-ttf.spec: Change to isabuild
+	* patches/sdl-ttf-01-internal_h.diff: Patch headers
+	* SFEfreetype.spec: Change to isabuild
+	* base-specs/freetype.spec: Change to isabuild
+	* SFEoptipng.spec: Advanced PNG Format File Optimizer
+
+2007-05-28  Doug Scott  <dougs@truemail.co.th>
+
 	* SFElibfribidi.spec: Added libfribidi
 	* SFEliveMedia.spec: Bump to 2007.05.24
 	* SFEode.spec: Bump to 0.8

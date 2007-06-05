@@ -1,0 +1,16 @@
+diff -ur SDL_mixer-1.2.7-orig/Makefile.in SDL_mixer-1.2.7/Makefile.in
+--- SDL_mixer-1.2.7-orig/Makefile.in	2006-05-17 13:08:04.000000000 +0700
++++ SDL_mixer-1.2.7/Makefile.in	2007-05-27 13:20:23.008533882 +0700
+@@ -57,10 +57,10 @@
+ 	$(SHELL) $(auxdir)/mkinstalldirs $@
+ 
+ $(objects)/playwave$(EXE): $(objects)/playwave.lo $(objects)/$(TARGET)
+-	$(LIBTOOL) --mode=link $(CC) -o $@ $(objects)/playwave.lo $(SDL_CFLAGS) $(SDL_LIBS) $(objects)/$(TARGET)
++	$(LIBTOOL) --mode=link $(CC) $(CFLAGS) -o $@ $(objects)/playwave.lo $(SDL_CFLAGS) $(SDL_LIBS) $(objects)/$(TARGET)
+ 
+ $(objects)/playmus$(EXE): $(objects)/playmus.lo $(objects)/$(TARGET)
+-	$(LIBTOOL) --mode=link $(CC) -o $@ $(objects)/playmus.lo $(SDL_CFLAGS) $(SDL_LIBS) $(objects)/$(TARGET)
++	$(LIBTOOL) --mode=link $(CC) $(CFLAGS) -o $@ $(objects)/playmus.lo $(SDL_CFLAGS) $(SDL_LIBS) $(objects)/$(TARGET)
+ 
+ .PHONY: all depend install install-hdrs install-lib install-bin uninstall uninstall-hdrs uninstall-lib uninstall-bin clean distclean dist
+ depend:

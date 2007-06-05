@@ -4,59 +4,81 @@
 # includes module(s): SDL
 #
 %include Solaris.inc
+%ifarch amd64 sparcv9
+%include arch64.inc
+%use sdl_64 = sdl-image.spec
+%endif
 
-Summary: Simple DirectMedia Layer - Sample Image Loading Library
-Name:			SFEsdl-image 
-Version:		1.2.5 
-Source: 		http://www.libsdl.org/projects/SDL_image/release/SDL_image-%{version}.tar.gz
-License: LGPL
-SUNW_BaseDir:			%{_basedir}
-BuildRoot:			%{_tmppath}/%{name}-%{version}-build
+%if %arch_sse2
+%include x86_sse2.inc
+%use sdl_sse2 = sdl-image.spec
+%endif
+
+%include base.inc
+%use sdl = sdl-image.spec
+
+%define SUNWlibsdl	%(/usr/bin/pkginfo -q SUNWlibsdl && echo 1 || echo 0)
+
+Name:			SFEsdl-image
+Summary: 		%{sdl.summary}
+Version:		%{sdl.version}
+SUNW_BaseDir:		%{_basedir}
+BuildRoot:		%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires: %{name}
-
-%prep
-%setup -q -n SDL_image-%version
-
-#BuildRequires: SDL-devel
-#BuildRequires: libjpeg-devel
-#BuildRequires: libpng-devel
-#BuildRequires: libtiff-devel
-
-%description
-This is a simple library to load images of various formats as SDL surfaces.
-This library supports BMP, PPM, PCX, GIF, JPEG, PNG, and TIFF formats.
+%if %SUNWlibsdl
+BuildRequires: SUNWlibsdl-devel
+Requires: SUNWlibsdl
+%else
+BuildRequires: SFEsdl-devel
+Requires: SFEsdl
+%endif
 
 %package devel
-Summary: Libraries, includes and more to develop SDL applications.
-Group: Development/Libraries
-SUNW_BaseDir:		%{_basedir}
+Summary:                 %{summary} - development files
+SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %{name}
-Requires: SFEsdl-devel
-
-%description devel
-This is a simple library to load images of various formats as SDL surfaces.
-This library supports BMP, PPM, PCX, GIF, JPEG, PNG, and TIFF formats.
 
 %prep
-rm -rf ${RPM_BUILD_ROOT}
+rm -rf %name-%version
+mkdir %name-%version
+
+%ifarch amd64 sparcv9
+mkdir %name-%version/%_arch64
+%sdl_64.prep -d %name-%version/%_arch64
+%endif
+
+%if %arch_sse2
+mkdir %name-%version/%sse2_arch
+%sdl_sse2.prep -d %name-%version/%sse2_arch
+%endif
+
+mkdir %name-%version/%base_arch
+%sdl.prep -d %name-%version/%base_arch
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" 
-./configure --prefix=%{_prefix}                 \
-            --mandir=%{_mandir}                 \
-            --libdir=%{_libdir}                 \
-            --libexecdir=%{_libexecdir}         \
-            --sysconfdir=%{_sysconfdir}
+%ifarch amd64 sparcv9
+%sdl_64.build -d %name-%version/%_arch64
+%endif
 
-make
+%if %arch_sse2
+%sdl_sse2.build -d %name-%version/%sse2_arch
+%endif
+
+%sdl.build -d %name-%version/%base_arch
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
+
+%ifarch amd64 sparcv9
+%sdl_64.install -d %name-%version/%_arch64
+%endif
+
+%if %arch_sse2
+%sdl_sse2.install -d %name-%version/%sse2_arch
+%endif
+
+%sdl.install -d %name-%version/%base_arch
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -65,16 +87,23 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,bin)
 %doc README CHANGES COPYING
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/lib*.so.*
+%{_libdir}/lib*.so*
+%ifarch amd64 sparcv9
+%dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
+%{_libdir}/%{_arch64}/lib*.so*
+%endif
+%if %arch_sse2
+%dir %attr (0755, root, bin) %{_libdir}/%{sse2_arch}
+%{_libdir}/%{sse2_arch}/lib*.so*
+%endif
 
 %files devel
 %defattr(-,root,bin)
-%dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/lib*.so
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/SDL/
 
 %changelog
+* Tue Jun  5 2007 - Doug Scott
+- Change to isabuild
 * Sun Apr 01 2007 Jeff Cai
 - Initial version
-

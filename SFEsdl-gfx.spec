@@ -4,49 +4,85 @@
 # includes module(s): SDL
 #
 %include Solaris.inc
+%ifarch amd64 sparcv9
+%include arch64.inc
+%define mmx_option --disable-mmx
+%use sdl_64 = sdl-gfx.spec
+%endif
 
-%define sdl_name	SDL_gfx
+%if %arch_sse2
+%include x86_sse2.inc
+# Not working yet!
+%define mmx_option --disable-mmx
+%use sdl_sse2 = sdl-gfx.spec
+%endif
+
+%include base.inc
+%define mmx_option --disable-mmx
+%use sdl = sdl-gfx.spec
+
+%define SUNWlibsdl	%(/usr/bin/pkginfo -q SUNWlibsdl && echo 1 || echo 0)
+
 Name:			SFEsdl-gfx
 Summary: 		Graphics library for SDL
 Version:		2.0.16
-Source: 		http://www.ferzkopp.net/Software/%{sdl_name}-2.0/%{sdl_name}-%{version}.tar.gz
 SUNW_BaseDir:		%{_basedir}
 BuildRoot:		%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+%if %SUNWlibsdl
 BuildRequires: SUNWlibsdl-devel
 Requires: SUNWlibsdl
-
-%prep
-%setup -q -n %{sdl_name}-%{version}
+%else
+BuildRequires: SFEsdl-devel
+Requires: SFEsdl
+%endif
 
 %package devel
-Summary: Libraries, includes and more to develop SDL applications.
-Group: Development/Libraries
-SUNW_BaseDir:		%{_basedir}
+Summary:                 %{summary} - development files
+SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %{name}
 
 %prep
-rm -rf ${RPM_BUILD_ROOT}
+rm -rf %name-%version
+mkdir %name-%version
+
+%ifarch amd64 sparcv9
+mkdir %name-%version/%_arch64
+%sdl_64.prep -d %name-%version/%_arch64
+%endif
+
+%if %arch_sse2
+mkdir %name-%version/%sse2_arch
+%sdl_sse2.prep -d %name-%version/%sse2_arch
+%endif
+
+mkdir %name-%version/%base_arch
+%sdl.prep -d %name-%version/%base_arch
 
 %build
-export CFLAGS="%optflags" 
-export LDFLAGS="%_ldflags" 
-./configure --prefix=%{_prefix}                 \
-            --bindir=%{_bindir}                 \
-            --mandir=%{_mandir}                 \
-            --libdir=%{_libdir}                 \
-            --libexecdir=%{_libexecdir}         \
-            --sysconfdir=%{_sysconfdir}		\
-	    --disable-mmx
+%ifarch amd64 sparcv9
+%sdl_64.build -d %name-%version/%_arch64
+%endif
 
-make
+%if %arch_sse2
+%sdl_sse2.build -d %name-%version/%sse2_arch
+%endif
+
+%sdl.build -d %name-%version/%base_arch
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
+
+%ifarch amd64 sparcv9
+%sdl_64.install -d %name-%version/%_arch64
+%endif
+
+%if %arch_sse2
+%sdl_sse2.install -d %name-%version/%sse2_arch
+%endif
+
+%sdl.install -d %name-%version/%base_arch
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -56,14 +92,23 @@ rm -rf $RPM_BUILD_ROOT
 %doc README CHANGES COPYING
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
+%ifarch amd64 sparcv9
+%dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
+%{_libdir}/%{_arch64}/lib*.so*
+%endif
+%if %arch_sse2
+%dir %attr (0755, root, bin) %{_libdir}/%{sse2_arch}
+%{_libdir}/%{sse2_arch}/lib*.so*
+%endif
 
 %files devel
 %defattr(-,root,bin)
-%dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/lib*.so
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/SDL/
 
+
 %changelog
+* Tue Jun  5 2007 - Doug Scott
+- Change to isabuild
 * Tue May  8 2007 - Doug Scott
 - Initial version
