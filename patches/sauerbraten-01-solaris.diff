@@ -1,0 +1,35 @@
+--- sauerbraten/src/shared/geom.h.orig	2007-06-05 12:52:46.389346169 +0700
++++ sauerbraten/src/shared/geom.h	2007-06-05 12:51:51.742104139 +0700
+@@ -74,7 +74,7 @@
+ {
+     vec X, Y, Z;
+ 
+-    matrix(const vec &_X, const vec &_Y, const vec &_Z) : X(_X), Y(_Y), Z(_Z) {}
++    matrix(const vec &X, const vec &Y, const vec &Z) : X(X), Y(Y), Z(Z) {}
+     matrix(vec v, float angle) //matrix for rotating a point around a vector
+     {
+         v.normalize();
+--- sauerbraten/src/Makefile.orig	2007-06-05 12:42:37.043956150 +0700
++++ sauerbraten/src/Makefile	2007-06-05 12:50:36.024983116 +0700
+@@ -1,9 +1,7 @@
+-CXX=g++
+-CXXOPTFLAGS=-O3 -fomit-frame-pointer
+-CXXFLAGS=$(CXXOPTFLAGS)	-Wall -fsigned-char -Ienet/include -I. -Ishared -Iengine -Ifpsgame `sdl-config --cflags`
++CXXFLAGS=$(CXXOPTFLAGS)	-Ienet/include -I. -Ishared -Iengine -Ifpsgame `sdl-config --cflags`
+ 
+-PLATFORM_PREFIX=native
+-CLIENT_LIBS=-Lenet -lenet `sdl-config --libs` -lSDL_image -lSDL_mixer -lz -lGL -lGLU 
++PLATFORM_PREFIX=native
++CLIENT_LIBS=-Lenet -lenet `sdl-config --libs` -lSDL_image -lSDL_mixer -lz -lGL -lGLU -lX11 -lsocket -lnsl
+ CLIENT_OBJS= \
+ 	shared/tools.o \
+ 	shared/geom.o \
+@@ -41,7 +39,7 @@
+ 	fpsgame/fps.o \
+ 	rpggame/rpg.o
+ 
+-SERVER_LIBS=-Lenet -lenet
++SERVER_LIBS=-Lenet -lenet -lsocket -lnsl
+ SERVER_OBJS= \
+ 	shared/tools.o \
+ 	engine/server-standalone.o \

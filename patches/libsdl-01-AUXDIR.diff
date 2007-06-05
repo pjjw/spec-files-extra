@@ -1,0 +1,12 @@
+diff -ur SDL-1.2.11-orig/configure.in SDL-1.2.11/configure.in
+--- SDL-1.2.11-orig/configure.in	2006-06-27 11:48:33.000000000 +0700
++++ SDL-1.2.11/configure.in	2007-05-27 11:53:49.214770373 +0700
+@@ -40,7 +40,7 @@
+ AC_SUBST(LT_AGE)
+ 
+ dnl Detect the canonical build and host environments
+-AC_CONFIG_AUX_DIRS($srcdir/build-scripts)
++AC_CONFIG_AUX_DIR(build-scripts)
+ AC_CANONICAL_HOST
+ AC_C_BIGENDIAN
+ if test x$ac_cv_c_bigendian = xyes; then

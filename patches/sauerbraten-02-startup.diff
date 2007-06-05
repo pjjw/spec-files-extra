@@ -1,0 +1,22 @@
+--- sauerbraten/sauerbraten_unix.orig	2007-06-05 13:10:35.094014892 +0700
++++ sauerbraten/sauerbraten_unix	2007-06-05 13:11:59.842289451 +0700
+@@ -2,7 +2,8 @@
+ # SAUER_DIR should refer to the directory in which Sauerbraten is placed.
+ #SAUER_DIR=~/sauerbraten
+ #SAUER_DIR=/usr/local/sauerbraten
+-SAUER_DIR=.
++SAUER_DIR=/usr/share/sauerbraten
++#SAUER_DIR=.
+ 
+ # SYSTEM_NAME should be set to the name of your operating system.
+ #SYSTEM_NAME=Linux
+@@ -13,6 +14,9 @@
+ MACHINE_NAME=`uname -m`
+ 
+ case ${SYSTEM_NAME} in
++SunOS)
++  SYSTEM_NAME=native
++  ;;
+ Linux)
+   SYSTEM_NAME=linux_
+   ;;

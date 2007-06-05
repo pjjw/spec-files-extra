@@ -1,0 +1,24 @@
+diff -ur SDL-1.2.11-orig/src/hermes/HeadMMX.h SDL-1.2.11/src/hermes/HeadMMX.h
+--- SDL-1.2.11-orig/src/hermes/HeadMMX.h	2006-05-01 15:02:38.000000000 +0700
++++ SDL-1.2.11/src/hermes/HeadMMX.h	2007-05-27 12:51:49.007778939 +0700
+@@ -46,7 +46,7 @@
+ 
+ /* Fix the underscore business with ELF compilers */
+ 
+-#if defined(__ELF__) && defined(__GNUC__)
++#if defined(__ELF__) && (defined(__GNUC__) || defined(__SUNPRO_C))
+   #ifdef __cplusplus 
+   extern "C" {   
+   #endif
+diff -ur SDL-1.2.11-orig/src/hermes/HeadX86.h SDL-1.2.11/src/hermes/HeadX86.h
+--- SDL-1.2.11-orig/src/hermes/HeadX86.h	2006-05-01 15:02:38.000000000 +0700
++++ SDL-1.2.11/src/hermes/HeadX86.h	2007-05-27 12:23:14.783344793 +0700
+@@ -74,7 +74,7 @@
+ 
+ /* Now fix up the ELF underscore problem */
+ 
+-#if defined(__ELF__) && defined(__GNUC__)
++#if defined(__ELF__) && ( defined(__GNUC__) || defined(__SUNPRO_C))
+   #ifdef __cplusplus
+   extern "C" {
+   #endif

@@ -1,3 +1,16 @@
+2007-06-05  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEpstoedit.spec: Added Converts PS and PDF
+	* SFEsauerbraten.spec: Added Sauerbraten game engine
+	* patches/sauerbraten-01-solaris.diff: patch for Solaris
+	* patches/sauerbraten-02-startup.diff:patch for Solaris
+	* SFEsdl.spec: Changed to isabuild
+	* patches/libsdl-01-AUXDIR.diff: patch for configure.in
+	* patches/libsdl-02-rpath.diff: patch for rpath
+	* patches/libsdl-03-sunpro.diff: patch for builing with sunpro
+	* base-specs/libsdl.spec: Changed to isabuild
+	* SFEimagemagick.spec: new - SFW imagemagick gets too old
+
 2007-06-05  JerryYu  <jijun.yu@sun.com>
 	* SFElibopensync.spec
 	  linux-specs/libopensync.spec: Bump to 0.30
@@ -10,7 +23,7 @@
 	* SFEmultisync.spec was splitted into SFEmultisync.spec and SFEmsynctool.spec
 	* patches/msynctool-01-forte-wall.diff: Modified since msynctool was bumped to 0.30
 
-2007-05-28  Doug Scott  <dougs@truemail.co.th>
+2007-06-05  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEsdl-image.spec: Change to isabuild
 	* base-specs/sdl-image.spec: Change to isabuild
@@ -28,7 +41,7 @@
 	* base-specs/freetype.spec: Change to isabuild
 	* SFEoptipng.spec: Advanced PNG Format File Optimizer
 
-2007-05-28  Doug Scott  <dougs@truemail.co.th>
+2007-06-05  Doug Scott  <dougs@truemail.co.th>
 
 	* SFElibfribidi.spec: Added libfribidi
 	* SFEliveMedia.spec: Bump to 2007.05.24
