@@ -5,22 +5,20 @@
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
+# owner jerryyu
+#
 
 Name:           libopensync
 License:        LGPL
 Group:          System/Libraries
-Version:        0.22
+Version:        0.30
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
 Summary:        Data synchronization framework
 Source:         %{name}-%{version}.tar.bz2
-Patch1:         %{name}-01-forte-wall.diff
-Patch2:         %{name}-02-define-func.diff
-Patch3:         %{name}-03-py-m4.diff
-#date:2006-11-28 owner:harrylu type:bug
-Patch4:		%{name}-04-null-crash.diff
+Patch1:         %{name}-01-add-glib.diff
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Docdir:         %{_defaultdocdir}/doc
@@ -61,9 +59,6 @@ you will need to install %{name}-devel.
 %prep
 %setup -q
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
 %ifos linux
@@ -77,23 +72,12 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-libtoolize --force
-aclocal $ACLOCAL_FLAGS -I .
-autoheader
-automake -a -c -f
-autoconf
-./configure --prefix=%{_prefix}			\
-            --libexecdir=%{_libexecdir}		\
-            --sysconfdir=%{_sysconfdir}		\
-	    --mandir=%{_mandir}			\
-	    --disable-static			\
-
-make -j $CPUS
+scons prefix=%{_prefix}			\
 
 %install
 rm -rf $RPM_BUILD_ROOT
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
-make -i install DESTDIR=$RPM_BUILD_ROOT
+scons install DESTDIR=$RPM_BUILD_ROOT
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
@@ -111,7 +95,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/opensync/formats
 %dir %{_libdir}/opensync/plugins
 %dir %{_datadir}/opensync
-%dir %{_datadir}/opensync/defaults
+%dir %{_datadir}/opensync/capabilities
+%dir %{_datadir}/opensync/descriptions
 %attr(755,root,root) %{_libdir}/opensync/formats/*.so
 %{_libdir}/opensync/formats/*.la
 
@@ -122,6 +107,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Jun 05 2007 - jijun.yu@sun.com
+- Bump to 0.30
+
 * Tue Apr  3 2007 - laca@sun.com
 - bump to 0.22
 - fix patch numbers

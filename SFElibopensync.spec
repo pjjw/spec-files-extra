@@ -7,6 +7,8 @@
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
+# owner jerryyu
+#
 
 %include Solaris.inc
 
@@ -58,10 +60,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/python2.4
 %{_libdir}/opensync
-%{_libdir}/osplugin
 %{_libdir}/*.so*
+%dir %attr (0755, root, bin) %{_datadir}
+%{_datadir}/opensync
 
 %files devel
 %defattr (-, root, bin)
@@ -72,6 +74,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Jun 05 2007 - jijun.yu@sun.com
+- Bump to version 0.30
+
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Add Requires/BuildRequries after check-deps.pl run.
 * Tue Nov 14 2006 - halton.huo@sun.com

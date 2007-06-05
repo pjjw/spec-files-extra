@@ -1,0 +1,15 @@
+Index: tools/SConscript
+===================================================================
+--- libopensync-0.30/tools/SConscript	(revision 2082)
++++ libopensync-0.30/tools/SConscript	(working copy)
+@@ -1,8 +1,8 @@
+ Import('*')
+ 
+ if testenv.has_key('enable_tools') and testenv['enable_tools'] == 1:
+-	binary = testenv.Program('osyncbinary', ['osyncbinary.c'], LIBS = ['opensync'], LIBPATH = '#opensync')
+-	dump = testenv.Program('osyncdump', ['osyncdump.c'], LIBS = ['opensync'], LIBPATH = '#opensync')
++	binary = testenv.Program('osyncbinary', ['osyncbinary.c'], LIBS = ['opensync', 'glib-2.0'], LIBPATH = '#opensync')
++	dump = testenv.Program('osyncdump', ['osyncdump.c'], LIBS = ['opensync', 'glib-2.0'], LIBPATH = '#opensync')
+ 	#testenv.Program('osyncplugin', ['osyncplugin.c'], LIBS = ['opensync'], LIBPATH = '#opensync')
+ 	#testenv.Program('osyncstress', ['osyncstress.c'], LIBS = ['opensync'], LIBPATH = '#opensync')
+ 	#testenv.Program('osynctest', ['osynctest.c'], LIBS = ['opensync'], LIBPATH = '#opensync')

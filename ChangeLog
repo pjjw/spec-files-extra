@@ -1,3 +1,15 @@
+2007-06-05  JerryYu  <jijun.yu@sun.com>
+	* SFElibopensync.spec
+	  linux-specs/libopensync.spec: Bump to 0.30
+	* patches/libopensync-01-forte-wall.diff: removed
+	* patches/libopensync-02-define-func.diff: removed
+	* patches/libopensync-03-py-m4.diff: removed
+	* patches/libopensync-04-null-crash.diff: removed
+	* patches/libopensync-01-add-glib.diff: added
+	* linux-specs/msynctool.spec: Bump to 0.30
+	* SFEmultisync.spec was splitted into SFEmultisync.spec and SFEmsynctool.spec
+	* patches/msynctool-01-forte-wall.diff: Modified since msynctool was bumped to 0.30
+
 2007-05-28  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEsdl-image.spec: Change to isabuild

@@ -5,11 +5,13 @@
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
+# owner jerryyu
+#
 
 Name:		msynctool
 License:	GPL
 Group:		Applications
-Version:        0.22
+Version:        0.30
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -46,21 +48,11 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-libtoolize --force
-aclocal $ACLOCAL_FLAGS -I .
-autoheader
-automake -a -c -f
-autoconf
-./configure --prefix=%{_prefix}                 \
-            --libexecdir=%{_libexecdir}         \
-            --sysconfdir=%{_sysconfdir}         \
-            --mandir=%{_mandir}                 \
-
-make -j $CPUS
+scons prefix=%{_prefix}                 \
 
 %install
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
-make -i install DESTDIR=$RPM_BUILD_ROOT
+scons install DESTDIR=$RPM_BUILD_ROOT
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
@@ -75,6 +67,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1*
 
 %changelog
+* Fri Jun 05 2007 - jijun.yu@sun.com
+* Bump to 0.30
+
 * Mon Apr 02 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.22.
 
