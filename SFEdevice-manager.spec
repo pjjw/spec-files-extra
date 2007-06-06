@@ -10,10 +10,9 @@
 Name:         SFEdevice-manager
 License:      Other
 Group:        System/GUI
-Version:      0.5.8.1
+Version:      0.5.9
 Summary:      Device-manager is a GUI interface provided by hal to display information about devices.
 Source:       http://people.freedesktop.org/~david/dist/hal-%{version}.tar.gz
-Patch1:	      hal-01-configure.diff
 URL:          http://www.freedesktop.org/wiki/Software_2fhal
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
@@ -27,6 +26,7 @@ Requires: SUNWgnome-base-libs
 Requires: SUNWgnome-python-libs
 Requires: SUNWPython
 Requires: SUNWhal
+Requires: SFEexpat
 
 %if %build_l10n
 %package l10n
@@ -38,7 +38,6 @@ Requires:                %{name}
 
 %prep
 %setup -q -n hal-%version
-%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -89,6 +88,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Jun 06 2007 - nonsea@users.sourceforge.net
+- Bump to 0.5.9.
+- Remove patch hal-01-configure.diff.
 * Sat Apr 21 2007 - dougs@truemail.co.th
 - Fixed configure.in typo
 - Fixed non l10n build
