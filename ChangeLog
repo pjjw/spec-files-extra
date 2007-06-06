@@ -1,5 +1,11 @@
 2007-06-06  Halton Huo  <nonsea@users.sourceforge.net>
 
+	* SFElibopensync.spec: Add BuildRequires SFEscons and SFEcheck,
+	  Change %{_datadir} attr to root:sys
+	* SFEmsynctool.spec: Add BuildRequires SFEscons and SFEcheck
+
+2007-06-06  Halton Huo  <nonsea@users.sourceforge.net>
+
 	* SFEdevice-manager.spec: Bump to 0.5.9,
 	  remove patch hal-01-configure.diff.
 	* patches/hal-01-configure.diff: removed.

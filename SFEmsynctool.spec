@@ -28,7 +28,8 @@ Requires: SUNWzlib
 Requires: SFEsqlite
 Requires: SFEswig
 Requires: SFElibopensync
-
+BuildRequires: SFEscons
+BuildRequires: SFEcheck
 
 %prep
 rm -rf %name-%version
@@ -70,6 +71,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 
 
 %changelog
+* Wed Jun 06 2007 - nonsea@users.sourceforge.net
+- Add BuildRequires SFEscons and SFEcheck
 * Tue Jun 05 2007 - jijun.yu@sun.com
 - Splitted from SFEmultisync.spec and bumpped to 0.30
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net

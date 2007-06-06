@@ -28,6 +28,8 @@ Requires: SUNWlxml
 Requires: SUNWzlib
 Requires: SFEsqlite
 Requires: SFEswig
+BuildRequires: SFEscons
+BuildRequires: SFEcheck
 
 %package devel
 Summary:       %{summary} - development files
@@ -62,7 +64,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/opensync
 %{_libdir}/*.so*
-%dir %attr (0755, root, bin) %{_datadir}
+%dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/opensync
 
 %files devel
@@ -74,9 +76,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Jun 06 2007 - nonsea@users.sourceforge.net
+- Add BuildRequires SFEscons and SFEcheck
+- Change %{_datadir} attr to root:sys
 * Tue Jun 05 2007 - jijun.yu@sun.com
 - Bump to version 0.30
-
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Add Requires/BuildRequries after check-deps.pl run.
 * Tue Nov 14 2006 - halton.huo@sun.com
