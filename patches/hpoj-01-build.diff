@@ -1,0 +1,111 @@
+--- hpoj-0.91/lib/hpojip/Makefile.in.orig	2007-06-08 10:28:41.421420000 -0400
++++ hpoj-0.91/lib/hpojip/Makefile.in	2007-06-08 10:29:41.785840000 -0400
+@@ -26,7 +26,7 @@
+ # TODO: Detect system endianness in configure script!
+ # For now, little-endian (Intel LSB-first) is assumed.
+ 
+-CFLAGS=-O -Wall -g @DEFINES_CMDLINE@ @INCLUDE_CMDLINE@ @LIBRARY_CMDLINE@
++CFLAGS=@CFLAGS@ @DEFINES_CMDLINE@ @INCLUDE_CMDLINE@ @LIBRARY_CMDLINE@
+ 
+ %.shared.o:	%.c $(INCLUDES)
+ 		$(CC) $(CFLAGS) -DHPOJIP_INTERNAL -fPIC -c -o $@ $<
+@@ -41,7 +41,7 @@
+ 		rm -f $(DISTCLEANS)
+ 
+ $(SOLONG):	$(SOCOMPS)
+-		$(CC) $(CFLAGS) -shared -Wl,-soname,$(SOSHORT) -o $(SOLONG) $(SOCOMPS) -lc -lm
++		$(CC) $(CFLAGS) -shared -Wl,-h,$(SOSHORT) -o $(SOLONG) $(SOCOMPS) -lc -lm
+ 		ln -sf $(SOLONG) $(SOSHORT)
+ 		ln -sf $(SOLONG) $(SONOVER)
+ 
+--- hpoj-0.91/lib/ptal/Makefile.in.orig	2007-06-08 10:30:21.347858000 -0400
++++ hpoj-0.91/lib/ptal/Makefile.in	2007-06-08 10:30:45.547938000 -0400
+@@ -17,7 +17,7 @@
+ MLCDDIR=../../mlcd
+ INCLUDES=Makefile $(INCLUDEDIR)/ptal.h ptal-internal.h $(MLCDDIR)/mlcd.h
+ 
+-CFLAGS=-O -Wall -g @DEFINES_CMDLINE@ @INCLUDE_CMDLINE@ @LIBRARY_CMDLINE@ @VAR_RUN_PREFIX_CFLAGS@ -DUCD_COMPATIBLE
++CFLAGS=@CFLAGS@ @DEFINES_CMDLINE@ @INCLUDE_CMDLINE@ @LIBRARY_CMDLINE@ @VAR_RUN_PREFIX_CFLAGS@ -DUCD_COMPATIBLE
+ 
+ %.shared.o:	%.c $(INCLUDES)
+ 		$(CC) $(CFLAGS) -fPIC -c -o $@ $<
+@@ -32,7 +32,7 @@
+ 		rm -f $(DISTCLEANS)
+ 
+ $(SOLONG):	$(SOCOMPS)
+-		$(CC) $(CFLAGS) @LIBSNMP_CMDLINE@ -shared -Wl,-soname,$(SOSHORT) -o $(SOLONG) $(SOCOMPS) -lc
++		$(CC) $(CFLAGS) @LIBSNMP_CMDLINE@ -shared -Wl,-h,$(SOSHORT) -o $(SOLONG) $(SOCOMPS) -lc
+ 		ln -sf $(SOLONG) $(SOSHORT)
+ 		ln -sf $(SOLONG) $(SONOVER)
+ 
+--- hpoj-0.91/lib/sane/Makefile.in.orig	2007-06-08 10:31:14.714977000 -0400
++++ hpoj-0.91/lib/sane/Makefile.in	2007-06-08 10:31:27.799661000 -0400
+@@ -16,7 +16,7 @@
+ INCLUDEDIR=../../include
+ INCLUDES=Makefile $(INCLUDEDIR)/ptal.h hpoj.h hpoj-tables.h sane.h saneopts.h
+ 
+-CFLAGS=-O -Wall -g @DEFINES_CMDLINE@ @INCLUDE_CMDLINE@ @LIBRARY_CMDLINE@
++CFLAGS=@CFLAGS@ @DEFINES_CMDLINE@ @INCLUDE_CMDLINE@ @LIBRARY_CMDLINE@
+ 
+ %.shared.o:	%.c $(INCLUDES)
+ 		$(CC) $(CFLAGS) -fPIC -c -o $@ $<
+@@ -31,6 +31,6 @@
+ 		rm -f $(DISTCLEANS)
+ 
+ $(SOLONG):	$(SOCOMPS)
+-		$(CC) $(CFLAGS) -lptal -lhpojip -shared -Wl,-soname,$(SOSHORT) -o $(SOLONG) $(SOCOMPS) -lc
++		$(CC) $(CFLAGS) -lptal -lhpojip -shared -Wl,-h,$(SOSHORT) -o $(SOLONG) $(SOCOMPS) -lc
+ 		ln -sf $(SOLONG) $(SOSHORT)
+ 		ln -sf $(SOLONG) $(SONOVER)
+--- hpoj-0.91/mlcd/Makefile.in.orig	2007-06-08 10:32:52.469475000 -0400
++++ hpoj-0.91/mlcd/Makefile.in	2007-06-08 10:34:01.335670000 -0400
+@@ -19,14 +19,14 @@
+ 		transport/ExMlcTransport.h \
+ 
+ PWD=$(shell pwd)
+-CFLAGS=-I$(PWD) -I$(PWD)/transport -O -g -Wall -DEX_TRANSPORT_UNIX_PORT -DPAR_PLATFORM_@PAR_PLATFORM@ -DUSB_PLATFORM_@USB_PLATFORM@ -DJD_DEBUGLITE @MLCD_CFLAGS@ @VAR_RUN_PREFIX_CFLAGS@
++CFLAGS=-I$(PWD) -I$(PWD)/transport -DEX_TRANSPORT_UNIX_PORT -DPAR_PLATFORM_@PAR_PLATFORM@ -DUSB_PLATFORM_@USB_PLATFORM@ -DJD_DEBUGLITE @MLCD_CFLAGS@ @VAR_RUN_PREFIX_CFLAGS@
+ LFLAGS=@MLCD_LFLAGS@
+ 
+ %.o :		%.cpp $(INCLUDES)
+-		$(CXX) $(CFLAGS) -c -o $@ $<
++		$(CXX) @CXXFLAGS@ $(CFLAGS) -c -o $@ $<
+ 
+ %.o :		%.c $(INCLUDES)
+-		$(CC) $(CFLAGS) -c -o $@ $<
++		$(CC) @CFLAGS@ $(CFLAGS) -c -o $@ $<
+ 
+ all:		$(GOAL)
+ 
+--- hpoj-0.91/apps/cmdline/Makefile.in.orig	2007-06-08 10:41:59.469854000 -0400
++++ hpoj-0.91/apps/cmdline/Makefile.in	2007-06-08 10:42:35.072950000 -0400
+@@ -5,15 +5,15 @@
+ DISTCLEANS=Makefile
+ INCLUDES=Makefile ../../include/ptal.h ../../include/hpojip.h
+ 
+-CFLAGS=-O -Wall -g @DEFINES_CMDLINE@ @INCLUDE_CMDLINE@ @LIBRARY_CMDLINE@ @VAR_RUN_PREFIX_CFLAGS@
++CFLAGS=@CFLAGS@ @DEFINES_CMDLINE@ @INCLUDE_CMDLINE@ @LIBRARY_CMDLINE@ @VAR_RUN_PREFIX_CFLAGS@
+ 
+ all:		$(GOALS)
+ 
+ ptal-%:		ptal-%.c $(INCLUDES)
+-		$(CC) $(CFLAGS) -lptal -o $@ $<
++		$(CC) $(CFLAGS) -lptal -o $@ $< -lsocket -lnsl
+ 
+ hpojip-%:	hpojip-%.c $(INCLUDES)
+-		$(CC) $(CFLAGS) -lhpojip -o $@ $<
++		$(CC) $(CFLAGS) -lhpojip -o $@ $< -lsocket -lnsl
+ 
+ ptal-print:	ptal-connect
+ 		ln -sf ptal-connect ptal-print
+--- hpoj-0.91/mlcd/Makefile.in.orig	2007-06-08 10:42:53.045248000 -0400
++++ hpoj-0.91/mlcd/Makefile.in	2007-06-08 10:41:05.256539000 -0400
+@@ -31,7 +31,7 @@
+ all:		$(GOAL)
+ 
+ $(GOAL):	$(OBJS)
+-		$(CXX) $(LFLAGS) -o $(GOAL) $(OBJS)
++		$(CXX) $(LFLAGS) -o $(GOAL) $(OBJS) -lsocket -lnsl
+ 
+ clean:
+ 		rm -f $(OBJS) $(GOAL)

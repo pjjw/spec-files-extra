@@ -1,3 +1,11 @@
+2007-06-09  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* include/base.inc: delete cc_is_gcc conditional when setting
+	  _gcc_opt_level, because we want this set anyway so it can be
+	  used in spec files that force gcc
+	* SFEhpoj.spec: (new) HP OfficeJet driver for SANE and CUPS
+	* patches/hpoj-01-build.diff: (new) fix some broken makefiles
+
 2007-06-06  Halton Huo  <nonsea@users.sourceforge.net>
 
 	* SFElibopensync.spec: Add BuildRequires SFEscons and SFEcheck,

@@ -25,13 +25,10 @@
 %define _gcc_opt_level      -g
 %define _gxx_opt_level     -g
 %else
-%if %cc_is_gcc
 %define _gcc_opt_level      -O3
 %define _gxx_opt_level     -O3
-%else
 %define _cc_opt_level      -xO4 -xspace
 %define _cxx_opt_level     -xO3 -xspace
-%endif
 %endif
 
 %ifarch sparc
@@ -90,6 +87,10 @@
 %define xorg_lib_path   -L%xorg_lib -R%xorg_lib
 
 # ChangeLog:
+# 2007-06-09  Laszlo (Laca) Peter  <laca@sun.com>
+# - delete cc_is_gcc conditional when setting _gcc_opt_level,
+#   because we want this set anyway so it can be used in spec
+#   files that force gcc
 # 2007-04-05  Laszlo (Laca) Peter  <laca@sun.com>
 # - fix cxx_optflags: use EXTRA_CXXFLAGS and not EXTRA_LDFLAGS
 # 2007-03-20  Doug Scott  <dougs@truemail.co.th>
