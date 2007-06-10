@@ -64,6 +64,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1
 
 %files devel
+%defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 %dir %attr (0755, root, bin) %{_libdir}
@@ -71,5 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Jun 10 2007 - nonsea@users.sourceforge.net
+- Add defattr root:bin to -devel package.
 * Fri May 04 2007 - nonsea@users.sourceforge.net
 - Initial spec

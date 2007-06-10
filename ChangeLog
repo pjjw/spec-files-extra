@@ -1,3 +1,7 @@
+2007-06-10  Halton Huo  <nonsea@users.sourceforge.net>
+
+	* SFEwv.spec: Add defattr root:bin to -devel package.
+
 2007-06-09  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* include/base.inc: delete cc_is_gcc conditional when setting
