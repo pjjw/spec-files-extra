@@ -1,0 +1,11 @@
+--- gnome-commander-1.2.4/src/gnome-cmd-types.h.orig	2007-06-11 14:19:41.066772155 +0100
++++ gnome-commander-1.2.4/src/gnome-cmd-types.h	2007-06-11 14:19:51.670640598 +0100
+@@ -46,7 +46,7 @@
+ typedef enum
+ {
+     GNOME_CMD_PERM_DISP_MODE_TEXT,
+-    GNOME_CMD_PERM_DISP_MODE_NUMBER,
++    GNOME_CMD_PERM_DISP_MODE_NUMBER
+ } GnomeCmdPermDispMode;
+ 
+ 

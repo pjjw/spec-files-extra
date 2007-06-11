@@ -1,0 +1,11 @@
+--- gnome-commander-1.2.4/src/gnome-cmd-data.cc.orig	2007-06-11 14:25:41.116044934 +0100
++++ gnome-commander-1.2.4/src/gnome-cmd-data.cc	2007-06-11 14:26:06.817660346 +0100
+@@ -148,7 +148,7 @@
+                 gchar *pw    = gnome_vfs_escape_string (gnome_cmd_con_ftp_get_pw (server));
+                 GnomeCmdBookmarkGroup *bookmark_group = gnome_cmd_con_get_bookmarks (GNOME_CMD_CON (server));
+ 
+-                fprintf (fd, "C: %s %s %s %d %s %s %s\n", "ftp:", alias, hname, port, remote_dir, uname, pw?:"");
++                fprintf (fd, "C: %s %s %s %d %s %s %s\n", "ftp:", alias, hname, port, remote_dir, uname, pw?pw:"");
+ 
+                 g_free (alias);
+                 g_free (hname);

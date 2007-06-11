@@ -1,0 +1,12 @@
+--- gnome-commander-1.2.4/libgcmd/gnome-cmd-file-info.c.orig	2007-06-11 14:08:21.962806573 +0100
++++ gnome-commander-1.2.4/libgcmd/gnome-cmd-file-info.c	2007-06-11 14:09:05.115818235 +0100
+@@ -25,6 +25,9 @@
+ 
+ struct _GnomeCmdFileInfoPrivate
+ {
++#ifdef __sun
++  char x;  /* Sun's forte compiler does not line empty structs. */
++#endif
+ };
+ 
+ 

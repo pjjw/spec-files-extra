@@ -1,3 +1,15 @@
+2007-06-11  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEgnome-commander.spec: Added, along with multiple patches.
+	* patches/gnome-commander-01-Wall.diff,
+	patches/gnome-commander-02-empty-struct.diff,
+	patches/gnome-commander-03-fnmatch-extension.diff
+	patches/gnome-commander-04-obsolete-mmap-opt.diff
+	patches/gnome-commander-05-void-return.diff
+	patches/gnome-commander-06-bad-ternary-code.diff
+	patches/gnome-commander-07-typedef-comma.diff: Added for bugzilla
+	365227 and 446361. Doesn't fully build because of C++ template issue.
+
 2007-06-10  Halton Huo  <nonsea@users.sourceforge.net>
 
 	* SFEwv.spec: Add defattr root:bin to -devel package.
@@ -22,9 +34,10 @@
 	  remove patch hal-01-configure.diff.
 	* patches/hal-01-configure.diff: removed.
 
-2007-06-05  JerryYu  <jijun.yu@sun.com>
+2007-06-05  Jerry Yu  <jijun.yu@sun.com>
 
-	* SFElibopensync-plugin-file.spec: Splitted from SFElibopensync-plugin.spec and bumped to 0.30
+	* SFElibopensync-plugin-file.spec: Split from
+	  SFElibopensync-plugin.spec and bumped to 0.30.
 	* linux-specs/libopensync-plugin-file.spec: Bump to 0.30
 	* patches/libopensync-plugin-file-02-null-crash.diff:Removed.
 	
@@ -49,6 +62,7 @@
 	* SFEimagemagick.spec: new - SFW imagemagick gets too old
 
 2007-06-05  JerryYu  <jijun.yu@sun.com>
+
 	* SFElibopensync.spec
 	  linux-specs/libopensync.spec: Bump to 0.30
 	* patches/libopensync-01-forte-wall.diff: removed
@@ -57,8 +71,10 @@
 	* patches/libopensync-04-null-crash.diff: removed
 	* patches/libopensync-01-add-glib.diff: added
 	* linux-specs/msynctool.spec: Bump to 0.30
-	* SFEmultisync.spec was splitted into SFEmultisync.spec and SFEmsynctool.spec
-	* patches/msynctool-01-forte-wall.diff: Modified since msynctool was bumped to 0.30
+	* SFEmultisync.spec was split into SFEmultisync.spec and
+	  SFEmsynctool.spec
+	* patches/msynctool-01-forte-wall.diff: Modified since msynctool was
+	  bumped to 0.30
 
 2007-06-05  Doug Scott  <dougs@truemail.co.th>
 
@@ -93,26 +109,26 @@
 2007-06-04  Thomas Wagner <tom68@users.sourceforge.net>
 
         * SFEmpd.spec: bump to 0.13.0, re- --enable-flac --enable-oggflac
-                       mpd now compiles with newer flac versions
-                       (new feature) --enable-shout for streaming:t
-                       "the net is the music"
-                       if SFEavahi is present, mpd resources will
-                       be announced with zeroconf/avahi/mDNS broadcasts
-                       patch3: make id3_charset in mpdconf.example
-                       default to UTF-8
+          mpd now compiles with newer flac versions
+	  (new feature) --enable-shout for streaming:t
+          "the net is the music"
+          if SFEavahi is present, mpd resources will
+          be announced with zeroconf/avahi/mDNS broadcasts
+          patch3: make id3_charset in mpdconf.example
+          default to UTF-8
 
         * SFEavahi.spec: (new) implemetation of service discovery in
-                       local LAN (see Rendezvous/Bonjour/Zeroconf and ...
-                       nwam in the future)
+          local LAN (see Rendezvous/Bonjour/Zeroconf and ...
+          nwam in the future)
         * SFElibdaemon.spec: (new) library for building daemons (for avahi)
 
         * SFEgmpc.spec: (new feature) AVAHI zeroconf support
-                        (new feature) icecast/shout stream to local client (needs: ogg123)
-                        bump to 0.15.0, set compiler to gcc
+          (new feature) icecast/shout stream to local client (needs: ogg123)
+          bump to 0.15.0, set compiler to gcc
         * SFEgmpc-(lyrics|serverstats|coveramazon|autoplaylist|qosd|stopbutton|lastfm|magnatune|osd|mdcover).spec
-                        bump to 0.15.0, set compiler to gcc
+          bump to 0.15.0, set compiler to gcc
         * SFElibmpd.spec: bump to 0.14.0
-                        temporary patch libmpd-01-libmpdclient-include-limits.h.diff
+          temporary patch libmpd-01-libmpdclient-include-limits.h.diff
 
         * SFExosd.spec: set compiler to gcc
 
@@ -121,8 +137,8 @@
         * SFEcurl.spec: bump to 7.16.2, --disable-static
 
         * SFExchat.spec: bump to 2.8.2
-                         /usr/bin/msgfmt errors, use /opt/sfw/bin/msgfmt
-                         reworked patch for 2.8.2
+          /usr/bin/msgfmt errors, use /opt/sfw/bin/msgfmt
+          reworked patch for 2.8.2
 
         * SFEicecast.spec: (new) stream musik over http to the LAN/WAN network
         * SFElibshout.spec: (new) Support Library for icecast audio streaming
@@ -133,7 +149,8 @@
 
         * SFEfont-terminus.spec: (new) nice readably font
 
-        * SFElynx.spec: bump to 2.8.6, new download-URL since not in /current/-diry
+        * SFElynx.spec: bump to 2.8.6, new download-URL since not in
+	  /current/-diry
 
 2007-06-03  Dick Hoogendijk
 
@@ -175,12 +192,14 @@
 	* SFEscons.spec: Bump to 0.97
 
 2007-05-21  Dick Hoogendijk  <dick@nagual.nl>
+
 	* SFEmutt.spec: (new) The Mutt E-mail client (original)
 	* SFEmuttng.spec: Forced dependency from libcurses to slang;
 	  changed some compilerflags to get good SSL support
 	* SFEslang.spec: Bump to v2.0.7
 
 2007-05-20  Dick Hoogendijk  <dick@nagual.nl>
+
 	* SFEmplayer-plugin: Bump to v3.40 and up
 	  Patchfiles changed to support newest code
   	  mpplugin-01-makefile.diff ADDED
@@ -266,6 +285,7 @@
 	* SFEsdl-gfx.spec: Added libSDL graphics library
 
 2007-05-05  Thomas Wagner <tom68@users.sourceforge.net>
+
         * SFEre2c.spec: Added re2c for generating high efficient code
           for regular expression matching
 
@@ -331,6 +351,7 @@
 	* SFEjam.spec: Added jam (a make lookalike)
 
 2007-05-05  Thomas Wagner <tom68@users.sourceforge.net>
+
         * SFEphp.spec: Bump: to 5.2.2 (mainly security fixes)
 
 2007-05-04  Halton Huo  <nonsea@users.sourceforge.net>
@@ -447,10 +468,11 @@
 	Bump to version 2.18.2. Rework the patch.
 
 2007-04-26  Thomas Wagner <tom68@users.sourceforge.net>
+
         * SFEmpd.spec: --disable-flac, --disable-oggflac
           mpd possibly has to be updated to reflect new libFLAC includes
-          does not compile with libflac from vermillion_64 (sorry, 62 was a typo)
-          you may enable *flac if using older libFLAC versions
+          does not compile with libflac from vermillion_64 (sorry, 62 was a
+	  typo) you may enable *flac if using older libFLAC versions
 
 2007-04-26 Erwann Chenede - <erwann.chenede@sun.com>
 
@@ -458,6 +480,7 @@
 	  the rest of solaris packages
 
 2007-04-26  Thomas Wagner <tom68@users.sourceforge.net>
+
         * SFEmpd.spec: Patch2: make filesystem_charset in mpdconf.example UTF-8
           NOTE: If directories/files with UTF-8 names missing in the 
           database, then update your existing /etc/mpd.conf|~/.mpd.conf 
@@ -752,8 +775,8 @@
 2007-03-31  Thomas Wagner <tom68@users.sourceforge.net>
 
         * SFEgd.spec: split into SFEgd SFEgd-devel
-                      Bump to 2.0.34
-                      new Url / Source
+          Bump to 2.0.34
+          new Url / Source
         * SFElibmhash.spec: (new) for: SFEphp
         * SFElibmcrypt.spec: (new) for: SFEphp
         * SFEmcrypt.spec: (new) uses SFElibmcrypt and SFElibmhash

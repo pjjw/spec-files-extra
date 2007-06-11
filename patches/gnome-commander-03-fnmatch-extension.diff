@@ -1,0 +1,14 @@
+--- gnome-commander-1.2.4/src/filter.cc.orig	2007-06-11 14:20:00.411709383 +0100
++++ gnome-commander-1.2.4/src/filter.cc	2007-06-11 14:24:07.702213940 +0100
+@@ -56,8 +56,11 @@
+     filter->fn_exp = g_strdup (exp);
+     filter->fn_flags = FNM_NOESCAPE;
+ 
++#ifdef __GNUC
++    /* FNM_CASEFOLD is a GNU extension for fnmatch(). */
+     if (!case_sens)
+         filter->fn_flags |= FNM_CASEFOLD;
++#endif
+ 
+     return filter;
+ }

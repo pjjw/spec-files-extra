@@ -1,0 +1,11 @@
+--- gnome-commander-1.2.4/src/libgviewer/fileops.c.orig	2007-06-11 14:15:40.150381589 +0100
++++ gnome-commander-1.2.4/src/libgviewer/fileops.c	2007-06-11 14:16:52.571323029 +0100
+@@ -238,7 +238,7 @@
+     }
+ #ifdef HAVE_MMAP
+     if ((size_t) ops->s.st_size == ops->s.st_size)
+-        ops->data = mmap (0, ops->s.st_size, PROT_READ, MAP_FILE | MAP_SHARED, ops->file, 0);
++        ops->data = mmap (0, ops->s.st_size, PROT_READ, MAP_SHARED, ops->file, 0);
+     else
+         ops->data = MAP_FAILED;
+ 
