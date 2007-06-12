@@ -23,6 +23,10 @@ Patch5:                  gnome-commander-05-void-return.diff
 Patch6:                  gnome-commander-06-bad-ternary-code.diff
 # owner:dcarbery type:bug bugzilla:446361
 Patch7:                  gnome-commander-07-typedef-comma.diff
+# owner:dcarbery type:bug bugzilla:446361
+Patch8:                  gnome-commander-08-warnx.diff
+# owner:dcarbery type:bug bugzilla:446361
+Patch9:                  gnome-commander-09-other.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -49,6 +53,8 @@ Requires:                %{name}
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
+%patch9 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -82,7 +88,7 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/omf/*/*-[a-z]*.omf
 %endif
 
 # Delete unneeded scrollkeeper files.
-rm -rf $RPM_BUILD_ROOT%{_prefix}/var
+rm -r $RPM_BUILD_ROOT/var
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -95,17 +101,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/omf/meld/meld-C.omf
-%dir %attr (0755, root, other) %{_datadir}/application-registry
-%{_datadir}/application-registry/*
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
-%dir %attr (0755, root, other) %{_datadir}/meld
-%{_datadir}/meld/*
 %dir %attr (0755, root, other) %{_datadir}/gnome
 %{_datadir}/gnome/help/*/C
-%dir %attr (0755, root, other) %{_datadir}/doc
-%{_datadir}/doc/*
+%{_datadir}/omf/gnome-commander/gnome-commander-C.omf
+%dir %attr(0755, root, bin) %{_mandir}
+%dir %attr(0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/gnome-commander.1
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
 
@@ -118,6 +121,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Tue Jun 12 2007 - damien.carbery@sun.com
+- Add patches, 08-warnx and 09-other, to fix a few more build issues.
 - Update %files and %install now that build is working.
 
 * Mon Jun 11 2007 - damien.carbery@sun.com
