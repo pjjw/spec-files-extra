@@ -117,5 +117,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Jun 12 2007 - damien.carbery@sun.com
+- Update %files and %install now that build is working.
+
 * Mon Jun 11 2007 - damien.carbery@sun.com
 - Initial version

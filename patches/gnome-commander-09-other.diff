@@ -1,0 +1,42 @@
+--- gnome-commander-1.2.4/src/utils.cc.orig	2007-06-12 11:33:38.649097000 +0100
++++ gnome-commander-1.2.4/src/utils.cc	2007-06-12 11:34:28.691277289 +0100
+@@ -1283,7 +1283,12 @@
+ gboolean patlist_matches (GList *pattern_list, const gchar *s)
+ {
+     for (GList *tmp = pattern_list; tmp; tmp = tmp->next)
++#ifdef _GNUC
+         if (fnmatch ((gchar *) tmp->data, s, FNM_NOESCAPE|FNM_CASEFOLD) == 0)
++#else
++        // Omit FNM_CASEFOLD as it is a GNU extension.
++        if (fnmatch ((gchar *) tmp->data, s, FNM_NOESCAPE) == 0)
++#endif
+             return TRUE;
+ 
+     return FALSE;
+--- gnome-commander-1.2.4/src/gnome-cmd-file-popmenu.cc.orig	2007-06-12 11:29:14.440296820 +0100
++++ gnome-commander-1.2.4/src/gnome-cmd-file-popmenu.cc	2007-06-12 11:32:06.691964917 +0100
+@@ -283,7 +283,12 @@
+             for (; files; files = files->next)
+             {
+                 gboolean ok = FALSE;
++#ifdef _GNUC
+                 gint fn_flags = FNM_NOESCAPE | FNM_CASEFOLD;
++#else
++		// Omit FNM_CASEFOLD as it is a GNU extension.
++                gint fn_flags = FNM_NOESCAPE;
++#endif
+ 
+                 GnomeCmdFile *finfo = (GnomeCmdFile *) files->data;
+                 if (finfo->info->type != GNOME_VFS_FILE_TYPE_REGULAR)
+--- gnome-commander-1.2.4/plugins/test/test-plugin.c.orig	2007-06-12 11:43:07.654477136 +0100
++++ gnome-commander-1.2.4/plugins/test/test-plugin.c	2007-06-12 11:44:06.081892357 +0100
+@@ -43,6 +43,9 @@
+ 
+ struct _TestPluginPrivate
+ {
++#ifdef __sun
++  char x;  /* Sun's forte compiler does not line empty structs. */
++#endif
+ };
+ 
+ static GnomeCmdPluginClass *parent_class = NULL;

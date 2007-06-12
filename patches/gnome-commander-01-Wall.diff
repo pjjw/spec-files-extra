@@ -1,96 +1,122 @@
---- gnome-commander-1.2.4/plugins/cvs/Makefile.am.orig	2007-06-11 13:47:15.859986065 +0100
-+++ gnome-commander-1.2.4/plugins/cvs/Makefile.am	2007-06-11 13:47:26.412585981 +0100
-@@ -3,8 +3,7 @@
+--- gnome-commander-1.2.4/configure.in.orig	2007-06-12 10:43:09.594467068 +0100
++++ gnome-commander-1.2.4/configure.in	2007-06-12 10:44:53.690289562 +0100
+@@ -19,6 +19,13 @@
+ AC_SUBST(ACLOCAL_AMFLAGS, "$ACLOCAL_FLAGS -I m4")
+ 
+ 
++dnl Add -Wall to CFLAGS when using gcc
++AC_SUBST(GCC_WARNINGS)
++GCC_WARNINGS=
++if test "x$GCC" = "xyes"; then
++  GCC_WARNINGS="-Wall"
++fi
++
+ dnl ===================
+ dnl Gettext stuff
+ dnl ===================
+--- gnome-commander-1.2.4/libgcmd/Makefile.am.orig	2007-06-12 10:48:00.522639516 +0100
++++ gnome-commander-1.2.4/libgcmd/Makefile.am	2007-06-12 10:48:05.639412425 +0100
+@@ -1,6 +1,6 @@
+ ## Process this file with automake to produce Makefile.in
+ 
+-AM_CPPFLAGS = -Wall \
++AM_CPPFLAGS = $(GCC_WARNINGS) \
+ 	$(GNOMEUI_CFLAGS) \
+ 	$(GNOMEVFS_CFLAGS)
+ 
+--- gnome-commander-1.2.4/plugins/cvs/Makefile.am.orig	2007-06-12 10:47:22.046730441 +0100
++++ gnome-commander-1.2.4/plugins/cvs/Makefile.am	2007-06-12 10:47:27.314987728 +0100
+@@ -3,7 +3,7 @@
  .l.c:
  	$(LEXCOMPILE) $<
  
 -AM_CPPFLAGS = -Wall \
--	-I$(top_srcdir) \
-+AM_CPPFLAGS = -I$(top_srcdir) \
++AM_CPPFLAGS = $(GCC_WARNINGS) \
+ 	-I$(top_srcdir) \
  	$(GNOMEUI_CFLAGS) \
  	$(GNOMEVFS_CFLAGS)
- 
---- gnome-commander-1.2.4/plugins/test/Makefile.am.orig	2007-06-11 13:47:32.372820596 +0100
-+++ gnome-commander-1.2.4/plugins/test/Makefile.am	2007-06-11 13:47:39.295461801 +0100
-@@ -1,7 +1,6 @@
+--- gnome-commander-1.2.4/plugins/fileroller/Makefile.am.orig	2007-06-12 10:47:15.349813052 +0100
++++ gnome-commander-1.2.4/plugins/fileroller/Makefile.am	2007-06-12 10:47:20.930556232 +0100
+@@ -1,6 +1,6 @@
  ## Process this file with automake to produce Makefile.in
  
 -AM_CPPFLAGS = -Wall \
--	-I$(top_srcdir) \
-+AM_CPPFLAGS = -I$(top_srcdir) \
++AM_CPPFLAGS = $(GCC_WARNINGS) \
+ 	-I$(top_srcdir) \
  	$(GNOMEUI_CFLAGS) \
  	$(GNOMEVFS_CFLAGS)
- 
---- gnome-commander-1.2.4/plugins/fileroller/Makefile.am.orig	2007-06-11 13:47:40.547751889 +0100
-+++ gnome-commander-1.2.4/plugins/fileroller/Makefile.am	2007-06-11 13:47:45.470753418 +0100
-@@ -1,7 +1,6 @@
+--- gnome-commander-1.2.4/plugins/test/Makefile.am.orig	2007-06-12 10:46:47.005255804 +0100
++++ gnome-commander-1.2.4/plugins/test/Makefile.am	2007-06-12 10:47:12.465542914 +0100
+@@ -1,6 +1,6 @@
  ## Process this file with automake to produce Makefile.in
  
 -AM_CPPFLAGS = -Wall \
--	-I$(top_srcdir) \
-+AM_CPPFLAGS = -I$(top_srcdir) \
++AM_CPPFLAGS = $(GCC_WARNINGS) \
+ 	-I$(top_srcdir) \
  	$(GNOMEUI_CFLAGS) \
  	$(GNOMEVFS_CFLAGS)
- 
---- gnome-commander-1.2.4/libgcmd/Makefile.am.orig	2007-06-11 13:47:48.325985541 +0100
-+++ gnome-commander-1.2.4/libgcmd/Makefile.am	2007-06-11 13:47:53.252430408 +0100
-@@ -1,7 +1,6 @@
- ## Process this file with automake to produce Makefile.in
- 
--AM_CPPFLAGS = -Wall \
--	$(GNOMEUI_CFLAGS) \
-+AM_CPPFLAGS = $(GNOMEUI_CFLAGS) \
- 	$(GNOMEVFS_CFLAGS)
- 
- pkglib_LTLIBRARIES = libgcmd.la
---- gnome-commander-1.2.4/tests/gviewer/Makefile.am.orig	2007-06-11 13:47:53.945315955 +0100
-+++ gnome-commander-1.2.4/tests/gviewer/Makefile.am	2007-06-11 13:47:59.840804480 +0100
-@@ -1,6 +1,5 @@
- ## Process this file with automake to produce Makefile.in
--AM_CPPFLAGS = -Wall \
--	$(GLIB_CFLAGS) \
-+AM_CPPFLAGS = $(GLIB_CFLAGS) \
- 	$(GTK_CFLAGS) \
- 	$(GNOMEUI_CFLAGS) \
- 	-I$(top_builddir)/src
---- gnome-commander-1.2.4/src/libgviewer/Makefile.am.orig	2007-06-11 13:48:03.033563417 +0100
-+++ gnome-commander-1.2.4/src/libgviewer/Makefile.am	2007-06-11 13:48:07.404887251 +0100
-@@ -1,7 +1,6 @@
- ## Process this file with automake to produce Makefile.in
- 
--AM_CPPFLAGS = -Wall \
--	-I$(top_srcdir) \
-+AM_CPPFLAGS = -I$(top_srcdir) \
- 	-I.. \
- 	$(GLIB_CFLAGS) \
- 	$(GTK_CFLAGS) \
---- gnome-commander-1.2.4/src/Makefile.am.orig	2007-06-11 13:48:08.362972920 +0100
-+++ gnome-commander-1.2.4/src/Makefile.am	2007-06-11 13:48:13.182518062 +0100
-@@ -3,7 +3,6 @@
+--- gnome-commander-1.2.4/src/Makefile.am.orig	2007-06-12 10:47:40.808431486 +0100
++++ gnome-commander-1.2.4/src/Makefile.am	2007-06-12 10:47:45.981793262 +0100
+@@ -3,7 +3,7 @@
  SUBDIRS = tags libgviewer
  
  AM_CPPFLAGS = \
 -	-Wall \
++	$(GCC_WARNINGS) \
  	-I$(top_srcdir) \
  	$(GNOMEUI_CFLAGS) \
  	$(GNOMEVFS_CFLAGS) \
---- gnome-commander-1.2.4/src/tags/id3lib/Makefile.am.orig	2007-06-11 13:48:14.880165480 +0100
-+++ gnome-commander-1.2.4/src/tags/id3lib/Makefile.am	2007-06-11 13:48:18.339860707 +0100
-@@ -1,7 +1,6 @@
- noinst_LIBRARIES = libgcmd-id3lib.a
+--- gnome-commander-1.2.4/src/libgviewer/Makefile.am.orig	2007-06-12 10:47:46.769065861 +0100
++++ gnome-commander-1.2.4/src/libgviewer/Makefile.am	2007-06-12 10:47:52.125803870 +0100
+@@ -1,6 +1,6 @@
+ ## Process this file with automake to produce Makefile.in
  
- AM_CPPFLAGS = \
--	-Wall \
+-AM_CPPFLAGS = -Wall \
++AM_CPPFLAGS = $(GCC_WARNINGS) \
  	-I$(top_srcdir) \
- 	$(GNOMEUI_CFLAGS)
- 
---- gnome-commander-1.2.4/src/tags/Makefile.am.orig	2007-06-11 13:48:19.404274398 +0100
-+++ gnome-commander-1.2.4/src/tags/Makefile.am	2007-06-11 13:48:21.921997737 +0100
-@@ -3,7 +3,6 @@
+ 	-I.. \
+ 	$(GLIB_CFLAGS) \
+--- gnome-commander-1.2.4/src/tags/Makefile.am.orig	2007-06-12 10:47:27.895246409 +0100
++++ gnome-commander-1.2.4/src/tags/Makefile.am	2007-06-12 10:47:33.860231054 +0100
+@@ -3,7 +3,7 @@
  noinst_LIBRARIES = libgcmd-tags.a
  
  AM_CPPFLAGS = \
 -	-Wall \
++	$(GCC_WARNINGS) \
  	-I$(top_srcdir) \
  	-I.. \
  	$(GNOMEUI_CFLAGS) \
+--- gnome-commander-1.2.4/src/tags/id3lib/Makefile.am.orig	2007-06-12 10:47:35.048056852 +0100
++++ gnome-commander-1.2.4/src/tags/id3lib/Makefile.am	2007-06-12 10:47:40.228433542 +0100
+@@ -1,7 +1,7 @@
+ noinst_LIBRARIES = libgcmd-id3lib.a
+ 
+ AM_CPPFLAGS = \
+-	-Wall \
++	$(GCC_WARNINGS) \
+ 	-I$(top_srcdir) \
+ 	$(GNOMEUI_CFLAGS)
+ 
+--- gnome-commander-1.2.4/tests/gviewer/Makefile.am.orig	2007-06-12 10:47:52.897904911 +0100
++++ gnome-commander-1.2.4/tests/gviewer/Makefile.am	2007-06-12 10:47:59.254254337 +0100
+@@ -1,5 +1,5 @@
+ ## Process this file with automake to produce Makefile.in
+-AM_CPPFLAGS = -Wall \
++AM_CPPFLAGS = $(GCC_WARNINGS) \
+ 	$(GLIB_CFLAGS) \
+ 	$(GTK_CFLAGS) \
+ 	$(GNOMEUI_CFLAGS) \
+--- trunk/src/dict.h	2007/04/16 20:48:43	858
++++ trunk/src/dict.h	2007/06/11 22:08:01	972
+@@ -54,8 +54,8 @@
+ template <typename KEY, typename VAL>
+ inline void DICT<KEY,VAL>::add(const KEY k, const VAL &v)
+ {
+-    std::pair<typename KEY_COLL::iterator,bool> k_pos = k_coll.insert(make_pair(k,(VAL *) NULL));
+-    std::pair<typename VAL_COLL::iterator,bool> v_pos = v_coll.insert(make_pair(v,(KEY *) NULL));
++    std::pair<typename KEY_COLL::iterator,bool> k_pos = k_coll.insert(make_pair(k,(const VAL *) NULL));
++    std::pair<typename VAL_COLL::iterator,bool> v_pos = v_coll.insert(make_pair(v,(const KEY *) NULL));
+ 
+     if (k_pos.second)
+         k_pos.first->second = &v_pos.first->first;

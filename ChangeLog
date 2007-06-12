@@ -1,5 +1,14 @@
 2007-06-11  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* SFEgnome-commander.spec: Update %files and %install now that build
+	  is working.
+	* patches/gnome-commander-01-Wall.diff: Update with better solution to
+	  removing -Wall (use configure.in check and Makefile.am variables).
+	* patches/gnome-commander-08-warnx.diff,
+	  patches/gnome-commander-09-other.diff: Added to fix more build issues.
+
+2007-06-11  Damien Carbery <daymobrew@users.sourceforge.net>
+
 	* SFEgnome-commander.spec: Added, along with multiple patches.
 	* patches/gnome-commander-01-Wall.diff,
 	patches/gnome-commander-02-empty-struct.diff,
