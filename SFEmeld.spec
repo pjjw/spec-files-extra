@@ -7,7 +7,7 @@
 
 Name:                    SFEmeld
 Summary:                 Meld Diff and Merge Tool
-Version:                 1.1.4
+Version:                 1.1.5.1
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/meld/1.1/meld-%{version}.tar.bz2
 Patch1:                  meld-01-msgfmt-no-checks.diff
 SUNW_BaseDir:            %{_basedir}
@@ -114,5 +114,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %endif
 
 %changelog
-* Tue Nov 28 - 2006 - glynn.foster@sun.com
+* Thu Jun 14 2007 - damien.carbery@sun.com
+- Bump to 1.1.5.1.
+
+* Tue Nov 28 2006 - glynn.foster@sun.com
 - Initial version

@@ -1,3 +1,7 @@
+2007-06-14  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEmeld.spec: Bump to 1.1.5.1.
+
 2007-06-11  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEgnome-commander.spec: Add patches, 08-warnx and 09-other, to fix a
