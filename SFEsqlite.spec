@@ -32,12 +32,20 @@ fi
 export CFLAGS="%optflags -mt -DSOLARIS -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS -D_FILE_OFFSET_BITS=64 -D_XOPEN_SOURCE=500 -D__EXTENSIONS__"
 export LDFLAGS="%{_ldflags}"
 
-./configure --prefix=%{_prefix} --enable-static=no \
-       --enable-releasemode --enable-threadsafe --disable-tcl \
-       --disable-cross-thread-connections --enable-tempstore \
-	--mandir=%{_mandir} --bindir=%{_bindir}         \
-            --libdir=%{_libdir}         \
-            --includedir=%{_includedir}
+./configure --prefix=%{_prefix}					\
+			--enable-static=no					\
+			--enable-releasemode				\
+			--enable-threadsafe 				\
+			--disable-tcl						\
+			--disable-cross-thread-connections	\
+			--enable-tempstore					\
+			--enable-threads-override-locks		\
+			--disable-debug						\
+			--mandir=%{_mandir}					\
+			--bindir=%{_bindir}					\
+			--libdir=%{_libdir}					\
+			--includedir=%{_includedir}
+
 make -j$CPUS
 
 %install
@@ -71,6 +79,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu May 03 2007 - nonsea@users.sourceforge.net
+- Add --enable-threads-override-locks and --disable-debug option for tracker.
 * Thu May 03 2007 - nonsea@users.sourceforge.net
 - Bump to 3.3.17.
 * Wed Feb 28 2007 - markgraf@med.ovgu.de

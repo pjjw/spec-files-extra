@@ -1,3 +1,8 @@
+2007-06-15  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEsqlite.spec: Add --enable-threads-override-locks and 
+	  --disable-debug option for tracker.
+
 2007-06-14  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEmeld.spec: Bump to 1.1.5.1.
