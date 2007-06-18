@@ -62,7 +62,7 @@ export RPM_OPT_FLAGS="$CFLAGS"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CPPFLAGS="-I/usr/sfw/include"
 export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib"
-export MSGFMT="/opt/sfw/bin/msgfmt"
+export MSGFMT="/usr/bin/msgfmt"
 
 glib-gettextize -f
 libtoolize --copy --force
