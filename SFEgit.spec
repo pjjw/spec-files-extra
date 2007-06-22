@@ -27,7 +27,11 @@ Requires: SUNWzlib
 Requires: SUNWsshu
 Requires: SUNWopenssl-libraries
 Requires: SUNWlexpt
+%if %(pkginfo -q SUNWgnu-diffutils && echo 1 || echo 0)
+Requires: SUNWgnu-diffutils
+%else
 Requires: SFEdiffutils
+%endif
 Requires: SUNWTk
 %define perl_version 5.8.4
 Requires: SUNWperl584core
@@ -110,6 +114,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/perl5/vendor_perl/%{perl_version}/*
 
 %changelog
+* Fri Jun 22 2007 - laca@sun.com
+- make it build with either SUNWgnu-diffutils or SFEdiffutils
 * Tue Feb 13 2007 - laca@sun.com
 - finish Erwann's spec
 * Tue Feb 13 2007 - erwann@sun.com

@@ -1,5 +1,10 @@
 2007-06-22  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEgit.spec: make it build with either SUNWgnu-diffutils or
+	  SFEdiffutils
+
+2007-06-22  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEcurl.spec: add -L/usr/sfw/lib to CFLAGS to workaround a
 	  libtool bug
 
