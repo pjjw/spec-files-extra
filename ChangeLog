@@ -1,3 +1,8 @@
+2007-06-22  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFErealvnc.spec: (new) realvnc vnc server/viewer
+	* SFEtightvnc.spec: clean up
+
 2007-06-15  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEsqlite.spec: Add --enable-threads-override-locks and 
