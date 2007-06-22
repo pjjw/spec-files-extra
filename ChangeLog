@@ -1,5 +1,9 @@
 2007-06-22  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEasciidoc.spec: bump to 8.2.1
+
+2007-06-22  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFErealvnc.spec: (new) realvnc vnc server/viewer
 	* SFEtightvnc.spec: clean up
 
