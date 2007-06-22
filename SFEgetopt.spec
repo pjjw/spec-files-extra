@@ -11,7 +11,8 @@ Name:                    SFEgetopt
 Summary:                 getopt - a GNU getopt(3) compatible getopt utility
 Version:                 1.1.4
 URL:                     http://software.frodo.looijaard.name/getopt/
-Source:			 http://software.frodo.looijaard.name/getopt/files/getopt-%{version}.tar.gz
+#Source:			 http://software.frodo.looijaard.name/getopt/files/getopt-%{version}.tar.gz
+Source:			 http://pkgbuild.sf.net/spec-files-extra/tarballs/getopt-%{version}.tar.gz
 Patch1:                  getopt-01-locale.h.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
