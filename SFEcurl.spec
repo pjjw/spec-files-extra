@@ -32,7 +32,8 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP"
+# -L/usr/sfw/lib added to CFLAGS to workaround what seems to be a libtool bug
+export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP -L/usr/sfw/lib"
 export RPM_OPT_FLAGS="$CFLAGS"
 export CPPFLAGS="-I/usr/sfw/include"
 export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib"
