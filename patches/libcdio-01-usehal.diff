@@ -1,0 +1,138 @@
+--- libcdio-0.77/lib/driver/Makefile.am-orig	2006-07-19 15:08:37.988032000 -0500
++++ libcdio-0.77/lib/driver/Makefile.am	2006-07-19 15:14:25.765631000 -0500
+@@ -101,7 +101,7 @@ lib_LTLIBRARIES    = libcdio.la
+ libcdio_la_SOURCES = $(libcdio_sources)
+ libcdio_la_ldflags = -version-info $(libcdio_la_CURRENT):$(libcdio_la_REVISION):$(libcdio_la_AGE)
+ 
+-INCLUDES = $(LIBCDIO_CFLAGS)
++INCLUDES = $(LIBCDIO_CFLAGS) -I/usr/include/dbus-1.0 -I/usr/lib/dbus-1.0/include -DDBUS_API_SUBJECT_TO_CHANGE
+ 
+ ########################################################
+ # Things to version the symbols in the libraries
+--- libcdio-0.77/lib/driver/solaris.c-orig	2006-07-19 15:13:22.665583000 -0500
++++ libcdio-0.77/lib/driver/solaris.c	2006-07-19 15:12:30.327643000 -0500
+@@ -50,6 +50,7 @@ static const char _rcsid[] = "$Id: solar
+ #include <errno.h>
+ #include <unistd.h>
+ #include <fcntl.h>
++#include <hal/libhal.h>
+ 
+ #ifdef HAVE_SYS_CDIO_H
+ # include <sys/cdio.h> /* CDIOCALLOW etc... */
+@@ -650,6 +651,42 @@ get_blocksize_solaris (void *p_user_data
+   }
+ }
+ 
++static char *
++find_cdroms (LibHalContext *hal_ctx)
++{
++  int i;
++  int num_udis;
++  char **udis;
++  char *bdev, *rdev;
++  DBusError error;
++
++  dbus_error_init (&error);
++
++  udis = libhal_find_device_by_capability (hal_ctx, "storage.cdrom",
++      &num_udis, &error);
++
++  if (dbus_error_is_set (&error)) {
++          fprintf (stderr, "error: %s: %s\n", error.name, error.message);
++          goto out;
++  }
++
++  /* Return first device found */
++  for (i = 0; i < num_udis; i++) {
++          bdev = libhal_device_get_property_string (hal_ctx,
++              udis[i], "block.device", &error);
++          rdev = libhal_device_get_property_string (hal_ctx,
++              udis[i], "block.solaris.raw_device", &error);
++
++          if (rdev != NULL)
++             return rdev;
++  }
++
++out:
++  libhal_free_string_array (udis);
++  dbus_error_free (&error);
++  return (NULL);
++}
++
+ /*!
+   Return a string containing the default CD device if none is specified.
+  */
+@@ -661,6 +698,33 @@ cdio_get_default_device_solaris(void)
+   char *volume_action;
+   char *device;
+   struct stat stb;
++  char *default_device = NULL;
++  DBusError error;
++  LibHalContext *hal_ctx;
++  int ret = 1;
++
++  dbus_error_init (&error);
++  if ((hal_ctx = libhal_ctx_new ()) == NULL) {
++          fprintf (stderr, "libhal_ctx_new failed\n");
++          goto halerr;
++  }
++  if (!libhal_ctx_set_dbus_connection (hal_ctx,
++      dbus_bus_get(DBUS_BUS_SYSTEM, &error))) {
++          fprintf (stderr, "libhal_ctx_set_dbus_connection: %s %s\n",
++              error.name, error.message);
++          goto halerr;
++  }
++  if (!libhal_ctx_init (hal_ctx, &error)) {
++          fprintf (stderr, "libhal_ctx_init: %s: %s\n",
++              error.name, error.message);
++          goto halerr;
++  }
++
++  default_device = find_cdroms(hal_ctx);
++
++halerr:
++  libhal_ctx_shutdown(hal_ctx, &error);
++  libhal_ctx_free(hal_ctx);
+ 
+   if ((volume_device = getenv("VOLUME_DEVICE")) != NULL &&
+       (volume_name   = getenv("VOLUME_NAME"))   != NULL &&
+@@ -669,22 +733,32 @@ cdio_get_default_device_solaris(void)
+ 
+     device = calloc(1, strlen(volume_device) 
+ 				  + strlen(volume_name) + 2);
+-    if (device == NULL)
+-      return strdup(DEFAULT_CDIO_DEVICE);
++    if (device == NULL) {
++      if (default_device != NULL)
++        return strdup (default_device);
++      else
++        return strdup (DEFAULT_CDIO_DEVICE);
++    }
+     sprintf(device, "%s/%s", volume_device, volume_name);
+     if (stat(device, &stb) != 0 || !S_ISCHR(stb.st_mode)) {
+       free(device);
+-      return strdup(DEFAULT_CDIO_DEVICE);
++      if (default_device != NULL)
++         return strdup (default_device);
++      else
++         return strdup (DEFAULT_CDIO_DEVICE);
+     }
+     return device;
+   }
+   /* Check if it could be a Solaris media*/
+-  if((stat(DEFAULT_CDIO_DEVICE, &stb) == 0) && S_ISDIR(stb.st_mode)) {
+-    device = calloc(1, strlen(DEFAULT_CDIO_DEVICE) + 4);
+-    sprintf(device, "%s/s0", DEFAULT_CDIO_DEVICE);
++  if(default_device != NULL && (stat(default_device, &stb) == 0) && S_ISDIR(stb.st_mode)) {
++    device = calloc(1, strlen(default_device) + 4);
++    sprintf(device, "%s/s0", default_device);
+     return device;
+   }
+-  return strdup(DEFAULT_CDIO_DEVICE);
++  if (default_device != NULL)
++     return strdup (default_device);
++  else
++     return strdup (DEFAULT_CDIO_DEVICE);
+ }
+ 
+ /*! 
