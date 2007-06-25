@@ -1,0 +1,76 @@
+diff -Nrup ../compcomm/libraries/bcop/configure.ac compcomm/libraries/bcop/configure.ac
+--- ../compcomm/libraries/bcop/configure.ac	2007-04-06 16:44:36.000000000 +0200
++++ compcomm/libraries/bcop/configure.ac	2007-06-25 15:07:57.968178000 +0200
+@@ -1,6 +1,6 @@
+ AC_PREREQ(2.57)
+ 
+-AC_INIT([bcop],esyscmd(. ./VERSION;echo -n $VERSION), [onestone@beryl-project.org])
++AC_INIT([bcop],[-n 0.0.2-compiz], [onestone@beryl-project.org])
+ 
+ AC_DEFINE_UNQUOTED(VERSION,"$VERSION",[Version])
+ 
+diff -Nrup ../compcomm/libraries/bcop/src/code_generator.c compcomm/libraries/bcop/src/code_generator.c
+--- ../compcomm/libraries/bcop/src/code_generator.c	2007-04-06 16:44:36.000000000 +0200
++++ compcomm/libraries/bcop/src/code_generator.c	2007-06-25 15:08:07.336805000 +0200
+@@ -31,7 +31,7 @@
+ #include <math.h>
+ #include <libgen.h>
+ #include <X11/Xlib.h>
+-
++#include <limits.h>
+ #include "bcop.h"
+ 
+ static char *edges[] = {
+@@ -97,7 +97,52 @@ StringElement finiDisplay;
+ int nOptions = 0;
+ int nSOptions = 0;
+ int nDOptions = 0;
++#define INIT_SZ	128
++
++int vasprintf(char **str, const char *fmt, va_list ap);
++
++int vasprintf(char **str, const char *fmt, va_list ap)
++{
++	int ret = -1;
++	va_list ap2;
++	char *string, *newstr;
++	size_t len;
++
++	va_copy(ap2, ap);
++	if ((string = malloc(INIT_SZ)) == NULL)
++		goto fail;
++
++	ret = vsnprintf(string, INIT_SZ, fmt, ap2);
++	if (ret >= 0 && ret < INIT_SZ) { /* succeeded with initial alloc */
++		*str = string;
++	} else if (ret == INT_MAX) { /* shouldn't happen */
++		goto fail;
++	} else {	/* bigger than initial, realloc allowing for nul */
++		len = (size_t)ret + 1;
++		if ((newstr = realloc(string, len)) == NULL) {
++			free(string);
++			goto fail;
++		} else {
++			va_end(ap2);
++			va_copy(ap2, ap);
++			ret = vsnprintf(newstr, len, fmt, ap2);
++			if (ret >= 0 && (size_t)ret < len) {
++				*str = newstr;
++			} else { /* failed with realloc'ed string, give up */
++				free(newstr);
++				goto fail;
++			}
++		}
++	}
++	va_end(ap2);
++	return (ret);
+ 
++fail:
++	*str = NULL;
++	//	errno = ENOMEM;
++	va_end(ap2);
++	return (-1);
++}
+ static void addString(StringElement *se, const char* format, ...)
+ {
+ 	char *str = NULL;

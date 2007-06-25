@@ -1,3 +1,12 @@
+2007-06-25 Erwann Chenede - <erwann.chenede@sun.com>
+
+	* SFEcompiz-extra.spec: additional plugins for compiz
+	* SFEbcop.spec: option parser needed by compiz-extra
+	* patches/bcop-01-solaris-port.diff
+	* patches/compiz-extra-01-solaris-port.diff : ports to 
+	  solaris patches
+	  (originally written by chris.wang@sun.com)
+
 2007-06-22  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEgit.spec: make it build with either SUNWgnu-diffutils or
