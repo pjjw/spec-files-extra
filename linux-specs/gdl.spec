@@ -9,7 +9,7 @@
 Name:		gdl
 License:	GPL
 Group:		Development/Libraries
-Version:	0.7.5
+Version:	0.7.6
 Release:	1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -107,6 +107,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/lib/pkgconfig/*
 
 %changelog
+* Sun Jun 30 2007 - nonsea@users.sourceforge.net
+- Bump to 0.7.6.
+
 * Sun May 13 2007 - nonsea@users.sourceforge.net
 - Bump to 0.7.5.
 - Remove upstreamed patch define-FUNCTION.diff.

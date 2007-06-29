@@ -1,41 +1,410 @@
-Index: gdl-head/gdl/gdl-dock-item.c
+Index: gdl-trunk/gdl/gdl-dock-master.c
 ===================================================================
---- gdl-head/gdl/gdl-dock-item.c	(revision 344)
-+++ gdl-head/gdl/gdl-dock-item.c	(working copy)
-@@ -861,7 +861,7 @@
- 
-     if (GTK_WIDGET_DRAWABLE (widget) && event->window == widget->window) {
-         gdl_dock_item_paint (widget, event);
--        GDL_CALL_PARENT (GTK_WIDGET_CLASS, expose_event, (widget, event));
-+        GDL_CALL_PARENT_GBOOLEAN(GTK_WIDGET_CLASS, expose_event, (widget, event));
+--- gdl-trunk/gdl/gdl-dock-master.c	(revision 371)
++++ gdl-trunk/gdl/gdl-dock-master.c	(working copy)
+@@ -304,7 +304,7 @@
+         master->_priv = NULL;
      }
-   
-     return FALSE;
-Index: gdl-head/gdl/gdl-dock-tablabel.c
-===================================================================
---- gdl-head/gdl/gdl-dock-tablabel.c	(revision 344)
-+++ gdl-head/gdl/gdl-dock-tablabel.c	(working copy)
-@@ -387,7 +387,7 @@
-     g_return_val_if_fail (event != NULL, FALSE);
  
-     if (GTK_WIDGET_VISIBLE (widget) && GTK_WIDGET_MAPPED (widget)) {
--        GDL_CALL_PARENT (GTK_WIDGET_CLASS, expose_event, (widget, event));
-+        GDL_CALL_PARENT_GBOOLEAN(GTK_WIDGET_CLASS, expose_event, (widget, event));
-         gdl_dock_tablabel_paint (widget, event);
-     };
-   
-Index: gdl-head/gdl/gdl-tools.h
+-    GDL_CALL_PARENT (G_OBJECT_CLASS, dispose, (g_object));
++    GDL_CALL_PARENT_VOID (G_OBJECT_CLASS, dispose, (g_object));
+ }
+ 
+ static void 
+Index: gdl-trunk/gdl/gdl-dock-item-grip.c
 ===================================================================
---- gdl-head/gdl/gdl-tools.h	(revision 344)
-+++ gdl-head/gdl/gdl-tools.h	(working copy)
-@@ -139,6 +139,10 @@
+--- gdl-trunk/gdl/gdl-dock-item-grip.c	(revision 371)
++++ gdl-trunk/gdl/gdl-dock-item-grip.c	(working copy)
+@@ -259,7 +259,7 @@
+         g_free (priv);
+     }
+ 
+-    GDL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (object));
++    GDL_CALL_PARENT_VOID (GTK_OBJECT_CLASS, destroy, (object));
+ }
+ 
+ static void
+Index: gdl-trunk/gdl/gdl-dock-item.c
+===================================================================
+--- gdl-trunk/gdl/gdl-dock-item.c	(revision 371)
++++ gdl-trunk/gdl/gdl-dock-item.c	(working copy)
+@@ -527,7 +527,7 @@
+         g_free (priv);
+     }
+ 
+-    GDL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (object));
++    GDL_CALL_PARENT_VOID (GTK_OBJECT_CLASS, destroy, (object));
+ }
+ 
+ static void 
+Index: gdl-trunk/gdl/gdl-dock.c
+===================================================================
+--- gdl-trunk/gdl/gdl-dock.c	(revision 371)
++++ gdl-trunk/gdl/gdl-dock.c	(working copy)
+@@ -542,7 +542,7 @@
+         g_free (priv);
+     }
+     
+-    GDL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (object));
++    GDL_CALL_PARENT_VOID (GTK_OBJECT_CLASS, destroy, (object));
+ }
+ 
+ static void
+@@ -612,7 +612,7 @@
+ 
+     dock = GDL_DOCK (widget);
+ 
+-    GDL_CALL_PARENT (GTK_WIDGET_CLASS, map, (widget));
++    GDL_CALL_PARENT_VOID (GTK_WIDGET_CLASS, map, (widget));
+ 
+     if (dock->root) {
+         child = GTK_WIDGET (dock->root);
+@@ -632,7 +632,7 @@
+ 
+     dock = GDL_DOCK (widget);
+ 
+-    GDL_CALL_PARENT (GTK_WIDGET_CLASS, unmap, (widget));
++    GDL_CALL_PARENT_VOID (GTK_WIDGET_CLASS, unmap, (widget));
+ 
+     if (dock->root) {
+         child = GTK_WIDGET (dock->root);
+@@ -662,7 +662,7 @@
+     g_return_if_fail (widget != NULL);
+     g_return_if_fail (GDL_IS_DOCK (widget));
+     
+-    GDL_CALL_PARENT (GTK_WIDGET_CLASS, show, (widget));
++    GDL_CALL_PARENT_VOID (GTK_WIDGET_CLASS, show, (widget));
+     
+     dock = GDL_DOCK (widget);
+     if (dock->_priv->floating && dock->_priv->window)
+@@ -683,7 +683,7 @@
+     g_return_if_fail (widget != NULL);
+     g_return_if_fail (GDL_IS_DOCK (widget));
+     
+-    GDL_CALL_PARENT (GTK_WIDGET_CLASS, hide, (widget));
++    GDL_CALL_PARENT_VOID (GTK_WIDGET_CLASS, hide, (widget));
+     
+     dock = GDL_DOCK (widget);
+     if (dock->_priv->floating && dock->_priv->window)
+Index: gdl-trunk/gdl/gdl-dock-object.c
+===================================================================
+--- gdl-trunk/gdl/gdl-dock-object.c	(revision 371)
++++ gdl-trunk/gdl/gdl-dock-object.c	(working copy)
+@@ -268,7 +268,7 @@
+     g_free (object->stock_id);
+     object->stock_id = NULL;
+ 
+-    GDL_CALL_PARENT (G_OBJECT_CLASS, finalize, (g_object));
++    GDL_CALL_PARENT_VOID (G_OBJECT_CLASS, finalize, (g_object));
+ }
+ 
+ static void
+@@ -305,7 +305,7 @@
+     if (object->master)
+         gdl_dock_object_unbind (object);
+         
+-    GDL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (gtk_object));
++    GDL_CALL_PARENT_VOID (GTK_OBJECT_CLASS, destroy, (gtk_object));
+ }
+ 
+ static void
+@@ -326,7 +326,7 @@
+                                (GtkCallback) gdl_dock_object_foreach_automatic,
+                                gtk_widget_show);
+     }
+-    GDL_CALL_PARENT (GTK_WIDGET_CLASS, show, (widget));
++    GDL_CALL_PARENT_VOID (GTK_WIDGET_CLASS, show, (widget));
+ }
+ 
+ static void
+@@ -337,7 +337,7 @@
+                                (GtkCallback) gdl_dock_object_foreach_automatic,
+                                gtk_widget_hide);
+     }
+-    GDL_CALL_PARENT (GTK_WIDGET_CLASS, hide, (widget));
++    GDL_CALL_PARENT_VOID (GTK_WIDGET_CLASS, hide, (widget));
+ }
+ 
+ static void
+Index: gdl-trunk/gdl/gdl-dock-tablabel.c
+===================================================================
+--- gdl-trunk/gdl/gdl-dock-tablabel.c	(revision 371)
++++ gdl-trunk/gdl/gdl-dock-tablabel.c	(working copy)
+@@ -564,7 +564,7 @@
+         tablabel->event_window = NULL;
+     }
+     
+-    GDL_CALL_PARENT (GTK_WIDGET_CLASS, unrealize, (widget));
++    GDL_CALL_PARENT_VOID (GTK_WIDGET_CLASS, unrealize, (widget));
+ }
+ 
+ static void  
+@@ -572,7 +572,7 @@
+ {
+     GdlDockTablabel *tablabel = GDL_DOCK_TABLABEL (widget);
+     
+-    GDL_CALL_PARENT (GTK_WIDGET_CLASS, map, (widget));
++    GDL_CALL_PARENT_VOID (GTK_WIDGET_CLASS, map, (widget));
+     
+     gdk_window_show (tablabel->event_window);
+ }
+@@ -584,7 +584,7 @@
+ 
+     gdk_window_hide (tablabel->event_window);
+ 
+-    GDL_CALL_PARENT (GTK_WIDGET_CLASS, unmap, (widget));
++    GDL_CALL_PARENT_VOID (GTK_WIDGET_CLASS, unmap, (widget));
+ }
+ 
+ /* ----- Public interface ----- */
+Index: gdl-trunk/gdl/gdl-dock-notebook.c
+===================================================================
+--- gdl-trunk/gdl/gdl-dock-notebook.c	(revision 371)
++++ gdl-trunk/gdl/gdl-dock-notebook.c	(working copy)
+@@ -250,7 +250,7 @@
+ 
+     /* we need to call the virtual first, since in GdlDockDestroy our
+        children dock objects are detached */
+-    GDL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (object));
++    GDL_CALL_PARENT_VOID (GTK_OBJECT_CLASS, destroy, (object));
+ 
+     /* after that we can remove the GtkNotebook */
+     if (item->child) {
+@@ -319,7 +319,7 @@
+ 
+     if (include_internals) {
+         /* use GdlDockItem's forall */
+-        GDL_CALL_PARENT (GTK_CONTAINER_CLASS, forall, 
++        GDL_CALL_PARENT_VOID (GTK_CONTAINER_CLASS, forall, 
+                            (container, include_internals, callback, callback_data));
+     }
+     else {
+@@ -422,7 +422,7 @@
+         }
+     }
+     else
+-        GDL_CALL_PARENT (GDL_DOCK_OBJECT_CLASS, dock,
++        GDL_CALL_PARENT_VOID (GDL_DOCK_OBJECT_CLASS, dock,
+                            (object, requestor, position, other_data));
+ }
+ 
+@@ -437,7 +437,7 @@
+             gtk_notebook_set_tab_pos (GTK_NOTEBOOK (item->child), GTK_POS_LEFT);
+     }
+ 
+-    GDL_CALL_PARENT (GDL_DOCK_ITEM_CLASS, set_orientation, (item, orientation));
++    GDL_CALL_PARENT_VOID (GDL_DOCK_ITEM_CLASS, set_orientation, (item, orientation));
+ }
+ 
+ static gboolean 
+@@ -482,7 +482,7 @@
+     if (i >= 0)
+         gtk_notebook_set_current_page (GTK_NOTEBOOK (item->child), i);
+ 
+-    GDL_CALL_PARENT (GDL_DOCK_OBJECT_CLASS, present, (object, child));
++    GDL_CALL_PARENT_VOID (GDL_DOCK_OBJECT_CLASS, present, (object, child));
+ }
+ 
+ static gboolean 
+Index: gdl-trunk/gdl/gdl-dock-placeholder.c
+===================================================================
+--- gdl-trunk/gdl/gdl-dock-placeholder.c	(revision 371)
++++ gdl-trunk/gdl/gdl-dock-placeholder.c	(working copy)
+@@ -325,7 +325,7 @@
+         ph->_priv = NULL;
+     }
+ 
+-    GDL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (object));
++    GDL_CALL_PARENT_VOID (GTK_OBJECT_CLASS, destroy, (object));
+ }
+ 
+ static void 
+Index: gdl-trunk/gdl/gdl-data-frame.c
+===================================================================
+--- gdl-trunk/gdl/gdl-data-frame.c	(revision 371)
++++ gdl-trunk/gdl/gdl-data-frame.c	(working copy)
+@@ -228,7 +228,7 @@
+ 		g_free (frame->priv);
+ 		frame->priv = NULL;
+ 	}
+-	GDL_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
++	GDL_CALL_PARENT_VOID (G_OBJECT_CLASS, finalize, (object));
+ }
+ 
+ void
+Index: gdl-trunk/gdl/gdl-dock-paned.c
+===================================================================
+--- gdl-trunk/gdl/gdl-dock-paned.c	(revision 371)
++++ gdl-trunk/gdl/gdl-dock-paned.c	(working copy)
+@@ -291,7 +291,7 @@
+ 
+     /* we need to call the virtual first, since in GdlDockDestroy our
+        children dock objects are detached */
+-    GDL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (object));
++    GDL_CALL_PARENT_VOID (GTK_OBJECT_CLASS, destroy, (object));
+ 
+     /* after that we can remove the GtkNotebook */
+     if (item->child) {
+@@ -344,7 +344,7 @@
+ 
+     if (include_internals) {
+         /* use GdlDockItem's forall */
+-        GDL_CALL_PARENT (GTK_CONTAINER_CLASS, forall, 
++        GDL_CALL_PARENT_VOID (GTK_CONTAINER_CLASS, forall, 
+                            (container, include_internals, callback, callback_data));
+     }
+     else {
+@@ -580,7 +580,7 @@
+ 
+     if (!done) {
+         /* this will create another paned and reparent us there */
+-        GDL_CALL_PARENT (GDL_DOCK_OBJECT_CLASS, dock, (object, requestor, position,
++        GDL_CALL_PARENT_VOID (GDL_DOCK_OBJECT_CLASS, dock, (object, requestor, position,
+                                                          other_data));
+     }
+     else {
+@@ -626,7 +626,7 @@
+         }
+     }
+     
+-    GDL_CALL_PARENT (GDL_DOCK_ITEM_CLASS, set_orientation, (item, orientation));
++    GDL_CALL_PARENT_VOID (GDL_DOCK_ITEM_CLASS, set_orientation, (item, orientation));
+ }
+ 
+ static gboolean 
+Index: gdl-trunk/gdl/gdl-tools.h
+===================================================================
+--- gdl-trunk/gdl/gdl-tools.h	(revision 371)
++++ gdl-trunk/gdl/gdl-tools.h	(working copy)
+@@ -135,9 +135,9 @@
+  * named parent_class that points to the (duh!) parent class.  Note that
+  * this macro is not to be used with things that return something, use
+  * the _WITH_DEFAULT version for that */
+-#define GDL_CALL_PARENT(parent_class_cast, name, args)          \
++#define GDL_CALL_PARENT_VOID(parent_class_cast, name, args)          \
  	((parent_class_cast(parent_class)->name != NULL) ?      \
- 	 parent_class_cast(parent_class)->name args : (void)0)
+-	 parent_class_cast(parent_class)->name args : (void *)0)
++	 parent_class_cast(parent_class)->name args : (void)0)
  
-+#define GDL_CALL_PARENT_GBOOLEAN(parent_class_cast, name, args)          \
-+	((parent_class_cast(parent_class)->name != NULL) ?      \
-+	 parent_class_cast(parent_class)->name args : (gboolean)0)
-+
- /* Same as above, but in case there is no implementation, it evaluates
-  * to def_return */
- #define GDL_CALL_PARENT_WITH_DEFAULT(parent_class_cast,                 \
+ #define GDL_CALL_PARENT_GBOOLEAN(parent_class_cast, name, args)          \
+        ((parent_class_cast(parent_class)->name != NULL) ?      \
+Index: gdl-trunk/gdl/gdl-data-view.c
+===================================================================
+--- gdl-trunk/gdl/gdl-data-view.c	(revision 371)
++++ gdl-trunk/gdl/gdl-data-view.c	(working copy)
+@@ -293,7 +293,7 @@
+ 	GList *l;
+ 	GdlDataView *view = GDL_DATA_VIEW (widget);
+ 	
+-	GDL_CALL_PARENT (GTK_WIDGET_CLASS, realize, (widget));
++	GDL_CALL_PARENT_VOID (GTK_WIDGET_CLASS, realize, (widget));
+ 
+ 	for (l = view->priv->widgets; l != NULL; l = l->next) {
+ 		ChildWidget *child = l->data;
+@@ -335,7 +335,7 @@
+ 		
+ 		gtk_widget_size_allocate (child->widget, &child_alloc);
+ 	}
+-	GDL_CALL_PARENT (GTK_WIDGET_CLASS, size_allocate, (widget, alloc));
++	GDL_CALL_PARENT_VOID (GTK_WIDGET_CLASS, size_allocate, (widget, alloc));
+ }
+ 
+ static void
+@@ -391,7 +391,7 @@
+ 		g_free (dv->priv);
+ 		dv->priv = NULL;
+ 	}
+-	GDL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (obj));
++	GDL_CALL_PARENT_VOID (GTK_OBJECT_CLASS, destroy, (obj));
+ }
+ 
+ static void
+Index: gdl-trunk/gdl/gdl-dock-bar.c
+===================================================================
+--- gdl-trunk/gdl/gdl-dock-bar.c	(revision 371)
++++ gdl-trunk/gdl/gdl-dock-bar.c	(working copy)
+@@ -202,7 +202,7 @@
+         g_free (priv);
+     }
+     
+-    GDL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (object));
++    GDL_CALL_PARENT_VOID (GTK_OBJECT_CLASS, destroy, (object));
+ }
+ 
+ static void
+Index: gdl-trunk/gdl/gdl-switcher.c
+===================================================================
+--- gdl-trunk/gdl/gdl-switcher.c	(revision 371)
++++ gdl-trunk/gdl/gdl-switcher.c	(working copy)
+@@ -243,7 +243,7 @@
+     
+     last_buttons_height = switcher->priv->buttons_height_request;
+     
+-    GDL_CALL_PARENT (GTK_WIDGET_CLASS, size_request,
++    GDL_CALL_PARENT_VOID (GTK_WIDGET_CLASS, size_request,
+                      (GTK_WIDGET (switcher), &client_requisition));
+ 
+     y = allocation->y + allocation->height - V_PADDING - 1;
+@@ -416,7 +416,7 @@
+     child_allocation.width = allocation->width;
+     child_allocation.height = y - allocation->y;
+     
+-    GDL_CALL_PARENT (GTK_WIDGET_CLASS, size_allocate,
++    GDL_CALL_PARENT_VOID (GTK_WIDGET_CLASS, size_allocate,
+                      (GTK_WIDGET (switcher), &child_allocation));
+ }
+ 
+@@ -430,7 +430,7 @@
+         GDL_SWITCHER (container);
+     GSList *p;
+     
+-    GDL_CALL_PARENT (GTK_CONTAINER_CLASS, forall,
++    GDL_CALL_PARENT_VOID (GTK_CONTAINER_CLASS, forall,
+                      (GTK_CONTAINER (switcher), include_internals,
+                       callback, callback_data));
+     if (include_internals) {
+@@ -462,7 +462,7 @@
+             break;
+         }
+     }
+-    GDL_CALL_PARENT (GTK_CONTAINER_CLASS, remove,
++    GDL_CALL_PARENT_VOID (GTK_CONTAINER_CLASS, remove,
+                      (GTK_CONTAINER (switcher), widget));
+ }
+ 
+@@ -475,7 +475,7 @@
+     GSList *p;
+     gint button_height = 0;
+     
+-    GDL_CALL_PARENT (GTK_WIDGET_CLASS, size_request,
++    GDL_CALL_PARENT_VOID (GTK_WIDGET_CLASS, size_request,
+                      (GTK_WIDGET (switcher), requisition));
+ 
+     if (!switcher->priv->show)
+@@ -535,7 +535,7 @@
+             gtk_widget_map (button);
+         }
+     }
+-    GDL_CALL_PARENT (GTK_WIDGET_CLASS, map, (widget));
++    GDL_CALL_PARENT_VOID (GTK_WIDGET_CLASS, map, (widget));
+ }
+ 
+ /* GObject methods.  */
+@@ -595,7 +595,7 @@
+     g_slist_free (priv->buttons);
+     priv->buttons = NULL;
+ 
+-    GDL_CALL_PARENT (G_OBJECT_CLASS, dispose, (object));
++    GDL_CALL_PARENT_VOID (G_OBJECT_CLASS, dispose, (object));
+ }
+ 
+ static void
+@@ -605,7 +605,7 @@
+ 
+     g_free (priv);
+ 
+-    GDL_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
++    GDL_CALL_PARENT_VOID (G_OBJECT_CLASS, finalize, (object));
+ }
+ 
+ /* Signal handlers */

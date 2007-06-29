@@ -1,3 +1,12 @@
+2007-06-30  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEanjuta.spec: Bump to 2.2.0
+	* linux-specs/gdl.spec: Bump to 0.7.6
+	* linux-specs/gnome-build.spec: Bump to 0.1.7,
+	  remove patch gnu-regex.diff since solaris's one works fine now.
+	* patches/gdl-01-void0-suncc-error.diff: rework
+	* patches/gnome-build-01-gnu-regex.diff: (removed).
+
 2007-06-25 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* SFEcompiz-extra.spec: additional plugins for compiz
