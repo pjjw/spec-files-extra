@@ -7,8 +7,8 @@
 
 Name:                SFElibtool
 Summary:             Generic library support script
-Version:             1.5.22
-Source:              ftp://ftp.gnu.org/gnu/libtool/libtool-%{version}.tar.gz
+Version:             1.5.24
+Source:              http://ftp.gnu.org/gnu/libtool/libtool-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -82,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/libtool/*
 
 %changelog
+* Thu Mar 22 2007 - nonsea@users.sourceforge.net
+- Bump to 1.5.24
+- Use http url in Source.
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Add Requires/BuildRequries after check-deps.pl run.
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net

@@ -9,7 +9,7 @@ Name:                    SFEgmp
 Summary:                 GNU Multiple Presicion Arithmetic Library
 Group:                   libraries/math
 Version:                 4.2.1
-Source:                  ftp://ftp.gnu.org/gnu/gmp/gmp-%{version}.tar.bz2
+Source:                  http://ftp.gnu.org/gnu/gmp/gmp-%{version}.tar.bz2
 %ifarch amd64
 Source1:                 http://www.loria.fr/~gaudry/mpn_AMD64/mpn_amd64.42.tgz
 %endif
@@ -156,6 +156,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sat Jun 30 2007 - nonsea@users.sourceforge.net
+- Use http url in Source.
 * Tue mar  7 2007 - dougs@truemail.co.th
 - enabled 64-bit build and added speedup patch for AMD64
 * Fri Jun 23 2006 - laca@sun.com
