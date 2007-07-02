@@ -1,5 +1,11 @@
 2007-07-02  Glynn Foster  <glynn.foster@sun.com>
 
+	* SFElibnotify.spec: Conflicts with SUNWgnome-panel
+        in GNOME 2.20 branch of spec-files on opensolaris.org.
+        Remove.
+
+2007-07-02  Glynn Foster  <glynn.foster@sun.com>
+
 	* MAINTAINERS: Remove myself.
         * SFEgraphviz.spec: Add post install to install the
           plugins.
