@@ -1,3 +1,9 @@
+2007-07-02  Glynn Foster  <glynn.foster@sun.com>
+
+	* MAINTAINERS: Remove myself.
+        * SFEgraphviz.spec: Add post install to install the
+          plugins.
+
 2007-06-30  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEgmp.spec: Use http url in Source.

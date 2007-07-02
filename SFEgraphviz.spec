@@ -73,6 +73,9 @@ rm -rf ${RPM_BUILD_ROOT}%{_mandir}/mann
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+%{_bindir}/dot -c
+
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
