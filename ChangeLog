@@ -1,3 +1,9 @@
+2007-07-03  Glynn Foster  <glynn.foster@sun.com>
+
+	* SFEliveMedia.spec: Update the URL - should probably
+        be the '-latest' link instead, but I don't know anything
+        about this project to make that call.
+
 2007-07-02  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFElibnotify.spec: Conflicts with SUNWgnome-panel
