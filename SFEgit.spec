@@ -15,8 +15,8 @@
 
 Name:                SFEgit
 Summary:             GIT - the stupid content tracker
-Version:             1.4.4
-Source:              http://kernel.org/pub/software/scm/git/git-%{version}.tar.bz2
+Version:             1.5.2.2
+Source:              http://www.kernel.org/pub/software/scm/git/git-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -104,7 +104,18 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/git*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/git-core
+%dir %{_datadir}/git-core
+%dir %{_datadir}/git-core/templates
+%{_datadir}/git-core/templates/branches
+%{_datadir}/git-core/templates/description
+%{_datadir}/git-core/templates/info
+%dir %{_datadir}/git-core/templates/hooks
+%defattr (0644, root, bin)
+%{_datadir}/git-core/templates/hooks/*
+%defattr (0755, root, bin)
+%dir %attr (0755, root, bin) %{_datadir}/git-gui
+%dir %attr (0755, root, bin) %{_datadir}/git-gui/lib
+%{_datadir}/git-gui/lib/*
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man?
 %{_mandir}/man?/*
@@ -114,6 +125,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/perl5/vendor_perl/%{perl_version}/*
 
 %changelog
+* Thu Jul 05 2007 - alberto.ruiz@sun.com
+- fixing hook templates permisions
+* Tue Jul 03 2007 - alberto.ruiz@sun.com
+- changing version to 1.5.2.2 and declaring new files
 * Fri Jun 22 2007 - laca@sun.com
 - make it build with either SUNWgnu-diffutils or SFEdiffutils
 * Tue Feb 13 2007 - laca@sun.com

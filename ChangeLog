@@ -1,3 +1,8 @@
+2007-07-05  Alberto Ruiz <alberto.ruiz@sun.com>
+	* SFEgit.spec: Update from 1.4.4 to 1.5.2.2 and changed
+	  permissions from 0755 to 0644 to the hook scripts on
+	  /usr/share/git-core/templates.
+
 2007-07-03  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFEliveMedia.spec: Update the URL - should probably
