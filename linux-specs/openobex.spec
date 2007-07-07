@@ -16,6 +16,7 @@ Summary:        OpenOBEX - open source implementation of the Object Exchange pro
 Source:         http://umn.dl.sourceforge.net/sourceforge/openobex/openobex-%{version}.tar.gz
 Patch1:         openobex-01-sun-studio.diff
 Patch2:         openobex-02-libusb.diff
+Patch3:         openobex-03-PACKED.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Docdir:         %{_defaultdocdir}/doc
 
@@ -28,6 +29,7 @@ Requires:		%{name} = %{version}
 %setup -q
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %ifos linux
@@ -65,5 +67,7 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu July 07 2007 - jijun.yu@sun.com
+- Add a patch
 * Mon Apr  2 2007 - laca@sun.com
 - Initial version

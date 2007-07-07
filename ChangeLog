@@ -1,3 +1,8 @@
+2007-07-07  Jerry Yu <jijun.yu@sun.com>
+	* linux-specs/openobex.spec
+	  patches/openobex-02-libusb.diff
+	  patches/openobex-03-PACKED.diff: Change the method checking libusb.
+
 2007-07-05  Alberto Ruiz <alberto.ruiz@sun.com>
 	* SFEgit.spec: Update from 1.4.4 to 1.5.2.2 and changed
 	  permissions from 0755 to 0644 to the hook scripts on
