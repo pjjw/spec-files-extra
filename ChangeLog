@@ -1,4 +1,7 @@
 2007-07-07  Jerry Yu <jijun.yu@sun.com>
+	* linux-specs/openobex.spec: Modify the URL.
+
+2007-07-07  Jerry Yu <jijun.yu@sun.com>
 	* linux-specs/openobex.spec
 	  patches/openobex-02-libusb.diff
 	  patches/openobex-03-PACKED.diff: Change the method checking libusb.

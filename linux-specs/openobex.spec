@@ -11,7 +11,7 @@ License:        LGPL
 Group:          System/Libraries
 Version:        1.3
 Release:        1
-URL:            http://openobex.triq.net/
+URL:            http://dev.zuckschwerdt.org/openobex
 Summary:        OpenOBEX - open source implementation of the Object Exchange protocol
 Source:         http://umn.dl.sourceforge.net/sourceforge/openobex/openobex-%{version}.tar.gz
 Patch1:         openobex-01-sun-studio.diff
@@ -67,6 +67,8 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu July 07 2007 - jijun.yu@sun.com
+- Modify the URL
 * Thu July 07 2007 - jijun.yu@sun.com
 - Add a patch
 * Mon Apr  2 2007 - laca@sun.com
