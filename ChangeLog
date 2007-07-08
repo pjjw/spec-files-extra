@@ -1,3 +1,12 @@
+2007-07-08 Erwann Chenede - <erwann.chenede@sun.com>
+
+        * SFEcompiz-extra.spec : simplified schema installation
+	* SFEcompiz.spec : enhanced default plugin list to include 
+	  extra-plugins
+	* patches/compiz-01-solaris-port.diff : default settings enhancements
+	* patches/compiz-extra-01-solaris-port.diff : default settings 
+	  enhancements
+
 2007-07-07  Jerry Yu <jijun.yu@sun.com>
 	* linux-specs/openobex.spec: Modify the URL.
 

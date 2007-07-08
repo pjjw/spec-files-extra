@@ -60,15 +60,87 @@ diff -rup compiz-0.5.0/include/compiz.h ../compiz-0.5.0.solaris/include/compiz.h
      SnDisplay *snDisplay;
  
      Atom supportedAtom;
-diff -rup compiz-0.5.0/plugins/compiz.schemas.in ../compiz-0.5.0.solaris/plugins/compiz.schemas.in
---- compiz-0.5.0/plugins/compiz.schemas.in	2007-04-02 20:15:28.000000000 +0200
-+++ ../compiz-0.5.0.solaris/plugins/compiz.schemas.in	2007-04-20 10:57:51.763850000 +0200
+diff -rup ../compiz-clean/plugins/compiz.schemas.in compiz-0.5.0/plugins/compiz.schemas.in
+--- ../compiz-clean/plugins/compiz.schemas.in	2007-04-02 20:15:28.000000000 +0200
++++ compiz-0.5.0/plugins/compiz.schemas.in	2007-07-05 18:00:02.110229000 +0200
+@@ -15698,7 +15698,7 @@
+             <applyto>/apps/compiz/plugins/cube/screen0/options/scale_image</applyto>
+             <owner>compiz</owner>
+             <type>bool</type>
+-            <default>false</default>
++            <default>true</default>
+             <locale name="C">
+                 <short>Scale image</short>
+                 <long>Scale images to cover top face of cube</long>
+@@ -15763,7 +15763,7 @@
+             <owner>compiz</owner>
+             <type>list</type>
+             <list_type>string</list_type>
+-            <default>[freedesktop]</default>
++            <default>[/usr/share/pixmaps/backgrounds/sun/di-logo-sun-blue.png]</default>
+             <locale name="C">
+                 <short>Image files</short>
+                 <long>List of PNG and SVG files that should be rendered on top face of cube</long>
+@@ -20463,7 +20463,7 @@
+             <applyto>/apps/compiz/plugins/water/allscreens/options/initiate_key</applyto>
+             <owner>compiz</owner>
+             <type>string</type>
+-            <default>&lt;Control&gt;&lt;Super&gt;</default>
++            <default>&lt;Control&gt;&lt;Mod4&gt;</default>
+             <locale name="C">
+                 <short>Initiate</short>
+                 <long>Enable pointer water effects</long>
+@@ -21681,7 +21681,7 @@
+             <applyto>/apps/compiz/plugins/screenshot/allscreens/options/initiate_button</applyto>
+             <owner>compiz</owner>
+             <type>string</type>
+-            <default>&lt;Super&gt;Button1</default>
++            <default>&lt;Mod4&gt;Button1</default>
+             <locale name="C">
+                 <short>Initiate</short>
+                 <long>Initiate rectangle screenshot</long>
+@@ -23290,7 +23290,7 @@
+             <applyto>/apps/compiz/plugins/clone/allscreens/options/initiate_button</applyto>
+             <owner>compiz</owner>
+             <type>string</type>
+-            <default>&lt;Shift&gt;&lt;Super&gt;Button1</default>
++            <default>&lt;Shift&gt;&lt;Mod4&gt;Button1</default>
+             <locale name="C">
+                 <short>Initiate</short>
+                 <long>Initiate clone selection</long>
+@@ -24576,7 +24576,7 @@
+             <applyto>/apps/compiz/plugins/annotate/allscreens/options/initiate_button</applyto>
+             <owner>compiz</owner>
+             <type>string</type>
+-            <default>&lt;Alt&gt;&lt;Super&gt;Button1</default>
++            <default>&lt;Alt&gt;&lt;Mod4&gt;Button1</default>
+             <locale name="C">
+                 <short>Initiate</short>
+                 <long>Initiate annotate drawing</long>
+@@ -24906,7 +24906,7 @@
+             <applyto>/apps/compiz/plugins/annotate/allscreens/options/erase_button</applyto>
+             <owner>compiz</owner>
+             <type>string</type>
+-            <default>&lt;Alt&gt;&lt;Super&gt;Button3</default>
++            <default>&lt;Alt&gt;&lt;Mod4&gt;Button3</default>
+             <locale name="C">
+                 <short>Initiate erase</short>
+                 <long>Initiate annotate erasing</long>
+@@ -24955,7 +24955,7 @@
+             <applyto>/apps/compiz/plugins/annotate/allscreens/options/clear_key</applyto>
+             <owner>compiz</owner>
+             <type>string</type>
+-            <default>&lt;Alt&gt;&lt;Super&gt;k</default>
++            <default>&lt;Alt&gt;&lt;Mod4&gt;k</default>
+             <locale name="C">
+                 <short>Clear</short>
+                 <long>Clear</long>
 @@ -32049,7 +32049,7 @@
              <applyto>/apps/compiz/plugins/zoom/allscreens/options/initiate_button</applyto>
              <owner>compiz</owner>
              <type>string</type>
 -            <default>&lt;Super&gt;Button3</default>
-+            <default>Disabled</default>
++            <default>&lt;Mod4&gt;Button3</default>
              <locale name="C">
                  <short>Initiate</short>
                  <long>Zoom In</long>
@@ -77,11 +149,19 @@ diff -rup compiz-0.5.0/plugins/compiz.schemas.in ../compiz-0.5.0.solaris/plugins
              <owner>compiz</owner>
              <type>string</type>
 -            <default>&lt;Super&gt;Button4</default>
-+            <default>&lt;Control&gt;Button3</default>
++            <default>&lt;Mod4&gt;Button4</default>
              <locale name="C">
                  <short>Zoom In</short>
                  <long>Zoom In</long>
-Only in ../compiz-0.5.0.solaris/plugins: compiz.schemas.in~
+@@ -32691,7 +32691,7 @@
+             <applyto>/apps/compiz/plugins/zoom/allscreens/options/zoom_out_button</applyto>
+             <owner>compiz</owner>
+             <type>string</type>
+-            <default>&lt;Super&gt;Button5</default>
++            <default>&lt;Mod4&gt;Button5</default>
+             <locale name="C">
+                 <short>Zoom Out</short>
+                 <long>Zoom Out</long>
 diff -rup compiz-0.5.0/plugins/decoration.c ../compiz-0.5.0.solaris/plugins/decoration.c
 --- compiz-0.5.0/plugins/decoration.c	2007-04-02 20:15:28.000000000 +0200
 +++ ../compiz-0.5.0.solaris/plugins/decoration.c	2007-04-20 10:54:54.013685000 +0200

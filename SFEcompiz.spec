@@ -128,7 +128,7 @@ export LDFLAGS="-L$PROTO_LIB -L/usr/X11/lib -L/usr/openwin/lib -R/usr/X11/lib -R
 	    --libdir=%{_libdir}         \
             --includedir=%{_includedir} \
 	    --datadir=%{_datadir}	\
-	    --with-default-plugins="decoration,wobbly,fade,minimize,cube,switcher,move,resize,place,rotate,zoom,scale,dbus,water"
+	    --with-default-plugins="png,decoration,wobbly,animation,fade,minimize,cube,switcher,move,resize,place,rotate,zoom,scale,dbus,water,snow,trailfocus,thumbnail,ring"
 
 make -j$CPUS
 
