@@ -12,7 +12,7 @@
 Name: 	 	libopensync-plugin-file
 License:	GPL
 Group:		Office
-Version: 	0.30
+Version: 	0.31
 Release: 	1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -75,6 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jul 09 2007 - nonsea@users.sourceforge.net
+- Bump to 0.31.
+
 * Wed Jun 05 2007 - jijun.yu@sun.com
 - Bump to 0.30.
 

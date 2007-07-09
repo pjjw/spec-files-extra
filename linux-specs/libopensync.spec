@@ -11,7 +11,7 @@
 Name:           libopensync
 License:        LGPL
 Group:          System/Libraries
-Version:        0.30
+Version:        0.31
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -107,9 +107,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Jul 09 2007 - nonsea@users.sourceforge.net
+- Bump to 0.31.
 * Tue Jun 05 2007 - jijun.yu@sun.com
 - Bump to 0.30
-
 * Tue Apr  3 2007 - laca@sun.com
 - bump to 0.22
 - fix patch numbers
