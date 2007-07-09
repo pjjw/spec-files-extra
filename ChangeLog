@@ -1,3 +1,8 @@
+2007-07-09  Halton Huo <nonsea@users.sourceforge.net>
+
+	* linux-specs/libopensync-plugin-file.spec: Bump to 0.31
+	* linux-specs/libopensync.spec: Bump to 0.31
+
 2007-07-08 Erwann Chenede - <erwann.chenede@sun.com>
 
         * SFEcompiz-extra.spec : simplified schema installation
