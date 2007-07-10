@@ -1,3 +1,8 @@
+2007-07-10  Halton Huo  <nonsea@users.sourceforge.net>
+
+	* linux-specs/msynctool.spec: Bump to 0.31.
+	* patches/msynctool-02-ld-rpath.diff: added to fix ld issue.
+
 2007-07-10  Doug Scott  <dougs@truemail.co.th>
 
 	* SFElibhid.spec: Added usb human interface library.
@@ -11,7 +16,7 @@
 
 2007-07-08 Erwann Chenede - <erwann.chenede@sun.com>
 
-        * SFEcompiz-extra.spec : simplified schema installation
+	* SFEcompiz-extra.spec : simplified schema installation
 	* SFEcompiz.spec : enhanced default plugin list to include 
 	  extra-plugins
 	* patches/compiz-01-solaris-port.diff : default settings enhancements

@@ -1,0 +1,15 @@
+Index: msynctool-trunk/build/linux/osync_build.py
+===================================================================
+--- msynctool-trunk/build/linux/osync_build.py	(revision 300)
++++ msynctool-trunk/build/linux/osync_build.py	(working copy)
+@@ -38,8 +38,8 @@
+ 	testenv.Append(CCFLAGS = r'-I' + testenv.GetLaunchDir() + '/tests')
+ 
+ 	if env['enable_rpath'] == 1:
+-		testenv.Append(LINKFLAGS = [r'-Wl,--rpath', r'-Wl,' + testenv.GetLaunchDir() + r'/opensync/'])
+-		env.Append(LINKFLAGS = [r'-Wl,--rpath', r'-Wl,$prefix/$libsuffix'])
++		testenv.Append(LINKFLAGS = [r'-Wl,-R', r'-Wl,' + testenv.GetLaunchDir() + r'/opensync/'])
++		env.Append(LINKFLAGS = [r'-Wl,-R', r'-Wl,$prefix/$libsuffix'])
+ 
+ 	
+ 	return testenv

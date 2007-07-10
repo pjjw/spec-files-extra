@@ -11,7 +11,7 @@
 Name:		msynctool
 License:	GPL
 Group:		Applications
-Version:        0.30
+Version:        0.31
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -19,6 +19,7 @@ URL:		http://www.opensync.org/
 Summary:	OpenSync data synchronization command line programs
 Source:	        %{name}-%{version}.tar.bz2
 Patch1:         %{name}-01-forte-wall.diff
+Patch2:         %{name}-02-ld-rpath.diff
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Docdir:         %{_defaultdocdir}/doc
@@ -35,6 +36,7 @@ This package contains command line program to use OpenSync framework.
 %prep
 %setup -q
 %patch1 -p1
+%patch2 -p1
 
 %build
 %ifos linux
@@ -67,8 +69,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1*
 
 %changelog
+* Tue Jul 10 2007 - nonsea@users.sourceforge.net
+- Bump to 0.31.
+- Add patch msynctool-02-ld-rpath.diff to fix ld issue.
+
 * Fri Jun 05 2007 - jijun.yu@sun.com
-* Bump to 0.30
+- Bump to 0.30
 
 * Mon Apr 02 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.22.
