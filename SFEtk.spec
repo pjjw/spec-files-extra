@@ -7,7 +7,7 @@
 
 Name:                SFEtk
 Summary:             Tk - TCL GUI Toolkit
-Version:             8.4.14
+Version:             8.4.15
 Source:              http://prdownloads.sourceforge.net/tcl/tk%{version}-src.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
@@ -81,6 +81,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Wed Jul 11 2007 - dick@nagual.nl
+- Bumped to version 8.4.15
 * Sun Jun 03 2007 - dick@nagual.nl
 - Corrected the location of the mann directory
 * Mon May 28 2007 - dick@nagual.nl
