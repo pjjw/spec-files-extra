@@ -7,8 +7,8 @@
 
 Name:                SFEmc
 Summary:             Clone of the Norton Commander file manager
-Version:             4.6.1
-Source:              http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
+Version:             2007-06-23-14
+Source:              http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/snapshots/mc-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -33,6 +33,7 @@ export LDFLAGS="%{_ldflags}"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
+	    --libexecdir=%{_libexecdir} \
             --disable-nls  \
             --disable-charset
 
@@ -43,8 +44,8 @@ rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
 
-rmdir ${RPM_BUILD_ROOT}%{_libdir}/mc
-rmdir ${RPM_BUILD_ROOT}%{_libdir}
+rmdir ${RPM_BUILD_ROOT}%{_libexecdir}/mc
+rmdir ${RPM_BUILD_ROOT}%{_libexecdir}
 rmdir ${RPM_BUILD_ROOT}%{_sbindir}
 
 %clean
@@ -58,6 +59,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
-* 
+* Thu Jul 12, 2007 - Dick Hoogendijk
+- Changed to the snapshot release
+- Stable version 4.6.1 has some nasty bugs
 * Mon Sep 25, 2006 - Eric Boutilier
 - Initial spec

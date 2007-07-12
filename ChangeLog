@@ -1,3 +1,8 @@
+2007-07-12  Dick Hoogendijk <dick@nagual.nl>
+
+	* SFEmc.spec: Midnight Commander: snapshot 2007-06-23-14
+	  The stable version 4.6.1 has some nasty bugs.
+
 2007-07-12  Jerry Yu <jijun.yu@sun.com>
 	*linux-specs/msynctool.spec: Disable the configuration option enable_rpath.
 	*patches/msynctool-02-ld-rpath.diff: Removed.	
