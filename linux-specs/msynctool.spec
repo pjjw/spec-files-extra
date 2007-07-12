@@ -19,7 +19,6 @@ URL:		http://www.opensync.org/
 Summary:	OpenSync data synchronization command line programs
 Source:	        %{name}-%{version}.tar.bz2
 Patch1:         %{name}-01-forte-wall.diff
-Patch2:         %{name}-02-ld-rpath.diff
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Docdir:         %{_defaultdocdir}/doc
@@ -36,7 +35,6 @@ This package contains command line program to use OpenSync framework.
 %prep
 %setup -q
 %patch1 -p1
-%patch2 -p1
 
 %build
 %ifos linux
@@ -51,6 +49,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 scons prefix=%{_prefix}                 \
+      enable_rpath=0			\
 
 %install
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
@@ -69,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1*
 
 %changelog
+* Thu Jul 12 2007 - jijun.yu@sun.com
+- Disable enable_rpath at configuring and remove msynctool-02-ld-rpath.diff
+
 * Tue Jul 10 2007 - nonsea@users.sourceforge.net
 - Bump to 0.31.
 - Add patch msynctool-02-ld-rpath.diff to fix ld issue.

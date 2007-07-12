@@ -1,3 +1,7 @@
+2007-07-12  Jerry Yu <jijun.yu@sun.com>
+	*linux-specs/msynctool.spec: Disable the configuration option enable_rpath.
+	*patches/msynctool-02-ld-rpath.diff: Removed.	
+
 2007-07-11  Dick Hoogendijk <dick@nagual.nl>
 
 	* version bump for:
