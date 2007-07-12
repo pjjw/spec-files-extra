@@ -7,7 +7,7 @@
 
 Name:                SFEmutt
 Summary:             The mutt e-mail client
-Version:             1.5.16
+Version:             1.5.15
 Source:              ftp://ftp.mutt.org/mutt/devel/mutt-%{version}.tar.gz
 Patch1:              mutt-01-makefile.diff
 
