@@ -9,7 +9,7 @@
 
 Name:                    SFEcoreutils
 Summary:                 GNU coreutils - basic file, shell and text manipulation utilities
-Version:		 6.7
+Version:		 6.9
 Source:                  http://ftp.gnu.org/pub/gnu/coreutils/coreutils-%{version}.tar.bz2
 Patch1:                  coreutils-01-gettext.diff
 SUNW_BaseDir:            %{_basedir}
@@ -39,15 +39,17 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 
-export PATH=/usr/bin:$PATH
+# export PATH=/usr/bin:$PATH
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
 
 glib-gettextize -f 
 libtoolize --copy --force
 aclocal -I m4
+autoupdate --force
 autoheader
-autoconf
+automake-1.10 --force
+autoconf --force
 ./configure --prefix=%{_prefix}			\
 	    --mandir=%{_mandir}                 \
             --infodir=%{_infodir}
@@ -141,6 +143,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Jul 13 2007 - dougs@truemail.co.th
+- Bump to 6.9
 * Sat Apr 21 2007 - dougs@truemail.co.th
 - Use gmake rather than /usr/bin/make
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net

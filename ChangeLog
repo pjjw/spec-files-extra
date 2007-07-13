@@ -1,3 +1,10 @@
+2007-07-13  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEcoreutils.spec: bump to 6.9
+	* SFEfreedroidrpg.spec: bump to 0.10.2
+	* patches/freedroidrpg-02-inline.diff: bump to 0.10.2
+	* SFEctags.spec: *NEW* Exuberant ctags
+
 2007-07-12  Dick Hoogendijk <dick@nagual.nl>
 
 	* SFEmc.spec: Midnight Commander: snapshot 2007-06-23-14

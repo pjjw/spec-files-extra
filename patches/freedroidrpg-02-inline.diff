@@ -1,16 +1,16 @@
-diff -ur freedroidrpg-0.10.1-orig/src/proto.h freedroidrpg-0.10.1/src/proto.h
---- freedroidrpg-0.10.1-orig/src/proto.h	2007-02-24 00:42:24.000000000 +0700
-+++ freedroidrpg-0.10.1/src/proto.h	2007-05-06 17:33:41.723710882 +0700
-@@ -98,7 +98,7 @@
- #define translate_map_point_to_screen_pixel_y(X,Y)  ( UserCenter_y + rintf(( X + Y - Me [ 0 ] . pos . x - Me [ 0 ] . pos . y ) * (iso_floor_tile_height_over_two))) 
+diff -ur freedroidrpg-0.10.2-orig/src/proto.h freedroidrpg-0.10.2/src/proto.h
+--- freedroidrpg-0.10.2-orig/src/proto.h	2007-06-23 04:08:21.000000000 +0700
++++ freedroidrpg-0.10.2/src/proto.h	2007-07-10 16:28:07.152417803 +0700
+@@ -106,7 +106,7 @@
+ EXTERN void translate_map_point_to_screen_pixel_func( float x_map_pos, float y_map_pos, int * x_res, int * y_res, float zoom_factor);
  EXTERN int translate_map_point_to_screen_pixel_deviation_tracking ( float x_map_pos , float y_map_pos , int give_x );
- EXTERN int translate_map_point_to_zoomed_screen_pixel ( float x_map_pos , float y_map_pos , int give_x );
+ //EXTERN void translate_map_point_to_zoomed_screen_pixel ( float x_map_pos , float y_map_pos , int* x_res, int* y_res);
 -EXTERN inline float translate_pixel_to_map_location ( int player_num , float axis_x , float axis_y , int give_x ) ;
 +EXTERN float translate_pixel_to_map_location ( int player_num , float axis_x , float axis_y , int give_x ) ;
+ EXTERN void skew_and_blit_rect( float x1, float y1, float x2, float y2, Uint32 color);
  EXTERN float translate_pixel_to_zoomed_map_location ( int player_num , float axis_x , float axis_y , int give_x );
  EXTERN void blit_zoomed_iso_image_to_map_position ( iso_image* our_iso_image , float pos_x , float pos_y );
- EXTERN int tux_can_walk_this_line ( int player_num , float x1, float y1 , float x2 , float y2 );
-@@ -839,14 +839,14 @@
+@@ -911,14 +911,14 @@
  #else
  #define EXTERN extern
  #endif
@@ -33,3 +33,5 @@ diff -ur freedroidrpg-0.10.1-orig/src/proto.h freedroidrpg-0.10.1/src/proto.h
  EXTERN Uint32 FdGetPixel (SDL_Surface * Surface, Sint32 X, Sint32 Y);
  EXTERN void PutPixel (SDL_Surface * surface, int x, int y, Uint32 pixel);
  
+Only in freedroidrpg-0.10.2/src: proto.h.rej
+Only in freedroidrpg-0.10.2/src: proto.h~

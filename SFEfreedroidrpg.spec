@@ -10,7 +10,7 @@
 
 Name:                   SFEfreedroidrpg
 Summary:                FreeroidRPG Game
-Version:                0.10.1
+Version:                0.10.2
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1: 		freedroidrpg-01-wall.diff
 Patch2: 		freedroidrpg-02-inline.diff
@@ -67,5 +67,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}
 
 %changelog
+* Fri Jul 13 2007 - dougs@truemail.co.th
+- Bump to 0.10.2
 * Sun May  6 2007 - dougs@truemail.co.th
 - Initial version
