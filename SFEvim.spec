@@ -6,6 +6,7 @@
 %include Solaris.inc
 
 %define vim_version 70
+%define SPROsslnk      %(/usr/bin/pkginfo -q SPROsslnk && echo 1 || echo 0)
 
 Name:         SFEvim
 Summary:      Vim - vi improved
@@ -26,7 +27,11 @@ Requires: SUNWPython
 Requires: SFEruby
 Requires: SUNWperl584core
 BuildRequires: SUNWPython-devel
+%if %SPROsslnk
+BuildRequires: SPROsslnk
+%else
 BuildRequires: SFEcscope
+%endif
 BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWmlibh
 
@@ -134,6 +139,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Jul 13 2007 - dougs@truemail.co.th
+- Fixed cscope requirement clash
 * Mon Sep 11 2006 - halton.huo@sun.com
 - Correct remove l10n files part
 * Mon Jul 10 2006 - laca@sun.com

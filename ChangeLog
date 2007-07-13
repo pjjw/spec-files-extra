@@ -1,5 +1,15 @@
 2007-07-13  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEvim.spec: Fixed cscope requirement clash
+	* SFElibmatroska.spec: *NEW* Matroska Video Container
+	* SFElibebml.spec: *NEW* Extensible Binary Meta Language
+	* SFEliveMedia.spec: bump to 2007.07.10
+	* patches/libmatroska-01-makefile.diff: Solaris Makefile
+	* patches/ladspa-01-solaris.diff: Missing 
+	* patches/libebml-01-makefile.diff: Solaris Makefile
+
+2007-07-13  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEcoreutils.spec: bump to 6.9
 	* SFEfreedroidrpg.spec: bump to 0.10.2
 	* patches/freedroidrpg-02-inline.diff: bump to 0.10.2
