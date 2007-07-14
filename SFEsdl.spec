@@ -13,7 +13,7 @@
 
 %if %arch_sse2
 %include x86_sse2.inc
-%define nasm_option --enable-nasm
+%define nasm_option --disable-nasm
 %use sdl_sse2 = libsdl.spec
 %endif
 
@@ -124,6 +124,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Jul 14 2007 - dougs@truemail.co.th
+- disable nasm
 * Tue Jun  5 2007 - dougs@truemail.co.th
 - Update to isabuild
 * Thu Apr 26 2007 - dougs@truemail.co.th

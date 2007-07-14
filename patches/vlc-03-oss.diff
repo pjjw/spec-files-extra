@@ -1,0 +1,13 @@
+diff -ur vlc-0.8.6c-orig/modules/audio_output/oss.c vlc-0.8.6c/modules/audio_output/oss.c
+--- vlc-0.8.6c-orig/modules/audio_output/oss.c	2007-06-16 21:25:07.000000000 +0700
++++ vlc-0.8.6c/modules/audio_output/oss.c	2007-07-14 12:21:35.602242799 +0700
+@@ -28,6 +28,9 @@
+  *****************************************************************************/
+ #include <errno.h>                                                 /* ENOMEM */
+ #include <fcntl.h>                                       /* open(), O_WRONLY */
++#ifdef sun
++#include <sys/file.h>
++#endif
+ #include <sys/ioctl.h>                                            /* ioctl() */
+ #include <string.h>                                            /* strerror() */
+ #include <unistd.h>                                      /* write(), close() */

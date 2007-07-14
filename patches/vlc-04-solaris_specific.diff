@@ -1,0 +1,26 @@
+diff -ur vlc-0.8.6c-orig/modules/gui/skins2/controls/ctrl_list.cpp vlc-0.8.6c/modules/gui/skins2/controls/ctrl_list.cpp
+--- vlc-0.8.6c-orig/modules/gui/skins2/controls/ctrl_list.cpp	2007-06-16 21:25:10.000000000 +0700
++++ vlc-0.8.6c/modules/gui/skins2/controls/ctrl_list.cpp	2007-07-14 12:45:10.726105729 +0700
+@@ -35,9 +35,6 @@
+ #include "../events/evt_mouse.hpp"
+ #include "../events/evt_scroll.hpp"
+ #include "vlc_keys.h"
+-#ifdef sun
+-#   include "solaris_specific.h" // for lrint
+-#endif
+ 
+ #define SCROLL_STEP 0.05f
+ #define LINE_INTERVAL 1  // Number of pixels inserted between 2 lines
+diff -ur vlc-0.8.6c-orig/modules/gui/skins2/controls/ctrl_tree.cpp vlc-0.8.6c/modules/gui/skins2/controls/ctrl_tree.cpp
+--- vlc-0.8.6c-orig/modules/gui/skins2/controls/ctrl_tree.cpp	2007-06-16 21:25:10.000000000 +0700
++++ vlc-0.8.6c/modules/gui/skins2/controls/ctrl_tree.cpp	2007-07-14 12:44:56.469840131 +0700
+@@ -35,9 +35,6 @@
+ #include "../events/evt_mouse.hpp"
+ #include "../events/evt_scroll.hpp"
+ #include "vlc_keys.h"
+-#ifdef sun
+-#   include "solaris_specific.h" // for lrint
+-#endif
+ 
+ #define SCROLL_STEP 0.05
+ #define LINE_INTERVAL 1  // Number of pixels inserted between 2 lines

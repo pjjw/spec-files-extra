@@ -16,6 +16,7 @@ Patch1:                  mplayer-01-cddb.diff
 Patch2:                  mplayer-02-makefile-libfame-dep.diff
 Patch3:                  mplayer-03-asmrules_20061231.diff
 Patch4:                  mplayer-04-cabac-asm.diff
+Patch5:                  mplayer-05-dirac.diff
 Source3:                 http://www.mplayerhq.hu/MPlayer/skins/Blue-1.7.tar.bz2
 Source4:                 http://www.mplayerhq.hu/MPlayer/skins/Abyss-1.6.tar.bz2
 Source5:                 http://www.mplayerhq.hu/MPlayer/skins/neutron-1.5.tar.bz2
@@ -50,6 +51,14 @@ Requires: SUNWgccruntime
 Requires: SUNWlibcdio
 Requires: SUNWgnome-base-libs
 Requires: SUNWsmbau
+Requires: SFElibfribidi
+BuildRequires: SFElibfribidi-devel
+Requires: SFEladspa
+BuildRequires: SFEladspa-devel
+Requires: SFEdirac
+BuildRequires: SFEdirac-devel
+Requires: SFEopenal
+BuildRequires: SFEopenal-devel
 BuildRequires: SFElibsndfile-devel
 BuildRequires: SFElibfame-devel
 BuildRequires: SFElibdvdplay-devel
@@ -74,6 +83,7 @@ BuildRequires: SUNWgnome-audio-devel
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+#%patch5 -p1
 
 unzip %SOURCE7
 unzip 26104-610_ANSI_C_source_code.zip
@@ -108,6 +118,7 @@ bash ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --with-livelibdir=/usr/lib/live  \
 	    --enable-rpath		     \
             --enable-largefiles              \
+	    --enable-crash-debug	     \
             --disable-directfb
 
 make -j$CPUS 
@@ -150,6 +161,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Sat Jul 14 2007 - dougs@truemail.co.th
+- Added dirac codec patch
+- Added SFEladspa,SFElibfribidi requirement
 * Tue May  1 2007 - dougs@truemail.co.th
 - Removed SFEsdl from the Required. Conflicts with SUNWlibsdl
 * Sun Apr 22 2007 - dougs@truemail.co.th

@@ -13,6 +13,7 @@ Summary:                 FFmpeg - a very fast video and audio converter
 Version:                 %{year}.%{month}.%{day}
 Source:                  http://pkgbuild.sf.net/spec-files-extra/tarballs/ffmpeg-export-%{year}-%{month}-%{day}.tar.bz2
 Patch1:                  ffmpeg-01-BE_16.diff
+Patch2:                  ffmpeg-02-configure.diff
 SUNW_BaseDir:            %{_basedir}
 URL:                     http://ffmpeg.mplayerhq.hu/index.html
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -32,6 +33,7 @@ Requires: %name
 %prep
 %setup -q -n ffmpeg-export-%{year}-%{month}-%{day}
 %patch1 -p1
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -39,11 +41,14 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 export CFLAGS="-O4"
-export LDFLAGS="%_ldflags"
-./configure \
+export LDFLAGS="%_ldflags -lm"
+bash ./configure		\
     --prefix=%{_prefix} \
-    --enable-sunmlib \
-    --cc=gcc
+    --enable-sunmlib	\
+    --cc=gcc		\
+    --disable-static	\
+    --enable-shared
+
 make -j $CPUS
 cd libpostproc
 make -j $CPUS
@@ -65,12 +70,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/lib*.so*
 
 %files devel
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
-# could not build this project as a shared lib
-%{_libdir}/lib*.a
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 %{_libdir}/vhook
@@ -79,6 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/postproc
 
 %changelog
+* Sat Jul 14 2007 - dougs@truemail.co.th
+- Build shared library
 * Sun Jan 21 2007 - laca@sun.com
 - fix devel pkg default attributes
 * Wed Jan 10 2007 - laca@sun.com

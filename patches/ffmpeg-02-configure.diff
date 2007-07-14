@@ -1,0 +1,56 @@
+--- ffmpeg-export-2007-01-10/configure.orig	2007-07-14 10:32:07.913109403 +0700
++++ ffmpeg-export-2007-01-10/configure	2007-07-14 10:36:35.029722499 +0700
+@@ -623,7 +623,7 @@
+ dlfcn_h="no"
+ dlopen="no"
+ mpegaudio_hp="yes"
+-SHFLAGS='-shared -Wl,-soname,$@'
++SHFLAGS='-Wl,-G -Wl,-soname,$@'
+ VHOOKSHFLAGS='$(SHFLAGS)'
+ beos_netserver="no"
+ protocols="yes"
+@@ -702,7 +702,7 @@
+ make="gmake"
+ FFLDFLAGS=""
+ FFSERVERLDFLAGS=""
+-SHFLAGS="-shared -Wl,-h,\$@"
++SHFLAGS="-Wl,-G -Wl,-h,\$@"
+ add_extralibs "-lsocket -lnsl"
+ ;;
+ NetBSD)
+@@ -724,7 +724,7 @@
+ make="gmake"
+ LIBOBJFLAGS="\$(PIC)"
+ LDCONFIG="ldconfig -m \$(shlibdir)"
+-SHFLAGS='-shared'
++SHFLAGS='-Wl,-G'
+ SLIBNAME='$(SLIBPREF)$(NAME)$(SLIBSUF).$(LIBVERSION)'
+ SLIBNAME_WITH_VERSION='$(SLIBNAME)'
+ SLIBNAME_WITH_MAJOR='$(SLIBNAME)'
+@@ -789,7 +789,7 @@
+ video4linux2="no"
+ audio_oss="yes"
+ dv1394="no"
+-VHOOKSHFLAGS='-shared -L$(BUILD_ROOT)/libavformat -L$(BUILD_ROOT)/libavcodec -L$(BUILD_ROOT)/libavutil'
++VHOOKSHFLAGS='-Wl,-G -L$(BUILD_ROOT)/libavformat -L$(BUILD_ROOT)/libavcodec -L$(BUILD_ROOT)/libavutil'
+ VHOOKLIBS='-lavformat$(BUILDSUF) -lavcodec$(BUILDSUF) -lavutil$(BUILDSUF) $(EXTRALIBS)'
+ extralibs=""
+ EXESUF=".exe"
+@@ -1579,15 +1579,12 @@
+     echo
+ fi
+ 
+-if enabled vhook; then
+-    check_ldflags -rdynamic
+-    check_ldflags -export-dynamic
+-fi
+-
+ if enabled audio_beos; then
+     add_extralibs "-lmedia -lbe"
+ fi
+ 
++add_extralibs "-lm"
++
+ ##########################################
+ # imlib check
+ 

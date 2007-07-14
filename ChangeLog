@@ -1,3 +1,24 @@
+2007-07-14  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEffmpeg.spec: Build shared library
+	* SFEmplayer.spec: Added some dependancies
+	* SFEdirac.spec: *new* dirac video codec
+	* SFEvlc.spec: changed to g++ build
+	* SFEwxwidgets-gnu.spec: /usr/gnu g++ build of SFEwxwidgets
+	* SFElibid3tag-gnu.spec: /usr/gnu g++ build of SFElibid3tag
+	* SFEvcdimager.spec: *new* VCD authoring tool
+	* SFEwine.spec: bumped to 0.9.41
+	* SFElibmpeg2.spec: *new* mpeg2 library
+	* SFEsdl.spec: disabled nasm
+	* SFElibcddb.spec: *new* library to access data on a CDDB server
+	* patches/ffmpeg-02-configure.diff: shared library build fixes
+	* patches/vlc-02-solaris.diff: updated
+	* patches/vlc-04-solaris_specific.diff: header does not exist
+	* patches/vlc-03-oss.diff: include <sys/file.h>
+	* patches/dirac-01-mmx.spec: mmx option for sun studio
+	* patches/vlc-05-solaris-cmds.diff: solaris xpg4 commands
+	* patches/vlc-06-intl.diff: gettext patch
+
 2007-07-13  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEvim.spec: Fixed cscope requirement clash

@@ -1,0 +1,26 @@
+diff -ur vlc-0.8.6c-orig/configure.ac vlc-0.8.6c/configure.ac
+--- vlc-0.8.6c-orig/configure.ac	2007-06-16 21:25:19.000000000 +0700
++++ vlc-0.8.6c/configure.ac	2007-07-14 15:01:52.299965406 +0700
+@@ -5511,7 +5511,7 @@
+ dnl
+ dnl  Handle substvars that use $(top_srcdir)
+ dnl
+-VLC_CONFIG="top_builddir=\"\$(top_builddir)\" \$(top_builddir)/vlc-config"
++VLC_CONFIG="top_builddir=\"\$(top_srcdir)\" \$(top_builddir)/vlc-config"
+ AC_SUBST(VLC_CONFIG)
+ CPPFLAGS_save="${CPPFLAGS_save} -I\$(top_srcdir)/include"
+ 
+diff -ur vlc-0.8.6c-orig/m4/gettext.m4 vlc-0.8.6c/m4/gettext.m4
+--- vlc-0.8.6c-orig/m4/gettext.m4	2007-06-16 21:25:04.000000000 +0700
++++ vlc-0.8.6c/m4/gettext.m4	2007-07-14 14:20:15.570928062 +0700
+@@ -238,8 +238,8 @@
+         INTLOBJS="\$(GETTOBJS)"
+         BUILD_INCLUDED_LIBINTL=yes
+         USE_INCLUDED_LIBINTL=yes
+-        LIBINTL="ifelse([$3],[],\${top_builddir}/intl,[$3])/libintl.[]gt_libtool_suffix_prefix[]a $LIBICONV"
+-        LTLIBINTL="ifelse([$3],[],\${top_builddir}/intl,[$3])/libintl.[]gt_libtool_suffix_prefix[]a $LTLIBICONV"
++        LIBINTL="-lintl $LIBICONV"
++        LTLIBINTL="-lintl $LTLIBICONV"
+         LIBS=`echo " $LIBS " | sed -e 's/ -lintl / /' -e 's/^ //' -e 's/ $//'`
+       fi
+ 
