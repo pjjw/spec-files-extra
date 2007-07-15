@@ -16,7 +16,6 @@ Patch1:                  mplayer-01-cddb.diff
 Patch2:                  mplayer-02-makefile-libfame-dep.diff
 Patch3:                  mplayer-03-asmrules_20061231.diff
 Patch4:                  mplayer-04-cabac-asm.diff
-Patch5:                  mplayer-05-dirac.diff
 Source3:                 http://www.mplayerhq.hu/MPlayer/skins/Blue-1.7.tar.bz2
 Source4:                 http://www.mplayerhq.hu/MPlayer/skins/Abyss-1.6.tar.bz2
 Source5:                 http://www.mplayerhq.hu/MPlayer/skins/neutron-1.5.tar.bz2
@@ -83,7 +82,6 @@ BuildRequires: SUNWgnome-audio-devel
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-#%patch5 -p1
 
 unzip %SOURCE7
 unzip 26104-610_ANSI_C_source_code.zip
@@ -161,6 +159,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Sun Jul 15 2007 - dougs@truemail.co.th
+- Removed dirac codec patch - causes crashes
 * Sat Jul 14 2007 - dougs@truemail.co.th
 - Added dirac codec patch
 - Added SFEladspa,SFElibfribidi requirement

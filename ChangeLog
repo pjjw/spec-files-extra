@@ -1,5 +1,9 @@
 2007-07-15  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEmplayer: Removed dirac codec patch - causes crashes
+
+2007-07-15  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEfile.spec: Bump to 4.21
 	* SFEvlc.spec: --with-debug enables --enable-debug
 	  added some dependencies
