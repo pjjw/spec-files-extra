@@ -9,10 +9,8 @@
 
 Name:                SFEfile
 Summary:             determine file type
-Version:             4.20
+Version:             4.21
 Source:              ftp://ftp.astron.com/pub/file/file-%{version}.tar.gz
-# date:2007-05-03 owner:nonsea type:bug
-Patch1:              file-01-REG_STARTEND.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -20,7 +18,6 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 %prep
 %setup -q -n file-%version
-%patch1 -p1
 
 %build
 
@@ -69,6 +66,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man4/*.4
 
 %changelog
+* Sat Jul 15 2007 - dougs@truemail.co.th
+- Bump to 4.21
 * Thu May 03 2007 - nonsea@users.sourceforge.net
 - Bump to 4.20.
 - Add patch file-01-REG_STARTEND.diff, get original copy from

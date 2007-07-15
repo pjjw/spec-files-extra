@@ -1,0 +1,20 @@
+--- gmediaserver-0.12.0/src/Makefile.in.orig	2007-07-15 17:02:01.128179021 +0700
++++ gmediaserver-0.12.0/src/Makefile.in	2007-07-15 17:02:37.093766920 +0700
+@@ -292,7 +292,6 @@
+ # but that would make automake compile .c files into gmediaserver-<obj>.o,
+ # which would look quite awkward.
+ AM_CFLAGS = \
+-  -Wall \
+   $(UUID_CFLAGS) \
+   $(UPNP_CFLAGS) \
+   $(TAGLIB_CFLAGS)
+--- gmediaserver-0.12.0/src/Makefile.am.orig	2007-07-15 17:01:50.271874397 +0700
++++ gmediaserver-0.12.0/src/Makefile.am	2007-07-15 17:02:29.709387905 +0700
+@@ -5,7 +5,6 @@
+ # which would look quite awkward.
+ 
+ AM_CFLAGS = \
+-  -Wall \
+   $(UUID_CFLAGS) \
+   $(UPNP_CFLAGS) \
+   $(TAGLIB_CFLAGS)

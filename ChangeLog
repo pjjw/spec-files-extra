@@ -1,3 +1,17 @@
+2007-07-15  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEfile.spec: Bump to 4.21
+	* SFEvlc.spec: --with-debug enables --enable-debug
+	  added some dependencies
+	* SFElibupnp.spec: *NEW* C library for UPnP
+	* SFElibtar.spec: *NEW* library for manipulating POSIX tar files
+	* SFEgmediaserver.spec: *NEW* UPnP compatible media server
+	* patches/gmediaserver-01-wall.diff: Remove -Wall
+	* patches/gmediaserver-02-solaris.diff: Fix some minor Solaris issues
+	* patches/libupnp-02-inline.spec: Remove inline on a function
+	* patches/libtar-01-shared.diff: Build shared library
+	* patches/libupnp-01-solaris.spec: Fix some minor Solaris issues
+
 2007-07-14  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEffmpeg.spec: Build shared library

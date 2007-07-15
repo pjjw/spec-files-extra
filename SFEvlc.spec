@@ -65,6 +65,8 @@ BuildRequires:  SFElibcddb-devel
 Requires:       SFElibcddb
 BuildRequires:  SFElibmpeg2-devel
 Requires:       SFElibmpeg2
+BuildRequires:  SFElibupnp-devel
+Requires:       SFElibupnp
 BuildRequires:  SFEvcdimager-devel
 Requires:       SFEvcdimager
 
@@ -89,11 +91,14 @@ GNULIB="-L/usr/gnu/lib -R/usr/gnu/lib"
 
 export PATH=/usr/gnu/bin:$PATH
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export MSGFMT="/usr/bin/msgfmt"
 export CC=gcc
 export CXX=g++
 export CPPFLAGS="-D_XOPEN_SOURCE=500 -D__EXTENSIONS__ -I/usr/X11/include -I/usr/gnu/include"
+%if %debug_build
+export CFLAGS="-g"
+%else
 export CFLAGS="-O4"
+%endif
 export LDFLAGS="$X11LIB $GNULIB"
 
 # See: http://forum.videolan.org/viewtopic.php?t=15444
@@ -116,6 +121,9 @@ rm ./configure
             --libexecdir=%{_libexecdir}		\
             --sysconfdir=%{_sysconfdir}		\
 	    --enable-shared			\
+%if %debug_build
+	    --enable-debug=yes			\
+%endif
 	    --disable-static
 
 # Disable libmpeg2 to get past configure.
@@ -153,6 +161,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/locale
 
 %changelog
+* Sun Jul 15 2007 - dougs@truemail.co.th
+- --with-debug enables --enable-debug, added some dependencies
 * Sat Jul 14 2007 - dougs@truemail.co.th
 - Build with gcc
 * Fri Mar 23 2007 - daymobrew@users.sourceforge.net

@@ -1,0 +1,51 @@
+--- libtar-1.2.11/libtar/Makefile.in.orig	2007-07-15 00:27:33.158191610 +0700
++++ libtar-1.2.11/libtar/Makefile.in	2007-07-15 00:35:19.501511799 +0700
+@@ -45,7 +45,7 @@
+ 		  ${top_srcdir}/compat/compat.h \
+ 		  ${top_srcdir}/lib/libtar.h \
+ 		  ../listhash/libtar_listhash.h
+-LIBTAR_LIBS	= ../lib/libtar.a
++LIBTAR_LIBS	= ../lib/libtar.so
+ ALL		= libtar
+ 
+ 
+--- libtar-1.2.11/lib/Makefile.in.orig	2007-07-15 00:30:49.037594610 +0700
++++ libtar-1.2.11/lib/Makefile.in	2007-07-15 00:36:33.391346883 +0700
+@@ -56,8 +56,8 @@
+ 		  ${srcdir}/libtar.h \
+ 		  ${srcdir}/internal.h \
+ 		  ../listhash/libtar_listhash.h
+-LIBTAR_LIBS	= ./libtar.a
+-ALL		= libtar.a
++LIBTAR_LIBS	= ./libtar.so
++ALL		= libtar.so
+ 
+ DISTCLEANFILES	= ../listhash/libtar_listhash.h \
+ 		  ../listhash/libtar_list.c \
+@@ -68,14 +68,13 @@
+ 
+ .PHONY: clean distclean install
+ 
+-libtar.a: ${LIBTAR_OBJS} ${LIBOBJS}
+-	${AR} rc libtar.a ${LIBTAR_OBJS} ${LIBOBJS}
+-	${RANLIB} libtar.a
++libtar.so: ${LIBTAR_OBJS} ${LIBOBJS}
++	$(CC) -G -o libtar.so ${LIBTAR_OBJS} ${LIBOBJS}
+ 
+ ${LIBTAR_OBJS}: ${LIBTAR_HDRS}
+ 
+ .c.o:
+-	${CC} ${CFLAGS} ${CPPFLAGS} -c -o $@ $<
++	${CC} -KPIC ${CFLAGS} ${CPPFLAGS} -c -o $@ $<
+ 
+ clean:
+ 	rm -f *~ *.o ${ALL} core
+@@ -85,7 +84,7 @@
+ 
+ install: ${ALL}
+ 	${MKDIR} ${DESTDIR}${libdir}
+-	${INSTALL_DATA} libtar.a ${DESTDIR}${libdir}
++	${INSTALL_DATA} libtar.so ${DESTDIR}${libdir}
+ 	${MKDIR} ${DESTDIR}${includedir}
+ 	${INSTALL_DATA} ${srcdir}/libtar.h ${DESTDIR}${includedir}
+ 	${INSTALL_DATA} ../listhash/libtar_listhash.h ${DESTDIR}${includedir}
