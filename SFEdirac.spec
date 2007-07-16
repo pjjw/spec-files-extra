@@ -74,7 +74,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755,root,bin) %{_libdir}
 %dir %attr (0755,root,other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
 
 %changelog
+* Mon Jul 16 2007 - markwright@interndode.on.net
+- Added %{_datadir}/doc
 * Sat Jul 14 2007 - dougs@truemail.co.th
 - Initial version

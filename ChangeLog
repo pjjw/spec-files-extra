@@ -1,3 +1,7 @@
+2007-07-16  Mark Wright <markwright@internode.on.net>
+
+	* SFEdirac.spec: Added %{_datadir}/doc
+
 2007-07-15  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEmplayer: Removed dirac codec patch - causes crashes
