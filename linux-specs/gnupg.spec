@@ -3,7 +3,7 @@
 #
 
 Name:         gnupg
-Version:      1.4.2.2
+Version:      1.4.7
 Release:      1
 Summary:      gnupg - GNU Utility for data encryption and digital signatures.
 License:      GPL
@@ -73,6 +73,8 @@ fi
 %attr (0755,root,root) %{_libexecdir}/gnupg/*
 
 %changelog -n gnupg
+* Mon Jul 16 2007 - dick@nagual.nl
+- Bump to 1.4.7
 * Thu Mar 16 2006 - damien.carbery@sun.com
 - Bump to 1.4.2.2.
 * Sat Dec 08 2005 - halton.huo@sun.com

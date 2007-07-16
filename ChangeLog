@@ -1,3 +1,6 @@
+2007-07-16  Dick Hoogendijk <dick@nagual.nl>
+	* linux-specs/gnupg.spec: bump to 1.4.7
+
 2007-07-16  Mark Wright <markwright@internode.on.net>
 
 	* SFEdirac.spec: Added %{_datadir}/doc
