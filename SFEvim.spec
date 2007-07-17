@@ -5,12 +5,12 @@
 #
 %include Solaris.inc
 
-%define vim_version 70
+%define vim_version 71
 %define SPROsslnk      %(/usr/bin/pkginfo -q SPROsslnk && echo 1 || echo 0)
 
 Name:         SFEvim
 Summary:      Vim - vi improved
-Version:      7.0
+Version:      7.1
 Source:       ftp://ftp.vim.org/pub/vim/unix/vim-%{version}.tar.bz2
 Source1:      ftp://ftp.vim.org/pub/vim/extra/vim-%{version}-lang.tar.gz
 Source2:      http://cscope.sourceforge.net/cscope_maps.vim
@@ -139,6 +139,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Jul 17 2007 - halton.huo@sun.com
+- Bump to 7.1
 * Fri Jul 13 2007 - dougs@truemail.co.th
 - Fixed cscope requirement clash
 * Mon Sep 11 2006 - halton.huo@sun.com
