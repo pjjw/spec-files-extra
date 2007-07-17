@@ -1,3 +1,8 @@
+2007-07-17  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEid3lib-gnu.spec: g++ version in /usr/gnu
+	* SFEmediatomb.spec: *NEW* UPnP MediaServer
+
 2007-07-16  Dick Hoogendijk <dick@nagual.nl>
 	* linux-specs/gnupg.spec: bump to 1.4.7
 
