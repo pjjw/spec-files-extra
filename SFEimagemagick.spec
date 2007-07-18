@@ -7,8 +7,8 @@
 
 %define src_name	ImageMagick
 %define src_url		ftp://ftp.imagemagick.org/pub/%src_name
-%define major		6.3.4
-%define minor		-4
+%define major		6.3.5
+%define minor		-0
 
 Name:                   SFEimagemagick
 Summary:                ImageMagick - Image Manipulation Utilities and Libraries
@@ -34,7 +34,7 @@ fi
 
  
 export CPPFLAGS="-I/usr/sfw/include/freetype2 -I/usr/X11/include"
-export CFLAGS="%optflags -xCC -xc99=%none"
+export CFLAGS="%optflags -xCC"
 export LDFLAGS="%_ldflags -L/usr/sfw/lib -L/usr/X11/lib -R/usr/sfw/lib:/usr/X11/lib"
 ./configure --prefix=%{_prefix}		\
 	    --bindir=%{_bindir}		\
@@ -80,5 +80,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Jul 10 2007 - brian.cameron@sun.com
+- Bump to 6.3.5.  Remove the -xc99=%none from CFLAGS since
+  it is breaking the build.
 * Tue Jun  5 2007 - dougs@truemail.co.th
 - Initial version - version in sfw is too old :(

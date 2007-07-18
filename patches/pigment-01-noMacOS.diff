@@ -1,0 +1,11 @@
+--- pigment/libs/pypgm/pgm/Makefile.am-orig	2007-07-17 08:07:25.788635000 -0500
++++ pigment/libs/pypgm/pgm/Makefile.am	2007-07-17 08:07:35.860200000 -0500
+@@ -33,7 +33,7 @@ nodist__pgmmodule_la_SOURCES = pgm.c
+ 
+ CLEANFILES = pgm.c
+ 
+-LIBTOOL=MACOSX_DEPLOYMENT_TARGET=10.4 $(top_builddir)/libtool
++LIBTOOL=$(top_builddir)/libtool
+ 
+ 
+ .defs.c:

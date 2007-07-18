@@ -8,8 +8,8 @@
 Name:                    SFEgnome-python-extras
 Summary:                 Python bindings GNOME
 URL:                     http://ftp.gnome.org/pub/GNOME/sources/gnome-python-extras
-Version:                 2.14.2
-Source:                  http://ftp.gnome.org/pub/GNOME/sources/gnome-python-extras/2.14/gnome-python-extras-%{version}.tar.bz2
+Version:                 2.19.1
+Source:                  http://ftp.gnome.org/pub/GNOME/sources/gnome-python-extras/2.19/gnome-python-extras-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:                SUNWPython
@@ -51,5 +51,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtk-doc/*
 
 %changelog
-* Fri Feb 9 2007 - irene.huang@sun.com
+* Tue Jul 10 2007 - Brian Cameron <brian.cameron@sun.com>
+- Bump to 2.19.1
+
+* Fri Feb 9 2007 - Irene Huang <irene.huang@sun.com>
 - created

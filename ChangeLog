@@ -1,3 +1,16 @@
+2007-07-18  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEpython-imaging.spec, SFEjokosher.spec, SFEpigment.spec,
+	  SFEpython-setuptools.spec, SFEelisa.spec,
+	  SFEpython-zope-interface.spec, SFEpython-twisted.spec,
+	  patches/pigment-01-noMacOs.diff,
+	  patches/pigment-02-fixconfigure.diff,
+	  patches/elisa-01-solaris.diff: Add new spec files to build jokosher
+	  and elisa and their dependencies.
+	* SFEgnome-python-extras.spec: Bump to 2.19.1.
+	* SFEgnonlin.spec: Bump to 0.10.8.
+	* SFEimagemagick.spec: Bump to 6.3.5.
+
 2007-07-17  Halton Huo  <nonsea@users.sourceforge.net>
 
 	* SFEvim.spec: Bump to 7.1
