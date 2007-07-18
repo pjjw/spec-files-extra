@@ -1,5 +1,9 @@
 2007-07-18  Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEelisa.spec: Fix packaging.
+
+2007-07-18  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEpython-imaging.spec, SFEjokosher.spec, SFEpigment.spec,
 	  SFEpython-setuptools.spec, SFEelisa.spec,
 	  SFEpython-zope-interface.spec, SFEpython-twisted.spec,

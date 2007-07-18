@@ -97,7 +97,6 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %defattr(-,root,bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/elisa
-%{_bindir}/elisa-client
 
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/python%{pythonver}/vendor-packages/elisa
