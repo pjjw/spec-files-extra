@@ -3,11 +3,24 @@
 #
 # includes module(s): elisa
 #
+# Note that elisa does not run properly when you run the installed
+# version.  You need to download elisa from SVN head and run the
+# following command from the top-level directory to see elisa 
+# working.
+#
+# python elisa.py sample_config/poblenou.conf
+# 
+# You may also need to add the following line to /etc/mime.types for
+# the sample OGG files to be visible in elisa.
+#
+# application/ogg ogg
+#
 # Note that the 0.3.0.1 version is building "make dist" from SVN head.
 # This latest version works on Solaris, whereas the last released version
 # does not.  When 0.3.x actually comes out, then this will be a bit easier
 # to build.  But for those who want to try out pigment right now, this
-# spec file does work.
+# spec file and instructions will let you get started working with the
+# code.
 #
 %define name elisa
 %define version 0.3.0.1

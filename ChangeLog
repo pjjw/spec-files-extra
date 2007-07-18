@@ -1,6 +1,8 @@
 2007-07-18  Brian Cameron  <brian.cameron@sun.com>
 
-	* SFEelisa.spec: Fix packaging.
+	* SFEelisa.spec: Fix packaging and add better comments about
+	  how to actually run elisa.
+	* patches/elisa-01-solaris.diff: Add hal support.
 
 2007-07-18  Brian Cameron  <brian.cameron@sun.com>
 

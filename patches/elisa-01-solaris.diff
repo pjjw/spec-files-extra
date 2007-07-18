@@ -1,6 +1,6 @@
 --- elisa/elisa/plugins/base/plugin.conf-orig	2007-07-18 05:15:14.033713000 -0500
 +++ elisa/elisa/plugins/base/plugin.conf	2007-07-18 05:20:31.038600000 -0500
-@@ -15,15 +15,15 @@ description="To access file:// media"
+@@ -15,15 +15,15 @@
  name="audiocd"
  
  [media_providers.ipod_media:IpodMedia]
@@ -19,7 +19,7 @@
  external_dependencies=["gnomevfs",]
  description="Any media location supported by GNOME vfs: smb://, http:// ..."
  
-@@ -32,12 +32,12 @@ name="upnp_media"
+@@ -32,12 +32,12 @@
  component_dependencies = ["base:coherence_service"]
  
  [metadata_providers.taglib_metadata:TaglibMetadata]
@@ -34,7 +34,7 @@
  description="search and download Covers using amazon"
  
  [metadata_providers.coverindir_metadata:CoverInDir]
-@@ -48,13 +48,13 @@ description="Looks in cache dirs for cov
+@@ -48,13 +48,13 @@
  
  [input_providers.lirc_input:LircInput]
  external_dependencies=["pylirc",]
@@ -50,12 +50,12 @@
  
  [input_providers.webcam_input:WebcamInput]
  external_dependencies=["gst",]
-@@ -62,7 +62,7 @@ external_dependencies=["gst",]
+@@ -62,7 +62,7 @@
  [metadata_providers.gst_metadata:GstMetadata]
  
  [services.hal_service:HalService]
 -platforms=["linux",]
-+platforms=["linux"]
++platforms=["linux", "posix"]
  
  
  [services.coherence_service:CoherenceService]
