@@ -1,3 +1,15 @@
+2007-07-19  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEclutter.spec: (new) clutter - a library for creating fast,
+	  visually rich and animated graphical user interfaces.
+	* SFEclutter-gst.spec: (new) clutter-gst - gstreamer integration
+	  library for clutter
+	* patches/clutter-01-build.diff: (new) patch for building clutter
+	  with Sun Studio: http://bugzilla.o-hand.com/show_bug.cgi?id=398
+	* patches/clutter-gst-01-gst-base.diff: (new) patch that adds
+	  gstreamer-base dependency to the clutter-gst pkgconfig file:
+	  http://bugzilla.o-hand.com/show_bug.cgi?id=399
+
 2007-07-18  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEelisa.spec: Fix packaging and add better comments about

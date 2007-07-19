@@ -1,0 +1,11 @@
+--- clutter-0.3.1/clutter/clutter-event.c.orig	2007-07-19 10:24:10.289492000 -0400
++++ clutter-0.3.1/clutter/clutter-event.c	2007-07-19 10:24:13.673831000 -0400
+@@ -106,7 +106,7 @@
+  *
+  * Since: 0.4
+  */
+-guint32
++ClutterModifierType
+ clutter_event_get_state (ClutterEvent *event)
+ {
+   g_return_val_if_fail (event != NULL, 0);
