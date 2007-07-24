@@ -8,27 +8,26 @@
 %define with_w3m    %(pkginfo -q SFEw3m && echo 1 || echo 0)
 %define with_mv     %(pkginfo -q SFEwv && echo 1 || echo 0)
 
-Name:		SFEtracker
+Name:           SFEtracker
 License:        GPL
-Summary:	Desktop search tool
-Version:	0.5.4
+Summary:        Desktop search tool
+Version:        0.6.0
 URL:            http://www.tracker-project.org
-Source:		http://www.gnome.org/~jamiemcc/tracker/tracker-%{version}.tar.gz
+Source:         http://www.gnome.org/~jamiemcc/tracker/tracker-%{version}.tar.gz
 SUNW_BaseDir:   %{_basedir}
-Patch1:         tracker-01-stdout.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:       SUNWgnome-base-libs
 Requires:       SUNWdbus
 Requires:       SUNWzlib
 Requires:       SFEsqlite
-Requires:       SFEfile
 Requires:       SFEgmime
+Requires:       OSOLgamin
 BuildRequires:  SUNWgnome-base-libs-devel
 BuildRequires:  SUNWdbus-devel
-BuildRequires:  SFEfile
 BuildRequires:  SFEgmime-devel
 BuildRequires:  SFEsqlite-devel
+BUildRequires:  OSOLgamin-devel
 #Additional recommended packages
 Requires:       SUNWgnome-media
 Requires:       SUNWpng
@@ -75,7 +74,6 @@ Requires:                %{name}
 
 %prep
 %setup -q -n tracker-%version
-%patch1 -p1
 
 %build
 
@@ -116,19 +114,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*.so*
-%{_libdir}/deskbar-applet
 %{_libdir}/tracker
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/tracker
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*.desktop
-%dir %attr (0755, root, other) %{_datadir}/pixmaps
-%{_datadir}/pixmaps/tracker
 %dir %attr (0755, root, bin) %{_datadir}/dbus-1
 %dir %attr (0755, root, bin) %{_datadir}/dbus-1/services
 %{_datadir}/dbus-1/services/tracker.service
 %dir %attr (0755, root, bin) %{_mandir}
-%{_mandir}/man1
+%dir %attr(0755, root, bin) %{_mandir}/*
+%{_mandir}/*/*
+%defattr (-, root, other)
+%{_datadir}/icons
 
 %files devel
 %defattr (-, root, bin)
@@ -151,6 +149,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Jul 24 2007 - nonsea@users.sourceforge.net
+- Bump to 0.6.0.
+- Remove dependency on file.
 * Fri May 04 2007 - nonsea@users.sourceforge.net
 - Add Requires to SFEsqlite
 - Add conditional Requires to SFEwv

@@ -1,0 +1,177 @@
+diff -Nrup gamin-0.1.8.mod.orig/config.h.in gamin-0.1.8.mod.build/config.h.in
+--- gamin-0.1.8.mod.orig/config.h.in	2007-06-20 18:25:13.917809000 +0800
++++ gamin-0.1.8.mod.build/config.h.in	2007-07-02 16:48:07.978736000 +0800
+@@ -12,6 +12,9 @@
+ /* Use kqueue as backend */
+ #undef ENABLE_KQUEUE
+ 
++/* Use fen as backend */
++#undef ENABLE_FEN
++
+ /* Use polling as backend */
+ #undef ENABLE_POLLING
+ 
+diff -Nrup gamin-0.1.8.mod.orig/configure.in gamin-0.1.8.mod.build/configure.in
+--- gamin-0.1.8.mod.orig/configure.in	2007-06-20 18:25:13.848869000 +0800
++++ gamin-0.1.8.mod.build/configure.in	2007-07-02 16:42:21.212634000 +0800
+@@ -248,6 +248,39 @@ if test x$kqueue = xtrue; then
+ 	backends="${backends}, kqueue"
+ fi
+ 
++case "$os" in
++    solaris*)
++       AC_CHECK_FUNC(port_create,[have_fen=1],)
++       if test x$have_fen = x1 ; then
++           AC_ARG_ENABLE(fen,
++                       AC_HELP_STRING([--disable-fen], [Disable the FEN backend]),
++                       [fen="${enableval}"], [fen=true])
++
++               if test x$fen = xyes; then
++                       fen=true
++               elif test x$fen = xno; then
++                       fen=false
++               elif test x$fen != xtrue; then
++                       AC_MSG_ERROR(bad value ${enableval} for --disable-fen)
++               fi
++       fi
++       break;
++       ;;
++    *)
++       fen=false
++       break;
++       ;;
++esac
++
++dnl check if FEN backend is enabled
++AM_CONDITIONAL(ENABLE_FEN, test x$fen = xtrue)
++
++if test x$fen = xtrue; then
++        AC_CHECK_HEADERS(port.h)
++        AC_DEFINE(ENABLE_FEN,1,[Use FEN as backend])
++        backends="${backends}, fen"
++fi
++
+ dnl pthread support for reentrance of the client library.
+ AC_ARG_WITH(threads,
+ [  --with-threads          add multithread support(on)])
+diff -Nrup gamin-0.1.8.mod.orig/server/Makefile.am gamin-0.1.8.mod.build/server/Makefile.am
+--- gamin-0.1.8.mod.orig/server/Makefile.am	2007-06-20 18:25:14.171921000 +0800
++++ gamin-0.1.8.mod.build/server/Makefile.am	2007-07-02 16:52:53.640202000 +0800
+@@ -69,6 +69,10 @@ if ENABLE_KQUEUE
+ gam_server_SOURCES += gam_kqueue.c gam_kqueue.h
+ endif
+ 
++if ENABLE_FEN
++gam_server_SOURCES += gam_fen.c gam_fen.h
++endif
++
+ if ENABLE_HURD_MACH_NOTIFY
+ gam_server_SOURCES += gam_hurd_mach_notify.c gam_hurd_mach_notify.h
+ 
+diff -Nrup gamin-0.1.8.mod.orig/server/gam_fen.c gamin-0.1.8.mod.build/server/gam_fen.c
+--- gamin-0.1.8.mod.orig/server/gam_fen.c	1970-01-01 08:00:00.000000000 +0800
++++ gamin-0.1.8.mod.build/server/gam_fen.c	2007-07-02 17:04:04.664154000 +0800
+@@ -0,0 +1,54 @@
++/*** Gamin backend implementation ********************************************/
++
++/**
++ * Initializes the kqueue system.  This must be called before
++ * any other functions in this module.
++ *
++ * @returns TRUE if initialization succeeded, FALSE otherwise
++ */
++gboolean
++gam_kqueue_init (void)
++{
++#if 0
++  gam_kqueue_poller_init(&missing_smon_poller,
++			 gam_kqueue_missing_smon_poll,
++			 CFG_MISSING_SMON_POLL_INTERVAL);
++  gam_kqueue_poller_init(&unsupported_smon_poller,
++			 gam_kqueue_unsupported_smon_poll,
++			 CFG_UNSUPPORTED_SMON_POLL_INTERVAL);
++  gam_kqueue_poller_init(&unsupported_fmon_poller,
++			 gam_kqueue_unsupported_fmon_poll,
++			 CFG_UNSUPPORTED_FMON_POLL_INTERVAL);
++  gam_poll_set_kernel_handler(NULL, NULL, GAMIN_K_KQUEUE);
++  gam_backend_add_subscription = gam_kqueue_add_subscription;
++  gam_backend_remove_subscription = gam_kqueue_remove_subscription;
++  gam_backend_remove_all_for = gam_kqueue_remove_all_for;
++#endif
++
++  return TRUE;
++}
++gboolean   gam_fen_add_subscription      (GamSubscription *sub)
++{
++
++  return TRUE;
++}
++gboolean   gam_fen_remove_subscription   (GamSubscription *sub)
++{
++
++  return TRUE;
++}
++gboolean   gam_fen_remove_all_for        (GamListener *listener)
++{
++
++  return TRUE;
++}
++void       gam_fen_debug                 (void)
++{
++
++  return TRUE;
++}
++gboolean   gam_fen_is_running            (void)
++{
++
++  return TRUE;
++}
+diff -Nrup gamin-0.1.8.mod.orig/server/gam_fen.h gamin-0.1.8.mod.build/server/gam_fen.h
+--- gamin-0.1.8.mod.orig/server/gam_fen.h	1970-01-01 08:00:00.000000000 +0800
++++ gamin-0.1.8.mod.build/server/gam_fen.h	2007-07-02 17:01:48.908795000 +0800
+@@ -0,0 +1,19 @@
++#ifndef __GAM_FEN_H__
++#define __GAM_FEN_H__
++
++#include <glib.h>
++#include "gam_subscription.h"
++
++G_BEGIN_DECLS
++
++gboolean   gam_fen_init                  (void);
++gboolean   gam_fen_add_subscription      (GamSubscription *sub);
++gboolean   gam_fen_remove_subscription   (GamSubscription *sub);
++gboolean   gam_fen_remove_all_for        (GamListener *listener);
++void       gam_fen_debug                 (void); 
++gboolean   gam_fen_is_running            (void);
++
++G_END_DECLS
++
++#endif /* __GAM_FEN_H__ */
++
+diff -Nrup gamin-0.1.8.mod.orig/server/gam_server.c gamin-0.1.8.mod.build/server/gam_server.c
+--- gamin-0.1.8.mod.orig/server/gam_server.c	2007-06-20 18:25:14.174077000 +0800
++++ gamin-0.1.8.mod.build/server/gam_server.c	2007-07-02 16:55:47.685403000 +0800
+@@ -45,6 +45,9 @@
+ #ifdef ENABLE_HURD_MACH_NOTIFY
+ #include "gam_hurd_mach_notify.h"
+ #endif
++#ifdef ENABLE_FEN
++#include "gam_fen.h"
++#endif
+ #include "gam_excludes.h"
+ #include "gam_fs.h"
+ #include "gam_conf.h" 
+@@ -162,6 +165,12 @@ gam_init_subscriptions(void)
+ 			return(TRUE);
+ 		}
+ #endif	
++#ifdef ENABLE_FEN
++		if (gam_fen_init()) {
++			GAM_DEBUG(DEBUG_INFO, "Using fen as backend\n");
++			return(TRUE);
++		}
++#endif
+ 	}
+ 
+ 	if (gam_poll_basic_init()) {

@@ -1,0 +1,12 @@
+diff -ur gamin-0.1.8-orig/libgamin/gamin_sym.version gamin-0.1.8/libgamin/gamin_sym.version
+--- gamin-0.1.8-orig/libgamin/gamin_sym.version	2005-02-17 02:46:50.000000000 +0700
++++ gamin-0.1.8/libgamin/gamin_sym.version	2007-04-14 10:38:30.305085732 +0700
+@@ -2,8 +2,6 @@
+    global:
+        FAMCancelMonitor;
+        FAMClose;
+-       FAMDebugLevel;
+-       FAMDebug;
+        FamErrlist;
+        FAMErrno;
+        FAMMonitorCollection;

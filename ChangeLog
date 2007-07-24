@@ -1,3 +1,22 @@
+2007-07-24  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEgmime.spec: Bump to 2.2.10.
+	* SFEtracker.spec: Bump to 0.6.0, remove dependency on file.
+	* patches/tracker-01-stdout.diff: removed upstreamed patch.
+	* patches/gdl-01-void0-suncc-error.diff: rework
+
+	Import new package gamin, from henry.zhang@sun.com, will
+	remove them when this project goes into Vermillion.
+	* SUNWgamin.spec: (new) Library providing the FAM File Alteration Monitor API
+	* base-specs/gamin.spec: (new)
+	* patches/gamin-01-lib-version.diff: (new)
+	* patches/gamin-02-configure.diff: (new)
+	* patches/gamin-03-famdebug.diff: (new)
+	* patches/gamin-04-mnttab.diff: (new)
+	* patches/gamin-05-getpeerucred.diff: (new)
+	* patches/gamin-06-basic-poll.diff: (new)
+	* patches/gamin-07-build.diff: (new)
+
 2007-07-19  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEclutter.spec: (new) clutter - a library for creating fast,

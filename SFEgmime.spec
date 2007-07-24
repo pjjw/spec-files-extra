@@ -8,7 +8,7 @@
 
 Name:         SFEgmime
 License:      Other
-Version:      2.2.8
+Version:      2.2.10
 Release:      1
 Summary:      Libraries and binaries to parse and index mail messages
 Source:       http://spruce.sourceforge.net/gmime/sources/v2.2/gmime-%{version}.tar.gz
@@ -97,6 +97,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtk-doc
 
 %changelog
+* TUe Jul 24 2007 - nonsea@users.sourceforge.net
+- Bump to 2.2.10.
 * Wed May  2 2007 - halton.huo@sun.com
 - Bump to 2.2.8.
 - Add check mono condition.

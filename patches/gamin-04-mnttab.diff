@@ -1,0 +1,69 @@
+diff -ur gamin-0.1.8-orig/server/gam_fs.c gamin-0.1.8/server/gam_fs.c
+--- gamin-0.1.8-orig/server/gam_fs.c	2005-08-06 05:31:46.000000000 +0700
++++ gamin-0.1.8/server/gam_fs.c	2007-04-15 14:20:02.886997574 +0700
+@@ -7,9 +7,20 @@
+ #include <string.h>
+ #include <errno.h>
+ #include <glib.h>
++#ifdef HAVE_SYS_MNTTAB_H
++#include <sys/mnttab.h>
++#endif
+ #include "gam_error.h"
+ #include "gam_fs.h"
+ 
++#ifdef HAVE_SYS_MNTTAB_H
++#define MTAB	MNTTAB
++#define MTABDEL	"\t"
++#else
++#define MTAB	"/etc/mtab"
++#define MTABDEL	"\t"
++#endif
++
+ #define DEFAULT_POLL_TIMEOUT 0
+ 
+ typedef struct _gam_fs_properties {
+@@ -119,7 +130,7 @@
+ 	gam_fs *fs = NULL;
+ 	int i;
+ 
+-	g_file_get_contents ("/etc/mtab", &contents, &len, NULL);
++	g_file_get_contents (MTAB, &contents, &len, NULL);
+ 	if (contents == NULL)
+ 		return;
+ 
+@@ -133,7 +144,7 @@
+ 			if (line[0] == '\0')
+ 				continue;
+ 
+-			words = g_strsplit (line, " ", 0);
++			words = g_strsplit (line, MTABDEL, 0);
+ 
+ 			if (words == NULL)
+ 				continue;
+@@ -178,17 +189,22 @@
+ 		gam_fs_set ("reiserfs", GFS_MT_KERNEL, 0);
+ 		gam_fs_set ("novfs", GFS_MT_POLL, 30);
+ 		gam_fs_set ("nfs", GFS_MT_POLL, 5);
+-		if (stat("/etc/mtab", &mtab_sbuf) != 0)
++#ifdef sun
++		gam_fs_set ("ufs", GFS_MT_POLL, 5);
++		gam_fs_set ("vxfs", GFS_MT_POLL, 5);
++		gam_fs_set ("zfs", GFS_MT_POLL, 5);
++#endif
++		if (stat(MTAB, &mtab_sbuf) != 0)
+ 		{
+-			GAM_DEBUG(DEBUG_INFO, "Could not stat /etc/mtab\n");
++			GAM_DEBUG(DEBUG_INFO, "Could not stat %s\n",MTAB);
+ 		}
+ 		gam_fs_scan_mtab ();
+ 	} else {
+ 		struct stat sbuf;
+ 
+-		if (stat("/etc/mtab", &sbuf) != 0)
++		if (stat(MTAB, &sbuf) != 0)
+ 		{
+-			GAM_DEBUG(DEBUG_INFO, "Could not stat /etc/mtab\n");
++			GAM_DEBUG(DEBUG_INFO, "Could not stat %s\n",MTAB);
+ 		}
+ 
+ 		/* /etc/mtab has changed */
