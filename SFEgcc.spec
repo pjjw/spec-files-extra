@@ -9,8 +9,9 @@
 
 Name:                SFEgcc
 Summary:             GNU gcc
-Version:             4.2.0
+Version:             4.2.1
 Source:              ftp://ftp.gnu.org/pub/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.bz2
+Patch1:              gcc-01-bug-32787.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -39,6 +40,8 @@ Requires:                %{name}
 %prep
 %setup -q -c -n %name-%version
 mkdir gcc
+cd gcc-%{version}
+%patch1 -p1 -b .patch01
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -171,6 +174,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Jul 24 2007 - Mark Wright <markwright@internode.on.net>
+- Bump to 4.2.1, add patch for gcc bug 32787.
 * Wed May 16 2007 - Doug Scott <dougs@truemail.co.th>
 - Bump to 4.2.0
 * Tue Mar 20 2007 - Doug Scott <dougs@truemail.co.th>

@@ -7,8 +7,8 @@
 
 Name:                    SFEemacs
 Summary:                 GNU Emacs - an operating system in a text editor
-Version:                 21.4
-%define emacs_version    21.4a
+Version:                 22.1
+%define emacs_version    22.1
 Source:                  http://ftp.gnu.org/pub/gnu/emacs/emacs-%{emacs_version}.tar.gz
 URL:                     http://www.gnu.org/software/emacs/emacs.html
 SUNW_BaseDir:            %{_basedir}
@@ -25,6 +25,12 @@ Requires: SUNWzlib
 Requires: SUNWperl584core
 Requires: SUNWtexi
 Requires: SUNWpostrun
+Requires: %{name}-root
+
+%package root
+Summary:                 %{summary} - root
+SUNW_BaseDir:            /
+%include default-depend.inc
 
 %prep
 %setup -q -n emacs-%version
@@ -34,7 +40,7 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-export CPP="/usr/sfw/bin/gcc -E"
+export CPP="cc -E -Xs"
 export CFLAGS="%optflags"
 export PERL=/usr/perl5/bin/perl
 
@@ -42,7 +48,9 @@ export PERL=/usr/perl5/bin/perl
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
             --infodir=%{_infodir}            \
-            --sysconfdir=%{_sysconfdir} --enable-python
+            --sysconfdir=%{_sysconfdir} \
+            --localstatedir=%{_localstatedir}   \
+            --with-gcc=no --with-x-toolkit=motif --enable-python
 
 make -j$CPUS 
 
@@ -51,7 +59,8 @@ rm -rf $RPM_BUILD_ROOT
 make install prefix=$RPM_BUILD_ROOT%{_prefix} \
 	mandir=$RPM_BUILD_ROOT%{_mandir} \
 	libexecdir=$RPM_BUILD_ROOT%{_libexecdir} \
-        infodir=$RPM_BUILD_ROOT%{_infodir}
+        infodir=$RPM_BUILD_ROOT%{_infodir} \
+        localstatedir=$RPM_BUILD_ROOT%{_localstatedir}
 
 rm -f $RPM_BUILD_ROOT%{_bindir}/ctags
 rm -f $RPM_BUILD_ROOT%{_mandir}/man1/ctags.1
@@ -99,7 +108,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 %attr (0755, root, bin) %{_infodir}
 
+%files root
+%defattr (-, root, sys)
+%dir %attr (0755, root, sys) %{_localstatedir}
+%dir %attr (0755, root, sys) %{_localstatedir}/games
+%dir %attr (0755, root, sys) %{_localstatedir}/games/emacs
+%{_localstatedir}/games/emacs/*
+
 %changelog
+* Wed Jul 24 2007 - markwright@internode.on.net
+- Bump to 22.1, change CPP="cc -E -Xs", add --with-gcc=no --with-x-toolkit=motif, add %{_localstatedir}/games/emacs.
 * Mon Jun 12 2006 - laca@sun.com
 - rename to SFEemacs
 - add missing deps

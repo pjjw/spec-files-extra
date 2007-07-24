@@ -7,8 +7,8 @@
 
 Name:			SFEautomake
 Summary:                GNU automake
-%define minmaj          1.9
-Version:		%{minmaj}.6
+%define minmaj          1.10
+Version:		%{minmaj}
 Vendor:			Sun Microsystems, Inc.
 Source:			ftp://ftp.gnu.org/pub/gnu/automake/automake-%{version}.tar.bz2
 SUNW_BaseDir:		%{_basedir}
@@ -77,6 +77,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/aclocal-*
 %{_datadir}/automake-*
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/automake/amhello-1.0.tar.gz
 %dir %attr (0755, root, bin) %{_infodir}
 %{_infodir}/*
 
@@ -85,6 +87,8 @@ rm -rf $RPM_BUILD_ROOT
 # %{_datadir}/aclocal/*
 
 %changelog
+* Wed Jul 24 2007 - markwright@internode.on.net
+- Bump to 1.10
 * Sat Apr 21 2007 - dougs@truemail.co.th
 - Changed Required Gnu m4 from SUNWgm4
 * Sat Jan  6 2006 - laca@sun.com

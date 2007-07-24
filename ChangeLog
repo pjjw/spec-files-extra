@@ -1,3 +1,10 @@
+2007-07-24  Mark Wright <markwright@internode.on.net>
+
+	* SFEautomake.spec: Bump to 1.10.
+	* SFEemacs.spec: Bump to 22.1, change CPP="cc -E -Xs", add
+	 --with-gcc=no --with-x-toolkit=motif, add %{_localstatedir}/games/emacs.
+	* SFEgcc.spec: Bump to 4.2.1, add patch for gcc bug 32787.
+	
 2007-07-24  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEgmime.spec: Bump to 2.2.10.
