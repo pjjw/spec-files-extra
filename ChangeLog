@@ -1,8 +1,12 @@
+2007-07-25  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEliveMedia.spec: bump to 2007.07.25.
+
 2007-07-24  Mark Wright <markwright@internode.on.net>
 
 	* SFEautomake.spec: Bump to 1.10.
 	* SFEemacs.spec: Bump to 22.1, change CPP="cc -E -Xs", add
-	 --with-gcc=no --with-x-toolkit=motif, add %{_localstatedir}/games/emacs.
+	 --with-gcc=no --with-x-toolkit=motif, add %{_localstatedir}/games/emacs
 	* SFEgcc.spec: Bump to 4.2.1, add patch for gcc bug 32787.
 	
 2007-07-24  Halton Huo <nonsea@users.sourceforge.net>
@@ -14,7 +18,8 @@
 
 	Import new package gamin, from henry.zhang@sun.com, will
 	remove them when this project goes into Vermillion.
-	* SUNWgamin.spec: (new) Library providing the FAM File Alteration Monitor API
+	* SUNWgamin.spec: (new) Library providing the FAM File Alteration
+	  Monitor API
 	* base-specs/gamin.spec: (new)
 	* patches/gamin-01-lib-version.diff: (new)
 	* patches/gamin-02-configure.diff: (new)
