@@ -1,3 +1,40 @@
+2007-07-27  Doug Scott  <dougs@truemail.co.th>
+
+	* SFElibanthy.spec: *NEW* Japanese input method
+	* SFElibthai.spec: *NEW* Thai language support routines
+	* SFEkmflcomp.spec: *NEW* Keyboard Mapping for Linux
+	* SFEwordcut.spec: *NEW* Word Segmentation Utility for Thai Language
+	* SFEm17n-im-config.spec: *NEW* m17n im config tool
+	* SFElibdatrie.spec: *NEW* Implementation of double-array structure
+	    for representing trie
+	* SFEm17n-db.spec: *NEW* m17n database
+	* SFEscim.spec: *NEW* Smart Common Input Method Framework
+	* SFEscim-thai.spec: *NEW* SCIM Thai language support
+	* SFEscim-m17n.spec: *NEW* SCIM libm17n IMEngine
+	* SFElibkmfl.spec: *NEW* Keyboard Mapping library for Linux
+	* SFEm17n-lib.spec: *NEW* m17n library
+	* SFElibhangul.spec: *NEW* portable library for processing hangul
+	* SFElibchewing.spec: *NEW* Chewing Input Method library
+	* SFEuim.spec: *NEW* UIM Input Method Framework
+	* SFElibotf.spec: *NEW* Library for handling OpenType fonts
+	* SFEm17n-contrib.spec: *NEW* m17n Contributed Data
+	* SFEgtk-im-libthai.spec: *NEW* Thai language gtk im module
+	* SFEscim-kmfl.spec: *NEW* SCIM kmfl imengine bridge
+	* patches/libchewing-01-configure.diff: Remove AM_PATH_CHECK
+	* patches/scim-kmfl-03-solaris.diff: Misc solaris patches
+	* patches/scim-kmfl-02-strchr.diff: remove strchr test
+	* patches/anthy-01-alloca.diff: add <alloca.h>
+	* patches/scim-02-ss12-patch.diff: Solaris patch
+	* patches/scim-kmfl-01-wall.diff: Remove -Wall
+	* patches/kmflcomp-01-wall.diff: Remove -Wall
+	* patches/m17n-lib-02-alloca.diff: add <alloca.h>
+	* patches/uim-01-ss11.diff: Solaris patch
+	* patches/scim-01-ss11-patch.diff: Solaris patch
+	* patches/m17n-lib-01-intl.diff: Fix intl build
+	* patches/libhangul-01-endian.diff: change endian.h to sys/byteorder.h
+	* patches/libkmfl-01-wall.diff: Remove -Wall
+	* patches/uim-01-ss11-patch.diff: Solaris patch
+
 2007-07-25  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEliveMedia.spec: bump to 2007.07.25.

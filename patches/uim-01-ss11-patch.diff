@@ -1,0 +1,150 @@
+diff -urp uim-1.4.1.orig/configure.ac uim-1.4.1/configure.ac
+--- uim-1.4.1.orig/configure.ac	2007-03-15 01:26:47.000000000 +0800
++++ uim-1.4.1/configure.ac	2007-05-23 18:03:09.974699000 +0800
+@@ -280,18 +280,18 @@ AX_CFLAGS_GCC_OPTION([-no-cpp-precomp])
+ # Deprecated autoconf macro used in AX_CXXFLAGS_GCC_OPTION.
+ AC_DEFUN([AC_LANG_CXX], [AC_LANG([C++])])
+ 
+-AX_CXXFLAGS_GCC_OPTION([-pipe])
+-AX_CXXFLAGS_GCC_OPTION([-W])
+-AX_CXXFLAGS_GCC_OPTION([-Wall])
+-AX_CXXFLAGS_GCC_OPTION([-Wchar-subscripts])
+-AX_CXXFLAGS_GCC_OPTION([-Wnon-virtual-dtor])
+-AX_CXXFLAGS_GCC_OPTION([-Wno-long-long])
+-AX_CXXFLAGS_GCC_OPTION([-Wcast-align])
+-AX_CXXFLAGS_GCC_OPTION([-Wconversion])
+-AX_CXXFLAGS_GCC_OPTION([-Wchar-subscripts])
+-AX_CXXFLAGS_GCC_OPTION([-Wpointer-arith])
+-AX_CXXFLAGS_GCC_OPTION([-Wwrite-strings])
+-AX_CXXFLAGS_GCC_OPTION([-Wformat-security])
++#AX_CXXFLAGS_GCC_OPTION([-pipe])
++#AX_CXXFLAGS_GCC_OPTION([-W])
++#AX_CXXFLAGS_GCC_OPTION([-Wall])
++#AX_CXXFLAGS_GCC_OPTION([-Wchar-subscripts])
++#AX_CXXFLAGS_GCC_OPTION([-Wnon-virtual-dtor])
++#AX_CXXFLAGS_GCC_OPTION([-Wno-long-long])
++#AX_CXXFLAGS_GCC_OPTION([-Wcast-align])
++#AX_CXXFLAGS_GCC_OPTION([-Wconversion])
++#AX_CXXFLAGS_GCC_OPTION([-Wchar-subscripts])
++#AX_CXXFLAGS_GCC_OPTION([-Wpointer-arith])
++#AX_CXXFLAGS_GCC_OPTION([-Wwrite-strings])
++#AX_CXXFLAGS_GCC_OPTION([-Wformat-security])
+ 
+ AX_LANG_WNOERROR  # end AC_LANG_WERROR
+ 
+diff -urp uim-1.4.1.orig/fep/uim-fep.c uim-1.4.1/fep/uim-fep.c
+--- uim-1.4.1.orig/fep/uim-fep.c	2007-01-07 01:43:43.000000000 +0800
++++ uim-1.4.1/fep/uim-fep.c	2007-05-23 18:03:11.613850000 +0800
+@@ -668,7 +668,7 @@ static pid_t my_forkpty(int *amaster, st
+     return pid;
+   }
+ }
+-#elif defined(__svr4__) || defined(__sgi__)
++#elif defined(__svr4__) || defined(__sgi__) || defined(sun)
+ static pid_t my_forkpty(int *amaster, struct termios *termp, struct winsize *winp)
+ {
+   pid_t pid;
+diff -urp uim-1.4.1.orig/gtk/Makefile.am uim-1.4.1/gtk/Makefile.am
+--- uim-1.4.1.orig/gtk/Makefile.am	2006-11-11 00:13:27.000000000 +0800
++++ uim-1.4.1/gtk/Makefile.am	2007-05-23 18:03:11.069078000 +0800
+@@ -6,7 +6,7 @@ GTK_IMMODULES= $(DESTDIR)$(sysconfdir)/g
+ if GTK2
+ im_uim_la = im-uim.la
+ im_uim_la_CPPFLAGS = -I$(top_srcdir) -I$(top_builddir)
+-im_uim_la_CFLAGS = @GTK2_CFLAGS@ -Wall
++im_uim_la_CFLAGS = @GTK2_CFLAGS@
+ module_LTLIBRARIES = $(im_uim_la)
+ 
+ 
+diff -urp uim-1.4.1.orig/helper/Makefile.am uim-1.4.1/helper/Makefile.am
+--- uim-1.4.1.orig/helper/Makefile.am	2006-12-02 19:45:13.000000000 +0800
++++ uim-1.4.1/helper/Makefile.am	2007-05-23 18:03:11.197206000 +0800
+@@ -59,28 +59,28 @@ uim_candwin_gtk_SOURCES  = candwin-gtk.c
+ 			   ../gtk/caret-state-indicator.h
+ uim_candwin_gtk_LDADD    = @GTK2_LIBS@ $(top_builddir)/uim/libuim.la
+ uim_candwin_gtk_CPPFLAGS = -I$(top_srcdir)
+-uim_candwin_gtk_CFLAGS   = @GTK2_CFLAGS@  -Wall
++uim_candwin_gtk_CFLAGS   = @GTK2_CFLAGS@ 
+ 
+ uim_toolbar_gtk_SOURCES  = toolbar-standalone-gtk.c toolbar-common-gtk.c
+ uim_toolbar_gtk_LDADD    = @GTK2_LIBS@ $(top_builddir)/uim/libuim.la
+ uim_toolbar_gtk_CPPFLAGS = -I$(top_srcdir) -I$(top_builddir)
+-uim_toolbar_gtk_CFLAGS   = @GTK2_CFLAGS@ -Wall
++uim_toolbar_gtk_CFLAGS   = @GTK2_CFLAGS@
+ 
+ uim_toolbar_gtk_systray_SOURCES  = toolbar-systray-gtk.c toolbar-common-gtk.c \
+ 				   eggtrayicon.c eggtrayicon.h
+ uim_toolbar_gtk_systray_LDADD    = @GTK2_LIBS@ $(top_builddir)/uim/libuim.la
+ uim_toolbar_gtk_systray_CPPFLAGS = -I$(top_srcdir) -I$(top_builddir)
+-uim_toolbar_gtk_systray_CFLAGS   = @GTK2_CFLAGS@  -Wall
++uim_toolbar_gtk_systray_CFLAGS   = @GTK2_CFLAGS@
+ 
+ uim_im_switcher_gtk_SOURCES  = im-switcher-gtk.c
+ uim_im_switcher_gtk_LDADD    = @GTK2_LIBS@ $(top_builddir)/uim/libuim.la
+ uim_im_switcher_gtk_CPPFLAGS = -I$(top_srcdir) -I$(top_builddir)
+-uim_im_switcher_gtk_CFLAGS   = @GTK2_CFLAGS@ -Wall
++uim_im_switcher_gtk_CFLAGS   = @GTK2_CFLAGS@
+ 
+ uim_input_pad_ja_SOURCES  = input-pad-ja.c
+ uim_input_pad_ja_LDADD    = @GTK2_LIBS@ $(top_builddir)/uim/libuim.la
+ uim_input_pad_ja_CPPFLAGS = -I$(top_srcdir) -I$(top_builddir)
+-uim_input_pad_ja_CFLAGS   = @GTK2_CFLAGS@ -Wall
++uim_input_pad_ja_CFLAGS   = @GTK2_CFLAGS@
+ 
+ if PREF
+ if GTK2_4
+@@ -91,7 +91,7 @@ uim_pref_gtk_SOURCES  = pref-gtk.c \
+ uim_pref_gtk_LDADD    = @GTK2_LIBS@ $(top_builddir)/uim/libuim-custom.la \
+ 			$(top_builddir)/uim/libuim.la
+ uim_pref_gtk_CPPFLAGS = $(helper_defs) -I$(top_srcdir) -I$(top_builddir)
+-uim_pref_gtk_CFLAGS   = @GTK2_CFLAGS@ -Wall
++uim_pref_gtk_CFLAGS   = @GTK2_CFLAGS@
+ endif
+ endif
+ 
+diff -urp uim-1.4.1.orig/uim.desktop uim-1.4.1/uim.desktop
+--- uim-1.4.1.orig/uim.desktop	2007-03-15 04:40:50.000000000 +0800
++++ uim-1.4.1/uim.desktop	2007-05-23 18:03:10.050953000 +0800
+@@ -8,6 +8,6 @@ Comment=Customize uim input method envir
+ Comment[ja]=入力メソッド環境 (uim) を設定します
+ Comment[ko]=uim 환경설정
+ Exec=uim-pref-gtk
+-Icon=/usr/local/share/uim/pixmaps/uim-icon.png
++Icon=/usr/share/uim/pixmaps/uim-icon.png
+ Terminal=false
+ Categories=Settings;
+diff -urp uim-1.4.1.orig/xim/Makefile.am uim-1.4.1/xim/Makefile.am
+--- uim-1.4.1.orig/xim/Makefile.am	2006-05-16 20:43:27.000000000 +0800
++++ uim-1.4.1/xim/Makefile.am	2007-05-23 18:03:11.342001000 +0800
+@@ -6,8 +6,8 @@ bin_PROGRAMS = uim-xim
+ uim_xim_LDFLAGS =  @X_LIBS@
+ uim_xim_LDADD =  -lXext -lX11 $(top_builddir)/uim/libuim.la
+ uim_xim_CPPFLAGS = -I$(top_builddir) -I$(top_srcdir)
+-uim_xim_CFLAGS = @X_CFLAGS@ -Wall
+-uim_xim_CXXFLAGS = @X_CFLAGS@ -Wall
++uim_xim_CFLAGS = @X_CFLAGS@
++uim_xim_CXXFLAGS = @X_CFLAGS@
+ man1_MANS = uim-xim.1
+ 
+ if DEFAULT_TOOLKIT_GTK
+diff -urp uim-1.4.1.orig/xim/ximserver.cpp uim-1.4.1/xim/ximserver.cpp
+--- uim-1.4.1.orig/xim/ximserver.cpp	2007-01-07 01:43:43.000000000 +0800
++++ uim-1.4.1/xim/ximserver.cpp	2007-05-23 18:03:11.345301000 +0800
+@@ -795,7 +795,7 @@ void InputContext::candidate_activate(in
+     int i;
+     const char *cand_str;
+     const char *heading_label;
+-    uim_candidate cand[nr];
++    uim_candidate *cand = new uim_candidate[nr];
+     std::vector<const char *> candidates;
+     char *str;
+ 
+@@ -830,6 +830,8 @@ void InputContext::candidate_activate(in
+     current_cand_selection = 0;
+     current_page = 0;
+     need_hilite_selected_cand = false;
++
++    delete[] cand;
+ }
+ 
+ void InputContext::candidate_update()

@@ -1,0 +1,208 @@
+diff -ur scim-1.4.7-orig/Makefile.am scim-1.4.7/Makefile.am
+--- scim-1.4.7-orig/Makefile.am	2007-06-26 21:31:57.000000000 +0700
++++ scim-1.4.7/Makefile.am	2007-07-26 17:57:21.123454408 +0700
+@@ -33,7 +33,7 @@
+ 			  intltool-update.in
+ 
+ AUTOMAKE_OPTIONS 	= gnu
+-SUBDIRS 		= m4  intl src utils modules configs docs po extras data tests
++SUBDIRS 		= src utils modules configs docs po extras data tests
+ 
+ MAINTAINERCLEANFILES 	= Makefile.in \
+ 			  aclocal.m4 \
+@@ -61,7 +61,7 @@
+ 			  $(GTK_UTILS_PKGCONFIG) \
+ 			  $(X11_UTILS_PKGCONFIG)
+ 
+-ACLOCAL_AMFLAGS = -I m4
++ACLOCAL_AMFLAGS = 
+ 
+ .PHONY: update-ChangeLog
+ 
+diff -ur scim-1.4.7-orig/bootstrap scim-1.4.7/bootstrap
+--- scim-1.4.7-orig/bootstrap	2007-06-27 11:19:16.000000000 +0700
++++ scim-1.4.7/bootstrap	2007-07-26 17:57:21.123664614 +0700
+@@ -20,7 +20,7 @@
+ #! /bin/sh
+ 
+ set -x
+-aclocal -I m4
++aclocal
+ autoheader
+ libtoolize -c --automake 
+ automake --add-missing --copy --include-deps
+diff -ur scim-1.4.7-orig/configure.ac scim-1.4.7/configure.ac
+--- scim-1.4.7-orig/configure.ac	2007-06-26 21:31:57.000000000 +0700
++++ scim-1.4.7/configure.ac	2007-07-26 17:57:21.123999272 +0700
+@@ -66,7 +66,9 @@
+ 
+ # Init gettext
+ ALL_LINGUAS="zh_CN zh_TW ja ko de fr it cs pa fi sv nl"
+-AM_GNU_GETTEXT
++AM_GLIB_GNU_GETTEXT
++LTLIBINTL=
++AC_SUBST(LTLIBINTL)
+ 
+ # Init libtool
+ AC_LIBTOOL_DLOPEN
+diff -ur scim-1.4.7-orig/extras/gtk2_immodule/Makefile.am scim-1.4.7/extras/gtk2_immodule/Makefile.am
+--- scim-1.4.7-orig/extras/gtk2_immodule/Makefile.am	2007-06-26 21:31:50.000000000 +0700
++++ scim-1.4.7/extras/gtk2_immodule/Makefile.am	2007-07-26 17:57:21.124161320 +0700
+@@ -38,13 +38,13 @@
+ 
+ im_scim_la_SOURCES = gtkimcontextscim.cpp imscim.cpp
+ 
+-im_scim_la_CXXFLAGS=@GTK2_CFLAGS@
++im_scim_la_CXXFLAGS=@GTK2_CFLAGS@ \
++		    -instlib=$(top_builddir)/src/.libs/libscim-1.0.so
+ im_scim_la_CFLAGS  =@GTK2_CFLAGS@
+ 
+ im_scim_la_LDFLAGS = -rpath $(moduledir) \
+ 		     -avoid-version \
+ 		     -module \
+-		     -lstdc++ \
+ 		     $(LD_VERSION_SCRIPT_OPTION) \
+ 		     @GTK2_LIBS@
+ 
+diff -ur scim-1.4.7-orig/extras/setup/Makefile.am scim-1.4.7/extras/setup/Makefile.am
+--- scim-1.4.7-orig/extras/setup/Makefile.am	2007-06-26 21:31:50.000000000 +0700
++++ scim-1.4.7/extras/setup/Makefile.am	2007-07-26 17:57:21.124313729 +0700
+@@ -55,7 +55,6 @@
+ setup_la_LDFLAGS	= -avoid-version \
+ 		     	  -rpath $(moduledir) \
+ 			  -module \
+-			  -lstdc++ \
+ 			  @LIBTOOL_EXPORT_OPTIONS@ \
+ 			  @GTK2_LIBS@ \
+ 			  @LTLIBINTL@
+diff -ur scim-1.4.7-orig/modules/FrontEnd/scim_x11_frontend.cpp scim-1.4.7/modules/FrontEnd/scim_x11_frontend.cpp
+--- scim-1.4.7-orig/modules/FrontEnd/scim_x11_frontend.cpp	2007-06-26 21:31:52.000000000 +0700
++++ scim-1.4.7/modules/FrontEnd/scim_x11_frontend.cpp	2007-07-26 17:57:21.125079084 +0700
+@@ -46,6 +46,7 @@
+ #include <X11/Xlib.h>
+ #include <X11/keysym.h>
+ #include <X11/Xutil.h>
++#include <locale.h>
+ #include "IMdkit/IMdkit.h"
+ #include "IMdkit/Xi18n.h"
+ 
+diff -ur scim-1.4.7-orig/src/Makefile.am scim-1.4.7/src/Makefile.am
+--- scim-1.4.7-orig/src/Makefile.am	2007-06-26 21:31:38.000000000 +0700
++++ scim-1.4.7/src/Makefile.am	2007-07-26 17:57:21.125283515 +0700
+@@ -134,8 +134,7 @@
+ 			  $(LD_VERSION_SCRIPT_OPTION) \
+ 			  @LIBTOOL_EXPORT_OPTIONS@ \
+ 			  @LIBICONV@ \
+-			  @LTLIBINTL@ \
+-			  -lstdc++
++			  @LTLIBINTL@ 
+ 
+ libscim@SCIM_EPOCH@_la_LIBADD	= libltdlc.la
+ 
+diff -ur scim-1.4.7-orig/src/ltdl.cpp scim-1.4.7/src/ltdl.cpp
+--- scim-1.4.7-orig/src/ltdl.cpp	2007-06-26 21:31:37.000000000 +0700
++++ scim-1.4.7/src/ltdl.cpp	2007-07-26 17:57:21.126474350 +0700
+@@ -3372,7 +3372,7 @@
+   assert (filename);
+ 
+   len = LT_STRLEN (filename);
+-  ext = strrchr (filename, '.');
++  ext = strrchr ((char*)filename, '.');
+ 
+   /* If FILENAME already bears a suitable extension, there is no need
+      to try appending additional extensions.  */
+diff -ur scim-1.4.7-orig/src/scim.h scim-1.4.7/src/scim.h
+--- scim-1.4.7-orig/src/scim.h	2007-06-26 21:31:37.000000000 +0700
++++ scim-1.4.7/src/scim.h	2007-07-26 17:57:21.126741917 +0700
+@@ -298,14 +298,14 @@
+     #include <scim_global_config.h>
+ #endif
+ 
+-#ifdef Uses_SCIM_OBJECT
+-    #include <scim_object.h>
+-#endif
+-
+ #ifdef Uses_SCIM_POINTER
+     #include <scim_pointer.h>
+ #endif
+ 
++#ifdef Uses_SCIM_OBJECT
++    #include <scim_object.h>
++#endif
++
+ #ifdef Uses_SCIM_SLOT
+     #include <scim_slot.h>
+ #endif
+diff -ur scim-1.4.7-orig/src/scim_pointer.h scim-1.4.7/src/scim_pointer.h
+--- scim-1.4.7-orig/src/scim_pointer.h	2007-06-26 21:31:38.000000000 +0700
++++ scim-1.4.7/src/scim_pointer.h	2007-07-26 17:57:21.126948272 +0700
+@@ -84,7 +84,7 @@
+     //!<
+     //!< <BR>Initialize a new Pointer with any dumb pointer.
+ 
+-    Pointer(Pointer& src) : t(0)
++    Pointer(const Pointer& src) : t(0)
+     {
+         set(src.get());
+     }
+diff -ur scim-1.4.7-orig/src/scim_socket.cpp scim-1.4.7/src/scim_socket.cpp
+--- scim-1.4.7-orig/src/scim_socket.cpp	2007-06-26 21:31:38.000000000 +0700
++++ scim-1.4.7/src/scim_socket.cpp	2007-07-26 17:57:21.127647999 +0700
+@@ -47,6 +47,10 @@
+ #include <signal.h>
+ #include <sys/time.h>
+ 
++#if defined(sun) && !defined(SUN_LEN)
++#define SUN_LEN(su) (sizeof(*(su)) - sizeof((su)->sun_path) + strlen((su)->sun_path))
++#endif
++
+ #include "scim_private.h"
+ #include "scim.h"
+ 
+Only in scim-1.4.7/src: scim_socket.cpp~
+diff -ur scim-1.4.7-orig/src/scim_transaction.cpp scim-1.4.7/src/scim_transaction.cpp
+--- scim-1.4.7-orig/src/scim_transaction.cpp	2007-06-26 21:31:38.000000000 +0700
++++ scim-1.4.7/src/scim_transaction.cpp	2007-07-26 17:57:21.128292810 +0700
+@@ -792,7 +792,8 @@
+         }
+ 
+         if (len)
+-            str = String (m_impl->m_holder->m_buffer + m_impl->m_read_pos, m_impl->m_holder->m_buffer + m_impl->m_read_pos + len);
++            str = String ((const char*)(m_impl->m_holder->m_buffer + m_impl->m_read_pos), 
++                          (const char*)m_impl->m_holder->m_buffer + m_impl->m_read_pos + len);
+         else
+             str = String ("");
+ 
+@@ -828,7 +829,8 @@
+         }
+ 
+         if (len)
+-            mbs = String (m_impl->m_holder->m_buffer + m_impl->m_read_pos, m_impl->m_holder->m_buffer + m_impl->m_read_pos + len);
++            mbs = String ((const char*)(m_impl->m_holder->m_buffer + m_impl->m_read_pos), 
++                          (const char*)m_impl->m_holder->m_buffer + m_impl->m_read_pos + len);
+         else
+             mbs = String ("");
+ 
+Only in scim-1.4.7/src: scim_transaction.cpp~
+diff -ur scim-1.4.7-orig/src/scim_utility.cpp scim-1.4.7/src/scim_utility.cpp
+--- scim-1.4.7-orig/src/scim_utility.cpp	2007-06-26 21:31:38.000000000 +0700
++++ scim-1.4.7/src/scim_utility.cpp	2007-07-26 17:57:21.128877036 +0700
+@@ -40,6 +40,7 @@
+ #include <stdio.h>
+ #include <time.h>
+ #include <errno.h>
++#include <locale.h>
+ 
+ #include "scim_private.h"
+ #include "scim.h"
+diff -ur scim-1.4.7-orig/tests/Makefile.am scim-1.4.7/tests/Makefile.am
+--- scim-1.4.7-orig/tests/Makefile.am	2007-06-26 21:31:46.000000000 +0700
++++ scim-1.4.7/tests/Makefile.am	2007-07-26 17:57:21.129030307 +0700
+@@ -49,7 +49,6 @@
+ test_helper_la_LDFLAGS	= -avoid-version \
+ 		     	  -rpath $(helpermoduledir) \
+ 			  -module \
+-			  -lstdc++ \
+ 			  @LIBTOOL_EXPORT_OPTIONS@ \
+ 			  @GTK2_LIBS@ \
+ 			  @LTLIBINTL@

@@ -1,0 +1,47 @@
+diff -ur scim-kmfl-imengine-0.9.5.orig/scim_kmfl_imengine_setup/Makefile.am scim-kmfl-imengine-0.9.5/scim_kmfl_imengine_setup/Makefile.am
+--- scim-kmfl-imengine-0.9.5.orig/scim_kmfl_imengine_setup/Makefile.am	2006-03-09 07:21:52.000000000 +0700
++++ scim-kmfl-imengine-0.9.5/scim_kmfl_imengine_setup/Makefile.am	2007-07-27 16:06:50.135958414 +0700
+@@ -16,16 +16,12 @@
+ kmfl_imengine_setup_la_CFLAGS =\
+ 	-DSCIM_ICONDIR=\"$(datadir)/scim/icons\"\
+ 	-DSCIM_$(SCIM_MAJOR)_$(SCIM_MINOR)_0\
+-	-DSCIM_KMFL_SYSTEM_KEYBOARDS_DIR=\"$(datadir)/scim/kmfl\" \
+-	 -Wall\
+-	 -g
++	-DSCIM_KMFL_SYSTEM_KEYBOARDS_DIR=\"$(datadir)/scim/kmfl\" 
+ 
+ kmfl_imengine_setup_la_CXXFLAGS =\
+ 	-DSCIM_ICONDIR=\"$(datadir)/scim/icons\"\
+ 	-DSCIM_$(SCIM_MAJOR)_$(SCIM_MINOR)_0\
+-	-DSCIM_KMFL_SYSTEM_KEYBOARDS_DIR=\"$(datadir)/scim/kmfl\" \
+-	 -Wall\
+-	 -g
++	-DSCIM_KMFL_SYSTEM_KEYBOARDS_DIR=\"$(datadir)/scim/kmfl\"
+ 
+ moduledir		= $(libdir)/scim-1.0/$(SCIM_BINARY_VERSION)/SetupUI
+ module_LTLIBRARIES	= kmfl_imengine_setup.la
+diff -ur scim-kmfl-imengine-0.9.5.orig/src/Makefile.am scim-kmfl-imengine-0.9.5/src/Makefile.am
+--- scim-kmfl-imengine-0.9.5.orig/src/Makefile.am	2006-03-06 23:58:17.000000000 +0700
++++ scim-kmfl-imengine-0.9.5/src/Makefile.am	2007-07-27 16:03:05.321072649 +0700
+@@ -14,19 +14,13 @@
+ 	$(SCIM_CFLAGS)\
+ 	-DSCIM_ICONDIR=\"$(datadir)/scim/icons\"\
+ 	-DSCIM_$(SCIM_MAJOR)_$(SCIM_MINOR)_0\
+-	-DSCIM_KMFL_IMENGINE_MODULE_DATADIR=\"$(datadir)/scim/kmfl\" \
+-	 -Wall\
+-	 -O1\
+-	 -g
++	-DSCIM_KMFL_IMENGINE_MODULE_DATADIR=\"$(datadir)/scim/kmfl\" 
+ 
+ kmfl_la_CXXFLAGS =\
+ 	$(SCIM_CFLAGS)\
+ 	-DSCIM_ICONDIR=\"$(datadir)/scim/icons\"\
+ 	-DSCIM_$(SCIM_MAJOR)_$(SCIM_MINOR)_0\
+-	-DSCIM_KMFL_IMENGINE_MODULE_DATADIR=\"$(datadir)/scim/kmfl\" \
+-	 -Wall\
+-	 -O1\
+-	 -g
++	-DSCIM_KMFL_IMENGINE_MODULE_DATADIR=\"$(datadir)/scim/kmfl\" 
+ 
+ EXTRA_DIST = xkbmap.h scim_kmfl_imengine.h stringtok.h scim_kmfl_imengine_private.h
+ 

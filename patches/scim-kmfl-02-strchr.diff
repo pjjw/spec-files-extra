@@ -1,0 +1,14 @@
+--- scim-kmfl-imengine-0.9.5/intl/dcigettext.c.orig	2007-07-27 15:51:33.784746571 +0700
++++ scim-kmfl-imengine-0.9.5/intl/dcigettext.c	2007-07-27 15:52:44.759519571 +0700
+@@ -58,11 +58,6 @@
+ #include <stdlib.h>
+ 
+ #include <string.h>
+-#if !HAVE_STRCHR && !defined _LIBC
+-# ifndef strchr
+-#  define strchr index
+-# endif
+-#endif
+ 
+ #if defined HAVE_UNISTD_H || defined _LIBC
+ # include <unistd.h>

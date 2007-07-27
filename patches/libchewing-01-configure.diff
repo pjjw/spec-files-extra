@@ -1,0 +1,10 @@
+--- libchewing-0.3.0/configure.ac.orig	2007-07-26 19:49:48.056807106 +0700
++++ libchewing-0.3.0/configure.ac	2007-07-26 19:49:59.991684945 +0700
+@@ -79,7 +79,6 @@
+ AC_CHECK_FUNCS([memchr memmove memset mkdir strchr strstr])
+ 
+ # Checks for check unit test framework
+-AM_PATH_CHECK([0.8.2], [ enable_check=yes ], [ enable_check=no ])
+ AM_CONDITIONAL(ENABLE_UNIT_TEST, test $enable_check = "yes")
+ 
+ # Checks for ncursesw

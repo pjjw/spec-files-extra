@@ -1,0 +1,22 @@
+--- scim-kmfl-imengine-0.9.5/src/scim_kmfl_imengine.cpp.orig	2007-07-27 16:16:49.008798186 +0700
++++ scim-kmfl-imengine-0.9.5/src/scim_kmfl_imengine.cpp	2007-07-27 16:17:01.160166658 +0700
+@@ -32,6 +32,7 @@
+ #include <X11/X.h>
+ #include <X11/Xlib.h>
+ #include <X11/keysym.h>
++#include <locale.h>
+ #include <kmfl/kmfl.h>
+ #include <kmfl/libkmfl.h>
+ #include "xkbmap.h"
+--- scim-kmfl-imengine-0.9.5/src/xkbmap.cpp.orig	2007-07-27 16:17:33.207551591 +0700
++++ scim-kmfl-imengine-0.9.5/src/xkbmap.cpp	2007-07-27 16:18:37.950632980 +0700
+@@ -1,6 +1,9 @@
+ #include <iostream>
+ #include <iomanip>
+ #include <list>
++#include <X11/X.h>
++#include <X11/Xlib.h>
++#include <locale.h>
+ #include <X11/Xatom.h>
+ #include <X11/XKBlib.h>
+ #include <X11/extensions/XKM.h>

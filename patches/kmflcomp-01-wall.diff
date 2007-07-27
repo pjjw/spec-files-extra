@@ -1,0 +1,40 @@
+--- kmflcomp-0.9.5/kmfl_compiler/Makefile.in.orig	2007-07-27 15:02:07.389893802 +0700
++++ kmflcomp-0.9.5/kmfl_compiler/Makefile.in	2007-07-27 15:02:28.779436983 +0700
+@@ -187,7 +187,6 @@
+     -I$(top_srcdir)/include 
+ 
+ kmflcomp_CFLAGS = \
+-	 -Wall\
+ 	 -g
+ 
+ kmflcomp_SOURCES = \
+--- kmflcomp-0.9.5/kmfl_compiler/Makefile.am.orig	2007-07-27 15:02:03.149883315 +0700
++++ kmflcomp-0.9.5/kmfl_compiler/Makefile.am	2007-07-27 15:02:20.431613431 +0700
+@@ -8,7 +8,6 @@
+     -I$(top_srcdir)/include 
+ 
+ kmflcomp_CFLAGS =\
+-	 -Wall\
+ 	 -g
+ 
+ bin_PROGRAMS = kmflcomp
+--- kmflcomp-0.9.5/src/Makefile.in.orig	2007-07-27 15:02:38.358875856 +0700
++++ kmflcomp-0.9.5/src/Makefile.in	2007-07-27 15:03:06.436203412 +0700
+@@ -200,7 +200,6 @@
+     -I$(top_srcdir)/include
+ 
+ libkmflcomp_la_CFLAGS = \
+-	 -Wall\
+ 	 -g
+ 
+ lib_LTLIBRARIES = libkmflcomp.la
+--- kmflcomp-0.9.5/src/Makefile.am.orig	2007-07-27 15:02:45.062937679 +0700
++++ kmflcomp-0.9.5/src/Makefile.am	2007-07-27 15:02:59.810501803 +0700
+@@ -8,7 +8,6 @@
+     -I$(top_srcdir)/include
+ 
+ libkmflcomp_la_CFLAGS =\
+-	 -Wall\
+ 	 -g
+ 
+ lib_LTLIBRARIES = libkmflcomp.la

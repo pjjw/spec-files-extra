@@ -1,0 +1,20 @@
+--- m17n-lib-1.4.0/intl/Makefile.in.orig	2007-07-27 11:13:13.814151418 +0700
++++ m17n-lib-1.4.0/intl/Makefile.in	2007-07-27 11:15:24.742086420 +0700
+@@ -234,7 +234,7 @@
+ 	sed -e '/^#/d' -e 's/@''PACKAGE''@/@PACKAGE@/g' $(srcdir)/ref-del.sin > t-ref-del.sed
+ 	mv t-ref-del.sed ref-del.sed
+ 
+-INCLUDES = -I. -I$(srcdir) -I..
++INCLUDES = -I. -I$(srcdir) -I.. -I../src
+ 
+ libgnuintl.h: $(srcdir)/libgnuintl.h.in
+ 	sed -e 's,@''HAVE_POSIX_PRINTF''@,@HAVE_POSIX_PRINTF@,g' \
+@@ -424,7 +424,7 @@
+ 
+ info dvi ps pdf html:
+ 
+-$(OBJECTS): ../config.h libgnuintl.h
++$(OBJECTS): ../src/config.h libgnuintl.h
+ bindtextdom.$lo dcgettext.$lo dcigettext.$lo dcngettext.$lo dgettext.$lo dngettext.$lo finddomain.$lo gettext.$lo intl-compat.$lo loadmsgcat.$lo localealias.$lo ngettext.$lo textdomain.$lo: $(srcdir)/gettextP.h $(srcdir)/gmo.h $(srcdir)/loadinfo.h
+ dcigettext.$lo loadmsgcat.$lo: $(srcdir)/hash-string.h
+ explodename.$lo l10nflist.$lo: $(srcdir)/loadinfo.h

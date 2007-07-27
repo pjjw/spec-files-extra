@@ -1,0 +1,20 @@
+--- libkmfl-0.9.5/src/Makefile.in.orig	2007-07-27 14:45:19.146323472 +0700
++++ libkmfl-0.9.5/src/Makefile.in	2007-07-27 14:45:43.960453020 +0700
+@@ -194,7 +194,6 @@
+ 	 -I$(top_srcdir)/include 
+ 
+ libkmfl_la_CFLAGS = \
+-	 -Wall\
+ 	 -g
+ 
+ lib_LTLIBRARIES = libkmfl.la
+--- libkmfl-0.9.5/src/Makefile.am.orig	2007-07-27 14:45:11.476126863 +0700
++++ libkmfl-0.9.5/src/Makefile.am	2007-07-27 14:45:32.775022041 +0700
+@@ -8,7 +8,6 @@
+ 	 -I$(top_srcdir)/include 
+ 
+ libkmfl_la_CFLAGS =\
+-	 -Wall\
+ 	 -g
+ 
+ lib_LTLIBRARIES = libkmfl.la

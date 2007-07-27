@@ -1,0 +1,28 @@
+--- libhangul-0.0.6/test/hangul.c.orig	2007-07-27 09:57:30.859894115 +0700
++++ libhangul-0.0.6/test/hangul.c	2007-07-27 10:00:38.228517640 +0700
+@@ -2,14 +2,25 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <iconv.h>
++#if defined(sun)
++#else
+ #include <endian.h>
++#endif
+ 
+ #include "../hangul/hangul.h"
+ 
++#if defined(sun)
++#if defined(_BIG_ENDIAN)
++#define UCS4 "UCS-4BE"
++#else
++#define UCS4 "UCS-4LE"
++#endif 
++#else
+ #if __BYTE_ORDER == __LITTLE_ENDIAN
+ #define UCS4 "UCS-4LE"
+ #else
+ #define UCS4 "UCS-4BE"
++#endif 
+ #endif
+ 
+ bool filter(ucschar *str, ucschar cho, ucschar jung, ucschar jong, void *data)
