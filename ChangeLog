@@ -1,5 +1,13 @@
 2007-07-28  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEpychm.spec: *NEW* Python CHM module
+	* SFEopenldev.spec: *NEW* C C++ Developement tool
+	* SFEgnochm.spec: *NEW* Gnome CHM file Viewer
+	* patches/pychm-01-inline.diff: Remove inline from functions in lib
+	* patches/openldev-01-gccisms.diff: Fix various gcc differences
+
+2007-07-28  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEdocbook-utils.spec: *NEW* Docbook Utilities
 	* SFEgnet.spec: *NEW* Simple Newtork Library
 	* SFEscim-uim.spec: *NEW* SCIM uim IMEngine

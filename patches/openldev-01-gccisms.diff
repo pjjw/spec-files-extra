@@ -1,0 +1,74 @@
+--- openldev/openldev/openldev-settings/openldev-settings.cc.orig	2007-07-28 16:23:03.779541561 +0700
++++ openldev/openldev/openldev-settings/openldev-settings.cc	2007-07-28 16:22:09.914588120 +0700
+@@ -17,6 +17,7 @@
+  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+  ***************************************************************************/
+  
++#include <string.h>
+ #include "openldev-settings.h"
+ 
+ #define PATH "/apps/openldev"
+--- openldev/openldev/openldev-settings/openldev-xml-parser.cc.orig	2007-07-28 16:23:16.878498689 +0700
++++ openldev/openldev/openldev-settings/openldev-xml-parser.cc	2007-07-28 16:23:42.389721172 +0700
+@@ -17,6 +17,7 @@
+  *   59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.              *
+  ***************************************************************************/
+ 
++#include <string.h>
+ #include "openldev-xml-parser.h"
+ #include <cstring>
+ 
+--- openldev/openldev/openldev-widgets/openldev-output-build.cc.orig	2007-07-28 16:27:37.347871150 +0700
++++ openldev/openldev/openldev-widgets/openldev-output-build.cc	2007-07-28 16:27:58.065346607 +0700
+@@ -18,6 +18,8 @@
+  ***************************************************************************/
+ 
+ #include "openldev-output-build.h"
++#include <sys/types.h>
++#include <signal.h>
+ 
+ void erase (OutputBuild*);
+ void add_row (OutputBuild*, string, string);
+--- openldev/openldev/openldev-widgets/openldev-status-bar.h.orig	2007-07-28 16:25:58.049632548 +0700
++++ openldev/openldev/openldev-widgets/openldev-status-bar.h	2007-07-28 16:26:28.831440646 +0700
+@@ -58,17 +58,17 @@
+   \param bar A StatusBar object.
+   \param message The message to show on the status bar.
+ */
+-void openldev_status_bar_set_message (StatusBar *bar, gint bar, gchar *message);
++void openldev_status_bar_set_message (StatusBar *statusbar, gint bar, gchar *message);
+ 
+ /*! Set the current message on the status bar. This message is locked, so other parts of the application cannot edit it. Make sure to unlock the message when you are done! This will append a message on the stack, so when you unlock the message, it will revert to the prior.
+   \param bar A StatusBar object.
+   \param message The message to show on the status bar.
+ */
+-void openldev_status_bar_lock_message (StatusBar *bar, gint bar, gchar *message);
++void openldev_status_bar_lock_message (StatusBar *statusbar, gint bar, gchar *message);
+ 
+ /*! Unlock the status bar message and revert to the prior message. Make sure you do this when locking is no longer necessary!
+   \param bar A StatusBar object.
+ */
+-void openldev_status_bar_unlock_message (StatusBar *bar, gint bar);
++void openldev_status_bar_unlock_message (StatusBar *statusbar, gint bar);
+ 
+ #endif
+--- openldev/openldev/openldev-widgets/openldev-output-terminal.cc.orig	2007-07-28 16:28:23.452744610 +0700
++++ openldev/openldev/openldev-widgets/openldev-output-terminal.cc	2007-07-28 16:28:45.931186632 +0700
+@@ -18,6 +18,7 @@
+  ***************************************************************************/
+ 
+ #include "openldev-output-terminal.h"
++#include <string.h>
+ 
+ static void terminal_class_init (TerminalClass *klass);
+ static void terminal_init (Terminal *term);
+--- openldev/plugins/insert-info/insert-info.cc.orig	2007-07-28 16:31:53.992779235 +0700
++++ openldev/plugins/insert-info/insert-info.cc	2007-07-28 16:32:55.111341396 +0700
+@@ -180,6 +180,7 @@
+   if (event->type == GDK_KEY_PRESS ||
+       event->type == GDK_KEY_RELEASE)
+   refresh_date (gtk_entry_get_text (GTK_ENTRY (widget)), (GtkWidget*) data);
++  return(true);
+ }
+ 
+ // Insert user name
