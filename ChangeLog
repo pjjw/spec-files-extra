@@ -1,3 +1,17 @@
+2007-07-28  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEgsslib.spec: *NEW* GNU gss (/usr/gnu)
+	* SFEjabberd.spec: *NEW* Jabber server
+	* SFEshishi.spec: *NEW* GNU Kerb V5 authentication
+	* SFEfix-info-dir.spec: *NEW* updates /usr/share/info/dir
+	* SFElibtasn1.spec: *NEW* Tiny ASN.1 library
+	* SFElibgsasl.spec: *NEW* GNU SASL framework
+	* SFElibntlm.spec: *NEW* Microsoft's NTLM authentication library
+	* patches/shishi-02-include_next.diff: SS12 include_next bug
+	* patches/jabberd-01-string-conversion.diff: type difference
+	* patches/fix-info-dir-01-gccism.diff: Remove gcc specifics
+	* patches/shishi-01-min.diff: add MIN macro
+
 2007-07-27  Doug Scott  <dougs@truemail.co.th>
 
 	* SFElibanthy.spec: *NEW* Japanese input method

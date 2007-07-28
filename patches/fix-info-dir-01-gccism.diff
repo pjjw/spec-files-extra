@@ -1,0 +1,47 @@
+--- fix-info-dir-0.13/trurlib-fid/Makefile.orig	2007-07-27 22:50:44.792077590 +0700
++++ fix-info-dir-0.13/trurlib-fid/Makefile	2007-07-27 22:53:14.904268928 +0700
+@@ -19,10 +19,8 @@
+ 
+ DEFINES  = $(DEF_USE_XMALLOCS) $(DEF_USE_N_ASSERT)
+ CPPFLAGS = -Itrurl $(DEFINES)
+-override CFLAGS += -pedantic -g -Wall -W $(DEFINES) 
+ LDLAGS 	 = 
+-CC 	 = gcc 
+-SHELL 	 = /bin/sh
++SHELL 	 = /bin/bash
+ RANLIB   = ranlib
+ AR	 = ar
+ STRIP	 = strip
+@@ -191,7 +189,7 @@
+ 	$(RANLIB) $@
+ 
+ $(SHARED_LIB): $(SHOBJECTS)
+-	gcc -shared -Wl,-soname=$(SONAME) $(CFLAGS) -o $@ $?
++	$(CC) -G -Wl,-h $(SONAME) $(CFLAGS) -o $@ $?
+ 
+ # for fix-info-dir
+ $(FIXIDIRTARGET): $(FIXIDIROBJS)
+--- fix-info-dir-0.13/Makefile.orig	2007-07-27 22:48:40.109602056 +0700
++++ fix-info-dir-0.13/Makefile	2007-07-27 22:50:05.412390381 +0700
+@@ -10,11 +10,9 @@
+ 
+ CPPFLAGS = -DVERSION=\"$(VERSION)\"
+ CPPFLAGS += -I$(TRURLDIR)
+-override CFLAGS += -g -pedantic -Wall -W 
+ LIBS	= -lz
+ LDLAGS 	= $(TRURLDIR)/narray.a $(LIBS)
+-CC 	= gcc
+-SHELL 	= /bin/sh
++SHELL 	= /bin/bash
+ RANLIB  = ranlib
+ AR	= ar
+ STRIP	= strip
+@@ -37,7 +35,7 @@
+ 	$(MAKE) -C $(TRURLDIR) modules=on symlink narray.a CFLAGS='$(CFLAGS)'
+ 
+ dep:
+-	gcc -MM $(CPPFLAGS) *.c > .depend
++	$(CC) -MM $(CPPFLAGS) *.c > .depend
+ 
+ etags: 
+ 	etags *.c *.h

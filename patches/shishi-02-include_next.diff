@@ -1,0 +1,11 @@
+--- shishi-0.0.32/lib/shishi-int.h.orig	2007-07-27 23:47:04.555406556 +0700
++++ shishi-0.0.32/lib/shishi-int.h	2007-07-27 23:47:16.058616649 +0700
+@@ -44,7 +44,7 @@
+      in <inttypes.h> would reinclude us, skipping our contents because
+      _GL_STDINT_H is defined.
+      The include_next requires a split double-inclusion guard.  */
+-# include_next <stdint.h>
++# include <stdint.h>
+ #endif
+ 
+ #if ! defined _GL_STDINT_H && ! defined _GL_JUST_INCLUDE_SYSTEM_STDINT_H

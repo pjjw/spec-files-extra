@@ -1,0 +1,11 @@
+--- jabberd-2.1.11/c2s/c2s.c.orig	2007-07-28 08:07:39.413503722 +0700
++++ jabberd-2.1.11/c2s/c2s.c	2007-07-28 08:06:25.820669394 +0700
+@@ -442,7 +442,7 @@
+         case action_CLOSE:
+             log_debug(ZONE, "close action on fd %d", fd->fd);
+ 
+-            log_write(sess->c2s->log, LOG_NOTICE, "[%d] [%s, port=%d] disconnect jid=%s, packets: %i", sess->fd->fd, sess->ip, sess->port, sess->jid?jid_full(sess->jid):"unbound", sess->packet_count);
++            log_write(sess->c2s->log, LOG_NOTICE, "[%d] [%s, port=%d] disconnect jid=%s, packets: %i", sess->fd->fd, sess->ip, sess->port, sess->jid?jid_full(sess->jid):(const unsigned char)"unbound", sess->packet_count);
+ 
+             /* tell the sm to close their session */
+             if(sess->active)
