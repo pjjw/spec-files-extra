@@ -1,5 +1,22 @@
 2007-07-28  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEdocbook-utils.spec: *NEW* Docbook Utilities
+	* SFEgnet.spec: *NEW* Simple Newtork Library
+	* SFEscim-uim.spec: *NEW* SCIM uim IMEngine
+	* SFEscim-anthy.spec: *NEW* SCIM anthy IMEngine
+	* SFEperl-SGMLSpm.spec: *NEW* library for parsing the output of nsgmls
+	* SFEvala.spec: *NEW* Vala Programming language
+	* SFEclamav.spec: *NEW* Clam Anti-Virus
+	* SFEscim-hangul.spec: *NEW* SCIM hangul IMEngine
+	* SFEscim-tables.spec: *NEW* SCIM tables IMEngine
+	* SFEgurlchecker.spec: *NEW* Gnome URL Checker
+	* patches/scim-anthy-01-ss11.diff: SS11 compiler fixes
+	* patches/scim-tables-01-munmap.diff: add (void *)
+	* patches/docbook-utils-01-sh.diff: use bash instead of sh
+	* patches/gurlchecker-01-wall.diff: Remove -Wall
+
+2007-07-28  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEgsslib.spec: *NEW* GNU gss (/usr/gnu)
 	* SFEjabberd.spec: *NEW* Jabber server
 	* SFEshishi.spec: *NEW* GNU Kerb V5 authentication

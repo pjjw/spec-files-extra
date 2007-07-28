@@ -1,0 +1,9 @@
+--- gurlchecker-0.10.1/src/Makefile.am.orig	2007-07-28 14:16:49.055743319 +0700
++++ gurlchecker-0.10.1/src/Makefile.am	2007-07-28 14:17:57.990325828 +0700
+@@ -1,5 +1,5 @@
+ 
+-AM_CFLAGS = @GNUTLS_FLAGS@ @CLAMAV_FLAGS@ @TIDY_FLAGS@ @CROCO_FLAGS@ -Wall -export-dynamic
++AM_CFLAGS = @GNUTLS_FLAGS@ @CLAMAV_FLAGS@ @TIDY_FLAGS@ @CROCO_FLAGS@
+ 
+ CLEANFILES = *~
+ 

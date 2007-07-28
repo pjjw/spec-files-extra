@@ -1,0 +1,71 @@
+--- docbook-utils-0.6.14/bin/docbook2rtf.orig	2007-07-28 15:04:39.091077531 +0700
++++ docbook-utils-0.6.14/bin/docbook2rtf	2007-07-28 15:06:31.340329090 +0700
+@@ -1,2 +1,2 @@
+-#! /bin/sh
+-jw -f docbook -b rtf "$@"
++#!/bin/bash
++exec jw -f docbook -b rtf "$@"
+--- docbook-utils-0.6.14/bin/docbook2dvi.orig	2007-07-28 15:04:39.072308563 +0700
++++ docbook-utils-0.6.14/bin/docbook2dvi	2007-07-28 15:05:07.469542833 +0700
+@@ -1,2 +1,2 @@
+-#! /bin/sh
+-jw -f docbook -b dvi "$@"
++#!/bin/bash
++exec jw -f docbook -b dvi "$@"
+--- docbook-utils-0.6.14/bin/docbook2tex.orig	2007-07-28 15:04:39.094772212 +0700
++++ docbook-utils-0.6.14/bin/docbook2tex	2007-07-28 15:06:42.256227197 +0700
+@@ -1,2 +1,2 @@
+-#! /bin/sh
+-jw -f docbook -b tex "$@"
++#!/bin/bash
++exec jw -f docbook -b tex "$@"
+--- docbook-utils-0.6.14/bin/docbook2ps.orig	2007-07-28 15:04:39.087293311 +0700
++++ docbook-utils-0.6.14/bin/docbook2ps	2007-07-28 15:06:17.492978291 +0700
+@@ -1,2 +1,2 @@
+-#! /bin/sh
+-jw -f docbook -b ps "$@"
++#!/bin/bash
++exec jw -f docbook -b ps "$@"
+--- docbook-utils-0.6.14/bin/docbook2pdf.orig	2007-07-28 15:04:39.083576209 +0700
++++ docbook-utils-0.6.14/bin/docbook2pdf	2007-07-28 15:06:04.903453924 +0700
+@@ -1,2 +1,2 @@
+-#! /bin/sh
+-jw -f docbook -b pdf "$@"
++#!/bin/bash
++exec jw -f docbook -b pdf "$@"
+--- docbook-utils-0.6.14/bin/docbook2man.orig	2007-07-28 15:04:39.079738900 +0700
++++ docbook-utils-0.6.14/bin/docbook2man	2007-07-28 15:05:43.894152411 +0700
+@@ -1,2 +1,2 @@
+-#! /bin/sh
+-jw -f docbook -b man "$@"
++#!/bin/bash
++exec jw -f docbook -b man "$@"
+--- docbook-utils-0.6.14/bin/jw.in.orig	2007-07-28 15:04:39.106561170 +0700
++++ docbook-utils-0.6.14/bin/jw.in	2007-07-28 15:07:35.095203043 +0700
+@@ -1,4 +1,4 @@
+-#! /bin/sh
++#!/bin/bash
+ # Jade Wrapper
+ # Script to convert a SGML file into some other format
+ # Send any comments to Eric Bischoff <eric@caldera.de>
+--- docbook-utils-0.6.14/bin/docbook2html.orig	2007-07-28 15:04:39.076082973 +0700
++++ docbook-utils-0.6.14/bin/docbook2html	2007-07-28 15:05:28.037743568 +0700
+@@ -1,2 +1,2 @@
+-#! /bin/sh
+-jw -f docbook -b html "$@"
++#!/bin/bash
++exec jw -f docbook -b html "$@"
+--- docbook-utils-0.6.14/bin/docbook2txt.orig	2007-07-28 15:04:39.102202483 +0700
++++ docbook-utils-0.6.14/bin/docbook2txt	2007-07-28 15:07:17.288895235 +0700
+@@ -1,2 +1,2 @@
+-#! /bin/sh
+-jw -f docbook -b txt "$@"
++#!/bin/bash
++exec jw -f docbook -b txt "$@"
+--- docbook-utils-0.6.14/bin/docbook2texi.orig	2007-07-28 15:04:39.098313741 +0700
++++ docbook-utils-0.6.14/bin/docbook2texi	2007-07-28 15:06:51.742232598 +0700
+@@ -1,2 +1,2 @@
+-#! /bin/sh
+-jw -f docbook -b texi "$@"
++#!/bin/bash
++exec jw -f docbook -b texi "$@"

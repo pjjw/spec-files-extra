@@ -1,0 +1,127 @@
+diff -ur scim-anthy-1.2.4.orig/src/scim_anthy_action.cpp scim-anthy-1.2.4/src/scim_anthy_action.cpp
+--- scim-anthy-1.2.4.orig/src/scim_anthy_action.cpp	2006-07-13 14:41:51.000000000 +0700
++++ scim-anthy-1.2.4/src/scim_anthy_action.cpp	2007-07-28 10:14:16.527312073 +0700
+@@ -21,6 +21,7 @@
+   #include <config.h>
+ #endif
+ 
++#include "scim_anthy_imengine.h"
+ #include "scim_anthy_action.h"
+ #include "scim_anthy_utils.h"
+ 
+diff -ur scim-anthy-1.2.4.orig/src/scim_anthy_conversion.cpp scim-anthy-1.2.4/src/scim_anthy_conversion.cpp
+--- scim-anthy-1.2.4.orig/src/scim_anthy_conversion.cpp	2006-10-30 12:10:51.000000000 +0700
++++ scim-anthy-1.2.4/src/scim_anthy_conversion.cpp	2007-07-28 10:14:16.527978109 +0700
+@@ -387,10 +387,11 @@
+     } else {
+         int len = anthy_get_segment (m_anthy_context, real_seg, cand, NULL, 0);
+         if (len > 0) {
+-            char buf[len + 1];
++            char *buf = new char[len + 1];
+             anthy_get_segment (m_anthy_context, real_seg, cand, buf, len + 1);
+             buf[len] = '\0';
+             m_iconv.convert (segment_str, buf, len);
++	    delete[] buf;
+         }
+     }
+ 
+@@ -534,7 +535,7 @@
+             if (len <= 0)
+                 continue;
+ 
+-            char buf[len + 1];
++            char *buf = new char[len + 1];
+             anthy_get_prediction (m_anthy_context, i, buf, len + 1);
+             buf[len] = '\0';
+ 
+@@ -542,6 +543,7 @@
+             m_iconv.convert (cand, buf);
+ 
+             table.append_candidate (cand);
++	    delete[] buf;
+         }
+ #endif /* HAS_ANTHY_PREDICTION */
+     } else if (is_converting ()) {
+@@ -571,7 +573,7 @@
+             if (len <= 0)
+                 continue;
+ 
+-            char buf[len + 1];
++            char *buf = new char[len + 1];
+             anthy_get_segment (m_anthy_context, real_segment_id,
+                                i, buf, len + 1);
+ 
+@@ -579,6 +581,7 @@
+             m_iconv.convert (cand_wide, buf, len);
+ 
+             table.append_candidate (cand_wide);
++	    delete[] buf;
+         }
+ 
+         table.set_cursor_pos (get_selected_candidate ());
+@@ -800,12 +803,13 @@
+     if (len <= 0)
+         return WideString ();
+ 
+-    char buf[len + 1];
++    char *buf = new char[len + 1];
+     anthy_get_prediction (m_anthy_context, candidate_id, buf, len + 1);
+     buf[len] = '\0';
+ 
+     WideString cand;
+     m_iconv.convert (cand, buf);
++    delete[] buf;
+ 
+     return cand;
+ #else /* HAS_ANTHY_PREDICTION */
+diff -ur scim-anthy-1.2.4.orig/src/scim_anthy_table_editor.cpp scim-anthy-1.2.4/src/scim_anthy_table_editor.cpp
+--- scim-anthy-1.2.4.orig/src/scim_anthy_table_editor.cpp	2005-10-04 17:28:51.000000000 +0700
++++ scim-anthy-1.2.4/src/scim_anthy_table_editor.cpp	2007-07-28 10:14:16.528440431 +0700
+@@ -205,7 +205,7 @@
+     if (n_cols <= 0)
+         return;
+ 
+-    GType types[n_cols];
++    GType *types = new GType[n_cols];
+     for (gint i = 0; i < n_cols; i++)
+         types[i] = G_TYPE_STRING;
+ 
+@@ -276,6 +276,7 @@
+ 
+     // clean
+     g_object_unref (store);
++    delete[] types;
+ }
+ 
+ const char *
+diff -ur scim-anthy-1.2.4.orig/src/scim_anthy_utils.cpp scim-anthy-1.2.4/src/scim_anthy_utils.cpp
+--- scim-anthy-1.2.4.orig/src/scim_anthy_utils.cpp	2007-03-28 14:42:10.000000000 +0700
++++ scim-anthy-1.2.4/src/scim_anthy_utils.cpp	2007-07-28 10:14:16.528813125 +0700
+@@ -275,7 +275,7 @@
+ 
+     /* split string */
+     unsigned int len = strlen (command);
+-    char tmp[len + 1];
++    char *tmp = new char[len + 1];
+     strncpy (tmp, command, len);
+     tmp[len] = '\0';
+ 
+@@ -295,7 +295,7 @@
+     if (array.size () <= 0) return;
+     array.push_back (NULL);
+ 
+-    char *args[array.size()];
++    char **args = new char*[array.size()];
+     for (unsigned int i = 0; i < array.size (); i++)
+         args[i] = array[i];
+ 
+@@ -324,6 +324,9 @@
+ 		int status;
+ 		waitpid(child_pid, &status, 0);
+ 	}
++	
++    delete[] tmp;
++    delete[] args;
+ }
+ 
+ }

@@ -1,0 +1,20 @@
+--- scim-tables-0.5.7/src/scim_generic_table.cpp.orig	2007-07-28 09:51:52.724381497 +0700
++++ scim-tables-0.5.7/src/scim_generic_table.cpp	2007-07-28 09:53:02.539863738 +0700
+@@ -902,7 +902,7 @@
+ GenericTableContent::~GenericTableContent ()
+ {
+     if (m_mmapped) {
+-        munmap (m_mmapped_ptr, m_mmapped_size);
++        munmap ((char *)m_mmapped_ptr, m_mmapped_size);
+     } else if (m_content) {
+         delete [] m_content;
+     }
+@@ -1548,7 +1548,7 @@
+ GenericTableContent::clear ()
+ {
+     if (m_mmapped) {
+-        munmap (m_mmapped_ptr, m_mmapped_size);
++        munmap ((char *)m_mmapped_ptr, m_mmapped_size);
+     } else if (m_content) {
+         delete [] m_content;
+     }
