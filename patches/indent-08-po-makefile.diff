@@ -1,0 +1,11 @@
+--- indent-2.2.9/po/Makefile.in.in.orig	2007-07-29 13:07:23.154724353 +0700
++++ indent-2.2.9/po/Makefile.in.in	2007-07-29 13:07:44.424595525 +0700
+@@ -27,7 +27,7 @@
+ INSTALL = @INSTALL@
+ INSTALL_DATA = @INSTALL_DATA@
+ MKINSTALLDIRS = @MKINSTALLDIRS@
+-mkinstalldirs = $(SHELL) `case "$(MKINSTALLDIRS)" in /*) echo "$(MKINSTALLDIRS)" ;; *) echo "$(top_builddir)/$(MKINSTALLDIRS)" ;; esac`
++mkinstalldirs = ../config/$(MKINSTALLDIRS)
+ 
+ GMSGFMT = @GMSGFMT@
+ MSGFMT = @MSGFMT@

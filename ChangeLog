@@ -1,3 +1,36 @@
+2007-07-29  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEgeda-utils.spec: *NEW* Utilites for gEDA project
+	* SFEproj.spec: *NEW* Cartographic projection software
+	* SFElibgeda.spec: *NEW* Libraries for the gEDA project
+	* SFElibstroke.spec: *NEW* A stroke translation library
+	* SFExapian-core.spec: *NEW* Open Source Search Engine Library
+	* SFEgeda-gnetlist.spec: *NEW* gEDA project - netlist generator
+	* SFEgeda-gattrib.spec: *NEW* Gattrib for gEDA project
+	* SFEtea.spec: *NEW* Tea Editor
+	* SFEgeda-gsymcheck.spec: *NEW* gEDA project - symbol checker
+	* SFExapian-bindings.spec: *NEW* Xapian bindings
+	* SFElibgeotiff.spec: *NEW* library for writing Geog information
+	* SFEgeda-gschem.spec: *NEW* Electronics schematics editor
+	* SFEgeda-symbols.spec: *NEW* Symbols of electronic devices
+	* SFElibgdgeda.spec: *NEW* Hack of libgd library for gEDA project
+	* SFExapian-omega.spec: *NEW* Search Engine built on Xapian
+	* SFEindent.spec: *NEW* GNU indent - /usr/gnu
+	* patches/indent-01-gcc4.diff: gcc4 patch
+	* patches/libstroke-03-link.diff: makefile patch
+	* patches/libstroke-01-am15.diff: makefile patch
+	* patches/indent-06-po-fix.diff: gettext patch
+	* patches/indent-02-info.diff: texinfo patch
+	* patches/tea-02-pipe.diff: remove -pipe
+	* patches/indent-08-po-makefile.diff: makefile patch
+	* patches/indent-04-overflow.diff: size check
+	* patches/indent-03-make-jN.diff: makefile patch
+	* patches/libstroke-02-am18.diff: makefile patch
+	* patches/indent-05-pl.po-update.diff: gettext patch
+	* patches/tea-01-return-null.diff: void function returns value
+	* patches/libgeotiff-01-shared.diff: shared library patch
+	* patches/indent-07-zh_TW.diff: gettext patch
+
 2007-07-28  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEpychm.spec: *NEW* Python CHM module

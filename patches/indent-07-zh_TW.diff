@@ -1,0 +1,5 @@
+--- indent-2.2.9/po/LINGUAS.orig	2002-12-16 17:03:13.000000000 +0100
++++ indent-2.2.9/po/LINGUAS	2003-04-21 19:50:19.000000000 +0200
+@@ -1 +1 @@
+-ca da de eo et fi fr gl hu it ja ko nl pl pt_BR ru sk sv tr zh_TW.Big5
++ca da de eo et fi fr gl hu it ja ko nl pl pt_BR ru sk sv tr zh_TW

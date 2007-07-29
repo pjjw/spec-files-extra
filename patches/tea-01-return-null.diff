@@ -1,0 +1,51 @@
+--- tea-17.1.1/src/tea_text_document.c.orig	2007-07-29 17:15:13.463514553 +0700
++++ tea-17.1.1/src/tea_text_document.c	2007-07-29 17:15:58.879379387 +0700
+@@ -2216,7 +2216,7 @@
+ void doc_select_line (t_note_page *doc, gint line)
+ {
+   if (! doc)
+-     return NULL;
++     return;
+ 
+   GtkTextIter itstart, itend;
+   gtk_text_buffer_get_iter_at_line (doc->text_buffer, &itstart, line - 1);
+@@ -5267,7 +5267,7 @@
+ 
+   chars = chars - spaces;
+   if (chars <= 0)
+-     return NULL;
++     return;
+ 
+   double ari = ((4.71 * (chars / words)) + (0.5 * (words / sents))) - 21.43;
+   double coleman_liau = (5.89 * chars / words) - (30 * sents / words) - 15.8;
+--- tea-17.1.1/src/image_browser.c.orig	2007-07-29 17:16:37.456932725 +0700
++++ tea-17.1.1/src/image_browser.c	2007-07-29 17:17:03.926811219 +0700
+@@ -662,7 +662,7 @@
+ {
+   GtkClipboard *c = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+   if (! c)
+-     return NULL;
++     return;
+ 
+   t_image_viewer *instance = user_data;
+   gtk_clipboard_set_image (c, gtk_image_get_pixbuf (instance->image));
+@@ -1003,7 +1003,7 @@
+ void image_browser_update (t_image_plane *instance)
+ {
+   if (! instance)
+-     return NULL;
++     return;
+ 
+   gchar *filename;
+   gchar *utf;
+--- tea-17.1.1/src/callbacks.c.orig	2007-07-29 17:14:08.550320729 +0700
++++ tea-17.1.1/src/callbacks.c	2007-07-29 17:14:19.022573972 +0700
+@@ -215,7 +215,7 @@
+ {
+   GSList *l = gtk_source_languages_manager_get_available_languages (source_languages_manager);
+   if (! l)
+-     return NULL;
++     return;
+ 
+   GSList *t = l;
+   while (t)

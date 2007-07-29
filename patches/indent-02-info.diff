@@ -1,0 +1,18 @@
+--- indent-2.2.7/doc/indent.texinfo.orig	Tue Nov 20 21:26:12 2001
++++ indent-2.2.7/doc/indent.texinfo	Wed Jan  2 15:32:35 2002
+@@ -11,11 +11,12 @@
+ @c Note: some of the long options are too long for the index in
+ @c       smallbook format.  This will need some thought.  --rjc
+ 
+-@dircategory Indent Code Formatter
++@format
++@dircategory Text Processing Tools:
+ @direntry
+-* Indent: (indent).		C code formatter.
++* indent: (indent).			Program to format C source code
+ @end direntry
+-
++@end format
+ 
+ @synindex cp ky
+ @setchapternewpage odd

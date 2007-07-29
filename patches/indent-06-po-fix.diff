@@ -1,0 +1,23 @@
+diff -ur indent-2.2.9.orig/po/da.po indent-2.2.9/po/da.po
+--- indent-2.2.9.orig/po/da.po	2002-12-16 23:14:37.000000000 +0700
++++ indent-2.2.9/po/da.po	2007-07-29 13:02:39.013289743 +0700
+@@ -10,7 +10,7 @@
+ "Last-Translator: Anders Wegge Jakobsen <wegge@daimi.aau.dk>\n"
+ "Language-Team: Danish <da@li.org>\n"
+ "MIME-Version: 1.0\n"
+-"Content-Type: text/plain; charset=ISO-Latin-1\n"
++"Content-Type: text/plain; charset=ISO-8859-1\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ 
+ #: src/args.c:543
+diff -ur indent-2.2.9.orig/src/indent.c indent-2.2.9/src/indent.c
+--- indent-2.2.9.orig/src/indent.c	2007-07-29 13:02:16.629550728 +0700
++++ indent-2.2.9/src/indent.c	2007-07-29 13:02:39.014654585 +0700
+@@ -3064,6 +3064,7 @@
+     exit_values_ty exit_status;
+ 
+ #if defined (HAVE_SETLOCALE) && defined (HAVE_LC_MESSAGES)
++    setlocale (LC_CTYPE, "");
+     setlocale (LC_MESSAGES, "");
+ #endif
+     bindtextdomain (PACKAGE, LOCALEDIR);

@@ -1,0 +1,19 @@
+--- libstroke-0.5.1/libgstroke/Makefile.am.orig	Sat May 26 00:00:12 2001
++++ libstroke-0.5.1/libgstroke/Makefile.am	Fri Dec 19 13:11:21 2003
+@@ -11,7 +11,7 @@
+ 
+ lib_LTLIBRARIES = libgstroke.la
+ libgstroke_la_SOURCES = gnome-stroke.c gnome-stroke-draw.c gstroke.h
+-
++libgstroke_la_LIBADD = $(GTK_LIBS) $(X_EXTRA_LIBS)
+ libgstroke_la_LDFLAGS = -version-info 0:5:0
+ 
+ include_HEADERS = gstroke.h
+@@ -19,7 +19,6 @@
+ noinst_HEADERS = gstroke-internal.h
+ 
+ INCLUDES = @GTK_CFLAGS@
+-LDADD    = @GTK_LIBS@
+ 
+ EXTRA_DIST = 
+ 
