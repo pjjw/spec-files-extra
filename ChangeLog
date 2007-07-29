@@ -1,5 +1,14 @@
 2007-07-29  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEopenjpeg.spec: *NEW* OpenJPEG Library
+	* SFEgpac.spec: *NEW* Open Source multimedia framework
+	* patches/openjpeg-01-makefile.diff: SS11 Makefile
+	* patches/gpac-01-libs.diff: Add Gtk libraries
+	* patches/gpac-02-gcc.diff: Remove some gccisms
+	* patches/gpac-03-install.diff: Add DESTDIR for install
+
+2007-07-29  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEgeda-utils.spec: *NEW* Utilites for gEDA project
 	* SFEproj.spec: *NEW* Cartographic projection software
 	* SFElibgeda.spec: *NEW* Libraries for the gEDA project
