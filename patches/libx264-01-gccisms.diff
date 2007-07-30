@@ -1,0 +1,86 @@
+diff -ur x264-snapshot-20070728-2245.orig/Makefile x264-snapshot-20070728-2245/Makefile
+--- x264-snapshot-20070728-2245.orig/Makefile	2007-07-29 03:45:02.000000000 +0700
++++ x264-snapshot-20070728-2245/Makefile	2007-07-30 13:47:30.344498720 +0700
+@@ -70,14 +70,14 @@
+ .PHONY: all default fprofiled clean distclean install install-gtk uninstall dox test testclean
+ all: default
+ 
+-default: $(DEP) x264$(EXE)
++default: x264$(EXE)
+ 
+-libx264.a: .depend $(OBJS) $(OBJASM)
++libx264.a: $(OBJS) $(OBJASM)
+ 	ar rc libx264.a $(OBJS) $(OBJASM)
+ 	ranlib libx264.a
+ 
+-$(SONAME): .depend $(OBJS) $(OBJASM)
+-	$(CC) -shared -o $@ $(OBJS) $(OBJASM) -Wl,-soname,$(SONAME) $(LDFLAGS)
++$(SONAME): $(OBJS) $(OBJASM)
++	$(CC) -Wl,-G -o $@ $(OBJS) $(OBJASM) -Wl,-h,$(SONAME) $(LDFLAGS)
+ 
+ x264$(EXE): $(OBJCLI) libx264.a 
+ 	$(CC) -o $@ $+ $(LDFLAGS)
+@@ -98,7 +98,7 @@
+ .depend: config.mak
+ 	rm -f .depend
+ # Hacky - because gcc 2.9x doesn't have -MT
+-	$(foreach SRC, $(SRCS) $(SRCCLI), ( $(ECHON) "`dirname $(SRC)`/" && $(CC) $(CFLAGS) $(ALTIVECFLAGS) $(SRC) -MM -g0 ) 1>> .depend;)
++	$(foreach SRC, $(SRCS) $(SRCCLI), ( $(ECHON) "`dirname $(SRC)`/" && $(CC) $(CFLAGS) $(ALTIVECFLAGS) $(SRC) -MM -g ) 1>> .depend;)
+ 
+ config.mak: $(wildcard .svn/entries */.svn/entries */*/.svn/entries)
+ 	./configure $(CONFIGURE_ARGS)
+diff -ur x264-snapshot-20070728-2245.orig/configure x264-snapshot-20070728-2245/configure
+--- x264-snapshot-20070728-2245.orig/configure	2007-07-29 03:45:02.000000000 +0700
++++ x264-snapshot-20070728-2245/configure	2007-07-30 13:39:52.152858196 +0700
+@@ -64,7 +64,7 @@
+ shared="no"
+ 
+ CC="${CC-gcc}"
+-CFLAGS="$CFLAGS -Wall -I."
++CFLAGS="$CFLAGS -I."
+ LDFLAGS="$LDFLAGS"
+ HAVE_GETOPT_LONG=1
+ 
+@@ -346,7 +346,7 @@
+     LDFLAGS="$LDFLAGS $libpthread"
+ fi
+ 
+-MP4_LDFLAGS="-lgpac_static"
++MP4_LDFLAGS="-lgpac"
+ if [ $SYS = CYGWIN -o $SYS = MINGW ]; then
+     MP4_LDFLAGS="$MP4_LDFLAGS -lwinmm"
+ fi
+@@ -372,21 +372,9 @@
+ fi
+ 
+ if [ "$pic" = "yes" ] ; then
+-    CFLAGS="$CFLAGS -fPIC"
+     ASFLAGS="$ASFLAGS -D__PIC__"
+ fi
+ 
+-if [ "$debug" != "yes" -a "$gprof" != "yes" ]; then
+-    CFLAGS="$CFLAGS -s -fomit-frame-pointer"
+-    LDFLAGS="$LDFLAGS -s"
+-fi
+-
+-if [ "$debug" = "yes" ]; then
+-    CFLAGS="-O1 -g $CFLAGS"
+-else
+-    CFLAGS="-O4 -ffast-math $CFLAGS"
+-fi
+-
+ if cc_check "stdio.h" "" "fseeko(stdin,0,0);" ; then
+     echo "#define fseek fseeko" >> config.h
+     echo "#define ftell ftello" >> config.h
+diff -ur x264-snapshot-20070728-2245.orig/gtk/Makefile x264-snapshot-20070728-2245/gtk/Makefile
+--- x264-snapshot-20070728-2245.orig/gtk/Makefile	2007-07-29 03:45:02.000000000 +0700
++++ x264-snapshot-20070728-2245/gtk/Makefile	2007-07-30 13:41:26.113312450 +0700
+@@ -93,7 +93,7 @@
+ 
+ $(SONAMEGTK): $(OBJECTS_LIB)
+ 	@echo "  L: $(@F)"
+-	@$(CC) -shared -o $@ $(OBJECTS_LIB) -Wl,-soname,$(SONAMEGTK) $(LDFLAGS)
++	@$(CC) -Wl,-G -o $@ $(OBJECTS_LIB) -Wl,-h,$(SONAMEGTK) $(LDFLAGS)
+ 
+ # Program : test
+ $(TEST_BIN): $(OBJECTS_LIB) $(OBJECTS_TEST)

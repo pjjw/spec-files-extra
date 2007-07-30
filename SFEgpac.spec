@@ -29,6 +29,12 @@ Requires: SFEfreetype
 BuildRequires: SFEwxwidgets-gnu-devel
 Requires: SFEwxwidgets-gnu
 
+%package devel
+Summary:                 %{summary} - development files
+SUNW_BaseDir:            %{_prefix}
+%include default-depend.inc
+Requires: %name
+
 %prep
 %setup -q -n gpac
 %patch1 -p1
@@ -61,6 +67,7 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
+make install-lib DESTDIR=$RPM_BUILD_ROOT
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.*a
 
 %clean
@@ -69,11 +76,18 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %{_bindir}
-%{_libdir}
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/lib*.so*
+%{_libdir}/gpac
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/gpac
 %{_mandir}
 
+%files devel
+%defattr (-, root, bin)
+%{_includedir}
 %changelog
+* Mon Jul 30 2007 - dougs@truemail.co.th
+- Install headers
 * Sun Jul 29 2007 - dougs@truemail.co.th
 - Initial spec

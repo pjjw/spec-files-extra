@@ -1,5 +1,11 @@
 2007-07-30  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEgpac.spec: Install Headers
+	* SFElibx264.spec: *NEW* H264 encoder library
+	* patches/libx264-01-gccisms.diff: Remove gcc options
+
+2007-07-30  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEzgv.spec: *NEW* Fullscreen Image viewer
 	* SFElibpcd.spec: *NEW* Kodak PhotoCD library
 	* SFElibdiscid.spec: *NEW* Musicbrainz DiscID library
