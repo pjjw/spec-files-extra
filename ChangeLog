@@ -1,3 +1,8 @@
+2007-07-30  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEvnc2swf.spec: (new) a recoding tool for Flash.
+	* base-specs/vnc2swf.spec: (new) a recoding tool for Flash.
+
 2007-07-30  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEgpac.spec: Install Headers
