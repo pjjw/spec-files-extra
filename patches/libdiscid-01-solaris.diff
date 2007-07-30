@@ -1,0 +1,81 @@
+--- libdiscid-0.1.1/src/disc_solaris.c.orig	2007-07-30 10:30:44.305278610 +0700
++++ libdiscid-0.1.1/src/disc_solaris.c	2007-07-30 10:37:14.815554646 +0700
+@@ -30,14 +30,14 @@
+ #include <sys/ioctl.h>
+ #include <fcntl.h>
+ #include <unistd.h>
+-#include <linux/cdrom.h>
++#include <sys/cdio.h>
+ #include <assert.h>
+ 
+ 
+ #include "discid/discid_private.h"
+ 
+ 
+-#define MB_DEFAULT_DEVICE	"/dev/cdrom"
++#define MB_DEFAULT_DEVICE	"/dev/sr0"
+ 
+ #define XA_INTERVAL		((60 + 90 + 2) * CD_FRAMES)
+ 
+@@ -48,7 +48,7 @@
+ 
+ static int read_toc_header(int fd, int *first, int *last) {
+ 	struct cdrom_tochdr th;
+-	struct cdrom_multisession ms;
++	// struct cdrom_multisession ms;
+ 
+ 	int ret = ioctl(fd, CDROMREADTOCHDR, &th);
+ 
+@@ -63,11 +63,11 @@
+ 	 * currently only dual-session discs with one track in the second
+ 	 * session are handled correctly.
+ 	 */
+-	ms.addr_format = CDROM_LBA;
+-	ret = ioctl(fd, CDROMMULTISESSION, &ms);
+-
+-	if ( ms.xa_flag )
+-		(*last)--;
++//	ms.addr_format = CDROM_LBA;
++//	ret = ioctl(fd, CDROMMULTISESSION, &ms);
++//
++//	if ( ms.xa_flag )
++//		(*last)--;
+ 
+ 	return ret;
+ }
+@@ -92,16 +92,16 @@
+ 
+ 
+ static int read_leadout(int fd, unsigned long *lba) {
+-	struct cdrom_multisession ms;
++	// struct cdrom_multisession ms;
+ 	int ret;
+ 
+-	ms.addr_format = CDROM_LBA;
+-	ret = ioctl(fd, CDROMMULTISESSION, &ms);
+-
+-	if ( ms.xa_flag ) {
+-		*lba = ms.addr.lba - XA_INTERVAL;
+-		return ret;
+-	}
++//	ms.addr_format = CDROM_LBA;
++//	ret = ioctl(fd, CDROMMULTISESSION, &ms);
++//
++//	if ( ms.xa_flag ) {
++//		*lba = ms.addr.lba - XA_INTERVAL;
++//		return ret;
++//	}
+ 
+ 	return read_toc_entry(fd, CDROM_LEADOUT, lba);
+ }
+--- libdiscid-0.1.1/configure.ac.orig	2007-07-30 10:06:43.836430441 +0700
++++ libdiscid-0.1.1/configure.ac	2007-07-30 10:08:22.851599959 +0700
+@@ -25,7 +25,7 @@
+   #*-netbsd*)  os=netbsd ;;
+   #*-openbsd*) os=openbsd ;;
+   #*-os2_emx*) os=os2 ;;
+-  #*-solaris*) os=solaris; LIBS='-lsocket -lnsl' ;;
++  *-solaris*) os=solaris; LIBS='-lsocket -lnsl' ;;
+   #*-qnx*)     os=qnx; LIBS='-lsocket' ;;
+   *)          AC_MSG_ERROR([unsupported operating system]) ;;
+ esac

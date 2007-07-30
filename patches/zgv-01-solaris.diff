@@ -1,0 +1,121 @@
+--- zgv-5.9/doc/zgv.texi.orig	2007-07-30 08:34:54.591547847 +0700
++++ zgv-5.9/doc/zgv.texi	2007-07-30 08:35:03.798713968 +0700
+@@ -1,6 +1,6 @@
+ \input texinfo   @c -*-texinfo-*-
+ @c %**start of header
+-@setfilename zgv
++@setfilename zgv.info
+ @settitle The zgv manual
+ @setchapternewpage odd
+ @c %**end of header
+--- zgv-5.9/doc/Makefile.orig	2007-07-30 08:29:39.384942792 +0700
++++ zgv-5.9/doc/Makefile	2007-07-30 08:43:47.961479414 +0700
+@@ -43,22 +43,10 @@
+ else
+ install: ../src/install-info
+ endif
+-	$(RM) /usr/share/man/man1/zgv.1* /usr/share/info/zgv*
+-	install -m 644 zgv.1 $(MANDIR)
+-	install -m 644 zgv zgv-? $(INFODIR)
+-# Update info `dir' file.
+-# Info always uses a dir file in preference to a dir.gz, so we don't use
+-# dir.gz unless it's the only game in town.
+-ifneq ($(INFO_DIR_UPDATE),no)
+-	if [ -f $(INFODIR)/dir.gz -a ! -f $(INFODIR)/dir ]; then \
+-	  gzip -d $(INFODIR)/dir.gz; \
+-	  ../src/install-info zgv $(INFODIR)/dir; \
+-	  gzip $(INFODIR)/dir; \
+-	else \
+-	  ../src/install-info zgv $(INFODIR)/dir; \
+-	  chmod a+r $(INFODIR)/dir; \
+-	fi
+-endif
++	mkdir -p $(DESTDIR)$(MANDIR)
++	mkdir -p $(DESTDIR)$(INFODIR)
++	install -m 644 zgv.1 $(DESTDIR)$(MANDIR)
++	install -m 644 zgv.info $(DESTDIR)$(INFODIR)
+ 
+ ../src/install-info: ../src/install-info.c
+ 	cd ../src && $(MAKE) install-info
+--- zgv-5.9/src/zgv.h.orig	2007-07-30 08:00:45.255800352 +0700
++++ zgv-5.9/src/zgv.h	2007-07-30 08:02:43.109863268 +0700
+@@ -7,8 +7,10 @@
+ #define ZGV_VER		"5.9"
+ 
+ 
+-#ifdef __FreeBSD__
++#if defined(__FreeBSD__)
+ #define OSTYPE_FREEBSD	1
++#elif defined(sun)
++#define OSTYPE_SOLARIS	1
+ #else
+ #define OSTYPE_LINUX	1
+ #endif
+--- zgv-5.9/src/readnbkey.c.orig	2007-07-30 08:19:35.180788964 +0700
++++ zgv-5.9/src/readnbkey.c	2007-07-30 08:20:19.395529133 +0700
+@@ -270,7 +270,7 @@
+ 
+ #endif	/* OSTYPE_LINUX */
+ 
+-#ifdef OSTYPE_FREEBSD
++#if defined(OSTYPE_FREEBSD) || defined(OSTYPE_SOLARIS)
+ 
+ /* version for FreeBSD */
+ int readnbkey(int ttyfd)
+--- zgv-5.9/src/zgv.c.orig	2007-07-30 08:03:01.777205386 +0700
++++ zgv-5.9/src/zgv.c	2007-07-30 08:06:27.555771221 +0700
+@@ -45,6 +45,10 @@
+ #ifdef OSTYPE_FREEBSD
+ #include <sys/consio.h>
+ #endif
++#ifdef OSTYPE_SOLARIS
++#include <fcntl.h>
++#endif
++
+ #include "readgif.h"
+ #include "vgadisp.h"
+ #include "readnbkey.h"
+@@ -3893,7 +3897,9 @@
+ void wait_for_foreground()
+ {
+ vga_runinbackground(0);
++#if !defined(OSTYPE_SOLARIS)
+ ioctl(zgv_ttyfd,VT_WAITACTIVE,zgv_vt);
++#endif
+ }
+ 
+ 
+--- zgv-5.9/src/Makefile.orig	2007-07-30 07:54:08.825867888 +0700
++++ zgv-5.9/src/Makefile	2007-07-30 08:29:06.589967796 +0700
+@@ -13,8 +13,8 @@
+ # having /usr/local/{include,lib} like this is apparently needed for
+ # FreeBSD, but shouldn't cause problems on Linux.
+ #
+-CFLAGS+=-I/usr/local/include
+-ZGV_LIBS=-L/usr/local/lib
++CFLAGS+=-I$(PREFIX)/include
++ZGV_LIBS=-L$(PREFIX)/lib
+ 
+ CFLAGS+=-DBACKEND_$(BACKEND)
+ 
+@@ -61,16 +61,14 @@
+ # 
+ install: all
+ 	@if [ "$(BACKEND)" = SVGALIB ]; then \
+-	  echo $(RM) /usr/bin/zgv; \
+-	  $(RM) /usr/bin/zgv; \
+ 	  echo install -m 4755 -o root -g root -s zgv $(BINDIR); \
+ 	  install -m 4755 -o root -g root -s zgv $(BINDIR); \
+ 	fi
+ 	@if [ "$(BACKEND)" = SDL ]; then \
+-	  echo $(RM) /usr/bin/zgv-sdl; \
+-	  $(RM) /usr/bin/zgv-sdl; \
+-	  echo install -m 755 -s zgv $(BINDIR)/zgv-sdl; \
+-	  install -m 755 -s zgv $(BINDIR)/zgv-sdl; \
++	  echo mkdir -p $(DESTDIR)$(BINDIR); \
++	  mkdir -p $(DESTDIR)$(BINDIR); \
++	  echo install -m 755 zgv $(DESTDIR)$(BINDIR)/zgv; \
++	  install -m 755 zgv $(DESTDIR)$(BINDIR)/zgv; \
+ 	fi
+ 
+ uninstall:

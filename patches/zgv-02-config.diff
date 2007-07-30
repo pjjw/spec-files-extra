@@ -1,0 +1,62 @@
+--- zgv-5.9/config.mk.orig	2007-07-30 08:51:55.859285387 +0700
++++ zgv-5.9/config.mk	2007-07-30 08:52:44.113938239 +0700
+@@ -7,8 +7,8 @@
+ # Set the C compiler to use, and options for it.
+ # This is likely to be what you'll want for most systems:
+ #
+-CC=gcc
+-CFLAGS=-O2 -Wall -fomit-frame-pointer -finline-functions
++CC?=gcc
++CFLAGS?=-O2 -Wall -fomit-frame-pointer -finline-functions
+ #
+ # If you're brave enough to try compiling zgv on a non-x86 system :-),
+ # this might be a better bet:
+@@ -20,13 +20,13 @@
+ # (This should be a `new' awk, such as gawk or mawk.) This setting
+ # should work for Linux and *BSD.
+ #
+-AWK=awk
++AWK?=awk
+ 
+ # Set display backend to use. svgalib is the `native' one and
+ # is likely to remain preferable. The SDL backend is now quite
+ # usable, but tends to be rather slower.
+ #
+-BACKEND=SVGALIB
++BACKEND?=SVGALIB
+ #BACKEND=SDL
+ 
+ 
+@@ -37,7 +37,7 @@
+ # MANDIR to directory for man page.
+ # Usually it will be simpler to just set PREFIX.
+ #
+-PREFIX=/usr/local
++PREFIX?=/usr/local
+ 
+ # In theory it would be nice to put the info file and man page under
+ # /usr/local/share. However, it's not clear if this is widely
+@@ -59,7 +59,7 @@
+ # Set the location/filename of the system-wide configuration file. You
+ # may prefer to have this under /etc, for example.
+ #
+-RCFILE=$(PREFIX)/etc/zgv.conf
++RCFILE?=$(PREFIX)/etc/zgv.conf
+ 
+ 
+ # Normally `make install' will update your `dir' file (in INFODIR),
+@@ -91,7 +91,7 @@
+ # colours will be recognised, which will mean many XPMs won't be
+ # readable. This setting should be ok.
+ #
+-RGB_DB=/usr/X11R6/lib/X11/rgb.txt
++RGB_DB?=/usr/X11R6/lib/X11/rgb.txt
+ 
+ # Finally, an option for `make dvi' in the `doc' directory. You only need
+ # worry about what this is set to if you plan to make a printed manual.
+@@ -102,4 +102,4 @@
+ # edit this file when you do `make dvi', but that's only because
+ # doc/Makefile isn't as smart about that as it should be. :-))
+ #
+-USE_A4_DEF=-t @afourpaper
++USE_A4_DEF?=-t @afourpaper

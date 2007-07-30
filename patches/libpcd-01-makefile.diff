@@ -1,0 +1,55 @@
+--- libpcd-1.0.1/GNUmakefile.orig	2007-07-30 07:15:52.724984222 +0700
++++ libpcd-1.0.1/GNUmakefile	2007-07-30 07:23:21.155705767 +0700
+@@ -1,14 +1,16 @@
+ 
+-DESTDIR	:=
+-prefix	:= /usr/local
++DESTDIR	?=
++prefix	:= /usr
+ 
+ incdir	:= $(DESTDIR)$(prefix)/include
+ libdir	:= $(DESTDIR)$(prefix)/lib
+ 
+-CC	:= gcc
+-WARN	:= -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith
++CC	?= gcc
++WARN	?= -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith
+ CFLAGS	?= -g -O2
+ CFLAGS	+= $(WARN)
++PICFLAGS	?= -fPIC
++SHAREDFLAGS	?= -shared -Wl,-soname,$(SONAME)
+ 
+ MAJOR	:= 2
+ MINOR	:= 2.0.1
+@@ -23,10 +25,10 @@
+ all build: $(TARGETS) 
+ 
+ %.o: %.c
+-	$(CC) $(CFLAGS) -Wp,-MD,$(depfile) -c -o $@ $<
++	$(CC) $(CFLAGS) -c -o $@ $<
+ 
+ %.pic.o: %.c
+-	$(CC) $(CFLAGS) -Wp,-MD,$(depfile) -fPIC -c -o $@ $<
++	$(CC) $(CFLAGS) $(PICFLAGS) -c -o $@ $<
+ 
+ libpcd.a: $(STATIC)
+ 	rm -f $@
+@@ -35,15 +37,15 @@
+ 
+ libpcd.so.$(MINOR): $(SHARED)
+ 	rm -f $@
+-	$(CC) $(CFLAGS) -shared -Wl,-soname,$(SONAME) -o $@ $(SHARED)
++	$(CC) $(CFLAGS) $(SHAREDFLAGS),$(SONAME) -o $@ $(SHARED)
+ 
+ install:
+ 	install -d $(libdir)
+ 	install -d $(incdir)
+ 	install -m644 libpcd.a $(libdir)
+ 	install -m755 libpcd.so.$(MINOR) $(libdir)
+-	ln -s libpcd.so.$(MINOR) $(libdir)/libpcd.so.$(MAJOR)
+-	ln -s libpcd.so.$(MINOR) $(libdir)/libpcd.so
++	( cd $(libdir) && ln -s libpcd.so.$(MINOR) libpcd.so.$(MAJOR) )
++	( cd $(libdir) && ln -s libpcd.so.$(MINOR) libpcd.so )
+ 	install -m644 pcd.h $(incdir)
+ 
+ clean:

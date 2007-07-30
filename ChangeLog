@@ -1,3 +1,15 @@
+2007-07-30  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEzgv.spec: *NEW* Fullscreen Image viewer
+	* SFElibpcd.spec: *NEW* Kodak PhotoCD library
+	* SFElibdiscid.spec: *NEW* Musicbrainz DiscID library
+	* SFElibmusicbrainz3.spec: *NEW* Musicbrainz 3 library
+	* patches/libmusicbrainz3-01-cppunit.diff: patch for cppunit code
+	* patches/zgv-02-config.diff: Solaris patch for config.mak
+	* patches/zgv-01-solaris.diff: Solaris patch
+	* patches/libdiscid-01-solaris.diff: Solaris patch
+	* patches/libpcd-01-makefile.diff: Solaris Makefile
+
 2007-07-30  Mark Wright <markwright@internode.on.net>
 
 	* SFEsqlite.spec: bump to 3.4.1.
