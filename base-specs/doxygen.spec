@@ -8,11 +8,10 @@
 
 Name:           doxygen
 License:        GPL
-Version:        1.5.2
+Version:        1.5.3
 URL:            http://ftp.stack.nl/pub/users/dimitri
 Summary:        Doxygen is a documentation system for various programming languages
 Source:         http://ftp.stack.nl/pub/users/dimitri/%{name}-%{version}.src.tar.gz
-Patch1:		doxygen-01-iconv.diff
 Patch2:		doxygen-02-nameconflict.diff
 Patch3:		doxygen-03-solaris.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -25,7 +24,6 @@ Requires:	%{name} = %{version}
 
 %prep
 %setup -q
-%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 
@@ -63,5 +61,7 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Jul 30 2007 - markwright@internode.on.net
+- bump to 1.5.3, remove patch1 as already applied, bump patch3.
 * Sat Apr 21 2007 - dougs@truemail.co.th
 - Initial version

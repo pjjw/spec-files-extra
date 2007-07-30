@@ -42,5 +42,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jul 30 2007 - markwright@internode.on.net
+- bump to 1.5.3, remove patch1 as already applied, bump patch3.
 * Mon Apr  2 2007 - laca@sun.com
 - initial version created
