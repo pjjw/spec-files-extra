@@ -5,6 +5,9 @@
 #
 
 %include Solaris.inc
+
+%define SUNWlibsdl      %(/usr/bin/pkginfo -q SUNWlibsdl && echo 1 || echo 0)
+
 Name:                    SFEffmpeg
 Summary:                 FFmpeg - a very fast video and audio converter
 %define year 2007
@@ -19,10 +22,15 @@ URL:                     http://ffmpeg.mplayerhq.hu/index.html
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWmlib
-Requires: SFEsdl
-BuildRequires: SFEsdl-devel
 Requires: SUNWxwrtl
 Requires: SUNWzlib
+%if %SUNWlibsdl
+BuildRequires: SUNWlibsdl-devel
+Requires: SUNWlibsdl
+%else
+BuildRequires: SFEsdl-devel
+Requires: SFEsdl
+%endif
 
 %package devel
 Summary:                 %{summary} - development files
@@ -84,6 +92,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/postproc
 
 %changelog
+* Tue Jul 31 2007 - dougs@truemail.co.th
+- Added SUNWlibsdl test. Otherwise require SFEsdl
 * Sat Jul 14 2007 - dougs@truemail.co.th
 - Build shared library
 * Sun Jan 21 2007 - laca@sun.com

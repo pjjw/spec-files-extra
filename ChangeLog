@@ -1,5 +1,11 @@
 2007-07-31  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEvlc.spec: --disable-rpath option - SFElibx264 to the requirements
+	* SFEffmpeg.spec: Added SUNWlibsdl test
+	* SFEdirac.spec: Added doc package and SFEdoxygen build Requirement
+
+2007-07-31  Doug Scott  <dougs@truemail.co.th>
+
 	* SFExmms2.spec: *NEW* Added xmms2 multimedia player
 	* SFEmplayer.spec: Removed SFEdirac from Requires
 	* SFEfftw.spec: Build libfftw3f

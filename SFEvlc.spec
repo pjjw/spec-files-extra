@@ -69,6 +69,8 @@ BuildRequires:  SFElibupnp-devel
 Requires:       SFElibupnp
 BuildRequires:  SFEvcdimager-devel
 Requires:       SFEvcdimager
+BuildRequires:  SFElibx264-devel
+Requires:       SFElibx264
 
 %prep
 %setup -q -n vlc-%version
@@ -121,6 +123,7 @@ rm ./configure
             --libexecdir=%{_libexecdir}		\
             --sysconfdir=%{_sysconfdir}		\
 	    --enable-shared			\
+	    --disable-rpath			\
 %if %debug_build
 	    --enable-debug=yes			\
 %endif
@@ -161,6 +164,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/locale
 
 %changelog
+* Tue Jul 31 2007 - dougs@truemail.co.th
+- added --disable-rpath option
+- added SFElibx264 to the requirements
 * Sun Jul 15 2007 - dougs@truemail.co.th
 - --with-debug enables --enable-debug, added some dependencies
 * Sat Jul 14 2007 - dougs@truemail.co.th
