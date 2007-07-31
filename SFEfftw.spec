@@ -56,6 +56,7 @@ mkdir %name-%version/%{base_arch}
 %fftw2.prep -d %name-%version/%{base_arch}
 
 %build
+rm -rf $RPM_BUILD_ROOT
 %ifarch amd64 sparcv9
 export LD_OPTIONS="-64"
 %fftw3_64.build -d %name-%version/%_arch64
@@ -68,11 +69,14 @@ unset LD_OPTIONS
 %fftw2_sse2.build -d %name-%version/%{sse2_arch}
 %endif
 
+export options="--enable-float"
+%fftw3.build -d %name-%version/%{base_arch}
+%fftw3.install -d %name-%version/%{base_arch}
+unset options
 %fftw3.build -d %name-%version/%{base_arch}
 %fftw2.build -d %name-%version/%{base_arch}
 
 %install
-rm -rf $RPM_BUILD_ROOT
 
 %ifarch amd64 sparcv9
 %fftw3_64.install -d %name-%version/%_arch64
@@ -129,6 +133,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Jul 30 2007 - Doug Scott
+- Added build of libfftw3f
 * Mon Apr 23 2007 - Doug Scott
 - Change to build version 2 and 3. Multi-isa build 
 * Wed Sep 27 2006 - Eric Boutilier

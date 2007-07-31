@@ -31,16 +31,19 @@ export LDFLAGS="%{_ldflags}"
             --mandir=%{_mandir}		\
             --infodir=%{_infodir}	\
             --enable-shared=yes		\
-            --enable-static=no
+            --enable-static=no $options
 
+make clean
 make -j$CPUS
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
 
-rm ${RPM_BUILD_ROOT}%{_libdir}/libfftw3.la
+rm ${RPM_BUILD_ROOT}%{_libdir}/lib*.*a
 
 %changelog
+* Mon Jul 30 2007 - Doug Scott
+- Added $options to allow custom builds
 * Mon Apr 23 2007 - Doug Scott
 - Added libfftw3. Change to Multi-isa build
 * Wed Sep 27 2006 - Eric Boutilier

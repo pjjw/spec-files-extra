@@ -1,3 +1,10 @@
+2007-07-31  Doug Scott  <dougs@truemail.co.th>
+
+	* SFExmms2.spec: *NEW* Added xmms2 multimedia player
+	* SFEmplayer.spec: Removed SFEdirac from Requires
+	* SFEfftw.spec: Build libfftw3f
+	* base-specs/fftw3.spec: Changed to build libfftw3f
+
 2007-07-30  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEvnc2swf.spec: (new) a recoding tool for Flash.

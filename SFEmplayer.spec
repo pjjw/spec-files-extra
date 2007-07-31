@@ -54,8 +54,6 @@ Requires: SFElibfribidi
 BuildRequires: SFElibfribidi-devel
 Requires: SFEladspa
 BuildRequires: SFEladspa-devel
-Requires: SFEdirac
-BuildRequires: SFEdirac-devel
 Requires: SFEopenal
 BuildRequires: SFEopenal-devel
 BuildRequires: SFElibsndfile-devel
@@ -159,6 +157,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Tue Jul 31 2007 - dougs@truemail.co.th
+- Removed dirac codec from Requirement
 * Sun Jul 15 2007 - dougs@truemail.co.th
 - Removed dirac codec patch - causes crashes
 * Sat Jul 14 2007 - dougs@truemail.co.th
