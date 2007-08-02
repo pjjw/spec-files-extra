@@ -10,7 +10,7 @@
 
 Name:                    SFExchat
 Summary:                 XChat IRC Client
-Version:                 2.8.2
+Version:                 2.8.4
 Source:                  http://www.xchat.org/files/source/2.8/xchat-%{version}.tar.bz2
 Patch1:                  xchat-01-gettext.diff
 Patch2:                  xchat-02-zero-index.diff
@@ -155,6 +155,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Aug 02 2007 - Brian Cameron <brian.cameron@sun.com>
+* Bump to 2.8.4.
 * Tue May 29 2007 - Thomas Wagner
 - bump to 2.8.2
 - /usr/bin/msgfmt errors, use /opt/sfw/bin/msgfmt

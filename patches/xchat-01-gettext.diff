@@ -1,9 +1,9 @@
---- xchat-2.8.0/configure.in.patch01	2007-01-02 22:33:58.000000000 -0500
-+++ xchat-2.8.0/configure.in	2007-01-07 00:12:44.563299000 -0500
-@@ -26,7 +26,13 @@
+--- xchat-2.8.4/configure.in-orig	2007-08-02 01:00:45.788380000 -0500
++++ xchat-2.8.4/configure.in	2007-08-02 01:00:20.407500000 -0500
+@@ -26,7 +26,13 @@ AC_SUBST(GETTEXT_PACKAGE)
  AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE",[Gettext package name])
  
- ALL_LINGUAS="be ca cs de el es fi fr gl hu it ja ko lt nl pa pt ru sq sr sv uk vi zh_CN zh_TW"
+ ALL_LINGUAS="be ca cs de el es fi fr gl hu it ja ko lt mk nl pa pt ru sq sr sv uk vi zh_CN zh_TW"
 -AM_GNU_GETTEXT
 +AM_GLIB_GNU_GETTEXT
 +USE_INCLUDED_LIBINTL=no
@@ -15,7 +15,7 @@
  
  dnl displaced from acconfig.h
  AH_VERBATIM([OLD_PERL],[#undef OLD_PERL])
-@@ -307,7 +313,7 @@
+@@ -307,7 +313,7 @@ if test "$python" = yes; then
                          PY_PREFIX=`$pythonpath -c 'import sys; print sys.prefix'`
                          PY_EXEC_PREFIX=`$pythonpath -c 'import sys; print sys.exec_prefix'`
                          if test -f $PY_INC/Python.h; then
