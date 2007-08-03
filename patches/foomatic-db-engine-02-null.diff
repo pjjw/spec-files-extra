@@ -1,0 +1,15 @@
+--- foomatic-db-engine-3.0.2/foomatic-perl-data.c.orig	2007-08-03 15:59:26.820380517 +0700
++++ foomatic-db-engine-3.0.2/foomatic-perl-data.c	2007-08-03 16:09:08.886358877 +0700
+@@ -2809,7 +2809,11 @@
+   } else {
+     printf("  'pcdriver' => undef,\n");
+   }
+-  printf("  'type' => '%s',\n", combo->driver_type);
++  if (combo->driver_type) {
++    printf("  'type' => '%s',\n", combo->driver_type);
++  } else {
++    printf("  'type' => 'undef',\n");
++  }
+   if (combo->driver_comment) {
+     printf("  'comment' => '%s',\n", combo->driver_comment);
+   } else {

@@ -238,3 +238,41 @@ diff -ur wine-0.9.35-orig/dlls/oleaut32/tests/olepicture.c wine-0.9.35/dlls/olea
  }
  
  static void test_Invoke(void)
+--- wine-0.9.42/dlls/ntdll/actctx.c.orig	2007-08-02 13:20:02.210101857 +0700
++++ wine-0.9.42/dlls/ntdll/actctx.c	2007-08-02 13:27:21.408872232 +0700
+@@ -72,7 +72,7 @@
+     WCHAR              *info;
+ };
+ 
+-struct version
++struct version_s
+ {
+     USHORT              major;
+     USHORT              minor;
+@@ -87,7 +87,7 @@
+     WCHAR                *public_key;
+     WCHAR                *language;
+     WCHAR                *type;
+-    struct version        version;
++    struct version_s     version;
+     BOOL                  optional;
+ };
+ 
+@@ -264,7 +264,7 @@
+     return debugstr_an(str->ptr, str->len);
+ }
+ 
+-static inline const char* debugstr_version(const struct version *ver)
++static inline const char* debugstr_version(const struct version_s *ver)
+ {
+     return wine_dbg_sprintf("%u.%u.%u.%u", ver->major, ver->minor, ver->build, ver->revision);
+ }
+@@ -735,7 +735,7 @@
+     return TRUE;
+ }
+ 
+-static BOOL parse_version(const xmlstr_t *str, struct version *version)
++static BOOL parse_version(const xmlstr_t *str, struct version_s *version)
+ {
+     unsigned int ver[4];
+     unsigned int pos;

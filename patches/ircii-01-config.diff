@@ -1,0 +1,74 @@
+diff -uNr ircii-4.4X/Makefile.in ircii-4.4X.new/Makefile.in
+--- ircii-4.4X/Makefile.in	Sat Apr 15 18:04:02 2000
++++ ircii-4.4X.new/Makefile.in	Wed Aug 23 00:47:34 2000
+@@ -135,16 +135,16 @@
+ 
+ # Set the next line to the full path for installation of the ircio program
+ # if you wish to use it. 
+-INSTALL_IRCIO = $(bindir)/ircio
++INSTALL_IRCIO = $(bindir)/ircio-ircii
+ 
+ # This little program is necessary to have an interactive shell
+ # in a window of ircII. The 'shell' script uses it, so also update
+ # the path in there, if you want to enable this.
+-INSTALL_IRCFLUSH = $(bindir)/ircflush
++INSTALL_IRCFLUSH = $(bindir)/ircflush-ircii
+ 
+ # This program allows you to use screen/xterm's to put new irc windows
+ # on new screen/xterm windows.
+-INSTALL_WSERV = $(bindir)/wserv
++INSTALL_WSERV = $(bindir)/wserv-ircii
+ 
+ # This command will be used to install the irc help files.  If you don't
+ # want to install them, replace with the following:
+@@ -178,7 +178,7 @@
+ 
+ installirc: irc installdirs
+ 	$(INSTALL) irc $(INSTALL_IRC)-$(VERSION)
+-	$(INSTALL) ircbug $(bindir)/ircbug
++	$(INSTALL) ircbug $(bindir)/ircbug-ircii
+ 	@if test -f $(INSTALL_IRC).old; then $(RM) $(INSTALL_IRC).old; fi
+ 	@if test -f $(INSTALL_IRC); then $(MV) $(INSTALL_IRC) $(INSTALL_IRC).old; fi
+ 	$(RM) $(INSTALL_IRC)
+diff -uNr ircii-4.4X/configure.in ircii-4.4X.new/configure.in
+--- ircii-4.4X/configure.in	Wed Aug 23 00:44:23 2000
++++ ircii-4.4X.new/configure.in	Wed Aug 23 00:48:22 2000
+@@ -696,7 +696,7 @@
+ 
+ if test ! -n "$IRCLIB";
+ then
+-	IRCLIB=\${datadir}/irc
++	IRCLIB=\${datadir}/ircii
+ fi
+ AC_SUBST(IRCLIB)
+ 
+diff -uNr ircii-4.4X/include/config.h.dist ircii-4.4X.new/include/config.h.dist
+--- ircii-4.4X/include/config.h.dist	Sun Jun 11 09:30:54 2000
++++ ircii-4.4X.new/include/config.h.dist	Wed Aug 23 00:53:14 2000
+@@ -47,7 +47,7 @@
+  * file and the ircII can find it, this setting is overridden.
+  */
+ #ifndef DEFAULT_SERVER
+-# define DEFAULT_SERVER	    "change.this.to.a.server"
++# define DEFAULT_SERVER	    "poznan.irc.pl"
+ #endif
+ 
+ /*
+@@ -89,7 +89,7 @@
+  * DEFAULT_SERVER. 
+ */
+ 
+-#define SERVERS_FILE "ircII.servers"
++#define SERVERS_FILE "/etc/irc/ircII.servers"
+ 
+ /* Uncomment the following if you want ircII to display the file
+  * ircII.motd in the ircII library at startup.
+@@ -159,7 +159,7 @@
+ #define DEFAULT_LASTLOG 44
+ #define DEFAULT_LASTLOG_LEVEL "ALL -CRAP"
+ #define DEFAULT_LOG 0
+-#define DEFAULT_LOGFILE "IrcLog"
++#define DEFAULT_LOGFILE ".irciilog"
+ #define DEFAULT_MAIL 0
+ #define DEFAULT_MAKE_NOTICE_MSG 1
+ #define DEFAULT_MAX_RECURSIONS 10

@@ -1,0 +1,26 @@
+--- foomatic-db-engine-3.0.2/configure.in.orig	2007-08-03 13:07:30.695063810 +0700
++++ foomatic-db-engine-3.0.2/configure.in	2007-08-03 13:09:43.486983615 +0700
+@@ -183,7 +183,7 @@
+   PREFIX=$prefix
+ fi
+ echo -n Checking whether Perl will find libraries installed under $PREFIX...
+-if ( $PERL -V | egrep "^ *$PREFIX/lib(/perl[[0-9]]?|)(/site_perl|)/[[0-9]]" > /dev/null); then
++if ( $PERL -V | egrep "^ *$PREFIX/perl[[0-9]]/vendor_perl/[[0-9]]" > /dev/null); then
+   PERLPREFIX=$PREFIX
+   echo " yes"
+ else
+@@ -204,11 +204,11 @@
+ dnl Perl installation directories
+ 
+ dnl This works only with autoconf 2.52 or newer
+-dnl PERL_INSTALLDIRS=site
+-dnl AC_ARG_VAR(PERL_INSTALLDIRS, [Where should the Perl libraries be installed (Default: site, Choices: perl, site)?])
++dnl PERL_INSTALLDIRS=vendor
++dnl AC_ARG_VAR(PERL_INSTALLDIRS, [Where should the Perl libraries be installed (Default: vendor, Choices: perl, vendor)?])
+ 
+ dnl This works also with autoconf 2.13
+-PERL_INSTALLDIRS=site
++PERL_INSTALLDIRS=vendor
+ AC_SUBST(PERL_INSTALLDIRS)
+ 
+ dnl Check for bourne shell

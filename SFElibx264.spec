@@ -11,7 +11,7 @@
 %define src_name x264-snapshot
 %define src_url	 ftp://ftp.videolan.org/pub/videolan/x264/snapshots
 
-Name:                    SFEx264
+Name:                    SFElibx264
 Summary:                 H264 encoder library
 Version:                 20070728
 Source:                  %{src_url}/%{src_name}-%{snap}-%{snaph}.tar.bz2
@@ -101,5 +101,5 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Mon Jul 30 2007 - dougs@truemail.co.th
-- initial
+* Fri Aug  3 2007 - dougs@truemail.co.th
+- initial version

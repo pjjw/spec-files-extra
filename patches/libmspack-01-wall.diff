@@ -1,0 +1,12 @@
+--- libmspack-0.0.20060920alpha/Makefile.am.orig	2007-08-01 12:40:41.815627078 +0700
++++ libmspack-0.0.20060920alpha/Makefile.am	2007-08-01 12:41:27.117845875 +0700
+@@ -9,8 +9,7 @@
+ 	-rm -rf `find $(distdir) -name CVS`
+ 	-rm -f $(distdir)/*.la
+ 
+-AM_CFLAGS =		-std=c99 -Wall -Wsign-compare -Wconversion -pedantic \
+-			-I$(srcdir)/mspack $(MSPACK_FLAGS)
++AM_CFLAGS =		-I$(srcdir)/mspack $(MSPACK_FLAGS)
+ 
+ lib_LTLIBRARIES =	libmspack.la
+ include_HEADERS =	mspack/mspack.h

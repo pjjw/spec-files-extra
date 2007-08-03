@@ -1,3 +1,47 @@
+2007-08-30  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEffmpeg.spec: Bumped export version
+	    Added codecs
+	    Created ffmpeg.pc
+	* SFEamrnb.spec: *NEW* 3GPP AMR-NB Floating-point Speech Codec
+	* SFEamrwb.spec: *NEW* 3GPP AMR-WB Floating-point Speech Codec
+	* SFElibx264.spec: *NEW* H264 encoder library
+	* SFExvid.spec: *NEW* ISO MPEG-4 compliant video codec
+	* SFElibdts.spec: Build a shared library
+	* SFEvlc.spec: Added devel and l10n
+	    Added options to better find codecs
+	    Added icons for app
+	* SFEfoomatic-db-engine.spec: *NEW* Foomatic database Engine
+	* SFEircii.spec: *NEW* irc client
+	* SFElibgsm.spec: *NEW* GSM audio encoding/decoding library
+	* SFElibmspack.spec: *NEW* library for Microsoft compression formats
+	* SFEwine.spec: *NEW* bump to 0.9.42
+	* SFEnas.spec: *NEW* Network Audio System
+	* SFEgutenprint.spec: *NEW* Guten Print
+	* SFEcups.spec: *NEW* CUPS
+	* SFEfoomatic-db.spec: *NEW* Foomatic database
+	* patches/ffmpeg-02-configure.diff: Updated for new export
+	* patches/cups-01-gss.diff: Fix gss configure for Solaris
+	* patches/amrnb-01-patch.diff: Changed patch to gpatch
+	* patches/libdts-02-shared.diff: Shared Library Build
+	* patches/ffmpeg-01-BE_16.diff: Updated for new export
+	* patches/vlc-07-live.diff: live555 patch
+	* patches/vlc-10-real_codecs_path.diff: real codec path
+	* patches/libmspack-01-wall.diff: remove -Wall
+	* patches/foomatic-db-engine-01-perl.diff: Hack to find perl
+	* patches/gutenprint-01-cups-version.diff: Hack to find cups 1.3rc3
+	* patches/ircii-01-config.diff: Config path patch
+	* patches/libdts-03-opt.diff: Remove hardcoded opt flags
+	* patches/vlc-08-osdmenu_path.diff: path patch
+	* patches/amrwb-01-patch.diff: Changed patch to gpatch
+	* patches/gutenprint-02-isfinite.diff: (double)
+	* patches/wine-01-nameconfict.diff: Variable conflict
+	* patches/ircii-02.cast.diff: Fix cast
+	* patches/vlc-09-pic-mmx.diff: Added defined(__PIC__)
+	* patches/foomatic-db-engine-02-null.diff: null check
+	* patches/libgsm-01-makefile.diff: Solaris makefile patch
+	* patches/xvid-01-solaris.diff: Solaris Patch
+
 2007-08-02  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFExchat.spec, patches/xchat-01-gettext.diff:  Updated to 2.8.4

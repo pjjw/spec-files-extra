@@ -1,0 +1,11 @@
+--- ircii-20060725/include/cast_sbox.h.orig	2007-08-01 23:47:18.213853553 +0700
++++ ircii-20060725/include/cast_sbox.h	2007-08-01 23:47:35.336743570 +0700
+@@ -9,7 +9,7 @@
+  */
+ 
+ /* sigh */
+-#if __STDC__ /* || (__STDC__ == 0 && defined(__sun)) */
++#if defined(__sun)
+ #define U(x) x##U
+ #define UL(x) x##UL
+ #else

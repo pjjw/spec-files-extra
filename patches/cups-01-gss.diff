@@ -1,0 +1,47 @@
+--- cups-1.3rc2/scheduler/ipp.c.orig	2007-08-02 16:38:58.508837513 +0700
++++ cups-1.3rc2/scheduler/ipp.c	2007-08-02 16:39:37.961629318 +0700
+@@ -8303,6 +8303,7 @@
+     return;
+   }
+ 
++#ifndef sun
+   major_status = gss_krb5_copy_ccache(&minor_status, con->gss_delegated_cred,
+ 				      ccache);
+ 
+@@ -8314,6 +8315,8 @@
+     return;
+   }
+ 
++#endif
++
+   cupsdSetStringf(&(job->ccname), "KRB5CCNAME=FILE:%s",
+                   krb5_cc_get_name(krb_context, ccache));
+ 
+--- cups-1.3rc2/config-scripts/cups-gssapi.m4.orig	2007-08-02 16:24:57.637966009 +0700
++++ cups-1.3rc2/config-scripts/cups-gssapi.m4	2007-08-02 16:34:58.607392120 +0700
+@@ -23,14 +23,22 @@
+ if test x$enable_gssapi != xno; then
+ 	AC_PATH_PROG(KRB5CONFIG, krb5-config)
+ 	if test "x$KRB5CONFIG" != x; then
+-		if test "x$uname" = "xDarwin"; then
++		case "$uname" in
++		    Darwin)
+ 			# Mac OS X weak-links to the Kerberos framework...
+ 			LIBGSSAPI="-weak_framework Kerberos"
+-		else
++			;;
++		    SunOS*)
++			CFLAGS="`$KRB5CONFIG --cflags` $CFLAGS"		
++			CPPFLAGS="`$KRB5CONFIG --cflags` $CPPFLAGS"		
++			LIBGSSAPI="`$KRB5CONFIG --libs` -lgss"
++			;;
++		    *)	
+ 			CFLAGS="`$KRB5CONFIG --cflags gssapi` $CFLAGS"		
+ 			CPPFLAGS="`$KRB5CONFIG --cflags gssapi` $CPPFLAGS"		
+ 			LIBGSSAPI="`$KRB5CONFIG --libs gssapi`"
+-		fi
++			;;
++		esac
+ 		AC_DEFINE(HAVE_GSSAPI, 1, [Whether GSSAPI is available])
+ 	else
+ 		# Check for vendor-specific implementations...

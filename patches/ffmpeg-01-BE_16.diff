@@ -1,6 +1,7 @@
---- ffmpeg-export-2007-01-10.orig/libavformat/rtp.c	2006-11-09 06:37:30.000000000 -0500
-+++ ffmpeg-export-2007-01-10/libavformat/rtp.c	2007-01-10 22:53:33.767142000 -0500
-@@ -38,6 +38,7 @@
+diff -ur ffmpeg-export-2007-07-31-orig/libavformat/rtp.c ffmpeg-export-2007-07-31/libavformat/rtp.c
+--- ffmpeg-export-2007-07-31-orig/libavformat/rtp.c	2007-07-31 13:16:43.000000000 +0700
++++ ffmpeg-export-2007-07-31/libavformat/rtp.c	2007-07-31 13:27:32.036401201 +0700
+@@ -30,6 +30,7 @@
  
  //#define DEBUG
  
@@ -8,14 +9,17 @@
  
  /* TODO: - add RTCP statistics reporting (should be optional).
  
---- ffmpeg-export-2007-01-10.orig/libavformat/rtp_h264.c	2006-11-07 17:10:07.000000000 -0500
-+++ ffmpeg-export-2007-01-10/libavformat/rtp_h264.c	2007-01-10 22:56:23.123089000 -0500
-@@ -56,6 +56,8 @@
- #include "rtp_h264.h"
+Only in ffmpeg-export-2007-07-31/libavformat: rtp.c~
+diff -ur ffmpeg-export-2007-07-31-orig/libavformat/rtp_h264.c ffmpeg-export-2007-07-31/libavformat/rtp_h264.c
+--- ffmpeg-export-2007-07-31-orig/libavformat/rtp_h264.c	2007-07-31 13:16:43.000000000 +0700
++++ ffmpeg-export-2007-07-31/libavformat/rtp_h264.c	2007-07-31 13:27:32.036904445 +0700
+@@ -49,6 +49,8 @@
  #include "base64.h"
+ #include "avstring.h"
  
 +#define BE_16(x)  ((((uint8_t*)(x))[0] << 8) | ((uint8_t*)(x))[1])
 +
  /**
      RTP/H264 specific private data.
  */
+Only in ffmpeg-export-2007-07-31/libavformat: rtp_h264.c~

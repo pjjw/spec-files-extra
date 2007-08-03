@@ -1,0 +1,11 @@
+--- gutenprint-5.1.3/src/main/sequence.c.orig	2007-08-03 11:49:28.786022777 +0700
++++ gutenprint-5.1.3/src/main/sequence.c	2007-08-03 11:50:00.559934496 +0700
+@@ -484,7 +484,7 @@
+ 									     \
+   /* Validate the data before we commit to it. */			     \
+   for (i = 0; i < count; i++)						     \
+-    if (! isfinite(data[i]) ||                                                 \
++    if (! isfinite((double)data[i]) ||                                       \
+         data[i] < sequence->blo ||                                           \
+         data[i] > sequence->bhi)                                             \
+       return 0;								     \

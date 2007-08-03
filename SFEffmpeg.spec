@@ -10,9 +10,11 @@
 
 Name:                    SFEffmpeg
 Summary:                 FFmpeg - a very fast video and audio converter
+
 %define year 2007
-%define month  01
-%define day    10
+%define month  07
+%define day    31
+
 Version:                 %{year}.%{month}.%{day}
 Source:                  http://pkgbuild.sf.net/spec-files-extra/tarballs/ffmpeg-export-%{year}-%{month}-%{day}.tar.bz2
 Patch1:                  ffmpeg-01-BE_16.diff
@@ -31,6 +33,30 @@ Requires: SUNWlibsdl
 BuildRequires: SFEsdl-devel
 Requires: SFEsdl
 %endif
+BuildRequires: SFElibdts-devel
+Requires: SFElibdts
+BuildRequires: SFElibgsm-devel
+Requires: SFElibgsm
+BuildRequires: SFEliba52-devel
+Requires: SFEliba52
+BuildRequires: SFEliba52-devel
+Requires: SFEliba52
+BuildRequires: SFExvid-devel
+Requires: SFExvid
+BuildRequires: SFElibx264-devel
+Requires: SFElibx264
+BuildRequires: SFEfaad2-devel
+Requires: SFEfaad2
+BuildRequires: SFEamrnb-devel
+Requires: SFEamrnb
+BuildRequires: SFEamrwb-devel
+Requires: SFEamrwb
+BuildRequires: SFElame-devel
+Requires: SFElame
+BuildRequires: SUNWogg-vorbis-devel
+Requires: SUNWogg-vorbis
+BuildRequires: SUNWlibtheora-devel
+Requires: SUNWlibtheora
 
 %package devel
 Summary:                 %{summary} - development files
@@ -50,11 +76,27 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 export CFLAGS="-O4"
 export LDFLAGS="%_ldflags -lm"
-bash ./configure		\
+bash ./configure	\
     --prefix=%{_prefix} \
     --enable-sunmlib	\
     --cc=gcc		\
-    --disable-static	\
+    --enable-libgsm	\
+    --enable-libxvid	\
+    --enable-libx264	\
+    --enable-gpl	\
+    --enable-pp		\
+    --enable-liba52	\
+    --enable-liba52bin	\
+    --enable-libfaad	\
+    --enable-libfaadbin	\
+    --enable-libogg	\
+    --enable-libtheora	\
+    --enable-libmp3lame	\
+    --enable-pthreads	\
+    --enable-libvorbis	\
+    --enable-libamr-nb	\
+    --enable-libamr-wb	\
+    --enable-static	\
     --enable-shared
 
 make -j $CPUS
@@ -64,12 +106,27 @@ make -j $CPUS
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-# workaround for a bug in the 2007-01-10 snapshot: make install is
-# looking for libpostproc.pc which doesn't exist
-touch libpostproc.pc
+
+mkdir $RPM_BUILD_ROOT%{_libdir}/ffmpeg
+cp config.mak $RPM_BUILD_ROOT%{_libdir}/ffmpeg
+
 cd libpostproc
 make install DESTDIR=$RPM_BUILD_ROOT
-rm $RPM_BUILD_ROOT%{_libdir}/pkgconfig/libpostproc.pc
+
+# Create a ffmpeg.pc - Some apps need it
+cat > $RPM_BUILD_ROOT%{_libdir}/pkgconfig/ffmpeg.pc << EOM
+Name: ffmpeg
+prefix=%{_prefix}
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+Description: FFmpeg codec library
+Version: 51.40.4
+Requires:  libavcodec libpostproc libavutil libavformat libswscale x264 ogg theora vorbisenc vorbis dts
+Conflicts:
+EOM
+
+mv $RPM_BUILD_ROOT%{_libdir}/lib*.*a $RPM_BUILD_ROOT%{_libdir}/ffmpeg
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -87,11 +144,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 %{_libdir}/vhook
+%{_libdir}/ffmpeg
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/ffmpeg
 %{_includedir}/postproc
 
 %changelog
+* Wed Aug  3 2007 - dougs@truemail.co.th
+- Bumped export version
+- Added codecs
+- Created ffmpeg.pc
 * Tue Jul 31 2007 - dougs@truemail.co.th
 - Added SUNWlibsdl test. Otherwise require SFEsdl
 * Sat Jul 14 2007 - dougs@truemail.co.th

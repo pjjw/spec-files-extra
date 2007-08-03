@@ -1,56 +1,122 @@
---- ffmpeg-export-2007-01-10/configure.orig	2007-07-14 10:32:07.913109403 +0700
-+++ ffmpeg-export-2007-01-10/configure	2007-07-14 10:36:35.029722499 +0700
-@@ -623,7 +623,7 @@
- dlfcn_h="no"
- dlopen="no"
- mpegaudio_hp="yes"
--SHFLAGS='-shared -Wl,-soname,$@'
-+SHFLAGS='-Wl,-G -Wl,-soname,$@'
- VHOOKSHFLAGS='$(SHFLAGS)'
- beos_netserver="no"
- protocols="yes"
-@@ -702,7 +702,7 @@
- make="gmake"
- FFLDFLAGS=""
- FFSERVERLDFLAGS=""
--SHFLAGS="-shared -Wl,-h,\$@"
-+SHFLAGS="-Wl,-G -Wl,-h,\$@"
- add_extralibs "-lsocket -lnsl"
- ;;
- NetBSD)
-@@ -724,7 +724,7 @@
- make="gmake"
- LIBOBJFLAGS="\$(PIC)"
- LDCONFIG="ldconfig -m \$(shlibdir)"
--SHFLAGS='-shared'
-+SHFLAGS='-Wl,-G'
- SLIBNAME='$(SLIBPREF)$(NAME)$(SLIBSUF).$(LIBVERSION)'
- SLIBNAME_WITH_VERSION='$(SLIBNAME)'
- SLIBNAME_WITH_MAJOR='$(SLIBNAME)'
-@@ -789,7 +789,7 @@
- video4linux2="no"
- audio_oss="yes"
- dv1394="no"
--VHOOKSHFLAGS='-shared -L$(BUILD_ROOT)/libavformat -L$(BUILD_ROOT)/libavcodec -L$(BUILD_ROOT)/libavutil'
-+VHOOKSHFLAGS='-Wl,-G -L$(BUILD_ROOT)/libavformat -L$(BUILD_ROOT)/libavcodec -L$(BUILD_ROOT)/libavutil'
- VHOOKLIBS='-lavformat$(BUILDSUF) -lavcodec$(BUILDSUF) -lavutil$(BUILDSUF) $(EXTRALIBS)'
- extralibs=""
- EXESUF=".exe"
-@@ -1579,15 +1579,12 @@
+diff -ur ffmpeg-export-2007-07-31-orig/configure ffmpeg-export-2007-07-31/configure
+--- ffmpeg-export-2007-07-31-orig/configure	2007-07-31 13:16:43.000000000 +0700
++++ ffmpeg-export-2007-07-31/configure	2007-07-31 13:49:03.874662846 +0700
+@@ -889,7 +889,7 @@
+     source_path_used="no"
+ else
+     source_path="`cd \"$source_path\"; pwd`"
+-    echo "$source_path" | grep -q '[[:blank:]]' &&
++    echo "$source_path" | ggrep -q '[[:blank:]]' &&
+       die "Out of tree builds are impossible with whitespace in source path."
+ fi
+ 
+@@ -993,7 +993,7 @@
+   ;;
+   --enable-?*|--disable-?*)
+   eval `echo "$opt" | sed 's/--/action=/;s/-/ option=/;s/-/_/g'`
+-  echo "$CMDLINE_SELECT" | grep -q "^ *$option\$" || die_unknown $opt
++  echo "$CMDLINE_SELECT" | ggrep -q "^ *$option\$" || die_unknown $opt
+   $action $option
+   ;;
+   --list-*)
+@@ -1019,7 +1019,7 @@
+     enable fast_unaligned
+     canon_arch="`$cc -dumpmachine | sed -e 's,\([^-]*\)-.*,\1,'`"
+     if [ x"$canon_arch" = x"x86_64" -o x"$canon_arch" = x"amd64" ]; then
+-      if [ -z "`echo $CFLAGS | grep -- -m32`"  ]; then
++      if [ -z "`echo $CFLAGS | ggrep -- -m32`"  ]; then
+         arch="x86_64"
+         enable fast_64bit
+       fi
+@@ -1090,7 +1090,7 @@
+     # helps building libavcodec
+     add_cflags "-DPIC -fomit-frame-pointer"
+     # 3 gcc releases known for BeOS, each with ugly bugs
+-    gcc_version="`$cc -v 2>&1 | grep version | cut -d ' ' -f3-`"
++    gcc_version="`$cc -v 2>&1 | ggrep version | cut -d ' ' -f3-`"
+     case "$gcc_version" in
+       2.9-beos-991026*|2.9-beos-000224*) echo "R5/GG gcc"
+         mmx="no"
+@@ -1108,7 +1108,7 @@
+     # no need for libm, but the inet stuff
+     # Check for BONE
+     # XXX: actually should check for NOT net_server
+-    if (echo $BEINCLUDES|grep 'headers/be/bone' >/dev/null); then
++    if (echo $BEINCLUDES|ggrep 'headers/be/bone' >/dev/null); then
+         osextralibs="-lbind -lsocket"
+     else
+         beos_netserver="yes"
+@@ -1118,8 +1118,9 @@
+     dv1394="no"
+     FFLDFLAGS=""
+     FFSERVERLDFLAGS=""
+-    SHFLAGS="-shared -Wl,-h,\$@"
+-    add_extralibs "-lsocket -lnsl"
++    SHFLAGS="-Wl,-G -Wl,-h,\$@"
++    VHOOKSHFLAGS='$(SHFLAGS)'
++    add_extralibs "-lsocket -lnsl -lm"
+     ;;
+   netbsd)
+     dv1394="no"
+@@ -1284,7 +1285,7 @@
+ #Darwin CC versions
+ needmdynamicnopic="no"
+ if test $targetos = darwin; then
+-    if test -n "`$cc -v 2>&1 | grep xlc`"; then
++    if test -n "`$cc -v 2>&1 | ggrep xlc`"; then
+         add_cflags "-qpdf2 -qlanglvl=extc99 -qmaxmem=-1 -qarch=auto -qtune=auto"
+     else
+         add_cflags "-no-cpp-precomp -pipe"
+@@ -1368,7 +1369,7 @@
+ fi
+ 
+ gnu_make(){
+-    $1 --version 2>&1 | grep -q GNU
++    $1 --version 2>&1 | ggrep -q GNU
+ }
+ 
+ if ! gnu_make $make; then
+@@ -1450,7 +1451,7 @@
+ 
+ # AltiVec flags: The FSF version of GCC differs from the Apple version
+ if enabled altivec; then
+-    if test -n "`$cc -v 2>&1 | grep version | grep Apple`"; then
++    if test -n "`$cc -v 2>&1 | ggrep version | ggrep Apple`"; then
+         add_cflags "-faltivec"
+     else
+         add_cflags "-maltivec -mabi=altivec"
+@@ -1634,7 +1635,7 @@
      echo
  fi
  
 -if enabled vhook; then
--    check_ldflags -rdynamic
--    check_ldflags -export-dynamic
--fi
--
- if enabled audio_beos; then
-     add_extralibs "-lmedia -lbe"
++if test "$targetos" != sunos -a enabled vhook; then
+     check_ldflags -rdynamic
+     check_ldflags -export-dynamic
+ fi
+@@ -1743,7 +1744,7 @@
+     check_cflags -Os            # not all compilers support -Os
+     optimize="small"
+ elif enabled optimize; then
+-    if test -n "`$cc -v 2>&1 | grep xlc`"; then
++    if test -n "`$cc -v 2>&1 | ggrep xlc`"; then
+         add_cflags  "-O5"
+         add_ldflags "-O5"
+     else
+@@ -1925,11 +1926,11 @@
+   echo "BUILD_DOC=yes" >> config.mak
  fi
  
-+add_extralibs "-lm"
-+
- ##########################################
- # imlib check
+-sws_version=`grep '#define LIBSWSCALE_VERSION ' "$source_path/libswscale/swscale.h" | sed 's/[^0-9\.]//g'`
+-pp_version=`grep '#define LIBPOSTPROC_VERSION ' "$source_path/libpostproc/postprocess.h" | sed 's/[^0-9\.]//g'`
+-lavc_version=`grep '#define LIBAVCODEC_VERSION ' "$source_path/libavcodec/avcodec.h" | sed 's/[^0-9\.]//g'`
+-lavf_version=`grep '#define LIBAVFORMAT_VERSION ' "$source_path/libavformat/avformat.h" | sed 's/[^0-9\.]//g'`
+-lavu_version=`grep '#define LIBAVUTIL_VERSION ' "$source_path/libavutil/avutil.h" | sed 's/[^0-9\.]//g'`
++sws_version=`ggrep '#define LIBSWSCALE_VERSION ' "$source_path/libswscale/swscale.h" | sed 's/[^0-9\.]//g'`
++pp_version=`ggrep '#define LIBPOSTPROC_VERSION ' "$source_path/libpostproc/postprocess.h" | sed 's/[^0-9\.]//g'`
++lavc_version=`ggrep '#define LIBAVCODEC_VERSION ' "$source_path/libavcodec/avcodec.h" | sed 's/[^0-9\.]//g'`
++lavf_version=`ggrep '#define LIBAVFORMAT_VERSION ' "$source_path/libavformat/avformat.h" | sed 's/[^0-9\.]//g'`
++lavu_version=`ggrep '#define LIBAVUTIL_VERSION ' "$source_path/libavutil/avutil.h" | sed 's/[^0-9\.]//g'`
+ 
+ 
  

@@ -20,6 +20,11 @@ Patch3:                 vlc-03-oss.diff
 Patch4:                 vlc-04-solaris_specific.diff
 Patch5:                 vlc-05-solaris-cmds.diff
 Patch6:                 vlc-06-intl.diff
+Patch7:			vlc-07-live.diff
+Patch8:			vlc-08-osdmenu_path.diff
+Patch9:			vlc-09-pic-mmx.diff
+Patch10:		vlc-10-real_codecs_path.diff
+SUNW_BaseDir:           %{_basedir}
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -71,6 +76,22 @@ BuildRequires:  SFEvcdimager-devel
 Requires:       SFEvcdimager
 BuildRequires:  SFElibx264-devel
 Requires:       SFElibx264
+BuildRequires:  SFElibtar-devel
+Requires:       SFElibtar
+
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
+
+%package devel
+Summary:                 %{summary} - development files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
 
 %prep
 %setup -q -n vlc-%version
@@ -80,6 +101,10 @@ Requires:       SFElibx264
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
+%patch10 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -87,6 +112,12 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 # ffmpeg is build with g++, therefore we need to build with g++
+
+%if %build_l10n
+nlsopt=-enable-nls
+%else
+nlsopt=-disable-nls
+%endif
 
 X11LIB="-L/usr/X11/lib -R/usr/X11/lib"
 GNULIB="-L/usr/gnu/lib -R/usr/gnu/lib"
@@ -103,17 +134,6 @@ export CFLAGS="-O4"
 %endif
 export LDFLAGS="$X11LIB $GNULIB"
 
-# See: http://forum.videolan.org/viewtopic.php?t=15444
-# Uses configure options:
-# ./configure --enable-x11 --enable-opengl --enable-xvideo --disable-gtk
-#  --enable-sdl --enable-ffmpeg --with-ffmpeg-mp3lame --enable-mad
-#  --enable-libdvbpsi --enable-a52 --enable-dts --enable-libmpeg2
-#  --enable-dvdnav --enable-faad --enable-vorbis --enable-ogg --enable-theora
-#  --enable-faac --enable-mkv --enable-freetype --enable-fribidi --enable-speex
-#  --enable-flac --enable-caca --enable-skins --disable-skins2 --disable-kde
-#  --disable-qt --enable-wxwindows --enable-ncurses --enable-release
-#  --with-a52-tree=/export/home/barts/liba52/a52dec-0.7.4 
-
 rm ./configure
 ./bootstrap
 ./configure --prefix=%{_prefix}			\
@@ -124,14 +144,23 @@ rm ./configure
             --sysconfdir=%{_sysconfdir}		\
 	    --enable-shared			\
 	    --disable-rpath			\
+	    --enable-mkv			\
+	    --enable-live555			\
+	    --enable-ffmpeg			\
+	    --enable-xvid			\
+	    --enable-real			\
+	    --enable-realrtsp			\
 %if %debug_build
 	    --enable-debug=yes			\
 %endif
-	    --disable-static
+	    --disable-static			\
+	    $nlsopt
 
 # Disable libmpeg2 to get past configure.
 
+%if %build_l10n
 printf '%%%s/\/intl\/libintl.a/-lintl/\nwq\n' | ex - vlc-config
+%endif
 
 make -j$CPUS 
 
@@ -140,10 +169,48 @@ rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 #rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
 rm -f $RPM_BUILD_ROOT%{_libdir}/charset.alias
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps
+cp $RPM_BUILD_ROOT%{_datadir}/vlc/vlc48x48.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/vlc.png
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/32x32/apps
+cp $RPM_BUILD_ROOT%{_datadir}/vlc/vlc32x32.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/32x32/apps/vlc.png
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/16x16/apps
+cp $RPM_BUILD_ROOT%{_datadir}/vlc/vlc16x16.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/16x16/apps/vlc.png
 
+%if %build_l10n
+%else
+# REMOVE l10n FILES
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+( echo 'test -x /usr/bin/update-desktop-database || exit 0';
+  echo '/usr/bin/update-desktop-database'
+) | $BASEDIR/lib/postrun -b -u -c JDS_wait
+( echo 'test -x %{_bindir}/update-mime-database || exit 0';
+  echo '%{_bindir}/update-mime-database %{_datadir}/mime'
+) | $BASEDIR/lib/postrun -b -u -c JDS_wait
+( touch %{_datadir}/icons/hicolor || :
+  if [ -x %{_bindir}/gtk-update-icon-cache ]; then 
+        %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+  fi
+) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u
+
+%postun
+test -x $BASEDIR/lib/postrun || exit 0
+( echo 'test -x /usr/bin/update-desktop-database || exit 0';
+  echo '/usr/bin/update-desktop-database'
+) | $BASEDIR/lib/postrun -b -u -c JDS
+( echo 'test -x %{_bindir}/update-mime-database || exit 0';
+  echo '%{_bindir}/update-mime-database %{_datadir}/mime'
+) | $BASEDIR/lib/postrun -b -u -c JDS
+( touch %{_datadir}/icons/hicolor  || :
+  if [ -x %{_bindir}/gtk-update-icon-cache ]; then
+        %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+  fi
+) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u
 
 %files
 %defattr (-, root, bin)
@@ -155,15 +222,38 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/vlc
+%dir %attr (-, root, other) %{_datadir}/icons
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/16x16
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/16x16/apps
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/32x32
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/32x32/apps
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/48x48
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/48x48/apps
+%{_datadir}/icons/hicolor/16x16/apps/*.png
+%{_datadir}/icons/hicolor/32x32/apps/*.png
+%{_datadir}/icons/hicolor/48x48/apps/*.png
+
+%if %build_l10n
+%files l10n
+%defattr (-, root, bin)
+%dir %attr (0755, root, sys) %{_datadir}
+%attr (-, root, other) %{_datadir}/locale
+%endif
+
+%files devel
+%defattr (-, root, bin)
+%{_includedir}
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.a
-%{_libdir}/vlc
-%defattr (-, root, other)
-%{_datadir}/locale
 
 %changelog
+* Fri Aug  3 2007 - dougs@truemail.co.th
+- Added devel and l10n
+- Added options to better find codecs
+- Added icons for app
 * Tue Jul 31 2007 - dougs@truemail.co.th
 - added --disable-rpath option
 - added SFElibx264 to the requirements

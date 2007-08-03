@@ -1,0 +1,89 @@
+--- vlc-0.8.2-pic/modules/video_chroma/i420_rgb16.c	2005-07-10 23:59:57.656177984 +0200
++++ vlc-0.8.6/modules/video_chroma/i420_rgb16.c	2006-12-13 10:51:50.256615375 +0200
+@@ -31,9 +31,10 @@
+ #include <vlc/vout.h>
+ 
+ #include "i420_rgb.h"
+-#if defined (MODULE_NAME_IS_i420_rgb)
++#if defined (MODULE_NAME_IS_i420_rgb) || defined(__PIC__)
+ #   include "i420_rgb_c.h"
+-#elif defined (MODULE_NAME_IS_i420_rgb_mmx)
++#endif
++#if defined (MODULE_NAME_IS_i420_rgb_mmx)
+ #   if defined(HAVE_MMX_INTRINSICS)
+ #       include <mmintrin.h>
+ #   endif
+@@ -216,7 +217,7 @@
+     int         i_scale_count;                       /* scale modulo counter */
+     int         i_chroma_width = p_vout->render.i_width / 2; /* chroma width */
+     uint16_t *  p_pic_start;       /* beginning of the current line for copy */
+-#if defined (MODULE_NAME_IS_i420_rgb)
++#if defined (MODULE_NAME_IS_i420_rgb) || defined (__PIC__)
+     int         i_uval, i_vval;                           /* U and V samples */
+     int         i_red, i_green, i_blue;          /* U and V modified samples */
+     uint16_t *  p_yuv = p_vout->chroma.p_sys->p_rgb16;
+@@ -264,7 +265,7 @@
+         p_pic_start = p_pic;
+         p_buffer = b_hscale ? p_buffer_start : p_pic;
+ 
+-#if defined (MODULE_NAME_IS_i420_rgb)
++#if defined (MODULE_NAME_IS_i420_rgb) || defined(__PIC__)
+         for ( i_x = p_vout->render.i_width / 8; i_x--; )
+         {
+             CONVERT_YUV_PIXEL(2);  CONVERT_Y_PIXEL(2);
+@@ -323,7 +324,7 @@
+             p_u -= i_rewind >> 1;
+             p_v -= i_rewind >> 1;
+             p_buffer -= i_rewind;
+-#if defined (MODULE_NAME_IS_i420_rgb)
++#if defined (MODULE_NAME_IS_i420_rgb) || defined(__PIC__)
+             CONVERT_YUV_PIXEL(2);  CONVERT_Y_PIXEL(2);
+             CONVERT_YUV_PIXEL(2);  CONVERT_Y_PIXEL(2);
+             CONVERT_YUV_PIXEL(2);  CONVERT_Y_PIXEL(2);
+@@ -397,7 +398,7 @@
+     int         i_scale_count;                       /* scale modulo counter */
+     int         i_chroma_width = p_vout->render.i_width / 2; /* chroma width */
+     uint32_t *  p_pic_start;       /* beginning of the current line for copy */
+-#if defined (MODULE_NAME_IS_i420_rgb)
++#if defined (MODULE_NAME_IS_i420_rgb) || defined (__PIC__)
+     int         i_uval, i_vval;                           /* U and V samples */
+     int         i_red, i_green, i_blue;          /* U and V modified samples */
+     uint32_t *  p_yuv = p_vout->chroma.p_sys->p_rgb32;
+@@ -447,7 +448,7 @@
+ 
+         for ( i_x = p_vout->render.i_width / 8; i_x--; )
+         {
+-#if defined (MODULE_NAME_IS_i420_rgb)
++#if defined (MODULE_NAME_IS_i420_rgb) || defined(__PIC__)
+             CONVERT_YUV_PIXEL(4);  CONVERT_Y_PIXEL(4);
+             CONVERT_YUV_PIXEL(4);  CONVERT_Y_PIXEL(4);
+             CONVERT_YUV_PIXEL(4);  CONVERT_Y_PIXEL(4);
+@@ -477,7 +478,7 @@
+             p_u -= i_rewind >> 1;
+             p_v -= i_rewind >> 1;
+             p_buffer -= i_rewind;
+-#if defined (MODULE_NAME_IS_i420_rgb)
++#if defined (MODULE_NAME_IS_i420_rgb) || defined(__PIC__)
+             CONVERT_YUV_PIXEL(4);  CONVERT_Y_PIXEL(4);
+             CONVERT_YUV_PIXEL(4);  CONVERT_Y_PIXEL(4);
+             CONVERT_YUV_PIXEL(4);  CONVERT_Y_PIXEL(4);
+--- vlc-0.8.2/modules/video_chroma/i420_rgb.h	2005-06-25 15:43:10.000000000 +0200
++++ vlc-0.8.2-pic/modules/video_chroma/i420_rgb.h	2005-07-10 23:57:30.248587344 +0200
+@@ -35,7 +35,7 @@
+     uint8_t  *p_buffer;
+     int *p_offset;
+ 
+-#ifdef MODULE_NAME_IS_i420_rgb
++#if defined (MODULE_NAME_IS_i420_rgb) || defined(__PIC__)
+     /**< Pre-calculated conversion tables */
+     void *p_base;                      /**< base for all conversion tables */
+     uint8_t   *p_rgb8;                 /**< RGB 8 bits table */
+@@ -55,7 +55,7 @@
+ /*****************************************************************************
+  * Prototypes
+  *****************************************************************************/
+-#ifdef MODULE_NAME_IS_i420_rgb
++#if defined (MODULE_NAME_IS_i420_rgb) || defined(__PIC__)
+ void E_(I420_RGB8)         ( vout_thread_t *, picture_t *, picture_t * );
+ void E_(I420_RGB16_dither) ( vout_thread_t *, picture_t *, picture_t * );
+ #endif
