@@ -1,5 +1,10 @@
-2007-08-30  Doug Scott  <dougs@truemail.co.th>
+2007-08-04  Thomas Wagner <tom68@users.sourceforge.net>
 
+        * SFEx86info.spec: *NEW* x86 CPU-Info from snapshot/tarball,
+            inspired by http://blogs.sun.com/gbrunett/entry/solaris_non_executable_stack_concluded#comment-1186009029000
+            
+
+2007-08-30  Doug Scott  <dougs@truemail.co.th>
 	* SFEffmpeg.spec: Bumped export version
 	    Added codecs
 	    Created ffmpeg.pc
