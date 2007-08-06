@@ -11,7 +11,7 @@
 Name:		msynctool
 License:	GPL
 Group:		Applications
-Version:        0.31
+Version:        0.32
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -68,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1*
 
 %changelog
+* Mon Aug 06 2007 - jijun.yu@sun.com
+- Bump to 0.32.
+
 * Thu Jul 12 2007 - jijun.yu@sun.com
 - Disable enable_rpath at configuring and remove msynctool-02-ld-rpath.diff
 

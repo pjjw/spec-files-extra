@@ -9,7 +9,7 @@
 Name:           libopensync-plugin-palm
 License:        GPL
 Group:          Office
-Version:        0.22
+Version:        0.32
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -88,6 +88,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Aug 06 2007 - jijun.yu@sun.com
+- Bump to 0.32.
+
 * Fri Mar 30 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.22. Change source tarball to bz2.
 

@@ -1,3 +1,15 @@
+2007-08-06 Jerry Yu <jijun.yu@sun.com>
+	* SFElibopensync-plugin-evo2.spec: added
+	* SFElibopensync-plugin-vfmt.spec: added
+	* SFElibopensync-plugin-palm.spec: added
+	* linux-specs/msynctool.spec: bump to 0.32
+	* linux-specs/libopensync-plugin-evo2.spec: bump to 0.32 
+	* linux-specs/libopensync-plugin-vfmt.spec: added for vformat plugin
+	* linux-specs/libopensync-plugin-file.spec: bump to 0.32 
+	* linux-specs/libopensync-plugin-palm.spec: bump to 0.32 
+	* linux-specs/libopensync.spec: bump to 0.32 
+	* patches/libopensync-plugin-vformat-01-add-glib.diff: added
+
 2007-08-06  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEtracker.spec: Add --enable-external-sqlite
