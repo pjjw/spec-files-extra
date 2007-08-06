@@ -1,3 +1,7 @@
+2007-08-06  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEtracker.spec: Add --enable-external-sqlite
+
 2007-08-04  Thomas Wagner <tom68@users.sourceforge.net>
 
         * SFEx86info.spec: *NEW* x86 CPU-Info from snapshot/tarball,

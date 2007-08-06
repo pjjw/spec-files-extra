@@ -85,9 +85,10 @@ fi
 export CFLAGS="%optflags -I/usr/gnu/include"
 export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib"
 
-./configure --prefix=%{_prefix}  \
-	    --sysconfdir=%{_sysconfdir} \
-            --disable-warnings
+./configure --prefix=%{_prefix} 		\
+			--sysconfdir=%{_sysconfdir}	\
+			--disable-warnings			\
+			--enable-external-sqlite
 
 make -j$CPUS
 
@@ -149,6 +150,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Aug 06 2007 - nonsea@users.sourceforge.net
+- Add --enable-external-sqlite
 * Fri Jul 24 2007 - nonsea@users.sourceforge.net
 - Bump to 0.6.0.
 - Remove dependency on file.
