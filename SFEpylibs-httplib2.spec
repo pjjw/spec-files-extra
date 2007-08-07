@@ -10,9 +10,9 @@
 %include Solaris.inc
 Name:                    SFEpylibs-httplib2
 Summary:                 A comprehensive HTTP client library for Python.
-URL:                     http://bitworking.org/projects/httplib2/
-Version:                 0.2.0
-Source:                  http://bitworking.org/projects/httplib2/dist/%{real_name}-%{version}.tar.gz
+URL:                     http://code.google.com/p/httplib2
+Version:                 0.3.0
+Source:                  http://httplib2.googlecode.com/files/%{real_name}-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -37,5 +37,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python?.?/vendor-packages
 
 %changelog
+* Tue Aug 07 2007 - jijun.yu@sun.com
+- Bump to 0.3.0
+- Modify the webpage and download link.
+
 * Tue Nov 14 2006 - halton.huo@sun.com
 - Initial spec file

@@ -1,3 +1,8 @@
+2007-08-07 Jerry Yu <jijun.yu@sun.com>
+	* SFEpylibs-httplib2.spec: bump to 0.3.0
+	* SFElibopensync-plugin-gcal.spec: added
+	* linux-specs/libopensync-plugin-gcal.spec: bump to 0.32
+
 2007-08-07  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SUNWgnome-sync.spec: fix %post root error.

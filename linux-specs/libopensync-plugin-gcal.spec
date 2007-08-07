@@ -5,13 +5,15 @@
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
+# owner jeryyu
+#
 
 %define real_name libopensync-plugin-google-calendar
 
 Name: 	 	libopensync-plugin-gcal
 License:	GPL
 Group:		Office
-Version:        0.22
+Version:        0.32
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -76,12 +78,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/opensync/plugins/*
 %{_datadir}/opensync/defaults/*
 
-%files devel
-%defattr(-,root,root)
-%{_includedir}/opensync-1.0/opensync/*
-
-
 %changelog
+* Tue Aug 07 2007 - jijun.yu@sun.com
+- Bump to 0.32.
+
 * Fri Mar 30 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.22. Change source tarball to bz2.
 
