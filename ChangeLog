@@ -1,5 +1,9 @@
 2007-08-06 Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEpitivi.spec: Bump to 0.10.3.
+
+2007-08-06 Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEasciidoc.spec: Bump to 8.2.2.
 
 2007-08-06 Jerry Yu <jijun.yu@sun.com>

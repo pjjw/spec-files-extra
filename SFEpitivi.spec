@@ -8,14 +8,13 @@
 Name:                    SFEpitivi
 Summary:                 Non-Linear video editor
 URL:                     http://ftp.gnome.org/pub/GNOME/sources/pitivi
-Version:                 0.10.2
+Version:                 0.10.3
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/pitivi/0.10/pitivi-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 BuildRequires:		 SFEgnonlin
 BuildRequires:		 SFEgnome-python-extras
 BuildRequires:		 SFEgst-python
-
 
 %include default-depend.inc
 
@@ -72,8 +71,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Aug 06 2007 - brian.cameron@sun.com
+- Bump to 0.10.3
 * Wed Mar 21 2007 - daymobrew@users.sourceforge.net
 - Add l10n package and correct file permissions.
-
 * Fri Feb  9 2007  - irene.huang@sun.com
-- created
+- Created.
