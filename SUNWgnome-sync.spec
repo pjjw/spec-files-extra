@@ -101,9 +101,7 @@ test -x $BASEDIR/lib/postrun || exit 0
   echo '}';
   echo 'umask 0022';
   echo 'GCONF_CONFIG_SOURCE=xml:merged:/etc/gconf/gconf.xml.defaults';
-
-
-o 'export GCONF_CONFIG_SOURCE';
+  echo 'export GCONF_CONFIG_SOURCE';
   echo '/usr/bin/gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/*.schemas'
 ) | $BASEDIR/var/lib/postrun/postrun -u -c JDS_wait
 

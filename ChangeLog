@@ -1,5 +1,9 @@
 2007-08-07  Halton Huo <nonsea@users.sourceforge.net>
 
+	* SUNWgnome-sync.spec: fix %post root error.
+
+2007-08-07  Halton Huo <nonsea@users.sourceforge.net>
+
 	* SUNWgnome-sync.spec: (new) GUI tool for opensync 
 	* base-specs/gnome-sync.spec: (new) GUI tool for opensync
 
