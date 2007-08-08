@@ -36,6 +36,8 @@ make
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
+%if %build_l10n
+%else
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 %endif
 
