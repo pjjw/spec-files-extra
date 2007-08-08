@@ -8,9 +8,8 @@
 Name:                    SFEgst-python
 Summary:                 Python bindings for the GStreamer streaming media framework
 URL:                     http://gstreamer.freedesktop.org/src/gst-python/
-Version:                 0.10.7
+Version:                 0.10.8
 Source:                  http://gstreamer.freedesktop.org/src/gst-python/gst-python-%{version}.tar.bz2
-Patch1:			 gst-python-01-crash.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:                SUNWPython
@@ -22,7 +21,6 @@ BuildRequires:           SUNWgnome-media
 
 %prep
 %setup -q -n gst-python-%version
-%patch1 -p0
 
 %build
 ./configure --prefix=%{_prefix}
@@ -55,6 +53,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gst-python
 
 %changelog
+* Tue Aug 7 2007  - brian.cameron@sun.com
+- Bump to 0.10.8
 * Fri Feb 9 2007  - irene.huang@sun.com
 - bump to 0.10.7
 * Thu Jan 11 2007 - laca@sun.com

@@ -1,31 +1,5 @@
---- /tmp/configure.ac	2007-07-17 08:30:40.260153784 -0500
-+++ pigment-0.3.0.1/configure.ac	2007-07-17 08:23:59.943078000 -0500
-@@ -69,6 +69,7 @@ AG_GST_ARG_GCOV
- dnl *** Checks for programs ***
- 
- AC_PROG_CC
-+AM_PROG_CC_C_O
- AC_DISABLE_STATIC
- AC_PROG_LIBTOOL
- dnl get rid of the -export-dynamic stuff from the configure flags
-@@ -277,7 +278,6 @@ AC_CONFIG_FILES(
-   plugins/Makefile
-   plugins/boilerplate/Makefile
-   plugins/opengl/Makefile
--  plugins/directfb/Makefile
-   libs/Makefile
-   libs/codegen/Makefile
-   libs/pypgm/Makefile
-@@ -298,7 +298,6 @@ AC_CONFIG_FILES(
-   docs/pgm/version-entities.xml
-   pkgconfig/Makefile
-   pkgconfig/pigment.pc
--  misc/Makefile
-   )
- AC_OUTPUT
- 
---- pigment-0.3.0.1/libs/pypgm/pgm/Makefile.am-orig	2007-07-18 04:53:20.647175000 -0500
-+++ pigment-0.3.0.1/libs/pypgm/pgm/Makefile.am	2007-07-18 04:53:43.475094000 -0500
+--- pigment-0.3.1/libs/pypgm/pgm/Makefile.am-orig	2007-08-06 14:33:12.657874000 -0500
++++ pigment-0.3.1/libs/pypgm/pgm/Makefile.am	2007-08-06 14:33:24.639346000 -0500
 @@ -18,7 +18,7 @@ pgm.c: pgm.defs $(overrides)
  _pgmmodule_la_LDFLAGS = \
  	@PY_PGM_LDFLAGS@ \
@@ -34,4 +8,4 @@
 +	-export-symbols-regex init_pgm $(top_builddir)/pgm/libpigment-0.3.la
  
  _pgmmodule_la_CFLAGS = \
- 	@PY_PGM_CFLAGS@ \
+ 	@PY_PGM_CFLAGS@

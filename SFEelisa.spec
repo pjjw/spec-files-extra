@@ -15,15 +15,8 @@
 #
 # application/ogg ogg
 #
-# Note that the 0.3.0.1 version is building "make dist" from SVN head.
-# This latest version works on Solaris, whereas the last released version
-# does not.  When 0.3.x actually comes out, then this will be a bit easier
-# to build.  But for those who want to try out pigment right now, this
-# spec file and instructions will let you get started working with the
-# code.
-#
 %define name elisa
-%define version 0.3.0.1
+%define version 0.3.1
 
 %include Solaris.inc
 
@@ -32,7 +25,6 @@ Summary:           Media center written in Python
 URL:               http://elisa.fluendo.com/
 Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-%{version}.tar.gz
-Patch1:            elisa-01-solaris.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
 BuildRequires:     SUNWPython-devel
@@ -68,7 +60,6 @@ systems.
 
 %prep
 %setup -q -n elisa-%version
-%patch1 -p1
 
 %build
 
@@ -116,5 +107,7 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa-%{version}-py%{pythonver}.egg-info
 
 %changelog
+* Sun Aug 05 2007 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.3.1
 * Tue Jul 10 2007 Brian Cameron  <brian.cameron@sun.com>
 - Created spec.

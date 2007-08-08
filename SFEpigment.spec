@@ -3,14 +3,8 @@
 #
 # includes module(s): pigment
 #
-# Note that the 0.3.0.1 version is building "make dist" from SVN head.
-# This latest version works on Solaris, whereas the last released version
-# does not.  When 0.3.x actually comes out, then this will be a bit easier
-# to build.  But for those who want to try out pigment right now, this
-# spec file does work.
-#
 %define name pigment
-%define version 0.3.0.1
+%define version 0.3.1
 %define pythonver 2.4
 
 %include Solaris.inc
@@ -20,8 +14,7 @@ Name:            SFE%{name}
 Version:         %{version}
 URL:             https://core.fluendo.com/pigment/trac
 Source0:         http://elisa.fluendo.com/static/download/pigment/pigment-%{version}.tar.bz2
-Patch1:          pigment-01-noMacOS.diff
-Patch2:          pigment-02-fixconfigure.diff
+Patch1:          pigment-01-fixconfigure.diff
 SUNW_BaseDir:    %{_basedir}
 BuildRoot:       %{_tmppath}/%{name}-%{version}-build
 BuildRequires:   SUNWPython-devel
@@ -54,7 +47,6 @@ Media Center project.
 %prep
 %setup -q -n pigment-%version
 %patch1 -p1 
-%patch2 -p1 
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -115,5 +107,7 @@ rm -rf $RPM_BUILD_ROOT
 #%{_datadir}/gtk-doc/html/*
 
 %changelog
-* Tue Jul 10 2007 Brian Cameron <brian.cameron@sun.com>
+* Sun Aug 05 2007 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.3.1
+* Tue Jul 10 2007 Brian Cameron  <brian.cameron@sun.com>
 - Create spec file.

@@ -1,4 +1,12 @@
+2007-08-06 Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEpigment.spec, SFEelisa.spec: Bump to 0.3.1
+	* patches/pigment-02-fixconfigure.diff: New patch needed to build.
+	* SFEgst-python.spec: Bump to 0.10.8.
+	* patches/gst-python-01-crash.diff: Remove upstream patch.
+
 2007-08-07 Jerry Yu <jijun.yu@sun.com>
+
 	* SFEpylibs-httplib2.spec: bump to 0.3.0
 	* SFElibopensync-plugin-gcal.spec: added
 	* linux-specs/libopensync-plugin-gcal.spec: bump to 0.32
