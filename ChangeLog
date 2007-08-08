@@ -1,5 +1,9 @@
 2007-08-08  Halton Huo <nonsea@users.sourceforge.net>
 
+	* base-specs/gnome-sync.spec: fix typo.
+
+2007-08-08  Halton Huo <nonsea@users.sourceforge.net>
+
 	* SFElibidn.spec: Bump to 1.0
 	* SFEwxwidgets.spec: Bump to 2.8.4,
 	  add --enable-gui --enable-xrc --with-expat for ./configure.

@@ -38,7 +38,7 @@ BuildRequires:      glib2-devel    >= %{glib2_version}
 BuildRequires:      gtk2-devel     >= %{gtk2_version}
 BuildRequires:      GConf-devel    >= %{GConf_version}
 BuildRequires:      libglade-devel >= %{libglade_version}
-BuildRequires: 	    libopensync-dvel >= %{opensync_version}
+BuildRequires: 	    libopensync-devel >= %{opensync_version}
 BuildRequires:      libedataserverui-devel >= %{libedataserverui}
 BuildRequires:      libxml-devel >= %{libxml_version}
 
