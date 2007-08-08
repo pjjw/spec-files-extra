@@ -7,8 +7,8 @@
 
 Name:                SFElibidn
 Summary:             GNU IDN conversion library
-Version:             0.6.9
-Source:              ftp://alpha.gnu.org/pub/gnu/libidn/libidn-%{version}.tar.gz
+Version:             1.0
+Source:              http://alpha.gnu.org/pub/gnu/libidn/libidn-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -99,6 +99,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
-* 
+* Wed Aug 08 2007 - nonsea@users.sourceforge.net
+- Bump to 1.0
 * Sun Mar 04 2007 - Eric Boutilier
 - Initial spec

@@ -9,11 +9,11 @@
 Name:                    SFEwxwidgets
 Summary:                 wxWidgets - Cross-Platform GUI Library
 URL:                     http://wxwidgets.org/
-Version:                 2.6.3
-%define tarball_version  2.6.3
+Version:                 2.8.4
+%define tarball_version  2.8.4
 Source:			 http://easynews.dl.sourceforge.net/sourceforge/wxwindows/wxWidgets-%{tarball_version}.tar.bz2
 Patch1:                  wxwidgets-01-msgfmt.diff
-Patch2:                 wxwidgets-02-sqrt.diff
+Patch2:                  wxwidgets-02-sqrt.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -21,10 +21,10 @@ Requires:      SUNWgnome-libs
 Conflicts:     SFEwxGTK
 
 %package devel
-Summary:		 %{summary} - development files
+Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
-Requires:      %name
+Requires:                %name
 
 %if %build_l10n
 %package l10n
@@ -53,17 +53,19 @@ export LDFLAGS="-lCrun -lCstd"
 export CXX="${CXX} -norunpath"
 %endif
 export CXXFLAGS="%cxx_optflags -xlibmil -xlibmopt -features=tmplife"
-./configure --prefix=%{_prefix}			\
-	    --bindir=%{_bindir}			\
-	    --includedir=%{_includedir}		\
-            --libdir=%{_libdir}			\
-	    --with-gtk				\
-	    --enable-gtk2			\
-            --enable-unicode			\
-            --enable-mimetype                   \
-            --with-sdl                          \
-            --without-expat                     \
-            --with-gnomeprint
+./configure --prefix=%{_prefix}				\
+			--bindir=%{_bindir}				\
+			--includedir=%{_includedir}		\
+			--libdir=%{_libdir}				\
+			--with-gtk						\
+			--enable-gtk2					\
+			--enable-unicode				\
+			--enable-mimetype				\
+			--enable-gui					\
+			--enable-xrc					\
+			--with-expat					\
+			--with-sdl						\
+			--with-gnomeprint
 
 make -j$CPUS
 cd contrib
@@ -122,6 +124,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Aug 07 2007 - nonsea@users.sourceforge.net
+- Bump to 2.8.4
+- Add --enable-gui --enable-xrc --with-expat for ./configure.
 * Thu Mar 29 2007 - daymobrew@users.sourceforge.net
 - Rename zh dir to zh_CN in %install as zh a symlink to zh_CN and causing
   installation problems as a dir.

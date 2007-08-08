@@ -1,3 +1,11 @@
+2007-08-08  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFElibidn.spec: Bump to 1.0
+	* SFEwxwidgets.spec: Bump to 2.8.4,
+	  add --enable-gui --enable-xrc --with-expat for ./configure.
+	* patches/wxwidgets-01-msgfmt.diff: rework
+	* patches/wxwidgets-02-sqrt.diff: rework
+
 2007-08-06 Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEpigment.spec, SFEelisa.spec: Bump to 0.3.1

@@ -1,8 +1,7 @@
-diff -ur wxGTK-2.6.3-orig/src/gtk/gnome/gprint.cpp wxGTK-2.6.3/src/gtk/gnome/gprint.cpp
---- wxGTK-2.6.3-orig/src/gtk/gnome/gprint.cpp	2006-03-22 06:42:17.000000000 +0700
-+++ wxGTK-2.6.3/src/gtk/gnome/gprint.cpp	2006-05-09 12:15:45.676612899 +0700
-@@ -1162,7 +1162,7 @@
- void wxGnomePrintDC::makeEllipticalPath(wxCoord x, wxCoord y, 
+--- wxWidgets-2.8.4/src/gtk/gnome/gprint.cpp.orig	2007-08-07 16:57:39.225509000 +0800
++++ wxWidgets-2.8.4/src/gtk/gnome/gprint.cpp	2007-08-07 16:58:37.014728000 +0800
+@@ -1304,7 +1304,7 @@
+ void wxGnomePrintDC::makeEllipticalPath(wxCoord x, wxCoord y,
                                          wxCoord width, wxCoord height)
  {
 -    double r = 4 * (sqrt (2) - 1) / 3;
