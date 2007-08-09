@@ -11,7 +11,7 @@
 Name:           SFEtracker
 License:        GPL
 Summary:        Desktop search tool
-Version:        0.6.0
+Version:        0.6.1
 URL:            http://www.tracker-project.org
 Source:         http://www.gnome.org/~jamiemcc/tracker/tracker-%{version}.tar.gz
 SUNW_BaseDir:   %{_basedir}
@@ -150,6 +150,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Aug 09 2007 - nonsea@users.sourceforge.net
+- Bump to 0.6.1.
 * Mon Aug 06 2007 - nonsea@users.sourceforge.net
 - Add --enable-external-sqlite
 * Fri Jul 24 2007 - nonsea@users.sourceforge.net
