@@ -1,0 +1,45 @@
+--- filezilla-3.0.0-beta11/src/interface/LocalListView.cpp.orig	2007-08-09 15:25:02.683428000 +0800
++++ filezilla-3.0.0-beta11/src/interface/LocalListView.cpp	2007-08-09 15:34:49.004608000 +0800
+@@ -956,13 +956,15 @@
+ 
+ 	const int dirSortOption = COptions::Get()->GetOptionVal(OPTION_FILELIST_DIRSORT);
+ 
++	std::vector<unsigned int>::iterator start;
+ 	if (column == m_sortColumn && direction != m_sortDirection && !m_indexMapping.empty() &&
+ 		dirSortOption != 1)
+ 	{
+ 		// Simply reverse everything
+ 		m_sortDirection = direction;
+ 		m_sortColumn = column;
+-		std::reverse(++m_indexMapping.begin(), m_indexMapping.end());
++		start = m_indexMapping.begin();
++		std::reverse(start++, m_indexMapping.end());
+ 
+ 		SortList_UpdateSelections(selected, focused);
+ 		delete [] selected;
+@@ -997,18 +999,19 @@
+ 		break;
+ 	}
+ 
+-
++	start = m_indexMapping.begin();
+ 	if (!m_sortColumn)
+-		std::sort(++m_indexMapping.begin(), m_indexMapping.end(), CLocalListViewSortName(m_fileData, dirSortMode));
++		std::sort(++start, m_indexMapping.end(), CLocalListViewSortName(m_fileData, dirSortMode));
+ 	else if (m_sortColumn == 1)
+-		std::sort(++m_indexMapping.begin(), m_indexMapping.end(), CLocalListViewSortSize(m_fileData, dirSortMode));
++		std::sort(++start, m_indexMapping.end(), CLocalListViewSortSize(m_fileData, dirSortMode));
+ 	else if (m_sortColumn == 2)
+-		std::sort(++m_indexMapping.begin(), m_indexMapping.end(), CLocalListViewSortType(m_fileData, dirSortMode, this));
++		std::sort(++start, m_indexMapping.end(), CLocalListViewSortType(m_fileData, dirSortMode, this));
+ 	else if (m_sortColumn == 3)
+-		std::sort(++m_indexMapping.begin(), m_indexMapping.end(), CLocalListViewSortTime(m_fileData, dirSortMode));
++		std::sort(++start, m_indexMapping.end(), CLocalListViewSortTime(m_fileData, dirSortMode));
+ 
++	start = m_indexMapping.begin();
+ 	if (m_sortDirection)
+-		std::reverse(++m_indexMapping.begin(), m_indexMapping.end());
++		std::reverse(++start, m_indexMapping.end());
+ 
+ 	SortList_UpdateSelections(selected, focused);
+ 	delete [] selected;

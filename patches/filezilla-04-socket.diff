@@ -1,0 +1,13 @@
+Index: trunk/src/putty/Makefile.am
+===================================================================
+--- trunk/src/putty/Makefile.am	(revision 1538)
++++ trunk/src/putty/Makefile.am	(working copy)
+@@ -30,7 +30,7 @@
+ 
+ if SFTP_UNIX
+   fzsftp_SOURCES += time.c
+-  fzsftp_LDADD = unix/libfzsftp_ux.a
++  fzsftp_LDADD = -lsocket unix/libfzsftp_ux.a
+   fzsftp_CPPFLAGS = $(AM_CPPFLAGS) -D_FILE_OFFSET_BITS=64
+ endif
+ 

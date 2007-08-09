@@ -1,0 +1,26 @@
+Index: trunk/locales/da_DK.po
+===================================================================
+--- trunk/locales/da_DK.po	(revision 1538)
++++ trunk/locales/da_DK.po	(working copy)
+@@ -30,7 +30,7 @@
+ #: ../../locales/../src/interface/verifycertdialog.cpp:47
+ #, c-format
+ msgid "%s - Certificate expired!"
+-msgstr "Certificat udløbet"
++msgstr "%s - Certificat udløbet"
+ 
+ #: ../../locales/../src/interface/verifycertdialog.cpp:31
+ #, c-format
+Index: trunk/locales/tr.po
+===================================================================
+--- trunk/locales/tr.po	(revision 1538)
++++ trunk/locales/tr.po	(working copy)
+@@ -1094,7 +1094,7 @@
+ #: ../../locales/../src/interface/sitemanager.cpp:1143
+ #, c-format
+ msgid "Copy (%d) of %s"
+-msgstr "%s 'nin (%d)'ni Kopyala  "
++msgstr "%d 'nin (%s)'ni Kopyala  "
+ 
+ #: ../../locales/../src/interface/sitemanager.cpp:1120
+ #, c-format
