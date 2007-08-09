@@ -1,3 +1,13 @@
+2007-08-09  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEclutter-cairo.spec: bump to 0.4.0
+	* SFEclutter-gst.spec: bump to 0.4.0
+	* SFEclutter.spec: bump to 0.4.0
+	* SFEclutter-gtk.spec: (new) add
+	* patches/clutter-01-build.diff: delete upstream patch, add
+	  new one with the same name.
+	* patches/clutter-gst-01-gst-base.diff: delete upstream patch
+
 2007-08-09  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEfilezilla.spec: (new) FileZilla FTP client

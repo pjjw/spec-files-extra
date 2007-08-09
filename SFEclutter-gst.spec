@@ -7,10 +7,9 @@
 
 Name:                    SFEclutter-gst
 Summary:                 clutter-gst - gstreamer integration library for clutter
-Version:                 0.3.1
+Version:                 0.4.0
 URL:                     http://www.clutter-project.org/
-Source:                  http://www.clutter-project.org/sources/clutter-gst/0.3/clutter-gst-%{version}.tar.bz2
-Patch1:                  clutter-gst-01-gst-base.diff
+Source:                  http://www.clutter-project.org/sources/clutter-gst/0.4/clutter-gst-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -31,7 +30,6 @@ Requires: SUNWgnome-media-devel
 
 %prep
 %setup -q -n clutter-gst-%version
-%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -71,5 +69,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Thu Aug  9 2007 - laca@sun.com
+- bump to 0.4.0
+- delete upstream patch
 * Thu Jul 19 2007 - laca@sun.com
 - create

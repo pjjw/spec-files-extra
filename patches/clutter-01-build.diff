@@ -1,11 +1,11 @@
---- clutter-0.3.1/clutter/clutter-event.c.orig	2007-07-19 10:24:10.289492000 -0400
-+++ clutter-0.3.1/clutter/clutter-event.c	2007-07-19 10:24:13.673831000 -0400
-@@ -106,7 +106,7 @@
-  *
-  * Since: 0.4
-  */
--guint32
-+ClutterModifierType
- clutter_event_get_state (ClutterEvent *event)
- {
-   g_return_val_if_fail (event != NULL, 0);
+--- clutter-0.4.0/clutter/clutter-box.c.orig	2007-08-09 10:13:38.040268000 -0400
++++ clutter-0.4.0/clutter/clutter-box.c	2007-08-09 10:14:04.897076000 -0400
+@@ -477,7 +477,7 @@
+   ClutterBoxChild *box_child;
+ 
+   g_return_val_if_fail (CLUTTER_IS_BOX (box), FALSE);
+-  g_return_val_if_fail (index > 0, FALSE);
++  g_return_val_if_fail (index_ > 0, FALSE);
+ 
+   box_child = g_list_nth_data (box->children, index_);
+   if (!box_child)

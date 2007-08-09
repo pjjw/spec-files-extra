@@ -7,9 +7,9 @@
 
 Name:                    SFEclutter
 Summary:                 clutter - a library for creating fast, visually rich and animated graphical user interfaces.
-Version:                 0.3.1
+Version:                 0.4.0
 URL:                     http://www.clutter-project.org/
-Source:                  http://www.clutter-project.org/sources/clutter/0.3/clutter-%{version}.tar.bz2
+Source:                  http://www.clutter-project.org/sources/clutter/0.4/clutter-%{version}.tar.bz2
 Patch1:                  clutter-01-build.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -67,5 +67,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Thu Aug  9 2007 - laca@sun.com
+- bump to 0.4.0
 * Thu Jul 19 2007 - laca@sun.com
 - create

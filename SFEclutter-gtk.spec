@@ -1,22 +1,21 @@
 #
-# spec file for package SFEclutter-cairo
+# spec file for package SFEclutter-gtk
 #
-# includes module(s): clutter-cairo
+# includes module(s): clutter-gtk
 #
 %include Solaris.inc
 
-Name:                    SFEclutter-cairo
-Summary:                 clutter-cairo - An experimental clutter cairo 'drawable' actor.
+Name:                    SFEclutter-gtk
+Summary:                 clutter-gtk - GTK+ integration library for clutter
 Version:                 0.4.0
 URL:                     http://www.clutter-project.org/
-Source:                  http://www.clutter-project.org/sources/clutter-cairo/0.4/clutter-cairo-%{version}.tar.bz2
+Source:                  http://www.clutter-project.org/sources/clutter-gtk/0.4/clutter-gtk-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWgnome-base-libs
 Requires: SFEclutter
 BuildRequires: SUNWgnome-base-libs-devel
-BuildRequires: SFEclutter-devel
 
 %package devel
 Summary:                 %{summary} - developer files
@@ -24,11 +23,11 @@ SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
 Requires: SUNWgnome-base-libs-devel
-BuildRequires: SFEclutter-devel
+Requires: SFEclutter-devel
 
 
 %prep
-%setup -q -n clutter-cairo-%version
+%setup -q -n clutter-gtk-%version
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -62,6 +61,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
+%dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/gtk-doc
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 
