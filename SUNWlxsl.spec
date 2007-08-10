@@ -10,7 +10,7 @@
 
 %include Solaris.inc
 
-%define libxslt_version 1.1.14
+%define libxslt_version 1.1.15
 %define python_version 2.4
 
 Name:                    SUNWlxsl
