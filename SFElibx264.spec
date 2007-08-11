@@ -19,6 +19,8 @@ Patch1:			 libx264-01-gccisms.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+BuildRequires: SFEgpac-devel
+Requires: SFEgpac
 
 %package devel
 Summary:                 %{summary} - development files
@@ -101,5 +103,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Aug 12 2007 - dougs@truemail.co.th
+- Added SFEgpac as Required
 * Fri Aug  3 2007 - dougs@truemail.co.th
 - initial version

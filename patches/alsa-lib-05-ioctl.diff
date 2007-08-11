@@ -1,0 +1,19 @@
+diff -ur alsa-lib-1.0.14a.orig/include/sound/asequencer.h alsa-lib-1.0.14a/include/sound/asequencer.h
+--- alsa-lib-1.0.14a.orig/include/sound/asequencer.h	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/include/sound/asequencer.h	2007-08-11 14:43:34.518949852 +0700
+@@ -23,8 +23,15 @@
+ #define __SOUND_ASEQUENCER_H
+ 
+ #ifndef __KERNEL__
++#if defined(sun)
++#include <unistd.h>
++#include <stropts.h>
++#include <sys/ioctl.h>
++#include <sys/ioccom.h>
++#else
+ #include <linux/ioctl.h>
+ #endif
++#endif
+ 
+ #include <sound/asound.h>
+ 

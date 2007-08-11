@@ -1,0 +1,36 @@
+diff -ur alsa-utils-1.0.14.orig/aplay/formats.h alsa-utils-1.0.14/aplay/formats.h
+--- alsa-utils-1.0.14.orig/aplay/formats.h	2007-05-31 15:07:21.000000000 +0700
++++ alsa-utils-1.0.14/aplay/formats.h	2007-08-11 23:49:56.165480359 +0700
+@@ -1,8 +1,17 @@
+ #ifndef FORMATS_H
+ #define FORMATS_H		1
+ 
++#if defined(HAVE_ENDIAN_H)
+ #include <endian.h>
++#else
++#include <alsa/endian-compat.h>
++#endif
++
++#if defined(HAVE_BYTESWAP_H)
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ 
+ /* Definitions for .VOC files */
+ 
+diff -ur alsa-utils-1.0.14.orig/speaker-test/speaker-test.c alsa-utils-1.0.14/speaker-test/speaker-test.c
+--- alsa-utils-1.0.14.orig/speaker-test/speaker-test.c	2007-05-31 15:07:21.000000000 +0700
++++ alsa-utils-1.0.14/speaker-test/speaker-test.c	2007-08-11 23:50:14.606172227 +0700
+@@ -47,7 +47,11 @@
+ #ifdef ENABLE_NLS
+ #include <locale.h>
+ #endif
++#if defined(HAVE_BYTESWAP_H)
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ 
+ #define ALSA_PCM_NEW_HW_PARAMS_API
+ #define ALSA_PCM_NEW_SW_PARAMS_API

@@ -1,3 +1,31 @@
+2007-08-30  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEalsa-lib.spec: *NEW* Advanced Linux Sound Architecture Library
+	* SFEalsa-utils.spec: *NEW* ALSA Utils
+	* SFEalsa-plugins.spec: *NEW* ALSA plugins - Uses OSS driver
+	* SFEtea.spec: Bump to 17.1.4
+	* SFElibx264.spec: Add SFEgpac as requirement
+	* patches/alsa-utils-02-configure.diff: Add autoconf rules
+	* patches/alsa-lib-12-compat.diff: Add extra headers for Solaris
+	* patches/alsa-lib-10-err.diff: Wrap err.h
+	* patches/alsa-utils-01-endian.diff: Endian patch
+	* patches/alsa-lib-07-aflocal.diff: AF_LOCAL -> AF_UNIX
+	* patches/alsa-plugins-03-dsp.diff: patch for maemo plugin
+	* patches/alsa-lib-06-async.diff: Solaris does not have O_ASYNC
+	* patches/alsa-lib-08-mapfile.diff: Solaris does not have MAP_FILE
+	* patches/alsa-plugins-02-oss.diff: Add Solaris headers
+	* patches/alsa-lib-11-sockio.diff: Add sys/sockio.h
+	* patches/alsa-lib-02-byteorder.diff: Byte Order patch
+	* patches/alsa-lib-04-inttypes.diff: add u_int8_t etc
+	* patches/alsa-lib-09-search.diff: Hack GNU search compat function
+	* patches/alsa-lib-05-ioctl.diff: Add Solaris headers
+	* patches/alsa-lib-01-configure.diff: Add autoconf rules
+	* patches/alsa-plugins-01-configure.diff: Add autoconf rules
+	* patches/alsa-lib-03-alloca.diff: Add alloca.h
+	* include/byteswap-compat.h: Hack to create <byteswap.h> - needs work :)
+	* include/endian-compat.h: Hack to create <endian.h> - needs work :)
+	* include/asound.conf: Sample asound.conf to enable alsa to use OSS
+
 2007-08-10  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SUNWlxml.spec: (new) libxml2 - copied from JDS 2-12 branch
@@ -94,6 +122,7 @@
             
 
 2007-08-30  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEffmpeg.spec: Bumped export version
 	    Added codecs
 	    Created ffmpeg.pc

@@ -1,0 +1,68 @@
+diff -ur alsa-plugins-1.0.14.orig/oss/ctl_oss.c alsa-plugins-1.0.14/oss/ctl_oss.c
+--- alsa-plugins-1.0.14.orig/oss/ctl_oss.c	2007-05-31 15:06:51.000000000 +0700
++++ alsa-plugins-1.0.14/oss/ctl_oss.c	2007-08-12 00:42:43.821350537 +0700
+@@ -26,7 +26,11 @@
+ #include <sys/ioctl.h>
+ #include <alsa/asoundlib.h>
+ #include <alsa/control_external.h>
++#if defined(HAVE_LINUX_SOUNDCARD_H)
+ #include <linux/soundcard.h>
++#else
++#include <sys/soundcard.h>
++#endif
+ 
+ typedef struct snd_ctl_oss {
+ 	snd_ctl_ext_t ext;
+@@ -61,11 +65,17 @@
+ 	[SOUND_MIXER_DIGITAL1] = "IEC958 Playback Volume",
+ 	[SOUND_MIXER_DIGITAL2] = "Digital Playback Volume",
+ 	[SOUND_MIXER_DIGITAL3] = "Digital1 Playback Volume",
++#ifdef SOUND_MIXER_PHONEIN
+ 	[SOUND_MIXER_PHONEIN] =	"Phone Playback Volume",
++#endif
++#ifdef SOUND_MIXER_PHONEOUT
+ 	[SOUND_MIXER_PHONEOUT] = "Master Mono Playback Volume",
++#endif
+ 	[SOUND_MIXER_VIDEO] =	"Video Playback Volume",
+ 	[SOUND_MIXER_RADIO] =	"Radio Playback Volume",
++#ifdef SOUND_MIXER_MONITOR
+ 	[SOUND_MIXER_MONITOR] =	"Monitor Playback Volume",
++#endif
+ };
+ 
+ static const char *rec_devices[SOUND_MIXER_NRDEVICES] = {
+@@ -81,7 +91,9 @@
+ 	[SOUND_MIXER_DIGITAL1] = "IEC958 Capture Switch",
+ 	[SOUND_MIXER_DIGITAL2] = "Digital Capture Switch",
+ 	[SOUND_MIXER_DIGITAL3] = "Digital1 Capture Switch",
++#ifdef SOUND_MIXER_PHONEIN
+ 	[SOUND_MIXER_PHONEIN] =	"Phone Capture Switch",
++#endif
+ 	[SOUND_MIXER_VIDEO] =	"Video Capture Switch",
+ 	[SOUND_MIXER_RADIO] =	"Radio Capture Switch",
+ };	
+@@ -99,7 +111,9 @@
+ 	[SOUND_MIXER_DIGITAL1] = "IEC958",
+ 	[SOUND_MIXER_DIGITAL2] = "Digital",
+ 	[SOUND_MIXER_DIGITAL3] = "Digital1",
++#ifdef SOUND_MIXER_PHONEIN
+ 	[SOUND_MIXER_PHONEIN] =	"Phone",
++#endif
+ 	[SOUND_MIXER_VIDEO] =	"Video",
+ 	[SOUND_MIXER_RADIO] =	"Radio",
+ };	
+diff -ur alsa-plugins-1.0.14.orig/oss/pcm_oss.c alsa-plugins-1.0.14/oss/pcm_oss.c
+--- alsa-plugins-1.0.14.orig/oss/pcm_oss.c	2007-05-31 15:06:51.000000000 +0700
++++ alsa-plugins-1.0.14/oss/pcm_oss.c	2007-08-12 00:37:48.119259201 +0700
+@@ -22,7 +22,11 @@
+ #include <sys/ioctl.h>
+ #include <alsa/asoundlib.h>
+ #include <alsa/pcm_external.h>
++#if defined(HAVE_LINUX_SOUNDCARD_H)
+ #include <linux/soundcard.h>
++#else
++#include <sys/soundcard.h>
++#endif
+ 
+ typedef struct snd_pcm_oss {
+ 	snd_pcm_ioplug_t io;

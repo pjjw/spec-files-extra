@@ -1,0 +1,37 @@
+diff -ur alsa-lib-1.0.14a.orig/alsalisp/alsalisp.c alsa-lib-1.0.14a/alsalisp/alsalisp.c
+--- alsa-lib-1.0.14a.orig/alsalisp/alsalisp.c	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/alsalisp/alsalisp.c	2007-08-11 15:53:42.572035395 +0700
+@@ -23,7 +23,9 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <unistd.h>
++#ifdef HAVE_ERR_H
+ #include <err.h>
++#endif
+ 
+ #include "asoundlib.h"
+ #include "alisp.h"
+diff -ur alsa-lib-1.0.14a.orig/src/alisp/alisp.c alsa-lib-1.0.14a/src/alisp/alisp.c
+--- alsa-lib-1.0.14a.orig/src/alisp/alisp.c	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/src/alisp/alisp.c	2007-08-11 15:53:29.644261894 +0700
+@@ -29,7 +29,9 @@
+ #include <string.h>
+ #include <ctype.h>
+ #include <math.h>
++#ifdef HAVE_ERR_H
+ #include <err.h>
++#endif
+ 
+ #define alisp_seq_iterator alisp_object
+ 
+diff -ur alsa-lib-1.0.14a.orig/test/namehint.c alsa-lib-1.0.14a/test/namehint.c
+--- alsa-lib-1.0.14a.orig/test/namehint.c	2007-06-11 15:53:14.000000000 +0700
++++ alsa-lib-1.0.14a/test/namehint.c	2007-08-11 15:53:17.715140599 +0700
+@@ -1,5 +1,7 @@
+ #include "../include/asoundlib.h"
++#ifdef HAVE_ERR_H
+ #include <err.h>
++#endif
+ 
+ int main(int argc, char *argv[])
+ {

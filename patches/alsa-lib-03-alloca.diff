@@ -1,0 +1,26 @@
+diff -ur alsa-lib-1.0.14a.orig/include/asoundlib.h alsa-lib-1.0.14a/include/asoundlib.h
+--- alsa-lib-1.0.14a.orig/include/asoundlib.h	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/include/asoundlib.h	2007-08-11 14:23:22.238291008 +0700
+@@ -38,6 +38,9 @@
+ #include <sys/poll.h>
+ #include <errno.h>
+ #include <stdarg.h>
++#ifdef HAVE_ALLOCA_H
++#include <alloca.h>
++#endif
+ 
+ #include <alsa/asoundef.h>
+ #include <alsa/version.h>
+diff -ur alsa-lib-1.0.14a.orig/include/local.h alsa-lib-1.0.14a/include/local.h
+--- alsa-lib-1.0.14a.orig/include/local.h	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/include/local.h	2007-08-11 14:22:27.829399072 +0700
+@@ -32,6 +32,9 @@
+ #include <stdarg.h>
+ #include <sys/poll.h>
+ #include <errno.h>
++#ifdef HAVE_ALLOCA_H
++#include <alloca.h>
++#endif
+ 
+ #include "config.h"
+ #ifdef SUPPORT_RESMGR

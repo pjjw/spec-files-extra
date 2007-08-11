@@ -1,0 +1,27 @@
+--- alsa-utils-1.0.14/configure.in.orig	2007-08-11 23:45:19.106647289 +0700
++++ alsa-utils-1.0.14/configure.in	2007-08-11 23:45:23.730817885 +0700
+@@ -95,6 +95,24 @@
+ dnl Enable largefile support
+ AC_SYS_LARGEFILE
+ 
++AC_CHECK_HEADERS([alloca.h endian.h byteswap.h sys/byteorder.h search.h err.h])
++AC_CHECK_HEADERS([sys/sockio.h features.h sys/ioccom.h])
++
++dnl Check for -lnsl
++AC_CHECK_LIB([nsl], [gethostent], [HAVE_LIBNSL="yes"])
++if test "$HAVE_LIBNSL" = "yes"; then
++  LIBS="$LIBS -lnsl"
++  AC_DEFINE([HAVE_LIBNSL], 1, [Have libnsl])
++fi
++
++dnl Check for -lsocket
++AC_CHECK_LIB([socket], [setsockopt], [HAVE_LIBSOCKET="yes"])
++if test "$HAVE_LIBSOCKET" = "yes"; then
++  LIBS="$LIBS -lsocket"
++  AC_DEFINE([HAVE_LIBSOCKET], 1, [Have libsocket])
++fi
++
++
+ SAVE_UTIL_VERSION
+ 
+ AC_OUTPUT(Makefile alsactl/Makefile alsamixer/Makefile amidi/Makefile amixer/Makefile \

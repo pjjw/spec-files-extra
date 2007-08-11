@@ -1,0 +1,22 @@
+diff -ur alsa-plugins-1.0.14.orig/maemo/dsp-protocol.h alsa-plugins-1.0.14/maemo/dsp-protocol.h
+--- alsa-plugins-1.0.14.orig/maemo/dsp-protocol.h	2007-05-31 15:06:51.000000000 +0700
++++ alsa-plugins-1.0.14/maemo/dsp-protocol.h	2007-08-12 01:04:07.119131897 +0700
+@@ -25,11 +25,18 @@
+ #define _DSP_PROTOCOL_H
+ 
+ #define __USE_GNU
++#ifdef HAVE_FEATURES_H
+ #include <features.h>
++#endif
+ #include <pthread.h>
++#ifndef PTHREAD_ERRORCHECK_MUTEX_INITIALIZER_NP
++#define PTHREAD_ERRORCHECK_MUTEX_INITIALIZER_NP PTHREAD_MUTEX_INITIALIZER
++#endif
+ #include <semaphore.h>
+ #include "types.h"
+ 
++#include <errno.h>
++
+ #ifdef HAVE_CONFIG_H
+ #include <config.h>
+ #endif

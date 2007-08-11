@@ -1,0 +1,36 @@
+diff -ur alsa-lib-1.0.14a.orig/include/aserver.h alsa-lib-1.0.14a/include/aserver.h
+--- alsa-lib-1.0.14a.orig/include/aserver.h	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/include/aserver.h	2007-08-11 15:32:38.229765762 +0700
+@@ -22,6 +22,14 @@
+ #include "../src/pcm/pcm_local.h"
+ #include "../src/control/control_local.h"
+ 
++#if !defined(PF_LOCAL) && defined(PF_UNIX)
++#define PF_LOCAL PF_UNIX
++#endif
++
++#if !defined(AF_LOCAL) && defined(AF_UNIX)
++#define AF_LOCAL AF_UNIX
++#endif
++
+ int snd_receive_fd(int sock, void *data, size_t len, int *fd);
+ int snd_is_local(struct hostent *hent);
+ 
+diff -ur alsa-lib-1.0.14a.orig/include/local.h alsa-lib-1.0.14a/include/local.h
+--- alsa-lib-1.0.14a.orig/include/local.h	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/include/local.h	2007-08-11 15:34:57.628949597 +0700
+@@ -43,6 +43,14 @@
+ #define RTLD_NOW	0
+ #endif
+ 
++#if !defined(PF_LOCAL) && defined(PF_UNIX)
++#define PF_LOCAL PF_UNIX
++#endif
++
++#if !defined(AF_LOCAL) && defined(AF_UNIX)
++#define AF_LOCAL AF_UNIX
++#endif
++
+ #define _snd_config_iterator list_head
+ #define _snd_interval sndrv_interval
+ #define _snd_pcm_info sndrv_pcm_info

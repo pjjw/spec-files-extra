@@ -1,0 +1,27 @@
+diff -ur alsa-plugins-1.0.14.orig/configure.in alsa-plugins-1.0.14/configure.in
+--- alsa-plugins-1.0.14.orig/configure.in	2007-05-31 15:06:51.000000000 +0700
++++ alsa-plugins-1.0.14/configure.in	2007-08-12 00:10:12.158016751 +0700
+@@ -31,6 +31,23 @@
+         AC_DEFINE(USE_RESOURCE_MANAGER, 1,"Use dbus server as a resouce manager")
+ fi
+ 
++AC_CHECK_HEADERS([alloca.h endian.h byteswap.h sys/byteorder.h search.h err.h])
++AC_CHECK_HEADERS([sys/sockio.h features.h sys/ioccom.h linux/soundcard.h])
++
++dnl Check for -lnsl
++AC_CHECK_LIB([nsl], [gethostent], [HAVE_LIBNSL="yes"])
++if test "$HAVE_LIBNSL" = "yes"; then
++  LIBS="$LIBS -lnsl"
++  AC_DEFINE([HAVE_LIBNSL], 1, [Have libnsl])
++fi
++
++dnl Check for -lsocket
++AC_CHECK_LIB([socket], [setsockopt], [HAVE_LIBSOCKET="yes"])
++if test "$HAVE_LIBSOCKET" = "yes"; then
++  LIBS="$LIBS -lsocket"
++  AC_DEFINE([HAVE_LIBSOCKET], 1, [Have libsocket])
++fi
++
+ AC_ARG_WITH([avcodec-includedir],
+ 	AS_HELP_STRING([--with-avcodec-includedir=dir],
+ 		[AVcodec include directory]),

@@ -1,0 +1,13 @@
+diff -ur alsa-lib-1.0.14a.orig/src/socket.c alsa-lib-1.0.14a/src/socket.c
+--- alsa-lib-1.0.14a.orig/src/socket.c	2007-06-11 15:53:14.000000000 +0700
++++ alsa-lib-1.0.14a/src/socket.c	2007-08-11 17:29:27.720607562 +0700
+@@ -38,6 +38,9 @@
+ #include <net/if.h>
+ #include <netdb.h>
+ #include "local.h"
++#ifdef HAVE_SYS_SOCKIO_H
++#include <sys/sockio.h>
++#endif
+ 
+ #ifndef DOC_HIDDEN
+ int snd_send_fd(int sock, void *data, size_t len, int fd)

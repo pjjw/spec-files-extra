@@ -1,0 +1,94 @@
+diff -ur alsa-lib-1.0.14a.orig/include/search.h alsa-lib-1.0.14a/include/search.h
+--- alsa-lib-1.0.14a.orig/include/search.h	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/include/search.h	2007-08-11 17:18:24.934396510 +0700
+@@ -17,6 +17,17 @@
+    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+    Boston, MA 02111-1307, USA.  */
+ 
++#if defined(sun)
++#include "/usr/include/search.h"
++#define __USE_GNU
++struct hsearch_data
++  {
++    struct _ENTRY *table;
++    unsigned int size;
++    unsigned int filled;
++  };
++#endif
++
+ #ifndef _SEARCH_H
+ #define	_SEARCH_H 1
+ 
+@@ -48,17 +59,34 @@
+ extern void remque __P ((void *__elem));
+ #endif
+ 
++#ifndef __const
++#define __const         const
++#endif  /* __const */
++
++#if !defined(__PMT)
++#define __PMT(args)    args
++#endif
++
++#if !defined(__P)
++#define __P(args)    args
++#endif
++
++#if !defined(__ptr_t)
++#define __ptr_t void *
++#endif
++
+ 
+ /* For use with hsearch(3).  */
+ #ifndef __COMPAR_FN_T
+ # define __COMPAR_FN_T
+-typedef int (*__compar_fn_t) __PMT ((__const __ptr_t, __const __ptr_t));
++typedef int (*compar_fn_t) __PMT ((__const __ptr_t, __const __ptr_t));
+ 
+ # ifdef	__USE_GNU
+-typedef __compar_fn_t comparison_fn_t;
++typedef compar_fn_t comparison_fn_t;
+ # endif
+ #endif
+ 
++
+ /* Action which shall be performed in the call the hsearch.  */
+ typedef enum
+   {
+@@ -128,16 +156,16 @@
+ /* Search for an entry matching the given KEY in the tree pointed to
+    by *ROOTP and insert a new element if not found.  */
+ extern void *tsearch __PMT ((__const void *__key, void **__rootp,
+-			     __compar_fn_t __compar));
++			     compar_fn_t __compar));
+ 
+ /* Search for an entry matching the given KEY in the tree pointed to
+    by *ROOTP.  If no matching entry is available return NULL.  */
+ extern void *tfind __PMT ((__const void *__key, void *__const *__rootp,
+-			   __compar_fn_t __compar));
++			   compar_fn_t __compar));
+ 
+ /* Remove the element matching KEY from the tree pointed to by *ROOTP.  */
+ extern void *tdelete __PMT ((__const void *__key, void **__rootp,
+-			     __compar_fn_t __compar));
++			     compar_fn_t __compar));
+ 
+ #ifndef __ACTION_FN_T
+ # define __ACTION_FN_T
+@@ -164,13 +192,13 @@
+    [BASE,BASE+NMEMB*SIZE).  */
+ extern void *lfind __PMT ((__const void *__key, __const void *__base,
+ 			   size_t *__nmemb, size_t __size,
+-			   __compar_fn_t __compar));
++			   compar_fn_t __compar));
+ 
+ /* Perform linear search for KEY by comparing by COMPAR function in
+    array [BASE,BASE+NMEMB*SIZE) and insert entry if not found.  */
+ extern void *lsearch __PMT ((__const void *__key, void *__base,
+ 			     size_t *__nmemb, size_t __size,
+-			     __compar_fn_t __compar));
++			     compar_fn_t __compar));
+ 
+ __END_DECLS
+ 

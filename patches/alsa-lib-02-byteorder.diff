@@ -1,0 +1,306 @@
+diff -ur alsa-lib-1.0.14a.orig/include/asoundlib.h alsa-lib-1.0.14a/include/asoundlib.h
+--- alsa-lib-1.0.14a.orig/include/asoundlib.h	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/include/asoundlib.h	2007-08-11 14:03:01.837329447 +0700
+@@ -34,7 +34,11 @@
+ #include <string.h>
+ #include <fcntl.h>
+ #include <assert.h>
++#ifdef HAVE_ENDIAN_H
+ #include <endian.h>
++#else
++#include <alsa/endian-compat.h>
++#endif
+ #include <sys/poll.h>
+ #include <errno.h>
+ #include <stdarg.h>
+diff -ur alsa-lib-1.0.14a.orig/include/local.h alsa-lib-1.0.14a/include/local.h
+--- alsa-lib-1.0.14a.orig/include/local.h	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/include/local.h	2007-08-11 14:03:17.933790724 +0700
+@@ -28,7 +28,11 @@
+ #include <string.h>
+ #include <fcntl.h>
+ #include <assert.h>
++#ifdef HAVE_ENDIAN_H
+ #include <endian.h>
++#else
++#include <alsa/endian-compat.h>
++#endif
+ #include <stdarg.h>
+ #include <sys/poll.h>
+ #include <errno.h>
+diff -ur alsa-lib-1.0.14a.orig/include/sound/asound.h alsa-lib-1.0.14a/include/sound/asound.h
+--- alsa-lib-1.0.14a.orig/include/sound/asound.h	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/include/sound/asound.h	2007-08-11 14:02:53.141520907 +0700
+@@ -43,7 +43,12 @@
+ 
+ #else /* !__KERNEL__ */
+ 
++#ifdef HAVE_ENDIAN_H
+ #include <endian.h>
++#else
++#include <alsa/endian-compat.h>
++#endif
++
+ #if __BYTE_ORDER == __LITTLE_ENDIAN
+ #define SNDRV_LITTLE_ENDIAN
+ #elif __BYTE_ORDER == __BIG_ENDIAN
+diff -ur alsa-lib-1.0.14a.orig/include/sound/type_compat.h alsa-lib-1.0.14a/include/sound/type_compat.h
+--- alsa-lib-1.0.14a.orig/include/sound/type_compat.h	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/include/sound/type_compat.h	2007-08-11 14:06:44.305834002 +0700
+@@ -10,8 +10,16 @@
+ typedef int16_t __s16;
+ typedef int32_t __s32;
+ 
++#ifdef HAVE_ENDIAN_H
+ #include <endian.h>
++#else
++#include <alsa/endian-compat.h>
++#endif
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #if __BYTE_ORDER == __LITTLE_ENDIAN
+ #define __cpu_to_le32(x) (x)
+ #define __cpu_to_be32(x) bswap_32(x)
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_adpcm.c alsa-lib-1.0.14a/src/pcm/pcm_adpcm.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_adpcm.c	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_adpcm.c	2007-08-11 14:05:00.631926236 +0700
+@@ -56,7 +56,11 @@
+   come across a good description of XA yet.
+  */
+ 
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #include "pcm_local.h"
+ #include "pcm_plugin.h"
+ 
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_alaw.c alsa-lib-1.0.14a/src/pcm/pcm_alaw.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_alaw.c	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_alaw.c	2007-08-11 14:05:08.832045082 +0700
+@@ -26,7 +26,11 @@
+  *
+  */
+   
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #include "pcm_local.h"
+ #include "pcm_plugin.h"
+ 
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_copy.c alsa-lib-1.0.14a/src/pcm/pcm_copy.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_copy.c	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_copy.c	2007-08-11 14:06:09.393168524 +0700
+@@ -26,7 +26,11 @@
+  *
+  */
+   
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #include "pcm_local.h"
+ #include "pcm_plugin.h"
+ 
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_dmix_generic.c alsa-lib-1.0.14a/src/pcm/pcm_dmix_generic.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_dmix_generic.c	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_dmix_generic.c	2007-08-11 14:04:42.919412616 +0700
+@@ -124,7 +124,11 @@
+ 	(1ULL << SND_PCM_FORMAT_S16_BE) | (1ULL << SND_PCM_FORMAT_S32_BE) |
+ 	(1ULL << SND_PCM_FORMAT_S24_3LE);
+ 
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ 
+ static void mix_areas1_native(unsigned int size,
+ 			      volatile signed short *dst, signed short *src,
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_file.c alsa-lib-1.0.14a/src/pcm/pcm_file.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_file.c	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_file.c	2007-08-11 14:05:52.848965270 +0700
+@@ -26,7 +26,11 @@
+  *
+  */
+   
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #include <ctype.h>
+ #include "pcm_local.h"
+ #include "pcm_plugin.h"
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_iec958.c alsa-lib-1.0.14a/src/pcm/pcm_iec958.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_iec958.c	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_iec958.c	2007-08-11 14:05:45.112882542 +0700
+@@ -26,7 +26,11 @@
+  *
+  */
+   
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #include "pcm_local.h"
+ #include "pcm_plugin.h"
+ 
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_lfloat.c alsa-lib-1.0.14a/src/pcm/pcm_lfloat.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_lfloat.c	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_lfloat.c	2007-08-11 14:06:36.049921855 +0700
+@@ -26,7 +26,11 @@
+  *
+  */
+   
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #include "pcm_local.h"
+ #include "pcm_plugin.h"
+ 
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_linear.c alsa-lib-1.0.14a/src/pcm/pcm_linear.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_linear.c	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_linear.c	2007-08-11 14:06:17.297449712 +0700
+@@ -26,7 +26,11 @@
+  *
+  */
+   
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #include "pcm_local.h"
+ #include "pcm_plugin.h"
+ 
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_meter.c alsa-lib-1.0.14a/src/pcm/pcm_meter.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_meter.c	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_meter.c	2007-08-11 14:04:34.767640584 +0700
+@@ -27,7 +27,11 @@
+  */
+   
+ 
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #include <time.h>
+ #include <pthread.h>
+ #include <dlfcn.h>
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_misc.c alsa-lib-1.0.14a/src/pcm/pcm_misc.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_misc.c	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_misc.c	2007-08-11 14:04:25.871344136 +0700
+@@ -23,7 +23,11 @@
+ #include <stdlib.h>
+ #include <unistd.h>
+ #include <string.h>
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #include "pcm_local.h"
+ 
+ 
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_mulaw.c alsa-lib-1.0.14a/src/pcm/pcm_mulaw.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_mulaw.c	2007-06-11 15:53:13.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_mulaw.c	2007-08-11 14:06:00.833149377 +0700
+@@ -26,7 +26,11 @@
+  *
+  */
+   
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #include "pcm_local.h"
+ #include "pcm_plugin.h"
+ 
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_null.c alsa-lib-1.0.14a/src/pcm/pcm_null.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_null.c	2007-06-11 15:53:14.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_null.c	2007-08-11 14:05:28.760342796 +0700
+@@ -26,7 +26,11 @@
+  *
+  */
+   
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #include <limits.h>
+ #include <sys/shm.h>
+ #include "pcm_local.h"
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_rate.c alsa-lib-1.0.14a/src/pcm/pcm_rate.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_rate.c	2007-06-11 15:53:14.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_rate.c	2007-08-11 14:06:26.977911230 +0700
+@@ -28,7 +28,11 @@
+  *
+  */
+ #include <inttypes.h>
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #include "pcm_local.h"
+ #include "pcm_plugin.h"
+ #include "pcm_rate.h"
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_rate_linear.c alsa-lib-1.0.14a/src/pcm/pcm_rate_linear.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_rate_linear.c	2007-06-11 15:53:14.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_rate_linear.c	2007-08-11 14:05:17.144146272 +0700
+@@ -21,7 +21,11 @@
+  */
+ 
+ #include <inttypes.h>
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #include "pcm_local.h"
+ #include "pcm_plugin.h"
+ #include "pcm_rate.h"
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_route.c alsa-lib-1.0.14a/src/pcm/pcm_route.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_route.c	2007-06-11 15:53:14.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_route.c	2007-08-11 14:05:36.768712133 +0700
+@@ -26,7 +26,11 @@
+  *
+  */
+   
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #include <math.h>
+ #include "pcm_local.h"
+ #include "pcm_plugin.h"
+diff -ur alsa-lib-1.0.14a.orig/src/pcm/pcm_softvol.c alsa-lib-1.0.14a/src/pcm/pcm_softvol.c
+--- alsa-lib-1.0.14a.orig/src/pcm/pcm_softvol.c	2007-06-11 15:53:14.000000000 +0700
++++ alsa-lib-1.0.14a/src/pcm/pcm_softvol.c	2007-08-11 14:04:52.543827323 +0700
+@@ -26,7 +26,11 @@
+  *
+  */
+ 
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <alsa/byteswap-compat.h>
++#endif
+ #include <math.h>
+ #include "pcm_local.h"
+ #include "pcm_plugin.h"

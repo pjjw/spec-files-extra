@@ -5,7 +5,7 @@
 #
 %include Solaris.inc
 
-%define	src_ver 17.1.1
+%define	src_ver 17.1.4
 %define	src_name tea
 %define	src_url	http://nchc.dl.sourceforge.net/sourceforge/tea-editor
 
@@ -98,5 +98,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Aug  7 2007 - dougs@truemail.co.th
+- Bump to 17.1.4
 * Sun Jul 29 2007 - dougs@truemail.co.th
 - Initial spec
