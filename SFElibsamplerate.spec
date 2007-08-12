@@ -1,21 +1,24 @@
-
 #
 # Copyright (c) 2006 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 
-
 %include Solaris.inc
 
-Name:                SFElibsamplerate
-Summary:             libsamplerate - Sample Rate Converter for audio
-Version:             0.1.2
-Source:              http://www.mega-nerd.com/SRC/libsamplerate-%{version}.tar.gz
+%ifarch amd64 sparcv9
+%include arch64.inc
+%use libsamplerate64 = libsamplerate.spec
+%endif
 
+%include base.inc
+%use libsamplerate = libsamplerate.spec
+
+Name:                SFElibsamplerate
+Summary:             %{libsamplerate.summary}
+Version:             %{libsamplerate.version}
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-
 
 %package devel
 Summary:                 %{summary} - development files
@@ -23,36 +26,31 @@ SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
 
-
 %prep
-%setup -q -n libsamplerate-%version
+rm -rf %name-%version
+mkdir %name-%version
+%ifarch amd64 sparcv9
+mkdir %name-%version/%_arch64
+%libsamplerate64.prep -d %name-%version/%_arch64
+%endif
 
+mkdir %name-%version/%{base_arch}
+%libsamplerate.prep -d %name-%version/%{base_arch}
 
 %build
+%ifarch amd64 sparcv9
+%libsamplerate64.build -d %name-%version/%_arch64
+%endif
 
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-     CPUS=1
-fi
-
-export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags"
-
-./configure --prefix=%{_prefix} \
-            --mandir=%{_mandir} \
-            --enable-static=no
-
-            
-
-make -j$CPUS 
+%libsamplerate.build -d %name-%version/%{base_arch}
 
 %install
 rm -rf $RPM_BUILD_ROOT
+%ifarch amd64 sparcv9
+%libsamplerate64.install -d %name-%version/%_arch64
+%endif
 
-make install DESTDIR=$RPM_BUILD_ROOT
-
-rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
-
+%libsamplerate.install -d %name-%version/%{base_arch}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -60,21 +58,30 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
+%{_bindir}/sndfile-resample
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*
-%dir %attr (0755, root, other) %{_libdir}/pkgconfig
-%{_libdir}/pkgconfig/*
-
-
+%ifarch amd64 sparcv9
+%dir %attr (0755, root, bin) %{_bindir}/%{_arch64}
+%{_bindir}/%{_arch64}/sndfile-resample
+%dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
+%{_libdir}/%{_arch64}/lib*.so*
+%endif
 
 %files devel
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
-
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
+%ifarch amd64 sparcv9
+%dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
+%dir %attr (0755, root, other) %{_libdir}/%{_arch64}/pkgconfig
+%{_libdir}/%{_arch64}/pkgconfig/*
+%endif
 
 %changelog
+* Sun Aug 12 2007 - dougs@truemail.co.th
+- Changed to build 64bit
 * 20070522 Thomas Wagner
 - Initial spec
-

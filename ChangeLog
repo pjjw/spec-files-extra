@@ -1,3 +1,22 @@
+2007-08-12  Doug Scott  <dougs@truemail.co.th>
+
+	* SFElibsamplerate.spec: Converted for 64bit build
+	* SFEalsa-lib.spec: Converted for 64bit build
+	* SFEpulseaudio.spec: Added ioctl patch and root package
+	* SFElibatomic-ops.spec: Atomic Operations Library
+	* SFEogg-vorbis.spec: 64bit build only - SUNWogg-vorbis = 32bit
+	* SFElibsndfile.spec: Converted for 64bit build
+	* SFEalsa-plugins.spec: Converted for 64bit build
+	* base-specs/libvorbis.spec: 64bit build only
+	* base-specs/alsa-plugins.spec: new base spec
+	* base-specs/libogg.spec: 64bit build
+	* base-specs/libsndfile.spec: new base spec
+	* base-specs/alsa-lib.spec: new base spec
+	* base-specs/libsamplerate.spec: new base spec
+	* patches/libsndfile-03-endian.diff: Remove fake HAVE_ENDIAN_H etc
+	* patches/alsa-plugins-01-configure.diff: Add --with-pulseaudio option
+	* patches/pulseaudio-01-ioctl.diff: ioctl patch
+
 2007-08-11  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEalsa-lib.spec: Fixed headers for easier building of apps

@@ -4,20 +4,19 @@
 # package are under the same license as the package itself.
 #
 
-
 %include Solaris.inc
 
-Name:                SFEpulseaudio
-Summary:             pulseaudio - stream audio to clients
-Version:             0.9.5
-Source:              http://0pointer.de/lennart/projects/pulseaudio/pulseaudio-%{version}.tar.gz
+%define src_name pulseaudio
+%define src_url http://0pointer.de/lennart/projects/%{src_name}
 
-#SUNW_BaseDir:        %{_basedir}
-SUNW_BaseDir:        /
-BuildRoot:           %{_tmppath}/%{name}-%{version}-build
-
+Name:		SFEpulseaudio
+Summary:	pulseaudio - stream audio to clients
+Version:	0.9.5
+Source:		%{src_url}/%{src_name}-%{version}.tar.gz
+Patch1:		pulseaudio-01-ioctl.diff
+SUNW_BaseDir:	%{_basedir}
+BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-
 
 #TODO are dependencies complete? 
 BuildRequires: SFElibsndfile-devel
@@ -33,9 +32,14 @@ SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
 
+%package root
+Summary:                 %{summary} - / filesystem
+SUNW_BaseDir:            /
+%include default-depend.inc
 
 %prep
-%setup -q -n pulseaudio-%version
+%setup -q -n %{src_name}-%{version}
+%patch1 -p1
 
 %build
 
@@ -45,16 +49,17 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 #_XGP4_2 and __EXTENSIONS__ for rtp.c to find all typedefs
-export CFLAGS="-D_XPG4_2 -D__EXTENSIONS__ %optflags"
+export CPPFLAGS="-D_XPG4_2 -D__EXTENSIONS__"
+
+export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags} -lxnet -lgobject-2.0"
 
 ./configure --prefix=%{_prefix}         \
             --mandir=%{_mandir}         \
+            --bindir=%{_bindir}         \
             --libdir=%{_libdir}         \
             --libexecdir=%{_libexecdir} \
             --sysconfdir=%{_sysconfdir}
-
-
 
 make -j$CPUS
 
@@ -62,34 +67,33 @@ make -j$CPUS
 rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
+rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.*a
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-
 %files
 %defattr (-, root, bin)
-%dir %attr (0755, root, sys) /usr
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
-%defattr (0755, root, sys)
-%attr (0755, root, sys) %dir %{_sysconfdir}
-%{_sysconfdir}/*
-%defattr (-, root, bin)
-%defattr (-, root, bin)
-%dir %attr (0755, root, bin) %{_libexecdir}
+%dir %attr (0755, root, bin) %{_libdir}
 %{_libexecdir}/pulse*
-%{_libexecdir}/lib*
-%dir %attr (0755, root, other) %{_libdir}/pkgconfig
-%{_libdir}/pkgconfig/*
+%{_libdir}/lib*.so*
 
 %files devel
 %defattr (-, root, bin)
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
+%{_includedir}
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 
-
+%files root
+%defattr (-, root, bin)
+%attr (0755, root, sys) %dir %{_sysconfdir}
+%{_sysconfdir}/*
 
 %changelog
+* Sun Aug 12 2007 - dougs@truemail.co.th
+- Added ioctl patch and root package
 * Tue May 22 2007 - Thomas Wagner
 - Initial spec

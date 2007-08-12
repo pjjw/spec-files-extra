@@ -1,0 +1,14 @@
+--- pulseaudio-0.9.5/src/utils/padsp.c.orig	2007-08-12 09:29:38.994487312 +0700
++++ pulseaudio-0.9.5/src/utils/padsp.c	2007-08-12 09:26:05.126183783 +0700
+@@ -2058,7 +2058,11 @@
+     return ret;
+ }
+ 
++#ifdef sun
++int ioctl(int fd, int request, ...) {
++#else
+ int ioctl(int fd, unsigned long request, ...) {
++#endif
+     fd_info *i;
+     va_list args;
+     void *argp;

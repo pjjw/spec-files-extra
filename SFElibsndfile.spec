@@ -4,16 +4,28 @@
 # includes module(s): libsndfile
 #
 %include Solaris.inc
+%include Solaris.inc
+%ifarch amd64 sparcv9
+%include arch64.inc
+%use libsndfile64 = libsndfile.spec
+%endif
+
+%include base.inc
+%use libsndfile = libsndfile.spec
 
 Name:                    SFElibsndfile
-Summary:                 libsndfile  - a library of C routines for reading and writing files containing sampled audio data
-Version:                 1.0.17
-Source:                  http://www.mega-nerd.com/libsndfile/libsndfile-%{version}.tar.gz
-Patch1:                  libsndfile-01-flac-1.1.3.diff
-Patch2:                  libsndfile-02-cpp_test.diff
+Summary:                 %{libsndfile.summary}
+Version:                 %{libsndfile.version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+%ifarch amd64 sparcv9
+BuildRequires: SFEogg-vorbis-devel
+Requires: SFEogg-vorbis
+%endif
+BuildRequires: SUNWogg-vorbis-devel
+Requires: SUNWogg-vorbis
+Requires: SUNWflac
 Requires: SUNWflac
 Requires: SUNWlibms
 
@@ -24,35 +36,30 @@ SUNW_BaseDir:            %{_basedir}
 Requires: %name
 
 %prep
-%setup -q -n libsndfile-%version
-%patch1 -p1
-%patch2 -p1
+rm -rf %name-%version
+mkdir %name-%version
+%ifarch amd64 sparcv9
+mkdir %name-%version/%_arch64
+%libsndfile64.prep -d %name-%version/%_arch64
+%endif
+
+mkdir %name-%version/%{base_arch}
+%libsndfile.prep -d %name-%version/%{base_arch}
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-    CPUS=1
-fi
-export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags"
-export CXXFLAGS="%cxx_optflags -features=extensions"
-%if %cc_is_gcc
-%else
-export CXX="${CXX} -norunpath"
+%ifarch amd64 sparcv9
+%libsndfile64.build -d %name-%version/%_arch64
 %endif
-./configure --prefix=%{_prefix} --mandir=%{_mandir} \
-            --libdir=%{_libdir}              \
-            --libexecdir=%{_libexecdir}      \
-            --sysconfdir=%{_sysconfdir}      \
-            --enable-shared		     \
-	    --disable-static
 
-make -j$CPUS 
+%libsndfile.build -d %name-%version/%{base_arch}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
+%ifarch amd64 sparcv9
+%libsndfile64.install -d %name-%version/%_arch64
+%endif
+
+%libsndfile.install -d %name-%version/%{base_arch}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -60,7 +67,10 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
+%{_bindir}/sndfile-convert
+%{_bindir}/sndfile-info
+%{_bindir}/sndfile-play
+%{_bindir}/sndfile-regtest
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %dir %attr (0755, root, sys) %{_datadir}
@@ -68,6 +78,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*
 %{_datadir}/octave
+%ifarch amd64 sparcv9
+%dir %attr (0755, root, bin) %{_bindir}/%{_arch64}
+%{_bindir}/%{_arch64}/sndfile-convert
+%{_bindir}/%{_arch64}/sndfile-info
+%{_bindir}/%{_arch64}/sndfile-play
+%{_bindir}/%{_arch64}/sndfile-regtest
+%dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
+%{_libdir}/%{_arch64}/lib*.so*
+%endif
 
 %files devel
 %defattr (-, root, bin)
@@ -80,8 +99,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
+%ifarch amd64 sparcv9
+%dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
+%dir %attr (0755, root, other) %{_libdir}/%{_arch64}/pkgconfig
+%{_libdir}/%{_arch64}/pkgconfig/*
+%endif
 
 %changelog
+* Sun Aug 12 2007 - dougs@truemail.co.th
+- Converted to build 64bit
 * Mon Apr 30 2007 - laca@sun.com
 - bump to 1.0.17
 - add gentoo patch that makes it build with flac 1.1.3

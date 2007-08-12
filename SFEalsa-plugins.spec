@@ -4,21 +4,25 @@
 # includes module(s): alsa-plugins
 #
 %include Solaris.inc
+%ifarch amd64 sparcv9
+%include arch64.inc
+%use alsa64 = alsa-plugins.spec
+%endif
+
+%include base.inc
+%use alsa = alsa-plugins.spec
 
 Name:                    SFEalsa-plugins
-Summary:                 alsa-plugins
-Version:                 1.0.14
-Source:                  ftp://ftp.alsa-project.org/pub/plugins/alsa-plugins-%{version}.tar.bz2
-Source1:		 asound.conf
-Patch1:			 alsa-plugins-01-configure.diff
-Patch2:			 alsa-plugins-02-oss.diff
-Patch3:			 alsa-plugins-03-dsp.diff
+Summary:                 %{alsa.summary}
+Version:                 %{alsa.version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: oss
 BuildRequires: SUNWdbus-devel
 Requires: SUNWdbus
+BuildRequires: SFEalsa-lib-devel
+Requires: SFEalsa-lib
 BuildRequires: SUNWspeex-devel
 Requires: SUNWspeex
 
@@ -28,45 +32,30 @@ SUNW_BaseDir:            /
 %include default-depend.inc
 
 %prep
-%setup -q -n alsa-plugins-%version
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
+rm -rf %name-%version
+mkdir %name-%version
+%ifarch amd64 sparcv9
+mkdir %name-%version/%_arch64
+%alsa64.prep -d %name-%version/%_arch64
+%endif
+
+mkdir %name-%version/%{base_arch}
+%alsa.prep -d %name-%version/%{base_arch}
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-    CPUS=1
-fi
+%ifarch amd64 sparcv9
+%alsa64.build -d %name-%version/%_arch64
+%endif
 
-CC=/usr/sfw/bin/gcc
-export CPPFLAGS="-D_POSIX_SOURCE -D__EXTENSIONS__ -D_XPG4_2"
-export CFLAGS="-O3"
-export LDFLAGS="%_ldflags"
-libtoolize -f -c
-aclocal
-autoheader
-automake -f -a
-autoconf -f
-./configure --prefix=%{_prefix}			\
-	    --bindir=%{_bindir}			\
-	    --datadir=%{_datadir}		\
-	    --mandir=%{_mandir}			\
-            --libdir=%{_libdir}			\
-            --libexecdir=%{_libexecdir}		\
-            --sysconfdir=%{_sysconfdir}		\
-            --enable-shared			\
-	    --disable-static
-
-gmake -j$CPUS 
+%alsa.build -d %name-%version/%{base_arch}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-rm -f $RPM_BUILD_ROOT%{_libdir}/alsa-lib/*.la
+%ifarch amd64 sparcv9
+%alsa64.install -d %name-%version/%_arch64
+%endif
 
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}
-cp %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}
+%alsa.install -d %name-%version/%{base_arch}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -81,5 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 %config %{_sysconfdir}/asound.conf
 
 %changelog
+* Sun Aug 12 2007 - dougs@truemail.co.th
+- Changed to build 64bit
 * Sun Aug 12 2007 - dougs@truemail.co.th
 - Initial version

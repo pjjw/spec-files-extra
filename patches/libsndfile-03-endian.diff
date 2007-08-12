@@ -1,0 +1,21 @@
+--- libsndfile-1.0.17/src/sfconfig.h.orig	2007-08-12 19:27:45.101264860 +0700
++++ libsndfile-1.0.17/src/sfconfig.h	2007-08-12 19:28:15.225132159 +0700
+@@ -41,18 +41,10 @@
+ #define HAVE_ALSA_ASOUNDLIB_H 0
+ #endif
+ 
+-#ifndef HAVE_BYTESWAP_H
+-#define HAVE_BYTESWAP_H 0
+-#endif
+-
+ #ifndef HAVE_DECL_S_IRGRP
+ #define	HAVE_DECL_S_IRGRP 0
+ #endif
+ 
+-#ifndef HAVE_ENDIAN_H
+-#define HAVE_ENDIAN_H 0
+-#endif
+-
+ #ifndef HAVE_FSYNC
+ #define HAVE_FSYNC 0
+ #endif
