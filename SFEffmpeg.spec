@@ -19,11 +19,20 @@ Version:                 %{year}.%{month}.%{day}
 Source:                  http://pkgbuild.sf.net/spec-files-extra/tarballs/ffmpeg-export-%{year}-%{month}-%{day}.tar.bz2
 Patch1:                  ffmpeg-01-BE_16.diff
 Patch2:                  ffmpeg-02-configure.diff
+Patch3:                  ffmpeg-03-v4l2.diff
+Patch4:                  ffmpeg-04-options.diff
 SUNW_BaseDir:            %{_basedir}
 URL:                     http://ffmpeg.mplayerhq.hu/index.html
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+%ifarch sparc
+%define mlib_opt --enable-mlib
+BuildRequires: SUNWmlib
 Requires: SUNWmlib
+%else
+%define mlib_opt
+%endif
+BuildRequires: SUNWxwinc
 Requires: SUNWxwrtl
 Requires: SUNWzlib
 %if %SUNWlibsdl
@@ -68,6 +77,8 @@ Requires: %name
 %setup -q -n ffmpeg-export-%{year}-%{month}-%{day}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -78,8 +89,8 @@ export CFLAGS="-O4"
 export LDFLAGS="%_ldflags -lm"
 bash ./configure	\
     --prefix=%{_prefix} \
-    --enable-sunmlib	\
     --cc=gcc		\
+    %{mlib_opt}		\
     --enable-libgsm	\
     --enable-libxvid	\
     --enable-libx264	\
@@ -96,6 +107,7 @@ bash ./configure	\
     --enable-libvorbis	\
     --enable-libamr-nb	\
     --enable-libamr-wb	\
+    --enable-x11grab	\
     --enable-static	\
     --enable-shared
 
@@ -150,6 +162,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/postproc
 
 %changelog
+* Sat Aug 11 2007 - trisk@acm.jhu.edu
+- Disable mediaLib support on non-sparc (conflicts with MMX)
+- Enable x11grab for X11 recording
+- Enable v4l2 demuxer for video capture
+- Add workaround for options crash
 * Wed Aug  3 2007 - dougs@truemail.co.th
 - Bumped export version
 - Added codecs

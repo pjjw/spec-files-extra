@@ -1,0 +1,11 @@
+--- ffmpeg-export-2007-07-31.orig/libavcodec/opt.c	2007年  7月 31日 二 02:16:28
++++ ffmpeg-export-2007-07-31/libavcodec/opt.c	2007年  8月 11日 六 19:27:29
+@@ -331,7 +331,7 @@
+     if(!obj)
+         return -1;
+ 
+-    av_log(av_log_obj, AV_LOG_INFO, "%s AVOptions:\n", (*(AVClass**)obj)->class_name);
++    av_log(av_log_obj, AV_LOG_INFO, "%s AVOptions:\n", (*(AVClass**)obj)->class_name ? (*(AVClass**)obj)->class_name : "(unknown context)");
+ 
+     opt_list(obj, av_log_obj, NULL);
+ 

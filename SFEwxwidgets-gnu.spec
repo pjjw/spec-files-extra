@@ -10,8 +10,8 @@
 Name:                    SFEwxwidgets-gnu
 Summary:                 wxWidgets - Cross-Platform GUI Library (g++)
 URL:                     http://wxwidgets.org/
-Version:                 2.6.3
-%define tarball_version  2.6.3
+Version:                 2.8.4
+%define tarball_version  2.8.4
 Source:			 http://easynews.dl.sourceforge.net/sourceforge/wxwindows/wxWidgets-%{tarball_version}.tar.bz2
 Patch1:                  wxwidgets-01-msgfmt.diff
 Patch2:                 wxwidgets-02-sqrt.diff
@@ -39,14 +39,6 @@ rm -rf %name-%version
 %setup -q -n wxWidgets-%tarball_version
 %patch1 -p1
 %patch2 -p1
-ex - configure << EOM
-/CWARNINGS/d
-/-mt \$THREAD_OPTS
--1d
-%s/KPIC/fPIC/g
-w
-q
-EOM
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -54,9 +46,10 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 export CPPFLAGS="-I/usr/X11/include"
-export CFLAGS="%optflags"
+export CC=gcc
+export CFLAGS="%{gcc_optflags}"
 export CXX=g++
-export CXXFLAGS="-O3 -fno-omit-frame-pointer"
+export CXXFLAGS="%{gcc_cxx_optflags}"
 export LDFLAGS="%{_ldflags} -lm"
 export LD_OPTIONS="-i -L%{_libdir} -L/usr/X11/lib -R%{_libdir}:/usr/X11/lib"
 ./configure --prefix=%{_prefix}			\
@@ -128,5 +121,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Aug 11 2007 - trisk@acm.jhu.edu
+- Bump to 2.8.4 for compatibility with SFEwxwidgets
+- Use CC=gcc to be consistent and not confuse build system
 * Sat Jul 14 2007 - dougs@truemail.co.th
 - Converted from SFEwxwidgets.spec

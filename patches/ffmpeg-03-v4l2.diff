@@ -1,0 +1,31 @@
+--- ffmpeg-export-2007-07-31.orig/libavformat/v4l2.c    2007年  7月 31日 二 02:16:43
++++ ffmpeg-export-2007-07-31/libavformat/v4l2.c 2007年  8月 11日 六 19:53:15
+@@ -32,8 +32,12 @@
+ #include <sys/ioctl.h>
+ #include <sys/mman.h>
+ #include <sys/time.h>
+-#include <asm/types.h>
++#ifdef __linux__
+ #include <linux/videodev2.h>
++#else
++#include <sys/ioccom.h>
++#include <sys/videodev2.h>
++#endif
+ #include <time.h>
+ 
+ static const int desired_video_buffers = 256;
+--- ffmpeg-export-2007-07-31.orig/configure	2007年  8月 11日 六 19:37:10
++++ ffmpeg-export-2007-07-31/configure	2007年  8月 11日 六 19:49:56
+@@ -1694,7 +1694,11 @@
+ EOF
+ 
+ enabled v4l  && check_header linux/videodev.h  || disable v4l
+-enabled v4l2 && check_header linux/videodev2.h || disable v4l2
++if test "$targetos" = linux; then
++    enabled v4l2 && check_header linux/videodev2.h || disable v4l2
++else
++    enabled v4l2 && check_header sys/videodev2.h || disable v4l2
++fi
+ 
+ # check for ioctl_meteor.h, ioctl_bt848.h and alternatives
+ if enabled bktr; then

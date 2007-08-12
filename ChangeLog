@@ -1,3 +1,10 @@
+2007-08-11  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEffmpeg.spec: Disable mediaLib on x86, enable x11grab, v4l2
+	* SFEwxwidgets-gnu.spec: Bump to 2.8.4
+	* patches/ffmpeg-03-v4l2.diff: Patch for v4l2 support on Solaris
+	* patches/ffmpeg-04-options.diff: Patch to fix crash in help
+
 2007-08-11  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEalsa-lib.spec: *NEW* Advanced Linux Sound Architecture Library
