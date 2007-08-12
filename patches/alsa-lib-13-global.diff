@@ -1,0 +1,16 @@
+--- alsa-lib-1.0.14a/include/global.h.orig	2007-08-12 08:33:45.691690638 +0700
++++ alsa-lib-1.0.14a/include/global.h	2007-08-12 08:36:20.313577244 +0700
+@@ -130,7 +130,12 @@
+ 
+ int snd_user_file(const char *file, char **result);
+ 
+-#if !defined(_POSIX_C_SOURCE) && !defined(_POSIX_SOURCE)
++#if defined(sun) && !defined(_ALLOCA_H)
++#include <alloca.h>
++#endif
++
++#if !defined(_POSIX_C_SOURCE) && !defined(_POSIX_SOURCE) && \
++	!defined(_SYS_TIME_IMPL_H)
+ struct timeval {
+ 	time_t		tv_sec;		/* seconds */
+ 	long		tv_usec;	/* microseconds */

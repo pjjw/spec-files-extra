@@ -23,6 +23,7 @@ Patch9:			 alsa-lib-09-search.diff
 Patch10:		 alsa-lib-10-err.diff
 Patch11:		 alsa-lib-11-sockio.diff
 Patch12:		 alsa-lib-12-compat.diff
+Patch13:		 alsa-lib-13-global.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -49,6 +50,7 @@ cp %{SOURCE2} include
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -110,5 +112,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Sun Aug 12 2007 - dougs@truemail.co.th
+- Fixed headers for easier building of apps
 * Sat Aug 11 2007 - dougs@truemail.co.th
 - Initial version

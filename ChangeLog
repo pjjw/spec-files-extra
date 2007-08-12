@@ -1,3 +1,9 @@
+2007-08-11  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEalsa-lib.spec: Fixed headers for easier building of apps
+	* patches/alsa-lib-13-global.diff: Check for <sys/time_impl.h>
+	* include/byteswap-compat.h: Add some macros
+
 2007-08-11  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEffmpeg.spec: Disable mediaLib on x86, enable x11grab, v4l2
