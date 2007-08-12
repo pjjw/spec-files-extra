@@ -1,0 +1,76 @@
+diff -ur jack-audio-connection-kit-0.103.0.orig/config/cpu/generic/cycles.h jack-audio-connection-kit-0.103.0/config/cpu/generic/cycles.h
+--- jack-audio-connection-kit-0.103.0.orig/config/cpu/generic/cycles.h	2006-05-26 09:45:17.000000000 +0700
++++ jack-audio-connection-kit-0.103.0/config/cpu/generic/cycles.h	2007-08-12 20:46:53.610086838 +0700
+@@ -23,17 +23,11 @@
+ 
+ /* generic solution that is not really a solution at all */
+ 
+-#warning You are compiling JACK on a platform for which jack/config/sysdep/cycles.h needs work
+ #include <sys/time.h>
+ 
+-typedef long cycles_t;
+-
+-static inline cycles_t get_cycles(void)
++static inline hrtime_t get_cycles(void)
+ {
+-       struct timeval tv;
+-       gettimeofday (&tv, NULL);
+-
+-       return ((cycles_t) tv.tv_sec * 1000000) + tv.tv_usec;
++       return ((hrtime_t) gethrtime());
+ }
+ 
+ #endif /* __jack_cycles_h__ */
+diff -ur jack-audio-connection-kit-0.103.0.orig/config/os/generic/time.h jack-audio-connection-kit-0.103.0/config/os/generic/time.h
+--- jack-audio-connection-kit-0.103.0.orig/config/os/generic/time.h	2006-05-26 09:45:16.000000000 +0700
++++ jack-audio-connection-kit-0.103.0/config/os/generic/time.h	2007-08-12 20:46:13.987767337 +0700
+@@ -24,6 +24,8 @@
+ 
+ #include <jack/internal.h>
+ 
++jack_time_t jack_get_microseconds_from_system();
++
+ inline jack_time_t
+ jack_get_microseconds (void) {
+ 	return jack_get_microseconds_from_system ();
+diff -ur jack-audio-connection-kit-0.103.0.orig/drivers/alsa/memops.c jack-audio-connection-kit-0.103.0/drivers/alsa/memops.c
+--- jack-audio-connection-kit-0.103.0.orig/drivers/alsa/memops.c	2006-05-26 09:45:25.000000000 +0700
++++ jack-audio-connection-kit-0.103.0/drivers/alsa/memops.c	2007-08-12 20:50:31.655373112 +0700
+@@ -30,7 +30,11 @@
+ #include <memory.h>
+ #include <stdlib.h>
+ #include <limits.h>
++#ifdef HAVE_ENDIAN_H
+ #include <endian.h>
++#else
++#include <alsa/endian-compat.h>
++#endif
+ 
+ #include <jack/memops.h>
+ 
+@@ -41,9 +45,9 @@
+ 
+ /* Linear Congruential noise generator. From the music-dsp list
+  * less random than rand(), but good enough and 10x faster */
+-inline unsigned int fast_rand();
++unsigned int fast_rand();
+ 
+-inline unsigned int fast_rand() {
++unsigned int fast_rand() {
+ 	static unsigned int seed = 22222;
+ 	seed = (seed * 96314165) + 907633515;
+ 
+diff -ur jack-audio-connection-kit-0.103.0.orig/drivers/dummy/dummy_driver.c jack-audio-connection-kit-0.103.0/drivers/dummy/dummy_driver.c
+--- jack-audio-connection-kit-0.103.0.orig/drivers/dummy/dummy_driver.c	2006-08-31 11:42:12.000000000 +0700
++++ jack-audio-connection-kit-0.103.0/drivers/dummy/dummy_driver.c	2007-08-12 20:54:00.174626318 +0700
+@@ -45,7 +45,9 @@
+ FakeVideoSync( dummy_driver_t *driver )
+ {
+         static const int VIDEO_SYNC_PERIOD = 48000 / 30;
+-        static int vidCounter = VIDEO_SYNC_PERIOD;
++        static int vidCounter;
++
++	vidCounter = VIDEO_SYNC_PERIOD;
+         
+         int period = driver->period_size;
+         jack_position_t *position = &driver->engine->control->current_time;

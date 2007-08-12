@@ -1,5 +1,13 @@
 2007-08-12  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEjack.spec: *NEW* Jack Audio Connection Kit
+	* SFElibrasqal.spec: *NEW* Rasqal RDF Query Library
+	* SFElibraptor.spec: *NEW* Raptor RDF Parser Library
+	* patches/jack-01-wall.diff: remove -Wall
+	* patches/jack-02-solaris.diff: various Solaris specific fixes
+
+2007-08-12  Doug Scott  <dougs@truemail.co.th>
+
 	* SFElibsamplerate.spec: Converted for 64bit build
 	* SFEalsa-lib.spec: Converted for 64bit build
 	* SFEpulseaudio.spec: Added ioctl patch and root package
