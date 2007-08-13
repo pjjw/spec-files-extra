@@ -15,6 +15,7 @@ Source1:		 asound.conf
 Patch1:			 alsa-plugins-01-configure.diff
 Patch2:			 alsa-plugins-02-oss.diff
 Patch3:			 alsa-plugins-03-dsp.diff
+Patch4:			 alsa-plugins-04-jack.diff
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 %prep
@@ -22,6 +23,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -31,7 +33,15 @@ fi
 
 CC=/usr/sfw/bin/gcc
 export CPPFLAGS="-D_POSIX_SOURCE -D__EXTENSIONS__ -D_XPG4_2"
-export CFLAGS="-O3"
+
+%if %debug_build
+export CFLAGS="-g"
+dbgopt=-enable-debug
+%else
+export CFLAGS="-O4"
+dbgopt=-disable-debug
+%endif
+
 export LDFLAGS="%_ldflags"
 
 if $( echo "%{_libdir}" | /usr/xpg4/bin/grep -q amd64 ) ; then

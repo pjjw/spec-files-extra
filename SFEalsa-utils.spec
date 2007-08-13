@@ -30,7 +30,15 @@ fi
 
 CC=/usr/sfw/bin/gcc
 export CPPFLAGS="-D_POSIX_SOURCE -D__EXTENSIONS__ -D_XPG4_2"
-export CFLAGS="-O3"
+
+%if %debug_build
+export CFLAGS="-g"
+dbgopt=-enable-debug
+%else
+export CFLAGS="-O4"
+dbgopt=-disable-debug
+%endif
+
 export LDFLAGS="%_ldflags"
 libtoolize -f -c
 aclocal

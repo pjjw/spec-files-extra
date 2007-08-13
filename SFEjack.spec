@@ -4,23 +4,23 @@
 # includes module(s): jack
 #
 %include Solaris.inc
+%ifarch amd64 sparcv9
+%include arch64.inc
+%use jack64 = jack.spec
+%endif
 
-%define src_ver 0.103.0
-%define src_name jack-audio-connection-kit
-%define src_url http://nchc.dl.sourceforge.net/sourceforge/jackit
+%include base.inc
+%use jack = jack.spec
 
 Name:		SFEjack
-Summary:	Jack Audio Connection Kit
-Version:	%{src_ver}
-Source:		%{src_url}/%{src_name}-%{version}.tar.gz
-Patch1:		jack-01-wall.diff
-Patch2:		jack-02-solaris.diff
+Summary:	%{jack.summary}
+Version:	%{jack.version}
 SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires: SFElibsndfile-devel
-Requires: SFElibsndfile
-Requires: oss
+BuildRequires:	SFElibsndfile-devel
+Requires:	SFElibsndfile
+Requires:	oss
 
 %package devel
 Summary:         %{summary} - development files
@@ -29,50 +29,50 @@ SUNW_BaseDir:    %{_basedir}
 Requires: %name
 
 %prep
-%setup -q -n %{src_name}-%{version}
-%patch1 -p1
-%patch2 -p1
+rm -rf %name-%version
+mkdir %name-%version
+%ifarch amd64 sparcv9
+mkdir %name-%version/%_arch64
+%jack64.prep -d %name-%version/%_arch64
+%endif
+
+mkdir %name-%version/%{base_arch}
+%jack.prep -d %name-%version/%{base_arch}
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-    CPUS=1
-fi
-export CFLAGS="-xc99 %optflags"
-export LDFLAGS="%_ldflags"
+%ifarch amd64 sparcv9
+%jack64.build -d %name-%version/%_arch64
+%endif
 
-libtoolize -f -c
-aclocal
-autoheader
-autoconf -f
-automake -a -f
-
-./configure --prefix=%{_prefix}		\
-	    --mandir=%{_mandir}		\
-            --libdir=%{_libdir}		\
-            --libexecdir=%{_libexecdir}	\
-            --sysconfdir=%{_sysconfdir}	\
-            --enable-shared		\
-	    --disable-static
-
-make -j$CPUS 
+%jack.build -d %name-%version/%{base_arch}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.*a
+%ifarch amd64 sparcv9
+%jack64.install -d %name-%version/%_arch64
+%endif
+
+%jack.install -d %name-%version/%{base_arch}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
-%{_bindir}
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/jack*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %{_libdir}/jack
 %dir %attr (0755, root, sys) %{_datadir}
 %{_mandir}
+%ifarch amd64 sparcv9
+%dir %attr (0755, root, bin) %{_bindir}/%{_arch64}
+%{_bindir}/%{_arch64}/jack*
+%dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
+%{_libdir}/%{_arch64}/lib*.so*
+%{_libdir}/%{_arch64}/jack
+%endif
 
 %files devel
 %defattr (-, root, bin)
@@ -80,7 +80,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
+%ifarch amd64 sparcv9
+%dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
+%dir %attr (0755, root, other) %{_libdir}/%{_arch64}/pkgconfig
+%{_libdir}/%{_arch64}/pkgconfig/*
+%endif
 
 %changelog
+* Mon Aug 13 2007 - dougs@truemail.co.th
+- Added 64bit build
 * Sun Aug 12 2007 - dougs@truemail.co.th
 - Initial version

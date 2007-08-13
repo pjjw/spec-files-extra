@@ -1,3 +1,11 @@
+2007-08-13  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEjack.spec: Added 64bit build
+	* base-specs/jack.spec: base spec for 64bit build
+	* SFEalsa-utils.spec: Added --with-debug functional option
+	* base-specs/alsa-plugins.spec: --with-debug functional option
+	* base-specs/alsa-lib.spec: --with-debug functional option
+
 2007-08-13  Halton Huo <nonsea@users.sourceforge.net>
 
 	* patches/filezilla-04-socket.diff: rework
