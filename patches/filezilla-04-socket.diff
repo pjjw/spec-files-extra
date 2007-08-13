@@ -1,13 +1,18 @@
-Index: trunk/src/putty/Makefile.am
+Index: trunk/configure.in
 ===================================================================
---- trunk/src/putty/Makefile.am	(revision 1538)
-+++ trunk/src/putty/Makefile.am	(working copy)
-@@ -30,7 +30,7 @@
+--- trunk/configure.in	(revision 1559)
++++ trunk/configure.in	(working copy)
+@@ -101,10 +101,12 @@
+   #include <sys/types.h>
+   #include <utmp.h>])
  
- if SFTP_UNIX
-   fzsftp_SOURCES += time.c
--  fzsftp_LDADD = unix/libfzsftp_ux.a
-+  fzsftp_LDADD = -lsocket unix/libfzsftp_ux.a
-   fzsftp_CPPFLAGS = $(AM_CPPFLAGS) -D_FILE_OFFSET_BITS=64
- endif
+-  AC_SEARCH_LIBS([socket], [xnet])
++  AC_SEARCH_LIBS(getaddrinfo, [xnet])
++  AC_SEARCH_LIBS(in6addr_loopback, [socket])
  
+   AC_CHECK_FUNCS([getaddrinfo ptsname setresuid strsignal updwtmpx])
+   AC_CHECK_FUNCS([gettimeofday ftime])
++  AC_CHECK_FUNCS([in6addr_loopback in6addr_any])
+ 
+ AH_BOTTOM([
+ /* Convert autoconf definitions to ones that PuTTY wants. */
