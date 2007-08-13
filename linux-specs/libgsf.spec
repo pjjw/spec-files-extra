@@ -13,7 +13,7 @@
 Name:			libgsf
 License:		LGPL
 Group:			System/Libraries
-Version:		1.14.3
+Version:		1.14.5
 Release:	 	1	
 Distribution:		Java Desktop System
 Vendor:			Sun Microsystems, Inc.
@@ -166,6 +166,9 @@ gconftool-2 --makefile-uninstall-rule %{_sysconfdir}/gconf/schemas/gsf-office-th
 %{_datadir}/gtk-doc/html/libgsf/*
 
 %changelog
+* Mon Aug 13 2007 - nonsea@users.sourceforge.net
+- Bump to 1.14.5.
+
 * Thu May 03 2007 - nonsea@users.sourceforge.net
 - Bump to 1.14.3.
 - use %gtk_doc_option in configure so that it can be
