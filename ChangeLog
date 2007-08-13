@@ -1,3 +1,10 @@
+2007-08-13  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEwine.spec: bump to 0.9.43
+	    Added SFEcups SFElcms SFEncurses to Required
+	* patches/wine-02-configure.diff: modified for 0.9.43
+	* patches/wine-01-nameconfict.diff: modified for 0.9.43
+
 2007-08-12  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEjack.spec: *NEW* Jack Audio Connection Kit

@@ -1,6 +1,6 @@
-diff -ur wine-0.9.35-orig/dlls/msi/dialog.c wine-0.9.35/dlls/msi/dialog.c
---- wine-0.9.35-orig/dlls/msi/dialog.c	2007-04-13 22:47:52.000000000 +0700
-+++ wine-0.9.35/dlls/msi/dialog.c	2007-04-23 16:39:40.909080233 +0700
+diff -ur wine-0.9.43.orig/dlls/msi/dialog.c wine-0.9.43/dlls/msi/dialog.c
+--- wine-0.9.43.orig/dlls/msi/dialog.c	2007-08-10 23:18:12.000000000 +0700
++++ wine-0.9.43/dlls/msi/dialog.c	2007-08-13 09:23:17.568976379 +0700
 @@ -1003,7 +1003,7 @@
      HBITMAP hOleBitmap = 0, hBitmap = 0, hOldSrcBitmap, hOldDestBitmap;
      MSIRECORD *rec = NULL;
@@ -39,10 +39,10 @@ diff -ur wine-0.9.35-orig/dlls/msi/dialog.c wine-0.9.35/dlls/msi/dialog.c
      return hBitmap;
  }
  
-diff -ur wine-0.9.35-orig/dlls/msrle32/msrle32.c wine-0.9.35/dlls/msrle32/msrle32.c
---- wine-0.9.35-orig/dlls/msrle32/msrle32.c	2007-04-13 22:47:52.000000000 +0700
-+++ wine-0.9.35/dlls/msrle32/msrle32.c	2007-04-23 16:58:03.056336128 +0700
-@@ -89,7 +89,7 @@
+diff -ur wine-0.9.43.orig/dlls/msrle32/msrle32.c wine-0.9.43/dlls/msrle32/msrle32.c
+--- wine-0.9.43.orig/dlls/msrle32/msrle32.c	2007-08-10 23:18:12.000000000 +0700
++++ wine-0.9.43/dlls/msrle32/msrle32.c	2007-08-13 09:23:17.569784176 +0700
+@@ -93,7 +93,7 @@
  			       LPCBITMAPINFOHEADER lpbiOut);
  static LRESULT DecompressBegin(CodecInfo *pi, LPCBITMAPINFOHEADER lpbiIn,
  			       LPCBITMAPINFOHEADER lpbiOut);
@@ -51,7 +51,7 @@ diff -ur wine-0.9.35-orig/dlls/msrle32/msrle32.c wine-0.9.35/dlls/msrle32/msrle3
  static LRESULT DecompressEnd(CodecInfo *pi);
  static LRESULT DecompressGetPalette(CodecInfo *pi, LPCBITMAPINFOHEADER lpbiIn,
  				    LPBITMAPINFOHEADER lpbiOut);
-@@ -1695,36 +1695,36 @@
+@@ -1711,36 +1711,36 @@
    return ICERR_OK;
  }
  
@@ -101,10 +101,51 @@ diff -ur wine-0.9.35-orig/dlls/msrle32/msrle32.c wine-0.9.35/dlls/msrle32/msrle3
  }
  
  static LRESULT DecompressEnd(CodecInfo *pi)
-diff -ur wine-0.9.35-orig/dlls/oleaut32/tests/olepicture.c wine-0.9.35/dlls/oleaut32/tests/olepicture.c
---- wine-0.9.35-orig/dlls/oleaut32/tests/olepicture.c	2007-04-13 22:47:52.000000000 +0700
-+++ wine-0.9.35/dlls/oleaut32/tests/olepicture.c	2007-04-23 17:13:30.315585480 +0700
-@@ -117,7 +117,7 @@
+Only in wine-0.9.43/dlls/msrle32: msrle32.c~
+diff -ur wine-0.9.43.orig/dlls/ntdll/actctx.c wine-0.9.43/dlls/ntdll/actctx.c
+--- wine-0.9.43.orig/dlls/ntdll/actctx.c	2007-08-10 23:18:12.000000000 +0700
++++ wine-0.9.43/dlls/ntdll/actctx.c	2007-08-13 09:23:17.571527769 +0700
+@@ -72,7 +72,7 @@
+     WCHAR              *info;
+ };
+ 
+-struct version
++struct version_s
+ {
+     USHORT              major;
+     USHORT              minor;
+@@ -87,7 +87,7 @@
+     WCHAR                *public_key;
+     WCHAR                *language;
+     WCHAR                *type;
+-    struct version        version;
++    struct version_s     version;
+     BOOL                  optional;
+ };
+ 
+@@ -272,7 +272,7 @@
+     return debugstr_wn(str->ptr, str->len);
+ }
+ 
+-static inline const char* debugstr_version(const struct version *ver)
++static inline const char* debugstr_version(const struct version_s *ver)
+ {
+     return wine_dbg_sprintf("%u.%u.%u.%u", ver->major, ver->minor, ver->build, ver->revision);
+ }
+@@ -743,7 +743,7 @@
+     return TRUE;
+ }
+ 
+-static BOOL parse_version(const xmlstr_t *str, struct version *version)
++static BOOL parse_version(const xmlstr_t *str, struct version_s *version)
+ {
+     unsigned int ver[4];
+     unsigned int pos;
+Only in wine-0.9.43/dlls/ntdll: actctx.c~
+diff -ur wine-0.9.43.orig/dlls/oleaut32/tests/olepicture.c wine-0.9.43/dlls/oleaut32/tests/olepicture.c
+--- wine-0.9.43.orig/dlls/oleaut32/tests/olepicture.c	2007-08-10 23:18:12.000000000 +0700
++++ wine-0.9.43/dlls/oleaut32/tests/olepicture.c	2007-08-13 09:23:17.570470490 +0700
+@@ -118,7 +118,7 @@
  static void
  test_pic_with_stream(LPSTREAM stream, unsigned int imgsize)
  {
@@ -113,7 +154,7 @@ diff -ur wine-0.9.35-orig/dlls/oleaut32/tests/olepicture.c wine-0.9.35/dlls/olea
  	HRESULT		hres;
  	LPVOID		pvObj = NULL;
  	OLE_HANDLE	handle, hPal;
-@@ -129,15 +129,15 @@
+@@ -130,15 +130,15 @@
  
  	pvObj = NULL;
  	hres = pOleLoadPicture(stream, imgsize, TRUE, &IID_IPicture, &pvObj);
@@ -133,7 +174,7 @@ diff -ur wine-0.9.35-orig/dlls/oleaut32/tests/olepicture.c wine-0.9.35/dlls/olea
  
  	ok(hres == S_OK,"IPicture_QI does not return S_OK, but 0x%08x\n", hres);
  	ok(pvObj != NULL,"IPicture_QI does return NULL, instead of a ptr\n");
-@@ -145,37 +145,37 @@
+@@ -146,37 +146,37 @@
  	IPicture_Release ((IPicture*)pvObj);
  
  	handle = 0;
@@ -178,7 +219,7 @@ diff -ur wine-0.9.35-orig/dlls/oleaut32/tests/olepicture.c wine-0.9.35/dlls/olea
  	ok (res == 0, "refcount after release is %d, but should be 0?\n", res);
  }
  
-@@ -250,7 +250,7 @@
+@@ -251,7 +251,7 @@
  static void test_empty_image(void) {
  	LPBYTE		data;
  	LPSTREAM	stream;
@@ -187,7 +228,7 @@ diff -ur wine-0.9.35-orig/dlls/oleaut32/tests/olepicture.c wine-0.9.35/dlls/olea
  	HRESULT		hres;
  	LPVOID		pvObj = NULL;
  	HGLOBAL		hglob;
-@@ -273,24 +273,24 @@
+@@ -274,24 +274,24 @@
  
  	pvObj = NULL;
  	hres = pOleLoadPicture(stream, 8, TRUE, &IID_IPicture, &pvObj);
@@ -218,7 +259,7 @@ diff -ur wine-0.9.35-orig/dlls/oleaut32/tests/olepicture.c wine-0.9.35/dlls/olea
  	HRESULT		hres;
  	LPVOID		pvObj = NULL;
  	HGLOBAL		hglob;
-@@ -314,15 +314,15 @@
+@@ -315,15 +315,15 @@
  
  	pvObj = NULL;
  	hres = pOleLoadPicture(stream, 8, TRUE, &IID_IPicture, &pvObj);
@@ -238,41 +279,87 @@ diff -ur wine-0.9.35-orig/dlls/oleaut32/tests/olepicture.c wine-0.9.35/dlls/olea
  }
  
  static void test_Invoke(void)
---- wine-0.9.42/dlls/ntdll/actctx.c.orig	2007-08-02 13:20:02.210101857 +0700
-+++ wine-0.9.42/dlls/ntdll/actctx.c	2007-08-02 13:27:21.408872232 +0700
-@@ -72,7 +72,7 @@
-     WCHAR              *info;
- };
+Only in wine-0.9.43/dlls/oleaut32/tests: olepicture.c~
+--- wine-0.9.43/dlls/gdiplus/image.c.orig	2007-08-13 10:07:50.745185989 +0700
++++ wine-0.9.43/dlls/gdiplus/image.c	2007-08-13 10:05:26.158352777 +0700
+@@ -38,12 +38,12 @@
  
--struct version
-+struct version_s
+ #define PIXELFORMATBPP(x) ((x) ? ((x) >> 8) & 255 : 24)
+ 
+-static INT ipicture_pixel_height(IPicture *pic)
++static INT ipicture_pixel_height(IPicture *ipic)
  {
-     USHORT              major;
-     USHORT              minor;
-@@ -87,7 +87,7 @@
-     WCHAR                *public_key;
-     WCHAR                *language;
-     WCHAR                *type;
--    struct version        version;
-+    struct version_s     version;
-     BOOL                  optional;
- };
+     HDC hdcref;
+     OLE_YSIZE_HIMETRIC y;
  
-@@ -264,7 +264,7 @@
-     return debugstr_an(str->ptr, str->len);
+-    IPicture_get_Height(pic, &y);
++    IPicture_get_Height(ipic, &y);
+ 
+     hdcref = GetDC(0);
+ 
+@@ -54,12 +54,12 @@
+     return y;
  }
  
--static inline const char* debugstr_version(const struct version *ver)
-+static inline const char* debugstr_version(const struct version_s *ver)
+-static INT ipicture_pixel_width(IPicture *pic)
++static INT ipicture_pixel_width(IPicture *ipic)
  {
-     return wine_dbg_sprintf("%u.%u.%u.%u", ver->major, ver->minor, ver->build, ver->revision);
- }
-@@ -735,7 +735,7 @@
-     return TRUE;
- }
+     HDC hdcref;
+     OLE_XSIZE_HIMETRIC x;
  
--static BOOL parse_version(const xmlstr_t *str, struct version *version)
-+static BOOL parse_version(const xmlstr_t *str, struct version_s *version)
+-    IPicture_get_Width(pic, &x);
++    IPicture_get_Width(ipic, &x);
+ 
+     hdcref = GetDC(0);
+ 
+@@ -661,21 +661,21 @@
+ 
+ GpStatus WINGDIPAPI GdipLoadImageFromStream(IStream* stream, GpImage **image)
  {
-     unsigned int ver[4];
-     unsigned int pos;
+-    IPicture *pic;
++    IPicture *ipic;
+     short type;
+ 
+     if(!stream || !image)
+         return InvalidParameter;
+ 
+     if(OleLoadPicture(stream, 0, FALSE, &IID_IPicture,
+-        (LPVOID*) &pic) != S_OK){
++        (LPVOID*) &ipic) != S_OK){
+         TRACE("Could not load picture\n");
+         return GenericError;
+     }
+ 
+     IStream_AddRef(stream);
+ 
+-    IPicture_get_Type(pic, &type);
++    IPicture_get_Type(ipic, &type);
+ 
+     if(type == PICTYPE_BITMAP){
+         BITMAPINFO bmi;
+@@ -687,12 +687,12 @@
+         if(!*image) return OutOfMemory;
+         (*image)->type = ImageTypeBitmap;
+ 
+-        (*((GpBitmap**) image))->width = ipicture_pixel_width(pic);
+-        (*((GpBitmap**) image))->height = ipicture_pixel_height(pic);
++        (*((GpBitmap**) image))->width = ipicture_pixel_width(ipic);
++        (*((GpBitmap**) image))->height = ipicture_pixel_height(ipic);
+ 
+         /* get the pixel format */
+-        IPicture_get_Handle(pic, &hbm);
+-        IPicture_get_CurDC(pic, &hdc);
++        IPicture_get_Handle(ipic, &hbm);
++        IPicture_get_CurDC(ipic, &hdc);
+ 
+         bmch = (BITMAPCOREHEADER*) (&bmi.bmiHeader);
+         bmch->bcSize = sizeof(BITMAPCOREHEADER);
+@@ -722,7 +722,7 @@
+         (*image)->type = ImageTypeUnknown;
+     }
+ 
+-    (*image)->picture = pic;
++    (*image)->picture = ipic;
+ 
+     return Ok;
+ }

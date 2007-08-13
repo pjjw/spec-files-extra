@@ -1,7 +1,7 @@
-diff -ur wine-0.9.35-orig/configure wine-0.9.35/configure
---- wine-0.9.35-orig/configure	2007-04-13 22:47:52.000000000 +0700
-+++ wine-0.9.35/configure	2007-04-23 19:01:09.173124977 +0700
-@@ -13354,13 +13354,13 @@
+diff -ur wine-0.9.43.orig/configure wine-0.9.43/configure
+--- wine-0.9.43.orig/configure	2007-08-10 23:18:12.000000000 +0700
++++ wine-0.9.43/configure	2007-08-13 09:24:21.835852782 +0700
+@@ -8286,13 +8286,13 @@
  fi
  
  
@@ -18,10 +18,10 @@ diff -ur wine-0.9.35-orig/configure wine-0.9.35/configure
  cat >conftest.$ac_ext <<_ACEOF
  /* confdefs.h.  */
  _ACEOF
-diff -ur wine-0.9.35-orig/configure.ac wine-0.9.35/configure.ac
---- wine-0.9.35-orig/configure.ac	2007-04-13 22:47:52.000000000 +0700
-+++ wine-0.9.35/configure.ac	2007-04-23 19:28:02.136339455 +0700
-@@ -1010,14 +1010,14 @@
+diff -ur wine-0.9.43.orig/configure.ac wine-0.9.43/configure.ac
+--- wine-0.9.43.orig/configure.ac	2007-08-10 23:18:12.000000000 +0700
++++ wine-0.9.43/configure.ac	2007-08-13 09:24:21.836774948 +0700
+@@ -419,14 +419,14 @@
                                ac_cv_c_dll_gnuelf="yes",ac_cv_c_dll_gnuelf="no")])
      if test "$ac_cv_c_dll_gnuelf" = "yes"
      then
@@ -43,3 +43,5 @@ diff -ur wine-0.9.35-orig/configure.ac wine-0.9.35/configure.ac
  
        WINE_TRY_CFLAGS([-fPIC -shared -Wl,-Bsymbolic,-init,__wine_spec_init,-fini,__wine_spec_fini],
                        [LDDLLFLAGS="$LDDLLFLAGS,-init,__wine_spec_init,-fini,__wine_spec_fini"])
+Only in wine-0.9.43: configure.ac~
+Only in wine-0.9.43: configure~

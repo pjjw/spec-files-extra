@@ -10,7 +10,7 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                0.9.42
+Version:                0.9.43
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
 Patch2:			wine-02-configure.diff
@@ -29,6 +29,12 @@ BuildRequires:	SFEfontforge-devel
 Requires:	SFEfontforge
 BuildRequires:	SFEfreetype-devel
 Requires:	SFEfreetype
+BuildRequires:	SFElcms-devel
+Requires:	SFElcms
+BuildRequires:	SFEcups-devel
+Requires:	SFEcups
+BuildRequires:	SFEncurses-devel
+Requires:	SFEncurses
 
 %package devel
 Summary:                 wine - developer files, /usr
@@ -52,7 +58,7 @@ SFWLIB="-L/usr/SFW/lib -R/usr/SFW/lib"
 GNULIB="-L/usr/gnu/lib -R/usr/gnu/lib"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CC=gcc
-export CPPFLAGS="-I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/include"
+export CPPFLAGS="-I/usr/X11/include -I/usr/gnu/include -I/usr/gnu/include/ncurses -I/usr/sfw/include"
 export CFLAGS="-O4 -fno-omit-frame-pointer -fpic -Dpic"
 export LDFLAGS="$X11LIB $GNULIB $SFWLIB"
 export LD=/usr/ccs/bin/ld
@@ -115,6 +121,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Mon Aug 13 2007 - dougs@truemail.co.th
+- bump to 0.9.43
+- Added SFEcups SFElcms SFEncurses to Required
+* Sat Jul 14 2007 - dougs@truemail.co.th
 * Fri Aug 03 2007 - dougs@truemail.co.th
 - bump to 0.9.42
 * Sat Jul 14 2007 - dougs@truemail.co.th
