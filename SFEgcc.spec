@@ -61,10 +61,16 @@ nlsopt=-disable-nls
 
 export CONFIG_SHELL=/usr/bin/bash
 export CFLAGS=""
+export CPP="cc -E -Xs"
 export STAGE1_CFLAGS="$(CFLAGS)"
 export CFLAGS_FOR_TARGET="-g -O3"
 export LDFLAGS="%_ldflags %gnu_lib_path"
 export LD_OPTIONS="%ld_options %gnu_lib_path"
+
+%define build_gcc_with_gnu_ld 1
+%if %build_gcc_with_gnu_ld
+export LD="/usr/gnu/bin/ld"
+%endif
 
 ../gcc-%{version}/configure			\
 	--prefix=%{_prefix}			\
@@ -74,11 +80,17 @@ export LD_OPTIONS="%ld_options %gnu_lib_path"
 	--infodir=%{_infodir}			\
 	--with-as=/usr/gnu/bin/as		\
 	--with-gnu-as				\
+%if %build_gcc_with_gnu_ld
+	--with-ld=/usr/gnu/bin/ld		\
+	--with-gnu-ld				\
+%else
 	--with-ld=/usr/ccs/bin/ld		\
 	--without-gnu-ld			\
-	--enable-languages=c,c++,fortran	\
+%endif
+	--enable-languages=c,c++,fortran,objc	\
 	--enable-shared				\
 	--disable-static			\
+	--enable-decimal-float			\
 	$nlsopt
 
 make -j$CPUS bootstrap
@@ -87,7 +99,6 @@ make -j$CPUS bootstrap
 rm -rf $RPM_BUILD_ROOT
 
 export CONFIG_SHELL=/usr/bin/bash
-export CFLAGS="%optflags"
 export CFLAGS="%optflags"
 export STAGE1_CFLAGS="$(CFLAGS)"
 export CFLAGS_FOR_TARGET="-g -O3"
@@ -174,6 +185,11 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Aug 15 2007 - Mark Wright <markwright@internode.on.net>
+- Change from /usr/ccs/bin/ld to /usr/gnu/bin/ld, this change
+  requires SFEbinutils built with binutils-01-bug-2495.diff,
+  binutils-02-ld-m-elf_i386.diff and binutils-03-lib-amd64-ld-so-1.diff.
+  Add objc to --enable-languages, add --enable-decimal-float.
 * Wed Jul 24 2007 - Mark Wright <markwright@internode.on.net>
 - Bump to 4.2.1, add patch for gcc bug 32787.
 * Wed May 16 2007 - Doug Scott <dougs@truemail.co.th>

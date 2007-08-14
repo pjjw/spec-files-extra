@@ -1,3 +1,13 @@
+2007-08-15  Mark Wright <markwright@internode.on.net>
+
+	* SFEbinutils.spec: Add patch1 http://sourceware.org/bugzilla/show_bug.cgi?id=2495
+	    Add patch2 http://www.cygwin.com/ml/binutils/2006-06/msg00299.html
+	    Add patch3 http://sourceware.org/ml/binutils/2007-03/msg00175.html
+	* SFEgcc.spec: Change from /usr/ccs/bin/ld to /usr/gnu/bin/ld, this change
+	    requires SFEbinutils built with binutils-01-bug-2495.diff,
+	    binutils-02-ld-m-elf_i386.diff and binutils-03-lib-amd64-ld-so-1.diff.
+	    Add objc to --enable-languages, add --enable-decimal-float.
+
 2007-08-13  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEjack.spec: Added 64bit build

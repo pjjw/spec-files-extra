@@ -1,0 +1,15 @@
+--- binutils-2.17-orig/ld/configure.tgt	2006-04-05 12:41:57.000000000 +0000
++++ binutils-2.17/ld/configure.tgt	2007-08-14 13:03:25.258610734 +0000
+@@ -163,10 +163,12 @@
+ i[3-7]86-*-sysv[45]*)	targ_emul=elf_i386 ;;
+ i[3-7]86-*-solaris2*)	targ_emul=elf_i386_ldso
+                         targ_extra_emuls="elf_i386 elf_x86_64"
++			targ_extra_libpath=$targ_extra_emuls
+                         ;;
+ i[3-7]86-*-unixware)	targ_emul=elf_i386 ;;
+ i[3-7]86-*-solaris*)	targ_emul=elf_i386_ldso
+                         targ_extra_emuls="elf_i386"
++			targ_extra_libpath=$targ_extra_emuls
+                         ;;
+ i[3-7]86-*-netbsdelf* | \
+ i[3-7]86-*-netbsd*-gnu* | \

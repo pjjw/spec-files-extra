@@ -1,0 +1,21 @@
+--- binutils-2.17-orig/bfd/elf64-x86-64.c	2006-03-23 09:23:09.000000000 +0100
++++ binutils-2.17/bfd/elf64-x86-64.c	2006-06-30 06:42:19.000000000 +0200
+@@ -3439,13 +3439,11 @@
+ 				const char *name,
+ 				int shindex)
+ {
+-  if (hdr->sh_type != SHT_X86_64_UNWIND)
+-    return FALSE;
+-
+-  if (! _bfd_elf_make_section_from_shdr (abfd, hdr, name, shindex))
+-    return FALSE;
+-
+-  return TRUE;
++  if (hdr->sh_type == SHT_X86_64_UNWIND ||
++      (hdr->sh_type >= SHT_LOOS && hdr->sh_type <= SHT_HIOS)) {
++    return _bfd_elf_make_section_from_shdr (abfd, hdr, name, shindex);
++  }
++  return FALSE;
+ }
+ 
+ /* Hook called by the linker routine which adds symbols from an object

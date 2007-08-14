@@ -10,6 +10,9 @@ Name:                SFEbinutils
 Summary:             GNU binutils
 Version:             2.17
 Source:              http://ftp.gnu.org/gnu/binutils/binutils-%{version}.tar.bz2
+Patch1:              binutils-01-bug-2495.diff
+Patch2:              binutils-02-ld-m-elf_i386.diff
+Patch3:              binutils-03-lib-amd64-ld-so-1.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -31,6 +34,17 @@ Requires:                %{name}
 
 %prep
 %setup -q -c -n %name-%version
+%ifarch amd64
+cd binutils-%{version}
+%patch1 -p1 -b .patch01
+cd ..
+%endif
+%ifarch i386 amd64
+cd binutils-%{version}
+%patch2 -p1 -b .patch02
+%patch3 -p1 -b .patch03
+cd ..
+%endif
 %ifarch amd64 sparcv9
 cp -pr binutils-%{version} binutils-%{version}-64
 %endif
@@ -178,6 +192,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Aug 15 2007 - Mark Wright <markwright@internode.on.net>
+- Add patch1 http://sourceware.org/bugzilla/show_bug.cgi?id=2495
+- Add patch2 http://www.cygwin.com/ml/binutils/2006-06/msg00299.html
+- Add patch3 http://sourceware.org/ml/binutils/2007-03/msg00175.html
 * Mon Mar 18 2007 - Doug Scott <dougs@truemail.co.th>
 - Removed standards.info
 * Tue Feb  7 2007 - Doug Scott <dougs@truemail.co.th>

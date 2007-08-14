@@ -1,0 +1,11 @@
+--- binutils-2.17-orig/bfd/elf64-x86-64.c	2007-08-14 13:23:07.461245000 +0000
++++ binutils-2.17/bfd/elf64-x86-64.c	2007-08-14 14:42:46.325761891 +0000
+@@ -327,7 +327,7 @@
+ /* The name of the dynamic interpreter.	 This is put in the .interp
+    section.  */
+ 
+-#define ELF_DYNAMIC_INTERPRETER "/lib/ld64.so.1"
++#define ELF_DYNAMIC_INTERPRETER "/lib/amd64/ld.so.1"
+ 
+ /* If ELIMINATE_COPY_RELOCS is non-zero, the linker will try to avoid
+    copying dynamic variables from a shared lib into an app's dynbss
