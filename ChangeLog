@@ -1,3 +1,11 @@
+2007-08-14 Erwann Chenede - <erwann.chenede@sun.com>
+
+	* SFEcompizconfig-backend-gconf.spec
+	* SFElibcompizconfig.spec
+	* SFEccsm.spec
+	* SFEcompizconfig-python.spec : spec-files for the new compiz-fusion
+	  settings-manager
+
 2007-08-15  Mark Wright <markwright@internode.on.net>
 
 	* SFEbinutils.spec: Add patch1 http://sourceware.org/bugzilla/show_bug.cgi?id=2495
