@@ -1,0 +1,14 @@
+--- boost_1_34_1.orig/boost/python/detail/config.hpp	2006年 12月 10日 日 22:00:26
++++ boost_1_34_1/boost/python/detail/config.hpp	2007年  8月 13日 一 18:19:17
+@@ -110,6 +110,11 @@
+ // Replace broken Tru64/cxx offsetof macro
+ # define BOOST_PYTHON_OFFSETOF(s_name, s_member) \
+         ((size_t)__INTADDR__(&(((s_name *)0)->s_member)))
++#elif BOOST_WORKAROUND(__GNUC__, == 3) && (__GNUC_MINOR__ >= 4) && !defined(BOOST_INTEL)
++# define BOOST_PYTHON_OFFSETOF(TYPE, MEMBER)                                  \
++   (__offsetof__ (reinterpret_cast <size_t>                      \
++                  (&reinterpret_cast <const volatile char &>     \
++                   (static_cast<TYPE *> (0)->MEMBER))))
+ #else
+ # define BOOST_PYTHON_OFFSETOF offsetof
+ #endif
