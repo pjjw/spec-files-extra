@@ -5,9 +5,9 @@
 #
 %include Solaris.inc
 
-%define	src_ver 1.3rc2
+%define	src_ver 1.3.0
 %define	src_name cups
-%define	src_url	http://ftp.easysw.com/pub/cups/test
+%define	src_url	http://ftp.easysw.com/pub/%{src_name}/%{src_ver}
 
 %define cups_user lp
 %define cups_group lp
@@ -83,6 +83,7 @@ autoconf -f
 	    --localstatedir=%{_localstatedir}		\
 	    --enable-openssl				\
 	    --enable-gnutls				\
+	    --disable-gssapi				\
 	    --with-cups-user=%{cups_user}		\
 	    --with-cups-group=%{cups_group}		\
 	    --localedir=%{_datadir}/locale		\
@@ -163,5 +164,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Wed Aug 15 2007 - dougs@truemail.co.th
+- bump to 1.3.0, added --disable-gssapi
 * Fri Aug  3 2007 - dougs@truemail.co.th
 - Initial spec

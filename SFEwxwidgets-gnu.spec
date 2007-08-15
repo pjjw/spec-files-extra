@@ -82,6 +82,7 @@ cd ..
 cd $RPM_BUILD_ROOT%{_bindir}
 rm -f wx-config
 ln -s ../lib/wx/config/gtk2-unicode-release-* wx-config
+perl -pi -e 's,-pthreads,,' wx-config
 
 %if %build_l10n
 # Rename zh dir to zh_CN as zh is a symlink to zh_CN and causing installation
@@ -121,6 +122,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Aug 15 2007 - dougs@truemail.co.th
+- removed -pthreads from wx-config to stop it infecting other builds
 * Sat Aug 11 2007 - trisk@acm.jhu.edu
 - Bump to 2.8.4 for compatibility with SFEwxwidgets
 - Use CC=gcc to be consistent and not confuse build system

@@ -1,0 +1,25 @@
+--- alsa-plugins-1.0.14/jack/pcm_jack.c.orig	2007-08-13 13:00:43.054754093 +0700
++++ alsa-plugins-1.0.14/jack/pcm_jack.c	2007-08-13 13:04:50.651752183 +0700
+@@ -20,7 +20,11 @@
+  *
+  */
+ 
++#ifdef HAVE_BYTESWAP_H
+ #include <byteswap.h>
++#else
++#include <byteswap-compat.h>
++#endif
+ #include <sys/shm.h>
+ #include <sys/types.h>
+ #include <sys/socket.h>
+@@ -28,6 +32,10 @@
+ #include <alsa/asoundlib.h>
+ #include <alsa/pcm_external.h>
+ 
++#if !defined(AF_LOCAL) && defined(AF_UNIX)
++#define AF_LOCAL AF_UNIX
++#endif
++
+ typedef enum _jack_format {
+ 	SND_PCM_JACK_FORMAT_RAW
+ } snd_pcm_jack_format_t;

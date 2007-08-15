@@ -71,6 +71,7 @@ export LDFLAGS="%_ldflags"
 	--mandir=%{_mandir}		\
 	--sysconfdir=%{_sysconfdir}	\
         --with-esd-prefix=%{_prefix}	\
+	--disable-alsa			\
 	%nasm_option
 
 %if %arch_sse2
@@ -102,5 +103,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*.so
 
 %changelog
+* Wed Jul 15 2007 - dougs@truemail.co.th
+- added --disable-alsa
 * Tue Jun  5 2007 - dougs@truemail.co.th
 - Initial version, modified from spec-files

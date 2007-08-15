@@ -1,3 +1,12 @@
+2007-08-15  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEfreealut.spec: *NEW* free implementation of OpenAL's ALUT
+	* SFEwxwidgets-gnu.spec: removed -pthreads from wx-config
+	* SFEcups.spec: bump to 1.3.0, added --disable-gssapi
+	* base-specs/libsdl.spec: Added --enable-alsa
+	* patches/cups-01-gss.diff: bump to 1.3.0
+	* patches/alsa-plugins-04-jack.diff: patch for jack support
+
 2007-08-14 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* SFEcompizconfig-backend-gconf.spec
