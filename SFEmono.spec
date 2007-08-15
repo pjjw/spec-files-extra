@@ -14,6 +14,7 @@ Summary:      mono - .NET framework
 Source:       http://go-mono.com/sources/mono/mono-%{version}.tar.gz
 URL:          http://www.mono-project.com/Main_Page
 Patch1:       mono-01-solaris.diff
+Patch2:       mono-02-seek-macros.diff
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
 SUNW_BaseDir: %{_basedir}
@@ -37,6 +38,7 @@ Requires:      %name
 %prep
 %setup -q -n mono-%version
 %patch1 -p1 -b .patch01
+%patch2 -p2 -b .patch02
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -124,6 +126,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Aug 14 2007 - trisk@acm.jhu.edu
+- Add patch2 http://bugzilla.gnome.org/show_bug.cgi?id=370081
 * Mon Mar 19 2007 - dougs@truemail.co.th
 - Fixed -fno-omit-frame-pointer flag
 * Sat Mar 17 2007 - laca@sun.com

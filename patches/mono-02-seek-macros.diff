@@ -1,0 +1,40 @@
+From http://bugzilla.gnome.org/show_bug.cgi?id=370081
+Applied upstream in later Mono 1.2 releases.
+Index: mono-1.2/mono/support/map.c
+===================================================================
+--- mono-1.2/mono/support/map.c	(revision 67251)
++++ mono-1.2/mono/support/map.c	(working copy)
+@@ -21,7 +21,19 @@
+ #define _XOPEN_SOURCE
+ #endif /* ndef _XOPEN_SOURCE */
+ 
++#ifndef L_SET
++#define L_SET SEEK_SET
++#endif /* ndef L_SET */
+ 
++#ifndef L_INCR
++#define L_INCR SEEK_CUR
++#endif /* ndef L_INCR */
++
++#ifndef L_XTND
++#define L_XTND SEEK_END
++#endif /* ndef L_XTND */
++
++
+ /*
+  * Implementation Includes
+  */
+Index: Makefile.am
+===================================================================
+--- Makefile.am	(revision 67251)
++++ Makefile.am	(working copy)
+@@ -114,6 +114,9 @@
+ 	--impl-header="<dirent.h>"                            \
+ 	--impl-header="<utime.h>"                             \
+ 	--impl-header="\"mph.h\""                             \
++	--impl-macro="L_SET=SEEK_SET"                         \
++	--impl-macro="L_INCR=SEEK_CUR"                        \
++	--impl-macro="L_XTND=SEEK_END"                        \
+ 	--rename-member=st_atime=st_atime_                    \
+ 	--rename-member=st_ctime=st_ctime_                    \
+ 	--rename-member=st_mtime=st_mtime_                    \
