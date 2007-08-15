@@ -8,7 +8,7 @@
 Name:                    SFEgnonlin
 Summary:                 Non-linear editing elements for gstreamer
 URL:                     http://gstreamer.freedesktop.org/src/gnonlin/
-Version:                 0.10.8
+Version:                 0.10.9
 Source:                  http://gstreamer.freedesktop.org/src/gnonlin/gnonlin-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -43,7 +43,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gstreamer-%{majmin}/libgnl.so
 
 %changelog
-* Mon Jul 9 2007  - Brian Cameron  <brian.cameron@sun.com>
+* Wed Aug 15 2007 - Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.10.9
+* Mon Jul 09 2007 - Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.10.8.
-* Fri Feb 9 2007  - irene.huang@sun.com
-- created
+* Fri Feb 09 2007 - irene.huang@sun.com
+- Created.
