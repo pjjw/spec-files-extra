@@ -46,6 +46,14 @@
 	* patches/cups-01-gss.diff: bump to 1.3.0
 	* patches/alsa-plugins-04-jack.diff: patch for jack support
 
+2007-08-14  Albert Lee <trisk@acm.jhu.edu>
+
+	* SFEboost.spec: Initial version for Boost 1.34.1
+	* patches/boost-01-studio.diff: Patch for building with Studio
+	* patches/boost-02-gcc34.diff: Patch for gcc 3.4 compilation (unused)
+	* SFEmono.spec: Add patch2 http://bugzilla.gnome.org/show_bug.cgi?id=370081
+	* patches/mono-02-seek-macros.diff: Fix definition of seek macros
+
 2007-08-14 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* SFEcompizconfig-backend-gconf.spec
