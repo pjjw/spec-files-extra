@@ -1,3 +1,14 @@
+2007-08-15  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEelectric-fence.spec: *NEW* Malloc Debugger
+	* SFEliba52.spec: Converted to 64bit
+	* SFEunrar.spec: Converted to 64bit - approx 25% faster on amd64
+	* base-specs/liba52.spec: Converted to base spec
+	* base-specs/unrar.spec: Converted to base spec
+	* base-specs/electric-fence.spec: base spec
+	* patches/unrar.diff: makefile changes
+	* patches/liba52-01-pic.diff: make sure creates pic object
+
 2007-08-15 Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEgnonlin.spec: Bump to 0.10.9

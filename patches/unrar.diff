@@ -1,6 +1,23 @@
-diff -urN unrar/int64.hpp unrar.b/int64.hpp
---- unrar/int64.hpp	2005-10-04 09:57:54.000000000 +0200
-+++ unrar.b/int64.hpp	2006-05-12 09:14:08.425565705 +0200
+Only in unrar: archive.o
+Only in unrar: arcread.o
+Only in unrar: cmddata.o
+Only in unrar: consio.o
+Only in unrar: crc.o
+Only in unrar: crypt.o
+Only in unrar: encname.o
+Only in unrar: errhnd.o
+Only in unrar: extinfo.o
+Only in unrar: extract.o
+Only in unrar: filcreat.o
+Only in unrar: file.o
+Only in unrar: filefn.o
+Only in unrar: filestr.o
+Only in unrar: find.o
+Only in unrar: getbits.o
+Only in unrar: global.o
+diff -ur unrar.orig/int64.hpp unrar/int64.hpp
+--- unrar.orig/int64.hpp	2005-10-04 14:57:54.000000000 +0700
++++ unrar/int64.hpp	2007-08-15 15:52:34.883192494 +0700
 @@ -6,7 +6,7 @@
  typedef __int64 Int64;
  #endif
@@ -10,9 +27,13 @@ diff -urN unrar/int64.hpp unrar.b/int64.hpp
  #define NATIVE_INT64
  typedef long long Int64;
  #endif
-diff -urN unrar/makefile.unix unrar.b/makefile.unix
---- unrar/makefile.unix	2005-04-30 09:00:12.000000000 +0200
-+++ unrar.b/makefile.unix	2006-05-12 09:40:02.680924992 +0200
+Only in unrar: int64.o
+Only in unrar: isnt.o
+Only in unrar: libunrar.so
+Only in unrar: list.o
+diff -ur unrar.orig/makefile.unix unrar/makefile.unix
+--- unrar.orig/makefile.unix	2005-04-30 14:00:12.000000000 +0700
++++ unrar/makefile.unix	2007-08-15 16:30:42.557524008 +0700
 @@ -6,10 +6,10 @@
  #
  
@@ -28,19 +49,84 @@ diff -urN unrar/makefile.unix unrar.b/makefile.unix
  
  # Linux using LCC
  #CXX=lcc
-@@ -117,3 +117,9 @@
- lib:	$(OBJECTS) $(LIB_OBJ)
+@@ -43,10 +43,12 @@
+ #STRIP=strip
+ 
+ # Solaris using CC (SUN Forte Developer 7 C++)
+-#CXX=CC
+-#CXXFLAGS=-xO2 -xbuiltin=%all -xinline=%auto
+-#DEFINES=-DBIG_ENDIAN -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+-#STRIP=strip
++CXX?=CC
++CXXFLAGS?=-xO2 -xbuiltin=%all -xinline=%auto
++CPPFLAGS?=-DBIG_ENDIAN -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -DANSICPP -DSOLARIS
++STRIP?=strip
++PICFLAGS?=-KPIC
++LDFLAGS?=
+ 
+ # Solaris using GCC (optimized for UltraSPARC 1 CPU)
+ #CXX=g++
+@@ -82,11 +84,11 @@
+ 
+ ##########################
+ 
+-COMPILE=$(CXX) $(CXXFLAGS) $(DEFINES)
+-LINK=$(CXX)
++COMPILE=$(CXX) $(CPPFLAGS) $(CXXFLAGS)
++LINK=$(CXX) $(CXXFLAGS) $(LDFLAGS)
+ 
+ UNRAR_OBJ=filestr.o recvol.o rs.o scantree.o
+-LIB_OBJ=filestr.o scantree.o dll.o
++LIB_OBJ=filestr.o scantree.o
+ 
+ OBJECTS=rar.o strlist.o strfn.o pathfn.o int64.o savepos.o global.o file.o filefn.o filcreat.o \
+ 	archive.o arcread.o unicode.o system.o isnt.o crypt.o crc.o rawread.o encname.o \
+@@ -94,26 +96,29 @@
+ 	rijndael.o getbits.o sha1.o extinfo.o extract.o volume.o list.o find.o unpack.o cmddata.o
+ 
+ .cpp.o:
+-	$(COMPILE) -D$(WHAT) -c $<
++	$(COMPILE) $(PICFLAGS) -c $<
+ 
+-all:	unrar
++all:	libunrar.so unrar
+ 
+ clean:
+ 	@rm -f *.o *.bak *~
+ 
+-unrar:	WHAT=UNRAR
+-unrar:	$(OBJECTS) $(UNRAR_OBJ)
++unrar:	libunrar.so rar.o $(UNRAR_OBJ)
+ 	@rm -f unrar
+-	$(LINK) -o unrar $(LDFLAGS) $(OBJECTS) $(UNRAR_OBJ) $(LIBS)	
+-	$(STRIP) unrar
++	$(LINK) -o unrar rar.o $(UNRAR_OBJ) libunrar.so $(LDFLAGS) $(LIBS)	
+ 
+-sfx:	WHAT=SFX_MODULE
+ sfx:	$(OBJECTS)
+ 	@rm -f default.sfx
+ 	$(LINK) -o default.sfx $(LDFLAGS) $(OBJECTS)
+-	$(STRIP) default.sfx
+ 
+-lib:	WHAT=RARDLL
+-lib:	$(OBJECTS) $(LIB_OBJ)
++libunrar.so:	$(OBJECTS) $(LIB_OBJ)
  	@rm -f libunrar.so
- 	$(LINK) -shared -o libunrar.so $(LDFLAGS) $(OBJECTS) $(LIB_OBJ)
+-	$(LINK) -shared -o libunrar.so $(LDFLAGS) $(OBJECTS) $(LIB_OBJ)
++	$(LINK) -G -o libunrar.so $(LDFLAGS) $(OBJECTS) $(LIB_OBJ)
 +
-+install:	unrar
-+		mkdir $(DESTDIR)
-+		mkdir $(BASENAME)
-+		mkdir $(BASENAME)/bin
-+		$(INSTALL) -m 755 unrar $(BASENAME)/bin
-diff -urN unrar/os.hpp unrar.b/os.hpp
---- unrar/os.hpp	2005-10-04 09:57:54.000000000 +0200
-+++ unrar.b/os.hpp	2006-05-12 09:15:49.230410501 +0200
++install:	unrar libunrar.so
++		$(INSTALL) -d -m 755 $(DESTDIR)
++		$(INSTALL) -d -m 755 $(DESTDIR)$(PREFIX)
++		$(INSTALL) -d -m 755 $(DESTDIR)$(LIBDIR)
++		$(INSTALL) -d -m 755 $(DESTDIR)$(BINDIR)
++		$(INSTALL) -m 755 unrar $(DESTDIR)$(BINDIR)/unrar
++		$(INSTALL) -m 644 libunrar.so $(DESTDIR)$(LIBDIR)/libunrar.so
+Only in unrar: match.o
+Only in unrar: options.o
+diff -ur unrar.orig/os.hpp unrar/os.hpp
+--- unrar.orig/os.hpp	2005-10-04 14:57:54.000000000 +0700
++++ unrar/os.hpp	2007-08-15 15:52:34.883568438 +0700
 @@ -208,6 +208,12 @@
    #endif
  #endif
@@ -54,3 +140,24 @@ diff -urN unrar/os.hpp unrar.b/os.hpp
  #endif
  
  typedef const char* MSGID;
+Only in unrar: pathfn.o
+Only in unrar: rar.o
+Only in unrar: rarvm.o
+Only in unrar: rawread.o
+Only in unrar: rdwrfn.o
+Only in unrar: recvol.o
+Only in unrar: resource.o
+Only in unrar: rijndael.o
+Only in unrar: rs.o
+Only in unrar: savepos.o
+Only in unrar: scantree.o
+Only in unrar: sha1.o
+Only in unrar: strfn.o
+Only in unrar: strlist.o
+Only in unrar: system.o
+Only in unrar: timefn.o
+Only in unrar: ulinks.o
+Only in unrar: unicode.o
+Only in unrar: unpack.o
+Only in unrar: unrar
+Only in unrar: volume.o

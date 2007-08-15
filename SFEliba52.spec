@@ -4,11 +4,17 @@
 # includes module(s): liba52
 #
 %include Solaris.inc
+%ifarch amd64 sparcv9
+%include arch64.inc
+%use liba52_64 = liba52.spec
+%endif
+
+%include base.inc
+%use liba52 = liba52.spec
 
 Name:                    SFEliba52
-Summary:                 liba52  - a free library for decoding ATSC A/52 streams
-Version:                 0.7.4
-Source:                  http://liba52.sourceforge.net/files/a52dec-%{version}.tar.gz
+Summary:                 %{liba52.summary}
+Version:                 %{liba52.version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -21,30 +27,43 @@ SUNW_BaseDir:            %{_basedir}
 Requires: %name
 
 %prep
-%setup -q -n a52dec-%version
+rm -rf %name-%version
+mkdir %name-%version
+
+%ifarch amd64 sparcv9
+mkdir %name-%version/%_arch64
+%liba52_64.prep -d %name-%version/%_arch64
+%endif
+
+mkdir %name-%version/%{base_arch}
+%liba52.prep -d %name-%version/%{base_arch}
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-    CPUS=1
-fi
-export CFLAGS="%optflags"
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export MSGFMT="/usr/bin/msgfmt"
+%ifarch amd64 sparcv9
+%liba52_64.build -d %name-%version/%_arch64
+%endif
 
-./configure --prefix=%{_prefix} --mandir=%{_mandir} \
-            --libdir=%{_libdir}              \
-            --libexecdir=%{_libexecdir}      \
-            --sysconfdir=%{_sysconfdir}      \
-            --enable-shared		     \
-	    --disable-static
-
-make -j$CPUS 
+%liba52.build -d %name-%version/%{base_arch}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
+%ifarch amd64 sparcv9
+%liba52_64.install -d %name-%version/%_arch64
+%endif
+
+%liba52.install -d %name-%version/%{base_arch}
+
+%if %can_isaexec
+mkdir $RPM_BUILD_ROOT%{_bindir}/%{base_isa}
+for i in a52dec extract_a52 
+do
+  mv $RPM_BUILD_ROOT%{_bindir}/$i $RPM_BUILD_ROOT%{_bindir}/%{base_isa}
+  ( 
+    cd $RPM_BUILD_ROOT%{_bindir}
+    ln -s ../lib/isaexec $i
+  )
+done
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -52,20 +71,33 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
+%if %can_isaexec
+%{_bindir}/%{base_isa}
+%hard %{_bindir}/a52dec
+%hard %{_bindir}/extract_a52
+%else
+%{_bindir}/a52dec
+%{_bindir}/extract_a52
+%endif
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
+%{_libdir}/lib*.so*
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, bin) %{_mandir}
-%dir %attr (0755, root, bin) %{_mandir}/man1
-%{_mandir}/man1/*
+%{_mandir}
+%ifarch amd64 sparcv9
+%dir %attr (0755, root, bin) %{_bindir}/%{_arch64}
+%{_bindir}/%{_arch64}/a52dec
+%{_bindir}/%{_arch64}/extract_a52
+%dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
+%{_libdir}/%{_arch64}/lib*.so*
+%endif
 
 %files devel
-%defattr (-, root, other)
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
+%defattr (-, root, bin)
+%{_includedir}
 
 %changelog
+* Wed Aug 15 2007 - dougs@truemail.co.th
+- converted to build 64bit
 * Mon Jun 12 2006 - laca@sun.com
 - renamed to SFEliba52
 - changed to root:bin to follow other JDS pkgs.
