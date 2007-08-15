@@ -1,5 +1,22 @@
 2007-08-15  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEMaelstrom.spec: *NEW* Maelstrom Game
+	* SFEadns.spec: *NEW* asynchronous DNS client library
+	* SFEsdl-pango.spec: *NEW* SDL Pango library
+	* base-specs/sdl-pango.spec: base spec
+	* linux-specs/Maelstrom.spec: converted linux spec
+	* linux-specs/adns.spec: converted linux spec
+	* patches/adns-02-configure.diff: Fixed configure for Solaris
+	* patches/Maelstrom-02-amfix.diff: patch from pld-linux.org
+	* patches/Maelstrom-01-dirs.diff: patch from pld-linux.org
+	* patches/Maelstrom-03-sec.diff: patch from pld-linux.org
+	* patches/Maelstrom-04-configure.diff: Fixed configure for Solaris
+	* patches/Maelstrom-00-cheaters.diff: patch from pld-linux.org
+	* patches/adns-01-destdir.diff: patch from pld-linux.org
+	* include/Maelstrom.desktop: from pld-linux.org
+
+2007-08-15  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEelectric-fence.spec: *NEW* Malloc Debugger
 	* SFEliba52.spec: Converted to 64bit
 	* SFEunrar.spec: Converted to 64bit - approx 25% faster on amd64

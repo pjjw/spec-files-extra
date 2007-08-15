@@ -1,0 +1,57 @@
+--- adns-1.4/configure.in.orig	2007-08-15 19:20:42.111296662 +0700
++++ adns-1.4/configure.in	2007-08-15 19:24:21.485121429 +0700
+@@ -20,14 +20,15 @@
+ #  along with this program; if not, write to the Free Software Foundation,
+ #  Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+-AC_INIT(src/adns.h)
++AC_INIT
++AC_CONFIG_SRCDIR([src/adns.h])
+ AC_CONFIG_HEADER(src/config.h)
+ 
+ dnl DPKG_CACHED_TRY_COMPILE(<description>,<cachevar>,<include>,<program>,<ifyes>,<ifno>)
+ define([DPKG_CACHED_TRY_COMPILE],[
+  AC_MSG_CHECKING($1)
+  AC_CACHE_VAL($2,[
+-  AC_TRY_COMPILE([$3],[$4],[$2=yes],[$2=no])
++  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[$3]], [[$4]])],[$2=yes],[$2=no])
+  ])
+  if test "x$$2" = xyes; then
+   true
+@@ -80,15 +81,13 @@
+ 
+ AC_MSG_CHECKING(for INADDR_LOOPBACK)
+ AC_CACHE_VAL(adns_cv_decl_inaddrloopback,[
+- AC_TRY_COMPILE([
++ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+ #include <sys/socket.h>
+ #include <netinet/in.h>
+ #include <arpa/inet.h>
+- ],[
++ ]], [[
+   INADDR_LOOPBACK;
+- ],
+- adns_cv_decl_inaddrloopback=yes,
+- adns_cv_decl_inaddrloopback=no)])
++ ]])],[adns_cv_decl_inaddrloopback=yes],[adns_cv_decl_inaddrloopback=no])])
+ if test "$adns_cv_decl_inaddrloopback" = yes; then
+  AC_MSG_RESULT(found)
+ else
+@@ -142,12 +141,12 @@
+ SHLIBSONAME='$(SHLIBFORLINK).$(MAJOR)'
+ SHLIBFILE='$(SHLIBSONAME).$(MINOR)'
+ 
+-SHLIBCC='$(CC) $(CFLAGS) -fpic'
+-MKSHLIB_1='$(CC) $(LDFLAGS) -shared -Wl,-soname=$(SHLIBSONAME) -o'
++SHLIBCC='$(CC) $(CFLAGS) $(PICFLAG)'
++MKSHLIB_1='$(CC) $(LDFLAGS) -Wl,-G -Wl,-h,$(SHLIBSONAME) -o'
+ MKSHLIB_2=''
+ MKSHLIB_3='-lc'
+ 
+-AC_OUTPUT(
+-	settings.make Makefile
++AC_CONFIG_FILES([settings.make Makefile
+ 	src/Makefile client/Makefile dynamic/Makefile regress/Makefile
+-)
++])
++AC_OUTPUT

@@ -1,0 +1,41 @@
+--- Maelstrom-3.0.6/configure.in.orig	2007-08-15 17:54:35.406633528 +0700
++++ Maelstrom-3.0.6/configure.in	2007-08-15 18:04:04.959136860 +0700
+@@ -33,6 +33,10 @@
+         MATHLIB=""
+         INETLIB=""
+         ;;
++    *-*-solaris*)
++        MATHLIB="-lm"
++        INETLIB="-lsocket -lnsl"
++        ;;
+     *-*-darwin*)
+         MATHLIB=""
+         INETLIB=""
+@@ -45,6 +49,27 @@
+ AC_SUBST(MATHLIB)
+ AC_SUBST(INETLIB)
+ 
++dnl Check for -lnsl
++AC_CHECK_LIB([nsl], [gethostent], [HAVE_LIBNSL="yes"])
++if test "$HAVE_LIBNSL" = "yes"; then
++  LIBS="$LIBS -lnsl"
++  AC_DEFINE([HAVE_LIBNSL], 1, [Have libnsl])
++fi
++
++dnl Check for -lsocket
++AC_CHECK_LIB([socket], [setsockopt], [HAVE_LIBSOCKET="yes"])
++if test "$HAVE_LIBSOCKET" = "yes"; then
++  LIBS="$LIBS -lsocket"
++  AC_DEFINE([HAVE_LIBSOCKET], 1, [Have libsocket])
++fi
++
++dnl Check for -lm
++AC_CHECK_LIB([m], [cos], [HAVE_LIBM="yes"])
++if test "$HAVE_LIBM" = "yes"; then
++  LIBS="$LIBS -lm"
++  AC_DEFINE([HAVE_LIBM], 1, [Have libm])
++fi
++
+ dnl Check for SDL
+ SDL_VERSION=1.2.0
+ AM_PATH_SDL($SDL_VERSION,

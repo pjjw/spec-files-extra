@@ -1,0 +1,87 @@
+diff -urN Maelstrom-3.0.5/Maelstrom.h Maelstrom-3.0.5-cheat/Maelstrom.h
+--- Maelstrom-3.0.5/Maelstrom.h	Fri Nov 19 05:52:52 1999
++++ Maelstrom-3.0.5-cheat/Maelstrom.h	Sat Jun  1 13:25:09 2002
+@@ -17,7 +17,7 @@
+ /* Time in 60'th of second between frames */
+ #define FRAME_DELAY		2
+ 
+-#define MAX_SPRITES		100
++#define MAX_SPRITES		200
+ #define MAX_SPRITE_FRAMES	60
+ #define	MAX_STARS		30
+ #define	SHIP_FRAMES		48
+@@ -31,7 +31,7 @@
+ 
+ #define NO_PHASE_CHANGE		-1	/* Sprite doesn't change phase */
+ 
+-#define	MAX_SHOTS		18
++#define	MAX_SHOTS		54
+ #define	SHOT_SIZE		4
+ #define	SHOT_SCALE_FACTOR	4
+ 
+diff -urN Maelstrom-3.0.5/netlogic/objects.h Maelstrom-3.0.5-cheat/netlogic/objects.h
+--- Maelstrom-3.0.5/netlogic/objects.h	Sun Sep 24 19:55:39 2000
++++ Maelstrom-3.0.5-cheat/netlogic/objects.h	Sat Jun  1 13:30:33 2002
+@@ -19,21 +19,41 @@
+ 			case 0:
+ 				/* -- They got machine guns! */
+ 				ship->SetSpecial(MACHINE_GUNS);
++				ship->SetSpecial(AIR_BRAKES);
++				ship->SetSpecial(LUCKY_IRISH);
++				ship->SetSpecial(TRIPLE_FIRE);
++				ship->SetSpecial(LONG_RANGE);
+ 				break;
+ 			case 1:
+ 				/* -- They got Air brakes */
++				ship->SetSpecial(MACHINE_GUNS);
+ 				ship->SetSpecial(AIR_BRAKES);
++				ship->SetSpecial(LUCKY_IRISH);
++				ship->SetSpecial(TRIPLE_FIRE);
++				ship->SetSpecial(LONG_RANGE);
+ 				break;
+ 			case 2:
+ 				/* -- They might get Lucky */
++				ship->SetSpecial(MACHINE_GUNS);
++				ship->SetSpecial(AIR_BRAKES);
+ 				ship->SetSpecial(LUCKY_IRISH);
++				ship->SetSpecial(TRIPLE_FIRE);
++				ship->SetSpecial(LONG_RANGE);
+ 				break;
+ 			case 3:
+ 				/* -- They triple fire */
++				ship->SetSpecial(MACHINE_GUNS);
++				ship->SetSpecial(AIR_BRAKES);
++				ship->SetSpecial(LUCKY_IRISH);
+ 				ship->SetSpecial(TRIPLE_FIRE);
++				ship->SetSpecial(LONG_RANGE);
+ 				break;
+ 			case 4:
+ 				/* -- They got long range */
++				ship->SetSpecial(MACHINE_GUNS);
++				ship->SetSpecial(AIR_BRAKES);
++				ship->SetSpecial(LUCKY_IRISH);
++				ship->SetSpecial(TRIPLE_FIRE);
+ 				ship->SetSpecial(LONG_RANGE);
+ 				break;
+ 			case 5:
+diff -urN Maelstrom-3.0.5/netlogic/player.cpp Maelstrom-3.0.5-cheat/netlogic/player.cpp
+--- Maelstrom-3.0.5/netlogic/player.cpp	Sun Sep 24 19:55:39 2000
++++ Maelstrom-3.0.5-cheat/netlogic/player.cpp	Sat Jun  1 13:31:05 2002
+@@ -350,7 +350,7 @@
+ 
+ 	/* Decrement the Bonus and NoThrust time */
+ 	if ( Bonus && CutBonus-- == 0 ) {
+-		Bonus -= 10;
++		Bonus += 10;
+ 		CutBonus = BONUS_DELAY;
+ 	}
+ 	if ( NoThrust )
+@@ -430,7 +430,7 @@
+ 		/* Check the shields */
+ 		if ( AutoShield ) {
+ 			WasShielded = 1;
+-			--AutoShield;
++			AutoShield;
+ 		} else if ( ShieldOn ) {
+ 			if ( ShieldLevel > 0 ) {
+ 				if ( ! WasShielded ) {

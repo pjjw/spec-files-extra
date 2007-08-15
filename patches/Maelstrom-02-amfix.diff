@@ -1,0 +1,11 @@
+--- Maelstrom-3.0.5/Makefile.am.orig	Thu Jun 27 23:16:34 2002
++++ Maelstrom-3.0.5/Makefile.am	Thu Jun 27 23:21:02 2002
+@@ -64,7 +64,7 @@
+ DIST_SUBDIRS = $(SUBDIRS) Images Docs
+ 
+ # Special install rule for the game
+-install:
++install-data-local:
+ 	make install_gamedata target=@GAME_INSTALLDIR@
+ 
+ install_gamedata:

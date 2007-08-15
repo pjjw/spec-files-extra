@@ -1,0 +1,37 @@
+--- Maelstrom-3.0.5/Makefile.am.orig	Mon Jul 23 05:45:05 2001
++++ Maelstrom-3.0.5/Makefile.am	Thu Jun 27 23:10:56 2002
+@@ -68,18 +68,18 @@
+ 	make install_gamedata target=@GAME_INSTALLDIR@
+ 
+ install_gamedata:
+-	sh mkinstalldirs $(target)/
++	sh mkinstalldirs $(DESTDIR)$(target)/
+ 	cp -rv Images			\
+ 	       Maelstrom_Fonts		\
+ 	       Maelstrom_Sounds		\
+ 	       Maelstrom_Sprites	\
+ 	       Maelstrom-Scores		\
+-	       icon.bmp icon.xpm	$(target)/
+-	chmod 666 $(target)/Maelstrom-Scores
++	       icon.bmp icon.xpm	$(DESTDIR)$(target)/
++	chmod 666 $(DESTDIR)$(target)/Maelstrom-Scores
+ 
+ install_gamedocs:
+-	sh mkinstalldirs $(target)/
+-	cp -rv README* COPYING* Docs*	$(target)/
++	sh mkinstalldirs $(DESTDIR)$(target)/
++	cp -rv README* COPYING* Docs*	$(DESTDIR)$(target)/
+ 
+ # Rule to build tar-gzipped distribution package
+ $(PACKAGE)-$(VERSION).tar.gz: dist
+--- Maelstrom-3.0.5/configure.in.orig	Fri Jul 20 17:12:49 2001
++++ Maelstrom-3.0.5/configure.in	Thu Jun 27 23:13:20 2002
+@@ -105,7 +105,7 @@
+         GAME_INSTALLDIR="\$(prefix)/games/$PACKAGE"
+         ;;
+     *)
+-        GAME_INSTALLDIR="\$(prefix)/games/$PACKAGE"
++        GAME_INSTALLDIR="\$(datadir)/$PACKAGE"
+         ;;
+ esac
+ AC_SUBST(GAME_INSTALLDIR)
