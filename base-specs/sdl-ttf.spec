@@ -7,16 +7,14 @@
 %define src_name	SDL_ttf
 %define src_url		http://www.libsdl.org/projects/%{src_name}/release
 
-Name:			sdl-rrf
+Name:			sdl-ttf
 Summary: 		True Type Font library for SDL
-Version:		2.0.8
+Version:		2.0.9
 Source: 		%{src_url}/%{src_name}-%{version}.tar.gz
-Patch1:			sdl-ttf-01-internal_h.diff
 BuildRoot:		%{_tmppath}/%{name}-%{version}-build
 
 %prep
 %setup -q -n %{src_name}-%{version}
-%patch1 -p1
 
 %build
 export PATH=/usr/gnu/bin/%{bld_arch}:%{_bindir}:$PATH
@@ -40,6 +38,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Aug 15 2007 - trisk@acm.jhu.edu
+- Bump to 2.0.9
+- Remove sdl-ttf-01-internal_h.diff - applied upstream
 * Tue Jun  5 2007 - Doug Scott
 - Change to isabuild
 * Sun Apr 22 2007 - Doug Scott

@@ -12,6 +12,7 @@ Version:      2.16.0
 Summary:      gtk# - .NET bindings for the GNOME platform libraries
 Source:       http://go-mono.com/sources/gnome-sharp/gnome-sharp-%{version}.tar.gz
 Patch1:       gnome-sharp-01-Wall.diff
+Patch2:       gnome-sharp-02-gtkhtml3.14.diff
 URL:          http://www.mono-project.org/
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
@@ -19,13 +20,16 @@ Docdir:	      %{_defaultdocdir}/doc
 Autoreqprov:  on
 
 BuildRequires: SUNWgnome-base-libs
+BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SFEmono-devel
 Requires: SUNWgnome-base-libs
+Requires: SUNWevolution-libs
 Requires: SFEmono
 
 %prep
 %setup -q -n gnome-sharp-%version
 %patch1 -p1
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -67,5 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gapi-2.0
 
 %changelog
+* Wed Aug 15 2007 - trisk@acm.jhu.edu
+- Add gnome-sharp-02-gtkhtml3.14.diff
 * Sat Mar 17 2007 - laca@sun.com
 - Initial spec

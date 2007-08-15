@@ -8,7 +8,7 @@
 
 Name:                freetype
 Summary:             Freetype
-Version:             2.3.4
+Version:             2.3.5
 Source:              %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:		     freetype-01-options.diff
 
@@ -49,6 +49,8 @@ rm $RPM_BUILD_ROOT%{_libdir}/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Aug 15 2007 - trisk@acm.jhu.edu
+- Bump to 2.3.5
 * Tue Jun  5 2007 - Doug Scott
 - Change to isabuild
 * Mon Apr 30 2007 - dougs@truemail.co.th

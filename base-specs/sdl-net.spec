@@ -9,7 +9,7 @@
 
 Name:			sdl-image
 Summary: 		Network library for SDL
-Version:		1.2.6
+Version:		1.2.7
 Source: 		%{src_url}/%{src_name}-%{version}.tar.gz
 BuildRoot:		%{_tmppath}/%{name}-%{version}-build
 
@@ -38,6 +38,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Aug 15 2007 - trisk@acm.jhu.edu
+- Bump to 1.2.7
 * Tue Jun  5 2007 - Doug Scott
 - Change to isabuild
 * Sun Apr 22 2007 - Doug Scott

@@ -11,10 +11,12 @@ Name:			sdl-Pango
 Summary: 		Simple DirectMedia Layer - Pango Link Library
 Version:		0.1.2
 Source: 		%{src_url}/%{src_name}-%{version}.tar.gz
+Patch1:			sdl-pango-01-api-adds.diff
 BuildRoot:		%{_tmppath}/%{name}-%{version}-build
 
 %prep
 %setup -q -n %{src_name}-%{version}
+%patch1 -p1
 
 %build
 export PATH=%{_bindir}:$PATH
@@ -38,5 +40,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Aug 15 2007 - trisk@acm.jhu.edu
+- Add patch for extended API
 * Wed Aug 15 2007 - dougs@truemail.co.th
 - Initial version

@@ -18,6 +18,7 @@
 %use sdl = sdl-ttf.spec
 
 %define SUNWlibsdl	%(/usr/bin/pkginfo -q SUNWlibsdl && echo 1 || echo 0)
+%define SFEfreetype	%(/usr/bin/pkginfo -q SFEfreetype && echo 1 || echo 0)
 
 Name:			SFEsdl-ttf
 Summary: 		%{sdl.summary}
@@ -25,8 +26,13 @@ Version:		%{sdl.version}
 SUNW_BaseDir:		%{_basedir}
 BuildRoot:		%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+%if %SFEfreetype
 BuildRequires: SFEfreetype-devel
 Requires: SFEfreetype
+%else
+BuildRequires: SUNWfreetype2
+Requires: SUNWfreetype2
+%endif
 %if %SUNWlibsdl
 BuildRequires: SUNWlibsdl-devel
 Requires: SUNWlibsdl
@@ -105,6 +111,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/SDL/
 
 %changelog
+* Wed Aug 15 2007 - trisk@acm.jhu.edu
+- Add SUNWfreetype2/SFEfreetype dependency
 * Tue Jun  5 2007 - Doug Scott
 - Change to isabuild
 * Sun Apr 22 2007 - Doug Scott

@@ -10,14 +10,13 @@
 Name:         libsdl
 License:      LGPL
 Group:        System/Libraries
-Version:      1.2.11
+Version:      1.2.12
 Release:      1
 Distribution: Java Desktop System
 Vendor:       Sun Microsystems, Inc.
 Summary:      libsdl - Simple DirectMedia Layer
 Source:       http://www.libsdl.org/release/SDL-%{version}.tar.gz
 Patch1:	      libsdl-01-AUXDIR.diff
-Patch2:	      libsdl-02-rpath.diff
 Patch3:	      libsdl-03-sunpro.diff
 URL:          http://www.libsdl.org/
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
@@ -42,7 +41,6 @@ applications which will use libsdl.
 %prep
 %setup -q -n SDL-%{version}
 %patch1 -p1
-%patch2 -p1
 %patch3 -p1
 
 %build
@@ -103,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*.so
 
 %changelog
+* Wed Aug 15 2007 - trisk@acm.jhu.edu
+- Bump to 1.2.12
+- Drop libsdl-02-rpath.diff: applied upstream 
 * Wed Jul 15 2007 - dougs@truemail.co.th
 - added --disable-alsa
 * Tue Jun  5 2007 - dougs@truemail.co.th

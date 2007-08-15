@@ -59,7 +59,7 @@ diff -ur unrar.orig/makefile.unix unrar/makefile.unix
 -#STRIP=strip
 +CXX?=CC
 +CXXFLAGS?=-xO2 -xbuiltin=%all -xinline=%auto
-+CPPFLAGS?=-DBIG_ENDIAN -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -DANSICPP -DSOLARIS
++CPPFLAGS?=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -DANSICPP -DSOLARIS
 +STRIP?=strip
 +PICFLAGS?=-KPIC
 +LDFLAGS?=
@@ -131,7 +131,7 @@ diff -ur unrar.orig/os.hpp unrar/os.hpp
    #endif
  #endif
  
-+#if defined(i86pc) && defined(SOLARIS)
++#if (defined(__i386) || defined(__amd64))
 +  #ifndef LITTLE_ENDIAN
 +     #define LITTLE_ENDIAN
 +  #endif
