@@ -1,0 +1,11 @@
+--- BillardGL-1.75/src/SpielfeldAufbau.cpp.orig	2007-08-15 09:25:47.765467228 +0700
++++ BillardGL-1.75/src/SpielfeldAufbau.cpp	2007-08-15 09:26:02.602987199 +0700
+@@ -26,7 +26,7 @@
+ 
+     GLfloat r=5.715;
+     GLfloat a=r+3*Epsilon;
+-    GLfloat asw3=a*sqrt(3)/6;
++    GLfloat asw3=a*sqrt((double)3)/6;
+     
+     srand(Zeit());
+     

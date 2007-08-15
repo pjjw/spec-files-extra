@@ -1,0 +1,32 @@
+--- BillardGL-1.75/src/bmp.cpp.orig	2007-08-15 10:41:49.433526074 +0700
++++ BillardGL-1.75/src/bmp.cpp	2007-08-15 10:41:58.833761793 +0700
+@@ -4,10 +4,10 @@
+ // Modified by Volker Blanz, 25.4.2001
+ //
+ 
+-#include <iostream.h>
+-#include <fstream.h>
++#include <iostream>
++#include <fstream>
+ #include <stdio.h>
+-#include <string.h>
++#include <string>
+ #include "LA.h"
+ #include "Namen.h"
+ #include "bmp.h"
+@@ -242,13 +242,13 @@
+   f = fopen(ffname, "rb");
+   
+   if(!f) {
+-    cerr << "unable to open " << ffname << "!" << endl;
++    std::cerr << "unable to open " << ffname << "!" << std::endl;
+     return false;
+   }
+ 
+    
+   if(!checkMagicKey(f)) { 
+-    cerr << ffname << " is not a bitmap-file." << endl; 
++    std::cerr << ffname << " is not a bitmap-file." << std::endl; 
+     return false; 
+   }   
+   
