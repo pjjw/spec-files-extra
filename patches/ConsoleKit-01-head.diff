@@ -1,0 +1,2213 @@
+diff -urp temp/ConsoleKit-0.2.1/configure.ac ConsoleKit/configure.ac
+--- temp/ConsoleKit-0.2.1/configure.ac	2007-04-10 14:52:05.000000000 -0500
++++ ConsoleKit/configure.ac	2007-08-15 15:14:48.987943000 -0500
+@@ -2,7 +2,7 @@ dnl -*- mode: m4 -*-
+ 
+ AC_PREREQ(2.59c)
+ AC_INIT([ConsoleKit],
+-        [0.2.1],
++        [0.2.2],
+         [mccann@jhu.edu],
+         [ConsoleKit])
+ 
+@@ -140,11 +140,13 @@ dnl ------------------------------------
+ CK_BACKEND=""
+ case "$host" in
+         *-*-freebsd*)
++        CK_BACKEND="freebsd"
+         ;;
+         *-*-linux*)
+         CK_BACKEND="linux"
+         ;;
+         *-*-solaris*)
++        CK_BACKEND="solaris"
+         ;;
+ esac
+ 
+@@ -352,6 +354,7 @@ echo "
+ 	compiler:		  ${CC}
+ 	cflags:		          ${CFLAGS}
+         Base libs:                ${CONSOLE_KIT_LIBS}
++        Tools libs:               ${TOOLS_LIBS}
+         Maintainer mode:          ${USE_MAINTAINER_MODE}
+ 
+         dbus-1 system.d dir:      ${DBUS_SYS_DIR}
+diff -urp temp/ConsoleKit-0.2.1/data/Makefile.am ConsoleKit/data/Makefile.am
+--- temp/ConsoleKit-0.2.1/data/Makefile.am	2007-04-02 14:47:48.000000000 -0500
++++ ConsoleKit/data/Makefile.am	2007-08-15 14:21:57.077680000 -0500
+@@ -3,6 +3,9 @@ NULL =
+ dbusconfdir = $(DBUS_SYS_DIR)
+ dbusconf_DATA = ConsoleKit.conf
+ 
++seatdir = $(sysconfdir)/ConsoleKit/seats.d
++seat_DATA = 00-primary.seat
++
+ SCRIPT_IN_FILES = ConsoleKit.in
+ initddir=$(sysconfdir)/rc.d/init.d
+ initd_SCRIPTS= 		\
+@@ -21,6 +24,7 @@ edit = sed \
+ 
+ EXTRA_DIST =						\
+ 	$(dbusconf_DATA)				\
++	$(seat_DATA)					\
+ 	$(SCRIPT_IN_FILES)				\
+ 	$(NULL)
+ 
+diff -urp temp/ConsoleKit-0.2.1/data/Makefile.in ConsoleKit/data/Makefile.in
+diff -urp temp/ConsoleKit-0.2.1/doc/ConsoleKit.xml ConsoleKit/doc/ConsoleKit.xml
+--- temp/ConsoleKit-0.2.1/doc/ConsoleKit.xml	2007-04-10 14:52:54.000000000 -0500
++++ ConsoleKit/doc/ConsoleKit.xml	2007-08-15 15:15:34.090097000 -0500
+@@ -10,8 +10,8 @@
+ 
+ <book id="index">
+   <bookinfo>
+-    <title>ConsoleKit 0.2.1 Documentation</title>
+-    <releaseinfo>Version 0.2.1</releaseinfo>
++    <title>ConsoleKit 0.2.2 Documentation</title>
++    <releaseinfo>Version 0.2.2</releaseinfo>
+     <date>8 March, 2007</date>
+     <authorgroup>
+       <author>
+diff -urp temp/ConsoleKit-0.2.1/libck-connector/ck-connector.c ConsoleKit/libck-connector/ck-connector.c
+--- temp/ConsoleKit-0.2.1/libck-connector/ck-connector.c	2007-04-02 14:35:57.000000000 -0500
++++ ConsoleKit/libck-connector/ck-connector.c	2007-08-15 14:21:57.084494000 -0500
+@@ -79,7 +79,7 @@ static struct {
+         { "remote-host-name",   DBUS_TYPE_STRING },
+         { "session-type",       DBUS_TYPE_STRING },
+         { "is-local",           DBUS_TYPE_BOOLEAN },
+-        { "user",               DBUS_TYPE_INT32 },
++        { "unix-user",          DBUS_TYPE_INT32 },
+ };
+ 
+ static int
+@@ -500,7 +500,7 @@ out:
+  * dbus_error_init (&error);
+  * ck_connector_open_session_with_parameters (connector,
+  *                                            &error,
+- *                                            "user", &v_INT32,
++ *                                            "unix-user", &v_INT32,
+  *                                            "display-device", &v_STRING,
+  *                                            NULL);
+  * @endcode
+@@ -566,7 +566,7 @@ ck_connector_open_session_for_user (CkCo
+                                                          error,
+                                                          "display-device", &display_device,
+                                                          "x11-display", &x11_display,
+-                                                         "user", &user,
++                                                         "unix-user", &user,
+                                                          NULL);
+         return ret;
+ }
+diff -urp temp/ConsoleKit-0.2.1/libck-connector/test-connector.c ConsoleKit/libck-connector/test-connector.c
+--- temp/ConsoleKit-0.2.1/libck-connector/test-connector.c	2007-03-05 17:23:43.000000000 -0600
++++ ConsoleKit/libck-connector/test-connector.c	2007-08-15 14:21:57.085128000 -0500
+@@ -58,7 +58,7 @@ main (int argc, char *argv[])
+         dbus_error_init (&error);
+         res = ck_connector_open_session_with_parameters (connector,
+                                                          &error,
+-                                                         "user", &user,
++                                                         "unix-user", &user,
+                                                          "display-device", &display_device,
+                                                          "x11-display", &x11_display,
+                                                          "remote-host-name", &remote_host_name,
+diff -urp temp/ConsoleKit-0.2.1/src/Makefile.am ConsoleKit/src/Makefile.am
+--- temp/ConsoleKit-0.2.1/src/Makefile.am	2007-04-05 11:41:33.000000000 -0500
++++ ConsoleKit/src/Makefile.am	2007-08-15 14:21:57.086715000 -0500
+@@ -23,6 +23,30 @@ INCLUDES =							\
+ 	$(DBUS_CFLAGS)						\
+ 	$(NULL)
+ 
++noinst_LTLIBRARIES =            \
++        libckproc.la         	\
++        $(NULL)
++
++libckproc_la_SOURCES =		\
++	proc.h			\
++	$(NULL)
++
++if CK_COMPILE_LINUX
++libckproc_la_SOURCES +=		\
++	proc-linux.c		\
++	$(NULL)
++endif
++if CK_COMPILE_SOLARIS
++libckproc_la_SOURCES +=		\
++	proc-solaris.c		\
++	$(NULL)
++endif
++
++EXTRA_libckproc_la_SOURCES =		\
++	proc-linux.c			\
++	proc-solaris.c			\
++	$(NULL)
++
+ sbin_PROGRAMS = 		\
+ 	console-kit-daemon	\
+ 	$(NULL)
+@@ -49,10 +73,6 @@ ck-marshal.c: ck-marshal.list
+ ck-marshal.h: ck-marshal.list
+ 	@GLIB_GENMARSHAL@ $< --prefix=ck_marshal --header > $@
+ 
+-PLATFORM_SOURCES =		\
+-	proc-linux.c		\
+-	$(NULL)
+-
+ console_kit_daemon_SOURCES =	\
+ 	main.c			\
+ 	ck-manager.h		\
+@@ -72,7 +92,6 @@ console_kit_daemon_SOURCES =	\
+ 	ck-log.c		\
+ 	getfd.c			\
+ 	proc.h			\
+-	$(PLATFORM_SOURCES)	\
+ 	$(BUILT_SOURCES)	\
+ 	$(NULL)
+ 
+@@ -91,6 +110,7 @@ EXTRA_console_kit_daemon_SOURCES = 	\
+ 
+ console_kit_daemon_LDADD =	\
+ 	$(CONSOLE_KIT_LIBS)	\
++	libckproc.la		\
+ 	$(NULL)
+ 
+ noinst_PROGRAMS = 			\
+diff -urp temp/ConsoleKit-0.2.1/src/ck-job.c ConsoleKit/src/ck-job.c
+--- temp/ConsoleKit-0.2.1/src/ck-job.c	2007-04-03 10:33:17.000000000 -0500
++++ ConsoleKit/src/ck-job.c	2007-08-15 14:21:57.087768000 -0500
+@@ -44,8 +44,8 @@ struct CkJobPrivate
+         guint       out_watch_id;
+ 
+         char       *command;
+-        GString    *stdout;
+-        GString    *stderr;
++        GString    *std_out;
++        GString    *std_err;
+         GPid        child_pid;
+ 
+ };
+@@ -138,7 +138,7 @@ error_watch (GIOChannel   *source,
+                 switch (status) {
+                 case G_IO_STATUS_NORMAL:
+                         g_debug ("command error output: %s", line);
+-                        g_string_append (job->priv->stderr, line);
++                        g_string_append (job->priv->std_err, line);
+                         break;
+                 case G_IO_STATUS_EOF:
+                         finished = TRUE;
+@@ -183,7 +183,7 @@ out_watch (GIOChannel   *source,
+                 switch (status) {
+                 case G_IO_STATUS_NORMAL:
+                         g_debug ("command output: %s", line);
+-                        g_string_append (job->priv->stdout, line);
++                        g_string_append (job->priv->std_out, line);
+                         break;
+                 case G_IO_STATUS_EOF:
+                         finished = TRUE;
+@@ -281,10 +281,10 @@ ck_job_execute (CkJob   *job,
+ 
+ gboolean
+ ck_job_get_stdout (CkJob *job,
+-                   char **stdout)
++                   char **std_outp)
+ {
+-        if (stdout != NULL) {
+-                *stdout = g_strdup (job->priv->stdout->str);
++        if (std_outp != NULL) {
++                *std_outp = g_strdup (job->priv->std_out->str);
+         }
+         return TRUE;
+ }
+@@ -335,8 +335,8 @@ ck_job_init (CkJob *job)
+ {
+         job->priv = CK_JOB_GET_PRIVATE (job);
+ 
+-        job->priv->stderr = g_string_new (NULL);
+-        job->priv->stdout = g_string_new (NULL);
++        job->priv->std_err = g_string_new (NULL);
++        job->priv->std_out = g_string_new (NULL);
+ }
+ 
+ gboolean
+@@ -374,8 +374,8 @@ ck_job_finalize (GObject *object)
+                 g_source_remove (job->priv->err_watch_id);
+         }
+         g_free (job->priv->command);
+-        g_string_free (job->priv->stdout, TRUE);
+-        g_string_free (job->priv->stderr, TRUE);
++        g_string_free (job->priv->std_out, TRUE);
++        g_string_free (job->priv->std_err, TRUE);
+ 
+         G_OBJECT_CLASS (ck_job_parent_class)->finalize (object);
+ }
+diff -urp temp/ConsoleKit-0.2.1/src/ck-log.c ConsoleKit/src/ck-log.c
+--- temp/ConsoleKit-0.2.1/src/ck-log.c	2007-04-03 10:25:06.000000000 -0500
++++ ConsoleKit/src/ck-log.c	2007-08-15 14:21:57.088219000 -0500
+@@ -178,12 +178,18 @@ void
+ ck_log_init (void)
+ {
+         const char *prg_name;
++        int         options;
+ 
+         g_log_set_default_handler (ck_log_default_handler, NULL);
+ 
+         prg_name = g_get_prgname ();
+ 
+-        openlog (prg_name, LOG_PERROR|LOG_PID, LOG_DAEMON);
++        options = LOG_PID;
++#ifdef LOG_PERROR
++        options |= LOG_PERROR;
++#endif
++
++        openlog (prg_name, options, LOG_DAEMON);
+ 
+         initialized = TRUE;
+ }
+diff -urp temp/ConsoleKit-0.2.1/src/ck-manager-glue.h ConsoleKit/src/ck-manager-glue.h
+--- temp/ConsoleKit-0.2.1/src/ck-manager-glue.h	2007-04-05 11:41:36.000000000 -0500
++++ ConsoleKit/src/ck-manager-glue.h	2007-08-15 16:42:05.359158000 -0500
+@@ -53,7 +53,7 @@ G_BEGIN_DECLS
+ #endif /* !G_ENABLE_DEBUG */
+ 
+ 
+-/* BOOLEAN:POINTER,POINTER (/tmp/dbus-binding-tool-c-marshallers.87ODQT:1) */
++/* BOOLEAN:POINTER,POINTER (/var/tmp/dbus-binding-tool-c-marshallers.G157WT:1) */
+ extern void dbus_glib_marshal_ck_manager_BOOLEAN__POINTER_POINTER (GClosure     *closure,
+                                                                    GValue       *return_value,
+                                                                    guint         n_param_values,
+@@ -100,11 +100,11 @@ dbus_glib_marshal_ck_manager_BOOLEAN__PO
+   g_value_set_boolean (return_value, v_return);
+ }
+ 
+-/* NONE:UINT,POINTER (/tmp/dbus-binding-tool-c-marshallers.87ODQT:2) */
++/* NONE:UINT,POINTER (/var/tmp/dbus-binding-tool-c-marshallers.G157WT:2) */
+ #define dbus_glib_marshal_ck_manager_VOID__UINT_POINTER	g_cclosure_marshal_VOID__UINT_POINTER
+ #define dbus_glib_marshal_ck_manager_NONE__UINT_POINTER	dbus_glib_marshal_ck_manager_VOID__UINT_POINTER
+ 
+-/* NONE:STRING,POINTER (/tmp/dbus-binding-tool-c-marshallers.87ODQT:3) */
++/* NONE:STRING,POINTER (/var/tmp/dbus-binding-tool-c-marshallers.G157WT:3) */
+ extern void dbus_glib_marshal_ck_manager_VOID__STRING_POINTER (GClosure     *closure,
+                                                                GValue       *return_value,
+                                                                guint         n_param_values,
+@@ -148,11 +148,11 @@ dbus_glib_marshal_ck_manager_VOID__STRIN
+ }
+ #define dbus_glib_marshal_ck_manager_NONE__STRING_POINTER	dbus_glib_marshal_ck_manager_VOID__STRING_POINTER
+ 
+-/* NONE:POINTER (/tmp/dbus-binding-tool-c-marshallers.87ODQT:4) */
++/* NONE:POINTER (/var/tmp/dbus-binding-tool-c-marshallers.G157WT:4) */
+ #define dbus_glib_marshal_ck_manager_VOID__POINTER	g_cclosure_marshal_VOID__POINTER
+ #define dbus_glib_marshal_ck_manager_NONE__POINTER	dbus_glib_marshal_ck_manager_VOID__POINTER
+ 
+-/* NONE:BOXED,POINTER (/tmp/dbus-binding-tool-c-marshallers.87ODQT:5) */
++/* NONE:BOXED,POINTER (/var/tmp/dbus-binding-tool-c-marshallers.G157WT:5) */
+ extern void dbus_glib_marshal_ck_manager_VOID__BOXED_POINTER (GClosure     *closure,
+                                                               GValue       *return_value,
+                                                               guint         n_param_values,
+diff -urp temp/ConsoleKit-0.2.1/src/ck-manager.c ConsoleKit/src/ck-manager.c
+--- temp/ConsoleKit-0.2.1/src/ck-manager.c	2007-04-04 10:50:26.000000000 -0500
++++ ConsoleKit/src/ck-manager.c	2007-08-15 14:21:57.089219000 -0500
+@@ -47,6 +47,8 @@
+ 
+ #define CK_MANAGER_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), CK_TYPE_MANAGER, CkManagerPrivate))
+ 
++#define CK_SEAT_DIR SYSCONFDIR "/ConsoleKit/seats.d"
++
+ #define CK_DBUS_PATH         "/org/freedesktop/ConsoleKit"
+ #define CK_MANAGER_DBUS_PATH CK_DBUS_PATH "/Manager"
+ #define CK_MANAGER_DBUS_NAME "org.freedesktop.ConsoleKit.Manager"
+@@ -1545,11 +1547,59 @@ ck_manager_get_seats (CkManager  *manage
+ }
+ 
+ static void
+-create_seats (CkManager *manager)
++add_seat_for_file (CkManager  *manager,
++                   const char *filename)
+ {
++        char   *sid;
+         CkSeat *seat;
+ 
+-        seat = add_new_seat (manager, CK_SEAT_KIND_STATIC);
++        sid = generate_seat_id (manager);
++
++        seat = ck_seat_new_from_file (sid, filename);
++        if (seat == NULL) {
++                /* returns null if connection to bus fails */
++                g_free (sid);
++                return;
++        }
++
++        g_hash_table_insert (manager->priv->seats, sid, seat);
++
++        g_debug ("Added seat: %s", sid);
++
++        g_signal_emit (manager, signals [SEAT_ADDED], 0, sid);
++}
++
++static gboolean
++load_seats_from_dir (CkManager *manager)
++{
++        GDir   *d;
++        GError *error;
++        char   *file;
++
++        error = NULL;
++        d = g_dir_open (CK_SEAT_DIR,
++                        0,
++                        &error);
++        if (d == NULL) {
++                g_warning ("Couldn't open seat dir: %s", error->message);
++                g_error_free (error);
++                return FALSE;
++        }
++
++        while ((file = g_dir_read_name (d)) != NULL) {
++                char *path;
++                path = g_build_filename (CK_SEAT_DIR, file, NULL);
++                add_seat_for_file (manager, path);
++                g_free (path);
++        }
++
++        g_dir_close (d);
++}
++
++static void
++create_seats (CkManager *manager)
++{
++        load_seats_from_dir (manager);
+ }
+ 
+ static void
+diff -urp temp/ConsoleKit-0.2.1/src/ck-seat-glue.h ConsoleKit/src/ck-seat-glue.h
+--- temp/ConsoleKit-0.2.1/src/ck-seat-glue.h	2007-04-05 11:41:36.000000000 -0500
++++ ConsoleKit/src/ck-seat-glue.h	2007-08-15 16:42:05.384966000 -0500
+@@ -53,7 +53,7 @@ G_BEGIN_DECLS
+ #endif /* !G_ENABLE_DEBUG */
+ 
+ 
+-/* BOOLEAN:POINTER,POINTER (/tmp/dbus-binding-tool-c-marshallers.NT25PT:1) */
++/* BOOLEAN:POINTER,POINTER (/var/tmp/dbus-binding-tool-c-marshallers.6C28WT:1) */
+ extern void dbus_glib_marshal_ck_seat_BOOLEAN__POINTER_POINTER (GClosure     *closure,
+                                                                 GValue       *return_value,
+                                                                 guint         n_param_values,
+@@ -100,7 +100,7 @@ dbus_glib_marshal_ck_seat_BOOLEAN__POINT
+   g_value_set_boolean (return_value, v_return);
+ }
+ 
+-/* NONE:BOXED,POINTER (/tmp/dbus-binding-tool-c-marshallers.NT25PT:2) */
++/* NONE:BOXED,POINTER (/var/tmp/dbus-binding-tool-c-marshallers.6C28WT:2) */
+ extern void dbus_glib_marshal_ck_seat_VOID__BOXED_POINTER (GClosure     *closure,
+                                                            GValue       *return_value,
+                                                            guint         n_param_values,
+@@ -152,17 +152,18 @@ G_END_DECLS
+ static const DBusGMethodInfo dbus_glib_ck_seat_methods[] = {
+   { (GCallback) ck_seat_get_id, dbus_glib_marshal_ck_seat_BOOLEAN__POINTER_POINTER, 0 },
+   { (GCallback) ck_seat_get_sessions, dbus_glib_marshal_ck_seat_BOOLEAN__POINTER_POINTER, 53 },
+-  { (GCallback) ck_seat_get_active_session, dbus_glib_marshal_ck_seat_BOOLEAN__POINTER_POINTER, 118 },
+-  { (GCallback) ck_seat_can_activate_sessions, dbus_glib_marshal_ck_seat_BOOLEAN__POINTER_POINTER, 183 },
+-  { (GCallback) ck_seat_activate_session, dbus_glib_marshal_ck_seat_NONE__BOXED_POINTER, 259 },
++  { (GCallback) ck_seat_get_devices, dbus_glib_marshal_ck_seat_BOOLEAN__POINTER_POINTER, 118 },
++  { (GCallback) ck_seat_get_active_session, dbus_glib_marshal_ck_seat_BOOLEAN__POINTER_POINTER, 184 },
++  { (GCallback) ck_seat_can_activate_sessions, dbus_glib_marshal_ck_seat_BOOLEAN__POINTER_POINTER, 249 },
++  { (GCallback) ck_seat_activate_session, dbus_glib_marshal_ck_seat_NONE__BOXED_POINTER, 325 },
+ };
+ 
+ const DBusGObjectInfo dbus_glib_ck_seat_object_info = {
+   0,
+   dbus_glib_ck_seat_methods,
+-  5,
+-"org.freedesktop.ConsoleKit.Seat\0GetId\0S\0sid\0O\0F\0N\0o\0\0org.freedesktop.ConsoleKit.Seat\0GetSessions\0S\0sessions\0O\0F\0N\0ao\0\0org.freedesktop.ConsoleKit.Seat\0GetActiveSession\0S\0ssid\0O\0F\0N\0o\0\0org.freedesktop.ConsoleKit.Seat\0CanActivateSessions\0S\0can_activate\0O\0F\0N\0b\0\0org.freedesktop.ConsoleKit.Seat\0ActivateSession\0A\0ssid\0I\0o\0\0\0",
+-"org.freedesktop.ConsoleKit.Seat\0ActiveSessionChanged\0org.freedesktop.ConsoleKit.Seat\0SessionAdded\0org.freedesktop.ConsoleKit.Seat\0SessionRemoved\0\0",
++  6,
++"org.freedesktop.ConsoleKit.Seat\0GetId\0S\0sid\0O\0F\0N\0o\0\0org.freedesktop.ConsoleKit.Seat\0GetSessions\0S\0sessions\0O\0F\0N\0ao\0\0org.freedesktop.ConsoleKit.Seat\0GetDevices\0S\0devices\0O\0F\0N\0a(ss)\0\0org.freedesktop.ConsoleKit.Seat\0GetActiveSession\0S\0ssid\0O\0F\0N\0o\0\0org.freedesktop.ConsoleKit.Seat\0CanActivateSessions\0S\0can_activate\0O\0F\0N\0b\0\0org.freedesktop.ConsoleKit.Seat\0ActivateSession\0A\0ssid\0I\0o\0\0\0",
++"org.freedesktop.ConsoleKit.Seat\0ActiveSessionChanged\0org.freedesktop.ConsoleKit.Seat\0SessionAdded\0org.freedesktop.ConsoleKit.Seat\0SessionRemoved\0org.freedesktop.ConsoleKit.Seat\0DeviceAdded\0org.freedesktop.ConsoleKit.Seat\0DeviceRemoved\0\0",
+ "\0"
+ };
+ 
+diff -urp temp/ConsoleKit-0.2.1/src/ck-seat.c ConsoleKit/src/ck-seat.c
+--- temp/ConsoleKit-0.2.1/src/ck-seat.c	2007-04-03 10:32:56.000000000 -0500
++++ ConsoleKit/src/ck-seat.c	2007-08-15 14:21:57.090383000 -0500
+@@ -53,11 +53,13 @@
+ #define CK_DBUS_PATH "/org/freedesktop/ConsoleKit"
+ #define CK_DBUS_NAME "org.freedesktop.ConsoleKit"
+ 
++
+ struct CkSeatPrivate
+ {
+         char            *id;
+         CkSeatKind       kind;
+         GHashTable      *sessions;
++        GPtrArray       *devices;
+ 
+         CkSession       *active_session;
+ 
+@@ -70,6 +72,8 @@ enum {
+         ACTIVE_SESSION_CHANGED,
+         SESSION_ADDED,
+         SESSION_REMOVED,
++        DEVICE_ADDED,
++        DEVICE_REMOVED,
+         LAST_SIGNAL
+ };
+ 
+@@ -605,6 +609,60 @@ ck_seat_can_activate_sessions (CkSeat   
+         return TRUE;
+ }
+ 
++static gboolean
++ck_seat_has_device (CkSeat      *seat,
++                    GValueArray *device,
++                    gboolean    *result,
++                    GError      *error)
++{
++        g_return_val_if_fail (CK_IS_SEAT (seat), FALSE);
++
++        return TRUE;
++}
++
++gboolean
++ck_seat_add_device (CkSeat         *seat,
++                    GValueArray    *device,
++                    GError        **error)
++{
++        gboolean present;
++
++        g_return_val_if_fail (CK_IS_SEAT (seat), FALSE);
++
++        /* FIXME: check if already present */
++        present = FALSE;
++        ck_seat_has_device (seat, device, &present, NULL);
++        if (present) {
++                g_set_error (error, CK_SEAT_ERROR, CK_SEAT_ERROR_GENERAL, "%s", "Device already present");
++                return FALSE;
++        }
++
++        g_ptr_array_add (seat->priv->devices, g_boxed_copy (CK_TYPE_DEVICE, device));
++
++        g_debug ("Emitting device added signal");
++
++        g_signal_emit (seat, signals [DEVICE_ADDED], 0, device);
++
++        return TRUE;
++}
++
++gboolean
++ck_seat_remove_device (CkSeat         *seat,
++                       GValueArray    *device,
++                       GError        **error)
++{
++        g_return_val_if_fail (CK_IS_SEAT (seat), FALSE);
++
++        /* FIXME: check if already present */
++        if (0) {
++                g_debug ("Emitting device removed signal");
++
++                g_signal_emit (seat, signals [DEVICE_REMOVED], 0, device);
++        }
++
++        return TRUE;
++}
++
+ gboolean
+ ck_seat_get_kind (CkSeat        *seat,
+                   CkSeatKind    *kind,
+@@ -689,6 +747,38 @@ ck_seat_get_sessions (CkSeat         *se
+ }
+ 
+ static void
++copy_devices (gpointer    data,
++              GPtrArray **array)
++{
++        g_ptr_array_add (*array, data);
++}
++
++/*
++  Example:
++  dbus-send --system --dest=org.freedesktop.ConsoleKit \
++  --type=method_call --print-reply --reply-timeout=2000 \
++  /org/freedesktop/ConsoleKit/Seat1 \
++  org.freedesktop.ConsoleKit.Seat.GetDevices
++*/
++
++gboolean
++ck_seat_get_devices (CkSeat         *seat,
++                     GPtrArray     **devices,
++                     GError        **error)
++{
++        g_return_val_if_fail (CK_IS_SEAT (seat), FALSE);
++
++        if (devices == NULL) {
++                return FALSE;
++        }
++
++        *devices = g_ptr_array_sized_new (seat->priv->devices->len);
++        g_ptr_array_foreach (seat->priv->devices, (GFunc)copy_devices, devices);
++
++        return TRUE;
++}
++
++static void
+ _ck_seat_set_id (CkSeat         *seat,
+                  const char     *id)
+ {
+@@ -809,6 +899,25 @@ ck_seat_class_init (CkSeatClass *klass)
+                                                   G_TYPE_NONE,
+                                                   1, G_TYPE_STRING);
+ 
++        signals [DEVICE_ADDED] = g_signal_new ("device-added",
++                                               G_TYPE_FROM_CLASS (object_class),
++                                               G_SIGNAL_RUN_LAST,
++                                               G_STRUCT_OFFSET (CkSeatClass, device_added),
++                                               NULL,
++                                               NULL,
++                                               g_cclosure_marshal_VOID__BOXED,
++                                               G_TYPE_NONE,
++                                               1, CK_TYPE_DEVICE);
++        signals [DEVICE_REMOVED] = g_signal_new ("device-removed",
++                                                 G_TYPE_FROM_CLASS (object_class),
++                                                 G_SIGNAL_RUN_LAST,
++                                                 G_STRUCT_OFFSET (CkSeatClass, device_removed),
++                                                 NULL,
++                                                 NULL,
++                                                 g_cclosure_marshal_VOID__BOXED,
++                                                 G_TYPE_NONE,
++                                                 1, CK_TYPE_DEVICE);
++
+         g_object_class_install_property (object_class,
+                                          PROP_ID,
+                                          g_param_spec_string ("id",
+@@ -839,6 +948,7 @@ ck_seat_init (CkSeat *seat)
+                                                       g_str_equal,
+                                                       g_free,
+                                                       (GDestroyNotify) g_object_unref);
++        seat->priv->devices = g_ptr_array_new ();
+ }
+ 
+ static void
+@@ -861,6 +971,7 @@ ck_seat_finalize (GObject *object)
+                 g_object_unref (seat->priv->active_session);
+         }
+ 
++        g_ptr_array_free (seat->priv->devices, TRUE);
+         g_hash_table_destroy (seat->priv->sessions);
+         g_free (seat->priv->id);
+ 
+@@ -887,3 +998,111 @@ ck_seat_new (const char *sid,
+ 
+         return CK_SEAT (object);
+ }
++
++CkSeat *
++ck_seat_new_with_devices (const char *sid,
++                          CkSeatKind  kind,
++                          GPtrArray  *devices)
++{
++        GObject *object;
++        gboolean res;
++        int      i;
++
++        object = g_object_new (CK_TYPE_SEAT,
++                               "id", sid,
++                               "kind", kind,
++                               NULL);
++
++        if (devices != NULL) {
++                for (i = 0; i < devices->len; i++) {
++                        ck_seat_add_device (CK_SEAT (object), g_ptr_array_index (devices, i), NULL);
++                }
++        }
++
++        res = register_seat (CK_SEAT (object));
++        if (! res) {
++                g_object_unref (object);
++                return NULL;
++        }
++
++        return CK_SEAT (object);
++}
++
++CkSeat *
++ck_seat_new_from_file (const char *sid,
++                       const char *path)
++{
++        GKeyFile  *key_file;
++        gboolean   res;
++        GError    *error;
++        char      *group;
++        CkSeat    *seat;
++        gboolean   hidden;
++        GPtrArray *devices;
++        char     **device_list;
++        gsize      ndevices;
++        gsize      i;
++
++        key_file = g_key_file_new ();
++        error = NULL;
++        res = g_key_file_load_from_file (key_file,
++                                         path,
++                                         G_KEY_FILE_NONE,
++                                         &error);
++        if (! res) {
++                g_warning ("Unable to load seats from file %s: %s", path, error->message);
++                g_error_free (error);
++                return NULL;
++        }
++
++        group = g_key_file_get_start_group (key_file);
++        if (group == NULL || strcmp (group, "Seat Entry") != 0) {
++                g_warning ("Not a seat file: %s", path);
++                return NULL;
++        }
++
++        hidden = g_key_file_get_boolean (key_file, group, "Hidden", NULL);
++        if (hidden) {
++                g_debug ("Seat is hidden");
++                return NULL;
++        }
++
++        device_list = g_key_file_get_string_list (key_file, group, "Devices", &ndevices, NULL);
++
++        g_debug ("Creating seat %s with %d devices", sid, ndevices);
++
++        devices = g_ptr_array_sized_new (ndevices);
++
++        for (i = 0; i < ndevices; i++) {
++                char **split;
++                GValue device_val = { 0, };
++
++                split = g_strsplit (device_list[i], ":", 2);
++
++                if (split == NULL) {
++                        continue;
++                }
++
++                g_debug ("Adding device: %s %s", split[0], split[1]);
++
++                g_value_init (&device_val, CK_TYPE_DEVICE);
++                g_value_take_boxed (&device_val,
++                                    dbus_g_type_specialized_construct (CK_TYPE_DEVICE));
++                dbus_g_type_struct_set (&device_val,
++                                        0, split[0],
++                                        1, split[1],
++                                        G_MAXUINT);
++
++                g_ptr_array_add (devices, g_value_get_boxed (&device_val));
++
++                g_strfreev (split);
++        }
++
++        g_free (group);
++
++        seat = ck_seat_new_with_devices (sid, CK_SEAT_KIND_STATIC, devices);
++
++        g_ptr_array_free (devices, TRUE);
++
++        return seat;
++}
+diff -urp temp/ConsoleKit-0.2.1/src/ck-seat.h ConsoleKit/src/ck-seat.h
+--- temp/ConsoleKit-0.2.1/src/ck-seat.h	2007-03-19 11:23:12.000000000 -0500
++++ ConsoleKit/src/ck-seat.h	2007-08-15 14:21:57.090662000 -0500
+@@ -47,12 +47,16 @@ typedef struct
+ {
+         GObjectClass   parent_class;
+ 
+-        void          (* active_session_changed) (CkSeat     *seat,
+-                                                  const char *ssid);
+-        void          (* session_added)          (CkSeat     *seat,
+-                                                  const char *ssid);
+-        void          (* session_removed)        (CkSeat     *seat,
+-                                                  const char *ssid);
++        void          (* active_session_changed) (CkSeat      *seat,
++                                                  const char  *ssid);
++        void          (* session_added)          (CkSeat      *seat,
++                                                  const char  *ssid);
++        void          (* session_removed)        (CkSeat      *seat,
++                                                  const char  *ssid);
++        void          (* device_added)           (CkSeat      *seat,
++                                                  GValueArray *device);
++        void          (* device_removed)         (CkSeat      *seat,
++                                                  GValueArray *device);
+ } CkSeatClass;
+ 
+ typedef enum
+@@ -71,10 +75,21 @@ typedef enum
+ 
+ #define CK_SEAT_ERROR ck_seat_error_quark ()
+ 
++
++#define CK_TYPE_DEVICE (dbus_g_type_get_struct ("GValueArray", \
++                                                G_TYPE_STRING,          \
++                                                G_TYPE_STRING,          \
++                                                G_TYPE_INVALID))
++
+ GQuark              ck_seat_error_quark         (void);
+ GType               ck_seat_get_type            (void);
+ CkSeat            * ck_seat_new                 (const char            *sid,
+                                                  CkSeatKind             kind);
++CkSeat            * ck_seat_new_from_file       (const char            *sid,
++                                                 const char            *path);
++CkSeat            * ck_seat_new_with_devices    (const char            *sid,
++                                                 CkSeatKind             kind,
++                                                 GPtrArray             *devices);
+ gboolean            ck_seat_get_kind            (CkSeat                *seat,
+                                                  CkSeatKind            *kind,
+                                                  GError               **error);
+@@ -87,6 +102,12 @@ gboolean            ck_seat_remove_sessi
+ gboolean            ck_seat_set_active_session  (CkSeat                *seat,
+                                                  CkSession             *session,
+                                                  GError               **error);
++gboolean            ck_seat_add_device          (CkSeat                *seat,
++                                                 GValueArray           *device,
++                                                 GError               **error);
++gboolean            ck_seat_remove_device       (CkSeat                *seat,
++                                                 GValueArray           *device,
++                                                 GError               **error);
+ 
+ /* exported methods */
+ gboolean            ck_seat_get_id                (CkSeat                *seat,
+@@ -95,6 +116,9 @@ gboolean            ck_seat_get_id      
+ gboolean            ck_seat_get_sessions          (CkSeat                *seat,
+                                                    GPtrArray            **sessions,
+                                                    GError               **error);
++gboolean            ck_seat_get_devices           (CkSeat                *seat,
++                                                   GPtrArray            **devices,
++                                                   GError               **error);
+ gboolean            ck_seat_get_active_session    (CkSeat                *seat,
+                                                    char                 **ssid,
+                                                    GError               **error);
+diff -urp temp/ConsoleKit-0.2.1/src/ck-seat.xml ConsoleKit/src/ck-seat.xml
+--- temp/ConsoleKit-0.2.1/src/ck-seat.xml	2007-03-19 11:25:57.000000000 -0500
++++ ConsoleKit/src/ck-seat.xml	2007-08-15 14:21:57.090808000 -0500
+@@ -7,6 +7,9 @@
+     <method name="GetSessions">
+       <arg name="sessions" direction="out" type="ao"/>
+     </method>
++    <method name="GetDevices">
++      <arg name="devices" direction="out" type="a(ss)"/>
++    </method>
+     <method name="GetActiveSession">
+       <arg name="ssid" direction="out" type="o"/>
+     </method>
+@@ -26,5 +29,11 @@
+     <signal name="SessionRemoved">
+       <arg name="ssid" type="o"/>
+     </signal>
++    <signal name="DeviceAdded">
++      <arg name="device" type="(ss)"/>
++    </signal>
++    <signal name="DeviceRemoved">
++      <arg name="device" type="(ss)"/>
++    </signal>
+   </interface>
+ </node>
+diff -urp temp/ConsoleKit-0.2.1/src/ck-session-glue.h ConsoleKit/src/ck-session-glue.h
+--- temp/ConsoleKit-0.2.1/src/ck-session-glue.h	2007-04-05 11:41:36.000000000 -0500
++++ ConsoleKit/src/ck-session-glue.h	2007-08-15 16:42:05.411395000 -0500
+@@ -53,7 +53,7 @@ G_BEGIN_DECLS
+ #endif /* !G_ENABLE_DEBUG */
+ 
+ 
+-/* BOOLEAN:POINTER,POINTER (/tmp/dbus-binding-tool-c-marshallers.CVG6PT:1) */
++/* BOOLEAN:POINTER,POINTER (/var/tmp/dbus-binding-tool-c-marshallers.GU66WT:1) */
+ extern void dbus_glib_marshal_ck_session_BOOLEAN__POINTER_POINTER (GClosure     *closure,
+                                                                    GValue       *return_value,
+                                                                    guint         n_param_values,
+@@ -100,7 +100,7 @@ dbus_glib_marshal_ck_session_BOOLEAN__PO
+   g_value_set_boolean (return_value, v_return);
+ }
+ 
+-/* NONE:BOOLEAN,POINTER (/tmp/dbus-binding-tool-c-marshallers.CVG6PT:2) */
++/* NONE:BOOLEAN,POINTER (/var/tmp/dbus-binding-tool-c-marshallers.GU66WT:2) */
+ extern void dbus_glib_marshal_ck_session_VOID__BOOLEAN_POINTER (GClosure     *closure,
+                                                                 GValue       *return_value,
+                                                                 guint         n_param_values,
+@@ -144,7 +144,7 @@ dbus_glib_marshal_ck_session_VOID__BOOLE
+ }
+ #define dbus_glib_marshal_ck_session_NONE__BOOLEAN_POINTER	dbus_glib_marshal_ck_session_VOID__BOOLEAN_POINTER
+ 
+-/* NONE:POINTER (/tmp/dbus-binding-tool-c-marshallers.CVG6PT:3) */
++/* NONE:POINTER (/var/tmp/dbus-binding-tool-c-marshallers.GU66WT:3) */
+ #define dbus_glib_marshal_ck_session_VOID__POINTER	g_cclosure_marshal_VOID__POINTER
+ #define dbus_glib_marshal_ck_session_NONE__POINTER	dbus_glib_marshal_ck_session_VOID__POINTER
+ 
+diff -urp temp/ConsoleKit-0.2.1/src/ck-vt-monitor.c ConsoleKit/src/ck-vt-monitor.c
+--- temp/ConsoleKit-0.2.1/src/ck-vt-monitor.c	2007-04-03 10:33:07.000000000 -0500
++++ ConsoleKit/src/ck-vt-monitor.c	2007-08-15 15:24:12.117669000 -0500
+@@ -357,6 +357,12 @@ vt_add_watch_unlocked (CkVtMonitor *vt_m
+ static void
+ vt_add_watches (CkVtMonitor *vt_monitor)
+ {
++#ifdef __sun
++        GError *error = NULL;
++        gchar *svcprop_stdout, *svcprop_stderr;
++        int status;
++#endif
++	int    max_consoles = 0;
+         int    i;
+         gint32 current_num;
+ 
+@@ -364,7 +370,27 @@ vt_add_watches (CkVtMonitor *vt_monitor)
+ 
+         current_num = vt_monitor->priv->active_num;
+ 
+-        for (i = 1; i < MAX_NR_CONSOLES; i++) {
++#ifdef __sun
++        /*
++         * On Solaris, the default number of VT's is determined by
++         * resources and is stored in the vtdaemon SVC property
++         * options/vtnodecount.  If the svcprop command fails, then it can
++         * be safely assumed that VT is not supported on this release of
++         * Solaris.
++         */
++        if (g_spawn_command_line_sync (
++                "/usr/bin/svcprop -p options/vtnodecount vtdaemon",
++                &svcprop_stdout, &svcprop_stderr, &status, &error)) {
++
++                if (error == NULL && svcprop_stdout != NULL) {
++                        max_consoles = atoi (svcprop_stdout);
++                }
++        }
++#else
++        max_consoles = MAX_NR_CONSOLES;
++#endif
++
++        for (i = 1; i < max_consoles; i++) {
+                 gpointer id;
+ 
+                 /* don't wait on the active vc */
+diff -urp temp/ConsoleKit-0.2.1/src/getfd.c ConsoleKit/src/getfd.c
+--- temp/ConsoleKit-0.2.1/src/getfd.c	2007-03-06 14:48:16.000000000 -0600
++++ ConsoleKit/src/getfd.c	2007-08-15 14:21:57.095150000 -0500
+@@ -9,7 +9,10 @@
+ #include <stdio.h>
+ #include <fcntl.h>
+ #include <errno.h>
++#include <unistd.h>
++#ifdef __linux__
+ #include <linux/kd.h>
++#endif
+ #include <sys/ioctl.h>
+ 
+ #ifdef HAVE_PATHS_H
+@@ -28,10 +31,18 @@ static int
+ is_a_console (int fd)
+ {
+     char arg;
++    int  kb_ok;
+ 
+     arg = 0;
+-    return (ioctl (fd, KDGKBTYPE, &arg) == 0
+-	    && ((arg == KB_101) || (arg == KB_84)));
++
++#ifdef __linux__
++    kb_ok = (ioctl (fd, KDGKBTYPE, &arg) == 0
++             && ((arg == KB_101) || (arg == KB_84)));
++#else
++    kb_ok = 1;
++#endif
++
++    return (isatty (fd) && kb_ok);
+ }
+ 
+ static int
+@@ -39,11 +50,18 @@ open_a_console (char *fnam)
+ {
+     int fd;
+ 
+-    fd = open (fnam, O_RDONLY);
++    fd = open (fnam, O_RDONLY | O_NOCTTY);
+     if (fd < 0 && errno == EACCES)
+-      fd = open(fnam, O_WRONLY);
+-    if (fd < 0 || ! is_a_console (fd))
++      fd = open (fnam, O_WRONLY | O_NOCTTY);
++
++    if (fd < 0)
+       return -1;
++
++    if (! is_a_console (fd)) {
++      close (fd);
++      fd = -1;
++    }
++
+     return fd;
+ }
+ 
+@@ -51,17 +69,21 @@ int getfd (void)
+ {
+     int fd;
+ 
++#ifdef _PATH_TTY
+     fd = open_a_console (_PATH_TTY);
+     if (fd >= 0)
+       return fd;
++#endif
+ 
+     fd = open_a_console ("/dev/tty");
+     if (fd >= 0)
+       return fd;
+ 
++#ifdef _PATH_CONSOLE
+     fd = open_a_console (_PATH_CONSOLE);
+     if (fd >= 0)
+       return fd;
++#endif
+ 
+     fd = open_a_console ("/dev/console");
+     if (fd >= 0)
+diff -urp temp/ConsoleKit-0.2.1/src/test-tty-idle-monitor.c ConsoleKit/src/test-tty-idle-monitor.c
+--- temp/ConsoleKit-0.2.1/src/test-tty-idle-monitor.c	2007-04-05 13:21:55.000000000 -0500
++++ ConsoleKit/src/test-tty-idle-monitor.c	2007-08-15 14:21:57.097371000 -0500
+@@ -23,11 +23,19 @@
+ 
+ #include <stdlib.h>
+ #include <stdio.h>
++#include <unistd.h>
+ #include <sys/types.h>
++#include <sys/stat.h>
++#include <sys/ioctl.h>
++#include <fcntl.h>
+ #include <pwd.h>
+ #include <string.h>
+ #include <errno.h>
+ 
++#ifdef __linux__
++#include <linux/kd.h>
++#endif
++
+ #include <locale.h>
+ 
+ #include <glib.h>
+@@ -42,6 +50,35 @@ idle_changed_cb (CkTtyIdleMonitor *monit
+         g_message ("idle hint changed: %s", idle_hint ? "idle" : "not idle");
+ }
+ 
++static gboolean
++is_console (const char *device)
++{
++        int      fd;
++        gboolean ret;
++        int      kb_ok;
++        char     arg;
++
++        ret = FALSE;
++        fd = open (device, O_RDONLY | O_NOCTTY);
++        if (fd < 0) {
++                goto out;
++        }
++
++#ifdef __linux__
++        kb_ok = (ioctl (fd, KDGKBTYPE, &arg) == 0
++                 && ((arg == KB_101) || (arg == KB_84)));
++#else
++        kb_ok = 1;
++#endif
++
++        ret = (isatty (fd) && kb_ok);
++
++        close (fd);
++
++ out:
++        return ret;
++}
++
+ int
+ main (int argc, char **argv)
+ {
+@@ -54,13 +91,19 @@ main (int argc, char **argv)
+         if (argc < 2) {
+                 device = g_file_read_link ("/proc/self/fd/0", NULL);
+                 if (device == NULL) {
+-                        g_warning ("%s not a link", "/proc/self/fd/0");
+-                        exit (1);
++                        device = g_strdup ("/proc/self/fd/0");
+                 }
+         } else {
+                 device = g_strdup (argv[1]);
+         }
+ 
++        if (! is_console (device)) {
++                g_warning ("Device is not a console");
++                exit (1);
++        }
++
++        g_message ("Testing the TTY idle monitor.\n1. Wait for idleness to be detected.\n2. Hit keys on the keyboard to see if activity is noticed.");
++
+         monitor = ck_tty_idle_monitor_new (device);
+ 
+         g_signal_connect (monitor,
+diff -urp temp/ConsoleKit-0.2.1/tools/Makefile.am ConsoleKit/tools/Makefile.am
+--- temp/ConsoleKit-0.2.1/tools/Makefile.am	2007-02-28 12:37:52.000000000 -0600
++++ ConsoleKit/tools/Makefile.am	2007-08-15 14:21:57.139481000 -0500
+@@ -17,6 +17,7 @@ DIST_SUBDIRS = 		\
+ INCLUDES =							\
+ 	-I.							\
+ 	-I$(srcdir)						\
++	-I$(top_srcdir)/src					\
+ 	$(CONSOLE_KIT_CFLAGS)					\
+ 	$(DISABLE_DEPRECATED_CFLAGS)				\
+ 	-DPREFIX=\""$(prefix)"\" 				\
+@@ -42,6 +43,41 @@ ck_list_sessions_LDADD =		\
+ 	$(CONSOLE_KIT_LIBS)		\
+ 	$(NULL)
+ 
++
++libexec_PROGRAMS = 			\
++	ck-collect-session-info		\
++	ck-get-x11-server-pid		\
++	ck-get-x11-display-device	\
++	$(NULL)
++
++ck_collect_session_info_SOURCES =	\
++	ck-collect-session-info.c	\
++	$(NULL)
++
++ck_collect_session_info_LDADD =		\
++	$(TOOLS_LIBS)			\
++	$(top_builddir)/src/libckproc.la\
++	$(NULL)
++
++ck_get_x11_server_pid_SOURCES =		\
++	ck-get-x11-server-pid.c		\
++	$(NULL)
++
++ck_get_x11_server_pid_LDADD =		\
++	$(TOOLS_LIBS)			\
++	$(top_builddir)/src/libckproc.la\
++	$(NULL)
++
++ck_get_x11_display_device_SOURCES =	\
++	ck-get-x11-display-device.c	\
++	$(NULL)
++
++ck_get_x11_display_device_LDADD =	\
++	$(TOOLS_LIBS)			\
++	$(top_builddir)/src/libckproc.la\
++	$(NULL)
++
++
+ EXTRA_DIST =				\
+ 	$(NULL)
+ 
+diff -urp temp/ConsoleKit-0.2.1/tools/Makefile.in ConsoleKit/tools/Makefile.in
+diff -urp temp/ConsoleKit-0.2.1/tools/linux/Makefile.am ConsoleKit/tools/linux/Makefile.am
+--- temp/ConsoleKit-0.2.1/tools/linux/Makefile.am	2007-03-02 15:24:13.000000000 -0600
++++ ConsoleKit/tools/linux/Makefile.am	2007-08-15 14:21:57.140629000 -0500
+@@ -23,28 +23,6 @@ INCLUDES =							\
+ 	$(TOOLS_CFLAGS)						\
+ 	$(NULL)
+ 
+-libexec_PROGRAMS = 			\
+-	ck-collect-session-info		\
+-	ck-get-x11-server-pid		\
+-	$(NULL)
+-
+-ck_collect_session_info_SOURCES =	\
+-	$(top_srcdir)/src/proc.h	\
+-	$(top_srcdir)/src/proc-linux.c	\
+-	ck-collect-session-info.c	\
+-	$(NULL)
+-
+-ck_collect_session_info_LDADD =		\
+-	$(TOOLS_LIBS)			\
+-	$(NULL)
+-
+-ck_get_x11_server_pid_SOURCES =		\
+-	ck-get-x11-server-pid.c		\
+-	$(NULL)
+-
+-ck_get_x11_server_pid_LDADD =		\
+-	$(TOOLS_LIBS)			\
+-	$(NULL)
+ 
+ EXTRA_DIST =				\
+ 	$(NULL)
+--- /dev/null	2007-08-16 11:48:01.000000000 -0500
++++ ConsoleKit/doc/dbus-introspect-docs.dtd	2007-08-15 14:21:57.078513000 -0500
+@@ -0,0 +1,32 @@
++<!-- DTD for D-Bus Introspection Documentation -->
++
++<!ELEMENT doc (summary?,description?,errors?,permission?,since?,deprecated,seealso?)>
++
++<!ELEMENT summary (#PCDATA|ref)*>
++<!ELEMENT description (#PCDATA|para|example)*>
++<!ELEMENT errors (error)*>
++<!ELEMENT permission (#PCDATA|ref|para)*>
++<!ELEMENT since EMPTY>
++<!ATTLIST since version CDATA #REQUIRED>
++<!ELEMENT deprecated (#PCDATA|ref)>
++<!ATTLIST deprecated version CDATA #REQUIRED>
++<!ATTLIST deprecated instead CDATA #REQUIRED>
++<!ELEMENT seealso (ref+)>
++
++<!ELEMENT error (#PCDATA|para)*>
++<!ATTLIST error name CDATA #REQUIRED>
++<!ELEMENT para (#PCDATA|example|code|list|ref)*>
++<!ELEMENT example (#PCDATA|para|code|ref)*>
++<!ATTLIST language (c|glib|python|shell) #REQUIRED>
++<!ATTLIST title CDATA #IMPLIED>
++<!ELEMENT list (listheader?, item*)>
++<!ATTLIST list type (bullet|number|table) #REQUIRED>
++<!ELEMENT item (term|definition)*>
++<!ELEMENT term (#PCDATA|ref)*>
++<!ELEMENT definition (#PCDATA|para)*>
++
++<!ELEMENT code (#PCDATA)>
++<!ATTLIST code lang CDATA #IMPLIED>
++<!ELEMENT ref CDATA>
++<!ATTLIST ref type (parameter|arg|signal|method|interface) #REQUIRED>
++<!ATTLIST ref to CDATA #REQUIRED>
+--- /dev/null	2007-08-16 11:48:01.000000000 -0500
++++ ConsoleKit/libck-connector/ck-connector.pc	2007-08-15 15:15:34.271822000 -0500
+@@ -0,0 +1,11 @@
++prefix=/usr/local
++exec_prefix=/usr/local
++libdir=${exec_prefix}/lib
++includedir=/usr/local/include
++
++Name: ck-connector
++Description: Library for connecting new sessions to ConsoleKit
++Version: 0.2.2
++Requires: dbus-1
++Libs: -L${libdir} -lck-connector
++Cflags: -I${includedir}/ConsoleKit/ck-connector
+--- /dev/null	2007-08-16 11:48:01.000000000 -0500
++++ ConsoleKit/tools/ck-collect-session-info.c	2007-08-15 14:21:57.139752000 -0500
+@@ -0,0 +1,410 @@
++/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*-
++ *
++ * Copyright (C) 2007 William Jon McCann <mccann@jhu.edu>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 of the
++ * License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but
++ * WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
++ * 02111-1307, USA.
++ *
++ * Authors: William Jon McCann <mccann@jhu.edu>
++ *
++ */
++
++#include "config.h"
++
++#include <stdlib.h>
++#include <stdio.h>
++#include <sys/types.h>
++#include <unistd.h>
++#include <pwd.h>
++#include <errno.h>
++
++#include <glib.h>
++
++#include "proc.h"
++
++typedef struct {
++        uid_t    uid;
++        pid_t    pid;
++        char    *display_device;
++        char    *x11_display_device;
++        char    *x11_display;
++        gboolean x11_can_connect;
++        char    *remote_host_name;
++        char    *session_type;
++        gboolean is_local;
++        gboolean is_local_is_set;
++} SessionInfo;
++
++static void
++session_info_free (SessionInfo *si)
++{
++        g_free (si->display_device);
++        g_free (si->x11_display_device);
++        g_free (si->x11_display);
++        g_free (si->remote_host_name);
++        g_free (si->session_type);
++        g_free (si);
++}
++
++static void
++setuid_child_setup_func (SessionInfo *si)
++{
++        int            res;
++        struct passwd *pwent;
++
++        errno = 0;
++        pwent = getpwuid (si->uid);
++        if (pwent == NULL) {
++                g_warning ("Unable to lookup UID: %s", g_strerror (errno));
++                exit (1);
++        }
++
++        /* set the group */
++        errno = 0;
++        res = setgid (pwent->pw_gid);
++        if (res == -1) {
++                g_warning ("Error performing setgid: %s", g_strerror (errno));
++                exit (1);
++        }
++
++        /* become the user */
++        errno = 0;
++        res = setuid (si->uid);
++        if (res == -1) {
++                g_warning ("Error performing setuid: %s", g_strerror (errno));
++                exit (1);
++        }
++}
++
++static GPtrArray *
++get_filtered_environment (pid_t pid)
++{
++        GPtrArray  *env;
++        GHashTable *hash;
++        int         i;
++        static const char *allowed_env_vars [] = {
++                "DISPLAY",
++                "XAUTHORITY",
++                "XAUTHLOCALHOSTNAME",
++                "SSH_CLIENT",
++                "SSH_CONNECTION",
++                "SSH_TTY",
++                "HOME",
++        };
++
++        env = g_ptr_array_new ();
++
++        g_ptr_array_add (env, g_strdup ("PATH=/bin:/usr/bin"));
++
++        hash = proc_pid_get_env_hash (pid);
++
++        for (i = 0; i < G_N_ELEMENTS (allowed_env_vars); i++) {
++                const char *var;
++                const char *val;
++                var = allowed_env_vars [i];
++                val = g_hash_table_lookup (hash, var);
++                if (val != NULL) {
++                        char *str;
++                        str = g_strdup_printf ("%s=%s", var, val);
++                        g_ptr_array_add (env, str);
++                }
++        }
++
++        g_ptr_array_add (env, NULL);
++
++        g_hash_table_destroy (hash);
++
++        return env;
++}
++
++static void
++get_x11_server_pid (SessionInfo *si,
++                    gboolean    *can_connect,
++                    guint       *pid)
++{
++        gboolean   res;
++        char      *err;
++        char      *out;
++        int        status;
++        int        i;
++        GError    *error;
++        guint      num;
++        char      *argv[4];
++        GPtrArray *env;
++
++        if (can_connect != NULL) {
++                *can_connect = FALSE;
++        }
++        if (pid != NULL) {
++                *pid = 0;
++        }
++
++        /* get the applicable environment */
++        env = get_filtered_environment (si->pid);
++
++        num = 0;
++
++        argv[0] = LIBEXECDIR "/ck-get-x11-server-pid";
++        argv[1] = NULL;
++
++        error = NULL;
++        out = NULL;
++        err = NULL;
++        status = -1;
++        res = g_spawn_sync (NULL,
++                            argv,
++                            (char **)env->pdata,
++                            0,
++                            (GSpawnChildSetupFunc)setuid_child_setup_func,
++                            si,
++                            &out,
++                            &err,
++                            &status,
++                            &error);
++        for (i = 0; i < env->len; i++) {
++                g_free (g_ptr_array_index (env, i));
++        }
++        g_ptr_array_free (env, TRUE);
++
++        if (error != NULL) {
++                g_warning ("Unable to PID for x11 server: %s", error->message);
++                g_error_free (error);
++        }
++
++        if (status == 0) {
++                if (res && out != NULL) {
++                        guint v;
++                        char  c;
++
++                        if (1 == sscanf (out, "%u %c", &v, &c)) {
++                                num = v;
++                        }
++                }
++
++                if (can_connect != NULL) {
++                        *can_connect = TRUE;
++                }
++        }
++
++
++        if (err != NULL && err[0] != '\0') {
++                g_warning ("%s", err);
++        }
++
++        if (pid != NULL) {
++                *pid = num;
++        }
++
++        g_free (out);
++        g_free (err);
++}
++
++/* Looking at the XFree86_VT property on the root window
++ * doesn't work very well because it is difficult to
++ * distinguish local from remote systems and the value
++ * can't necessarily be trusted.  So instead we connect
++ * to the server and use peer credentials to find the
++ * local PID and then find its tty.
++ */
++static void
++fill_x11_info (SessionInfo *si)
++{
++        guint        xorg_pid;
++        gboolean     can_connect;
++        gboolean     res;
++        proc_stat_t *xorg_stat;
++        GError      *error;
++
++        /* assume this is true then check it */
++        si->x11_display = proc_pid_get_env (si->pid, "DISPLAY");
++
++        if (si->x11_display == NULL) {
++                /* no point continuing */
++                si->x11_can_connect = FALSE;
++                return;
++        }
++
++        xorg_pid = 0;
++        can_connect = FALSE;
++        get_x11_server_pid (si, &can_connect, &xorg_pid);
++
++        si->x11_can_connect = can_connect;
++        if (! can_connect) {
++                g_free (si->x11_display);
++                si->x11_display = NULL;
++                return;
++        }
++
++        if (xorg_pid < 2) {
++                /* keep the tty value */
++                /* if we can connect but don't have a pid
++                 * then we're not local */
++
++                si->is_local = FALSE;
++                si->is_local_is_set = TRUE;
++
++                /* FIXME: get the remote hostname */
++
++                return;
++        }
++
++        error = NULL;
++        res = proc_stat_new_for_pid (xorg_pid, &xorg_stat, &error);
++        if (! res) {
++                if (error != NULL) {
++                        g_warning ("stat on pid %d failed: %s", xorg_pid, error->message);
++                        g_error_free (error);
++                }
++                /* keep the tty value */
++                return;
++        }
++
++        si->x11_display_device = proc_stat_get_tty (xorg_stat);
++        proc_stat_free (xorg_stat);
++
++        si->is_local = TRUE;
++        si->is_local_is_set = TRUE;
++
++        g_free (si->remote_host_name);
++        si->remote_host_name = NULL;
++}
++
++static gboolean
++fill_session_info (SessionInfo *si)
++{
++        proc_stat_t *stat;
++        GError      *error;
++        gboolean     res;
++
++        error = NULL;
++        res = proc_stat_new_for_pid (si->pid, &stat, &error);
++        if (! res) {
++                if (error != NULL) {
++                        g_warning ("stat on pid %d failed: %s", si->pid, error->message);
++                        g_error_free (error);
++                }
++
++                return FALSE;
++        }
++
++        si->display_device = proc_stat_get_tty (stat);
++        si->session_type = proc_stat_get_cmd (stat);
++        proc_stat_free (stat);
++
++        fill_x11_info (si);
++
++        if (! si->is_local_is_set) {
++                /* FIXME: how should we set this? */
++                /* non x11 sessions must be local I guess */
++                si->is_local = TRUE;
++                si->is_local_is_set = TRUE;
++        }
++
++        return TRUE;
++}
++
++static void
++print_session_info (SessionInfo *si)
++{
++        printf ("unix-user = %u\n", si->uid);
++        if (si->x11_display != NULL) {
++                printf ("x11-display = %s\n", si->x11_display);
++        }
++        if (si->x11_display_device != NULL) {
++                printf ("x11-display-device = %s\n", si->x11_display_device);
++        }
++        if (si->display_device != NULL) {
++                printf ("display-device = %s\n", si->display_device);
++        }
++        if (si->session_type != NULL) {
++                printf ("session-type = %s\n", si->session_type);
++        }
++        if (si->remote_host_name != NULL) {
++                printf ("remote-host-name = %s\n", si->remote_host_name);
++        }
++        if (si->is_local_is_set == TRUE) {
++                printf ("is-local = %s\n", si->is_local ? "true" : "false");
++        }
++}
++
++static gboolean
++collect_session_info (uid_t uid,
++                      pid_t pid)
++{
++        SessionInfo *si;
++        gboolean     ret;
++
++        si = g_new0 (SessionInfo, 1);
++
++        si->uid = uid;
++        si->pid = pid;
++
++        ret = fill_session_info (si);
++        if (ret) {
++                print_session_info (si);
++        }
++
++        session_info_free (si);
++
++        return ret;
++}
++
++int
++main (int    argc,
++      char **argv)
++{
++        GOptionContext     *context;
++        gboolean            ret;
++        GError             *error;
++        static int          user_id = -1;
++        static int          process_id = -1;
++        static GOptionEntry entries [] = {
++                { "uid", 0, 0, G_OPTION_ARG_INT, &user_id, "User ID", NULL },
++                { "pid", 0, 0, G_OPTION_ARG_INT, &process_id, "Process ID", NULL },
++                { NULL }
++        };
++
++        /* For now at least restrict this to root */
++        if (getuid () != 0) {
++                g_warning ("You must be root to run this program");
++                exit (1);
++        }
++
++        context = g_option_context_new (NULL);
++        g_option_context_add_main_entries (context, entries, NULL);
++        error = NULL;
++        ret = g_option_context_parse (context, &argc, &argv, &error);
++        g_option_context_free (context);
++
++        if (! ret) {
++                g_warning ("%s", error->message);
++                g_error_free (error);
++                exit (1);
++        }
++
++        if (user_id < 0) {
++                g_warning ("Invalid UID");
++                exit (1);
++        }
++
++        if (process_id < 2) {
++                g_warning ("Invalid PID");
++                exit (1);
++        }
++
++        ret = collect_session_info (user_id, process_id);
++
++	return ret != TRUE;
++}
+--- /dev/null	2007-08-16 11:48:01.000000000 -0500
++++ ConsoleKit/tools/ck-get-x11-display-device.c	2007-08-15 17:47:25.226280000 -0500
+@@ -0,0 +1,170 @@
++/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*-
++ *
++ * Copyright (C) 2007 William Jon McCann <mccann@jhu.edu>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 of the
++ * License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but
++ * WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
++ * 02111-1307, USA.
++ *
++ * Authors: William Jon McCann <mccann@jhu.edu>
++ *
++ */
++
++#include "config.h"
++
++#include <stdlib.h>
++#include <stdio.h>
++#include <errno.h>
++#include <sys/types.h>
++#include <sys/socket.h>
++
++#ifdef __sun
++#include <ucred.h>
++#endif
++
++#include <X11/Xlib.h>
++#include <glib.h>
++
++#include "proc.h"
++
++static char *
++get_tty_for_pid (int pid)
++{
++        GError *error;
++        char   *device;
++        gboolean res;
++        proc_stat_t *xorg_stat;
++
++        error = NULL;
++        res = proc_stat_new_for_pid (pid, &xorg_stat, &error);
++        if (! res) {
++                if (error != NULL) {
++                        g_warning ("stat on pid %d failed: %s", pid, error->message);
++                        g_error_free (error);
++                }
++                /* keep the tty value */
++                return NULL;
++        }
++
++        device = proc_stat_get_tty (xorg_stat);
++        proc_stat_free (xorg_stat);
++        return device;
++}
++
++static int
++get_peer_pid (int fd)
++{
++        int pid = -1;
++#ifdef __sun
++	ucred_t *cr;
++
++	if ((cr = malloc(ucred_size())) != NULL &&
++	     getpeerucred (fd, &cr) == 0) {
++		pid = ucred_getpid (cr);
++	} else {
++                g_warning ("Failed to get getpeerucred() credentials %d", errno);
++	}
++
++	ucred_free (cr);
++#else
++
++#ifdef SO_PEERCRED
++        struct ucred cr;
++        socklen_t cr_len;
++
++        cr_len = sizeof (cr);
++
++        if (getsockopt (fd, SOL_SOCKET, SO_PEERCRED, &cr, &cr_len) == 0 && cr_len == sizeof (cr)) {
++                /* paranoia check for peer running as root */
++                if (cr.uid == 0) {
++                        pid = cr.pid;
++                }
++        } else {
++                g_warning ("Failed to getsockopt() credentials, returned len %d/%d: %s\n",
++                           cr_len,
++                           (int) sizeof (cr),
++                           g_strerror (errno));
++        }
++#endif
++#endif
++        return pid;
++}
++
++static Display *
++display_init (char *display_name)
++{
++        Display    *xdisplay;
++
++        if (display_name == NULL) {
++                display_name = (char *)g_getenv ("DISPLAY");
++        }
++
++        if (display_name == NULL) {
++                g_warning ("DISPLAY is not set");
++                exit (1);
++        }
++
++        xdisplay = XOpenDisplay (display_name);
++        if (xdisplay == NULL) {
++                g_warning ("cannot open display: %s", display_name ? display_name : "");
++                exit (1);
++        }
++
++        return xdisplay;
++}
++
++int
++main (int    argc,
++      char **argv)
++{
++        int      fd;
++        int      ret;
++        Display *xdisplay;
++        static char *display = NULL;
++        GError             *error;
++        GOptionContext     *context;
++        static GOptionEntry entries [] = {
++                { "display", 0, 0, G_OPTION_ARG_STRING, &display, "display name", NULL },
++                { NULL }
++        };
++
++        ret = 1;
++
++        context = g_option_context_new (NULL);
++        g_option_context_add_main_entries (context, entries, NULL);
++        error = NULL;
++        ret = g_option_context_parse (context, &argc, &argv, &error);
++        g_option_context_free (context);
++
++        xdisplay = display_init (display);
++
++        fd = ConnectionNumber (xdisplay);
++
++        if (fd > 0) {
++                int pid;
++                char *device;
++
++                ret = 0;
++                pid = get_peer_pid (fd);
++                if (pid != -1) {
++                        device = get_tty_for_pid (pid);
++                        if (device != NULL) {
++                                printf ("%s\n", device);
++                                g_free (device);
++                        }
++                }
++        }
++
++	return ret;
++}
+--- /dev/null	2007-08-16 11:48:01.000000000 -0500
++++ ConsoleKit/tools/ck-get-x11-server-pid.c	2007-08-15 17:46:53.347002000 -0500
+@@ -0,0 +1,118 @@
++/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*-
++ *
++ * Copyright (C) 2007 William Jon McCann <mccann@jhu.edu>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 of the
++ * License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but
++ * WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
++ * 02111-1307, USA.
++ *
++ * Authors: William Jon McCann <mccann@jhu.edu>
++ *
++ */
++
++#include "config.h"
++
++#include <stdlib.h>
++#include <stdio.h>
++#include <errno.h>
++#include <sys/types.h>
++#include <sys/socket.h>
++#ifdef __sun
++#include <ucred.h>
++#endif
++
++#include <X11/Xlib.h>
++#include <glib.h>
++
++static void
++print_peer_pid (int fd)
++{
++#ifdef __sun
++        ucred_t *cr = NULL;
++
++        if ((cr = malloc(ucred_size())) != NULL &&
++	     getpeerucred (fd, &cr) == 0) {
++       	         printf ("%u\n", ucred_getpid (cr));
++        } else {
++                g_warning ("Failed to get getpeerucred() credentials %d", errno)
++;
++        }
++
++        ucred_free (cr);
++#else
++
++#ifdef SO_PEERCRED
++        struct ucred cr;
++        socklen_t cr_len;
++
++        cr_len = sizeof (cr);
++
++        if (getsockopt (fd, SOL_SOCKET, SO_PEERCRED, &cr, &cr_len) == 0 && cr_len == sizeof (cr)) {
++                /* paranoia check for peer running as root */
++                if (cr.uid == 0) {
++                        printf ("%u\n", cr.pid);
++                }
++        } else {
++                g_warning ("Failed to getsockopt() credentials, returned len %d/%d: %s\n",
++                           cr_len,
++                           (int) sizeof (cr),
++                           g_strerror (errno));
++        }
++#endif
++#endif
++}
++
++static Display *
++display_init (int *argc, char ***argv)
++{
++        const char *display_name;
++        Display    *xdisplay;
++
++        display_name = g_getenv ("DISPLAY");
++
++        if (display_name == NULL) {
++                g_warning ("DISPLAY is not set");
++                exit (1);
++        }
++
++        xdisplay = XOpenDisplay (display_name);
++        if (xdisplay == NULL) {
++                g_warning ("cannot open display: %s", display_name ? display_name : "");
++                exit (1);
++        }
++
++        return xdisplay;
++}
++
++int
++main (int    argc,
++      char **argv)
++{
++        int      fd;
++        int      ret;
++        Display *xdisplay;
++
++        ret = 1;
++
++        xdisplay = display_init (&argc, &argv);
++
++        fd = ConnectionNumber (xdisplay);
++
++        if (fd > 0) {
++                ret = 0;
++                print_peer_pid (fd);
++        }
++
++	return ret;
++}
+--- /dev/null	2007-08-16 11:53:04.000000000 -0500
++++ ConsoleKit/src/proc-solaris.c	2007-08-15 16:41:57.579086000 -0500
+@@ -0,0 +1,324 @@
++/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*-
++ *
++ * Copyright (C) 2006 William Jon McCann <mccann@jhu.edu>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++ *
++ */
++
++#include "config.h"
++
++#include <stdlib.h>
++#include <stdio.h>
++#include <fcntl.h>
++#include <unistd.h>
++#include <string.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++
++#define DEV_ENCODE(M,m) ( \
++  ( (M&0xfff) << 8)   |   ( (m&0xfff00) << 12)   |   (m&0xff)   \
++)
++
++#include <sys/int_types.h>
++#include <sys/mkdev.h>
++#define _STRUCTURED_PROC 1
++#include <sys/procfs.h>
++#define NO_TTY_VALUE DEV_ENCODE(-1,-1)
++
++#include "proc.h"
++
++/* adapted from procps */
++struct _proc_stat_t
++{
++        int pid;
++        int ppid;                       /* stat,status     pid of parent process */
++        char state;                     /* stat,status     single-char code for process state (S=sleeping) */
++        char cmd[16];                   /* stat,status     basename of executable file in call to exec(2) */
++        unsigned long long utime;       /* stat            user-mode CPU time accumulated by process */
++        unsigned long long stime;       /* stat            kernel-mode CPU time accumulated by process */
++        unsigned long long cutime;      /* stat            cumulative utime of process and reaped children */
++        unsigned long long cstime;      /* stat            cumulative stime of process and reaped children */
++        unsigned long long start_time;  /* stat            start time of process -- seconds since 1-1-70 */
++        unsigned long start_code;       /* stat            address of beginning of code segment */
++        unsigned long end_code;         /* stat            address of end of code segment */
++        unsigned long start_stack;      /* stat            address of the bottom of stack for the process */
++        unsigned long kstk_esp;         /* stat            kernel stack pointer */
++        unsigned long kstk_eip;         /* stat            kernel instruction pointer */
++        unsigned long wchan;            /* stat (special)  address of kernel wait channel proc is sleeping in */
++        long priority;                  /* stat            kernel scheduling priority */
++        long nice;                      /* stat            standard unix nice level of process */
++        long rss;                       /* stat            resident set size from /proc/#/stat (pages) */
++        long alarm;                     /* stat            ? */
++        unsigned long rtprio;           /* stat            real-time priority */
++        unsigned long sched;            /* stat            scheduling class */
++        unsigned long vsize;            /* stat            number of pages of virtual memory ... */
++        unsigned long rss_rlim;         /* stat            resident set size limit? */
++        unsigned long flags;            /* stat            kernel flags for the process */
++        unsigned long min_flt;          /* stat            number of minor page faults since process start */
++        unsigned long maj_flt;          /* stat            number of major page faults since process start */
++        unsigned long cmin_flt;         /* stat            cumulative min_flt of process and child processes */
++        unsigned long cmaj_flt;         /* stat            cumulative maj_flt of process and child processes */
++        int     pgrp;                   /* stat            process group id */
++        int session;                    /* stat            session id */
++        int nlwp;                       /* stat    number of threads, or 0 if no clue */
++        int tty;                        /* stat            full device number of controlling terminal */
++        int tpgid;                      /* stat            terminal process group id */
++        int exit_signal;                /* stat            might not be SIGCHLD */
++        int processor;                  /* stat            current (or most recent?) CPU */
++        uintptr_t penv;                 /* stat            address of initial environment vector */
++        char tty_text[16];              /* stat            device name */
++
++};
++
++pid_t
++proc_stat_get_ppid (proc_stat_t *stat)
++{
++        g_return_val_if_fail (stat != NULL, -1);
++
++        return stat->ppid;
++}
++
++char *
++proc_stat_get_cmd (proc_stat_t *stat)
++{
++        g_return_val_if_fail (stat != NULL, NULL);
++
++        return g_strdup (stat->cmd);
++}
++
++/* adapted from procps */
++char *
++proc_stat_get_tty (proc_stat_t *stat)
++{
++        guint dev;
++        char *tty;
++        guint dev_maj;
++        guint dev_min;
++        pid_t pid;
++
++        g_return_val_if_fail (stat != NULL, NULL);
++
++        return stat->tty_text;
++}
++
++/* return 1 if it works, or 0 for failure */
++static gboolean
++stat2proc (pid_t        pid,
++           proc_stat_t *P)
++{
++        struct psinfo p;
++        char          buf[32];
++        int           num;
++        int           fd;
++        int           tty_maj;
++        int           tty_min;
++
++        snprintf (buf, sizeof buf, "/proc/%d/psinfo", pid);
++
++        if ((fd = open (buf, O_RDONLY, 0) ) == -1 ) {
++                return FALSE;
++        }
++
++        num = read (fd, &p, sizeof p);
++        close (fd);
++
++        if (num != sizeof p) {
++                return FALSE;
++        }
++
++        num = PRFNSZ;
++        if (num >= sizeof P->cmd) {
++                num = sizeof P->cmd - 1;
++        }
++
++        memcpy (P->cmd, p.pr_fname, num);  /* p.pr_fname or p.pr_lwp.pr_name */
++
++        P->cmd[num]   = '\0';
++        P->pid        = p.pr_pid;
++        P->ppid       = p.pr_ppid;
++        P->pgrp       = p.pr_pgid;
++        P->session    = p.pr_sid;
++        P->rss        = p.pr_rssize;
++        P->vsize      = p.pr_size;
++        P->start_time = p.pr_start.tv_sec;
++        P->wchan      = p.pr_lwp.pr_wchan;
++        P->state      = p.pr_lwp.pr_sname;
++        P->nice       = p.pr_lwp.pr_nice;
++        P->priority   = p.pr_lwp.pr_pri;  /* or pr_oldpri */
++        P->penv       = p.pr_envp;
++
++        /* we like it Linux-encoded :-) */
++        tty_maj = major (p.pr_ttydev);
++        tty_min = minor (p.pr_ttydev);
++        P->tty = DEV_ENCODE (tty_maj,tty_min);
++
++        snprintf (P->tty_text, sizeof P->tty_text, "%3d,%-3d", tty_maj, tty_min);
++
++        if (tty_maj == 24) {
++                snprintf (P->tty_text, sizeof P->tty_text, "pts/%-3u", tty_min);
++        }
++
++        if (P->tty == NO_TTY_VALUE) {
++                memcpy (P->tty_text, "   ?   ", 8);
++        }
++
++        if (P->tty == DEV_ENCODE(0,0)) {
++                memcpy (P->tty_text, "console", 8);
++        }
++
++        if (P->pid != pid) {
++                return FALSE;
++        }
++
++        return TRUE;
++}
++
++gboolean
++proc_stat_new_for_pid (pid_t         pid,
++                       proc_stat_t **stat,
++                       GError      **error)
++{
++        char        *path;
++        char        *contents;
++        gsize        length;
++        gboolean     res;
++        GError      *local_error;
++        proc_stat_t *proc;
++
++        g_return_val_if_fail (pid > 1, FALSE);
++
++        if (stat == NULL) {
++                return FALSE;
++        }
++
++        proc = g_new0 (proc_stat_t, 1);
++        proc->pid = pid;
++        res = stat2proc (pid, proc);
++        if (res) {
++                *stat = proc;
++        } else {
++                g_propagate_error (error, local_error);
++                *stat = NULL;
++        }
++
++        return res;
++}
++
++void
++proc_stat_free (proc_stat_t *stat)
++{
++        g_free (stat);
++}
++
++GHashTable *
++proc_pid_get_env_hash (pid_t pid)
++{
++        GHashTable  *hash;
++	gchar       *cmd;
++        char         buf[BUFSIZ];
++	FILE         *fp;
++        int          i;
++
++        hash = NULL;
++        hash = g_hash_table_new_full (g_str_hash,
++                                      g_str_equal,
++                                      g_free,
++                                      g_free);
++
++        cmd = g_strdup_printf ("pargs -e %d", pid);
++        fp = popen (cmd, "r");
++	g_free (cmd);
++
++        while (fgets (buf, BUFSIZ, fp) != NULL) {
++                g_strchomp (buf);
++                if (g_str_has_prefix (buf, "envp[")) {
++                        char *skip_prefix;
++
++                        skip_prefix = strstr (buf, " ");
++
++                        if (skip_prefix != NULL) {
++                                char **vals;
++                                vals = g_strsplit (buf, "=", 2);
++                                if (vals != NULL) {
++                                        g_hash_table_insert (hash, vals[0], vals[1]);
++                                }
++                        }
++                }
++        }
++
++ out:
++        return hash;
++}
++
++char *
++proc_pid_get_env (pid_t       pid,
++                  const char *var)
++{
++        GHashTable *hash;
++        char       *val;
++
++        hash = proc_pid_get_env_hash (pid);
++        val  = g_hash_table_lookup (hash, var);
++
++        return val;
++}
++
++uid_t
++proc_pid_get_uid (pid_t pid)
++{
++        struct stat st;
++        char       *path;
++        int         uid;
++        int         res;
++
++        g_return_val_if_fail (pid > 1, 0);
++
++        uid = -1;
++
++        path = g_strdup_printf ("/proc/%u", (guint)pid);
++        res = stat (path, &st);
++        g_free (path);
++
++        if (res == 0) {
++                uid = st.st_uid;
++        }
++
++        return uid;
++}
++
++pid_t
++proc_pid_get_ppid (pid_t pid)
++{
++        int          ppid;
++        gboolean     res;
++        proc_stat_t *stat;
++
++        g_return_val_if_fail (pid > 1, 0);
++
++        ppid = -1;
++
++        res = proc_stat_new_for_pid (pid, &stat, NULL);
++        if (! res) {
++                goto out;
++        }
++
++        ppid = proc_stat_get_ppid (stat);
++
++        proc_stat_free (stat);
++
++ out:
++        return ppid;
++}
+--- /dev/null	2007-08-16 12:03:56.000000000 -0500
++++ ConsoleKit/data/00-primary.seat	2007-08-15 14:21:57.077194000 -0500
+@@ -0,0 +1,5 @@
++[Seat Entry]
++Version=1.0
++Name=Primary seat
++Hidden=false
++Devices=
+\ No newline at end of file

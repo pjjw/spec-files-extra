@@ -1,3 +1,9 @@
+2007-08-16  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEconsolekit.spec, patches/ConsoleKit-01-head.diff,
+	  patches/ConsoleKit-02-nox11check.diff:  Spec file for ConsoleKit and
+	  some patches to fix things so that it works better.
+
 2007-08-15  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEMaelstrom.spec: *NEW* Maelstrom Game
