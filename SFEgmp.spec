@@ -13,6 +13,7 @@ Source:                  http://ftp.gnu.org/gnu/gmp/gmp-%{version}.tar.bz2
 %ifarch amd64
 Source1:                 http://www.loria.fr/~gaudry/mpn_AMD64/mpn_amd64.42.tgz
 %endif
+Patch1:                  gmp-01-solaris.diff
 URL:                     http://swox.com/gmp/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -43,6 +44,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 
+export CC32=${CC32:-$CC}
 export CFLAGS32="%optflags"
 export CFLAGS64="%optflags64"
 export CXXFLAGS32="%cxx_optflags"
@@ -69,7 +71,13 @@ export LDFLAGS="$LDFLAGS64"
 
 %ifarch amd64 sparcv9
 cd gmp-%{version}-64
+%patch1 -p1
 
+libtoolize --copy --force
+aclocal $ACLOCAL_FLAGS
+autoheader
+automake -a -c -f 
+autoconf
 export ABI=64
 ./configure --prefix=%{_prefix}				\
 	    --mandir=%{_mandir}				\
@@ -83,6 +91,7 @@ cd ..
 %endif
 
 cd gmp-%{version}
+%patch1 -p1
 
 export CC=${CC32:-$CC}
 export CXX=${CXX32:-$CXX}
@@ -155,7 +164,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 
-%changelog
+% changelog
+* Fri Aug 17 2007 - trisk@acm.jhu.edu
+- Fix amd64 build
 * Sat Jun 30 2007 - nonsea@users.sourceforge.net
 - Use http url in Source.
 * Tue mar  7 2007 - dougs@truemail.co.th

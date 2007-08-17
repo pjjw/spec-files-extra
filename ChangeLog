@@ -1,5 +1,10 @@
 2007-08-17  Albert Lee  <trisk@acm.jhu.edu>
 
+	* SFEgmp.spec: Fix amd64 build
+	* patches/gmp-01-solaris.diff: Fix configure on Solaris
+
+2007-08-17  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEsdl.spec: Inherit base-spec properties
 	* SFEsigcpp.spec: Add patch2
 	* patches/sigcpp-02-prototypes.diff: Patch for missing prototypes

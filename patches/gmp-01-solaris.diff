@@ -1,0 +1,21 @@
+--- gmp-4.2.1.orig/configure.in	2007年  8月 17日 五 07:14:22
++++ gmp-4.2.1/configure.in	2007年  8月 17日 五 07:15:54
+@@ -1437,6 +1437,18 @@
+     fi
+ 
+     case $host in
++      *-*-solaris*)
++        abilist="64 32"
++        path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86"
++        path_64="x86_64"
++        cclist="cc gcc"
++        cclist_64="cc gcc"
++        gcc_64_cflags="-O2 -m64"
++        gcc_64_cflags_optlist="cpu"
++        CALLING_CONVENTIONS_OBJS_64='amd64call.lo amd64check$U.lo'
++        SPEED_CYCLECOUNTER_OBJ_64=x86_64.lo
++        cyclecounter_size_64=2
++        ;;
+       x86_64-*-*)
+         abilist="64 32"
+         path_64="x86_64"
