@@ -38,9 +38,11 @@ perl -pi -e 's/(\s*#define SIGC_TYPEDEF_REDEFINE_ALLOWED.*)/\/\/$1/' \
 %if %cc_is_gcc
 export CXXFLAGS="%{gcc_cxx_optflags}"
 %else
+export CFLAGS="%optflags"
 export CXX="${CXX} -norunpath"
-export CXXFLAGS="%cxx_optflags -library=stlport4 -staticlib=stlport4 -features=tmplife -features=tmplrefstatic"
+export CXXFLAGS="%cxx_optflags"
 %endif
+export LDFLAGS="%_ldflags"
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
@@ -76,7 +78,6 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Aug 17 2007 - trisk@acm.jhu.edu
 - Add patch for missing prototypes in test
-- Use stlport
 * Fri Jun 23 2006 - laca@sun.com
 - rename to SFEsigcpp
 - update permissions
