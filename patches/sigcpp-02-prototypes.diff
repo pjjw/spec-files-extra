@@ -1,0 +1,10 @@
+--- libsigc++-2.0.17.orig/tests/test_copy_invalid_slot.cc	2005年  4月 30日 六 22:00:47
++++ libsigc++-2.0.17/tests/test_copy_invalid_slot.cc	2007年  8月 17日 五 05:20:43
+@@ -1,5 +1,7 @@
+ #include <iostream>
+ #include <sigc++/sigc++.h>
++#include <stdlib.h>
++#include <strings.h>
+ 
+ void Foo(sigc::trackable &t) {}
+ 

@@ -21,12 +21,11 @@
 %define nasm_option --disable-nasm
 %use sdl = libsdl.spec
 
-Name:                    SFEsdl
-Summary:                 Simple DirectMedia - multimedia library
-Version:                 1.2.11
-Source:                  http://www.libsdl.org/release/SDL-%{version}.tar.gz
-SUNW_BaseDir:            %{_basedir}
-BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+Name:			SFEsdl
+Summary: 		%{sdl.summary}
+Version:		%{sdl.version}
+SUNW_BaseDir:		%{_basedir}
+BuildRoot:		%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
 Requires: SUNWxwrtl
@@ -124,6 +123,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Aug 16 2007 - trisk@acm.jhu.edu
+- Inherit base-spec properties
 * Sat Jul 14 2007 - dougs@truemail.co.th
 - disable nasm
 * Tue Jun  5 2007 - dougs@truemail.co.th

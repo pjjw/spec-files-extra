@@ -1,3 +1,9 @@
+2007-08-17  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEsdl.spec: Inherit base-spec properties
+	* SFEsigcpp.spec: Use stlport, add patch2
+	* patches/sigcpp-02-prototypes.diff: Patch for missing prototypes
+
 2007-08-15  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEgnome-sharp.spec: Add gnome-sharp-02-gtkhtml3.14.diff
