@@ -1,3 +1,8 @@
+2007-08-15  Doug Scott  <dougs@truemail.co.th>
+
+	* patches/ctags-01-destdir.diff: missing from previous update :(
+	* patches/electric-fence-01-solaris.diff: missing from previous update
+
 2007-08-16  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEconsolekit.spec, patches/ConsoleKit-01-head.diff,
