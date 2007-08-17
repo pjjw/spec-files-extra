@@ -1,3 +1,20 @@
+2007-08-15  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEgnome-sharp.spec: Add gnome-sharp-02-gtkhtml3.14.diff
+	* SFEsdl-ttf.spec: Add SUNWfreetype2/SFEfreetype dependency
+	* base-specs/freetype.spec: Bump to 2.3.5
+	* base-specs/libsdl.spec: Bump to 1.2.12
+	* base-specs/sdl-image.spec: Bump to 1.2.6
+	* base-specs/sdl-mixer.spec: Bump to 1.2.8
+	* base-specs/sdl-net.spec: Bump to 1.2.7
+	* base-specs/sdl-pango.spec: Add patch for extended API
+	* base-specs/sdl-ttf.spec: Bump to 2.0.9
+	* patches/gnome-sharp-02-gtkhtml3.14.diff: gtkhtml 3.14 compatibility
+	* patches/libsdl-02-rpath.diff: Drop, applied upstream
+	* patches/sdl-ttf-01-internal_h.diff: Drop, applied upstream
+	* patches/sdl-pango-01-api-adds.diff: Extend SDL_Pango API
+	* patches/unrar.diff: Fix compilation issue on i386
+
 2007-08-15  Doug Scott  <dougs@truemail.co.th>
 
 	* patches/ctags-01-destdir.diff: missing from previous update :(
