@@ -1,3 +1,30 @@
+2007-08-18  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEavahi.spec: Bump to 0.6.21, allow dbus backwards compatibility.
+	* SFEcairomm.spec: Bump to 1.4.2
+	* SFEf-spot.spec: Bump to 0.4.0, add f-spot-01-solaris.diff
+	* SFEgd.spec: Bump to 2.0.35
+	* SFEglibmm.spec: Bump to 2.12.10
+	* SFEgobby.spec: *NEW* Gobby distributed editor
+	* SFEgraphviz.spec: Bump to 2.14, update dependencies
+	* SFEgtkmm.spec: Bump to 2.10.11
+	* SFEguile.spec: Bump to 1.8.2
+	* SFEjokosher.spec: Update dependencies and paths
+	* SFElibdaemon.spec: Bump to 0.12
+	* SFElibxmlpp.spec: Bump to 2.19.1
+	* SFEnet6.spec: Bump to 1.3.5, add URL
+	* SFEobby.spec: Bump to 0.4.4, add URL
+	* patches/avahi-01-avahi-utils_stdb.c-prototype.diff:
+	  Remove, merged upstream
+	* patches/avahi-01-dbus.diff: *NEW* Allow dbus backwards compatibility
+	* patches/f-spot-01-solaris.diff: *NEW* Patch for Solaris compatibility
+	* patches/ffmpeg-03-v4l2.diff: Try v4l2 read if mmap fails
+	* patches/gobby-01-prototype.diff: *NEW* Add missing includes
+	* patches/gobby-02-const.diff: *NEW* Preserve const-correctness
+	* patches/gobby-03-auto_ptr.diff: *NEW* Fix auto_ptr assignments
+	* patches/graphviz-01-tclsh.diff: Remove, merged upstream
+	* patches/graphviz-02-ruby-lib.diff: Remove, not needed
+
 2007-08-17  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEgmp.spec: Fix amd64 build
