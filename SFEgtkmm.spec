@@ -7,7 +7,7 @@
 
 Name:                    SFEgtkmm
 Summary:                 gtkmm - C++ Wrapper for the Gtk+ Library
-Version:                 2.10.9
+Version:                 2.10.11
 URL:                     http://www.gtkmm.org/
 Source:                  http://ftp.acc.umu.se/pub/GNOME/sources/gtkmm/2.10/gtkmm-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
@@ -85,6 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Fri Aug 17 2007 - trisk@acm.jhu.edu
+- Bump to 2.10.11
 * Tue Apr 17 2007 - daymobrew@users.sourceforge.net
 - bump to 2.10.9.
 * Fri Mar 16 2007 - laca@sun.com

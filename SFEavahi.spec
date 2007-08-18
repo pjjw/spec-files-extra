@@ -11,10 +11,10 @@
 
 Name:                SFEavahi
 Summary:             Avahi
-Version:             0.6.19
+Version:             0.6.21
 Source:	    	     http://avahi.org/download/avahi-%{version}.tar.gz
-Patch1:              avahi-01-avahi-utils_stdb.c-prototype.diff
-
+Patch1:              avahi-01-dbus.diff
+URL:                 http://avahi.org/
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -22,7 +22,8 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires: SFElibdaemon-devel
 BuildRequires: SUNWdbus-devel
-#TODO#BuildRequires: SFEdoxygen.spec
+BuildRequires: SFEdoxygen
+BuildRequires: SFEgraphviz
 Requires: SUNWpostrun
 Requires: SFElibdaemon
 Requires: SUNWdbus
@@ -60,6 +61,8 @@ export CFLAGS="$CFLAGS -D_XOPEN_SOURCE=500 -D__EXTENSIONS__"
 
 export LDFLAGS="%{_ldflags} -lsocket -lnsl -L/usr/sfw/lib -R/usr/sfw/lib"
 
+autoheader
+autoconf
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
 	    --localstatedir=%{_localstatedir} \
@@ -144,6 +147,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Aug 17 2007 - trisk@acm.jhu.edu
+- Bump to 0.6.21
+- Allow dbus backwards compatibility.
 * Mon Jun  4 2007 - Thomas Wagner
 - NOTE: this spec is provided, just to get an idea of what 
   project nwam would do officially:

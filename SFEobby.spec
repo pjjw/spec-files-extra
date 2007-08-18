@@ -7,17 +7,18 @@
 
 Name:                    SFEobby
 Summary:                 obby - Network Text Editing Library
-Version:                 0.4.0
-%define tarball_version  0.4.0rc2
+Version:                 0.4.4
+%define tarball_version  0.4.4
 Source:                  http://releases.0x539.de/obby/obby-%{tarball_version}.tar.gz
 Patch1:                  obby-01-cast.diff
+URL:                     http://gobby.0x539.de/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SFEgmp
 Requires: SFEsigcpp
-Requires: SFEnet6
-BuildRequires: SFEnet6-devel
+Requires: SFEnet6 >= 1.3.3
+BuildRequires: SFEnet6-devel >= 1.3.3
 BuildRequires: SFEsigcpp-devel
 
 %package devel
@@ -68,6 +69,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Fri Aug 17 2007 - trisk@acm.jhu.edu
+- Bump to 0.4.4
+- Add URL
 * Tue Jul 11 2006 - laca@sun.com
 - rename to SFEobby
 - update file attributes

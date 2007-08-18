@@ -1,0 +1,26 @@
+--- avahi-0.6.21.orig/configure.ac	2007年  8月 12日 日 12:08:24
++++ avahi-0.6.21/configure.ac	2007年  8月 17日 五 20:16:31
+@@ -584,6 +584,10 @@
+     LIBS="$LIBS $DBUS_LIBS"
+     AC_CHECK_FUNCS([dbus_connection_close dbus_bus_get_private])
+     LIBS="$SAVED_LIBS"
++    AC_CHECK_LIB([dbus-1], [dbus_watch_get_unix_fd],
++                 [AC_DEFINE([HAVE_DBUS_WATCH_GET_UNIX_FD], [],
++                            [Define if libdbus-1 has dbus_watch_get_unix_fd])],
++                 [:], [$DBUS_LIBS])
+ fi
+ AM_CONDITIONAL(HAVE_DBUS, test "x$HAVE_DBUS" = "xyes")
+ 
+--- avahi-0.6.21.orig/avahi-common/dbus-watch-glue.c	2007年  8月 12日 日 11:39:21
++++ avahi-0.6.21/avahi-common/dbus-watch-glue.c	2007年  8月 17日 五 20:18:12
+@@ -26,6 +26,10 @@
+ #include "timeval.h"
+ #include "dbus-watch-glue.h"
+ 
++#ifndef HAVE_DBUS_WATCH_GET_UNIX_FD
++# define dbus_watch_get_unix_fd dbus_watch_get_fd
++#endif
++
+ static AvahiWatchEvent translate_dbus_to_avahi(unsigned int f) {
+     AvahiWatchEvent e = 0;
+ 

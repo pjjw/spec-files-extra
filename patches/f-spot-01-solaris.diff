@@ -1,0 +1,39 @@
+--- f-spot/dbus-sharp/UnixNativeTransport.cs.orig	2007年  2月 12日 一 15:50:56
++++ f-spot/dbus-sharp/UnixNativeTransport.cs	2007年  8月 10日 五 17:20:14
+@@ -22,20 +22,20 @@
+ 	{
+ 		public const short AF_UNIX = 1;
+ 		//TODO: SOCK_STREAM is 2 on Solaris
+-		public const short SOCK_STREAM = 1;
++		public const short SOCK_STREAM = 2;
+ 
+ 		//TODO: some of these are provided by libsocket instead of libc on Solaris
+ 
+-		[DllImport ("libc", SetLastError=true)]
++		[DllImport ("libsocket", SetLastError=true)]
+ 			protected static extern int socket (int domain, int type, int protocol);
+ 
+-		[DllImport ("libc", SetLastError=true)]
++		[DllImport ("libsocket", SetLastError=true)]
+ 			protected static extern int connect (int sockfd, byte[] serv_addr, uint addrlen);
+ 
+-		[DllImport ("libc", SetLastError=true)]
++		[DllImport ("libsocket", SetLastError=true)]
+ 			protected static extern int bind (int sockfd, byte[] my_addr, uint addrlen);
+ 
+-		[DllImport ("libc", SetLastError=true)]
++		[DllImport ("libsocket", SetLastError=true)]
+ 			protected static extern int listen (int sockfd, int backlog);
+ 
+ 		//TODO: this prototype is probably wrong, fix it
+--- f-spot-0.3.5/src/f-spot.exe.config.in.orig	2007年  2月  5日 一 11:32:46
++++ f-spot-0.3.5/src/f-spot.exe.config.in	2007年  8月 10日 五 17:30:55
+@@ -9,7 +9,7 @@
+   <dllmap dll="libfspot" target="@expanded_libdir@/f-spot/libfspot.so.0"/>
+   <dllmap dll="libfspoteog" target="@expanded_libdir@/f-spot/libfspoteog.so.0"/>
+   <dllmap dll="libfspotjpeg" target="@expanded_libdir@/f-spot/libfspotjpg.so.0"/>
+-  <dllmap dll="X11" target="libX11.so.6"/>
++  <dllmap dll="X11" target="libX11.so.5"/>
+   <dllmap dll="GL" target="libGL.so.1"/>
+   <dllmap dll="libXcomposite.dll" target="libXcomposite.so.1"/>
+   <dllmap dll="liblcms-1.0.0.dll" target="liblcms.so.1"/>

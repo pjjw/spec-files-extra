@@ -7,10 +7,11 @@
 
 Name:                    SFEnet6
 Summary:                 net6 - IPv4/IPv6 Network Access Library
-Version:                 1.3.0
-%define tarball_version  1.3.0rc2
+Version:                 1.3.5
+%define tarball_version  1.3.5
 Source:                  http://releases.0x539.de/net6/net6-%{tarball_version}.tar.gz
 Patch1:                  net6-01-close-prototype.diff
+URL:                     http://gobby.0x539.de/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -71,6 +72,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Fri Aug 17 2007 - trisk@acm.jhu.edu
+- Bump to 1.3.5
+- Add URL
 * Fri Jul  7 2006 - laca@sun.com
 - rename to SFEnet6
 - bump to 1.3.0rc2

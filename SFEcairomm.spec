@@ -7,7 +7,7 @@
 
 Name:                    SFEcairomm
 Summary:                 cairomm - C++ API for the Cairo Graphics Library
-Version:                 1.2.4
+Version:                 1.4.2
 URL:                     http://cairographics.org/cairomm/
 Source:                  http://cairographics.org/releases/cairomm-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
@@ -71,5 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Fri Aug 17 2007 - trisk@acm.jhu.edu
+- Bump to 1.4.2
 * Sun Feb 25 2007 - laca@sun.com
 - create

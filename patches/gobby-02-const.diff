@@ -1,0 +1,11 @@
+--- gobby-0.4.4.orig/inc/preferencesdialog.hpp	2007年  6月 15日 五 16:02:17
++++ gobby-0.4.4/inc/preferencesdialog.hpp	2007年  8月 17日 五 19:44:46
+@@ -194,7 +194,7 @@
+ 	protected:
+ 		struct LangCompare
+ 		{
+-			bool operator()(GtkSourceLanguage* first, GtkSourceLanguage* second)
++			bool operator()(const GtkSourceLanguage* first, const GtkSourceLanguage* second) const
+ 			{
+ 				return first < second;
+ 			}

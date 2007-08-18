@@ -1,0 +1,22 @@
+--- gobby-0.4.4.orig/src/ipc.cpp	2007年  6月 15日 五 16:02:16
++++ gobby-0.4.4/src/ipc.cpp	2007年  8月 17日 五 19:19:10
+@@ -26,6 +26,9 @@
+ 
+ #include <glibmm/pattern.h>
+ #include <sys/stat.h>
++#ifndef WIN32
++#include <unistd.h>
++#endif
+ #include "ipc.hpp"
+ 
+ namespace
+--- gobby-0.4.4.orig/src/main.cpp	2007年  6月 15日 五 17:52:32
++++ gobby-0.4.4/src/main.cpp	2007年  8月 17日 五 22:07:41
+@@ -17,6 +17,7 @@
+  */
+ 
+ #include <iostream>
++#include <locale.h>
+ #include <gtkmm/main.h>
+ #include <gtkmm/messagedialog.h>
+ #include <glibmm/optionentry.h>

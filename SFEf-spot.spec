@@ -6,9 +6,10 @@
 %include Solaris.inc
 
 Name:         SFEf-spot
-Version:      0.3.5
+Version:      0.4.0
 Summary:      f-spot - personal photo management application for the GNOME Desktop
-Source:       http://ftp.gnome.org/pub/GNOME/sources/f-spot/0.3/f-spot-%{version}.tar.bz2
+Source:       http://ftp.gnome.org/pub/GNOME/sources/f-spot/0.4/f-spot-%{version}.tar.bz2
+Patch1:       f-spot-01-solaris.diff
 URL:          http://f-spot.org/
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
@@ -38,6 +39,7 @@ Requires:                %{name}
 %prep
 %setup -q -c -n %name-%version
 cd f-spot-%{version}
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -95,12 +97,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 %dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/f-spot
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
 %attr (0755, root, other) %{_datadir}/icons
 %dir %attr (0755, root, other) %{_datadir}/gnome
-%{_datadir}/gnome/help/f-spot/C
-%{_datadir}/omf/f-spot/f-spot-C.omf
+%{_datadir}/gnome/help/f-spot
+%{_datadir}/omf/f-spot
 
 %if %build_l10n
 %files l10n
@@ -108,11 +111,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %attr (-, root, other) %{_datadir}/locale
 %dir %attr (0755, root, other) %{_datadir}/gnome
-%{_datadir}/gnome/help/f-spot/[a-z]*
-%{_datadir}/omf/f-spot/f-spot-[a-z]*.omf
 %endif
 
 %changelog
+* Wed Aug 15 2007 - trisk@acm.jhu.edu
+- Bump to 0.4.0
+- Add f-spot-01-solaris.diff for Solaris compatibility
 * Sat Apr 21 2007 - dougs@truemail.co.th
 - added gphoto cflags and libs so configure can find libusb.so
 * Sat Mar 17 2007 - laca@sun.com

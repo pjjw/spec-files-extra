@@ -5,12 +5,12 @@
 
 %include Solaris.inc
 
+%define SFEfreetype     %(/usr/bin/pkginfo -q SFEfreetype && echo 1 || echo 0)
+
 Name:                SFEgraphviz
 Summary:             Graph drawing tools and libraries
-Version:             2.12
+Version:             2.14.1
 Source:              http://www.graphviz.org/pub/graphviz/ARCHIVE/graphviz-%{version}.tar.gz
-Patch1:              graphviz-01-tclsh.diff
-Patch2:              graphviz-02-ruby-lib.diff
 URL:                 http://www.graphviz.org
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -18,15 +18,33 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 Requires: SUNWxwplt
 Requires: SFElibtool
-Requires: SUNWPython
+Requires: SFEgd
+Requires: SFEexpat
 Requires: SUNWfontconfig
+%if %SFEfreetype
+Requires: SFEfreetype
+%else
 Requires: SUNWfreetype2
+%endif
 Requires: SUNWgnome-base-libs
 Requires: SUNWjpg
 Requires: SUNWlibC
 Requires: SUNWpng
+%if %SFEfreetype
+BuildRequires: SFEfreetype-devel
+%else
+BuildRequires: SUNWfreetype2
+%endif
+BuildRequires: SUNWgnome-base-libs-devel
+BuildRequires: SUNWsfwhea
+BuildRequires: SFElibtool
+BuildRequires: SFEexpat-devel
+BuildRequires: SFEgd-devel
+BuildRequires: SUNWPython
+BuildRequires: SUNWTcl
+BuildRequires: SUNWperl584core
+BuildRequires: SFEswig
 BuildRequires: SFEruby
-BuildRequires: SFEguile-devel
 
 %package devel
 Summary:                 %{summary} - development files
@@ -36,8 +54,6 @@ Requires: %name
 
 %prep
 %setup -q -n graphviz-%version
-%patch1 -p1
-%patch2 -p1
 
 %build
 
@@ -46,6 +62,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
+export CPPFLAGS="-I/usr/sfw/include"
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
 
@@ -56,7 +73,18 @@ automake -a -c -f
 autoconf
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
-            --enable-static=no
+            --enable-static=no \
+            --enable-ltdl \
+            --disable-rpath \
+            --disable-sharp \
+            --disable-guile \
+            --disable-io \
+            --disable-java \
+            --disable-lua \
+            --disable-ocaml \
+            --disable-php \
+            --with-tclsh=/usr/sfw/bin/tclsh8.3 \
+            --with-wish=/usr/sfw/bin/wish8.3
 
 make -j$CPUS
 
@@ -90,6 +118,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1
 %dir %attr (0755, root, bin) %{_mandir}/man3
 %{_mandir}/man3/*.3
+%dir %attr (0755, root, bin) %{_mandir}/man7
+%{_mandir}/man7/*.7
 
 %files devel
 %defattr (-, root, bin)
@@ -103,6 +133,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/graphviz/*
 
 %changelog
+* Fri Aug 17 2007 - trisk@acm.jhu.edu
+- Bump to 2.14
+- Update dependencies, disable optional plugins
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Add patch tclsh.diff and ruby-lib.diff to build pass.
 - Add Requires/BuildRequries after check-deps.pl run.

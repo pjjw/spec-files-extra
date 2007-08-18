@@ -11,14 +11,16 @@ Name:		SFEjokosher
 Summary:	Jokosher is a multi-track studio application
 Version:	0.9
 URL:		http://jokosher.org
-Source0:	http://www.jokosher.org/downloads/source/jokosher-%{version}.tar.bz2
+Source0:	http://www.jokosher.org/downloads/source/jokosher-%{version}.tar.gz
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/jokosher-%{version}-build
 Requires:	SUNWgnome-python-libs
 Requires:	SUNWdbus-bindings
 Requires:	SUNWgnome-media
+Requires:	SFEgst-python
 Requires:	SFEgnonlin
 BuildRequires:	SUNWPython-devel >= %{pythonver}
+BuildRequires:	SFEgst-python
 BuildRequires:	SFEgnonlin
 
 %include default-depend.inc
@@ -33,6 +35,7 @@ Jokosher is a simple yet powerful multi-track studio.
 python setup.py build
 
 %install
+rm -rf $RPM_BUILD_ROOT
 python setup.py install --root=%{buildroot}
 
 desktop-file-install --vendor="" \
@@ -90,12 +93,12 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_datadir}/applications/*
 %attr (-, root, other) %{_datadir}/icons
 %dir %attr (0755, root, other) %{_datadir}/gnome
-%{_datadir}/gnome/help/*/C
+%{_datadir}/gnome/help/jokosher
 %{_datadir}/jokosher
 %dir %attr (0755, root, root) %{_datadir}/mime
 %dir %attr (0755, root, root) %{_datadir}/mime/packages
 %{_datadir}/mime/packages/*
-%{_datadir}/omf/jokosher/jokosher-C.omf
+%{_datadir}/omf/jokosher
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
 
@@ -107,5 +110,7 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %endif
 
 %changelog
+* Wed Aug 15 2007 - trisk@acm.jhu.edu
+- Update dependencies and paths
 * Tue Jul 10 2007 Brian Cameron <brian.cameron@sun.com>
 - New spec file.

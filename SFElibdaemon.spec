@@ -12,7 +12,7 @@
 
 Name:                SFElibdaemon
 Summary:             libdaemon
-Version:             0.10
+Version:             0.12
 Source:              http://0pointer.de/lennart/projects/libdaemon/libdaemon-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -78,6 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Fri Aug 17 2007 - trisk@acm.jhu.edu
+- Bump to 0.12
 * Mon May 28 Thomas Wagner
 - split into runtime and -devel
 * 20070130 Thomas Wagner

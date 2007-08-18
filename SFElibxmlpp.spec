@@ -7,8 +7,8 @@
 
 Name:                    SFElibxmlpp
 Summary:                 libxml++ - C++ Wrapper for the libxml2 XML Library
-Version:                 2.14.0
-Source:                  http://ftp.gnome.org/pub/GNOME/sources/libxml++/2.14/libxml++-%{version}.tar.bz2
+Version:                 2.19.1
+Source:                  http://ftp.gnome.org/pub/GNOME/sources/libxml++/2.19/libxml++-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -68,6 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
+%{_libdir}/libxml++*
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
@@ -75,6 +76,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Fri Aug 17 2007 - trisk@acm.jhu.edu
+- Bump to 2.19.1
 * Fri Jun 30 2006 - laca@sun.com
 - bump to 2.14.0
 - rename to SFElibxmlpp

@@ -8,7 +8,7 @@
 Name:                SFEguile
 URL:                 http://www.gnu.org/software/guile/
 Summary:             Embeddable Scheme implementation written in C
-Version:             1.8.1
+Version:             1.8.2
 Source:              http://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
 Patch1:              guile-01-suncc-inline.diff
 Patch2:              guile-02-var-imaginary.diff
@@ -17,8 +17,8 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SFEgmp
-Requires: SFElibtool
 Requires: SFEreadline
+Requires: SFElibtool
 Requires: SUNWlibmsr
 BuildRequires: SFEreadline-devel
 
@@ -43,9 +43,9 @@ export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
 
 libtoolize --copy --force
-aclocal-1.9 $ACLOCAL_FLAGS
+aclocal $ACLOCAL_FLAGS
 autoheader
-automake-1.9 -a -c -f
+automake -a -c -f
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
             --infodir=%{_datadir}/info \
@@ -103,6 +103,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Fri Aug 17 2007 - trisk@acm.jhu.edu
+- Bump to 1.8.2
+- Use default automake and aclocal
 * Sun May 13 2007 - nonsea@users.sourceforge.net
 - Fix Source from ftp to http.
 * Sat Apr 21 2007 - dougs@truemail.co.th

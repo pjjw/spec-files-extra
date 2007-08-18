@@ -7,7 +7,7 @@
 
 Name:                SFEgd
 Summary:             library for the dynamic creation of images by programmers
-Version:             2.0.34
+Version:             2.0.35
 Source:              http://www.libgd.org/releases/gd-%{version}.tar.bz2
 Url:	    	     http://www.libgd.org/
 SUNW_BaseDir:        %{_basedir}
@@ -71,6 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Aug 18 2007 - trisk@acm.jhu.edu
+- Bump to 2.0.35
 *
 * Tue Mar 22 2007 - Thomas Wagner
 - split into SFEgd SFEgd-devel
