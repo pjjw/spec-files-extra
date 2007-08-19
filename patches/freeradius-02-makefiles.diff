@@ -1,0 +1,22 @@
+--- freeradius-1.1.7.orig/src/main/Makefile.in	2007年  2月 14日 三 10:44:23
++++ freeradius-1.1.7/src/main/Makefile.in	2007年  8月 19日 日 01:34:57
+@@ -61,7 +61,7 @@
+ 
+ radiusd: $(SERVER_OBJS) $(MODULE_OBJS) ../lib/libradius.la
+ 	$(LIBTOOL) --mode=link $(CC) -export-dynamic -dlopen self \
+-		$(LDFLAGS) -pie $(LINK_MODE) -o $@ $(SERVER_OBJS)      \
++		$(LDFLAGS) $(LINK_MODE) -o $@ $(SERVER_OBJS)      \
+ 		$(MODULE_LIBS) $(LIBS) $(SNMP_LIBS) $(PTHREADLIB) \
+ 		$(LIBLTDL) $(OPENSSL_LIBS)
+ 
+--- freeradius-1.1.7.orig/src/modules/rlm_krb5/Makefile.in	2006年  2月 10日 五 14:47:15
++++ freeradius-1.1.7/src/modules/rlm_krb5/Makefile.in	2007年  8月 19日 日 01:47:10
+@@ -6,7 +6,7 @@
+ SRCS       = rlm_krb5.c
+ HEADERS    =
+ RLM_LIBS   = @krb5_ldflags@
+-RLM_CFLAGS = @krb5_cflags@ -I/usr/include/et
++RLM_CFLAGS = @krb5_cflags@ $(CPPFLAGS) -I/usr/include/et
+ 
+ include ../rules.mak
+ 

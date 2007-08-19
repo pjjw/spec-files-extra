@@ -1,3 +1,10 @@
+2007-08-19  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEfreeradius.spec: *NEW* FreeRADIUS - modular, high performance and
+	  feature-rich RADIUS suite
+	* patches/freeradius-01-types.diff: Fix build with Studio
+	* patches/freeradius-02-makefiles.diff: Correct compiler and ld flags
+
 2007-08-18  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEavahi.spec: Bump to 0.6.21, allow dbus backwards compatibility.

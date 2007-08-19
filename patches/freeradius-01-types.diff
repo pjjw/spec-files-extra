@@ -1,0 +1,11 @@
+--- freeradius-1.1.7.orig/src/modules/rlm_preprocess/rlm_preprocess.c	2007年  4月  7日 六 18:42:51
++++ freeradius-1.1.7/src/modules/rlm_preprocess/rlm_preprocess.c	2007年  8月 19日 日 01:25:14
+@@ -580,7 +580,7 @@
+ 	if ((r = huntgroup_access(request, data->huntgroups,
+ 			     request->packet->vps)) != RLM_MODULE_OK) {
+ 		radlog(L_AUTH, "No huntgroup access: [%s] (%s)",
+-		       request->username ? request->username->strvalue : "<No User-Name>",
++		       request->username ? (char *)request->username->strvalue : "<No User-Name>",
+ 		       auth_name(buf, sizeof(buf), request, 1));
+ 		return r;
+ 	}
