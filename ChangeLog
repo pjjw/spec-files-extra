@@ -1,3 +1,8 @@
+2007-08-20  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEp7zip.spec: (new) 7-Zip archiver and compression utility
+	* patches/p7zip-01-makefile.diff: (new) build patch
+
 2007-08-19  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEfreeradius.spec: *NEW* FreeRADIUS - modular, high performance and
