@@ -1,0 +1,11 @@
+--- libhid-0.2.16.orig/m4/ac_python_devel.m4	2007年  4月  1日 日 16:32:10
++++ libhid-0.2.16/m4/ac_python_devel.m4	2007年  8月 20日 一 19:49:11
+@@ -233,6 +233,8 @@
+ 	AC_MSG_CHECKING([consistency of all components of python development environment])
+ 	AC_LANG_PUSH([C])
+ 	# save current global flags
++	ac_save_LIBS="$LIBS"
++	ac_save_CPPFLAGS="$CPPFLAGS"
+ 	LIBS="$ac_save_LIBS $PYTHON_LDFLAGS"
+ 	CPPFLAGS="$ac_save_CPPFLAGS $PYTHON_CPPFLAGS"
+ 	AC_TRY_LINK([

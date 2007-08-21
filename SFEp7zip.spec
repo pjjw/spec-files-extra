@@ -37,13 +37,13 @@ ENDIAN_MACRO="-DBIG_ENDIAN"
 make -j$CPUS all MY_CXX="$CXX" CXX_OPTFLAGS="%cxx_optflags" MY_CC="$CC" CC_OPTFLAGS="%optflags" ENDIAN_MACRO="$ENDIAN_MACRO"
 
 %install
-chmod -R u+w $RPM_BUILD_ROOT
+test -d $RPM_BUILD_ROOT && chmod -R u+w $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 make install DEST_HOME=$RPM_BUILD_ROOT%{_prefix} DEST_MAN=$RPM_BUILD_ROOT%{_mandir}
 perl -pi -e "s,$RPM_BUILD_ROOT,,g" $RPM_BUILD_ROOT%{_bindir}/7za
 
 %clean
-chmod -R u+w $RPM_BUILD_ROOT
+test -d $RPM_BUILD_ROOT && chmod -R u+w $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 
 %files
@@ -60,5 +60,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Sun Aug 20 2007 - trisk@acm.jhu.edu
+- Fix problem in install and clean rules
 * Sun Aug 20 2007 - laca@sun.com
 - Create

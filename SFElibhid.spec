@@ -5,6 +5,8 @@
 #
 %include Solaris.inc
 
+%define python_version 2.4
+
 %define src_name	libhid
 %define src_url		http://alioth.debian.org/frs/download.php/1958
 
@@ -12,15 +14,26 @@ Name:                   SFElibhid
 Summary:                USB Human Interface Device user level driver library
 Version:                0.2.16
 Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
-Patch1:			libhid-01-tests.diff
+Patch1:                 libhid-01-tests.diff
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+BuildRequires: SUNWPython-devel
+BuildRequires: SUNWPython
+BuildRequires: SFEswig
+BuildRequires: SFEdoxygen
 
 %package devel
 Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_prefix}
 %include default-depend.inc
+
+%package python
+Summary:                 Python bindings for libhid
+SUNW_BaseDir:            %{_prefix}
+%include default-depend.inc
+Requires: %name
+Requires: SUNWPython
 
 %prep
 %setup -q -n %{src_name}-%{version}
@@ -42,6 +55,7 @@ export CPPFLAGS="-D__FUNCTION__=__func__"
 export CFLAGS="%optflags -I/usr/sfw/include"
 export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib"
 export LD_OPTIONS="-i -z combreloc -z direct -L/usr/sfw/lib -R/usr/sfw/lib"
+export PYTHON_LDFLAGS="-lpython%{python_version}"
 ./configure --prefix=%{_prefix}		\
 	    --bindir=%{_bindir}		\
 	    --mandir=%{_mandir}		\
@@ -79,6 +93,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755,root,other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 
+%files python
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/python*
+
 %changelog
+* Mon Aug 20 2007 - trisk@acm.jhu.edu
+- Replace missing patch
+- Update dependencies
 * Mon Jul 10 2007 - dougs@truemail.co.th
 - Initial version

@@ -1,0 +1,67 @@
+--- transmission-0.80.orig/configure	2007-08-20 13:33:33.525077318 +0200
++++ transmission-0.80/configure	2007-08-20 13:55:28.663558518 +0200
+@@ -1,4 +1,4 @@
+-#! /bin/sh
++#! /bin/bash
+ #
+ # $Id: configure 2604 2007-08-03 15:46:06Z charles $
+ 
+@@ -433,6 +433,10 @@
+     PTHREAD=yes
+     ;;
+ 
++  SunOS)
++    PTHREAD=yes
++    ;;
++
+   CYGWIN*)
+     ;;
+ 
+--- transmission-0.80.orig/mk/common.mk	2007年  8月  7日 二 10:21:52
++++ transmission-0.80/mk/common.mk	2007年  8月 20日 一 17:02:49
+@@ -1,6 +1,6 @@
+ # $Id: common.mk 1921 2007-05-24 02:54:21Z joshe $
+ 
+-TMPCFLAGS   = -g -Wall -W -O3 -funroll-loops -D_FILE_OFFSET_BITS=64 \
++TMPCFLAGS   = -D_FILE_OFFSET_BITS=64 \
+               -D_LARGEFILE_SOURCE -D_GNU_SOURCE \
+               -DSYS_$(shell echo $(SYSTEM) | tr a-z A-Z)
+ TMPCXXFLAGS = $(TMPCFLAGS)
+@@ -30,9 +30,9 @@
+ TMPLDFLAGS += -lcrypto
+ endif
+ 
+-CFLAGS   := $(TMPCFLAGS) $(CFLAGS)
+-CXXFLAGS := $(TMPCXXFLAGS) $(CXXFLAGS)
+-LDFLAGS  := $(TMPLDFLAGS) $(LDFLAGS)
++CFLAGS   := $(CFLAGS) $(TMPCFLAGS)
++CXXFLAGS := $(CXXFLAGS) $(TMPCXXFLAGS)
++LDFLAGS  := $(LDFLAGS) $(TMPLDFLAGS)
+ 
+ #
+ # Utils
+@@ -39,15 +39,9 @@
+ #
+ 
+ define DEP_RULE
+-	@echo "Checking dependencies..."
+-	@$(RM) .depend
+-	@$(foreach SRC, $(SRCS), $(CC) -MM $(SRC) $(CFLAGS) >> .depend;)
+ endef
+ 
+ define DEP_RULE_CXX
+-	@echo "Checking dependencies..."
+-	@$(RM) .depend
+-	@$(foreach SRC, $(SRCS), $(CXX) -MM $(SRC) $(CXXFLAGS) >> .depend;)
+ endef
+ 
+ define CC_RULE
+@@ -76,7 +70,7 @@
+ 
+ define MSGFMT_RULE
+        @echo "Msgfmt $<"
+-       @msgfmt -f $< -o $@
++       @msgfmt -f -o $@ $<
+ endef
+ 
+ define XRES_RULE
