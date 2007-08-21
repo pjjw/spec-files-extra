@@ -1,3 +1,11 @@
+2007-08-20  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFElibhid.spec: Replace missing patch, update dependencies
+	* SFEp7zip.spec: Fix problem in install and clean rules
+	* SFEtransmission.spec: *NEW* Transmission - BitTorrent client
+	* patches/libhid-01-tests.diff: Save variables in Python test
+	* patches/transmission-01-solaris.diff: Patch for Solaris compatibility
+
 2007-08-20  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEp7zip.spec: (new) 7-Zip archiver and compression utility
