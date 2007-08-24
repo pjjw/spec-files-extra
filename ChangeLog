@@ -1,5 +1,9 @@
 2007-08-24 Erwann Chenede - <erwann.chenede@sun.com>
 
+	* SFElibcompizconfig.spec: added X11 dependencies in LDFLAGS
+
+2007-08-24 Erwann Chenede - <erwann.chenede@sun.com>
+
 	* SFElibcompizconfig.spec: added patch
 	* patches/libcompizconfig-01-solaris-port.diff: ported missing functions 
 	  to Solaris

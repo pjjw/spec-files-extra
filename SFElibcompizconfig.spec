@@ -56,7 +56,7 @@ autoconf
 
 export CFLAGS="%optflags"
 export RPM_OPT_FLAGS="$CFLAGS"
-export LDFLAGS="%{_ldflags}"
+export LDFLAGS="%{_ldflags} -L/usr/X11/lib -L/usr/openwin/lib -R/usr/X11/lib -R/usr/openwin/lib -lX11 -lXext"
 export MSGFMT="/usr/bin/msgfmt"
 
 ./configure --prefix=%{_prefix}			\
