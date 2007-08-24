@@ -1,3 +1,9 @@
+2007-08-24 Erwann Chenede - <erwann.chenede@sun.com>
+
+	* SFElibcompizconfig.spec: added patch
+	* patches/libcompizconfig-01-solaris-port.diff: ported missing functions 
+	  to Solaris
+
 2007-08-23  Brian Cameron  <brian.cameron@sun.com>
 
 	* patches/ConsoleKit-01-head.diff: Update patch to build against

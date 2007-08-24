@@ -15,6 +15,7 @@ Name:                    SFElibcompizconfig
 Summary:                 compizconfig libraries - is an alternative configuration system for compiz
 Version:                 0.5.2
 Source:			 http://releases.compiz-fusion.org/0.5.2/libcompizconfig-%{version}.tar.bz2	 
+Patch1:			 libcompizconfig-01-solaris-port.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -38,6 +39,7 @@ Requires:                %{name} = %{version}
 
 %prep
 %setup -q -c -n %name-%version
+%patch1 -p1
 
 %build
 cd libcompizconfig-%version
@@ -45,6 +47,12 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
+
+aclocal
+autoheader
+automake -a -c -f
+autoconf
+
 
 export CFLAGS="%optflags"
 export RPM_OPT_FLAGS="$CFLAGS"
