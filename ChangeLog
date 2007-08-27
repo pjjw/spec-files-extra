@@ -1,3 +1,7 @@
+2007-08-27  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEsaslauthd.spec: *NEW* SASL v2 authentication daemon
+
 2007-08-24 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* SFElibcompizconfig.spec: added X11 dependencies in LDFLAGS
