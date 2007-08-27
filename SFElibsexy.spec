@@ -9,11 +9,10 @@
 Name:         SFElibsexy
 License:      Other
 Group:        System/Libraries
-Version:      0.1.10
+Version:      0.1.11
 Summary:      libsexy is a collection of GTK+ widgets that extend the functionality of such standard widget.
 Source:       http://releases.chipx86.com/libsexy/libsexy/libsexy-%{version}.tar.gz
 URL:          http://www.chipx86.com/wiki/Libsexy
-Patch1:       libsexy-01-struct.diff
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
 SUNW_BaseDir: %{_basedir}
@@ -33,7 +32,6 @@ Requires:      %name
 
 %prep
 %setup -q -n libsexy-%version
-%patch1 -p1 -b .patch01
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -77,6 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Aug 24 2007 Erwann Chenede <erwann@sun.com>
+- bumped to 0.1.11 and removed patch
 * Fri Feb 16 2007 - Doug Scott <dougs@truemail.co.th>
 - Fixed perm for gtk-doc directory
 * Wed Nov 22 2006 - jedy.wang@sun.com
