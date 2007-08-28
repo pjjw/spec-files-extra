@@ -1,0 +1,19 @@
+--- jack-audio-connection-kit-0.103.0/drivers/alsa/alsa_driver.c.orig	2007-08-24 21:02:54.664945251 +0700
++++ jack-audio-connection-kit-0.103.0/drivers/alsa/alsa_driver.c	2007-08-24 21:04:11.234329000 +0700
+@@ -54,6 +54,16 @@
+ /* Delay (in process calls) before jackd will report an xrun */
+ #define XRUN_REPORT_DELAY 0
+ 
++#define timersub(a, b, result) \
++do { \
++	(result)->tv_sec = (a)->tv_sec - (b)->tv_sec; \
++  (result)->tv_usec = (a)->tv_usec - (b)->tv_usec; \
++  if ((result)->tv_usec < 0) { \
++		--(result)->tv_sec; \
++		(result)->tv_usec += 1000000; \
++	} \
++} while (0)
++
+ static void
+ alsa_driver_release_channel_dependent_memory (alsa_driver_t *driver)
+ {

@@ -12,21 +12,30 @@ Name:		jack
 Summary:	Jack Audio Connection Kit
 Version:	%{src_ver}
 Source:		%{src_url}/%{src_name}-%{version}.tar.gz
-Patch1:		jack-01-wall.diff
+Patch1:		jack-01-svn1051.diff
 Patch2:		jack-02-solaris.diff
+Patch3:		jack-03-timersub.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
 %prep
 %setup -q -n %{src_name}-%{version}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-export CFLAGS="-xc99 %optflags"
+
+%if %debug_build
+dbgflag=--disable-debug
+%else
+dbgflag=--disable-debug
+%endif
+
+export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
 
 libtoolize -f -c
@@ -41,10 +50,11 @@ automake -a -f
             --libdir=%{_libdir}		\
             --libexecdir=%{_libexecdir}	\
             --sysconfdir=%{_sysconfdir}	\
+	    --with-default-tmpdir="/tmp"\
             --enable-shared		\
 	    --disable-static
 
-make -j$CPUS 
+make # -j$CPUS 
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
@@ -55,5 +65,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/jack/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Aug 28 2007 - dougs@truemail.co.th
+- Added debug option
+- Patched with latest svn release
+- Solaris patch now contains many fixes and code for real time with RBAC
 * Mon Aug 13 2007 - dougs@truemail.co.th
 - Initial base spec file

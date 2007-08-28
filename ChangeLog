@@ -1,3 +1,14 @@
+2007-08-28  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEwine.spec: Bumped to 0.9.44
+	* SFEmplayer.spec: Added debug option
+	* SFEjack.spec: Added doc package if doxygen is installed
+	* base-specs/jack.spec: Added debug option
+	* patches/jack-01-wall.diff: Deleted
+	* patches/jack-01-svn1051.diff: svn update patch to 1051
+	* patches/jack-02-solaris.diff: Realtime priority/RBAC code + fixes
+	* patches/jack-03-timersub.diff: Add missing timersub
+
 2007-08-27  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEsaslauthd.spec: *NEW* SASL v2 authentication daemon

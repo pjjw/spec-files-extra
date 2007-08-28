@@ -10,7 +10,7 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                0.9.43
+Version:                0.9.44
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
 Patch2:			wine-02-configure.diff
@@ -121,6 +121,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Tue Aug 28 2007 - dougs@truemail.co.th
+- bump to 0.9.44
 * Mon Aug 13 2007 - dougs@truemail.co.th
 - bump to 0.9.43
 - Added SFEcups SFElcms SFEncurses to Required

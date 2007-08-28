@@ -12,6 +12,8 @@
 %include base.inc
 %use jack = jack.spec
 
+%define SFEdoxygen      %(/usr/bin/pkginfo -q SFEdoxygen && echo 1 || echo 0)
+
 Name:		SFEjack
 Summary:	%{jack.summary}
 Version:	%{jack.version}
@@ -27,6 +29,14 @@ Summary:         %{summary} - development files
 SUNW_BaseDir:    %{_basedir}
 %include default-depend.inc
 Requires: %name
+
+%if %SFEdoxygen
+%package doc
+Summary:                 %{summary} - Documentation
+SUNW_BaseDir:            %{_prefix}
+%include default-depend.inc
+Requires: %name
+%endif
 
 %prep
 rm -rf %name-%version
@@ -53,6 +63,13 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %jack.install -d %name-%version/%{base_arch}
+
+%if %SFEdoxygen
+  mkdir -p $RPM_BUILD_ROOT%{_docdir}    
+  mv $RPM_BUILD_ROOT%{_datadir}/jack-audio-connection-kit $RPM_BUILD_ROOT%{_docdir}
+%else
+  rm -rf $RPM_BUILD_ROOT%{_datadir}/jack-audio-connection-kit
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -86,7 +103,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/%{_arch64}/pkgconfig/*
 %endif
 
+%if %SFEdoxygen
+%files doc
+%defattr (-, root, bin)
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
+%endif
+
 %changelog
+* Tue Aug 28 2007 - dougs@truemail.co.th
+- Added doc package if doxygen is installed
 * Mon Aug 13 2007 - dougs@truemail.co.th
 - Added 64bit build
 * Sun Aug 12 2007 - dougs@truemail.co.th

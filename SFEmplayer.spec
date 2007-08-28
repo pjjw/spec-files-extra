@@ -88,34 +88,46 @@ unzip %SOURCE8
 unzip 26204-600_ANSI-C_source_code.zip
 mv c-code libavcodec/amrwb_float
 
+perl -pi -e 's/-O2/-O1/' configure
+
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 
+%if %debug_build
+dbgflag=--enable-debug
+export CFLAGS="-g -D__hidden=\"\""
+%else
+dbgflag=--disable-debug
 export CFLAGS="-O2 -D__hidden=\"\""
+%endif
+
 export LDFLAGS="-L%{x11}/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib" 
 export CC=gcc
 
-bash ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
-            --libdir=%{_libdir}              \
-            --confdir=%{_sysconfdir}         \
-            --enable-gui                     \
-            --enable-menu                    \
-            --with-extraincdir=%{x11}/include  \
-            --with-x11libdir=%{x11}/lib      \
-            --with-extraincdir=/usr/sfw/include        \
-            --with-extralibdir=/usr/sfw/lib            \
-            --with-codecsdir=%{codecdir} \
-            --enable-libfame                 \
-            --enable-faad-external           \
-            --enable-live                    \
-            --with-livelibdir=/usr/lib/live  \
-	    --enable-rpath		     \
-            --enable-largefiles              \
-	    --enable-crash-debug	     \
-            --disable-directfb
+bash ./configure				\
+	    --prefix=%{_prefix}			\
+	    --mandir=%{_mandir}			\
+            --libdir=%{_libdir}			\
+            --confdir=%{_sysconfdir}		\
+            --enable-gui			\
+            --enable-menu			\
+            --with-extraincdir=%{x11}/include	\
+            --with-x11libdir=%{x11}/lib		\
+            --with-extraincdir=/usr/sfw/include	\
+            --with-extralibdir=/usr/sfw/lib	\
+            --with-codecsdir=%{codecdir}	\
+            --enable-libfame			\
+            --enable-faad-external		\
+            --enable-live			\
+            --with-livelibdir=/usr/lib/live	\
+	    --enable-rpath			\
+            --enable-largefiles			\
+	    --enable-crash-debug		\
+            --disable-directfb			\
+	    $dbgflag
 
 make -j$CPUS 
 
@@ -157,6 +169,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Tue Aug 28 2007 - dougs@truemail.co.th
+- Added debug option
 * Tue Jul 31 2007 - dougs@truemail.co.th
 - Removed dirac codec from Requirement
 * Sun Jul 15 2007 - dougs@truemail.co.th
