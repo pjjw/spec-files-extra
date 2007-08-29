@@ -1,0 +1,224 @@
+diff -ur libdv-1.0.0.orig/configure.ac libdv-1.0.0/configure.ac
+--- libdv-1.0.0.orig/configure.ac	2006-08-07 04:38:30.000000000 +0700
++++ libdv-1.0.0/configure.ac	2007-08-29 18:06:45.835701138 +0700
+@@ -231,7 +231,7 @@
+ AC_PATH_X
+ AC_HEADER_STDC
+ AC_CHECK_HEADERS(fcntl.h sys/time.h unistd.h linux/videodev.h sys/soundcard.h \
+-endian.h machine/endian.h inttypes.h)
++endian.h machine/endian.h alsa/endian_compat.h sys/ioccom.h inttypes.h)
+ 
+ dnl Checks for typedefs, structures, and compiler characteristics.
+ AC_C_CONST
+diff -ur libdv-1.0.0.orig/encodedv/Makefile.in libdv-1.0.0/encodedv/Makefile.in
+--- libdv-1.0.0.orig/encodedv/Makefile.in	2006-09-26 03:11:48.000000000 +0700
++++ libdv-1.0.0/encodedv/Makefile.in	2007-08-29 17:41:18.916987916 +0700
+@@ -55,19 +55,19 @@
+ am_dubdv_OBJECTS = insert_audio.$(OBJEXT)
+ dubdv_OBJECTS = $(am_dubdv_OBJECTS)
+ am__DEPENDENCIES_1 =
+-dubdv_DEPENDENCIES = ../libdv/libdv.la $(am__DEPENDENCIES_1)
++dubdv_DEPENDENCIES = $(am__DEPENDENCIES_1)
+ am_dvavi_OBJECTS = dvavi.$(OBJEXT)
+ dvavi_OBJECTS = $(am_dvavi_OBJECTS)
+-dvavi_DEPENDENCIES = ../libdv/libdv.la
++dvavi_DEPENDENCIES = 
+ am_dvconnect_OBJECTS = dvconnect.$(OBJEXT)
+ dvconnect_OBJECTS = $(am_dvconnect_OBJECTS)
+ dvconnect_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+ am_encodedv_OBJECTS = encodedv.$(OBJEXT)
+ encodedv_OBJECTS = $(am_encodedv_OBJECTS)
+-encodedv_DEPENDENCIES = ../libdv/libdv.la $(am__DEPENDENCIES_1)
++encodedv_DEPENDENCIES = $(am__DEPENDENCIES_1)
+ am_fix_headers_OBJECTS = fix_headers.$(OBJEXT)
+ fix_headers_OBJECTS = $(am_fix_headers_OBJECTS)
+-fix_headers_DEPENDENCIES = ../libdv/libdv.la
++fix_headers_DEPENDENCIES = 
+ am_ppmqscale_OBJECTS = ppmqscale.$(OBJEXT)
+ ppmqscale_OBJECTS = $(am_ppmqscale_OBJECTS)
+ ppmqscale_LDADD = $(LDADD)
+@@ -236,18 +236,18 @@
+ MAINTAINERCLEANFILES = Makefile.in $(AUX_DIST)
+ CLEANFILES = 
+ encodedv_SOURCES = encodedv.c 
+-encodedv_LDADD = ../libdv/libdv.la $(POPT_LIB)
++encodedv_LDADD = `pkg-config --libs libdv` $(POPT_LIB)
+ dubdv_SOURCES = insert_audio.c 
+-dubdv_LDADD = ../libdv/libdv.la $(POPT_LIB)
++dubdv_LDADD = `pkg-config --libs libdv` $(POPT_LIB)
+ fix_headers_SOURCES = fix_headers.c 
+-fix_headers_LDADD = ../libdv/libdv.la
++fix_headers_LDADD = `pkg-config --libs libdv`
+ scan_packet_headers_SOURCES = scan_packet_headers.c
+ steal_header_SOURCES = steal_header.c
+ ppmqscale_SOURCES = ppmqscale.c
+ dvconnect_SOURCES = dvconnect.c
+ dvconnect_LDADD = $(PTHREAD_LIBS) $(POPT_LIB)
+ dvavi_SOURCES = dvavi.c
+-dvavi_LDADD = ../libdv/libdv.la
++dvavi_LDADD = `pkg-config --libs libdv`
+ all: all-am
+ 
+ .SUFFIXES:
+Only in libdv-1.0.0/encodedv: Makefile.in~
+diff -ur libdv-1.0.0.orig/encodedv/dvconnect.c libdv-1.0.0/encodedv/dvconnect.c
+--- libdv-1.0.0.orig/encodedv/dvconnect.c	2004-05-31 09:05:23.000000000 +0700
++++ libdv-1.0.0/encodedv/dvconnect.c	2007-08-29 18:06:26.972107862 +0700
+@@ -29,6 +29,9 @@
+ 
+ #define _FILE_OFFSET_BITS 64
+ 
++#if defined(__DragonFly__)
++#include <sys/types.h>
++#endif
+ #include <stdio.h>
+ #include <sys/ioctl.h>
+ #include <sys/mman.h>
+@@ -47,6 +50,10 @@
+ 
+ #include <stdlib.h>
+ 
++#if HAVE_SYS_IOCCOM_H
++#include <sys/ioccom.h>
++#endif
++
+ static long cip_n_ntsc = 2436;
+ static long cip_d_ntsc = 38400;
+ static long cip_n_pal = 1;
+diff -ur libdv-1.0.0.orig/libdv/Makefile.in libdv-1.0.0/libdv/Makefile.in
+--- libdv-1.0.0.orig/libdv/Makefile.in	2006-09-26 03:11:48.000000000 +0700
++++ libdv-1.0.0/libdv/Makefile.in	2007-08-29 17:41:15.038286103 +0700
+@@ -61,7 +61,7 @@
+ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgincludedir)"
+ libLTLIBRARIES_INSTALL = $(INSTALL)
+ LTLIBRARIES = $(lib_LTLIBRARIES)
+-libdv_la_LIBADD =
++libdv_la_LIBADD = $(PTHREAD_LIBS)
+ am__libdv_la_SOURCES_DIST = dv.c dct.c idct_248.c weighting.c quant.c \
+ 	vlc.c place.c parse.c bitstream.c YUY2.c YV12.c rgb.c audio.c \
+ 	util.c encode.c headers.c enc_input.c enc_audio_input.c \
+Only in libdv-1.0.0/libdv: Makefile.in~
+diff -ur libdv-1.0.0.orig/libdv/YUY2.c libdv-1.0.0/libdv/YUY2.c
+--- libdv-1.0.0.orig/libdv/YUY2.c	2004-10-20 10:49:24.000000000 +0700
++++ libdv-1.0.0/libdv/YUY2.c	2007-08-29 18:04:19.704985015 +0700
+@@ -35,6 +35,8 @@
+ #include <endian.h>
+ #elif HAVE_MACHINE_ENDIAN_H
+ #include <machine/endian.h>
++#elif HAVE_ALSA_ENDIAN_COMPAT_H
++#include <alsa/endian_compat.h>
+ #endif
+ #include <stdlib.h>
+ 
+diff -ur libdv-1.0.0.orig/libdv/bitstream.h libdv-1.0.0/libdv/bitstream.h
+--- libdv-1.0.0.orig/libdv/bitstream.h	2003-10-21 02:46:49.000000000 +0700
++++ libdv-1.0.0/libdv/bitstream.h	2007-08-29 18:03:53.704195892 +0700
+@@ -36,6 +36,8 @@
+ #include <endian.h>
+ #elif HAVE_MACHINE_ENDIAN_H
+ #include <machine/endian.h>
++#elif HAVE_ALSA_ENDIAN_COMPAT_H
++#include <alsa/endian_compat.h>
+ #endif
+ 
+ #ifdef __cplusplus
+diff -ur libdv-1.0.0.orig/libdv/dv_types.h libdv-1.0.0/libdv/dv_types.h
+--- libdv-1.0.0.orig/libdv/dv_types.h	2004-10-20 10:49:24.000000000 +0700
++++ libdv-1.0.0/libdv/dv_types.h	2007-08-29 18:04:03.120457726 +0700
+@@ -42,6 +42,8 @@
+ #include <endian.h>
+ #elif HAVE_MACHINE_ENDIAN_H
+ #include <machine/endian.h>
++#elif HAVE_ALSA_ENDIAN_COMPAT_H
++#include <alsa/endian_compat.h>
+ #endif
+ 
+ /* please tell me these are defined somewhere standard??? */
+diff -ur libdv-1.0.0.orig/libdv/mmx.h libdv-1.0.0/libdv/mmx.h
+--- libdv-1.0.0.orig/libdv/mmx.h	2006-03-07 12:54:48.000000000 +0700
++++ libdv-1.0.0/libdv/mmx.h	2007-08-29 17:45:26.938783488 +0700
+@@ -251,15 +251,15 @@
+ 		fprintf(stderr, #op "_i2r(" #imm "=0x%08x%08x, ", \
+ 			mmx_trace.d[1], mmx_trace.d[0]); \
+ 		__asm__ __volatile__ ("movq %%" #reg ", %0" \
+-				      : "=X" (mmx_trace) \
++				      : "=m" (mmx_trace) \
+ 				      : /* nothing */ ); \
+ 		fprintf(stderr, #reg "=0x%08x%08x) => ", \
+ 			mmx_trace.d[1], mmx_trace.d[0]); \
+ 		__asm__ __volatile__ (#op " %0, %%" #reg \
+ 				      : /* nothing */ \
+-				      : "X" (imm)); \
++				      : "i" (imm)); \
+ 		__asm__ __volatile__ ("movq %%" #reg ", %0" \
+-				      : "=X" (mmx_trace) \
++				      : "=m" (mmx_trace) \
+ 				      : /* nothing */ ); \
+ 		fprintf(stderr, #reg "=0x%08x%08x\n", \
+ 			mmx_trace.d[1], mmx_trace.d[0]); \
+@@ -309,18 +309,18 @@
+ 	{ \
+ 		mmx_t mmx_trace; \
+ 		__asm__ __volatile__ ("movq %%" #regs ", %0" \
+-				      : "=X" (mmx_trace) \
++				      : "=m" (mmx_trace) \
+ 				      : /* nothing */ ); \
+ 		fprintf(stderr, #op "_r2r(" #regs "=0x%08x%08x, ", \
+ 			mmx_trace.d[1], mmx_trace.d[0]); \
+ 		__asm__ __volatile__ ("movq %%" #regd ", %0" \
+-				      : "=X" (mmx_trace) \
++				      : "=m" (mmx_trace) \
+ 				      : /* nothing */ ); \
+ 		fprintf(stderr, #regd "=0x%08x%08x) => ", \
+ 			mmx_trace.d[1], mmx_trace.d[0]); \
+ 		__asm__ __volatile__ (#op " %" #regs ", %" #regd); \
+ 		__asm__ __volatile__ ("movq %%" #regd ", %0" \
+-				      : "=X" (mmx_trace) \
++				      : "=m" (mmx_trace) \
+ 				      : /* nothing */ ); \
+ 		fprintf(stderr, #regd "=0x%08x%08x\n", \
+ 			mmx_trace.d[1], mmx_trace.d[0]); \
+@@ -388,8 +388,8 @@
+ #define	movq(vars, vard) \
+ 	__asm__ __volatile__ ("movq %1, %%mm0\n\t" \
+ 			      "movq %%mm0, %0" \
+-			      : "=X" (vard) \
+-			      : "X" (vars))
++			      : "=m" (vard) \
++			      : "m" (vars))
+ 
+ 
+ /*	1x32 MOVe Doubleword
+@@ -403,8 +403,8 @@
+ #define	movd(vars, vard) \
+ 	__asm__ __volatile__ ("movd %1, %%mm0\n\t" \
+ 			      "movd %%mm0, %0" \
+-			      : "=X" (vard) \
+-			      : "X" (vars))
++			      : "=m" (vard) \
++			      : "m" (vars))
+ 
+ 
+ /*	2x32, 4x16, and 8x8 Parallel ADDs
+diff -ur libdv-1.0.0.orig/playdv/Makefile.in libdv-1.0.0/playdv/Makefile.in
+--- libdv-1.0.0.orig/playdv/Makefile.in	2006-09-26 03:11:48.000000000 +0700
++++ libdv-1.0.0/playdv/Makefile.in	2007-08-29 17:41:23.856963415 +0700
+@@ -56,7 +56,7 @@
+ playdv_OBJECTS = $(am_playdv_OBJECTS)
+ am__DEPENDENCIES_1 =
+ playdv_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+-	$(am__DEPENDENCIES_1) ../libdv/libdv.la $(am__DEPENDENCIES_1)
++	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+ DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles
+@@ -213,7 +213,7 @@
+ AM_CFLAGS = $(SDL_CFLAGS) $(GTK_CFLAGS)
+ noinst_HEADERS = display.h oss.h
+ playdv_SOURCES = playdv.c display.c display.h oss.c
+-playdv_LDADD = $(SDL_LIBS) $(GTK_LIBS) $(XV_LIB) ../libdv/libdv.la $(POPT_LIB)
++playdv_LDADD = $(SDL_LIBS) $(GTK_LIBS) $(XV_LIB) `pkg-config --libs libdv` $(POPT_LIB)
+ all: all-am
+ 
+ .SUFFIXES:
+Only in libdv-1.0.0/playdv: Makefile.in~

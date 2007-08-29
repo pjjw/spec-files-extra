@@ -1,3 +1,9 @@
+2007-08-28  Doug Scott  <dougs@truemail.co.th>
+
+	* SFElibdv.spec: *NEW* Quasar DV codec
+	* base-specs/libdv.spec: base spec for SFElibdv
+	* patches/libdv-01-solaris.diff: combined patch from pkgsrc + sol mods
+
 2007-08-28  Jeff Cai<jeff.cai@sun.com>
 
 	* linux-specs/gnome-power-manager.spec: Bump to 2.19.6
