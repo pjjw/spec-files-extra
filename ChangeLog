@@ -1,3 +1,7 @@
+2007-08-30  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEgperf.spec: (new) gperf - GNU perfect hash function generator
+
 2007-08-30 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* SFEcompizconfig-backend-gconf.spec : *.*a clean up
