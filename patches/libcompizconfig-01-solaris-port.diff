@@ -1,6 +1,6 @@
 diff -Nrup libcompizconfig-0.5.2/config.h.in ../libcompizconfig-0.5.2/config.h.in
 --- libcompizconfig-0.5.2/config.h.in	2007-08-12 22:06:16.000000000 +0200
-+++ ../libcompizconfig-0.5.2/config.h.in	2007-08-23 18:37:56.063833000 +0200
++++ ../libcompizconfig-0.5.2/config.h.in	2007-08-30 18:10:45.064810000 +0200
 @@ -78,6 +78,9 @@
  /* Define to the version of this package. */
  #undef PACKAGE_VERSION
@@ -13,7 +13,7 @@ diff -Nrup libcompizconfig-0.5.2/config.h.in ../libcompizconfig-0.5.2/config.h.i
  
 diff -Nrup libcompizconfig-0.5.2/configure.ac ../libcompizconfig-0.5.2/configure.ac
 --- libcompizconfig-0.5.2/configure.ac	2007-08-12 21:59:57.000000000 +0200
-+++ ../libcompizconfig-0.5.2/configure.ac	2007-08-23 18:38:59.742586000 +0200
++++ ../libcompizconfig-0.5.2/configure.ac	2007-08-30 18:10:45.065438000 +0200
 @@ -1,6 +1,6 @@
  AC_PREREQ(2.57)
  
@@ -39,9 +39,61 @@ diff -Nrup libcompizconfig-0.5.2/configure.ac ../libcompizconfig-0.5.2/configure
  AC_C_BIGENDIAN
  
  PKG_CHECK_MODULES(COMPIZ, "compiz")
+diff -Nrup libcompizconfig-0.5.2/metadata/global.xml ../libcompizconfig-0.5.2/metadata/global.xml
+--- libcompizconfig-0.5.2/metadata/global.xml	2007-08-12 21:59:57.000000000 +0200
++++ ../libcompizconfig-0.5.2/metadata/global.xml	2007-08-30 18:37:16.532477000 +0200
+@@ -4,22 +4,32 @@
+ 			<option name="active_plugins" type="list">
+ 				<type>string</type>
+ 				<default>
+-					<value>dbus</value>
+-					<value>place</value>
+-					<value>move</value>
+-					<value>resize</value>
+-					<value>decoration</value>
+-					<value>png</value>
+-					<value>wobbly</value>
+-					<value>cube</value>
+-					<value>fade</value>
+-					<value>minimize</value>
+-					<value>rotate</value>
+-					<value>scale</value>
+-					<value>switcher</value>
+-					<value>regex</value>
+-					<value>workarounds</value>
+-					<value>zoom</value>
++	                                <value>imgjpeg</value>
++                                        <value>svg</value>
++                                        <value>png</value>
++                                        <value>decoration</value>
++                                        <value>wobbly</value>
++                                        <value>fade</value>
++                                        <value>expo</value>
++                                        <value>minimize</value>
++                                        <value>cube</value>
++                                        <value>showdesktop</value>
++                                        <value>switcher</value>
++                                        <value>move</value>
++                                        <value>resize</value>
++                                        <value>place</value>
++                                        <value>rotate</value>
++                                        <value>zoom</value>
++                                        <value>scale</value>
++                                        <value>shift</value>
++                                        <value>dbus</value>
++                                        <value>water</value>
++                                        <value>snow</value>
++                                        <value>animation</value>
++                                        <value>firepaint</value>
++                                        <value>thumbnail</value>
++                                        <value>cubereflex</value>
++                                        <value>switcher</value>      
+ 				</default>
+ 			</option>
+ 			<group>
 diff -Nrup libcompizconfig-0.5.2/src/Makefile.am ../libcompizconfig-0.5.2/src/Makefile.am
 --- libcompizconfig-0.5.2/src/Makefile.am	2007-08-12 21:59:57.000000000 +0200
-+++ ../libcompizconfig-0.5.2/src/Makefile.am	2007-08-23 18:37:56.074744000 +0200
++++ ../libcompizconfig-0.5.2/src/Makefile.am	2007-08-30 18:10:45.065601000 +0200
 @@ -19,6 +19,8 @@ libcompizconfig_la_SOURCES = \
  	ini.c 		\
  	bindings.c 	\
@@ -53,7 +105,7 @@ diff -Nrup libcompizconfig-0.5.2/src/Makefile.am ../libcompizconfig-0.5.2/src/Ma
  
 diff -Nrup libcompizconfig-0.5.2/src/bindings.c ../libcompizconfig-0.5.2/src/bindings.c
 --- libcompizconfig-0.5.2/src/bindings.c	2007-08-12 21:59:57.000000000 +0200
-+++ ../libcompizconfig-0.5.2/src/bindings.c	2007-08-23 18:37:56.075028000 +0200
++++ ../libcompizconfig-0.5.2/src/bindings.c	2007-08-30 18:10:45.065847000 +0200
 @@ -38,6 +38,7 @@
  #include <X11/Xlib.h>
  
@@ -64,7 +116,7 @@ diff -Nrup libcompizconfig-0.5.2/src/bindings.c ../libcompizconfig-0.5.2/src/bin
  #define CompMetaMask       (1 << 17)
 diff -Nrup libcompizconfig-0.5.2/src/compiz.c ../libcompizconfig-0.5.2/src/compiz.c
 --- libcompizconfig-0.5.2/src/compiz.c	2007-08-12 21:59:57.000000000 +0200
-+++ ../libcompizconfig-0.5.2/src/compiz.c	2007-08-23 18:37:56.076051000 +0200
++++ ../libcompizconfig-0.5.2/src/compiz.c	2007-08-30 18:10:45.066921000 +0200
 @@ -42,6 +42,7 @@
  #include <compiz.h>
  #include <ccs.h>
@@ -75,7 +127,7 @@ diff -Nrup libcompizconfig-0.5.2/src/compiz.c ../libcompizconfig-0.5.2/src/compi
  
 diff -Nrup libcompizconfig-0.5.2/src/config.c ../libcompizconfig-0.5.2/src/config.c
 --- libcompizconfig-0.5.2/src/config.c	2007-08-12 21:59:57.000000000 +0200
-+++ ../libcompizconfig-0.5.2/src/config.c	2007-08-23 18:37:56.076427000 +0200
++++ ../libcompizconfig-0.5.2/src/config.c	2007-08-30 18:10:45.067196000 +0200
 @@ -26,6 +26,7 @@
  #include <string.h>
  
@@ -86,7 +138,7 @@ diff -Nrup libcompizconfig-0.5.2/src/config.c ../libcompizconfig-0.5.2/src/confi
  
 diff -Nrup libcompizconfig-0.5.2/src/ini.c ../libcompizconfig-0.5.2/src/ini.c
 --- libcompizconfig-0.5.2/src/ini.c	2007-08-12 21:59:57.000000000 +0200
-+++ ../libcompizconfig-0.5.2/src/ini.c	2007-08-23 18:37:56.076801000 +0200
++++ ../libcompizconfig-0.5.2/src/ini.c	2007-08-30 18:10:45.067717000 +0200
 @@ -26,6 +26,7 @@
  
  #include <ccs.h>
@@ -97,7 +149,7 @@ diff -Nrup libcompizconfig-0.5.2/src/ini.c ../libcompizconfig-0.5.2/src/ini.c
   * Creates the parent directory for @fileName, recursively creating a directory
 diff -Nrup libcompizconfig-0.5.2/src/main.c ../libcompizconfig-0.5.2/src/main.c
 --- libcompizconfig-0.5.2/src/main.c	2007-08-12 21:59:57.000000000 +0200
-+++ ../libcompizconfig-0.5.2/src/main.c	2007-08-23 18:37:56.077619000 +0200
++++ ../libcompizconfig-0.5.2/src/main.c	2007-08-30 18:10:45.068620000 +0200
 @@ -36,6 +36,7 @@
  #include <ccs.h>
  
@@ -108,7 +160,7 @@ diff -Nrup libcompizconfig-0.5.2/src/main.c ../libcompizconfig-0.5.2/src/main.c
  
 diff -Nrup libcompizconfig-0.5.2/src/solaris.c ../libcompizconfig-0.5.2/src/solaris.c
 --- libcompizconfig-0.5.2/src/solaris.c	1970-01-01 01:00:00.000000000 +0100
-+++ ../libcompizconfig-0.5.2/src/solaris.c	2007-08-23 18:38:40.102325000 +0200
++++ ../libcompizconfig-0.5.2/src/solaris.c	2007-08-30 18:10:45.069005000 +0200
 @@ -0,0 +1,113 @@
 +#include <config.h>
 +#ifdef SOLARIS
@@ -225,7 +277,7 @@ diff -Nrup libcompizconfig-0.5.2/src/solaris.c ../libcompizconfig-0.5.2/src/sola
 +#endif
 diff -Nrup libcompizconfig-0.5.2/src/solaris.h ../libcompizconfig-0.5.2/src/solaris.h
 --- libcompizconfig-0.5.2/src/solaris.h	1970-01-01 01:00:00.000000000 +0100
-+++ ../libcompizconfig-0.5.2/src/solaris.h	2007-08-23 18:37:56.078015000 +0200
++++ ../libcompizconfig-0.5.2/src/solaris.h	2007-08-30 18:10:45.069176000 +0200
 @@ -0,0 +1,6 @@
 +#include <config.h>
 +#ifdef SOLARIS

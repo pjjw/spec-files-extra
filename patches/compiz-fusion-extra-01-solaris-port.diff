@@ -1,0 +1,197 @@
+diff -rup compiz-fusion-plugins-extra-0.5.2/configure.ac ../compiz-fusion-plugins-extra-0.5.2/configure.ac
+--- compiz-fusion-plugins-extra-0.5.2/configure.ac	2007-08-13 14:12:47.000000000 +0200
++++ ../compiz-fusion-plugins-extra-0.5.2/configure.ac	2007-08-30 09:26:11.678187000 +0200
+@@ -1,6 +1,6 @@
+ AC_PREREQ(2.57)
+ 
+-AC_INIT([compiz-fusion-plugins-extra],esyscmd(. ./VERSION;echo -n $VERSION), [maniac@opencompositing.org])
++AC_INIT([compiz-fusion-plugins-extra],0.5.2, [maniac@opencompositing.org])
+ 
+ AC_DEFINE_UNQUOTED(VERSION,"$VERSION",[Version])
+ 
+diff -rup compiz-fusion-plugins-extra-0.5.2/metadata/addhelper.xml.in ../compiz-fusion-plugins-extra-0.5.2/metadata/addhelper.xml.in
+--- compiz-fusion-plugins-extra-0.5.2/metadata/addhelper.xml.in	2007-08-13 14:12:47.000000000 +0200
++++ ../compiz-fusion-plugins-extra-0.5.2/metadata/addhelper.xml.in	2007-08-30 10:46:53.447283000 +0200
+@@ -17,7 +17,7 @@
+           <_long>Use this to enable/disable AddHelper on the fly.</_long>
+           <allowed key="true"/>
+           <default>
+-            <key>&lt;Super&gt;p</key>
++            <key>&lt;Mod4&gt;p</key>
+           </default>
+         </option>
+       </group>
+diff -rup compiz-fusion-plugins-extra-0.5.2/metadata/bench.xml.in ../compiz-fusion-plugins-extra-0.5.2/metadata/bench.xml.in
+--- compiz-fusion-plugins-extra-0.5.2/metadata/bench.xml.in	2007-08-13 14:12:47.000000000 +0200
++++ ../compiz-fusion-plugins-extra-0.5.2/metadata/bench.xml.in	2007-08-30 10:47:01.750789000 +0200
+@@ -12,7 +12,7 @@
+           <_long>Start benchmark</_long>
+           <allowed key="true"/>
+           <default>
+-            <key>&lt;Super&gt;F12</key>
++            <key>&lt;Mod4&gt;F12</key>
+           </default>
+         </option>
+         <option name="disable_limiter" type="bool">
+diff -rup compiz-fusion-plugins-extra-0.5.2/metadata/firepaint.xml.in ../compiz-fusion-plugins-extra-0.5.2/metadata/firepaint.xml.in
+--- compiz-fusion-plugins-extra-0.5.2/metadata/firepaint.xml.in	2007-08-13 14:12:47.000000000 +0200
++++ ../compiz-fusion-plugins-extra-0.5.2/metadata/firepaint.xml.in	2007-08-30 10:47:07.279035000 +0200
+@@ -9,7 +9,7 @@
+ 		<_long>Initiate fire drawing</_long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;&lt;Shift&gt;Button1</button>
++		    <button>&lt;Mod4&gt;&lt;Shift&gt;Button1</button>
+ 		</default>
+ 	    </option>
+ 	    <option type="action" name="clear">
+@@ -17,7 +17,7 @@
+ 		<_long>Clear</_long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <key>&lt;Super&gt;&lt;Shift&gt;c</key>
++		    <key>&lt;Mod4&gt;&lt;Shift&gt;c</key>
+ 		</default>
+ 	    </option>
+ 	</display>
+diff -rup compiz-fusion-plugins-extra-0.5.2/metadata/gotovp.xml.in ../compiz-fusion-plugins-extra-0.5.2/metadata/gotovp.xml.in
+--- compiz-fusion-plugins-extra-0.5.2/metadata/gotovp.xml.in	2007-08-13 14:12:47.000000000 +0200
++++ ../compiz-fusion-plugins-extra-0.5.2/metadata/gotovp.xml.in	2007-08-30 10:47:11.095158000 +0200
+@@ -9,7 +9,7 @@
+ 				<_long>Begin entering viewport</_long>
+ 				<allowed key="true"/>
+ 				<default>
+-					<key>&lt;Super&gt;v</key>
++					<key>&lt;Mod4&gt;v</key>
+ 				</default>
+ 			</option>
+ 		</display>
+diff -rup compiz-fusion-plugins-extra-0.5.2/metadata/group.xml.in ../compiz-fusion-plugins-extra-0.5.2/metadata/group.xml.in
+--- compiz-fusion-plugins-extra-0.5.2/metadata/group.xml.in	2007-08-13 14:12:47.000000000 +0200
++++ ../compiz-fusion-plugins-extra-0.5.2/metadata/group.xml.in	2007-08-30 10:47:16.767221000 +0200
+@@ -26,7 +26,7 @@
+             <_long>The key for selecting the current window.</_long>
+             <allowed key="true"/>
+             <default>
+-              <key>&lt;Super&gt;s</key>
++              <key>&lt;Mod4&gt;s</key>
+             </default>
+           </option>
+         </subgroup>
+@@ -40,7 +40,7 @@
+             <_long>The key for grouping windows.</_long>
+             <allowed key="true"/>
+             <default>
+-              <key>&lt;Super&gt;g</key>
++              <key>&lt;Mod4&gt;g</key>
+             </default>
+           </option>
+           <option name="ungroup" type="action">
+@@ -48,7 +48,7 @@
+             <_long>The key for ungrouping the current group.</_long>
+             <allowed key="true"/>
+             <default>
+-              <key>&lt;Super&gt;u</key>
++              <key>&lt;Mod4&gt;u</key>
+             </default>
+           </option>
+           <option name="remove" type="action">
+@@ -56,7 +56,7 @@
+             <_long>The key for removing the selected window from its group.</_long>
+             <allowed key="true"/>
+             <default>
+-              <key>&lt;Super&gt;r</key>
++              <key>&lt;Mod4&gt;r</key>
+             </default>
+           </option>
+           <option name="close" type="action">
+@@ -64,7 +64,7 @@
+             <_long>The key for closing all windows in the group.</_long>
+             <allowed key="true"/>
+             <default>
+-              <key>&lt;Super&gt;c</key>
++              <key>&lt;Mod4&gt;c</key>
+             </default>
+           </option>
+           <option name="ignore" type="action">
+@@ -72,7 +72,7 @@
+             <_long>The key for ignoring the group. If this key is pressed, you can do actions for a single window in the group only.</_long>
+             <allowed key="true"/>
+             <default>
+-              <key>&lt;Super&gt;x</key>
++              <key>&lt;Mod4&gt;x</key>
+             </default>
+           </option>
+         </subgroup>
+@@ -86,7 +86,7 @@
+             <_long>The key for toggling the tab mode for the current group.</_long>
+             <allowed key="true"/>
+             <default>
+-              <key>&lt;Super&gt;t</key>
++              <key>&lt;Mod4&gt;t</key>
+             </default>
+           </option>
+           <option name="change_tab_left" type="action">
+@@ -94,7 +94,7 @@
+             <_long>The key for switching to the tab left of the current one.</_long>
+             <allowed key="true"/>
+             <default>
+-              <key>&lt;Super&gt;Left</key>
++              <key>&lt;Mod4&gt;Left</key>
+             </default>
+           </option>
+           <option name="change_tab_right" type="action">
+@@ -102,7 +102,7 @@
+             <_long>The key for switching to the tab right of the current one.</_long>
+             <allowed key="true"/>
+             <default>
+-              <key>&lt;Super&gt;Right</key>
++              <key>&lt;Mod4&gt;Right</key>
+             </default>
+           </option>
+         </subgroup>
+diff -rup compiz-fusion-plugins-extra-0.5.2/src/goto-viewport/gotovp.c ../compiz-fusion-plugins-extra-0.5.2/src/goto-viewport/gotovp.c
+--- compiz-fusion-plugins-extra-0.5.2/src/goto-viewport/gotovp.c	2007-08-13 14:12:47.000000000 +0200
++++ ../compiz-fusion-plugins-extra-0.5.2/src/goto-viewport/gotovp.c	2007-08-30 09:26:11.678867000 +0200
+@@ -5,6 +5,8 @@
+ 
+ #define _GNU_SOURCE
+ #include <stdio.h>
++#define XK_LATIN1 1
++#define XK_MISCELLANY 1
+ #include <X11/keysymdef.h>
+ 
+ #include <compiz.h>
+@@ -14,6 +16,7 @@
+ static int displayPrivateIndex;
+ 
+ /* number-to-keysym mapping */
++
+ static const KeySym numberKeySyms[3][10] = {
+ 	/* number key row */
+ 	{ XK_0, XK_1, XK_2, XK_3, XK_4, XK_5, XK_6, XK_7, XK_8, XK_9 },
+diff -rup compiz-fusion-plugins-extra-0.5.2/src/scalefilter/scalefilter.c ../compiz-fusion-plugins-extra-0.5.2/src/scalefilter/scalefilter.c
+--- compiz-fusion-plugins-extra-0.5.2/src/scalefilter/scalefilter.c	2007-08-13 14:12:47.000000000 +0200
++++ ../compiz-fusion-plugins-extra-0.5.2/src/scalefilter/scalefilter.c	2007-08-30 09:26:11.679865000 +0200
+@@ -34,6 +34,7 @@
+ #include <locale.h>
+ 
+ #include <X11/Xlib.h>
++#define  XK_MISCELLANY 1
+ #include <X11/keysymdef.h>
+ 
+ #include <compiz.h>
+@@ -458,11 +459,11 @@ scalefilterHandleKeyPress (CompScreen *s
+ 
+     if (fd->xic)
+     {
+-	Status status;
++/*	Status status; 
+ 
+ 	XSetICFocus (fd->xic);
+ 	count = Xutf8LookupString (fd->xic, event, buffer, 9, &ks, &status);
+-	XUnsetICFocus (fd->xic);
++	XUnsetICFocus (fd->xic);*/
+     }
+     else
+     {

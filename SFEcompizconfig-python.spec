@@ -55,7 +55,9 @@ make -j$CPUS
 %install
 cd compizconfig-python-%version
 make install DESTDIR=$RPM_BUILD_ROOT
-rm $RPM_BUILD_ROOT%{_libdir}/*.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/*.*a
+rm -f $RPM_BUILD_ROOT%{_libdir}/python2.4/site-packages/*.*a
+rm -f $RPM_BUILD_ROOT%{_libdir}/compizconfig/backends/*.*a
 
 #
 # when not building -l10n packages, remove anything l10n related from

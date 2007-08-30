@@ -1,0 +1,751 @@
+diff -rup compiz-fusion-plugins-main-0.5.2/configure.ac ../compiz-fusion-plugins-main-0.5.2/configure.ac
+--- compiz-fusion-plugins-main-0.5.2/configure.ac	2007-08-12 22:00:33.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/configure.ac	2007-08-30 18:38:34.662339000 +0200
+@@ -1,6 +1,6 @@
+ AC_PREREQ(2.57)
+ 
+-AC_INIT([compiz-fusion-plugins-main],esyscmd(. ./VERSION;echo -n $VERSION), [maniac@opencompositing.org])
++AC_INIT([compiz-fusion-plugins-main],0.5.2, [maniac@opencompositing.org])
+ 
+ AC_DEFINE_UNQUOTED(VERSION,"$VERSION",[Version])
+ 
+@@ -177,6 +177,16 @@ fi
+ 
+ AM_GCONF_SOURCE_2
+ 
++compiling_on_solaris=no
++case "$host" in
++        *-*-solaris*)
++	  AC_MSG_CHECKING(if compiling on Solaris)
++	  compiling_on_solaris=yes
++	  AC_MSG_RESULT($compiling_on_solaris)
++	  AC_DEFINE(SOLARIS, 1, [Compiling on Solaris])
++	;;
++esac
++
+ 
+ AM_CONDITIONAL(USE_SCHEMAS, test "x$use_schemas" = "xyes")
+ if test "$use_schemas" = yes; then
+diff -rup compiz-fusion-plugins-main-0.5.2/metadata/animation.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/animation.xml.in
+--- compiz-fusion-plugins-main-0.5.2/metadata/animation.xml.in	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/metadata/animation.xml.in	2007-08-30 18:40:10.254918000 +0200
+@@ -856,7 +856,7 @@
+ 	    <min>0</min>
+ 	    <max>3</max>
+ 	    <default>
+-	      <value>0</value>
++	      <value>1</value>
+ 	    </default>
+ 	    <desc>
+ 	      <value>0</value>
+diff -rup compiz-fusion-plugins-main-0.5.2/metadata/colorfilter.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/colorfilter.xml.in
+--- compiz-fusion-plugins-main-0.5.2/metadata/colorfilter.xml.in	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/metadata/colorfilter.xml.in	2007-08-30 18:38:34.662950000 +0200
+@@ -10,7 +10,7 @@
+         <_long>Toggle filtering for currently focused window.</_long>
+         <allowed key="true"/>
+         <default>
+-          <key>&lt;Super&gt;f</key>
++          <key>&lt;Mod4&gt;f</key>
+         </default>
+       </option>
+       <option name="toggle_screen" type="action">
+@@ -18,7 +18,7 @@
+         <_long>Toggle filtering for every window on the screen.</_long>
+         <allowed key="true"/>
+         <default>
+-          <key>&lt;Super&gt;d</key>
++          <key>&lt;Mod4&gt;d</key>
+         </default>
+       </option>
+       <option name="switch_filter" type="action">
+@@ -26,7 +26,7 @@
+         <_long>Select filter to use from filters list : either apply all filters or only one specific filter (triggering this action switches filters one by one and eventually comes back to the "all filters" mode).</_long>
+         <allowed key="true"/>
+         <default>
+-          <key>&lt;Super&gt;s</key>
++          <key>&lt;Mod4&gt;s</key>
+         </default>
+       </option>
+     </display>
+diff -rup compiz-fusion-plugins-main-0.5.2/metadata/expo.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/expo.xml.in
+--- compiz-fusion-plugins-main-0.5.2/metadata/expo.xml.in	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/metadata/expo.xml.in	2007-08-30 18:38:34.663481000 +0200
+@@ -18,7 +18,7 @@
+ 					<_long>Engage wall expo mode</_long>
+ 					<allowed key="true" edge="true"/>
+ 					<default>
+-						<key>&lt;Super&gt;e</key>
++						<key>&lt;Mod4&gt;e</key>
+ 						<edges top_left="true"/>
+ 					</default>
+ 				</option>
+diff -rup compiz-fusion-plugins-main-0.5.2/metadata/ezoom.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/ezoom.xml.in
+--- compiz-fusion-plugins-main-0.5.2/metadata/ezoom.xml.in	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/metadata/ezoom.xml.in	2007-08-30 18:38:34.663870000 +0200
+@@ -17,7 +17,7 @@
+ 		    <_long>Zoom In</_long>
+ 		    <allowed key="true" button="true"/>
+ 		    <default>
+-			<button>&lt;Super&gt;Button3</button>
++			<button>&lt;Mod4&gt;Button3</button>
+ 		    </default>
+ 		</option>
+ 		<option type="action" name="zoom_in">
+@@ -25,7 +25,7 @@
+ 		    <_long>Zoom In</_long>
+ 		    <allowed key="true" button="true"/>
+ 		    <default>
+-			<button>&lt;Super&gt;Button4</button>
++			<button>&lt;Mod4&gt;Button4</button>
+ 		    </default>
+ 		</option>
+ 		<option type="action" name="lock_zoom">
+@@ -33,7 +33,7 @@
+ 		    <_long>Toggles a lock on the zoom area so it doesn't change on various events</_long>
+ 		    <allowed key="true" button="true"/>
+ 		    <default>
+-			<key>&lt;Super&gt;l</key>
++			<key>&lt;Mod4&gt;l</key>
+ 		    </default>
+ 		</option>
+ 		<option type="action" name="zoom_specific_1">
+@@ -41,7 +41,7 @@
+ 		    <_long>Zoom to the specific zoom level 1</_long>
+ 		    <allowed key="true" button="true"/>
+ 		    <default>
+-			<key>&lt;Super&gt;1</key>
++			<key>&lt;Mod4&gt;1</key>
+ 		    </default>
+ 		</option>
+ 		<option type="action" name="zoom_specific_2">
+@@ -49,7 +49,7 @@
+ 		    <_long>Zoom to the specific zoom level 2</_long>
+ 		    <allowed key="true" button="true"/>
+ 		    <default>
+-			<key>&lt;Super&gt;2</key>
++			<key>&lt;Mod4&gt;2</key>
+ 		    </default>
+ 		</option>
+ 		<option type="action" name="zoom_specific_3">
+@@ -57,7 +57,7 @@
+ 		    <_long>Zoom to the specific zoom level 3</_long>
+ 		    <allowed key="true" button="true"/>
+ 		    <default>
+-			<key>&lt;Super&gt;3</key>
++			<key>&lt;Mod4&gt;3</key>
+ 		    </default>
+ 		</option>
+ 		<option type="action" name="fit_to_window">
+@@ -65,7 +65,7 @@
+ 		    <_long>Zooms in/out so the focused window is zoomed to the maximum while still being fully visible.</_long>
+ 		    <allowed key="true" button="true"/>
+ 		    <default>
+-			<key>&lt;Super&gt;r</key>
++			<key>&lt;Mod4&gt;r</key>
+ 		    </default>
+ 		</option>
+ 		<option type="action" name="pan_left">
+@@ -93,7 +93,7 @@
+ 		    <_long>Zoom Out</_long>
+ 		    <allowed key="true" button="true"/>
+ 		    <default>
+-			<button>&lt;Super&gt;Button5</button>
++			<button>&lt;Mod4&gt;Button5</button>
+ 		    </default>
+ 		</option>
+ 		<option type="float" name="zoom_spec1">
+@@ -131,7 +131,7 @@
+ 		<_long>Resize the window so it matches the current zoom level.  </_long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <key>&lt;Super&gt;v</key>
++		    <key>&lt;Mod4&gt;v</key>
+ 		</default>
+ 	    </option>
+ 	    <group>
+@@ -141,7 +141,7 @@
+ 		    <_long>Puts the mouse in the middle of the screen (Regardless of zoom level)</_long>
+ 		    <allowed key="true" button="true"/>
+ 		    <default>
+-			<key>&lt;Super&gt;c</key>
++			<key>&lt;Mod4&gt;c</key>
+ 		    </default>
+ 		</option>
+ 	    </group>
+diff -rup compiz-fusion-plugins-main-0.5.2/metadata/neg.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/neg.xml.in
+--- compiz-fusion-plugins-main-0.5.2/metadata/neg.xml.in	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/metadata/neg.xml.in	2007-08-30 18:38:34.664133000 +0200
+@@ -10,7 +10,7 @@
+ 				<_long>Toggle active window negative</_long>
+ 				<allowed key="true"/>
+ 				<default>
+-					<key>&lt;Super&gt;n</key>
++					<key>&lt;Mod4&gt;n</key>
+ 				</default>
+ 			</option>
+ 			<option name="screen_toggle" type="action">
+@@ -18,7 +18,7 @@
+ 				<_long>Toggle screen negative</_long>
+ 				<allowed key="true"/>
+ 				<default>
+-					<key>&lt;Super&gt;m</key>
++					<key>&lt;Mod4&gt;m</key>
+ 				</default>
+ 			</option>
+ 		</display>
+diff -rup compiz-fusion-plugins-main-0.5.2/metadata/opacify.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/opacify.xml.in
+--- compiz-fusion-plugins-main-0.5.2/metadata/opacify.xml.in	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/metadata/opacify.xml.in	2007-08-30 18:38:34.664592000 +0200
+@@ -17,7 +17,7 @@
+           <_long>Use this to enable/disable Opacify on the fly. Previously opacified windows will not be reset once you disable it like this.</_long>
+           <allowed key="true"/>
+           <default>
+-            <key>&lt;Super&gt;o</key>
++            <key>&lt;Mod4&gt;o</key>
+           </default>
+         </option>
+       </group>
+diff -rup compiz-fusion-plugins-main-0.5.2/metadata/put.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/put.xml.in
+--- compiz-fusion-plugins-main-0.5.2/metadata/put.xml.in	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/metadata/put.xml.in	2007-08-30 18:38:34.664995000 +0200
+@@ -154,7 +154,7 @@
+ 						<_long>Move window to the center</_long>
+ 						<allowed key="true" button="true"/>
+ 						<default>
+-							<key>&lt;Super&gt;KP_Begin</key>
++							<key>&lt;Mod4&gt;KP_Begin</key>
+ 						</default>
+ 					</option>
+ 					<option name="put_left" type="action">
+@@ -162,7 +162,7 @@
+ 						<_long>Move window to the left edge</_long>
+ 						<allowed key="true" button="true"/>
+ 						<default>
+-							<key>&lt;Super&gt;KP_Left</key>
++							<key>&lt;Mod4&gt;KP_Left</key>
+ 						</default>
+ 					</option>
+ 					<option name="put_right" type="action">
+@@ -170,7 +170,7 @@
+ 						<_long>Move window to the right edge</_long>
+ 						<allowed key="true" button="true"/>
+ 						<default>
+-							<key>&lt;Super&gt;KP_Right</key>
++							<key>&lt;Mod4&gt;KP_Right</key>
+ 						</default>
+ 					</option>
+ 					<option name="put_top" type="action">
+@@ -178,7 +178,7 @@
+ 						<_long>Move window to the top edge</_long>
+ 						<allowed key="true" button="true"/>
+ 						<default>
+-							<key>&lt;Super&gt;KP_Up</key>
++							<key>&lt;Mod4&gt;KP_Up</key>
+ 						</default>
+ 					</option>
+ 					<option name="put_bottom" type="action">
+@@ -186,7 +186,7 @@
+ 						<_long>Move window to the bottom edge</_long>
+ 						<allowed key="true" button="true"/>
+ 						<default>
+-							<key>&lt;Super&gt;KP_Down</key>
++							<key>&lt;Mod4&gt;KP_Down</key>
+ 						</default>
+ 					</option>
+ 					<option name="put_topleft" type="action">
+@@ -194,7 +194,7 @@
+ 						<_long>Move window to the top left corner</_long>
+ 						<allowed key="true" button="true"/>
+ 						<default>
+-							<key>&lt;Super&gt;KP_Home</key>
++							<key>&lt;Mod4&gt;KP_Home</key>
+ 						</default>
+ 					</option>
+ 					<option name="put_topright" type="action">
+@@ -202,7 +202,7 @@
+ 						<_long>Move window to the top right corner</_long>
+ 						<allowed key="true" button="true"/>
+ 						<default>
+-							<key>&lt;Super&gt;KP_Prior</key>
++							<key>&lt;Mod4&gt;KP_Prior</key>
+ 						</default>
+ 					</option>
+ 					<option name="put_bottomleft" type="action">
+@@ -210,7 +210,7 @@
+ 						<_long>Move window to the bottom left corner</_long>
+ 						<allowed key="true" button="true"/>
+ 						<default>
+-							<key>&lt;Super&gt;KP_End</key>
++							<key>&lt;Mod4&gt;KP_End</key>
+ 						</default>
+ 					</option>
+ 					<option name="put_bottomright" type="action">
+@@ -218,7 +218,7 @@
+ 						<_long>Move window to the bottom right corner</_long>
+ 						<allowed key="true" button="true"/>
+ 						<default>
+-							<key>&lt;Super&gt;KP_Next</key>
++							<key>&lt;Mod4&gt;KP_Next</key>
+ 						</default>
+ 					</option>
+ 				</subgroup>
+@@ -227,7 +227,7 @@
+ 					<_long>Move window to the last position</_long>
+ 					<allowed key="true" button="true"/>
+ 					<default>
+-						<key>&lt;Super&gt;KP_Insert</key>
++						<key>&lt;Mod4&gt;KP_Insert</key>
+ 					</default>
+ 				</option>
+ 				<option name="put_pointer" type="action">
+@@ -235,7 +235,7 @@
+ 					<_long>Move window to the pointer position</_long>
+ 					<allowed key="true" button="true"/>
+ 					<default>
+-						<key>&lt;Super&gt;z</key>
++						<key>&lt;Mod4&gt;z</key>
+ 					</default>
+ 				</option>
+ 				<option name="put_exact" type="action">
+diff -rup compiz-fusion-plugins-main-0.5.2/metadata/ring.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/ring.xml.in
+--- compiz-fusion-plugins-main-0.5.2/metadata/ring.xml.in	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/metadata/ring.xml.in	2007-08-30 18:38:34.665276000 +0200
+@@ -12,7 +12,7 @@
+ 					<_long>Show switcher if not visible and select next window.</_long>
+ 					<allowed key="true" button="true"/>
+ 					<default>
+-						<key>&lt;Super&gt;Tab</key>
++						<key>&lt;Mod4&gt;Tab</key>
+ 					</default>
+ 				</option>
+ 				<option name="prev" type="action">
+@@ -20,7 +20,7 @@
+ 					<_long>Show switcher if not visible and select previous window.</_long>
+ 					<allowed key="true" button="true"/>
+ 					<default>
+-						<key>&lt;Super&gt;&lt;Shift&gt;Tab</key>
++						<key>&lt;Mod4&gt;&lt;Shift&gt;Tab</key>
+ 					</default>
+ 				</option>
+ 				<option name="next_all" type="action">
+@@ -28,7 +28,7 @@
+ 					<_long>Show switcher if not visible and select next window out of all windows.</_long>
+ 					<allowed key="true" button="true"/>
+ 					<default>
+-						<key>&lt;Super&gt;&lt;Alt&gt;Tab</key>
++						<key>&lt;Mod4&gt;&lt;Alt&gt;Tab</key>
+ 					</default>
+ 				</option>
+ 				<option name="prev_all" type="action">
+@@ -36,7 +36,7 @@
+ 					<_long>Show switcher if not visible and select previous window out of all windows.</_long>
+ 					<allowed key="true" button="true"/>
+ 					<default>
+-						<key>&lt;Super&gt;&lt;Shift&gt;&lt;Alt&gt;Tab</key>
++						<key>&lt;Mod4&gt;&lt;Shift&gt;&lt;Alt&gt;Tab</key>
+ 					</default>
+ 				</option>
+ 				<option name="next_group" type="action">
+diff -rup compiz-fusion-plugins-main-0.5.2/metadata/shift.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/shift.xml.in
+--- compiz-fusion-plugins-main-0.5.2/metadata/shift.xml.in	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/metadata/shift.xml.in	2007-08-30 18:38:34.665582000 +0200
+@@ -12,7 +12,7 @@
+ 					<_long>Initiate switcher.</_long>
+ 					<allowed key="true" button="true" edge="true"/>
+ 					<default>
+-						<key>&lt;Super&gt;&lt;Shift&gt;s</key>
++						<key>&lt;Mod4&gt;&lt;Shift&gt;s</key>
+ 					</default>
+ 				</option>
+ 				<option name="initiate_all" type="action">
+@@ -26,7 +26,7 @@
+ 					<_long>Show switcher if not visible and select next window.</_long>
+ 					<allowed key="true" button="true"/>
+ 					<default>
+-						<key>&lt;Super&gt;Tab</key>
++						<key>&lt;Mod4&gt;Tab</key>
+ 					</default>
+ 				</option>
+ 				<option name="prev" type="action">
+@@ -34,7 +34,7 @@
+ 					<_long>Show switcher if not visible and select previous window.</_long>
+ 					<allowed key="true" button="true"/>
+ 					<default>
+-						<key>&lt;Super&gt;&lt;Shift&gt;Tab</key>
++						<key>&lt;Mod4&gt;&lt;Shift&gt;Tab</key>
+ 					</default>
+ 				</option>
+ 				<option name="next_all" type="action">
+@@ -42,7 +42,7 @@
+ 					<_long>Show switcher if not visible and select next window out of all windows.</_long>
+ 					<allowed key="true" button="true"/>
+ 					<default>
+-						<key>&lt;Super&gt;&lt;Alt&gt;Tab</key>
++						<key>&lt;Mod4&gt;&lt;Alt&gt;Tab</key>
+ 					</default>
+ 				</option>
+ 				<option name="prev_all" type="action">
+@@ -50,7 +50,7 @@
+ 					<_long>Show switcher if not visible and select previous window out of all windows.</_long>
+ 					<allowed key="true" button="true"/>
+ 					<default>
+-						<key>&lt;Super&gt;&lt;Shift&gt;&lt;Alt&gt;Tab</key>
++						<key>&lt;Mod4&gt;&lt;Shift&gt;&lt;Alt&gt;Tab</key>
+ 					</default>
+ 				</option>
+ 				<option name="next_group" type="action">
+diff -rup compiz-fusion-plugins-main-0.5.2/src/animation/animation-internal.h ../compiz-fusion-plugins-main-0.5.2/src/animation/animation-internal.h
+--- compiz-fusion-plugins-main-0.5.2/src/animation/animation-internal.h	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/src/animation/animation-internal.h	2007-08-30 18:38:34.666492000 +0200
+@@ -1027,27 +1027,27 @@ animGetOptVal(AnimScreen *as,
+ 	      AnimWindow *aw,
+ 	      int optionId);
+ 
+-inline Bool
++Bool
+ animGetB(AnimScreen *as,
+ 	 AnimWindow *aw,
+ 	 int optionId);
+ 
+-inline int
++int
+ animGetI(AnimScreen *as,
+ 	 AnimWindow *aw,
+ 	 int optionId);
+ 
+-inline float
++float
+ animGetF(AnimScreen *as,
+ 	 AnimWindow *aw,
+ 	 int optionId);
+ 
+-inline char *
++char *
+ animGetS(AnimScreen *as,
+ 	 AnimWindow *aw,
+ 	 int optionId);
+ 
+-inline unsigned short *
++unsigned short *
+ animGetC(AnimScreen *as,
+ 	 AnimWindow *aw,
+ 	 int optionId);
+diff -rup compiz-fusion-plugins-main-0.5.2/src/animation/options.c ../compiz-fusion-plugins-main-0.5.2/src/animation/options.c
+--- compiz-fusion-plugins-main-0.5.2/src/animation/options.c	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/src/animation/options.c	2007-08-30 18:38:34.666869000 +0200
+@@ -45,7 +45,7 @@ animGetOptVal(AnimScreen *as,
+     return &as->opt[optionId].value;
+ }
+ 
+-inline Bool
++Bool
+ animGetB(AnimScreen *as,
+ 	 AnimWindow *aw,
+ 	 int optionId)
+@@ -53,7 +53,7 @@ animGetB(AnimScreen *as,
+     return animGetOptVal(as, aw, optionId)->b;
+ }
+ 
+-inline int
++int
+ animGetI(AnimScreen *as,
+ 	 AnimWindow *aw,
+ 	 int optionId)
+@@ -61,7 +61,7 @@ animGetI(AnimScreen *as,
+     return animGetOptVal(as, aw, optionId)->i;
+ }
+ 
+-inline float
++float
+ animGetF(AnimScreen *as,
+ 	 AnimWindow *aw,
+ 	 int optionId)
+@@ -69,7 +69,7 @@ animGetF(AnimScreen *as,
+     return animGetOptVal(as, aw, optionId)->f;
+ }
+ 
+-inline char *
++char *
+ animGetS(AnimScreen *as,
+ 	 AnimWindow *aw,
+ 	 int optionId)
+@@ -77,7 +77,7 @@ animGetS(AnimScreen *as,
+     return animGetOptVal(as, aw, optionId)->s;
+ }
+ 
+-inline unsigned short *
++unsigned short *
+ animGetC(AnimScreen *as,
+ 	 AnimWindow *aw,
+ 	 int optionId)
+diff -rup compiz-fusion-plugins-main-0.5.2/src/colorfilter/parser.c ../compiz-fusion-plugins-main-0.5.2/src/colorfilter/parser.c
+--- compiz-fusion-plugins-main-0.5.2/src/colorfilter/parser.c	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/src/colorfilter/parser.c	2007-08-30 18:38:34.667206000 +0200
+@@ -29,6 +29,63 @@
+ 
+ #include <compiz.h>
+ #include "parser.h"
++#include "config.h"
++
++#ifdef SOLARIS
++
++#include <stdlib.h>
++int asprintf(char **out, const char *fmt, ...)
++{
++    va_list ap;
++    int ret_status = EOF;
++    char dir_name[2001];
++    char file_name[2000];
++    FILE *fp = NULL;
++    char *work = NULL;
++
++    va_start(ap, fmt);
++
++    /* Warning: tmpfile() does not work well on Windows (MinGW)
++     *          if user does not have write access on the drive where 
++     *          working dir is? */
++#ifdef __MINGW32__
++    /* file_name = G_tempfile(); */
++    GetTempPath ( 2000, dir_name );
++    GetTempFileName ( dir_name, "asprintf", 0, file_name );
++    fp = fopen ( file_name, "w+" );
++#else
++    fp = tmpfile(); 
++#endif /* __MINGW32__ */
++
++    if ( fp ) {
++        int count;
++
++        count = vfprintf(fp, fmt, ap);
++        if (count >= 0) {
++            work = calloc(count + 1, sizeof(char));
++            if (work != NULL) {
++                rewind(fp);
++                ret_status = fread(work, sizeof(char), count, fp);
++                if (ret_status != count) {
++                    ret_status = EOF;
++                    free(work);
++                    work = NULL;
++                }
++            }
++        }
++        fclose(fp);
++#ifdef __MINGW32__
++        unlink ( file_name );
++#endif /* __MINGW32__ */
++    }
++    va_end(ap);
++    *out = work;
++
++    return ret_status;
++}
++
++
++#endif
+ 
+ /* Internal prototypes ------------------------------------------------------ */
+ 
+diff -rup compiz-fusion-plugins-main-0.5.2/src/jpeg/imgjpeg.c ../compiz-fusion-plugins-main-0.5.2/src/jpeg/imgjpeg.c
+--- compiz-fusion-plugins-main-0.5.2/src/jpeg/imgjpeg.c	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/src/jpeg/imgjpeg.c	2007-08-30 18:38:34.667565000 +0200
+@@ -28,6 +28,7 @@
+ #include <compiz.h>
+ #include <jpeglib.h>
+ #include "imgjpeg_options.h"
++#include "config.h"
+ 
+ static int displayPrivateIndex;
+ 
+@@ -213,6 +214,60 @@ writeJPEG (CompDisplay *d,
+     return TRUE;
+ }
+ 
++#ifdef SOLARIS
++
++int asprintf(char **out, const char *fmt, ...)
++{
++    va_list ap;
++    int ret_status = EOF;
++    char dir_name[2001];
++    char file_name[2000];
++    FILE *fp = NULL;
++    char *work = NULL;
++
++    va_start(ap, fmt);
++
++    /* Warning: tmpfile() does not work well on Windows (MinGW)
++     *          if user does not have write access on the drive where 
++     *          working dir is? */
++#ifdef __MINGW32__
++    /* file_name = G_tempfile(); */
++    GetTempPath ( 2000, dir_name );
++    GetTempFileName ( dir_name, "asprintf", 0, file_name );
++    fp = fopen ( file_name, "w+" );
++#else
++    fp = tmpfile(); 
++#endif /* __MINGW32__ */
++
++    if ( fp ) {
++        int count;
++
++        count = vfprintf(fp, fmt, ap);
++        if (count >= 0) {
++            work = calloc(count + 1, sizeof(char));
++            if (work != NULL) {
++                rewind(fp);
++                ret_status = fread(work, sizeof(char), count, fp);
++                if (ret_status != count) {
++                    ret_status = EOF;
++                    free(work);
++                    work = NULL;
++                }
++            }
++        }
++        fclose(fp);
++#ifdef __MINGW32__
++        unlink ( file_name );
++#endif /* __MINGW32__ */
++    }
++    va_end(ap);
++    *out = work;
++
++    return ret_status;
++}
++#endif
++
++
+ /* Turns the path & name into a real, absolute path
+    No extensions jiggery-pokery here, as JPEGs can be
+    .jpg or .jpeg - or, indeed, whatever.
+diff -rup compiz-fusion-plugins-main-0.5.2/src/resizeinfo/resizeinfo.c ../compiz-fusion-plugins-main-0.5.2/src/resizeinfo/resizeinfo.c
+--- compiz-fusion-plugins-main-0.5.2/src/resizeinfo/resizeinfo.c	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/src/resizeinfo/resizeinfo.c	2007-08-30 18:38:34.668154000 +0200
+@@ -15,6 +15,7 @@
+ #include <pango/pangocairo.h>
+ 
+ #include "resizeinfo_options.h"
++#include "config.h"
+ 
+ #define PI 3.1415926
+ 
+@@ -113,6 +114,60 @@ setupCairoLayer (CompScreen *s,
+ 	return;
+     }
+ }
++#ifdef SOLARIS
++
++int asprintf(char **out, const char *fmt, ...)
++{
++    va_list ap;
++    int ret_status = EOF;
++    char dir_name[2001];
++    char file_name[2000];
++    FILE *fp = NULL;
++    char *work = NULL;
++
++    va_start(ap, fmt);
++
++    /* Warning: tmpfile() does not work well on Windows (MinGW)
++     *          if user does not have write access on the drive where 
++     *          working dir is? */
++#ifdef __MINGW32__
++    /* file_name = G_tempfile(); */
++    GetTempPath ( 2000, dir_name );
++    GetTempFileName ( dir_name, "asprintf", 0, file_name );
++    fp = fopen ( file_name, "w+" );
++#else
++    fp = tmpfile(); 
++#endif /* __MINGW32__ */
++
++    if ( fp ) {
++        int count;
++
++        count = vfprintf(fp, fmt, ap);
++        if (count >= 0) {
++            work = calloc(count + 1, sizeof(char));
++            if (work != NULL) {
++                rewind(fp);
++                ret_status = fread(work, sizeof(char), count, fp);
++                if (ret_status != count) {
++                    ret_status = EOF;
++                    free(work);
++                    work = NULL;
++                }
++            }
++        }
++        fclose(fp);
++#ifdef __MINGW32__
++        unlink ( file_name );
++#endif /* __MINGW32__ */
++    }
++    va_end(ap);
++    *out = work;
++
++    return ret_status;
++}
++
++
++#endif
+ 
+ /* Draw the window "size" derived from the window hints.
+    We calculate width or height - base_width or base_height and divide
+diff -rup compiz-fusion-plugins-main-0.5.2/src/snap/snap.c ../compiz-fusion-plugins-main-0.5.2/src/snap/snap.c
+--- compiz-fusion-plugins-main-0.5.2/src/snap/snap.c	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/src/snap/snap.c	2007-08-30 18:38:34.668960000 +0200
+@@ -35,6 +35,7 @@
+ #include <compiz.h>
+ 
+ #include "snap_options.h"
++#include "config.h"
+ 
+ /*
+  * The neat window coordinates macros
+@@ -310,7 +311,11 @@ static inline Bool isSnapWindow(CompWind
+ {
+ 	//SNAP_SCREEN(w->screen);
+ 	
++#ifdef SOLARIS
++	if (!w)
++#else
+ 	if (UNLIKELY(!w))
++#endif	  
+ 		return FALSE;
+ 	if (w->invisible || w->hidden || w->minimized)
+ 		return FALSE;
+diff -rup compiz-fusion-plugins-main-0.5.2/src/text/text.c ../compiz-fusion-plugins-main-0.5.2/src/text/text.c
+--- compiz-fusion-plugins-main-0.5.2/src/text/text.c	2007-08-12 21:51:59.000000000 +0200
++++ ../compiz-fusion-plugins-main-0.5.2/src/text/text.c	2007-08-30 18:38:34.669314000 +0200
+@@ -32,6 +32,7 @@
+ 
+ #include <compiz.h>
+ #include "text.h"
++#include "config.h"
+ 
+ static int displayPrivateIndex;
+ 
+@@ -48,6 +49,24 @@ typedef struct _TextDisplay
+ #define TEXT_DISPLAY(d)			 \
+     TextDisplay *td = GET_TEXT_DISPLAY (d)
+ 
++#ifdef SOLARIS
++#include <string.h>
++#include <stdlib.h>
++
++char *
++strndup (char const *s, size_t n)
++{
++  size_t len = strnlen (s, n);
++  char *new = malloc (len + 1);
++
++  if (new == NULL)
++    return NULL;
++
++  new[len] = '\0';
++  return memcpy (new, s, len);
++}
++#endif
++
+ static char*
+ textGetUtf8Property (CompDisplay *d,
+ 		     Window      id,

@@ -69,7 +69,9 @@ make -j$CPUS
 %install
 cd libcompizconfig-%version
 make install DESTDIR=$RPM_BUILD_ROOT
-rm $RPM_BUILD_ROOT%{_libdir}/*.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/*.*a
+rm -f $RPM_BUILD_ROOT%{_libdir}/compiz/*.*a
+rm -f $RPM_BUILD_ROOT%{_libdir}/compizconfig/backends/*.*a
 
 #
 # when not building -l10n packages, remove anything l10n related from
@@ -92,6 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %files root
+%defattr (-, root, bin)
 %dir %attr(0755, root, sys) %{_datadir}
 %{_datadir}/*
 

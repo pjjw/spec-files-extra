@@ -6,7 +6,7 @@
 
 Name:           SFEcompiz
 Summary:        compiz
-Version:        0.5.0
+Version:        0.5.2
 Source:		http://xorg.freedesktop.org/archive/individual/app/compiz-%{version}.tar.gz
 Source1:	http://www.gnome.org/~erwannc/compiz/missing-stuff.tar.bz2
 Source2:	http://xorg.freedesktop.org/releases/X11R7.2/src/lib/libXrender-X11R7.2-0.9.2.tar.bz2
@@ -127,8 +127,7 @@ export LDFLAGS="-L$PROTO_LIB -L/usr/X11/lib -L/usr/openwin/lib -R/usr/X11/lib -R
 	    --sysconfdir=%{_sysconfdir}	\
 	    --libdir=%{_libdir}         \
             --includedir=%{_includedir} \
-	    --datadir=%{_datadir}	\
-	    --with-default-plugins="png,decoration,wobbly,animation,fade,minimize,cube,switcher,move,resize,place,rotate,zoom,scale,dbus,water,snow,trailfocus,thumbnail,ring"
+	    --datadir=%{_datadir}	
 
 make -j$CPUS
 
@@ -165,7 +164,36 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 
 
 %post root
-GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source` gconftool-2 --makefile-install-rule /etc/gconf/schemas/compiz.schemas
+GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source` gconftool-2 --makefile-install-rule /etc/gconf/schemas/compiz-annotate.schemas \
+                                                                                           /etc/gconf/schemas/compiz-blur.schemas \
+                                                                                           /etc/gconf/schemas/compiz-clone.schemas \
+                                                                                           /etc/gconf/schemas/compiz-core.schemas \
+                                                                                           /etc/gconf/schemas/compiz-cube.schemas \
+                                                                                           /etc/gconf/schemas/compiz-dbus.schemas \
+                                                                                           /etc/gconf/schemas/compiz-decoration.schemas \
+                                                                                           /etc/gconf/schemas/compiz-fade.schemas \
+                                                                                           /etc/gconf/schemas/compiz-fs.schemas \
+                                                                                           /etc/gconf/schemas/compiz-gconf.schemas \
+                                                                                           /etc/gconf/schemas/compiz-glib.schemas \
+                                                                                           /etc/gconf/schemas/compiz-ini.schemas \
+                                                                                           /etc/gconf/schemas/compiz-inotify.schemas \
+                                                                                           /etc/gconf/schemas/compiz-minimize.schemas \
+                                                                                           /etc/gconf/schemas/compiz-move.schemas \
+                                                                                           /etc/gconf/schemas/compiz-place.schemas \
+                                                                                           /etc/gconf/schemas/compiz-plane.schemas \
+                                                                                           /etc/gconf/schemas/compiz-png.schemas \
+                                                                                           /etc/gconf/schemas/compiz-regex.schemas \
+                                                                                           /etc/gconf/schemas/compiz-resize.schemas \
+                                                                                           /etc/gconf/schemas/compiz-rotate.schemas \
+                                                                                           /etc/gconf/schemas/compiz-scale.schemas \
+                                                                                           /etc/gconf/schemas/compiz-screenshot.schemas \
+                                                                                           /etc/gconf/schemas/compiz-svg.schemas \
+                                                                                           /etc/gconf/schemas/compiz-switcher.schemas \
+                                                                                           /etc/gconf/schemas/compiz-video.schemas \
+                                                                                           /etc/gconf/schemas/compiz-water.schemas \
+                                                                                           /etc/gconf/schemas/compiz-wobbly.schemas \
+                                                                                           /etc/gconf/schemas/compiz-zoom.schemas \
+                                                                                           /etc/gconf/schemas/gwd.schemas
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -194,8 +222,7 @@ rm -rf $RPM_BUILD_ROOT
 %files root
 %defattr (0755, root, sys)
 %attr (0755, root, sys) %dir %{_sysconfdir}
-%{_sysconfdir}/gconf/schemas/compiz.schemas
-%{_sysconfdir}/gconf/schemas/gwd.schemas
+%{_sysconfdir}/gconf/schemas/*
 
 %files devel
 %defattr (-, root, bin)

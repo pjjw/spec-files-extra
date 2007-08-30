@@ -1,3 +1,26 @@
+2007-08-30 Erwann Chenede - <erwann.chenede@sun.com>
+
+	* SFEcompizconfig-backend-gconf.spec : *.*a clean up
+	* SFEbcop.spec : removed (old version for compiz 0.5.0)
+	* patches/bcop-01-solaris-port.diff : ditto
+	* SFEcompiz-settings.spec : removed (old version for compiz 0.5.0)
+	* patches/compiz-settings-solaris.2-3-7.diff : ditto
+	* SFElibcompizconfig.spec : *.*a clean up
+	* patches/compiz-01-solaris-port.diff : ported to 0.5.2 (and configured)
+	* patches/compiz-fusion-main-01-solaris-port.diff : ported to solaris
+	* patches/compiz-fusion-extra-01-solaris-port.diff : ditto  
+	* patches/compiz-fusion-unsupported-01-solaris-port.diff : ditto
+	* patches/libcompizconfig-01-solaris-port.diff : configured by default
+	* patches/compiz-bcop-01-solaris-port.pc : ported to solaris
+	* SFEcompiz.spec : upgrade to 0.5.2 
+	* SFEsexy-python.spec : permission clean up
+	* SFEcompiz-bcop.spec : ported to solaris
+	* SFElibsexy.spec : permission clean up
+	* SFEcompiz-fusion-main.spec : ported to solaris
+	* SFEcompiz-fusion-extra.spec : ditto 
+	* SFEcompiz-fusion-unsup.spec : ditto 
+	* SFEcompizconfig-python.spec : *.*a clean up
+
 2007-08-29  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEtransmission.spec: Bump to 0.81, add workaround for broken tarball

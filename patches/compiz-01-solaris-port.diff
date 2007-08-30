@@ -1,324 +1,276 @@
-diff -rup compiz-0.5.0/configure.ac ../compiz-0.5.0.solaris/configure.ac
---- compiz-0.5.0/configure.ac	2007-04-02 20:48:18.000000000 +0200
-+++ ../compiz-0.5.0.solaris/configure.ac	2007-04-20 10:54:54.011355000 +0200
-@@ -83,12 +83,28 @@ AC_SUBST(plugindir)
- imagedir=$datadir/compiz
- AC_SUBST(imagedir)
+diff -rup compiz-0.5.2/configure.ac ../compiz-0.5.2/configure.ac
+--- compiz-0.5.2/configure.ac	2007-08-03 22:00:55.000000000 +0200
++++ ../compiz-0.5.2/configure.ac	2007-08-30 17:12:05.898401000 +0200
+@@ -102,6 +102,16 @@ if test "x$GCC" = "xyes"; then
+   esac
+ fi
  
 +compiling_on_solaris=no
 +case "$host" in
 +        *-*-solaris*)
 +	  AC_MSG_CHECKING(if compiling on Solaris)
 +	  compiling_on_solaris=yes
-+	  use_xinerama=
 +	  AC_MSG_RESULT($compiling_on_solaris)
-+	  AC_DEFINE(SOLARIS, 1, [Compiling on Solaris enabled])
-+	;;
-+	*)
-+	  use_xinerama="xinerama"
-+	  AC_DEFINE(HAVE_XORG_XINERAMA, 1, [Compiling with Xinerama enabled])
++	  AC_DEFINE(SOLARIS, 1, [Compiling on Solaris])
 +	;;
 +esac
 +
-+
- COMPIZ_REQUIRES="libpng	    \
-+		 $use_xinerama \
- 		 xcomposite \
- 		 xfixes	    \
- 		 xdamage    \
- 		 xrandr	    \
--		 xinerama   \
- 		 ice	    \
- 		 sm	    \
- 		 libstartup-notification-1.0 >= 0.7"
-diff -rup compiz-0.5.0/include/compiz.h ../compiz-0.5.0.solaris/include/compiz.h
---- compiz-0.5.0/include/compiz.h	2007-04-02 20:15:28.000000000 +0200
-+++ ../compiz-0.5.0.solaris/include/compiz.h	2007-04-20 10:54:54.012946000 +0200
-@@ -35,7 +35,9 @@
- #include <X11/Xutil.h>
- #include <X11/extensions/Xdamage.h>
- #include <X11/extensions/Xcomposite.h>
-+#ifdef HAVE_XORG_XINERAMA
- #include <X11/extensions/Xinerama.h>
-+#endif
- #include <X11/extensions/sync.h>
- #include <X11/Xregion.h>
- #include <X11/XKBlib.h>
-@@ -718,12 +720,15 @@ struct _CompDisplay {
-     Bool xkbExtension;
-     int  xkbEvent, xkbError;
+ AC_C_BIGENDIAN
  
-+#ifdef HAVE_XORG_XINERAMA    
-     Bool xineramaExtension;
-     int  xineramaEvent, xineramaError;
- 
-     XineramaScreenInfo *screenInfo;
-+#endif    
-     int		       nScreenInfo;
- 
-+
-     SnDisplay *snDisplay;
- 
-     Atom supportedAtom;
-diff -rup ../compiz-clean/plugins/compiz.schemas.in compiz-0.5.0/plugins/compiz.schemas.in
---- ../compiz-clean/plugins/compiz.schemas.in	2007-04-02 20:15:28.000000000 +0200
-+++ compiz-0.5.0/plugins/compiz.schemas.in	2007-07-05 18:00:02.110229000 +0200
-@@ -15698,7 +15698,7 @@
-             <applyto>/apps/compiz/plugins/cube/screen0/options/scale_image</applyto>
-             <owner>compiz</owner>
-             <type>bool</type>
--            <default>false</default>
-+            <default>true</default>
-             <locale name="C">
-                 <short>Scale image</short>
-                 <long>Scale images to cover top face of cube</long>
-@@ -15763,7 +15763,7 @@
-             <owner>compiz</owner>
-             <type>list</type>
-             <list_type>string</list_type>
--            <default>[freedesktop]</default>
-+            <default>[/usr/share/pixmaps/backgrounds/sun/di-logo-sun-blue.png]</default>
-             <locale name="C">
-                 <short>Image files</short>
-                 <long>List of PNG and SVG files that should be rendered on top face of cube</long>
-@@ -20463,7 +20463,7 @@
-             <applyto>/apps/compiz/plugins/water/allscreens/options/initiate_key</applyto>
-             <owner>compiz</owner>
-             <type>string</type>
--            <default>&lt;Control&gt;&lt;Super&gt;</default>
-+            <default>&lt;Control&gt;&lt;Mod4&gt;</default>
-             <locale name="C">
-                 <short>Initiate</short>
-                 <long>Enable pointer water effects</long>
-@@ -21681,7 +21681,7 @@
-             <applyto>/apps/compiz/plugins/screenshot/allscreens/options/initiate_button</applyto>
-             <owner>compiz</owner>
-             <type>string</type>
--            <default>&lt;Super&gt;Button1</default>
-+            <default>&lt;Mod4&gt;Button1</default>
-             <locale name="C">
-                 <short>Initiate</short>
-                 <long>Initiate rectangle screenshot</long>
-@@ -23290,7 +23290,7 @@
-             <applyto>/apps/compiz/plugins/clone/allscreens/options/initiate_button</applyto>
-             <owner>compiz</owner>
-             <type>string</type>
--            <default>&lt;Shift&gt;&lt;Super&gt;Button1</default>
-+            <default>&lt;Shift&gt;&lt;Mod4&gt;Button1</default>
-             <locale name="C">
-                 <short>Initiate</short>
-                 <long>Initiate clone selection</long>
-@@ -24576,7 +24576,7 @@
-             <applyto>/apps/compiz/plugins/annotate/allscreens/options/initiate_button</applyto>
-             <owner>compiz</owner>
-             <type>string</type>
--            <default>&lt;Alt&gt;&lt;Super&gt;Button1</default>
-+            <default>&lt;Alt&gt;&lt;Mod4&gt;Button1</default>
-             <locale name="C">
-                 <short>Initiate</short>
-                 <long>Initiate annotate drawing</long>
-@@ -24906,7 +24906,7 @@
-             <applyto>/apps/compiz/plugins/annotate/allscreens/options/erase_button</applyto>
-             <owner>compiz</owner>
-             <type>string</type>
--            <default>&lt;Alt&gt;&lt;Super&gt;Button3</default>
-+            <default>&lt;Alt&gt;&lt;Mod4&gt;Button3</default>
-             <locale name="C">
-                 <short>Initiate erase</short>
-                 <long>Initiate annotate erasing</long>
-@@ -24955,7 +24955,7 @@
-             <applyto>/apps/compiz/plugins/annotate/allscreens/options/clear_key</applyto>
-             <owner>compiz</owner>
-             <type>string</type>
--            <default>&lt;Alt&gt;&lt;Super&gt;k</default>
-+            <default>&lt;Alt&gt;&lt;Mod4&gt;k</default>
-             <locale name="C">
-                 <short>Clear</short>
-                 <long>Clear</long>
-@@ -32049,7 +32049,7 @@
-             <applyto>/apps/compiz/plugins/zoom/allscreens/options/initiate_button</applyto>
-             <owner>compiz</owner>
-             <type>string</type>
--            <default>&lt;Super&gt;Button3</default>
-+            <default>&lt;Mod4&gt;Button3</default>
-             <locale name="C">
-                 <short>Initiate</short>
-                 <long>Zoom In</long>
-@@ -32370,7 +32370,7 @@
-             <applyto>/apps/compiz/plugins/zoom/allscreens/options/zoom_in_button</applyto>
-             <owner>compiz</owner>
-             <type>string</type>
--            <default>&lt;Super&gt;Button4</default>
-+            <default>&lt;Mod4&gt;Button4</default>
-             <locale name="C">
-                 <short>Zoom In</short>
-                 <long>Zoom In</long>
-@@ -32691,7 +32691,7 @@
-             <applyto>/apps/compiz/plugins/zoom/allscreens/options/zoom_out_button</applyto>
-             <owner>compiz</owner>
-             <type>string</type>
--            <default>&lt;Super&gt;Button5</default>
-+            <default>&lt;Mod4&gt;Button5</default>
-             <locale name="C">
-                 <short>Zoom Out</short>
-                 <long>Zoom Out</long>
-diff -rup compiz-0.5.0/plugins/decoration.c ../compiz-0.5.0.solaris/plugins/decoration.c
---- compiz-0.5.0/plugins/decoration.c	2007-04-02 20:15:28.000000000 +0200
-+++ ../compiz-0.5.0.solaris/plugins/decoration.c	2007-04-20 10:54:54.013685000 +0200
-@@ -32,12 +32,12 @@
- #include <string.h>
+ plugindir=$libdir/compiz
+diff -rup compiz-0.5.2/metadata/annotate.xml.in ../compiz-0.5.2/metadata/annotate.xml.in
+--- compiz-0.5.2/metadata/annotate.xml.in	2007-05-21 16:33:36.000000000 +0200
++++ ../compiz-0.5.2/metadata/annotate.xml.in	2007-08-30 17:13:51.177995000 +0200
+@@ -8,7 +8,7 @@
+ 		<_long>Initiate annotate drawing</_long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;&lt;Alt&gt;Button1</button>
++		    <button>&lt;Mod4&gt;&lt;Alt&gt;Button1</button>
+ 		</default>
+ 	    </option>
+ 	    <option name="draw" type="action">
+@@ -20,7 +20,7 @@
+ 		<_long>Initiate annotate erasing</_long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;&lt;Alt&gt;Button3</button>
++		    <button>&lt;Mod4&gt;&lt;Alt&gt;Button3</button>
+ 		</default>
+ 	    </option>
+ 	    <option name="clear" type="action">
+@@ -28,7 +28,7 @@
+ 		<_long>Clear</_long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <key>&lt;Super&gt;&lt;Alt&gt;k</key>
++		    <key>&lt;Mod4&gt;&lt;Alt&gt;k</key>
+ 		</default>
+ 	    </option>
+ 	    <option name="fill_color" type="color">
+diff -rup compiz-0.5.2/metadata/clone.xml.in ../compiz-0.5.2/metadata/clone.xml.in
+--- compiz-0.5.2/metadata/clone.xml.in	2007-04-27 20:36:57.000000000 +0200
++++ ../compiz-0.5.2/metadata/clone.xml.in	2007-08-30 17:13:51.178044000 +0200
+@@ -8,7 +8,7 @@
+ 		<_long>Initiate clone selection</_long>
+ 		<allowed button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;&lt;Shift&gt;Button1</button>
++		    <button>&lt;Mod4&gt;&lt;Shift&gt;Button1</button>
+ 		</default>
+ 	    </option>
+ 	</display>
+diff -rup compiz-0.5.2/metadata/core.xml.in ../compiz-0.5.2/metadata/core.xml.in
+--- compiz-0.5.2/metadata/core.xml.in	2007-05-21 21:10:20.000000000 +0200
++++ ../compiz-0.5.2/metadata/core.xml.in	2007-08-30 17:13:51.178385000 +0200
+@@ -7,6 +7,33 @@
+ 		<_short>Active Plugins</_short>
+ 		<_long>List of currently active plugins</_long>
+ 		<type>string</type>
++		<default>
++			<value>jpeg</value>
++			<value>svg</value>
++			<value>png</value>
++			<value>decoration</value>
++			<value>wobbly</value>
++			<value>fade</value>
++			<value>expo</value>
++			<value>minimize</value>
++			<value>cube</value>
++			<value>showdesktop</value>
++			<value>switcher</value>
++			<value>move</value>
++			<value>resize</value>
++			<value>place</value>
++			<value>rotate</value>
++			<value>zoom</value>
++			<value>scale</value>
++			<value>dbus</value>
++			<value>water</value>		
++			<value>snow</value>		
++			<value>animation</value>		
++			<value>firepaint</value>		
++			<value>thumbnail</value>		
++			<value>switcher</value>		
++			<value>cubereflex</value>		
++		</default>
+ 	    </option>
+ 	    <option name="texture_filter" type="int">
+ 		<_short>Texture Filter</_short>
+diff -rup compiz-0.5.2/metadata/cube.xml.in ../compiz-0.5.2/metadata/cube.xml.in
+--- compiz-0.5.2/metadata/cube.xml.in	2007-08-02 23:33:10.000000000 +0200
++++ ../compiz-0.5.2/metadata/cube.xml.in	2007-08-30 18:08:08.071979000 +0200
+@@ -42,9 +42,9 @@
+ 		<_short>Cube Color</_short>
+ 		<_long>Color of top and bottom sides of the cube</_long>
+ 		<default>
+-		    <red>0xfefe</red>
++		    <red>0xffff</red>
+ 		    <green>0xffff</green>
+-		    <blue>0xc7c7</blue>
++		    <blue>0xffff</blue>
+ 		</default>
+ 	    </option>
+ 	    <option name="in" type="bool">
+@@ -55,14 +55,14 @@
+ 	    <option name="scale_image" type="bool">
+ 		<_short>Scale image</_short>
+ 		<_long>Scale images to cover top face of cube</_long>
+-		<default>false</default>
++		<default>true</default>
+ 	    </option>
+ 	    <option name="images" type="list">
+ 		<_short>Image files</_short>
+ 		<_long>List of PNG and SVG files that should be rendered on top face of cube</_long>
+ 		<type>string</type>
+ 		<default>
+-		    <value>freedesktop</value>
++		    <value>/usr/share/pixmaps/backgrounds/sun/di-logo-sun-blue.png</value>
+ 		</default>
+ 	    </option>
+ 	    <option name="skydome" type="bool">
+@@ -139,7 +139,7 @@
+ 	    <option name="active_opacity" type="float">
+ 		<_short>Opacity During Rotation</_short>
+ 		<_long>Opacity of desktop window during rotation.</_long>
+-		<default>100.0</default>
++		<default>60.0</default>
+ 		<min>0.0</min>
+ 		<max>100.0</max>
+ 		<precision>1.0</precision>
+diff -rup compiz-0.5.2/metadata/screenshot.xml.in ../compiz-0.5.2/metadata/screenshot.xml.in
+--- compiz-0.5.2/metadata/screenshot.xml.in	2007-05-03 17:51:54.000000000 +0200
++++ ../compiz-0.5.2/metadata/screenshot.xml.in	2007-08-30 17:13:51.179498000 +0200
+@@ -8,7 +8,7 @@
+ 		<_long>Initiate rectangle screenshot</_long>
+ 		<allowed button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;Button1</button>
++		    <button>&lt;Mod4&gt;Button1</button>
+ 		</default>
+ 	    </option>
+ 	    <option name="directory" type="string">
+diff -rup compiz-0.5.2/metadata/water.xml.in ../compiz-0.5.2/metadata/water.xml.in
+--- compiz-0.5.2/metadata/water.xml.in	2007-07-13 01:30:57.000000000 +0200
++++ ../compiz-0.5.2/metadata/water.xml.in	2007-08-30 17:13:51.179531000 +0200
+@@ -14,7 +14,7 @@
+ 		<_long>Enable pointer water effects</_long>
+ 		<allowed key="true"/>
+ 		<default>
+-		    <key>&lt;Control&gt;&lt;Super&gt;</key>
++		    <key>&lt;Control&gt;&lt;Mod4&gt;</key>
+ 		</default>
+ 	    </option>
+ 	    <option name="toggle_rain" type="action">
+diff -rup compiz-0.5.2/metadata/zoom.xml.in ../compiz-0.5.2/metadata/zoom.xml.in
+--- compiz-0.5.2/metadata/zoom.xml.in	2007-05-30 00:00:46.000000000 +0200
++++ ../compiz-0.5.2/metadata/zoom.xml.in	2007-08-30 17:13:51.179948000 +0200
+@@ -8,7 +8,7 @@
+ 		<_long>Zoom In</_long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;Button3</button>
++		    <button>&lt;Mod4&gt;Button3</button>
+ 		</default>
+ 	    </option>
+ 	    <option name="zoom_in" type="action">
+@@ -16,7 +16,7 @@
+ 		<_long>Zoom In</_long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;Button4</button>
++		    <button>&lt;Mod4&gt;Button4</button>
+ 		</default>
+ 	    </option>
+ 	    <option name="zoom_out" type="action">
+@@ -24,7 +24,7 @@
+ 		<_long>Zoom Out</_long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;Button5</button>
++		    <button>&lt;Mod4&gt;Button5</button>
+ 		</default>
+ 	    </option>
+ 	    <option name="zoom_pan" type="action">
+@@ -32,7 +32,7 @@
+ 		<_long>Zoom pan</_long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;Button2</button>
++		    <button>&lt;Mod4&gt;Button2</button>
+ 		</default>
+ 	    </option>
+ 	</display>
+diff -rup compiz-0.5.2/plugins/decoration.c ../compiz-0.5.2/plugins/decoration.c
+--- compiz-0.5.2/plugins/decoration.c	2007-07-30 20:54:20.000000000 +0200
++++ ../compiz-0.5.2/plugins/decoration.c	2007-08-30 17:12:05.899488000 +0200
+@@ -33,12 +33,12 @@
  #include <math.h>
  #include <unistd.h>
-+#include <compiz.h>
-+#include <decoration.h>
  
- #include <X11/Xatom.h>
- #include <X11/extensions/shape.h>
- 
--#include <compiz.h>
--#include <decoration.h>
- 
- typedef struct _Vector {
-     int	dx;
-diff -rup compiz-0.5.0/plugins/video.c ../compiz-0.5.0.solaris/plugins/video.c
---- compiz-0.5.0/plugins/video.c	2007-04-02 20:15:30.000000000 +0200
-+++ ../compiz-0.5.0.solaris/plugins/video.c	2007-04-20 10:54:54.015905000 +0200
-@@ -29,10 +29,10 @@
- #include <math.h>
- #include <unistd.h>
- 
-+#include <compiz.h>
- #include <X11/Xatom.h>
- #include <X11/extensions/shape.h>
- 
--#include <compiz.h>
+-#include <X11/Xatom.h>
+-#include <X11/extensions/shape.h>
+-
+ #include <compiz.h>
  #include <decoration.h>
  
- #define VIDEO_YV12_DEFAULT TRUE
-diff -rup compiz-0.5.0/src/cursor.c ../compiz-0.5.0.solaris/src/cursor.c
---- compiz-0.5.0/src/cursor.c	2007-04-02 20:15:30.000000000 +0200
-+++ ../compiz-0.5.0.solaris/src/cursor.c	2007-04-20 10:54:54.016308000 +0200
-@@ -26,6 +26,7 @@
- #include <compiz.h>
- 
- #include <stdlib.h>
-+#include "../config.h"
- 
- static void
- setCursorMatrix (CompCursor *c)
-@@ -53,7 +54,10 @@ addCursor (CompScreen *s)
- 
- 	updateCursor (c, 0, 0, 0);
- 
-+#ifdef SOLARIS
-+#else
- 	XFixesHideCursor (s->display->display, s->root);
-+#endif	
-     }
- }
- 
-diff -rup compiz-0.5.0/src/display.c ../compiz-0.5.0.solaris/src/display.c
---- compiz-0.5.0/src/display.c	2007-04-02 20:15:30.000000000 +0200
-+++ ../compiz-0.5.0.solaris/src/display.c	2007-04-20 10:54:54.017587000 +0200
-@@ -738,6 +738,59 @@ shade (CompDisplay     *d,
- 
-     return TRUE;
- }
-+#ifdef SOLARIS
-+#include <stdarg.h>
-+#include <values.h>
-+int asprintf(char **out, const char *fmt, ...)
-+{
-+    va_list ap;
-+    int ret_status = EOF;
-+    char dir_name[2001];
-+    char file_name[2000];
-+    FILE *fp = NULL;
-+    char *work = NULL;
++#include <X11/Xatom.h>
++#include <X11/extensions/shape.h>
 +
-+    va_start(ap, fmt);
-+
-+    /* Warning: tmpfile() does not work well on Windows (MinGW)
-+     *          if user does not have write access on the drive where 
-+     *          working dir is? */
-+#ifdef __MINGW32__
-+    /* file_name = G_tempfile(); */
-+    GetTempPath ( 2000, dir_name );
-+    GetTempFileName ( dir_name, "asprintf", 0, file_name );
-+    fp = fopen ( file_name, "w+" );
-+#else
-+    fp = tmpfile(); 
-+#endif /* __MINGW32__ */
-+
-+    if ( fp ) {
-+        int count;
-+
-+        count = vfprintf(fp, fmt, ap);
-+        if (count >= 0) {
-+            work = calloc(count + 1, sizeof(char));
-+            if (work != NULL) {
-+                rewind(fp);
-+                ret_status = fread(work, sizeof(char), count, fp);
-+                if (ret_status != count) {
-+                    ret_status = EOF;
-+                    free(work);
-+                    work = NULL;
-+                }
-+            }
-+        }
-+        fclose(fp);
-+#ifdef __MINGW32__
-+        unlink ( file_name );
-+#endif /* __MINGW32__ */
-+    }
-+    va_end(ap);
-+    *out = work;
-+
-+    return ret_status;
-+}
-+#endif
+ static CompMetadata decorMetadata;
  
- static void
- compDisplayInitOptions (CompDisplay *display,
-@@ -2847,6 +2900,8 @@ addDisplay (char *name,
- 	d->xkbEvent = d->xkbError = -1;
-     }
- 
-+    d->nScreenInfo = 0;
-+#ifdef HAVE_XORG_XINERAMA    
-     d->xineramaExtension = XineramaQueryExtension (dpy,
- 						   &d->xineramaEvent,
- 						   &d->xineramaError);
-@@ -2859,6 +2914,7 @@ addDisplay (char *name,
- 	d->screenInfo  = NULL;
- 	d->nScreenInfo = 0;
-     }
-+#endif    
- 
-     compDisplays = d;
- 
-diff -rup compiz-0.5.0/src/option.c ../compiz-0.5.0.solaris/src/option.c
---- compiz-0.5.0/src/option.c	2007-04-02 20:15:30.000000000 +0200
-+++ ../compiz-0.5.0.solaris/src/option.c	2007-04-20 10:54:54.017928000 +0200
-@@ -30,6 +30,7 @@
- #include <strings.h>
- #include <ctype.h>
+ typedef struct _Vector {
+diff -rup compiz-0.5.2/plugins/video.c ../compiz-0.5.2/plugins/video.c
+--- compiz-0.5.2/plugins/video.c	2007-07-13 04:08:27.000000000 +0200
++++ ../compiz-0.5.2/plugins/video.c	2007-08-30 17:12:05.900921000 +0200
+@@ -29,12 +29,12 @@
  #include <math.h>
-+#include "../config.h"
+ #include <unistd.h>
+ 
+-#include <X11/Xatom.h>
+-#include <X11/extensions/shape.h>
+-
+ #include <compiz.h>
+ #include <decoration.h>
+ 
++#include <X11/Xatom.h>
++#include <X11/extensions/shape.h>
++
+ /*
+  * compiz composited video
+  *
+diff -rup compiz-0.5.2/src/option.c ../compiz-0.5.2/src/option.c
+--- compiz-0.5.2/src/option.c	2007-06-12 18:46:05.000000000 +0200
++++ ../compiz-0.5.2/src/option.c	2007-08-30 17:12:05.901379000 +0200
+@@ -25,6 +25,10 @@
+ 
+ #define _GNU_SOURCE
+ 
++#ifdef HAVE_CONFIG_H
++#include <config.h>
++#endif
++
+ #include <stdlib.h>
+ #include <string.h>
+ #include <strings.h>
+@@ -32,6 +36,9 @@
+ #include <math.h>
  
  #include <compiz.h>
- 
-@@ -549,6 +550,29 @@ buttonBindingToString (CompDisplay      
- 
-     return binding;
- }
 +#ifdef SOLARIS
 +#include <ctype.h>
-+char *
-+strcasestr (char *haystack, char *needle)
++#endif
+ 
+ struct _Modifier {
+     char *name;
+@@ -64,6 +71,26 @@ static char *edgeName[] = {
+     "BottomRight"
+ };
+ 
++#ifdef SOLARIS
++char* strcasestr (char *haystack, char *needle)
 +{
 +	char *p, *startn = 0, *np = 0;
-+
 +	for (p = haystack; *p; p++) {
 +		if (np) {
 +			if (toupper(*p) == toupper(*np)) {
@@ -331,64 +283,10 @@ diff -rup compiz-0.5.0/src/option.c ../compiz-0.5.0.solaris/src/option.c
 +			startn = p;
 +		}
 +	}
-+
 +	return 0;
 +}
 +#endif
- 
- static unsigned int
- stringToModifiers (CompDisplay *d,
-diff -rup compiz-0.5.0/src/screen.c ../compiz-0.5.0.solaris/src/screen.c
---- compiz-0.5.0/src/screen.c	2007-04-02 20:15:30.000000000 +0200
-+++ ../compiz-0.5.0.solaris/src/screen.c	2007-04-20 10:54:54.019035000 +0200
-@@ -344,6 +344,7 @@ updateOutputDevices (CompScreen	*s)
- 
- 	if (s->display->nScreenInfo)
- 	{
-+#ifdef HAVE_XORG_XINERAMA
- 	    for (i = 0; i < s->display->nScreenInfo; i++)
- 	    {
- 		r.extents.x1 = s->display->screenInfo[i].x_org;
-@@ -353,6 +354,7 @@ updateOutputDevices (CompScreen	*s)
- 
- 		XUnionRegion (region, &r, region);
- 	    }
-+#endif	    
- 	}
- 	else
- 	{
-@@ -397,6 +399,7 @@ detectOutputDevices (CompScreen *s)
- 	    if (!value.list.value)
- 		return;
- 
-+#ifdef HAVE_XORG_XINERAMA	    
- 	    for (i = 0; i < n; i++)
- 	    {
- 		snprintf (output, size, "%dx%d+%d+%d",
-@@ -407,6 +410,7 @@ detectOutputDevices (CompScreen *s)
- 
- 		value.list.value[i].s = strdup (output);
- 	    }
-+#endif	    
- 	}
- 	else
- 	{
-diff -rup compiz-0.5.0/src/window.c ../compiz-0.5.0.solaris/src/window.c
---- compiz-0.5.0/src/window.c	2007-04-02 20:15:30.000000000 +0200
-+++ ../compiz-0.5.0.solaris/src/window.c	2007-04-20 10:54:54.020424000 +0200
-@@ -1681,6 +1681,7 @@ updateWindowStruts (CompWindow *w)
- 	int x1, y1, x2, y2;
- 	int i;
- 
-+#ifdef HAVE_XORG_XINERAMA	
- 	/* applications expect us to clip struts to xinerama edges */
- 	for (i = 0; i < w->screen->display->nScreenInfo; i++)
- 	{
-@@ -1725,6 +1726,7 @@ updateWindowStruts (CompWindow *w)
- 		new.bottom.height = y2 - strutY1;
- 	    }
- 	}
-+#endif	
-     }
- 
-     if (hasOld != hasNew || (hasNew && hasOld &&
++
+ static void
+ finiOptionValue (CompOptionValue *v,
+ 		 CompOptionType  type)

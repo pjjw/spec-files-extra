@@ -59,6 +59,7 @@ find $RPM_BUILD_ROOT%{_libdir} -type f -name "*.la" -exec rm -f {} ';'
 rm -rf $RPM_BUILD_ROOT
 
 %files 
+%defattr (-, root, bin)
 %dir %attr (0755, root, bin) %dir %{_libdir}
 %{_libdir}/*.so*
 

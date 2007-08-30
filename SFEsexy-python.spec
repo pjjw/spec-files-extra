@@ -77,6 +77,7 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/omf/*/*-[a-z]*.omf
 rm -rf $RPM_BUILD_ROOT
 
 %files
+%defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 %{_datadir}/*

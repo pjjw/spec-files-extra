@@ -1,41 +1,52 @@
 #
-# spec file for package  SFEcompizconfig-backend-gconf
-####################################################################
-# The gconf backend for CompizConfig. It uses the Gnome configuration
-# system and provides integration into the Gnome desktop environment.
-####################################################################
+# spec file for package SFEcompiz-fusion-unsup.spec
 #
 # Copyright 2006 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
-
-
 %include Solaris.inc
 
-Name:                    SFEcompizconfig-gconf
-Summary:                 cgconf backend for CompizConfig
+Name:                    SFEcompiz-fusion-unsup
+Summary:                 unsupported effects plugins for compiz
 Version:                 0.5.2
-Source:			 http://releases.compiz-fusion.org/0.5.2/compizconfig-backend-gconf-%{version}.tar.bz2	 
-Patch1:			 compizconfig-backend-gconf-01-solaris-port.diff
+Source:			 http://releases.compiz-fusion.org/0.5.2/compiz-fusion-plugins-unsupported-%{version}.tar.bz2
+Patch1:			 compiz-fusion-unsupported-01-solaris-port.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-# add build and runtime dependencies here:
-BuildRequires:  SFElibcompizconfig
-Requires:	SFElibcompizconfig
+BuildRequires: SFEcompiz-bcop
+BuildRequires: SFEcompiz
+Requires: SFEcompiz
+# the base pkg should depend on the -root subpkg, if there is one:
+Requires: %{name}-root
+
+%package root
+Summary:                 %{summary} - / filesystem
+SUNW_BaseDir:            /
+%include default-depend.inc
+
+%if %build_l10n
+%package l10n
+Summary:                 foo - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
 
 %prep
 %setup -q -c -n %name-%version
 %patch1 -p1
 
 %build
-cd compizconfig-backend-gconf-%version
+cd compiz-fusion-plugins-unsupported-%{version}
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 
+intltoolize --copy --force --automake
 aclocal
+autoheader
 automake -a -c -f
 autoconf
 
@@ -48,14 +59,20 @@ export MSGFMT="/usr/bin/msgfmt"
 	    --bindir=%{_bindir}			\
 	    --sysconfdir=%{_sysconfdir}		\
 	    --includedir=%{_includedir}		\
-            --libdir=%{_libdir}
+	    --mandir=%{_mandir}			\
+            --libdir=%{_libdir}			\
+	    --enable-schemas 
 
 make -j$CPUS
 
 %install
-cd compizconfig-backend-gconf-%version
+cd compiz-fusion-plugins-unsupported-%{version}
 make install DESTDIR=$RPM_BUILD_ROOT
-rm -f $RPM_BUILD_ROOT%{_libdir}/compizconfig/backends/*.*a
+rm $RPM_BUILD_ROOT%{_libdir}/compiz/*.la
+rm $RPM_BUILD_ROOT%{_libdir}/compiz/*.a
+
+%post root 
+GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source` gconftool-2 --makefile-install-rule 
 
 #
 # when not building -l10n packages, remove anything l10n related from
@@ -76,10 +93,14 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
+%dir %attr(0755, root, sys) %{_datadir}
+%{_datadir}/*
 
-#
-# The files included here should match the ones removed in %install
-#
+%files root
+%defattr (0755, root, sys)
+%attr (0755, root, sys) %dir %{_sysconfdir}
+%{_sysconfdir}/*
+
 %if %build_l10n
 %files l10n
 %defattr (-, root, other)
@@ -90,5 +111,5 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Fri Aug  14 2007 - erwann@sun.com
+* Wed Aug 29 2007 - erwann@sun.com
 - Initial spec

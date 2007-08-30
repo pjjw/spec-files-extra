@@ -1,0 +1,106 @@
+diff -rup compiz-bcop-0.5.2/Makefile.am ../compiz-bcop-0.5.2/Makefile.am
+--- compiz-bcop-0.5.2/Makefile.am	2007-08-13 16:41:37.000000000 +0200
++++ ../compiz-bcop-0.5.2/Makefile.am	2007-08-29 11:26:48.893045000 +0200
+@@ -3,5 +3,5 @@ SUBDIRS = src
+ 
+ EXTRA_DIST = VERSION
+ 
+-pkgconfigdir = $(datadir)/pkgconfig
++pkgconfigdir = $(libdir)/pkgconfig
+ pkgconfig_DATA = bcop.pc
+diff -rup compiz-bcop-0.5.2/configure.ac ../compiz-bcop-0.5.2/configure.ac
+--- compiz-bcop-0.5.2/configure.ac	2007-08-13 16:41:24.000000000 +0200
++++ ../compiz-bcop-0.5.2/configure.ac	2007-08-29 11:26:48.892864000 +0200
+@@ -1,6 +1,6 @@
+ AC_PREREQ(2.57)
+ 
+-AC_INIT([compiz-bcop],esyscmd(. ./VERSION;echo -n $VERSION), [onestone@beryl-project.org])
++AC_INIT([compiz-bcop],0.5.2, [onestone@beryl-project.org])
+ 
+ AC_DEFINE_UNQUOTED(VERSION,"$VERSION",[Version])
+ 
+@@ -16,6 +16,13 @@ AC_C_BIGENDIAN
+ 
+ PKG_CHECK_MODULES(LIBXSLT, libxslt)
+ 
++AC_MSG_CHECKING(for getopt program)
++GETOPT=getopt
++AC_ARG_WITH(getopt, [  --with-getopt=GETOPT    name of the getopt program],
++  GETOPT=$withval)
++AC_MSG_RESULT($GETOPT)
++AC_SUBST(GETOPT)
++
+ xsltdir=$datadir/bcop
+ AC_SUBST(xsltdir)
+ 
+diff -rup compiz-bcop-0.5.2/src/Makefile.in ../compiz-bcop-0.5.2/src/Makefile.in
+--- compiz-bcop-0.5.2/src/Makefile.in	2007-08-13 17:10:52.000000000 +0200
++++ ../compiz-bcop-0.5.2/src/Makefile.in	2007-08-29 11:26:48.892425000 +0200
+@@ -80,6 +80,7 @@ ECHO_N = @ECHO_N@
+ ECHO_T = @ECHO_T@
+ EGREP = @EGREP@
+ EXEEXT = @EXEEXT@
++GETOPT = @GETOPT@
+ GREP = @GREP@
+ INSTALL_DATA = @INSTALL_DATA@
+ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+diff -rup compiz-bcop-0.5.2/src/bcop.in ../compiz-bcop-0.5.2/src/bcop.in
+--- compiz-bcop-0.5.2/src/bcop.in	2007-08-13 16:41:24.000000000 +0200
++++ ../compiz-bcop-0.5.2/src/bcop.in	2007-08-29 11:26:48.892520000 +0200
+@@ -17,6 +17,8 @@
+ #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ #  GNU General Public License for more details.
+ #
++# Utilities that we need that aren't everywhere
++GETOPT=@GETOPT@
+ 
+ xsltdir=`pkg-config --variable xsltpath bcop`
+ 
+@@ -34,7 +36,7 @@ function usage
+ srcfile=
+ hdrfile=
+ 
+-set -- `getopt -quo "hv" -l "help,version,source:,header:" -- "$@"`
++set -- `${GETOPT} -quo "hv" -l "help,version,source:,header:" -- "$@"`
+ [ $# -lt 2 ] && usage
+ 
+ while [ $# -gt 0 ]
+diff -rup compiz-bcop-0.5.2/src/bcop.xslt ../compiz-bcop-0.5.2/src/bcop.xslt
+--- compiz-bcop-0.5.2/src/bcop.xslt	2007-08-13 16:41:24.000000000 +0200
++++ ../compiz-bcop-0.5.2/src/bcop.xslt	2007-08-29 11:26:48.892709000 +0200
+@@ -307,7 +307,7 @@
+ </xsl:text>
+             </xsl:for-each>
+         </xsl:if>
+-        <xsl:text>} </xsl:text>
++        <xsl:text>int dummy;} </xsl:text>
+         <xsl:value-of select="$Plugin"/>
+         <xsl:text>OptionsScreen;
+ 
+@@ -985,7 +985,7 @@ static void </xsl:text>
+         <xsl:text>PluginVTable &amp;&amp; </xsl:text>
+         <xsl:value-of select="$plugin"/>
+         <xsl:text>PluginVTable->finiScreen)
+-        return </xsl:text>
++        </xsl:text>
+         <xsl:value-of select="$plugin"/>
+         <xsl:text>PluginVTable->finiScreen (p, s);
+ 
+@@ -1099,7 +1099,7 @@ static void </xsl:text>
+         <xsl:text>PluginVTable &amp;&amp; </xsl:text>
+         <xsl:value-of select="$plugin"/>
+         <xsl:text>PluginVTable->finiDisplay)
+-        return </xsl:text>
++        </xsl:text>
+         <xsl:value-of select="$plugin"/>
+         <xsl:text>PluginVTable->finiDisplay (p, d);
+ 
+@@ -1189,7 +1189,7 @@ static void </xsl:text>
+         <xsl:text>PluginVTable &amp;&amp; </xsl:text>
+         <xsl:value-of select="$plugin"/>
+         <xsl:text>PluginVTable->fini)
+-        return </xsl:text>
++        </xsl:text>
+         <xsl:value-of select="$plugin"/>
+         <xsl:text>PluginVTable->fini (p);
+ 
