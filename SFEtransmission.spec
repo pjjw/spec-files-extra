@@ -6,7 +6,7 @@
 
 Name:                    SFEtransmission
 Summary:                 Transmission - BitTorrent client
-Version:                 0.80
+Version:                 0.81
 Source:                  http://download.m0k.org/transmission/files/Transmission-%{version}.tar.gz
 URL:                     http://transmission.m0k.org/
 Patch1:                  transmission-01-solaris.diff
@@ -29,7 +29,9 @@ Requires:        %{name}
 %endif
 
 %prep
-%setup -q -n %{source_name}-%{version}
+#%setup -q -n %{source_name}-%{version}
+# temporary workaround for missing parent dir in 0.81
+%setup -q -c -n %{name}
 %patch1 -p1
 
 %build
@@ -87,6 +89,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Aug 29 2007 - trisk@acm.jhu.edu
+- Bump to 0.81, add workaround for broken tarball
 * Mon Aug 20 2007 - trisk@acm.jhu.edu
 - Clean up, allow building with Studio
 * Wed Jul 1 2007 - Petr Sobotka sobotkap@students.zcu.cz
