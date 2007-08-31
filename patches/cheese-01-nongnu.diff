@@ -1,0 +1,88 @@
+diff -ru cheese-0.2.3.orig/toc2/make/toc2-install.make cheese-0.2.3/toc2/make/toc2-install.make
+--- cheese-0.2.3.orig/toc2/make/toc2-install.make	2007年  7月  5日 四 09:13:14
++++ cheese-0.2.3/toc2/make/toc2-install.make	2007年  8月 30日 四 16:37:43
+@@ -53,7 +53,7 @@
+ # This is an ancient kludge force [un]install to silently fail without an
+ # error when passed an empty file list. This was done because saner
+ # approaches to checking this failed to work on some older machines.
+-toc2.call.install.grep_kludge = echo $(1) "" | grep -q '[a-zA-Z0-9]' || exit 0
++toc2.call.install.grep_kludge = echo $(1) "" | grep '[a-zA-Z0-9]' || exit 0
+ 
+ ########################################################################
+ # $(call toc2.call.install,file_list,destdir[,install-sh-flags])
+只有在 cheese-0.2.3/toc2/make : toc2.make
+只有在 cheese-0.2.3/toc2/sbin : toc2.make
+diff -ru cheese-0.2.3.orig/toc2/sbin/toc2_core.sh cheese-0.2.3/toc2/sbin/toc2_core.sh
+--- cheese-0.2.3.orig/toc2/sbin/toc2_core.sh	2007年  6月 30日 六 07:17:29
++++ cheese-0.2.3/toc2/sbin/toc2_core.sh	2007年  8月 30日 四 16:38:08
+@@ -659,7 +659,7 @@
+     local -a passon # clone of $@ to pass on to TOC2_PARSEARGS_CALLBACK
+     local configure_args
+     local xtra=
+-    echo "$@" | grep -q \\--prefix= || xtra="--prefix=${prefix}"
++    echo "$@" | grep \\--prefix= || xtra="--prefix=${prefix}"
+ #    while [ "$#" -gt 0 ]; do
+     for arg in ${xtra} "$@"; do
+ #        local arg="$1"; shift
+共同的次目錄: cheese-0.2.3.orig/toc2/tests/c 和 cheese-0.2.3/toc2/tests/c
+共同的次目錄: cheese-0.2.3.orig/toc2/tests/cpp 和 cheese-0.2.3/toc2/tests/cpp
+diff -ru cheese-0.2.3.orig/toc2/tests/gnu_find.sh cheese-0.2.3/toc2/tests/gnu_find.sh
+--- cheese-0.2.3.orig/toc2/tests/gnu_find.sh	2007年  6月 30日 六 07:17:29
++++ cheese-0.2.3/toc2/tests/gnu_find.sh	2007年  8月 30日 四 16:40:20
+@@ -5,7 +5,6 @@
+ app=${TOC2_FIND_RESULT}
+ "$app" --version | grep -i GNU > /dev/null || {
+         echo "Your 'find' ($app) appears to be non-GNU."
+-        return 1
+ }
+ toc2_export_make FIND=$app
+ return 0
+diff -ru cheese-0.2.3.orig/toc2/tests/gnu_make.sh cheese-0.2.3/toc2/tests/gnu_make.sh
+--- cheese-0.2.3.orig/toc2/tests/gnu_make.sh	2007年  6月 30日 六 07:17:29
++++ cheese-0.2.3/toc2/tests/gnu_make.sh	2007年  8月 30日 四 16:37:03
+@@ -2,7 +2,7 @@
+ 
+ toc2_find gmake || toc2_find make || return
+ toc2_export MAKE=${TOC2_FIND_RESULT}
+-"$MAKE" --version | grep -qi GNU > /dev/null || {
++"$MAKE" --version | grep -i GNU > /dev/null || {
+         echo "Your make appears to be non-GNU."
+         return 1
+ }
+只有在 cheese-0.2.3/toc2/tests : toc2.make
+diff -ru cheese-0.2.3.orig/toc2/tests/toc2_make.sh cheese-0.2.3/toc2/tests/toc2_make.sh
+--- cheese-0.2.3.orig/toc2/tests/toc2_make.sh	2007年  6月 30日 六 12:09:02
++++ cheese-0.2.3/toc2/tests/toc2_make.sh	2007年  8月 30日 四 16:42:47
+@@ -24,7 +24,7 @@
+     local tocmakeprops
+     for d in $(find ${TOC2_TOP_SRCDIR} -name Makefile -o -name 'GNU[Mm]akefile' -o -name Makefile.toc \
+         | sed -e '/_darcs\//d;' -e '/\.svn\//d' \
+-        | xargs grep -E -l "include.+${themake}" | sort -u); do
++        | xargs egrep -l "include.+${themake}" | sort -u); do
+         #echo "d=$d" >&2
+         thedir=$(dirname $d)
+ 	tocmake=${thedir}/$themake
+diff -ru cheese-0.2.3.orig/toc2/tests/toc2_tests_help.sh cheese-0.2.3/toc2/tests/toc2_tests_help.sh
+--- cheese-0.2.3.orig/toc2/tests/toc2_tests_help.sh	2007年  6月 30日 六 07:17:29
++++ cheese-0.2.3/toc2/tests/toc2_tests_help.sh	2007年  8月 30日 四 16:37:24
+@@ -58,7 +58,7 @@
+         return 1
+     }
+     scr=${TOC2_FIND_RESULT}
+-    grep -q "toc2_begin_help" $scr || {
++    grep "toc2_begin_help" $scr || {
+         echo "No help text found."
+         continue
+     }
+diff -ru cheese-0.2.3.orig/po/Makefile cheese-0.2.3/po/Makefile
+--- cheese-0.2.3.orig/po/Makefile	2007年  8月 23日 四 04:45:57
++++ cheese-0.2.3/po/Makefile	2007年  8月 30日 四 19:13:59
+@@ -7,7 +7,7 @@
+ 	$(call toc2.call.setup-pomo-rules,$(LANG)))
+ 
+ package.dist_files += $(POFILES) $(package.name).pot
+-toc2.bins.msgfmt.flags := --statistics --verbose
++toc2.bins.msgfmt.flags := --verbose
+ POFILES = $(LANGS:%=%.po)
+ MOFILES = $(POFILES:%.po=%.mo)
+ 

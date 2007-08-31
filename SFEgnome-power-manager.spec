@@ -168,6 +168,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/48x48/
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/48x48/apps/
 %{_datadir}/icons/hicolor/48x48/apps/*
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/man1
 
@@ -185,6 +187,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Thu Aug 30 2007 - trisk@acm.jhu.edu
+- Add missing doc dir
 * Thu Mar 29 2007 - daymobrew@users.sourceforge.net
 - Include l10n files.
 * Tue Mar 27 2007 - simon.zheng@sun.com

@@ -1,0 +1,19 @@
+--- cheese-0.2.3.orig/src/cheese.c	2007年  8月 17日 五 14:24:17
++++ cheese-0.2.3/src/cheese.c	2007年  8月 30日 四 19:27:18
+@@ -58,6 +58,8 @@
+   GnomeVFSURI *uri;
+ 
+   g_thread_init (NULL);
++  gdk_threads_init ();
++  gdk_threads_enter ();
+   gtk_init (&argc, &argv);
+   gst_init (&argc, &argv);
+   gnome_vfs_init ();
+@@ -116,6 +118,7 @@
+       G_CALLBACK (cheese_window_expose_cb), NULL);
+ 
+   gtk_main ();
++  gdk_threads_leave ();
+ 
+   return EXIT_SUCCESS;
+ }

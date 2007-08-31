@@ -1,3 +1,14 @@
+2007-08-30  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEcheese.spec: *NEW* Cheese - GNOME application for taking pictures
+	  and videos from a webcam
+	* SFEgnome-power-manager.spec: Add missing doc dir
+	* SFEpostr.spec: *NEW* Postr - upload photographs to Flickr
+	* patches/cheese-01-nongnu.diff: Fix GNU environment assumptions
+	* patches/cheese-02-sunpro.diff: Studio compatibility
+	* patches/cheese-03-flags.diff: Fix CFLAGS and LDFLAGS in build
+	* patches/cheese-04-threads.diff: Add thread safety for GDK
+
 2007-08-30  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEgperf.spec: (new) gperf - GNU perfect hash function generator
