@@ -1,3 +1,11 @@
+2007-08-31  simon.zheng  <simon.zheng@sun.com>
+
+	* SFEgnome-device-manager.spec:
+	* linux-specs/gnome-device-manager.spec:
+	* patches/gnome-device-manager-01-build.diff:
+	  Add a new spec file for gnome-device-manager, which is originated
+	  from hal-device-manager.
+
 2007-08-31 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* SFElibcompizconfig.spec: added default to gconf
