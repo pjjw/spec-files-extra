@@ -39,6 +39,32 @@ diff -Nrup libcompizconfig-0.5.2/configure.ac ../libcompizconfig-0.5.2/configure
  AC_C_BIGENDIAN
  
  PKG_CHECK_MODULES(COMPIZ, "compiz")
+diff -Nrup libcompizconfig-0.5.2/metadata/Makefile.am ../libcompizconfig-0.5.2/metadata/Makefile.am
+--- libcompizconfig-0.5.2/metadata/Makefile.am	2007-08-12 21:59:57.000000000 +0200
++++ ../libcompizconfig-0.5.2/metadata/Makefile.am	2007-08-31 09:59:12.739798000 +0200
+@@ -2,5 +2,10 @@ metadir = $(datadir)/compizconfig
+ meta_DATA =	       \
+ 	global.xml
+ 
++configdir = $(sysconfdir)/compizconfig
++config_DATA =	      \
++	config
++
+ EXTRA_DIST =	       \
+-	global.xml
+\ No newline at end of file
++	global.xml     \
++	config
+diff -Nrup libcompizconfig-0.5.2/metadata/config ../libcompizconfig-0.5.2/metadata/config
+--- libcompizconfig-0.5.2/metadata/config	1970-01-01 01:00:00.000000000 +0100
++++ ../libcompizconfig-0.5.2/metadata/config	2007-08-31 09:59:29.926422000 +0200
+@@ -0,0 +1,6 @@
++[gnome_session]
++backend = gconf
++profile = 
++integration = true
++plugin_list_autosort = true
++
 diff -Nrup libcompizconfig-0.5.2/metadata/global.xml ../libcompizconfig-0.5.2/metadata/global.xml
 --- libcompizconfig-0.5.2/metadata/global.xml	2007-08-12 21:59:57.000000000 +0200
 +++ ../libcompizconfig-0.5.2/metadata/global.xml	2007-08-30 18:37:16.532477000 +0200

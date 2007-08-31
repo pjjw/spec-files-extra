@@ -94,9 +94,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %files root
-%defattr (-, root, bin)
+%defattr (0755, root, sys)
 %dir %attr(0755, root, sys) %{_datadir}
 %{_datadir}/*
+%attr (0755, root, sys) %dir %{_sysconfdir}
+%{_sysconfdir}/*
 
 %files devel
 %defattr (-, root, bin)

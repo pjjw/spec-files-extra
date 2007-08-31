@@ -1,3 +1,8 @@
+2007-08-31 Erwann Chenede - <erwann.chenede@sun.com>
+
+	* SFElibcompizconfig.spec: added default to gconf
+	* patches/libcompizconfig-01-solaris-port.diff : global default to gconf
+
 2007-08-30  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEcheese.spec: *NEW* Cheese - GNOME application for taking pictures
