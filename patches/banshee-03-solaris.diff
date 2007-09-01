@@ -68,3 +68,34 @@ diff -ru banshee-0.13.1.orig/src//Plugins/Banshee.Plugins.NotificationAreaIcon/B
 -	<dllmap dll="libX11" target="libX11.so.6" />
 +	<dllmap dll="libX11" target="libX11.so.5" />
  </configuration>
+--- banshee-0.13.1.orig/src/Core/Banshee.Base/Catalog.cs	2007年  7月 31日 二 17:04:45
++++ banshee-0.13.1/src/Core/Banshee.Base/Catalog.cs	2007年  9月  1日 六 06:05:26
+@@ -184,22 +184,22 @@
+             }
+         }
+         
+-        [DllImport("intl")]
++        [DllImport("libc")]
+         private static extern IntPtr bind_textdomain_codeset(IntPtr domain, IntPtr codeset);
+         
+-        [DllImport("intl")]
++        [DllImport("libc")]
+         private static extern IntPtr bindtextdomain(IntPtr domain, IntPtr locale_dir);
+         
+-        [DllImport("intl")]
++        [DllImport("libc")]
+         private static extern IntPtr dgettext(IntPtr domain, IntPtr msgid);
+         
+-        [DllImport("intl")]
++        [DllImport("c")]
+         private static extern IntPtr dngettext(IntPtr domain, IntPtr msgid_singular, IntPtr msgid_plural, Int32 n);
+ 
+-        [DllImport("intl")]
++        [DllImport("libc")]
+         private static extern IntPtr gettext(IntPtr msgid);
+         
+-        [DllImport("intl")]
++        [DllImport("libc")]
+         private static extern IntPtr ngettext(IntPtr msgid_singular, IntPtr msgid_plural, Int32 n);
+     }
+ }
