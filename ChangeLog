@@ -1,5 +1,10 @@
 2007-09-01  Albert Lee  <trisk@acm.jhu.edu>
 
+	* SFEtomboy.spec: Add tomboy-01-solaris.diff
+	* patches/tomboy-01-solaris.diff: Yet another dbus-sharp patch
+
+2007-09-01  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEavahi.spec: Add SFEavahi-sharp (seperate later)
 	* SFEbanshee.spec: *NEW* Banshee - music management and playback for
 	  GNOME

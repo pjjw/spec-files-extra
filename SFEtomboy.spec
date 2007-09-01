@@ -9,6 +9,7 @@ Name:         SFEtomboy
 Version:      0.6.3
 Summary:      Tomboy - a desktop note-taking application
 Source:       http://download.gnome.org/sources/tomboy/0.6/tomboy-%{version}.tar.gz
+Patch1:       tomboy-01-solaris.diff
 URL:          http://www.gnome.org/projects/tomboy/
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
@@ -47,6 +48,7 @@ Requires:                %{name}
 
 %prep
 %setup -q -n tomboy-%{version}
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -193,5 +195,7 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Sat Sep 01 2007 - trisk@acm.jhu.edu
+- Add tomboy-01-solaris.diff for yet another dbus-sharp patch
 * Sat Sep 01 2007 - trisk@acm.jhu.edu
 - Initial spec
