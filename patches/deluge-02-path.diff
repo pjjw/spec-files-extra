@@ -1,0 +1,11 @@
+--- deluge-0.5.4.1.orig/src/common.py	2007年  8月 13日 一 03:29:41
++++ deluge-0.5.4.1/src/common.py	2007年  8月 31日 五 19:26:01
+@@ -178,7 +178,7 @@
+     
+     py_version = sys.version[:3]
+     full_path = os.path.join(INSTALL_PREFIX, 'lib', 'python' + py_version, 
+-                             'site-packages', 'deluge', script)
++                             'vendor-packages', 'deluge', script)
+     exec_command('python', full_path, *parameters)
+ 
+ # Encryption States

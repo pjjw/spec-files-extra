@@ -66,10 +66,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 %dir %attr(0755, root, sys) %{_datadir}
 %{_datadir}/*
 
 %changelog
+* Fri Aug 31 2007 - trisk@acm.jhu.edu
+- Fix dir attributes
 * Tue Aug 28 2007 - erwann@sun.com
 - init spec for the new package format

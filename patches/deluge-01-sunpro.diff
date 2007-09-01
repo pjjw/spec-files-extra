@@ -1,0 +1,532 @@
+diff -ru deluge-0.5.4.1.orig/setup.py deluge-0.5.4.1/setup.py
+--- deluge-0.5.4.1.orig/setup.py	2007年  8月 13日 一 03:29:43
++++ deluge-0.5.4.1/setup.py	2007年  8月 31日 五 07:46:31
+@@ -96,12 +96,12 @@
+ #    it has been removed to prevent confusion.
+ 
+ if not OS == "win":
+-    EXTRA_COMPILE_ARGS = ["-Wno-missing-braces", 
++    EXTRA_COMPILE_ARGS = [
+                 "-DHAVE_INCLUDE_LIBTORRENT_ASIO____ASIO_HPP=1", 
+                 "-DHAVE_INCLUDE_LIBTORRENT_ASIO_SSL_STREAM_HPP=1", 
+                 "-DHAVE_INCLUDE_LIBTORRENT_ASIO_IP_TCP_HPP=1", 
+                 "-DHAVE_PTHREAD=1", "-DTORRENT_USE_OPENSSL=1", "-DHAVE_SSL=1", 
+-                "-DNDEBUG=1", "-O2"]
++                "-DNDEBUG=1"]
+     if ARCH == "x64":
+         EXTRA_COMPILE_ARGS.append("-DAMD64")
+ 
+@@ -174,7 +175,8 @@
+                     include_dirs = includedirs,
+             libraries = librariestype,
+                     extra_compile_args = EXTRA_COMPILE_ARGS,
+-                    sources = sources)
++                    sources = sources,
++                    language = 'c++')
+ # Thanks to Iain Nicol for code to save the location for installed prefix
+ # At runtime, we need to know where we installed the data to.
+ 
+diff -ru deluge-0.5.4.1.orig/libtorrent/include/libtorrent/buffer.hpp deluge-0.5.4.1/libtorrent/include/libtorrent/buffer.hpp
+--- deluge-0.5.4.1.orig/libtorrent/include/libtorrent/buffer.hpp	2007年  8月 13日 一 03:29:40
++++ deluge-0.5.4.1/libtorrent/include/libtorrent/buffer.hpp	2007年  8月 31日 五 07:46:31
+@@ -246,7 +246,7 @@
+ 	 assert(m_write_cursor == m_last);
+     m_write_cursor = m_first;
+ 
+-    memcpy(m_write_cursor, first, n);
++    std::memcpy(m_write_cursor, first, n);
+     m_write_cursor += n;
+ }
+ 
+diff -ru deluge-0.5.4.1.orig/libtorrent/include/libtorrent/asio/detail/socket_ops.hpp deluge-0.5.4.1/libtorrent/include/libtorrent/asio/detail/socket_ops.hpp
+--- deluge-0.5.4.1.orig/libtorrent/include/libtorrent/asio/detail/socket_ops.hpp	2007年  8月 13日 一 03:29:39
++++ deluge-0.5.4.1/libtorrent/include/libtorrent/asio/detail/socket_ops.hpp	2007年  8月 31日 五 07:46:31
+@@ -130,7 +130,10 @@
+ #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
+   b.buf = static_cast<char*>(data);
+   b.len = static_cast<u_long>(size);
+-#else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
++#elif defined(__SUNPRO_CC)
++  b.iov_base = static_cast<char*>(data);
++  b.iov_len = size;
++#else // defined(__SUNPRO_CC)
+   b.iov_base = data;
+   b.iov_len = size;
+ #endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
+@@ -141,7 +144,10 @@
+ #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
+   b.buf = static_cast<char*>(const_cast<void*>(data));
+   b.len = static_cast<u_long>(size);
+-#else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
++#elif defined(__SUNPRO_CC)
++  b.iov_base = static_cast<char*>(const_cast<void*>(data));
++  b.iov_len = size;
++#else // defined(__SUNPRO_CC)
+   b.iov_base = const_cast<void*>(data);
+   b.iov_len = size;
+ #endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
+diff -ru deluge-0.5.4.1.orig/libtorrent/include/libtorrent/asio/impl/error_code.ipp deluge-0.5.4.1/libtorrent/include/libtorrent/asio/impl/error_code.ipp
+--- deluge-0.5.4.1.orig/libtorrent/include/libtorrent/asio/impl/error_code.ipp	2007年  8月 13日 一 03:29:39
++++ deluge-0.5.4.1/libtorrent/include/libtorrent/asio/impl/error_code.ipp	2007年  8月 31日 五 07:46:31
+@@ -77,16 +77,16 @@
+   if (*this == error::socket_type_not_supported)
+     return "Socket type not supported.";
+ #if defined(__sun) || defined(__QNX__)
+-  return strerror(value_);
++  return std::strerror(value_);
+ #elif defined(__MACH__) && defined(__APPLE__) \
+ || defined(__NetBSD__) || defined(__FreeBSD__) || defined(__OpenBSD__) \
+ || defined(_AIX)
+   char buf[256] = "";
+-  strerror_r(value_, buf, sizeof(buf));
++  std::strerror_r(value_, buf, sizeof(buf));
+   return buf;
+ #else
+   char buf[256] = "";
+-  return strerror_r(value_, buf, sizeof(buf));
++  return std::strerror_r(value_, buf, sizeof(buf));
+ #endif
+ #endif // defined(BOOST_WINDOWS)
+ }
+diff -ru deluge-0.5.4.1.orig/libtorrent/src/sha1.cpp deluge-0.5.4.1/libtorrent/src/sha1.cpp
+--- deluge-0.5.4.1.orig/libtorrent/src/sha1.cpp	2007年  8月 13日 一 03:29:41
++++ deluge-0.5.4.1/libtorrent/src/sha1.cpp	2007年  8月 31日 五 07:46:31
+@@ -20,7 +20,6 @@
+ // #include <stdint.h>
+ 
+ #include <boost/cstdint.hpp>
+-using boost::uint32_t;
+ using boost::uint8_t;
+ 
+ #include "libtorrent/config.hpp"
+diff -ru deluge-0.5.4.1.orig/libtorrent/src/torrent_handle.cpp deluge-0.5.4.1/libtorrent/src/torrent_handle.cpp
+--- deluge-0.5.4.1.orig/libtorrent/src/torrent_handle.cpp	2007年  8月 13日 一 03:29:41
++++ deluge-0.5.4.1/libtorrent/src/torrent_handle.cpp	2007年  8月 31日 五 07:46:31
+@@ -75,7 +75,6 @@
+ #endif
+ 
+ using boost::bind;
+-using boost::mutex;
+ using libtorrent::aux::session_impl;
+ 
+ namespace libtorrent
+@@ -100,7 +99,7 @@
+ 
+ 			if (chk)
+ 			{
+-				mutex::scoped_lock l(chk->m_mutex);
++				boost::mutex::scoped_lock l(chk->m_mutex);
+ 				aux::piece_checker_data* d = chk->find_torrent(hash);
+ 				if (d != 0) return f(*d->torrent_ptr);
+ 			}
+@@ -273,7 +272,7 @@
+ 
+ 		if (m_chk)
+ 		{
+-			mutex::scoped_lock l(m_chk->m_mutex);
++			boost::mutex::scoped_lock l(m_chk->m_mutex);
+ 
+ 			aux::piece_checker_data* d = m_chk->find_torrent(m_info_hash);
+ 			if (d != 0)
+@@ -307,7 +306,7 @@
+ 
+ 		if (m_chk)
+ 		{
+-			mutex::scoped_lock l(m_chk->m_mutex);
++			boost::mutex::scoped_lock l(m_chk->m_mutex);
+ 
+ 			aux::piece_checker_data* d = m_chk->find_torrent(m_info_hash);
+ 			if (d != 0)
+@@ -487,7 +486,7 @@
+ 
+ 		if (m_chk)
+ 		{
+-			mutex::scoped_lock l(m_chk->m_mutex);
++			boost::mutex::scoped_lock l(m_chk->m_mutex);
+ 			aux::piece_checker_data* d = m_chk->find_torrent(m_info_hash);
+ 			if (d != 0) return true;
+ 		}
+@@ -643,7 +642,7 @@
+ 			// the torrent is being checked. Add the peer to its
+ 			// peer list. The entries in there will be connected
+ 			// once the checking is complete.
+-			mutex::scoped_lock l2(m_chk->m_mutex);
++			boost::mutex::scoped_lock l2(m_chk->m_mutex);
+ 
+ 			aux::piece_checker_data* d = m_chk->find_torrent(m_info_hash);
+ 			if (d == 0) throw_invalid_handle();
+diff -ru deluge-0.5.4.1.orig/libtorrent/src/upnp.cpp deluge-0.5.4.1/libtorrent/src/upnp.cpp
+--- deluge-0.5.4.1.orig/libtorrent/src/upnp.cpp	2007年  8月 13日 一 03:29:41
++++ deluge-0.5.4.1/libtorrent/src/upnp.cpp	2007年  8月 31日 五 07:49:14
+@@ -618,7 +618,7 @@
+ 		if (type == xml_start_tag)
+ 		{
+ 			if ((!state.top_tag.empty() && state.top_tag == "service")
+-				|| !strcmp(string, "service"))
++				|| !std::strcmp(string, "service"))
+ 			{
+ 				state.top_tag = string;
+ 			}
+@@ -625,7 +625,7 @@
+ 		}
+ 		else if (type == xml_end_tag)
+ 		{
+-			if (!strcmp(string, "service"))
++			if (!std::strcmp(string, "service"))
+ 			{
+ 				state.top_tag.clear();
+ 				if (state.found_service) state.exit = true;
+@@ -637,7 +637,7 @@
+ 		{
+ 			if (state.top_tag == "serviceType")
+ 			{
+-				if (!strcmp(string, state.service_type))
++				if (!std::strcmp(string, state.service_type))
+ 					state.found_service = true;
+ 			}
+ 			else if (state.top_tag == "controlURL")
+@@ -752,7 +752,7 @@
+ 	void find_error_code(int type, char const* string, error_code_parse_state& state)
+ 	{
+ 		if (state.exit) return;
+-		if (type == xml_start_tag && !strcmp("errorCode", string))
++		if (type == xml_start_tag && !std::strcmp("errorCode", string))
+ 		{
+ 			state.in_error_code = true;
+ 		}
+diff -ru deluge-0.5.4.1.orig/libtorrent/include/libtorrent/xml_parse.hpp deluge-0.5.4.1/libtorrent/include/libtorrent/xml_parse.hpp
+--- deluge-0.5.4.1.orig/libtorrent/include/libtorrent/xml_parse.hpp	2007年  8月 13日 一 03:29:40
++++ deluge-0.5.4.1/libtorrent/include/libtorrent/xml_parse.hpp	2007年  8月 31日 五 07:54:07
+@@ -128,7 +128,7 @@
+ 				*(p-1) = '?';
+ 				tag_end = p - 1;
+ 			}
+-			else if (start + 5 < p && memcmp(start, "!--", 3) == 0 && memcmp(p-2, "--", 2) == 0)
++			else if (start + 5 < p && std::memcmp(start, "!--", 3) == 0 && std::memcmp(p-2, "--", 2) == 0)
+ 			{
+ 				start += 3;
+ 				*(p-2) = 0;
+--- deluge-0.5.4.1.orig/libtorrent/src/file.cpp	2007年  8月 13日 一 03:29:41
++++ deluge-0.5.4.1/libtorrent/src/file.cpp	2007年  8月 31日 五 08:00:37
+@@ -183,7 +183,7 @@
+ 			{
+ 				std::stringstream msg;
+ 				msg << "open failed: '" << path.native_file_string() << "'. "
+-					<< strerror(errno);
++					<< std::strerror(errno);
+ 				throw file_error(msg.str());
+ 			}
+ 			m_open_mode = mode;
+@@ -215,7 +215,7 @@
+ 			if (ret == -1)
+ 			{
+ 				std::stringstream msg;
+-				msg << "read failed: " << strerror(errno);
++				msg << "read failed: " << std::strerror(errno);
+ 				throw file_error(msg.str());
+ 			}
+ 			return ret;
+@@ -239,7 +239,7 @@
+ 			if (ret == -1)
+ 			{
+ 				std::stringstream msg;
+-				msg << "write failed: " << strerror(errno);
++				msg << "write failed: " << std::strerror(errno);
+ 				throw file_error(msg.str());
+ 			}
+ 			return ret;
+@@ -280,7 +280,7 @@
+ 			if (ret == -1)
+ 			{
+ 				std::stringstream msg;
+-				msg << "seek failed: '" << strerror(errno)
++				msg << "seek failed: '" << std::strerror(errno)
+ 					<< "' fd: " << m_fd
+ 					<< " offset: " << offset
+ 					<< " seekdir: " << seekdir;
+--- deluge-0.5.4.1.orig/libtorrent/src/session.cpp	2007年  8月 13日 一 03:29:41
++++ deluge-0.5.4.1/libtorrent/src/session.cpp	2007年  8月 31日 五 08:03:51
+@@ -78,7 +78,6 @@
+ using boost::shared_ptr;
+ using boost::weak_ptr;
+ using boost::bind;
+-using boost::mutex;
+ using libtorrent::aux::session_impl;
+ 
+ namespace libtorrent
+--- deluge-0.5.4.1.orig/libtorrent/src/session_impl.cpp	2007年  8月 13日 一 03:29:41
++++ deluge-0.5.4.1/libtorrent/src/session_impl.cpp	2007年  8月 31日 五 08:08:08
+@@ -94,7 +94,6 @@
+ using boost::shared_ptr;
+ using boost::weak_ptr;
+ using boost::bind;
+-using boost::mutex;
+ using libtorrent::aux::session_impl;
+ 
+ namespace libtorrent {
+@@ -204,7 +203,7 @@
+ 
+ 					// lock the session to add the new torrent
+ 					session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
+-					mutex::scoped_lock l2(m_mutex);
++					boost::mutex::scoped_lock l2(m_mutex);
+ 					// clear the resume data now that it has been used
+ 					// (the fast resume data is now parsed and stored in t)
+ 					t->resume_data = entry();
+@@ -268,7 +267,7 @@
+ 				// This will happen if the storage fails to initialize
+ 				// for example if one of the files has an invalid filename.
+ 				session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
+-				mutex::scoped_lock l2(m_mutex);
++				boost::mutex::scoped_lock l2(m_mutex);
+ 
+ 				if (m_ses.m_alerts.should_post(alert::fatal))
+ 				{
+@@ -287,7 +286,7 @@
+ #ifndef NDEBUG
+ 				std::cerr << "error while checking resume data\n";
+ #endif
+-				mutex::scoped_lock l(m_mutex);
++				boost::mutex::scoped_lock l(m_mutex);
+ 				assert(!m_torrents.empty());
+ 				m_torrents.pop_front();
+ 				assert(false);
+@@ -304,7 +303,7 @@
+ 				boost::tie(finished, progress) = processing->torrent_ptr->check_files();
+ 
+ 				{
+-					mutex::scoped_lock l(m_mutex);
++					boost::mutex::scoped_lock l(m_mutex);
+ 
+ 					INVARIANT_CHECK;
+ 
+@@ -330,7 +329,7 @@
+ 				{
+ 					// lock the session to add the new torrent
+ 					session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
+-					mutex::scoped_lock l2(m_mutex);
++					boost::mutex::scoped_lock l2(m_mutex);
+ 
+ 					INVARIANT_CHECK;
+ 
+@@ -379,7 +378,7 @@
+ 			{
+ 				// This will happen if the storage fails to initialize
+ 				session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
+-				mutex::scoped_lock l2(m_mutex);
++				boost::mutex::scoped_lock l2(m_mutex);
+ 
+ 				if (m_ses.m_alerts.should_post(alert::fatal))
+ 				{
+@@ -405,7 +404,7 @@
+ #ifndef NDEBUG
+ 				std::cerr << "error while checking files\n";
+ #endif
+-				mutex::scoped_lock l(m_mutex);
++				boost::mutex::scoped_lock l(m_mutex);
+ 				assert(!m_processing.empty());
+ 
+ 				processing.reset();
+@@ -595,7 +594,7 @@
+ 		m_io_service.stop();
+ 		l.unlock();
+ 
+-		mutex::scoped_lock l2(m_checker_impl.m_mutex);
++		boost::mutex::scoped_lock l2(m_checker_impl.m_mutex);
+ 		// abort the checker thread
+ 		m_checker_impl.m_abort = true;
+ 	}
+@@ -1238,7 +1237,7 @@
+ 	std::vector<torrent_handle> session_impl::get_torrents()
+ 	{
+ 		mutex_t::scoped_lock l(m_mutex);
+-		mutex::scoped_lock l2(m_checker_impl.m_mutex);
++		boost::mutex::scoped_lock l2(m_checker_impl.m_mutex);
+ 		std::vector<torrent_handle> ret;
+ 		for (std::deque<boost::shared_ptr<aux::piece_checker_data> >::iterator i
+ 			= m_checker_impl.m_torrents.begin()
+@@ -1305,7 +1304,7 @@
+ 
+ 		// lock the session and the checker thread (the order is important!)
+ 		mutex_t::scoped_lock l(m_mutex);
+-		mutex::scoped_lock l2(m_checker_impl.m_mutex);
++		boost::mutex::scoped_lock l2(m_checker_impl.m_mutex);
+ 
+ 		if (is_aborted())
+ 			throw std::runtime_error("session is closing");
+@@ -1389,7 +1388,7 @@
+ 		assert(!save_path.empty());
+ 		{
+ 			// lock the checker_thread
+-			mutex::scoped_lock l(m_checker_impl.m_mutex);
++			boost::mutex::scoped_lock l(m_checker_impl.m_mutex);
+ 
+ 			// is the torrent currently being checked?
+ 			if (m_checker_impl.find_torrent(info_hash))
+@@ -1481,7 +1480,7 @@
+ 
+ 		if (h.m_chk)
+ 		{
+-			mutex::scoped_lock l(m_checker_impl.m_mutex);
++			boost::mutex::scoped_lock l(m_checker_impl.m_mutex);
+ 
+ 			aux::piece_checker_data* d = m_checker_impl.find_torrent(h.m_info_hash);
+ 			if (d != 0)
+@@ -1804,7 +1803,7 @@
+ 		// destructed and then the invariant will be broken).
+ 
+ 		{
+-			mutex::scoped_lock l(m_checker_impl.m_mutex);
++			boost::mutex::scoped_lock l(m_checker_impl.m_mutex);
+ 			// abort the checker thread
+ 			m_checker_impl.m_abort = true;
+ 
+--- deluge-0.5.4.1.orig/libtorrent/src/storage.cpp	2007年  8月 13日 一 03:29:41
++++ deluge-0.5.4.1/libtorrent/src/storage.cpp	2007年  8月 31日 五 08:10:23
+@@ -2067,7 +2067,7 @@
+ 
+ 		const int stack_buffer_size = 16*1024;
+ 		char zeroes[stack_buffer_size];
+-		memset(zeroes, 0, stack_buffer_size);
++		std::memset(zeroes, 0, stack_buffer_size);
+ 		
+ 		bool written = false;
+ 
+--- deluge-0.5.4.1.orig/libtorrent/src/udp_tracker_connection.cpp	2007年  8月 13日 一 03:29:41
++++ deluge-0.5.4.1/libtorrent/src/udp_tracker_connection.cpp	2007年  8月 31日 五 08:12:24
+@@ -175,7 +175,7 @@
+ 		char* ptr = send_buf;
+ 
+ 		if (m_transaction_id == 0)
+-			m_transaction_id = rand() ^ (rand() << 16);
++			m_transaction_id = std::rand() ^ (std::rand() << 16);
+ 
+ 		// connection_id
+ 		detail::write_uint32(0x417, ptr);
+@@ -279,7 +279,7 @@
+ 	void udp_tracker_connection::send_udp_announce()
+ 	{
+ 		if (m_transaction_id == 0)
+-			m_transaction_id = rand() ^ (rand() << 16);
++			m_transaction_id = std::rand() ^ (std::rand() << 16);
+ 
+ 		if (!m_socket) return; // the operation was aborted
+ 
+@@ -338,7 +338,7 @@
+ 	void udp_tracker_connection::send_udp_scrape()
+ 	{
+ 		if (m_transaction_id == 0)
+-			m_transaction_id = rand() ^ (rand() << 16);
++			m_transaction_id = std::rand() ^ (std::rand() << 16);
+ 
+ 		if (!m_socket) return; // the operation was aborted
+ 
+--- deluge-0.5.4.1.orig/libtorrent/src/piece_picker.cpp	2007年  8月 13日 一 03:29:41
++++ deluge-0.5.4.1/libtorrent/src/piece_picker.cpp	2007年  8月 31日 五 08:15:10
+@@ -506,7 +506,7 @@
+ 		{
+ 			// find a random position in the destination vector where we will place
+ 			// this entry.
+-			int dst_index = rand() % m_piece_info[priority].size();
++			int dst_index = std::rand() % m_piece_info[priority].size();
+ 			
+ 			// copy the entry at that position to the back
+ 			m_piece_map[m_piece_info[priority][dst_index]].index
+@@ -578,7 +578,7 @@
+ 		{
+ 			// find a random position in the destination vector where we will place
+ 			// this entry.
+-			int dst_index = rand() % m_piece_info[new_priority].size();
++			int dst_index = std::rand() % m_piece_info[new_priority].size();
+ 			
+ 			// copy the entry at that position to the back
+ 			m_piece_map[m_piece_info[new_priority][dst_index]].index
+@@ -1129,7 +1129,7 @@
+ 			// pieces are)
+ 			while (num_blocks > 0)
+ 			{
+-				int start_piece = rand() % m_piece_map.size();
++				int start_piece = std::rand() % m_piece_map.size();
+ 				int piece = start_piece;
+ 				while (!pieces[piece]
+ 					|| m_piece_map[piece].index == piece_pos::we_have_index
+--- deluge-0.5.4.1.orig/libtorrent/src/http_stream.cpp	2007年  8月 13日 一 03:29:41
++++ deluge-0.5.4.1/libtorrent/src/http_stream.cpp	2007年  8月 31日 五 08:16:46
+@@ -130,7 +130,7 @@
+ 		if (found_end)
+ 		{
+ 			m_buffer.push_back(0);
+-			char* status = strchr(&m_buffer[0], ' ');
++			char* status = std::strchr(&m_buffer[0], ' ');
+ 			if (status == 0)
+ 			{
+ 				(*h)(asio::error::operation_not_supported);
+@@ -139,7 +139,7 @@
+ 			}
+ 
+ 			status++;
+-			int code = atoi(status);
++			int code = std::atoi(status);
+ 			if (code != 200)
+ 			{
+ 				(*h)(asio::error::operation_not_supported);
+--- deluge-0.5.4.1.orig/libtorrent/src/torrent.cpp	2007年  8月 13日 一 03:29:41
++++ deluge-0.5.4.1/libtorrent/src/torrent.cpp	2007年  8月 31日 五 08:17:40
+@@ -78,7 +78,6 @@
+ using boost::tuples::get;
+ using boost::tuples::make_tuple;
+ using boost::bind;
+-using boost::mutex;
+ using libtorrent::aux::session_impl;
+ 
+ namespace
+--- deluge-0.5.4.1.orig/libtorrent/src/lsd.cpp	2007年  8月 13日 一 03:29:41
++++ deluge-0.5.4.1/libtorrent/src/lsd.cpp	2007年  8月 31日 五 08:20:18
+@@ -202,13 +202,13 @@
+ 		if (line == end) break;
+ 		*line = 0;
+ 		for (char* i = p; i < line; ++i) *i = std::tolower(*i);
+-		if (line - p >= 5 && memcmp(p, "port:", 5) == 0)
++		if (line - p >= 5 && std::memcmp(p, "port:", 5) == 0)
+ 		{
+ 			p += 5;
+ 			while (*p == ' ') ++p;
+-			port = atoi(p);
++			port = std::atoi(p);
+ 		}
+-		else if (line - p >= 9 && memcmp(p, "infohash:", 9) == 0)
++		else if (line - p >= 9 && std::memcmp(p, "infohash:", 9) == 0)
+ 		{
+ 			p += 9;
+ 			while (*p == ' ') ++p;
+--- deluge-0.5.4.1.orig/libtorrent/src/kademlia/rpc_manager.cpp	2007年  8月 13日 一 03:29:40
++++ deluge-0.5.4.1/libtorrent/src/kademlia/rpc_manager.cpp	2007年  8月 31日 五 08:22:52
+@@ -82,7 +82,7 @@
+ 	if (--o->m_refs == 0)
+ 	{
+ 		boost::pool<>& p = o->pool_allocator;
+-		o->~observer();
++		(const_cast<observer*>(o))->~observer();
+ 		p.ordered_free(const_cast<observer*>(o));
+ 	}
+ }
+@@ -106,7 +106,7 @@
+ rpc_manager::rpc_manager(fun const& f, node_id const& our_id
+ 	, routing_table& table, send_fun const& sf)
+ 	: m_pool_allocator(sizeof(mpl::deref<max_observer_type_iter::base>::type))
+-	, m_next_transaction_id(rand() % max_transactions)
++	, m_next_transaction_id(std::rand() % max_transactions)
+ 	, m_oldest_transaction_id(m_next_transaction_id)
+ 	, m_incoming(f)
+ 	, m_send(sf)
+--- deluge-0.5.4.1.orig/libtorrent/src/kademlia/node.cpp	2007年  8月 13日 一 03:29:40
++++ deluge-0.5.4.1/libtorrent/src/kademlia/node.cpp	2007年  8月 31日 五 08:40:01
+@@ -420,7 +420,7 @@
+ 	int num = (std::min)((int)v.peers.size(), m_settings.max_peers_reply);
+ 	peers.clear();
+ 	peers.reserve(num);
+-	random_sample_n(boost::make_transform_iterator(v.peers.begin(), &get_endpoint)
++	std::random_sample_n(boost::make_transform_iterator(v.peers.begin(), &get_endpoint)
+ 		, boost::make_transform_iterator(v.peers.end(), &get_endpoint)
+ 		, std::back_inserter(peers), num);
+ 

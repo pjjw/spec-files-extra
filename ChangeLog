@@ -1,3 +1,11 @@
+2007-08-31  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEcompiz-bcop.spec: Fix dir attributes
+	* SFEdeluge.spec: *NEW* Deluge - BitTorrent client
+	* SFEpython-xdg.spec: Python library to access freedesktop.org standards
+	* patches/deluge-01-sunpro.diff: Numerous fixes for Studio compatibility
+	* patches/deluge-02-path.diff: Use vendor-packages path
+
 2007-08-31  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEgnome-device-manager.spec:
