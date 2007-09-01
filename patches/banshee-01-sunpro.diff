@@ -1,0 +1,21 @@
+--- banshee-0.13.1.orig/libbanshee/Makefile.am	2007年  7月 31日 二 17:04:46
++++ banshee-0.13.1/libbanshee/Makefile.am	2007年  9月  1日 六 04:00:23
+@@ -1,7 +1,5 @@
+ INCLUDES = \
+ 	-I$(top_srcdir) \
+-	-Wall \
+-	-ggdb3 \
+ 	-D_FORTIFY_SOURCE=2 \
+ 	$(LIBBANSHEE_CFLAGS) \
+ 	$(GST_CFLAGS) \
+--- banshee-0.13.1.orig/libbanshee/Makefile.in	2007年  8月 19日 日 23:15:20
++++ banshee-0.13.1/libbanshee/Makefile.in	2007年  9月  1日 六 04:27:35
+@@ -342,8 +342,6 @@
+ target_vendor = @target_vendor@
+ INCLUDES = \
+ 	-I$(top_srcdir) \
+-	-Wall \
+-	-ggdb3 \
+ 	-D_FORTIFY_SOURCE=2 \
+ 	$(LIBBANSHEE_CFLAGS) \
+ 	$(GST_CFLAGS) \

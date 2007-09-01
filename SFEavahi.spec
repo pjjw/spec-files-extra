@@ -22,6 +22,10 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires: SFElibdaemon-devel
 BuildRequires: SUNWdbus-devel
+BuildRequires: SUNWdbus-bindings-devel
+BuildRequires: SUNWgnome-base-libs-devel
+BuildRequires: SUNWgnome-python-libs-devel
+BuildRequires: SUNWPython
 BuildRequires: SFEdoxygen
 BuildRequires: SFEgraphviz
 Requires: SUNWpostrun
@@ -35,6 +39,17 @@ Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
+
+
+%package sharp
+Summary:                 %{summary} -  mono .NET bindings
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires: %name
+BuildRequires: SFEmono-devel
+BuildRequires: SFEmonodoc
+Requires: SFEmono
+Requires: SFEgtk-sharp
 
 
 %package root
@@ -56,7 +71,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="-I/usr/sfw/include -L/usr/sfw/lib -I/opt/sfw/include -L/opt/sfw/lib"
+export PATH=/usr/mono/bin:$PATH
+export CFLAGS="-I/usr/sfw/include -L/usr/sfw/lib"
 export CFLAGS="$CFLAGS -D_XOPEN_SOURCE=500 -D__EXTENSIONS__"
 
 export LDFLAGS="%{_ldflags} -lsocket -lnsl -L/usr/sfw/lib -R/usr/sfw/lib"
@@ -73,7 +89,7 @@ autoconf
             --disable-gdbm \
             --enable-dbm \
             --disable-autoipd \
-            --disable-mono\
+            --enable-mono\
             --with-distro=none \
             --disable-static
 
@@ -127,6 +143,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/avahi/*
 %{_sysconfdir}/dbus-1/*
 
+%files sharp
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, bin) %{_libdir}/monodoc
+%{_libdir}/monodoc/*
+%dir %attr (0755, root, bin) %{_libdir}/mono
+%{_libdir}/mono/*
+
 
 #TODO# better error handling for (user|group)(add|del)
 
@@ -147,6 +171,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Sep 01 2007 - trisk@acm.jhu.edu
+- Add SFEavahi-sharp (seperate later)
 * Fri Aug 17 2007 - trisk@acm.jhu.edu
 - Bump to 0.6.21
 - Allow dbus backwards compatibility.

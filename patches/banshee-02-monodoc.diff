@@ -1,0 +1,22 @@
+--- banshee-0.13.1.orig/docs/Makefile.am	2007年  7月 31日 二 17:04:45
++++ banshee-0.13.1/docs/Makefile.am	2007年  9月  1日 六 04:47:45
+@@ -54,7 +54,7 @@
+ 	$(DOC_ASSEMBLER) $(srcdir)/en
+ 
+ install-data-hook:
+-	$(MONO) $(top_builddir)/docs/MonodocNodeConfig.exe --insert "Banshee Libraries" classlib-banshee $(DOCDIR)/../monodoc.xml
++	#$(MONO) $(top_builddir)/docs/MonodocNodeConfig.exe --insert "Banshee Libraries" classlib-banshee $(DOCDIR)/../monodoc.xml
+ 
+ uninstall-hook:
+ 	$(MONO) $(top_builddir)/docs/MonodocNodeConfig.exe --remove classlib-banshee $(DOCDIR)/../monodoc.xml
+--- banshee-0.13.1.orig/docs/Makefile.in	2007年  8月 19日 日 23:15:19
++++ banshee-0.13.1/docs/Makefile.in	2007年  9月  1日 六 04:48:05
+@@ -581,7 +581,7 @@
+ @BUILD_DOCS_TRUE@	$(DOC_ASSEMBLER) $(srcdir)/en
+ 
+ @BUILD_DOCS_TRUE@install-data-hook:
+-@BUILD_DOCS_TRUE@	$(MONO) $(top_builddir)/docs/MonodocNodeConfig.exe --insert "Banshee Libraries" classlib-banshee $(DOCDIR)/../monodoc.xml
++@BUILD_DOCS_TRUE@	#$(MONO) $(top_builddir)/docs/MonodocNodeConfig.exe --insert "Banshee Libraries" classlib-banshee $(DOCDIR)/../monodoc.xml
+ 
+ @BUILD_DOCS_TRUE@uninstall-hook:
+ @BUILD_DOCS_TRUE@	$(MONO) $(top_builddir)/docs/MonodocNodeConfig.exe --remove classlib-banshee $(DOCDIR)/../monodoc.xml

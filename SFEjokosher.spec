@@ -56,29 +56,34 @@ rmdir $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages
 %else
 # REMOVE l10n FILES
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
-rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/*/[a-z]*
-rm -rf $RPM_BUILD_ROOT%{_datadir}/omf/*/*-[a-z]*.omf
+find $RPM_BUILD_ROOT%{_datadir}/gnome/help/jokosher/* -type d ! -name 'C' -prune \
+    | xargs rm -rf
+find $RPM_BUILD_ROOT%{_datadir}/omf/jokosher/* -type f ! -name '*-C.omf' \
+    | xargs rm -f
 %endif
 
 %clean
 rm -rf %{buildroot}
 
 %post
+( echo 'test -x /usr/bin/gtk-update-icon-cache || exit 0';
+  echo '/usr/bin/gtk-update-icon-cache --force %{_datadir}/icons/hicolor'
+) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u -t 5
 ( echo 'test -x /usr/bin/update-desktop-database || exit 0';
   echo '/usr/bin/update-desktop-database'
-) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u
+) | $BASEDIR/lib/postrun -b -u -c JDS_wait
 ( echo 'test -x /usr/bin/scrollkeeper-update || exit 0';
   echo '/usr/bin/scrollkeeper-update'
-) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u
+) | $BASEDIR/lib/postrun -b -u -c JDS
 
 %postun
-test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
+test -x $BASEDIR/lib/postrun || exit 0
 ( echo 'test -x /usr/bin/update-desktop-database || exit 0';
   echo '/usr/bin/update-desktop-database'
-) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u
+) | $BASEDIR/lib/postrun -b -u -c JDS
 ( echo 'test -x /usr/bin/scrollkeeper-update || exit 0';
   echo '/usr/bin/scrollkeeper-update'
-) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u
+) | $BASEDIR/lib/postrun -b -u -c JDS
 
 %files
 %defattr(-,root,bin)
@@ -92,24 +97,29 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
 %attr (-, root, other) %{_datadir}/icons
-%dir %attr (0755, root, other) %{_datadir}/gnome
-%{_datadir}/gnome/help/jokosher
 %{_datadir}/jokosher
 %dir %attr (0755, root, root) %{_datadir}/mime
 %dir %attr (0755, root, root) %{_datadir}/mime/packages
 %{_datadir}/mime/packages/*
-%{_datadir}/omf/jokosher
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
+%dir %attr (0755, root, other) %{_datadir}/gnome
+%{_datadir}/gnome/help/jokosher/C
+%{_datadir}/omf/jokosher/*-C.omf
 
 %if %build_l10n
 %files l10n
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) %{_datadir}
 %attr (-, root, other) %{_datadir}/locale
+%dir %attr (0755, root, other) %{_datadir}/gnome
+%{_datadir}/gnome/help/jokosher/[a-z]*
+%{_datadir}/omf/jokosher/*-[a-z]*.omf
 %endif
 
 %changelog
+* Sat Sep 01 2007 - trisk@acm.jhu.edu
+- Fix help and l10n install rules
 * Wed Aug 15 2007 - trisk@acm.jhu.edu
 - Update dependencies and paths
 * Tue Jul 10 2007 Brian Cameron <brian.cameron@sun.com>

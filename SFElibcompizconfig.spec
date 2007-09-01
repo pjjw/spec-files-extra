@@ -91,7 +91,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
+%{_libdir}/compiz
+%{_libdir}/compizconfig
+%{_libdir}/lib*.so*
 
 %files root
 %defattr (0755, root, sys)
@@ -120,5 +122,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Aug 31 2007 - trisk@acm.jhu.edu
+- Fix duplicate package contents
 * Fri Aug  14 2007 - erwann@sun.com
 - Initial spec

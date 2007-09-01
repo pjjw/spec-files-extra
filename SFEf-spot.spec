@@ -81,8 +81,10 @@ perl -pi -e 's/^#!\/bin\/sh/#!\/bin\/bash/' $RPM_BUILD_ROOT%{_bindir}/f-spot
 %else
 # REMOVE l10n FILES
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
-rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/f-spot/[a-z]*
-rm -f $RPM_BUILD_ROOT%{_datadir}/omf/f-spot/f-spot-[a-z]*.omf
+find $RPM_BUILD_ROOT%{_datadir}/gnome/help/f-spot/* -type d ! -name 'C' -prune \
+    | xargs rm -rf
+find $RPM_BUILD_ROOT%{_datadir}/omf/f-spot/* -type f ! -name '*-C.omf' \
+    | xargs rm -f
 %endif
 
 %clean 
@@ -102,8 +104,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/*
 %attr (0755, root, other) %{_datadir}/icons
 %dir %attr (0755, root, other) %{_datadir}/gnome
-%{_datadir}/gnome/help/f-spot
-%{_datadir}/omf/f-spot
+%{_datadir}/gnome/help/f-spot/C
+%{_datadir}/omf/f-spot/*-C.omf
 
 %if %build_l10n
 %files l10n
@@ -111,9 +113,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %attr (-, root, other) %{_datadir}/locale
 %dir %attr (0755, root, other) %{_datadir}/gnome
+%{_datadir}/gnome/help/f-spot/[a-z]*
+%{_datadir}/omf/f-spot/*-[a-z]*.omf
 %endif
 
 %changelog
+* Sat Sep 01 2007 - trisk@acm.jhu.edu
+- Fix help and l10n install rules
 * Wed Aug 15 2007 - trisk@acm.jhu.edu
 - Bump to 0.4.0
 - Add f-spot-01-solaris.diff for Solaris compatibility

@@ -1,3 +1,18 @@
+2007-09-01  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEavahi.spec: Add SFEavahi-sharp (seperate later)
+	* SFEbanshee.spec: *NEW* Banshee - music management and playback for
+	  GNOME
+	* SFEf-spot.spec: Fix help and l10n install rules
+	* SFEgimmie.spec: *NEW* Gimmie - unique desktop organizer
+	* SFEjokosher.spec: Fix help and l10n install rules
+	* SFElibcompizconfig.spec: Fix duplicate package contents
+	* SFEtomboy.spec: *NEW* Tomboy - a desktop note-taking application
+	* patches/banshee-01-sunpro.diff: Remove gcc flags
+	* patches/banshee-02-monodoc.diff: Don't update system monodoc index
+	* patches/banshee-03-solaris.diff: Modify f-spot patch for Banshee
+	* patches/gimmie-01-libsexy.diff: Copy libsexy patch for Gimmie
+
 2007-08-31  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEcompiz-bcop.spec: Fix dir attributes

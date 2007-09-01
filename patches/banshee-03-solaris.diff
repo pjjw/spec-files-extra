@@ -1,0 +1,70 @@
+--- banshee-0.13.1.orig/ext/dbus-sharp/dbus-sharp/UnixNativeTransport.cs	2007年  2月 12日 一 15:50:56
++++ banshee-0.13.1/ext/dbus-sharp/dbus-sharp/UnixNativeTransport.cs	2007年  8月 10日 五 17:20:14
+@@ -22,20 +22,20 @@
+ 	{
+ 		public const short AF_UNIX = 1;
+ 		//TODO: SOCK_STREAM is 2 on Solaris
+-		public const short SOCK_STREAM = 1;
++		public const short SOCK_STREAM = 2;
+ 
+ 		//TODO: some of these are provided by libsocket instead of libc on Solaris
+ 
+-		[DllImport ("libc", SetLastError=true)]
++		[DllImport ("libsocket", SetLastError=true)]
+ 			protected static extern int socket (int domain, int type, int protocol);
+ 
+-		[DllImport ("libc", SetLastError=true)]
++		[DllImport ("libsocket", SetLastError=true)]
+ 			protected static extern int connect (int sockfd, byte[] serv_addr, uint addrlen);
+ 
+-		[DllImport ("libc", SetLastError=true)]
++		[DllImport ("libsocket", SetLastError=true)]
+ 			protected static extern int bind (int sockfd, byte[] my_addr, uint addrlen);
+ 
+-		[DllImport ("libc", SetLastError=true)]
++		[DllImport ("libsocket", SetLastError=true)]
+ 			protected static extern int listen (int sockfd, int backlog);
+ 
+ 		//TODO: this prototype is probably wrong, fix it
+diff -ru banshee-0.13.1.orig/src//Core/Banshee/banshee.exe.config.in banshee-0.13.1/src/Core/Banshee/banshee.exe.config.in
+--- banshee-0.13.1.orig/src//Core/Banshee/banshee.exe.config.in	2007年  7月 31日 二 17:04:42
++++ banshee-0.13.1/src/Core/Banshee/banshee.exe.config.in	2007年  9月  1日 六 05:31:11
+@@ -4,5 +4,5 @@
+ 	<dllmap dll="libgtk-win32-2.0-0.dll" target="libgtk-x11-2.0.so.0" />
+ 	<dllmap dll="libbonobo-2.so" target="libbonobo-2.so.0" />
+ 	<dllmap dll="gdk-x11-2.0" target="libgdk-x11-2.0.so.0" />
+-	<dllmap dll="libX11" target="libX11.so.6" />
++	<dllmap dll="libX11" target="libX11.so.5" />
+ </configuration>
+diff -ru banshee-0.13.1.orig/src//Core/Banshee.Base/Banshee.Base.dll.config.in banshee-0.13.1/src/Core/Banshee.Base/Banshee.Base.dll.config.in
+--- banshee-0.13.1.orig/src//Core/Banshee.Base/Banshee.Base.dll.config.in	2007年  7月 31日 二 17:04:45
++++ banshee-0.13.1/src/Core/Banshee.Base/Banshee.Base.dll.config.in	2007年  9月  1日 六 05:31:11
+@@ -4,7 +4,7 @@
+ 	<dllmap dll="libgtk-win32-2.0-0.dll" target="libgtk-x11-2.0.so.0" />
+ 	<dllmap dll="libbonobo-2.so" target="libbonobo-2.so.0" />
+ 	<dllmap dll="gdk-x11-2.0" target="libgdk-x11-2.0.so.0" />
+-	<dllmap dll="libX11" target="libX11.so.6" />
++	<dllmap dll="libX11" target="libX11.so.5" />
+ 	<dllmap dll="notify" target="libnotify.so.1" />
+ 	<dllmap dll="libnautilus-burn" target="libnautilus-burn.so.@LNB_SOVERSION@" />
+ </configuration>
+diff -ru banshee-0.13.1.orig/src//Core/Banshee.Widgets/Banshee.Widgets.dll.config.in banshee-0.13.1/src/Core/Banshee.Widgets/Banshee.Widgets.dll.config.in
+--- banshee-0.13.1.orig/src//Core/Banshee.Widgets/Banshee.Widgets.dll.config.in	2007年  7月 31日 二 17:04:43
++++ banshee-0.13.1/src/Core/Banshee.Widgets/Banshee.Widgets.dll.config.in	2007年  9月  1日 六 05:31:11
+@@ -3,5 +3,5 @@
+ 	<dllmap dll="libgobject-2.0-0.dll" target="libgobject-2.0.so.0" />
+ 	<dllmap dll="libgtk-win32-2.0-0.dll" target="libgtk-x11-2.0.so.0" />
+ 	<dllmap dll="gdk-x11-2.0" target="libgdk-x11-2.0.so.0" />
+-	<dllmap dll="libX11" target="libX11.so.6" />
++	<dllmap dll="libX11" target="libX11.so.5" />
+ </configuration>
+diff -ru banshee-0.13.1.orig/src//Plugins/Banshee.Plugins.NotificationAreaIcon/Banshee.Plugins.NotificationAreaIcon.dll.config.in banshee-0.13.1/src/Plugins/Banshee.Plugins.NotificationAreaIcon/Banshee.Plugins.NotificationAreaIcon.dll.config.in
+--- banshee-0.13.1.orig/src//Plugins/Banshee.Plugins.NotificationAreaIcon/Banshee.Plugins.NotificationAreaIcon.dll.config.in	2007年  7月 31日 二 17:04:41
++++ banshee-0.13.1/src/Plugins/Banshee.Plugins.NotificationAreaIcon/Banshee.Plugins.NotificationAreaIcon.dll.config.in	2007年  9月  1日 六 05:31:11
+@@ -1,5 +1,5 @@
+ <configuration>
+ 	<dllmap dll="libgdk-x11-2.0.so.0" target="libgdk-x11-2.0.so.0" />
+ 	 <dllmap dll="libgobject-2.0-0.dll" target="libgobject-2.0.so.0" />
+-	<dllmap dll="libX11" target="libX11.so.6" />
++	<dllmap dll="libX11" target="libX11.so.5" />
+ </configuration>
