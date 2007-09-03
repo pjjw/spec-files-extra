@@ -1,0 +1,35 @@
+--- deluge-0.5.4.1.orig/libtorrent/src/storage.cpp	2007年  8月 31日 五 20:44:33
++++ deluge-0.5.4.1/libtorrent/src/storage.cpp	2007年  9月  2日 日 17:25:35
+@@ -75,6 +75,7 @@
+ #include <cstdio>
+ #endif
+ 
++#if 0
+ #if defined(__APPLE__)
+ // for getattrlist()
+ #include <sys/attr.h>
+@@ -87,6 +88,7 @@
+ #if defined(__linux__)
+ #include <sys/statfs.h>
+ #endif
++#endif // 0
+ 
+ #if defined(_WIN32) && defined(UNICODE)
+ 
+@@ -962,6 +964,7 @@
+ 	bool supports_sparse_files(fs::path const& p)
+ 	{
+ 		assert(p.is_complete());
++#if 0
+ #if defined(_WIN32)
+ 		// assume windows API is available
+ 		DWORD max_component_len = 0;
+@@ -1061,6 +1064,8 @@
+ 
+ 		// TODO: POSIX implementation
+ 		return false;
++#endif // 0
++		return true;
+ 	}
+ 
+ 	// -- piece_manager -----------------------------------------------------

@@ -11,6 +11,7 @@ Version:             0.5.4.1
 Source:              http://download.deluge-torrent.org/tarball/0.5.4.1/deluge-0.5.4.1.tar.gz
 Patch1:              deluge-01-sunpro.diff
 Patch2:              deluge-02-path.diff
+Patch3:              deluge-03-sparsefile.diff
 URL:                 http://deluge-torrent.org/
 
 SUNW_BaseDir:        %{_basedir}
@@ -43,6 +44,7 @@ Requires:                %{name}
 %setup -q -n deluge-%version
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 # patch prefix before building
 ed -s src/common.py <<'/EOF/' >/dev/null
 ,s:@datadir@:%_prefix:
@@ -125,5 +127,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Sep 02 2007 - trisk@acm.jhu.edu
+- Fix Studio patch, fix file allocation issue
 * Fri Aug 31 2007 - trisk@acm.jhu.edu
 - Initial spec

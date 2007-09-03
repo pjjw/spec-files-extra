@@ -1,4 +1,9 @@
 2007-09-01  Albert Lee  <trisk@acm.jhu.edu>
+	* SFEdeluge.spec: Fix Studio patch, fix file allocation issue
+	* patches/deluge-01-sunpro.diff: Use correct uint32_t type
+	* patches/deluge-03-sparsefile.diff: Always allow sparse file support
+
+2007-09-01  Albert Lee  <trisk@acm.jhu.edu>
 
 	* patches/banshee-03-solaris.diff: Fix gettext calls (libc, not libintl)
 
