@@ -15,6 +15,7 @@ Source:       http://go-mono.com/sources/mono/mono-%{version}.tar.bz2
 URL:          http://www.mono-project.com/Main_Page
 Patch1:       mono-01-solaris.diff
 Patch2:       mono-02-seek-macros.diff
+Patch3:       mono-03-readdir_r.diff
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
 SUNW_BaseDir: %{_basedir}
@@ -39,6 +40,7 @@ Requires:      %name
 %setup -q -n mono-%version
 %patch1 -p1 -b .patch01
 %patch2 -p1 -b .patch02
+%patch3 -p1 -b .patch03
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -126,6 +128,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Sep 03 2007 - trisk@acm.jhu.edu
+- Add patch for readdir_r stack corruption and bug
 * Sun Sep 02 2007 - trisk@acm.jhu.edu
 - Bump to 1.2.5
 - Unbreak patches

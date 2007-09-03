@@ -1,5 +1,13 @@
 2007-09-03  Albert Lee  <trisk@acm.jhu.edu>
 
+	* SFEmonodevelop.spec: Bump to 0.15, add patch2
+	* SFEmono.spec: Add patch3 for readdir_r crash
+	  http://bugzilla.ximian.com/show_bug.cgi?id=82678
+	* patches/monodevelop-02-script.diff: Fix PATH in launch script
+	* patches/mono-03-readdir_r.diff: Patch for readdir_r corruption
+
+2007-09-03  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEgecko-sharp.spec: Update dependencies
 	* SFEgtk-sharp.spec: Bump to 2.10.2
 	* SFEgtksourceview-sharp.spec: Bump to 0.11

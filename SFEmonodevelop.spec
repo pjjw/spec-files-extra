@@ -6,9 +6,11 @@
 %include Solaris.inc
 
 Name:         SFEmonodevelop
-Version:      0.13.1
+Version:      0.15
 Summary:      IDE for C# and other .NET languages
-Source:       http://go-mono.com/sources/monodevelop/monodevelop-%{version}.tar.gz
+Source:       http://go-mono.com/sources/monodevelop/monodevelop-%{version}.tar.bz2
+Patch1:       monodevelop-01-configure.diff
+Patch2:       monodevelop-02-script.diff
 URL:          http://monodevelop.org/
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
@@ -17,11 +19,13 @@ Autoreqprov:  on
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SFEmono-devel
 BuildRequires: SFEgtk-sharp
+BuildRequires: SFEgecko-sharp
 Requires: SUNWgnome-base-libs
 Requires: SFEmono
 Requires: SFEgtk-sharp
 Requires: SFEgnome-sharp
 Requires: SFEgtksourceview-sharp
+Requires: SFEgecko-sharp
 Requires: SFEmonodoc
 
 %if %build_l10n
@@ -34,6 +38,8 @@ Requires:                %{name}
 
 %prep
 %setup -q -n monodevelop-%{version}
+%patch1 -p1
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -44,6 +50,7 @@ fi
 export PATH=/usr/mono/bin:$PATH
 export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
+autoconf
 ./configure --prefix=%{_prefix} \
 	    --mandir=%{_mandir} \
             --libdir=%{_libdir} \
@@ -59,16 +66,36 @@ rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 
 perl -pi -e 's/^#!\/bin\/sh/#!\/bin\/bash/' $RPM_BUILD_ROOT%{_bindir}/monodevelop
+perl -pi -e 's,MD_BIN_PATH=.*@,; export PATH=$MD_BIN_PATH:%{_prefix}/mono/bin:$PATH,' $RPM_BUILD_ROOT%{_bindir}/monodevelop
 perl -pi -e 's/^#!\/bin\/sh/#!\/bin\/bash/' $RPM_BUILD_ROOT%{_bindir}/mdtool
-
-#FIXME: need postrun script that runs update-mime-database
-rm -r $RPM_BUILD_ROOT%{_datadir}/mime
 
 %if %build_l10n
 %else
 # REMOVE l10n FILES
 rm -rf $RPM_BUILD_ROOT%{_libdir}/locale
 %endif
+
+%post
+( echo 'test -x /usr/bin/update-desktop-database || exit 0';
+  echo '/usr/bin/update-desktop-database'
+) | $BASEDIR/lib/postrun -b -u -c JDS_wait
+( echo 'test -x %{_bindir}/update-mime-database || exit 0';
+  echo '%{_bindir}/update-mime-database %{_datadir}/mime'
+) | $BASEDIR/lib/postrun -b -u -c JDS_wait
+( echo 'test -x /usr/bin/scrollkeeper-update || exit 0';
+  echo '/usr/bin/scrollkeeper-update'
+) | $BASEDIR/lib/postrun -b -u -c JDS
+
+%postun
+( echo 'test -x /usr/bin/update-desktop-database || exit 0';
+  echo '/usr/bin/update-desktop-database'
+) | $BASEDIR/lib/postrun -b -u -c JDS_wait
+( echo 'test -x %{_bindir}/update-mime-database || exit 0';
+  echo '%{_bindir}/update-mime-database %{_datadir}/mime'
+) | $BASEDIR/lib/postrun -b -u -c JDS_wait
+( echo 'test -x /usr/bin/scrollkeeper-update || exit 0';
+  echo '/usr/bin/scrollkeeper-update'
+) | $BASEDIR/lib/postrun -b -u -c JDS
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
@@ -95,5 +122,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Sep 03 2007 - trisk@acm.jhu.edu
+- Bump to 0.15, add patch2
 * Sat Mar 17 2007 - laca@sun.com
 - create!

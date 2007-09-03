@@ -1,0 +1,10 @@
+--- monodevelop-0.15.orig/monodevelop.in	2007年  7月 31日 二 13:56:11
++++ monodevelop-0.15/monodevelop.in	2007年  9月  3日 一 18:16:05
+@@ -35,6 +35,7 @@
+ fi
+ 
+ MD_BIN_PATH=@prefix@/lib/monodevelop/bin
++export PATH=@prefix@/mono:$MD_BIN_PATH:$PATH
+ 
+ if [ -n $LD_LIBRARY_PATH ]; then
+ 	export LD_LIBRARY_PATH=$MOZILLA_HOME:$LD_LIBRARY_PATH
