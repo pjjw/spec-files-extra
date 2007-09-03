@@ -19,6 +19,7 @@ Autoreqprov:  on
 
 BuildRequires: SUNWgnome-base-libs
 BuildRequires: SFEmono-devel
+BuildRequires: SFEmonodoc
 Requires: SUNWgnome-base-libs
 Requires: SFEmono
 
@@ -52,9 +53,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %dir %{_libdir}
 %dir %attr (0755, root, bin) %dir %{_libdir}/mono
 %{_libdir}/mono/*
+%dir %attr (0755, root, bin) %dir %{_libdir}/monodoc
+%{_libdir}/monodoc/*
 %dir %attr (0755, root, other) %dir %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Sep 02 2007 - trisk@acm.jhu.edu
+- Update dependencies
 * Sat Mar 17 2007 - laca@sun.com
 - Initial spec

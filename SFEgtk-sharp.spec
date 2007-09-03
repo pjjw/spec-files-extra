@@ -8,9 +8,9 @@
 Name:         SFEgtk-sharp
 License:      Other
 Group:        System/Libraries
-Version:      2.10.0
+Version:      2.10.2
 Summary:      gtk# - .NET bindings for the gtk+
-Source:       http://go-mono.com/sources/gtk-sharp-2.10/gtk-sharp-%{version}.tar.gz
+Source:       http://go-mono.com/sources/gtk-sharp-2.10/gtk-sharp-%{version}.tar.bz2
 Patch1:       gtk-sharp-01-fix-prototype.diff
 %define gtk_sharp_1_version 1.0.10
 Source1:      http://go-mono.com/sources/gtk-sharp/gtk-sharp-%{gtk_sharp_1_version}.tar.gz
@@ -22,6 +22,7 @@ Autoreqprov:  on
 
 BuildRequires: SUNWgnome-base-libs
 BuildRequires: SFEmono-devel
+BuildRequires: SFEmonodoc
 Requires: SUNWgnome-base-libs
 Requires: SFEmono
 
@@ -85,6 +86,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gtk-sharp-2.0/*
 %dir %attr (0755, root, bin) %dir %{_libdir}/mono
 %{_libdir}/mono/*
+%dir %attr (0755, root, bin) %dir %{_libdir}/monodoc
+%{_libdir}/monodoc/*
 %dir %attr (0755, root, other) %dir %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 %dir %attr (0755, root, sys) %dir %{_datadir}
@@ -92,6 +95,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gapi
 
 %changelog
+* Sun Sep 02 2007 - trisk@acm.jhu.edu
+- Bump to 2.10.2
 * Wed Sep  7 2006 - jedy.wang@sun.com
 - bump to 2.8.3
 * Sun Jul 23 2006 - laca@sun.com

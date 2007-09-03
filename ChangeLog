@@ -1,3 +1,15 @@
+2007-09-03  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEgecko-sharp.spec: Update dependencies
+	* SFEgtk-sharp.spec: Bump to 2.10.2
+	* SFEgtksourceview-sharp.spec: Bump to 0.11
+	* SFEmono-addins.spec: *NEW*  Mono.Addins - a framework for creating
+	  extensible applications and add-ins
+	* SFEmono.spec: Bump to 1.2.5, unbreak patches
+	* SFEmonodoc.spec: Bump to 1.2.5
+	* patches/mono-01-solaris.diff: Update patch
+	* patches/mono-02-seek-macros.diff: Make patch apply properly
+
 2007-09-01  Albert Lee  <trisk@acm.jhu.edu>
 	* SFEdeluge.spec: Fix Studio patch, fix file allocation issue
 	* patches/deluge-01-sunpro.diff: Use correct uint32_t type

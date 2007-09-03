@@ -1,9 +1,9 @@
 From http://bugzilla.gnome.org/show_bug.cgi?id=370081
 Applied upstream in later Mono 1.2 releases.
-Index: mono-1.2/mono/support/map.c
+Index: mono-1.2/support/map.c
 ===================================================================
---- mono-1.2/mono/support/map.c	(revision 67251)
-+++ mono-1.2/mono/support/map.c	(working copy)
+--- mono-1.2/support/map.c	(revision 67251)
++++ mono-1.2/support/map.c	(working copy)
 @@ -21,7 +21,19 @@
  #define _XOPEN_SOURCE
  #endif /* ndef _XOPEN_SOURCE */
@@ -26,8 +26,8 @@ Index: mono-1.2/mono/support/map.c
   */
 Index: Makefile.am
 ===================================================================
---- Makefile.am	(revision 67251)
-+++ Makefile.am	(working copy)
+--- mono-1.2/support/Makefile.am	(revision 67251)
++++ mono-1.2/support/Makefile.am	(working copy)
 @@ -114,6 +114,9 @@
  	--impl-header="<dirent.h>"                            \
  	--impl-header="<utime.h>"                             \

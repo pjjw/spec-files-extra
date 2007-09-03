@@ -9,9 +9,9 @@
 Name:         SFEmono
 License:      Other
 Group:        System/Libraries
-Version:      1.2.3.1
+Version:      1.2.5
 Summary:      mono - .NET framework
-Source:       http://go-mono.com/sources/mono/mono-%{version}.tar.gz
+Source:       http://go-mono.com/sources/mono/mono-%{version}.tar.bz2
 URL:          http://www.mono-project.com/Main_Page
 Patch1:       mono-01-solaris.diff
 Patch2:       mono-02-seek-macros.diff
@@ -38,7 +38,7 @@ Requires:      %name
 %prep
 %setup -q -n mono-%version
 %patch1 -p1 -b .patch01
-%patch2 -p2 -b .patch02
+%patch2 -p1 -b .patch02
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -126,6 +126,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Sep 02 2007 - trisk@acm.jhu.edu
+- Bump to 1.2.5
+- Unbreak patches
 * Tue Aug 14 2007 - trisk@acm.jhu.edu
 - Add patch2 http://bugzilla.gnome.org/show_bug.cgi?id=370081
 * Mon Mar 19 2007 - dougs@truemail.co.th

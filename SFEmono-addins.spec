@@ -1,29 +1,27 @@
 #
-# spec file for package SFEmonodoc
+# spec file for package SFEmono-addins
 #
-# includes module(s): monodoc
+# includes module(s): mono-addins
 #
 %include Solaris.inc
 
-Name:         SFEmonodoc
+Name:         SFEmono-addins
 License:      Other
 Group:        System/Libraries
-Version:      1.2.5
-Summary:      Mono docs
-Source:       http://go-mono.com/sources/monodoc/monodoc-%{version}.zip
-URL:          http://www.mono-project.org/
+Version:      0.2
+Summary:      Mono.Addins - a framework for creating extensible applications and add-ins 
+Source:       http://go-mono.com/sources/mono-addins/mono-addins-%{version}.tar.gz
+URL:          http://www.mono-project.com/Mono.Addins
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
 Autoreqprov:  on
 
-BuildRequires: SUNWgnome-base-libs
 BuildRequires: SFEmono-devel
-Requires: SUNWgnome-base-libs
 Requires: SFEmono
 
 %prep
-%setup -q -n monodoc-%version
+%setup -q -n mono-addins-%version
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -38,33 +36,27 @@ export LDFLAGS="%_ldflags"
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
             --sysconfdir=%{_sysconfdir}
-make # -j $CPUS
+make -j $CPUS CFLAGS="$CFLAGS"
 
 %install
-rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
+
+find $RPM_BUILD_ROOT%{_libdir} -type f -name "*.la" -exec rm -f {} ';'
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
 
 %files 
 %defattr(-, root, bin)
-%dir %attr (0755, root, bin) %dir %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %dir %{_libdir}
-%{_libdir}/mono
-%{_libdir}/monodoc
+%dir %attr (0755, root, bin) %dir %{_libdir}/mono-addins
+%{_libdir}/mono-addins/*
+%dir %attr (0755, root, bin) %dir %{_libdir}/mono
+%{_libdir}/mono/*
 %dir %attr (0755, root, other) %dir %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
-%dir %attr(0755, root, sys) %{_datadir}
-%dir %attr(0755, root, bin) %{_mandir}
-%dir %attr(0755, root, bin) %{_mandir}/*
-%{_mandir}/*/*
 
 %changelog
 * Sun Sep 02 2007 - trisk@acm.jhu.edu
-- Bump to 1.2.5
-* Sat Apr 27 2007 - dougs@truemail.co.th
-- make -j does not always work
-* Sat Mar 17 2007 - laca@sun.com
 - Initial spec

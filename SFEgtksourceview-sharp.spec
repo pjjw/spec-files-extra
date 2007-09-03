@@ -8,9 +8,9 @@
 Name:         SFEgtksourceview-sharp
 License:      Other
 Group:        System/Libraries
-Version:      0.10
+Version:      0.11
 Summary:      gtk# - .NET bindings for libgtksourceview
-Source:       http://go-mono.com/sources/gtksourceview-sharp-2.0/gtksourceview-sharp-2.0-%{version}.tar.gz
+Source:       http://go-mono.com/sources/gtksourceview-sharp-2.0/gtksourceview-sharp-2.0-%{version}.tar.bz2
 URL:          http://www.mono-project.org/
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
@@ -19,6 +19,7 @@ Autoreqprov:  on
 
 BuildRequires: SUNWgnome-base-libs
 BuildRequires: SFEmono-devel
+BuildRequires: SFEmonodoc
 Requires: SUNWgnome-base-libs
 Requires: SFEmono
 
@@ -56,6 +57,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %dir %{_libdir}
 %dir %attr (0755, root, bin) %dir %{_libdir}/mono
 %{_libdir}/mono/*
+%dir %attr (0755, root, bin) %dir %{_libdir}/monodoc
+%{_libdir}/monodoc/*
 %dir %attr (0755, root, other) %dir %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 %dir %attr (0755, root, sys) %dir %{_datadir}
@@ -63,5 +66,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtksourceview-1.0
 
 %changelog
+* Sun Sep 02 2007 - trisk@acm.jhu.edu
+- Bump to 0.11
 * Sat Mar 17 2007 - laca@sun.com
 - Initial spec
