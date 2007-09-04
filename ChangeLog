@@ -1,3 +1,7 @@
+2007-09-04  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEpygtksourceview.spec: Added. Python bindings for GtkSourceView 2.
+
 2007-09-04  Doug Scott  <dougs@truemail.co.th>
 
 	* SFElibquicktime.spec: *NEW* quicktime library
