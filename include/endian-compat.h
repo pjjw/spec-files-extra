@@ -21,6 +21,8 @@
 
 #define __LITTLE_ENDIAN 1234
 #define __BIG_ENDIAN    4321
+#define LITTLE_ENDIAN	__LITTLE_ENDIAN
+#define BIG_ENDIAN	__BIG_ENDIAN
 
 #include <sys/byteorder.h>
 
@@ -29,5 +31,7 @@
 #else
 #define __BYTE_ORDER  __LITTLE_ENDIAN
 #endif
+
+#define BYTE_ORDER __BYTE_ORDER
 
 #endif /* HAVE_ENDIAN_COMPAT_H */

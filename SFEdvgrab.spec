@@ -25,12 +25,6 @@ Requires: SFElibraw1394
 BuildRequires: SFElibdv-devel
 Requires: SFElibdv
 
-%package devel
-Summary:         %{summary} - development files
-SUNW_BaseDir:    %{_basedir}
-%include default-depend.inc
-Requires: %name
-
 %prep
 rm -rf %name-%version
 mkdir %name-%version

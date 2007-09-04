@@ -1,0 +1,198 @@
+diff -PNur kino-1.1.1.orig/src/input.h kino-1.1.1/src/input.h
+--- kino-1.1.1.orig/src/input.h	1970-01-01 07:00:00.000000000 +0700
++++ kino-1.1.1/src/input.h	2007-09-04 16:16:51.728927714 +0700
+@@ -0,0 +1,31 @@
++#ifndef _SYS_INPUT_H
++#define _SYS_INPUT_H
++
++#include <sys/ioccom.h>
++
++struct input_event {
++	struct timeval time;
++	uint16_t type;
++	uint16_t code;
++	int32_t value;
++};
++
++struct input_id {
++	uint16_t bustype;
++        uint16_t vendor;
++        uint16_t product;
++        uint16_t version;
++};
++
++#define BTN_0                   0x100
++#define EV_REL                  0x02
++#define EV_ABS                  0x03
++#define EV_KEY                  0x01
++#define REL_DIAL                0x07
++#define REL_WHEEL               0x08
++#define ABS_THROTTLE            0x06
++
++#define EVIOCGVERSION           _IOR('E', 0x01, int)                    /* get driver version */
++#define EVIOCGID                _IOR('E', 0x02, struct input_id)        /* get device ID */
++
++#endif /* _SYS_INPUT_H */
+diff -PNur kino-1.1.1.orig/src/jogshuttle.cc kino-1.1.1/src/jogshuttle.cc
+--- kino-1.1.1.orig/src/jogshuttle.cc	2007-02-20 13:32:05.000000000 +0700
++++ kino-1.1.1/src/jogshuttle.cc	2007-09-04 16:17:50.002204043 +0700
+@@ -27,7 +27,9 @@
+ #include <fcntl.h>
+ #include <unistd.h>
+ #include <errno.h>
++#ifdef HAVE_LINUX_INPUT_H
+ #include <linux/input.h>
++#endif
+ 
+ #include "jogshuttle.h"
+ #include "preferences.h"
+diff -PNur kino-1.1.1.orig/src/mediactrl.c kino-1.1.1/src/mediactrl.c
+--- kino-1.1.1.orig/src/mediactrl.c	2007-02-20 13:05:34.000000000 +0700
++++ kino-1.1.1/src/mediactrl.c	2007-09-04 16:17:16.705456914 +0700
+@@ -22,14 +22,21 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <sys/time.h>
++#ifdef HAVE_ASM_TYPES_H
+ #include <asm/types.h>
++#endif
+ #include <fcntl.h>
+ #include <unistd.h>
+ #include <stdint.h>
+ #include <string.h>
+ #include <errno.h>
+ 
++#ifdef HAVE_LINUX_INPUT_H
+ #include <linux/input.h>
++#else
++#include <input.h>
++#endif
++
+ #include "mediactrl.h"
+ 
+ 
+diff -PNur kino-1.1.1.orig/src/v4l.h kino-1.1.1/src/v4l.h
+--- kino-1.1.1.orig/src/v4l.h	2007-02-20 13:17:05.000000000 +0700
++++ kino-1.1.1/src/v4l.h	2007-09-04 17:00:35.496044321 +0700
+@@ -40,7 +40,102 @@
+ 
+ #define _DEVICE_H_
+ #define _LINUX_TIME_H
++#ifdef HAVE_LINUX_VIDEODEV_H
+ #include <linux/videodev.h>
++#else
++#include <sys/videodev2.h>
++#endif
++#include <sys/ioccom.h>
++
++#define VIDEO_PALETTE_YUV422    7
++#define VIDEO_PALETTE_YUV422P   13
++#define VIDEO_PALETTE_YUV420P   15
++#define VIDEO_PALETTE_RGB565    3
++#define VIDEO_PALETTE_RGB24     4
++
++struct video_mbuf
++{
++	int     size;           /* Total memory to map */
++	int     frames;         /* Frames */
++	int     offsets[VIDEO_MAX_FRAME];
++};
++
++struct video_audio
++{
++	int     audio;          /* Audio channel */
++	uint16_t   volume;         /* If settable */
++	uint16_t   bass, treble;
++	uint32_t   flags;
++#define VIDEO_AUDIO_MUTE        1
++#define VIDEO_AUDIO_MUTABLE     2
++#define VIDEO_AUDIO_VOLUME      4
++#define VIDEO_AUDIO_BASS        8
++#define VIDEO_AUDIO_TREBLE      16
++#define VIDEO_AUDIO_BALANCE     32
++	char    name[16];
++#define VIDEO_SOUND_MONO        1
++#define VIDEO_SOUND_STEREO      2
++#define VIDEO_SOUND_LANG1       4
++#define VIDEO_SOUND_LANG2       8
++	uint16_t   mode;
++	uint16_t   balance;        /* Stereo balance */
++	uint16_t   step;           /* Step actual volume uses */
++};
++
++struct video_mmap
++{
++  unsigned        int frame;              /* Frame (0 - n) for double buffer */
++  int             height,width;
++  unsigned        int format;             /* should be VIDEO_PALETTE_* */
++};
++
++struct video_channel
++{
++	int channel;
++	char name[32];
++	int tuners;
++	uint32_t  flags;
++#define VIDEO_VC_TUNER          1       /* Channel has a tuner */
++#define VIDEO_VC_AUDIO          2       /* Channel has audio */
++	uint16_t  type;
++#define VIDEO_TYPE_TV           1
++#define VIDEO_TYPE_CAMERA       2       
++	uint16_t norm;                     /* Norm set by channel */
++};
++
++struct video_capability
++{
++	char name[32];
++	int type;
++	int channels;   /* Num channels */
++	int audios;     /* Num audio devices */
++	int maxwidth;   /* Supported width */
++	int maxheight;  /* And height */
++	int minwidth;   /* Supported width */
++	int minheight;  /* And height */
++};
++
++struct video_tuner
++{
++	int tuner;
++	char name[32];
++	ulong rangelow, rangehigh;      /* Tuner range */
++	uint32_t flags;
++#define VIDEO_TUNER_PAL         1
++#define VIDEO_TUNER_NTSC        2
++#define VIDEO_TUNER_SECAM       4
++#define VIDEO_TUNER_LOW         8       /* Uses KHz not MHz */
++#define VIDEO_TUNER_NORM        16      /* Tuner can set norm */
++#define VIDEO_TUNER_STEREO_ON   128     /* Tuner is seeing stereo */
++#define VIDEO_TUNER_RDS_ON      256     /* Tuner is seeing an RDS datastream */
++#define VIDEO_TUNER_MBS_ON      512     /* Tuner is seeing an MBS datastream */
++	uint16_t mode;                     /* PAL/NTSC/SECAM/OTHER */
++#define VIDEO_MODE_PAL          0
++#define VIDEO_MODE_NTSC         1
++#define VIDEO_MODE_SECAM        2
++#define VIDEO_MODE_AUTO         3
++	uint16_t signal;                   /* Signal strength 16bit scale */
++};
+ 
+ #include "displayer.h"
+ 
+@@ -257,4 +352,18 @@
+ 	bool capturing;
+ };
+ 
++#define VIDIOCSFREQ             _IOW('v',15, unsigned long)
++#define VIDIOCGFREQ             _IOR('v',14, unsigned long)
++#define VIDIOCGAUDIO            _IOR('v',16, struct video_audio)
++#define VIDIOCCAPTURE           _IOW('v',8,int)
++#define VIDIOCSYNC              _IOW('v',18, int)
++#define VIDIOCMCAPTURE          _IOW('v',19, struct video_mmap)
++#define VIDIOCGMBUF             _IOR('v', 20, struct video_mbuf)
++#define VIDIOCSAUDIO            _IOW('v',17, struct video_audio)
++#define VIDIOCSCHAN             _IOW('v',3,struct video_channel)
++#define VIDIOCSTUNER            _IOW('v',5,struct video_tuner)
++#define VIDIOCGCAP              _IOR('v',1,struct video_capability)
++#define VIDIOCGTUNER            _IOWR('v',4,struct video_tuner)
++#define VIDIOCGCHAN             _IOWR('v',2,struct video_channel)
++
+ #endif

@@ -1,0 +1,32 @@
+--- kino-1.1.1/configure.in.orig	2007-09-04 15:28:00.511661355 +0700
++++ kino-1.1.1/configure.in	2007-09-04 15:30:25.101623938 +0700
+@@ -32,6 +32,29 @@
+ AC_SYS_LARGEFILE
+ AC_DEFINE(_REENTRANT, 1, [multi-threading.])
+ 
++AC_CHECK_HEADERS(inttypes.h stdbool.h linux/input.h asm/types.h signal.h libgen.h)
++
++AC_MSG_CHECKING([if inttypes has u_int32_t etc])
++AC_COMPILE_IFELSE(
++    [AC_LANG_PROGRAM(
++        [[
++#if HAVE_SYS_TYPES_H
++#include <sys/types.h>
++#endif
++#if HAVE_INTTYPES_H
++#include <inttypes.h>
++#endif
++#if HAVE_UNISTD_H
++#include <unistd.h>
++#endif
++        ]],[[
++    u_int32_t  s;
++    sleep((unsigned int)s);
++        ]]
++    )],
++    [AC_DEFINE(HAVE_U_INT_TYPES, 1, [Define to 1 if have u_int32_t types etc])
++    AC_MSG_RESULT(yes)],[AC_MSG_RESULT(no)])
++
+ # ######################################################################
+ # checks for critical DV and IEEE 1394 packages
+ # ######################################################################

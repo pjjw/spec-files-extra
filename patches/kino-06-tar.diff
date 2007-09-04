@@ -1,0 +1,10 @@
+--- kino-1.1.1/help/Makefile.am.orig	2007-09-04 17:25:41.824549609 +0700
++++ kino-1.1.1/help/Makefile.am	2007-09-04 17:24:16.047110574 +0700
+@@ -10,6 +10,6 @@
+ 	  $(mkinstalldirs) $(DESTDIR)$(datadir); \
+ 	  for file in *.tar.gz; do \
+ 	    if test -f $$file; then \
+-	      tar -x -C $(DESTDIR)$(datadir) -p -z -f $$file; \
++	      gtar -x -C $(DESTDIR)$(datadir) -p -z -f $$file; \
+ 	    fi \
+ 	  done

@@ -1,5 +1,18 @@
 2007-09-04  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEkino.spec: *NEW* DV editing utility
+	* SFEdvgrab.spec: Added devel package
+	* base-specs/kino.spec: base spec
+	* patches/kino-03-oss.diff: OSSV4 API patch
+	* patches/kino-01-configure.diff: configure patch
+	* patches/kino-05-headers.diff: Add Solaris headers
+	* patches/kino-02-u_int.diff: add u_int types
+	* patches/kino-04-v4l.diff: hack v4l stuf to make kino happy
+	* patches/kino-06-tar.diff: use gtar
+	* include/endian-compat.h: updated
+
+2007-09-04  Doug Scott  <dougs@truemail.co.th>
+
 	* SFElibraw1394.spec: *NEW* Interface to IEEE-1394 subsystem
 	   - requires raw1394 driver for Solaris (in progress)
 	* SFEdvgrab.spec: *NEW*	DV grabbing utility

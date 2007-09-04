@@ -1,0 +1,33 @@
+--- kino-1.1.1/src/kino_common.cc.orig	2007-09-04 17:16:43.331062469 +0700
++++ kino-1.1.1/src/kino_common.cc	2007-09-04 17:21:02.180122053 +0700
+@@ -32,6 +32,12 @@
+ #include <sys/types.h>
+ #include <sys/wait.h>
+ #include <dirent.h>
++#ifdef HAVE_SIGNAL_H
++#include <signal.h>
++#endif
++#ifdef HAVE_LIBGEN_H
++#include <libgen.h>
++#endif
+ #ifndef _GNU_SOURCE
+ #define _GNU_SOURCE
+ #endif
+@@ -1701,7 +1707,7 @@
+ 
+ 
+ 			snprintf( s, 2048, _( "%s\n%s\n%2.2d:%2.2d:%2.2d:%2.2d\n%s\n%d bit, %d KHz, %d samples\n%d x %d, %s, %s, %2.2f fps" ),
+-			          basename( media->GetFilename().c_str() ),
++			          basename((char *)media->GetFilename().c_str() ),
+ 			          frame.GetRecordingDate().c_str(),
+ 			          tc.hour, tc.min, tc.sec, tc.frame,
+ 			          format.c_str(),
+@@ -2457,7 +2463,7 @@
+ 	{
+ 		std::ostringstream ss;
+ 		ss << "_" << count << ". "
+-			<< StringUtils::replaceAll( basename( ( *i ).c_str() ), "_", "__" )
++			<< StringUtils::replaceAll((char *)basename((char *)( *i ).c_str() ), "_", "__" )
+ 			<< std::ends;
+ 		GtkWidget* widget = gtk_menu_item_new_with_mnemonic( ss.str().c_str() );
+ 		g_signal_connect( G_OBJECT( widget ), "activate", G_CALLBACK( on_open_recent_activate ), gpointer( (*i).c_str() ) );
