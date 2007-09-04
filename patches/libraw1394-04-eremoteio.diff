@@ -1,0 +1,26 @@
+--- libraw1394-1.2.1/src/errors.c.orig	2007-09-04 09:13:44.271609655 +0700
++++ libraw1394-1.2.1/src/errors.c	2007-09-04 09:15:09.343585630 +0700
+@@ -38,7 +38,11 @@
+                 0xdead,
+                 0xdead,
+                 0xdead,
++#ifdef EREMOTEIO
+                 EREMOTEIO, /* ack_data_error */
++#else
++                EIO,	   /* ack_data_error */
++#endif
+                 EPERM,     /* ack_type_error */
+                 0xdead     /* invalid ack code */
+         };
+@@ -48,7 +52,11 @@
+                 0xdead,
+                 0xdead,
+                 EAGAIN,    /* rcode_conflict_error */
++#ifdef EREMOTEIO
+                 EREMOTEIO, /* rcode_data_error */
++#else
++                EIO,	   /* rcode_data_error */
++#endif
+                 EPERM,     /* rcode_type_error */
+                 EINVAL,    /* rcode_address_error */
+                 0xdead,    /* invalid rcodes */

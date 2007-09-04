@@ -1,0 +1,26 @@
+--- dvgrab-3.0/dvgrab.cc.orig	2007-09-04 12:43:17.221892690 +0700
++++ dvgrab-3.0/dvgrab.cc	2007-09-04 12:45:03.704249501 +0700
+@@ -57,6 +57,23 @@
+ Frame *DVgrab::m_frame;
+ FileHandler *DVgrab::m_writer;
+ 
++extern "C" {
++
++char * strsep(char **str, const char *delim)
++{
++    char *ret = *str;
++    if(*str == NULL) return NULL;
++    *str = *str + strcspn(*str, delim);
++    if(**str == 0) *str = NULL;
++    else{
++        **str = 0;
++        (*str)++;
++    }
++    return ret;
++}
++
++}
++
+ DVgrab::DVgrab( int argc, char *argv[] ) :
+ 		m_program_name( argv[0] ), m_port( -1 ), m_node( -1 ), m_reader_active( false ), m_autosplit( false ),
+ 		m_timestamp( false ), m_channel( DEFAULT_CHANNEL ), m_frame_count( DEFAULT_FRAMES ),

@@ -1,0 +1,28 @@
+--- libiec61883-1.1.0/examples/test-dv.c.orig	2007-09-04 10:09:03.239249499 +0700
++++ libiec61883-1.1.0/examples/test-dv.c	2007-09-04 10:09:42.617502317 +0700
+@@ -60,9 +60,9 @@
+ 	if (frame && iec61883_dv_fb_start (frame, channel) == 0)
+ 	{
+ 		struct pollfd pfd = {
+-			fd: raw1394_get_fd (handle),
+-			events: POLLIN | POLLPRI,
+-			revents: 0
++			raw1394_get_fd (handle),
++			POLLIN | POLLPRI,
++			0
+ 		};
+ 		int result = 0;
+ 		
+@@ -94,9 +94,9 @@
+ 	if (dv && iec61883_dv_xmit_start (dv, channel) == 0)
+ 	{
+ 		struct pollfd pfd = {
+-			fd: raw1394_get_fd (handle),
+-			events: POLLIN,
+-			revents: 0
++			raw1394_get_fd (handle),
++			POLLIN,
++			0
+ 		};
+ 		int result = 0;
+ 		

@@ -1,0 +1,11 @@
+--- libavc1394-0.5.3/configure.in.orig	2007-09-04 10:30:55.525460678 +0700
++++ libavc1394-0.5.3/configure.in	2007-09-04 10:31:09.635177660 +0700
+@@ -22,7 +22,7 @@
+ AC_SUBST(lt_revision)
+ AC_SUBST(lt_age)
+ 
+-CFLAGS="$CFLAGS -Wall -Wunused"
++# CFLAGS="$CFLAGS -Wall -Wunused"
+ 
+ AC_OUTPUT([
+ Makefile 

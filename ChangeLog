@@ -1,3 +1,30 @@
+2007-09-04  Doug Scott  <dougs@truemail.co.th>
+
+	* SFElibraw1394.spec: *NEW* Interface to IEEE-1394 subsystem
+	   - requires raw1394 driver for Solaris (in progress)
+	* SFEdvgrab.spec: *NEW*	DV grabbing utility
+	* SFElibavc1394.spec: *NEW* interface to the 1394 AV/C specification
+	* SFElibiec61883.spec: *NEW* Streaming library for IEEE1394
+	* SFEdocbook-utils.spec: Fixed typo
+	* base-specs/libraw1394.spec: base spec
+	* base-specs/libiec61883.spec: base spec
+	* base-specs/dvgrab.spec: base spec
+	* base-specs/libavc1394.spec: base spec
+	* patches/dvgrab-04-sunpro.diff: Sun Studio patch
+	* patches/libraw1394-01-configure.diff: configure patch
+	* patches/libavc1394-01-wall.diff: remove -Wall
+	* patches/dvgrab-02-v4l2.diff: patch for Solaris v4l2
+	* patches/libraw1394-02-u_int.diff: add u_intX_t types
+	* patches/dvgrab-03-u_int.diff: add u_intX_t types
+	* patches/dvgrab-01-configure.diff: configure patch
+	* patches/libraw1394-04-eremoteio.diff: change EREMOTEIO to EIO
+	* patches/dvgrab-06-return.diff: add return
+	* patches/libiec61883-01-function.diff: Change __FUNCTION__ to __func__
+	* patches/libraw1394-03-kernel.diff: Initial raw1394 port defns
+	* patches/libiec61883-02-struct.diff: gccism
+	* patches/dvgrab-05-strsep.diff: Add strsep function
+	* include/byteswap-compat.h: Fix Sun CXX asm issues
+
 2007-09-03  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEmonodevelop.spec: Bump to 0.15, add patch2

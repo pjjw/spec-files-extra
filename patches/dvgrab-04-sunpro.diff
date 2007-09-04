@@ -1,0 +1,822 @@
+diff -ur dvgrab-3.0.orig/avi.cc dvgrab-3.0/avi.cc
+--- dvgrab-3.0.orig/avi.cc	2007-07-07 01:47:26.000000000 +0700
++++ dvgrab-3.0/avi.cc	2007-09-04 13:10:15.407408980 +0700
+@@ -341,8 +341,8 @@
+ 		int frameNumIndex = 0;
+ 		for ( int i = 0; i < idx1->nEntriesInUse; ++i )
+ 		{
+-			FOURCC chunkID1 = make_fourcc( "00dc" );
+-			FOURCC chunkID2 = make_fourcc( "00db" );
++			FOURCC chunkID1 = make_fourcc((char *)"00dc" );
++			FOURCC chunkID2 = make_fourcc((char *)"00db" );
+ 			if ( idx1->aIndex[ i ].dwChunkId == chunkID1 ||
+ 			        idx1->aIndex[ i ].dwChunkId == chunkID2 )
+ 			{
+@@ -418,9 +418,9 @@
+ 
+ void AVIFile::PrintDirectoryEntryData( const RIFFDirEntry &entry )
+ {
+-	static FOURCC lastStreamType = make_fourcc( "    " );
++	static FOURCC lastStreamType = make_fourcc((char *)"    " );
+ 
+-	if ( entry.type == make_fourcc( "avih" ) )
++	if ( entry.type == make_fourcc((char *)"avih" ) )
+ 	{
+ 
+ 		int i;
+@@ -443,7 +443,7 @@
+ 			cout << "    dwReserved[" << i << "]:        " << ( int ) main_avi_header.dwReserved[ i ] << endl;
+ 
+ 	}
+-	else if ( entry.type == make_fourcc( "strh" ) )
++	else if ( entry.type == make_fourcc((char *)"strh" ) )
+ 	{
+ 
+ 		AVIStreamHeader	avi_stream_header;
+@@ -476,7 +476,7 @@
+ 		<< "    dwSampleSize:    " << ( int ) avi_stream_header.dwSampleSize << endl;
+ 
+ 	}
+-	else if ( entry.type == make_fourcc( "indx" ) )
++	else if ( entry.type == make_fourcc((char *)"indx" ) )
+ 	{
+ 
+ 		int i;
+@@ -507,9 +507,9 @@
+ 			<< "       dwDuration  : " << dec << avi_super_index.aIndex[ i ].dwDuration << endl;
+ 		}
+ 	}
+-	else if ( entry.type == make_fourcc( "strf" ) )
++	else if ( entry.type == make_fourcc((char *)"strf" ) )
+ 	{
+-		if ( lastStreamType == make_fourcc( "auds" ) )
++		if ( lastStreamType == make_fourcc((char *)"auds" ) )
+ 		{
+ 			WAVEFORMATEX waveformatex;
+ 			fail_if( lseek( fd, entry.offset, SEEK_SET ) == ( off_t ) - 1 );
+@@ -522,7 +522,7 @@
+ 			cout << "    waveformatex.wBitsPerSample : " << waveformatex.wBitsPerSample << endl;
+ 			cout << "    waveformatex.cbSize         : " << waveformatex.cbSize << endl;
+ 		}
+-		else if ( lastStreamType == make_fourcc( "vids" ) )
++		else if ( lastStreamType == make_fourcc((char *)"vids" ) )
+ 		{
+ 			BITMAPINFOHEADER bitmapinfo;
+ 			fail_if( lseek( fd, entry.offset, SEEK_SET ) == ( off_t ) - 1 );
+@@ -539,7 +539,7 @@
+ 			cout << "    bitmapinfo.biClrUsed      : " << bitmapinfo.biClrUsed << endl;
+ 			cout << "    bitmapinfo.biClrImportant : " << bitmapinfo.biClrImportant << endl;
+ 		}
+-		else if ( lastStreamType == make_fourcc( "iavs" ) )
++		else if ( lastStreamType == make_fourcc((char *)"iavs" ) )
+ 		{
+ 			DVINFO dvinfo;
+ 			fail_if( lseek( fd, entry.offset, SEEK_SET ) == ( off_t ) - 1 );
+@@ -556,7 +556,7 @@
+ 	/* This is the Standard Index. It is an array of offsets and
+ 	   sizes relative to some start offset. */
+ 
+-	else if ( ( entry.type == make_fourcc( "ix00" ) ) || ( entry.type == make_fourcc( "ix01" ) ) )
++	else if ( ( entry.type == make_fourcc((char *)"ix00" ) ) || ( entry.type == make_fourcc((char *)"ix01" ) ) )
+ 	{
+ 
+ 		int i;
+@@ -587,13 +587,13 @@
+ 		}
+ 
+ 	}
+-	else if ( entry.type == make_fourcc( "idx1" ) )
++	else if ( entry.type == make_fourcc((char *)"idx1" ) )
+ 	{
+ 
+ 		int i;
+ 		int numEntries = entry.length / sizeof( int ) / 4;
+ 		DWORD *idx1 = new DWORD[ numEntries * 4 ];
+-		// FOURCC movi_list = FindDirectoryEntry(make_fourcc("movi"));
++		// FOURCC movi_list = FindDirectoryEntry(make_fourcc((char *)"movi"));
+ 
+ 		fail_if( lseek( fd, entry.offset, SEEK_SET ) == ( off_t ) - 1 );
+ 		fail_neg( read( fd, idx1, entry.length ) );
+@@ -615,7 +615,7 @@
+ 
+ 		delete[] idx1;
+ 	}
+-	else if ( entry.type == make_fourcc( "dmlh" ) )
++	else if ( entry.type == make_fourcc((char *)"dmlh" ) )
+ 	{
+ 		int i;
+ 		int numEntries = entry.length / sizeof( int );
+@@ -664,7 +664,7 @@
+ 	/* if we encounter a movi list, do not read it. It takes too much time
+ 	   and we don't need it anyway. */
+ 
+-	if ( name != make_fourcc( "movi" ) )
++	if ( name != make_fourcc((char *)"movi" ) )
+ 	{
+ 		//    if (1) {
+ 
+@@ -698,7 +698,7 @@
+ {
+ 	RIFFFile::ParseRIFF();
+ 
+-	avih_chunk = FindDirectoryEntry( make_fourcc( "avih" ) );
++	avih_chunk = FindDirectoryEntry( make_fourcc((char *)"avih" ) );
+ 	if ( avih_chunk != -1 )
+ 		ReadChunk( avih_chunk, ( void* ) & mainHdr );
+ }
+@@ -706,7 +706,7 @@
+ 
+ void AVIFile::ReadIndex()
+ {
+-	indx_chunk[ 0 ] = FindDirectoryEntry( make_fourcc( "indx" ) );
++	indx_chunk[ 0 ] = FindDirectoryEntry( make_fourcc((char *)"indx" ) );
+ 	if ( indx_chunk[ 0 ] != -1 )
+ 	{
+ 		ReadChunk( indx_chunk[ 0 ], ( void* ) indx[ 0 ] );
+@@ -720,7 +720,7 @@
+ 			;
+ 		return ;
+ 	}
+-	idx1_chunk = FindDirectoryEntry( make_fourcc( "idx1" ) );
++	idx1_chunk = FindDirectoryEntry( make_fourcc((char *)"idx1" ) );
+ 	if ( idx1_chunk != -1 )
+ 	{
+ 		ReadChunk( idx1_chunk, ( void* ) idx1 );
+@@ -729,8 +729,8 @@
+ 
+ 		/* recalc number of frames from the simple index */
+ 		int frameNumIndex = 0;
+-		FOURCC chunkID1 = make_fourcc( "00dc" );
+-		FOURCC chunkID2 = make_fourcc( "00db" );
++		FOURCC chunkID1 = make_fourcc((char *)"00dc" );
++		FOURCC chunkID2 = make_fourcc((char *)"00db" );
+ 		for ( int i = 0; i < idx1->nEntriesInUse; ++i )
+ 		{
+ 			if ( idx1->aIndex[ i ].dwChunkId == chunkID1 ||
+@@ -766,9 +766,9 @@
+ 	/* make a new ix chunk. */
+ 
+ 	if ( stream == 0 )
+-		type = make_fourcc( "ix00" );
++		type = make_fourcc((char *)"ix00" );
+ 	else
+-		type = make_fourcc( "ix01" );
++		type = make_fourcc((char *)"ix01" );
+ 	ix_chunk[ stream ] = AddDirectoryEntry( type, 0, sizeof( AVIStdIndex ), movi_list );
+ 	GetDirectoryEntry( ix_chunk[ stream ], type, name, length, offset, parent );
+ 
+@@ -853,8 +853,8 @@
+ 	int i, j = 0;
+ 	AVIStreamHeader	avi_stream_header;
+ 	BITMAPINFOHEADER bih;
+-	FOURCC strh = make_fourcc( "strh" );
+-	FOURCC strf = make_fourcc( "strf" );
++	FOURCC strh = make_fourcc((char *)"strh" );
++	FOURCC strf = make_fourcc((char *)"strf" );
+ 
+ 	while ( ( i = FindDirectoryEntry( strh, j++ ) ) != -1 )
+ 	{
+@@ -877,7 +877,7 @@
+ {
+ 	int i, j = 0;
+ 	AVIStreamHeader	avi_stream_header;
+-	FOURCC strh = make_fourcc( "strh" );
++	FOURCC strh = make_fourcc((char *)"strh" );
+ 
+ 	while ( ( i = FindDirectoryEntry( strh, j++ ) ) != -1 )
+ 	{
+@@ -891,7 +891,7 @@
+ bool AVIFile::isOpenDML( void )
+ {
+ 	int i, j = 0;
+-	FOURCC dmlh = make_fourcc( "dmlh" );
++	FOURCC dmlh = make_fourcc((char *)"dmlh" );
+ 
+ 	while ( ( i = FindDirectoryEntry( dmlh, j++ ) ) != -1 )
+ 	{
+@@ -1000,12 +1000,12 @@
+ 		break;
+ 	}
+ 
+-	indx[ 0 ] ->dwChunkId = make_fourcc( "00__" );
++	indx[ 0 ] ->dwChunkId = make_fourcc((char *)"00__" );
+ 
+ 	/* Initialize the 'strh' chunk */
+ 
+-	streamHdr[ 0 ].fccType = make_fourcc( "iavs" );
+-	streamHdr[ 0 ].fccHandler = make_fourcc( "dvsd" );
++	streamHdr[ 0 ].fccType = make_fourcc((char *)"iavs" );
++	streamHdr[ 0 ].fccHandler = make_fourcc((char *)"dvsd" );
+ 	streamHdr[ 0 ].dwFlags = 0;
+ 	streamHdr[ 0 ].wPriority = 0;
+ 	streamHdr[ 0 ].wLanguage = 0;
+@@ -1046,29 +1046,29 @@
+ 
+ 	/* Create the container directory entry */
+ 
+-	file_list = AddDirectoryEntry( make_fourcc( "FILE" ), make_fourcc( "FILE" ), 0, RIFF_NO_PARENT );
++	file_list = AddDirectoryEntry( make_fourcc((char *)"FILE" ), make_fourcc((char *)"FILE" ), 0, RIFF_NO_PARENT );
+ 
+ 	/* Create a basic directory structure. Only chunks defined from here on will be written to the AVI file. */
+ 
+-	riff_list = AddDirectoryEntry( make_fourcc( "RIFF" ), make_fourcc( "AVI " ), RIFF_LISTSIZE, file_list );
+-	hdrl_list = AddDirectoryEntry( make_fourcc( "LIST" ), make_fourcc( "hdrl" ), RIFF_LISTSIZE, riff_list );
+-	avih_chunk = AddDirectoryEntry( make_fourcc( "avih" ), 0, sizeof( MainAVIHeader ), hdrl_list );
+-	strl_list[ 0 ] = AddDirectoryEntry( make_fourcc( "LIST" ), make_fourcc( "strl" ), RIFF_LISTSIZE, hdrl_list );
+-	strh_chunk[ 0 ] = AddDirectoryEntry( make_fourcc( "strh" ), 0, sizeof( AVIStreamHeader ), strl_list[ 0 ] );
+-	strf_chunk[ 0 ] = AddDirectoryEntry( make_fourcc( "strf" ), 0, sizeof( dvinfo ), strl_list[ 0 ] );
++	riff_list = AddDirectoryEntry( make_fourcc((char *)"RIFF" ), make_fourcc((char *)"AVI " ), RIFF_LISTSIZE, file_list );
++	hdrl_list = AddDirectoryEntry( make_fourcc((char *)"LIST" ), make_fourcc((char *)"hdrl" ), RIFF_LISTSIZE, riff_list );
++	avih_chunk = AddDirectoryEntry( make_fourcc((char *)"avih" ), 0, sizeof( MainAVIHeader ), hdrl_list );
++	strl_list[ 0 ] = AddDirectoryEntry( make_fourcc((char *)"LIST" ), make_fourcc((char *)"strl" ), RIFF_LISTSIZE, hdrl_list );
++	strh_chunk[ 0 ] = AddDirectoryEntry( make_fourcc((char *)"strh" ), 0, sizeof( AVIStreamHeader ), strl_list[ 0 ] );
++	strf_chunk[ 0 ] = AddDirectoryEntry( make_fourcc((char *)"strf" ), 0, sizeof( dvinfo ), strl_list[ 0 ] );
+ 	if ( index_type & AVI_LARGE_INDEX )
+-		indx_chunk[ 0 ] = AddDirectoryEntry( make_fourcc( "indx" ), 0, sizeof( AVISuperIndex ), strl_list[ 0 ] );
++		indx_chunk[ 0 ] = AddDirectoryEntry( make_fourcc((char *)"indx" ), 0, sizeof( AVISuperIndex ), strl_list[ 0 ] );
+ 
+-	odml_list = AddDirectoryEntry( make_fourcc( "LIST" ), make_fourcc( "odml" ), RIFF_LISTSIZE, hdrl_list );
+-	dmlh_chunk = AddDirectoryEntry( make_fourcc( "dmlh" ), 0, 0x00f8, odml_list );
++	odml_list = AddDirectoryEntry( make_fourcc((char *)"LIST" ), make_fourcc((char *)"odml" ), RIFF_LISTSIZE, hdrl_list );
++	dmlh_chunk = AddDirectoryEntry( make_fourcc((char *)"dmlh" ), 0, 0x00f8, odml_list );
+ 
+ 	/* align movi list to block */
+ 	GetDirectoryEntry( hdrl_list, type, name, length, offset, parent );
+ 	num_blocks = length / PADDING_SIZE + 1;
+ 	length = num_blocks * PADDING_SIZE - length - 5 * RIFF_HEADERSIZE; // why 5?
+-	junk_chunk = AddDirectoryEntry( make_fourcc( "JUNK" ), 0, length, riff_list );
++	junk_chunk = AddDirectoryEntry( make_fourcc((char *)"JUNK" ), 0, length, riff_list );
+ 
+-	movi_list = AddDirectoryEntry( make_fourcc( "LIST" ), make_fourcc( "movi" ), RIFF_LISTSIZE, riff_list );
++	movi_list = AddDirectoryEntry( make_fourcc((char *)"LIST" ), make_fourcc((char *)"movi" ), RIFF_LISTSIZE, riff_list );
+ 
+ 	/* The ix00 chunk will be added dynamically to the movi_list in avi_write_frame
+ 	          as needed */
+@@ -1108,7 +1108,7 @@
+ 	   frame, then add a JUNK chunk which is sized such that we
+ 	   end up on a 512 bytes boundary. */
+ 
+-	frame_chunk = AddDirectoryEntry( make_fourcc( "00__" ), 0, frame->GetDataLen(), movi_list );
++	frame_chunk = AddDirectoryEntry( make_fourcc((char *)"00__" ), 0, frame->GetDataLen(), movi_list );
+ 	if ( ( index_type & AVI_LARGE_INDEX ) && ( streamHdr[ 0 ].dwLength % IX00_INDEX_SIZE ) == 0 )
+ 	{
+ 		GetDirectoryEntry( frame_chunk, type, name, length, offset, parent );
+@@ -1117,7 +1117,7 @@
+ 	WriteChunk( frame_chunk, frame->data );
+ 	//    num_blocks = (frame->GetDataLen() + RIFF_HEADERSIZE) / PADDING_SIZE + 1;
+ 	//	length = num_blocks * PADDING_SIZE - frame->GetDataLen() - 2 * RIFF_HEADERSIZE;
+-	//    junk_chunk = AddDirectoryEntry(make_fourcc("JUNK"), 0, length, movi_list);
++	//    junk_chunk = AddDirectoryEntry(make_fourcc((char *)"JUNK"), 0, length, movi_list);
+ 	//    WriteChunk(junk_chunk, g_zeroes);
+ 
+ 	if ( index_type & AVI_LARGE_INDEX )
+@@ -1143,7 +1143,7 @@
+ 		/* write idx1 only once and before end of first GB */
+ 		if ( ( index_type & AVI_SMALL_INDEX ) && isUpdateIdx1 )
+ 		{
+-			int idx1_chunk = AddDirectoryEntry( make_fourcc( "idx1" ), 0, idx1->nEntriesInUse * 16, riff_list );
++			int idx1_chunk = AddDirectoryEntry( make_fourcc((char *)"idx1" ), 0, idx1->nEntriesInUse * 16, riff_list );
+ 			WriteChunk( idx1_chunk, ( void* ) idx1 );
+ 		}
+ 		isUpdateIdx1 = false;
+@@ -1152,7 +1152,7 @@
+ 		{
+ 			/* pad out to 1GB */
+ 			//GetDirectoryEntry(riff_list, type, name, length, offset, parent);
+-			//junk_chunk = AddDirectoryEntry(make_fourcc("JUNK"), 0, PADDING_1GB - length - 5 * RIFF_HEADERSIZE, riff_list);
++			//junk_chunk = AddDirectoryEntry(make_fourcc((char *)"JUNK"), 0, PADDING_1GB - length - 5 * RIFF_HEADERSIZE, riff_list);
+ 			//WriteChunk(junk_chunk, g_zeroes);
+ 
+ 			/* padding for alignment */
+@@ -1161,12 +1161,12 @@
+ 			length = ( num_blocks * PADDING_SIZE ) - length - 4 * RIFF_HEADERSIZE - 2 * RIFF_LISTSIZE;
+ 			if ( length > 0 )
+ 			{
+-				junk_chunk = AddDirectoryEntry( make_fourcc( "JUNK" ), 0, length, riff_list );
++				junk_chunk = AddDirectoryEntry( make_fourcc((char *)"JUNK" ), 0, length, riff_list );
+ 				WriteChunk( junk_chunk, g_zeroes );
+ 			}
+ 
+-			riff_list = AddDirectoryEntry( make_fourcc( "RIFF" ), make_fourcc( "AVIX" ), RIFF_LISTSIZE, file_list );
+-			movi_list = AddDirectoryEntry( make_fourcc( "LIST" ), make_fourcc( "movi" ), RIFF_LISTSIZE, riff_list );
++			riff_list = AddDirectoryEntry( make_fourcc((char *)"RIFF" ), make_fourcc((char *)"AVIX" ), RIFF_LISTSIZE, file_list );
++			movi_list = AddDirectoryEntry( make_fourcc((char *)"LIST" ), make_fourcc((char *)"movi" ), RIFF_LISTSIZE, riff_list );
+ 		}
+ 	}
+ 	return true;
+@@ -1189,7 +1189,7 @@
+ 
+ 	if ( ( index_type & AVI_SMALL_INDEX ) && isUpdateIdx1 )
+ 	{
+-		int idx1_chunk = AddDirectoryEntry( make_fourcc( "idx1" ), 0, idx1->nEntriesInUse * 16, riff_list );
++		int idx1_chunk = AddDirectoryEntry( make_fourcc((char *)"idx1" ), 0, idx1->nEntriesInUse * 16, riff_list );
+ 		WriteChunk( idx1_chunk, ( void* ) idx1 );
+ 	}
+ 
+@@ -1231,8 +1231,8 @@
+ 
+ 		/* Initialize the 'strh' chunk */
+ 
+-		streamHdr[ 0 ].fccType = make_fourcc( "vids" );
+-		streamHdr[ 0 ].fccHandler = make_fourcc( "dvsd" );
++		streamHdr[ 0 ].fccType = make_fourcc((char *)"vids" );
++		streamHdr[ 0 ].fccHandler = make_fourcc((char *)"dvsd" );
+ 		streamHdr[ 0 ].dwFlags = 0;
+ 		streamHdr[ 0 ].wPriority = 0;
+ 		streamHdr[ 0 ].wLanguage = 0;
+@@ -1254,14 +1254,14 @@
+ 		bitmapinfo.biHeight = 576;
+ 		bitmapinfo.biPlanes = 1;
+ 		bitmapinfo.biBitCount = 24;
+-		bitmapinfo.biCompression = make_fourcc( "dvsd" );
++		bitmapinfo.biCompression = make_fourcc((char *)"dvsd" );
+ 		bitmapinfo.biSizeImage = 144000;
+ 		bitmapinfo.biXPelsPerMeter = 0;
+ 		bitmapinfo.biYPelsPerMeter = 0;
+ 		bitmapinfo.biClrUsed = 0;
+ 		bitmapinfo.biClrImportant = 0;
+ 
+-		streamHdr[ 1 ].fccType = make_fourcc( "auds" );
++		streamHdr[ 1 ].fccType = make_fourcc((char *)"auds" );
+ 		streamHdr[ 1 ].fccHandler = 0;
+ 		streamHdr[ 1 ].dwFlags = 0;
+ 		streamHdr[ 1 ].wPriority = 0;
+@@ -1289,8 +1289,8 @@
+ 
+ 		/* Initialize the 'strh' chunk */
+ 
+-		streamHdr[ 0 ].fccType = make_fourcc( "vids" );
+-		streamHdr[ 0 ].fccHandler = make_fourcc( "dvsd" );
++		streamHdr[ 0 ].fccType = make_fourcc((char *)"vids" );
++		streamHdr[ 0 ].fccHandler = make_fourcc((char *)"dvsd" );
+ 		streamHdr[ 0 ].dwFlags = 0;
+ 		streamHdr[ 0 ].wPriority = 0;
+ 		streamHdr[ 0 ].wLanguage = 0;
+@@ -1312,14 +1312,14 @@
+ 		bitmapinfo.biHeight = 480;
+ 		bitmapinfo.biPlanes = 1;
+ 		bitmapinfo.biBitCount = 24;
+-		bitmapinfo.biCompression = make_fourcc( "dvsd" );
++		bitmapinfo.biCompression = make_fourcc((char *)"dvsd" );
+ 		bitmapinfo.biSizeImage = 120000;
+ 		bitmapinfo.biXPelsPerMeter = 0;
+ 		bitmapinfo.biYPelsPerMeter = 0;
+ 		bitmapinfo.biClrUsed = 0;
+ 		bitmapinfo.biClrImportant = 0;
+ 
+-		streamHdr[ 1 ].fccType = make_fourcc( "auds" );
++		streamHdr[ 1 ].fccType = make_fourcc((char *)"auds" );
+ 		streamHdr[ 1 ].fccHandler = 0;
+ 		streamHdr[ 1 ].dwFlags = 0;
+ 		streamHdr[ 1 ].wPriority = 0;
+@@ -1347,47 +1347,47 @@
+ 	waveformatex.wBitsPerSample = 16;
+ 	waveformatex.cbSize = 0;
+ 
+-	file_list = AddDirectoryEntry( make_fourcc( "FILE" ), make_fourcc( "FILE" ), 0, RIFF_NO_PARENT );
++	file_list = AddDirectoryEntry( make_fourcc((char *)"FILE" ), make_fourcc((char *)"FILE" ), 0, RIFF_NO_PARENT );
+ 
+ 	/* Create a basic directory structure. Only chunks defined from here on will be written to the AVI file. */
+ 
+-	riff_list = AddDirectoryEntry( make_fourcc( "RIFF" ), make_fourcc( "AVI " ), RIFF_LISTSIZE, file_list );
+-	hdrl_list = AddDirectoryEntry( make_fourcc( "LIST" ), make_fourcc( "hdrl" ), RIFF_LISTSIZE, riff_list );
+-	avih_chunk = AddDirectoryEntry( make_fourcc( "avih" ), 0, sizeof( MainAVIHeader ), hdrl_list );
+-
+-	strl_list[ 0 ] = AddDirectoryEntry( make_fourcc( "LIST" ), make_fourcc( "strl" ), RIFF_LISTSIZE, hdrl_list );
+-	strh_chunk[ 0 ] = AddDirectoryEntry( make_fourcc( "strh" ), 0, sizeof( AVIStreamHeader ), strl_list[ 0 ] );
+-	strf_chunk[ 0 ] = AddDirectoryEntry( make_fourcc( "strf" ), 0, sizeof( BITMAPINFOHEADER ), strl_list[ 0 ] );
++	riff_list = AddDirectoryEntry( make_fourcc((char *)"RIFF" ), make_fourcc((char *)"AVI " ), RIFF_LISTSIZE, file_list );
++	hdrl_list = AddDirectoryEntry( make_fourcc((char *)"LIST" ), make_fourcc((char *)"hdrl" ), RIFF_LISTSIZE, riff_list );
++	avih_chunk = AddDirectoryEntry( make_fourcc((char *)"avih" ), 0, sizeof( MainAVIHeader ), hdrl_list );
++
++	strl_list[ 0 ] = AddDirectoryEntry( make_fourcc((char *)"LIST" ), make_fourcc((char *)"strl" ), RIFF_LISTSIZE, hdrl_list );
++	strh_chunk[ 0 ] = AddDirectoryEntry( make_fourcc((char *)"strh" ), 0, sizeof( AVIStreamHeader ), strl_list[ 0 ] );
++	strf_chunk[ 0 ] = AddDirectoryEntry( make_fourcc((char *)"strf" ), 0, sizeof( BITMAPINFOHEADER ), strl_list[ 0 ] );
+ 	if ( index_type & AVI_LARGE_INDEX )
+ 	{
+-		indx_chunk[ 0 ] = AddDirectoryEntry( make_fourcc( "indx" ), 0, sizeof( AVISuperIndex ), strl_list[ 0 ] );
++		indx_chunk[ 0 ] = AddDirectoryEntry( make_fourcc((char *)"indx" ), 0, sizeof( AVISuperIndex ), strl_list[ 0 ] );
+ 		ix_chunk[ 0 ] = -1;
+-		indx[ 0 ] ->dwChunkId = make_fourcc( "00dc" );
++		indx[ 0 ] ->dwChunkId = make_fourcc((char *)"00dc" );
+ 	}
+ 
+-	strl_list[ 1 ] = AddDirectoryEntry( make_fourcc( "LIST" ), make_fourcc( "strl" ), RIFF_LISTSIZE, hdrl_list );
+-	strh_chunk[ 1 ] = AddDirectoryEntry( make_fourcc( "strh" ), 0, sizeof( AVIStreamHeader ), strl_list[ 1 ] );
+-	strf_chunk[ 1 ] = AddDirectoryEntry( make_fourcc( "strf" ), 0, sizeof( WAVEFORMATEX ) - 2, strl_list[ 1 ] );
+-	junk_chunk = AddDirectoryEntry( make_fourcc( "JUNK" ), 0, 2, strl_list[ 1 ] );
++	strl_list[ 1 ] = AddDirectoryEntry( make_fourcc((char *)"LIST" ), make_fourcc((char *)"strl" ), RIFF_LISTSIZE, hdrl_list );
++	strh_chunk[ 1 ] = AddDirectoryEntry( make_fourcc((char *)"strh" ), 0, sizeof( AVIStreamHeader ), strl_list[ 1 ] );
++	strf_chunk[ 1 ] = AddDirectoryEntry( make_fourcc((char *)"strf" ), 0, sizeof( WAVEFORMATEX ) - 2, strl_list[ 1 ] );
++	junk_chunk = AddDirectoryEntry( make_fourcc((char *)"JUNK" ), 0, 2, strl_list[ 1 ] );
+ 	if ( index_type & AVI_LARGE_INDEX )
+ 	{
+-		indx_chunk[ 1 ] = AddDirectoryEntry( make_fourcc( "indx" ), 0, sizeof( AVISuperIndex ), strl_list[ 1 ] );
++		indx_chunk[ 1 ] = AddDirectoryEntry( make_fourcc((char *)"indx" ), 0, sizeof( AVISuperIndex ), strl_list[ 1 ] );
+ 		ix_chunk[ 1 ] = -1;
+-		indx[ 1 ] ->dwChunkId = make_fourcc( "01wb" );
++		indx[ 1 ] ->dwChunkId = make_fourcc((char *)"01wb" );
+ 
+-		odml_list = AddDirectoryEntry( make_fourcc( "LIST" ), make_fourcc( "odml" ), RIFF_LISTSIZE, hdrl_list );
+-		dmlh_chunk = AddDirectoryEntry( make_fourcc( "dmlh" ), 0, 0x00f8, odml_list );
++		odml_list = AddDirectoryEntry( make_fourcc((char *)"LIST" ), make_fourcc((char *)"odml" ), RIFF_LISTSIZE, hdrl_list );
++		dmlh_chunk = AddDirectoryEntry( make_fourcc((char *)"dmlh" ), 0, 0x00f8, odml_list );
+ 	}
+ 
+ 	/* align movi list to block */
+ 	GetDirectoryEntry( hdrl_list, type, name, length, offset, parent );
+ 	num_blocks = length / PADDING_SIZE + 1;
+ 	length = num_blocks * PADDING_SIZE - length - 5 * RIFF_HEADERSIZE; // why 5 headers?
+-	junk_chunk = AddDirectoryEntry( make_fourcc( "JUNK" ), 0, length, riff_list );
++	junk_chunk = AddDirectoryEntry( make_fourcc((char *)"JUNK" ), 0, length, riff_list );
+ 
+-	movi_list = AddDirectoryEntry( make_fourcc( "LIST" ), make_fourcc( "movi" ), RIFF_LISTSIZE, riff_list );
++	movi_list = AddDirectoryEntry( make_fourcc((char *)"LIST" ), make_fourcc((char *)"movi" ), RIFF_LISTSIZE, riff_list );
+ 
+-	idx1->aIndex[ idx1->nEntriesInUse ].dwChunkId = make_fourcc( "7Fxx" );
++	idx1->aIndex[ idx1->nEntriesInUse ].dwChunkId = make_fourcc((char *)"7Fxx" );
+ 	idx1->aIndex[ idx1->nEntriesInUse ].dwFlags = 0;
+ 	idx1->aIndex[ idx1->nEntriesInUse ].dwOffset = 0;
+ 	idx1->aIndex[ idx1->nEntriesInUse ].dwSize = 0;
+@@ -1416,7 +1416,7 @@
+ 
+ 	if ( ( index_type & AVI_SMALL_INDEX ) && isUpdateIdx1 )
+ 	{
+-		int idx1_chunk = AddDirectoryEntry( make_fourcc( "idx1" ), 0, idx1->nEntriesInUse * 16, riff_list );
++		int idx1_chunk = AddDirectoryEntry( make_fourcc((char *)"idx1" ), 0, idx1->nEntriesInUse * 16, riff_list );
+ 		WriteChunk( idx1_chunk, ( void* ) idx1 );
+ 	}
+ 	RIFFFile::WriteRIFF();
+@@ -1463,7 +1463,7 @@
+ 	audio_size = ((DVFrame*)frame)->ExtractAudio( soundbuf );
+ 	if ( audio_size > 0 )
+ 	{
+-		audio_chunk = AddDirectoryEntry( make_fourcc( "01wb" ), 0, audio_size, movi_list );
++		audio_chunk = AddDirectoryEntry( make_fourcc((char *)"01wb" ), 0, audio_size, movi_list );
+ 		if ( ( index_type & AVI_LARGE_INDEX ) && ( streamHdr[ 0 ].dwLength % IX00_INDEX_SIZE ) == 0 )
+ 		{
+ 			GetDirectoryEntry( audio_chunk, type, name, length, offset, parent );
+@@ -1472,7 +1472,7 @@
+ 		WriteChunk( audio_chunk, soundbuf );
+ 		//        num_blocks = (audio_size + RIFF_HEADERSIZE) / PADDING_SIZE + 1;
+ 		//		length = num_blocks * PADDING_SIZE - audio_size - 2 * RIFF_HEADERSIZE;
+-		//        junk_chunk = AddDirectoryEntry(make_fourcc("JUNK"), 0, length, movi_list);
++		//        junk_chunk = AddDirectoryEntry(make_fourcc((char *)"JUNK"), 0, length, movi_list);
+ 		//        WriteChunk(junk_chunk, g_zeroes);
+ 		if ( index_type & AVI_LARGE_INDEX )
+ 			UpdateIndx( 1, audio_chunk, audio_size / waveformatex.nChannels / 2 );
+@@ -1484,7 +1484,7 @@
+ 
+ 	/* Write video data */
+ 
+-	frame_chunk = AddDirectoryEntry( make_fourcc( "00dc" ), 0, frame->GetDataLen(), movi_list );
++	frame_chunk = AddDirectoryEntry( make_fourcc((char *)"00dc" ), 0, frame->GetDataLen(), movi_list );
+ 	if ( ( index_type & AVI_LARGE_INDEX ) && ( streamHdr[ 0 ].dwLength % IX00_INDEX_SIZE ) == 0 )
+ 	{
+ 		GetDirectoryEntry( frame_chunk, type, name, length, offset, parent );
+@@ -1493,7 +1493,7 @@
+ 	WriteChunk( frame_chunk, frame->data );
+ 	//    num_blocks = (frame->GetDataLen() + RIFF_HEADERSIZE) / PADDING_SIZE + 1;
+ 	//	length = num_blocks * PADDING_SIZE - frame->GetDataLen() - 2 * RIFF_HEADERSIZE;
+-	//    junk_chunk = AddDirectoryEntry(make_fourcc("JUNK"), 0, length, movi_list);
++	//    junk_chunk = AddDirectoryEntry(make_fourcc((char *)"JUNK"), 0, length, movi_list);
+ 	//    WriteChunk(junk_chunk, g_zeroes);
+ 	if ( index_type & AVI_LARGE_INDEX )
+ 		UpdateIndx( 0, frame_chunk, 1 );
+@@ -1519,7 +1519,7 @@
+ 		/* write idx1 only once and before end of first GB */
+ 		if ( ( index_type & AVI_SMALL_INDEX ) && isUpdateIdx1 )
+ 		{
+-			int idx1_chunk = AddDirectoryEntry( make_fourcc( "idx1" ), 0, idx1->nEntriesInUse * 16, riff_list );
++			int idx1_chunk = AddDirectoryEntry( make_fourcc((char *)"idx1" ), 0, idx1->nEntriesInUse * 16, riff_list );
+ 			WriteChunk( idx1_chunk, ( void* ) idx1 );
+ 		}
+ 		isUpdateIdx1 = false;
+@@ -1532,12 +1532,12 @@
+ 			length = ( num_blocks * PADDING_SIZE ) - length - 4 * RIFF_HEADERSIZE - 2 * RIFF_LISTSIZE;
+ 			if ( length > 0 )
+ 			{
+-				junk_chunk = AddDirectoryEntry( make_fourcc( "JUNK" ), 0, length, riff_list );
++				junk_chunk = AddDirectoryEntry( make_fourcc((char *)"JUNK" ), 0, length, riff_list );
+ 				WriteChunk( junk_chunk, g_zeroes );
+ 			}
+ 
+-			riff_list = AddDirectoryEntry( make_fourcc( "RIFF" ), make_fourcc( "AVIX" ), RIFF_LISTSIZE, file_list );
+-			movi_list = AddDirectoryEntry( make_fourcc( "LIST" ), make_fourcc( "movi" ), RIFF_LISTSIZE, riff_list );
++			riff_list = AddDirectoryEntry( make_fourcc((char *)"RIFF" ), make_fourcc((char *)"AVIX" ), RIFF_LISTSIZE, file_list );
++			movi_list = AddDirectoryEntry( make_fourcc((char *)"LIST" ), make_fourcc((char *)"movi" ), RIFF_LISTSIZE, riff_list );
+ 		}
+ 	}
+ 	return true;
+@@ -1568,7 +1568,7 @@
+ 		if ( streamHdr[ i ].fccType == type )
+ 		{
+ 			int k, j = 0;
+-			FOURCC strf = make_fourcc( "strf" );
++			FOURCC strf = make_fourcc((char *)"strf" );
+ 			BITMAPINFOHEADER bih;
+ 
+ 			streamHdr[ i ].fccHandler = handler;
+diff -ur dvgrab-3.0.orig/avi.h dvgrab-3.0/avi.h
+--- dvgrab-3.0.orig/avi.h	2007-07-07 01:47:26.000000000 +0700
++++ dvgrab-3.0/avi.h	2007-09-04 13:06:50.888773270 +0700
+@@ -31,7 +31,15 @@
+ #include "riff.h"
+ #include "dvframe.h"
+ 
++#if !defined(__ASSERT_FUNCTION)
++#define __ASSERT_FUNCTION __func__
++#endif
++
++#if defined(__SUNPRO_CC)
++#define PACKED(x)	x
++#else
+ #define PACKED(x)	__attribute__((packed)) x
++#endif
+ 
+ #define AVI_SMALL_INDEX (0x01)
+ #define AVI_LARGE_INDEX (0x02)
+@@ -45,6 +53,9 @@
+  
+     The contents of this struct goes into the 'avih' chunk.  */
+ 
++#if defined(__SUNPRO_CC)
++#pragma packed(1)
++#endif
+ typedef struct
+ {
+ 	/// frame display rate (or 0L)
+@@ -71,17 +82,29 @@
+ 	DWORD dwReserved[ 4 ];
+ }
+ PACKED(MainAVIHeader);
++#if defined(__SUNPRO_CC)
++#pragma packed
++#endif
+ 
++#if defined(__SUNPRO_CC)
++#pragma packed(1)
++#endif
+ typedef struct
+ {
+ 	WORD top, bottom, left, right;
+ }
+ PACKED(RECT);
++#if defined(__SUNPRO_CC)
++#pragma packed
++#endif
+ 
+ /** Declaration of a stream header
+  
+     The contents of this struct goes into the 'strh' header. */
+ 
++#if defined(__SUNPRO_CC)
++#pragma packed(1)
++#endif
+ typedef struct
+ {
+ 	FOURCC fccType;
+@@ -100,7 +123,13 @@
+ 	RECT rcFrame;
+ }
+ PACKED(AVIStreamHeader);
++#if defined(__SUNPRO_CC)
++#pragma packed
++#endif
+ 
++#if defined(__SUNPRO_CC)
++#pragma packed(1)
++#endif
+ typedef struct
+ {
+ 	DWORD dwDVAAuxSrc;
+@@ -112,7 +141,13 @@
+ 	DWORD dwDVReserved[ 2 ];
+ }
+ PACKED(DVINFO);
++#if defined(__SUNPRO_CC)
++#pragma packed
++#endif
+ 
++#if defined(__SUNPRO_CC)
++#pragma packed(1)
++#endif
+ typedef struct
+ {
+ 	DWORD biSize;
+@@ -128,7 +163,13 @@
+ 	DWORD biClrImportant;
+ }
+ PACKED(BITMAPINFOHEADER);
++#if defined(__SUNPRO_CC)
++#pragma packed
++#endif
+ 
++#if defined(__SUNPRO_CC)
++#pragma packed(1)
++#endif
+ typedef struct
+ {
+ 	WORD wFormatTag;
+@@ -141,7 +182,13 @@
+ 	WORD dummy;
+ }
+ PACKED(WAVEFORMATEX);
++#if defined(__SUNPRO_CC)
++#pragma packed
++#endif
+ 
++#if defined(__SUNPRO_CC)
++#pragma packed(1)
++#endif
+ typedef struct
+ {
+ 	WORD wLongsPerEntry;
+@@ -159,7 +206,13 @@
+ 	aIndex[ 2014 ];
+ }
+ PACKED(AVISuperIndex);
++#if defined(__SUNPRO_CC)
++#pragma packed
++#endif
+ 
++#if defined(__SUNPRO_CC)
++#pragma packed(1)
++#endif
+ typedef struct
+ {
+ 	WORD wLongsPerEntry;
+@@ -177,7 +230,13 @@
+ 	aIndex[ 4028 ];
+ }
+ PACKED(AVIStdIndex);
++#if defined(__SUNPRO_CC)
++#pragma packed
++#endif
+ 
++#if defined(__SUNPRO_CC)
++#pragma packed(1)
++#endif
+ typedef struct
+ {
+ 	struct avisimpleindex_entry
+@@ -191,6 +250,9 @@
+ 	DWORD	nEntriesInUse;
+ }
+ PACKED(AVISimpleIndex);
++#if defined(__SUNPRO_CC)
++#pragma packed
++#endif
+ 
+ typedef struct
+ {
+diff -ur dvgrab-3.0.orig/dvgrab.cc dvgrab-3.0/dvgrab.cc
+--- dvgrab-3.0.orig/dvgrab.cc	2007-08-07 10:00:43.000000000 +0700
++++ dvgrab-3.0/dvgrab.cc	2007-09-04 13:06:50.889447865 +0700
+@@ -291,50 +291,50 @@
+ 
+ void DVgrab::getargs( int argc, char *argv[] )
+ {
+-	char *opts = "d:hif:F:I:s:tVv-";
++	char *opts = (char *)"d:hif:F:I:s:tVv-";
+ 	int optindex = 0;
+ 	int c;
+ 	struct option long_opts[] = {
+ 		// all these use sscanf for int conversion, use val == 0xff to indicate
+-		{ "autosplit", no_argument, &m_autosplit, true },
+-		{ "buffers", required_argument, &m_buffers, 0xff },
+-		{ "card", required_argument, &m_port, 0xff },
+-		{ "channel", required_argument, &m_channel, 0xff },
+-		{ "cmincutsize", required_argument, &m_collection_min_cut_file_size, 0xff },
+-		{ "csize", required_argument, &m_collection_size, 0xff },
+-		{ "debug", required_argument, 0, 0 },
+-		{ "duration", required_argument, 0, 0 },
+-		{ "every", required_argument, &m_frame_every, 0xff },
+-		{ "format", required_argument, 0, 'f' },
+-		{ "frames", required_argument, &m_frame_count, 0xff },
+-		{ "guid", required_argument, 0, 0 },
+-		{ "help", no_argument, 0, 'h' },
+-		{ "input", required_argument, 0, 'I' },
+-		{ "interactive", no_argument, 0, 'i'},
++		{ (char *)"autosplit", no_argument, &m_autosplit, true },
++		{ (char *)"buffers", required_argument, &m_buffers, 0xff },
++		{ (char *)"card", required_argument, &m_port, 0xff },
++		{ (char *)"channel", required_argument, &m_channel, 0xff },
++		{ (char *)"cmincutsize", required_argument, &m_collection_min_cut_file_size, 0xff },
++		{ (char *)"csize", required_argument, &m_collection_size, 0xff },
++		{ (char *)"debug", required_argument, 0, 0 },
++		{ (char *)"duration", required_argument, 0, 0 },
++		{ (char *)"every", required_argument, &m_frame_every, 0xff },
++		{ (char *)"format", required_argument, 0, 'f' },
++		{ (char *)"frames", required_argument, &m_frame_count, 0xff },
++		{ (char *)"guid", required_argument, 0, 0 },
++		{ (char *)"help", no_argument, 0, 'h' },
++		{ (char *)"input", required_argument, 0, 'I' },
++		{ (char *)"interactive", no_argument, 0, 'i'},
+ #if defined(HAVE_LIBJPEG) && defined(HAVE_LIBDV)
+-		{ "jpeg-deinterlace", no_argument, &m_jpeg_deinterlace, true },
+-		{ "jpeg-height", required_argument, &m_jpeg_height, 0xff },
+-		{ "jpeg-overwrite", no_argument, &m_jpeg_overwrite, true },
+-		{ "jpeg-quality", required_argument, &m_jpeg_quality, 0xff },
+-		{ "jpeg-temp", required_argument, &m_jpeg_usetemp, true },
+-		{ "jpeg-width", required_argument, &m_jpeg_width, 0xff },
++		{ (char *)"jpeg-deinterlace", no_argument, &m_jpeg_deinterlace, true },
++		{ (char *)"jpeg-height", required_argument, &m_jpeg_height, 0xff },
++		{ (char *)"jpeg-overwrite", no_argument, &m_jpeg_overwrite, true },
++		{ (char *)"jpeg-quality", required_argument, &m_jpeg_quality, 0xff },
++		{ (char *)"jpeg-temp", required_argument, &m_jpeg_usetemp, true },
++		{ (char *)"jpeg-width", required_argument, &m_jpeg_width, 0xff },
+ #endif
+-		{ "lockstep", no_argument, &m_lockstep, true },
+-		{ "lockstep_maxdrops", required_argument, &m_lockstep_maxdrops, 0xff },
+-		{ "lockstep_totaldrops", required_argument, &m_lockstep_totaldrops, 0xff },
+-		{ "noavc", no_argument, &m_noavc, true },
+-		{ "nostop", no_argument, &m_no_stop, true },
+-		{ "opendml", no_argument, &m_open_dml, true },
+-		{ "showstatus", no_argument, &m_showstatus, true },
+-		{ "size", required_argument, &m_max_file_size, 0xff },
+-		{ "stdin", no_argument, 0, 0 },
+-		{ "timecode", no_argument, &m_timecode, true },
+-		{ "timestamp", no_argument, &m_timestamp, true },
+-		{ "timesys", no_argument, &m_timesys, true },
++		{ (char *)"lockstep", no_argument, &m_lockstep, true },
++		{ (char *)"lockstep_maxdrops", required_argument, &m_lockstep_maxdrops, 0xff },
++		{ (char *)"lockstep_totaldrops", required_argument, &m_lockstep_totaldrops, 0xff },
++		{ (char *)"noavc", no_argument, &m_noavc, true },
++		{ (char *)"nostop", no_argument, &m_no_stop, true },
++		{ (char *)"opendml", no_argument, &m_open_dml, true },
++		{ (char *)"showstatus", no_argument, &m_showstatus, true },
++		{ (char *)"size", required_argument, &m_max_file_size, 0xff },
++		{ (char *)"stdin", no_argument, 0, 0 },
++		{ (char *)"timecode", no_argument, &m_timecode, true },
++		{ (char *)"timestamp", no_argument, &m_timestamp, true },
++		{ (char *)"timesys", no_argument, &m_timesys, true },
+ #ifdef HAVE_LINUX_VIDEODEV2_H
+-		{ "v4l2", no_argument, 0, 'V' },
++		{ (char *)"v4l2", no_argument, 0, 'V' },
+ #endif
+-		{ "version", no_argument, 0, 'v' },
++		{ (char *)"version", no_argument, 0, 'v' },
+ 		{ 0, 0, 0, 0 }
+ 	};
+ 
+diff -ur dvgrab-3.0.orig/endian_types.h dvgrab-3.0/endian_types.h
+--- dvgrab-3.0.orig/endian_types.h	2005-04-18 21:24:48.000000000 +0700
++++ dvgrab-3.0/endian_types.h	2007-09-04 13:06:50.889699833 +0700
+@@ -100,6 +100,9 @@
+ #endif
+ }
+ 
++#if defined(__SUNPRO_CC)
++#pragma packed(1)
++#endif
+ template <class T> class le_t {
+ 	T	m;
+ 	T	read() const {
+@@ -150,10 +153,19 @@
+ 		m |= t.m;
+ 		return *this;
+ 	};
++#if defined(__SUNPRO_CC)
++};
++#pragma packed
++#else
+ } __attribute__((packed));
++#endif
++
+ 
+ /* Just copy-and-pasted from le_t. Too lazy to do it right. */
+ 
++#if defined(__SUNPRO_CC)
++#pragma packed(1)
++#endif
+ template <class T> class be_t {
+ 	T	m;
+ 	T	read() const {
+@@ -204,7 +216,12 @@
+ 		m |= t.m;
+ 		return *this;
+ 	};
++#if defined(__SUNPRO_CC)
++};
++#pragma packed
++#else
+ } __attribute__((packed));
++#endif
+ 
+ /* Define types of native endianness similar to the little and big endian
+  * versions below. Not really necessary but useful occasionally to emphasize
+diff -ur dvgrab-3.0.orig/ieee1394io.cc dvgrab-3.0/ieee1394io.cc
+--- dvgrab-3.0.orig/ieee1394io.cc	2007-07-07 14:10:12.000000000 +0700
++++ dvgrab-3.0/ieee1394io.cc	2007-09-04 13:06:50.890098559 +0700
+@@ -47,6 +47,10 @@
+ #include <config.h>
+ #endif
+ 
++#if !defined(__ASSERT_FUNCTION)
++#define __ASSERT_FUNCTION __func__
++#endif
++
+ #include <deque>
+ #include <iostream>
+ 

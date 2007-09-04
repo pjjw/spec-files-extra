@@ -1,0 +1,45 @@
+diff -ur dvgrab-3.0.orig/configure.in dvgrab-3.0/configure.in
+--- dvgrab-3.0.orig/configure.in	2007-08-07 09:51:47.000000000 +0700
++++ dvgrab-3.0/configure.in	2007-09-04 11:06:22.749719100 +0700
+@@ -15,7 +15,28 @@
+ 
+ dnl Checks for header files.
+ AC_HEADER_STDC
+-AC_CHECK_HEADERS(fcntl.h unistd.h stdio.h)
++AC_CHECK_HEADERS(fcntl.h unistd.h stdio.h sys/types.h inttypes.h sys/ioccom.h)
++
++AC_MSG_CHECKING([if inttypes has u_int32_t etc])
++AC_COMPILE_IFELSE(
++    [AC_LANG_PROGRAM(
++        [[
++#if HAVE_SYS_TYPES_H
++#include <sys/types.h>
++#endif
++#if HAVE_INTTYPES_H
++#include <inttypes.h>
++#endif
++#if HAVE_UNISTD_H
++#include <unistd.h>
++#endif
++        ]],[[
++    u_int32_t  s;
++    sleep((unsigned int)s);
++        ]]
++    )],
++    [AC_DEFINE(HAVE_U_INT_TYPES, 1, [Define to 1 if have u_int32_t types etc])
++    AC_MSG_RESULT(yes)],[AC_MSG_RESULT(no)])
+ 
+ dnl Checks for libraries.
+ 
+@@ -86,6 +107,11 @@
+ 	AC_WARN(V4L2 headers missing; install linux 2.6 headers to use USB.)
+ ])
+ 
++AC_CHECK_HEADERS(sys/videodev2.h,,
++[
++	AC_WARN(V4L2 headers missing.)
++])
++
+ 
+ # EFENCE
+ AC_ARG_WITH(efence,[  --with-efence        Use ElectricFence for debugging support.],

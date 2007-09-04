@@ -1,0 +1,48 @@
+diff -ur dvgrab-3.0.orig/v4l2reader.cc dvgrab-3.0/v4l2reader.cc
+--- dvgrab-3.0.orig/v4l2reader.cc	2007-08-07 09:51:47.000000000 +0700
++++ dvgrab-3.0/v4l2reader.cc	2007-09-04 13:53:45.183579886 +0700
+@@ -20,7 +20,7 @@
+ 
+ #include "v4l2reader.h"
+ 
+-#ifdef HAVE_LINUX_VIDEODEV2_H
++#if defined(HAVE_LINUX_VIDEODEV2_H) || defined(HAVE_SYS_VIDEODEV2_H)
+ 
+ #include <string>
+ 
+@@ -31,9 +31,23 @@
+ #include <stdlib.h>
+ #include <errno.h>
+ #include <sys/ioctl.h>
++#if defined(HAVE_ASM_TYPES_H)
+ #include <asm/types.h>
++#endif
++#if defined(HAVE_INTTYPES_H)
++#include <inttypes.h>
++#endif
++#if defined(HAVE_SYS_IOCCOM_H)
++#include <sys/ioccom.h>
++#endif
+ #include <sys/mman.h>
++#if defined(HAVE_LINUX_VIDEODEV2_H)
+ #include <linux/videodev2.h>
++#elif defined(HAVE_SYS_VIDEODEV2_H)
++#include <sys/videodev2.h>
++#else
++#error "No videodev2.h found. You may have problems"
++#endif
+ #include <assert.h>
+ #include <poll.h>
+ 
+diff -ur dvgrab-3.0.orig/v4l2reader.h dvgrab-3.0/v4l2reader.h
+--- dvgrab-3.0.orig/v4l2reader.h	2007-08-07 09:51:47.000000000 +0700
++++ dvgrab-3.0/v4l2reader.h	2007-09-04 13:53:45.183631955 +0700
+@@ -23,7 +23,7 @@
+ #ifdef HAVE_CONFIG_H
+ #include <config.h>
+ #endif
+-#ifdef HAVE_LINUX_VIDEODEV2_H
++#if defined(HAVE_LINUX_VIDEODEV2_H) || defined(HAVE_SYS_VIDEODEV2_H)
+ 
+ #include "ieee1394io.h"
+ 

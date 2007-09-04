@@ -1,0 +1,88 @@
+diff -ur libraw1394-1.2.1.orig/src/ieee1394-ioctl.h libraw1394-1.2.1/src/ieee1394-ioctl.h
+--- libraw1394-1.2.1.orig/src/ieee1394-ioctl.h	2004-02-01 03:26:07.000000000 +0700
++++ libraw1394-1.2.1/src/ieee1394-ioctl.h	2007-09-04 09:36:53.290395724 +0700
+@@ -4,10 +4,23 @@
+ #ifndef __IEEE1394_IOCTL_H
+ #define __IEEE1394_IOCTL_H
+ 
++#ifdef HAVE_LINUX_IOCTL_H
+ #include <linux/ioctl.h>
++#endif
++#ifdef HAVE_LINUX_TYPES_H
+ #include <linux/types.h>
++#endif
++#ifdef HAVE_UNISTD_H
++#include <unistd.h>
++#endif
++#ifdef HAVE_STROPTS_H
++#include <stropts.h>
++#endif
++#ifdef HAVE_SYS_IOCCOM_H
++#include <sys/ioccom.h>
++#endif
+ 
+-
++#if defined(LINUX) || defined(__LINUX__) || defined(__linux__)
+ /* AMDTP Gets 6 */
+ #define AMDTP_IOC_CHANNEL	_IOW('#', 0x00, struct amdtp_ioctl)
+ #define AMDTP_IOC_PLUG		_IOW('#', 0x01, struct amdtp_ioctl)
+@@ -107,5 +120,35 @@
+ #define RAW1394_IOC_ISO_RECV_FLUSH              \
+ 	_IO  ('#', 0x29)
+ 
++#elif defined(sun) || defined(__sun)
++#define RAW1394IOC    (('#' | 128) << 8)
++
++/* AMDTP Gets 6 */
++#define AMDTP_IOC_CHANNEL       (RAW1394IOC | 0x00)
++#define AMDTP_IOC_PLUG          (RAW1394IOC | 0x01)
++#define AMDTP_IOC_PING          (RAW1394IOC | 0x02)
++#define AMDTP_IOC_ZAP           (RAW1394IOC | 0x03)
++
++/* Raw1394's ISO interface */
++
++#define RAW1394_IOC_ISO_XMIT_INIT               (RAW1394IOC | 0x1a)
++#define RAW1394_IOC_ISO_RECV_INIT               (RAW1394IOC | 0x1b)
++#define RAW1394_IOC_ISO_RECV_START              (RAW1394IOC | 0x1c)
++#define RAW1394_IOC_ISO_XMIT_START              (RAW1394IOC | 0x1d)
++#define RAW1394_IOC_ISO_XMIT_RECV_STOP          (RAW1394IOC | 0x1e)
++#define RAW1394_IOC_ISO_GET_STATUS              (RAW1394IOC | 0x1f)
++#define RAW1394_IOC_ISO_SHUTDOWN                (RAW1394IOC | 0x20)
++#define RAW1394_IOC_ISO_QUEUE_ACTIVITY          (RAW1394IOC | 0x21)
++#define RAW1394_IOC_ISO_RECV_LISTEN_CHANNEL     (RAW1394IOC | 0x22)
++#define RAW1394_IOC_ISO_RECV_UNLISTEN_CHANNEL   (RAW1394IOC | 0x23)
++#define RAW1394_IOC_ISO_RECV_SET_CHANNEL_MASK   (RAW1394IOC | 0x24)
++#define RAW1394_IOC_ISO_RECV_PACKETS            (RAW1394IOC | 0x25)
++#define RAW1394_IOC_ISO_RECV_RELEASE_PACKETS    (RAW1394IOC | 0x26)
++#define RAW1394_IOC_ISO_XMIT_PACKETS            (RAW1394IOC | 0x27)
++#define RAW1394_IOC_ISO_XMIT_SYNC               (RAW1394IOC | 0x28)
++#define RAW1394_IOC_ISO_RECV_FLUSH              (RAW1394IOC | 0x29)
++#else
++#error "Unknown system"
++#endif
+ 
+ #endif /* __IEEE1394_IOCTL_H */
+diff -ur libraw1394-1.2.1.orig/src/kernel-raw1394.h libraw1394-1.2.1/src/kernel-raw1394.h
+--- libraw1394-1.2.1.orig/src/kernel-raw1394.h	2004-11-06 07:26:44.000000000 +0700
++++ libraw1394-1.2.1/src/kernel-raw1394.h	2007-09-04 09:07:23.710232109 +0700
+@@ -72,7 +72,20 @@
+ #define RAW1394_NOTIFY_OFF 0
+ #define RAW1394_NOTIFY_ON  1
+ 
++#if defined(HAVE_ASM_TYPES_H)
+ #include <asm/types.h>
++#elif defined(HAVE_INTTYPES_H) && defined(HAVE_SYS_TYPES_H)
++#include <sys/types.h>
++#include <inttypes.h>
++typedef uint8_t  __u8;
++typedef uint16_t __u16;
++typedef uint32_t __u32;
++typedef uint64_t __u64;
++typedef int8_t   __s8;
++typedef int16_t  __s16;
++typedef int32_t  __s32;
++typedef int64_t  __s64;
++#endif
+ 
+ struct raw1394_request {
+         __u32 type;

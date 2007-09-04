@@ -1,0 +1,12 @@
+--- libiec61883-1.1.0/src/cmp.c.orig	2007-09-04 10:00:37.014541437 +0700
++++ libiec61883-1.1.0/src/cmp.c	2007-09-04 10:02:26.689523953 +0700
+@@ -29,6 +29,9 @@
+ #include <libraw1394/csr.h>
+ #include <netinet/in.h>
+ 
++#if !defined(__FUNCTION__)
++#define __FUNCTION__ __func__
++#endif
+ 
+ int
+ iec61883_cmp_calc_bandwidth (raw1394handle_t handle, nodeid_t from, int plug,

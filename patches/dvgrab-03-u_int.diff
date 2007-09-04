@@ -1,0 +1,20 @@
+diff -ur dvgrab-3.0.orig/endian_types.h dvgrab-3.0/endian_types.h
+--- dvgrab-3.0.orig/endian_types.h	2005-04-18 21:24:48.000000000 +0700
++++ dvgrab-3.0/endian_types.h	2007-09-04 11:02:24.105387990 +0700
+@@ -39,6 +39,16 @@
+ #include <sys/types.h>
+ #include <byteswap.h>
+ 
++#ifdef HAVE_INTTYPES_H
++#include <inttypes.h>
++#endif
++#ifndef HAVE_U_INT_TYPES
++typedef uint8_t u_int8_t;
++typedef uint16_t u_int16_t;
++typedef uint32_t u_int32_t;
++typedef uint64_t u_int64_t;
++#endif
++
+ static inline int8_t bswap(const int8_t& x)
+ {
+ 	return x;

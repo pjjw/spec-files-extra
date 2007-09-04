@@ -1,0 +1,11 @@
+--- dvgrab-3.0/iec13818-1.cc.orig	2007-09-04 12:51:25.864036600 +0700
++++ dvgrab-3.0/iec13818-1.cc	2007-09-04 12:49:40.629386401 +0700
+@@ -38,7 +38,7 @@
+ bool HDVPacket::payload_unit_start_indicator() { return GetBits( 9, 1 ); }
+ bool HDVPacket::transport_priority() { return GetBits( 10, 1 ); }
+ unsigned short HDVPacket::pid() { return GetBits( 11, 13 ); }
+-unsigned char HDVPacket::transport_scrambling_control() { GetBits( 24, 2 ); }
++unsigned char HDVPacket::transport_scrambling_control() { return GetBits( 24, 2 ); }
+ unsigned char HDVPacket::adaptation_field_control() { return GetBits( 26, 2 ); }
+ unsigned char HDVPacket::continuity_counter() { return GetBits( 28, 4 ); }
+ 

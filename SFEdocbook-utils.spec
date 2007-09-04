@@ -17,7 +17,7 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SUNWopenjade
-Requires: SFEperl-SGMLSpm
+Requires: SFEperl-SGMLpm
 
 %prep
 %setup -q -n %{src_name}-%version
@@ -61,5 +61,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}
 
 %changelog
+* Tue Sep  4 2007 - dougs@truemail.co.th
+- Fixed typo
 * Fri Jul 27 2007 - dougs@truemail.co.th
 - Initial spec
