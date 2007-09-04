@@ -51,6 +51,7 @@ Requires: SUNWlibcdio
 Requires: SUNWgnome-base-libs
 Requires: SUNWsmbau
 Requires: SFElibfribidi
+Requires: SFElibiconv
 BuildRequires: SFElibfribidi-devel
 Requires: SFEladspa
 BuildRequires: SFEladspa-devel
