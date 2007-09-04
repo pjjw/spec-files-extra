@@ -11,6 +11,7 @@ Version:                 1.8.0
 Source:                  http://nchc.dl.sourceforge.net/sourceforge/mjpeg/mjpegtools-%{version}.tar.gz
 Patch1:			 mjpegtools-01-progname.diff
 Patch2:			 mjpegtools-02-alloca.diff
+Patch3:			 mjpegtools-03-quicktime.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -18,6 +19,8 @@ Requires: SUNWlibC
 Requires: SUNWgnome-base-libs
 BuildRequires: SUNWgnome-base-libs-devel
 Requires: SFEwxwidgets
+BuildRequires: SFElibquicktime-devel
+Requires: SFElibquicktime
 
 %package devel
 Summary:                 %{summary} - development files
@@ -29,6 +32,7 @@ Requires: %name
 %setup -q -n mjpegtools-%version
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -51,6 +55,7 @@ CPPFLAGS="-I/usr/X11/include -I/usr/sfw/include" \
             --enable-shared		     \
 	    --disable-static                 
 
+perl -pi -e 's,-pthread,,' configure
 # Parallel make spits dummy -j removed - Doug Scott
 make
 

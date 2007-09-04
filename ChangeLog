@@ -1,3 +1,9 @@
+2007-09-04  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEmjpegtools.spec: Added quicktime requirement
+	* patches/mjpegtools-03-quicktime.diff: Patch for quicktime code
+	* base-specs/libquicktime.spec: base spec for SFElibquicktime.spec
+
 2007-09-04  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEpygtksourceview.spec: Added. Python bindings for GtkSourceView 2.
