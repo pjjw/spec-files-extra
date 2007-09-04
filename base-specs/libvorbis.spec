@@ -68,7 +68,7 @@ automake -a -f
 	    --mandir=%{_mandir}			\
 	    --with-ogg-libraries=%{_libdir}	\
 	    --enable-shared			\
-	    --disable-shared
+	    --disable-static
 make
 
 %install
@@ -97,6 +97,8 @@ sed -e s/XIPH_PATH_VORBIS/AM_PATH_VORBIS/g < $RPM_BUILD_ROOT%{_datadir}/aclocal/
 %{_datadir}/gtk-doc
 
 %changelog -n libvorbis
+* Tue Sep  4 2007 - dougs@truemail.co.th
+- enabled shared
 * Sun Aug 12 2007 - dougs@truemail.co.th
 - copied from spec-files to provide 64bit libraries
 * Mon Jul 30 2007 - damien.carbery@sun.com

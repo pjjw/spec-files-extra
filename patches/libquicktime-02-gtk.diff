@@ -1,0 +1,74 @@
+--- libquicktime-1.0.0/utils/gtk/lqt_gtk.h.orig	2007-09-04 21:48:04.411960331 +0700
++++ libquicktime-1.0.0/utils/gtk/lqt_gtk.h	2007-09-04 21:46:51.415258979 +0700
+@@ -9,23 +9,22 @@
+  *  Widget for one parameter
+  */
+ 
+-typedef struct
+-  {
+-  GtkWidget * label;
+-  GtkWidget * widget;
+-  GtkObject * adjustment;
++typedef struct {
++  GtkWidget *label;
++  GtkWidget *widget;
++  GtkObject *adjustment;
+ 
+-  GtkWidget * menu;
+-  GtkWidget ** menuitems;
++  GtkWidget *menu;
++  GtkWidget **menuitems;
+   
+-  lqt_parameter_info_t * parameter_info;
++  lqt_parameter_info_t *parameter_info;
+ 
++  GtkTooltip *tooltips;
+   int selected;
+-  GtkTooltips * tooltips;
+-  } LqtGtkParameterWidget;
++}LqtGtkParameterWidget;
+ 
+ LqtGtkParameterWidget *
+-lqtgtk_create_parameter_widget(lqt_parameter_info_t * info, GtkTooltips * tooltips);
++lqtgtk_create_parameter_widget(lqt_parameter_info_t * info, GtkTooltip *tooltips);
+ 
+ void lqtgtk_destroy_parameter_widget(LqtGtkParameterWidget*);
+ 
+@@ -47,7 +46,7 @@
+ 
+   lqt_parameter_info_t * parameter_info;
+   int num_parameters;
+-  GtkTooltips * tooltips;
++  GtkTooltip * tooltips;
+   } LqtGtkCodecConfigWidget;
+ 
+ LqtGtkCodecConfigWidget *
+--- libquicktime-1.0.0/utils/gtk/lqt_gtk.c.orig	2007-09-04 21:48:10.853331005 +0700
++++ libquicktime-1.0.0/utils/gtk/lqt_gtk.c	2007-09-04 21:47:15.816172668 +0700
+@@ -161,7 +161,7 @@
+ set_combo_tooltip(GtkWidget *widget, gpointer   data)
+   {
+   LqtGtkParameterWidget * w = (LqtGtkParameterWidget *)data;
+-  //  GtkTooltips *tooltips = (GtkTooltips *)data;
++  //  GtkTooltip *tooltips = (GtkTooltip *)data;
+ 
+   if(GTK_IS_BUTTON (widget))
+     gtk_tooltips_set_tip(w->tooltips, widget,
+@@ -181,7 +181,7 @@
+ 
+ 
+ LqtGtkParameterWidget *
+-lqtgtk_create_parameter_widget(lqt_parameter_info_t * info, GtkTooltips * tooltips)
++lqtgtk_create_parameter_widget(lqt_parameter_info_t * info, GtkTooltip * tooltips)
+   {
+   int i;
+   LqtGtkParameterWidget * ret = calloc(1, sizeof(LqtGtkParameterWidget));
+@@ -343,7 +343,7 @@
+ 
+ static GtkWidget * create_table(lqt_parameter_info_t * parameter_info,
+                                 LqtGtkParameterWidget ** widgets,
+-                                int num_parameters, GtkTooltips * tooltips)
++                                int num_parameters, GtkTooltip * tooltips)
+   {
+   int i;
+   GtkWidget * ret;

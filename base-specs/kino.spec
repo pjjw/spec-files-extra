@@ -69,7 +69,10 @@ automake -a -f
             --libexecdir=%{_libexecdir}	\
             --sysconfdir=%{_sysconfdir}	\
             --enable-shared		\
-	    --disable-static
+	    --disable-static		\
+	    --enable-quicktime		\
+	    --enable-local-ffmpeg=no
+
 
 #perl -pi -e 's,-shared,-Wl,-G' libtool
 make
@@ -82,5 +85,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Sep  4 2007 - dougs@truemail.co.th
+- Added quicktime and system ffmpeg
 * Tue Sep  4 2007 - dougs@truemail.co.th
 - Initial base spec file

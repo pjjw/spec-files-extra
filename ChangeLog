@@ -1,5 +1,24 @@
 2007-09-04  Doug Scott  <dougs@truemail.co.th>
 
+	* SFElibquicktime.spec: *NEW* quicktime library
+	* SFEkino.spec: Added quicktime as required
+	* SFEdvgrab.spec: Added quicktime as required
+	* base-specs/kino.spec: Added quicktime and ffmpeg from system
+	* base-specs/libvorbis.spec: Fixed building 64bit libraries
+	* patches/libquicktime-01-configure.diff: configure patch
+	* patches/libquicktime-02-gtk.diff: GtkTooltips -> GtkTooltip
+
+2007-09-04  Ananth Shrinivas  <ananth@sun.com>
+
+	* SFEmplayer.spec: SFEmplayer needs libiconv to avoid continous
+	  warnings during playback
+
+2007-09-04  Ananth Shrinivas  <ananth@sun.com>
+
+	* SFEliveMedia.spec: bump to 2007.08.03a
+
+2007-09-04  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEkino.spec: *NEW* DV editing utility
 	* SFEdvgrab.spec: Added devel package
 	* base-specs/kino.spec: base spec

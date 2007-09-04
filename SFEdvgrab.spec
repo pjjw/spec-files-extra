@@ -24,6 +24,8 @@ BuildRequires: SFElibraw1394-devel
 Requires: SFElibraw1394
 BuildRequires: SFElibdv-devel
 Requires: SFElibdv
+BuildRequires: SFElibquicktime-devel
+Requires: SFElibquicktime
 
 %prep
 rm -rf %name-%version
@@ -66,5 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Sep  4 2007 - dougs@truemail.co.th
+- Added libquicktime as required
 * Thu Sep  4 2007 - dougs@truemail.co.th
 - Initial version

@@ -20,6 +20,8 @@ BuildRequires: SFElibdv-devel
 Requires: SFElibdv
 BuildRequires: SFElibsamplerate-devel
 Requires: SFElibsamplerate
+BuildRequires: SFElibquicktime-devel
+Requires: SFElibquicktime
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -75,9 +77,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/kino
-%{_bindir}/ffmpeg-kino
-%{_bindir}/kino2raw
+%{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 %dir %attr (0755, root, sys) %{_datadir}
@@ -104,5 +104,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr (-, root, other) %{_datadir}/locale
 
 %changelog
+* Thu Sep  4 2007 - dougs@truemail.co.th
+- Added libquicktime as required
 * Thu Sep  4 2007 - dougs@truemail.co.th
 - Initial version
