@@ -1,3 +1,24 @@
+2007-09-04  Thomas Wagner <tom68@users.sourceforge.net>
+
+        * SFEmpd: add description, add libao example to mpd.conf (sun|pulse)
+            - enable missing config-patch3: id3v1_encoding "UTF-8"
+            - add more configexamples in mpdconf.example
+              pulseaudio native output, libao driver "sun" or "pulse",
+              icecast streaming (second example)
+        * SFEgmpc: bump to 0.15.1 (small bugfixes)
+        * SFEpulseaudio: - Added LDFLAG -lsocket (ipv6 librarycall
+            - adjust cleaning files from lib/pulse-*/lib*\.a and \.la
+            - fill configuration-package -root with dummy
+            - patch configuration-files default.pa and 
+              dummy client.conf
+            tested: mpd -> libao(pulse) -> pulseaudio(module-solaris)
+
+        * SFEpaman: *NEW* Pulseaudio Manager
+        * SFEpadevchooser: *NEW* PulseAudio Device Chooser
+        * SFEpaprefs: *NEW* PulseAudio Preferences Control
+        * SFEpavucontrol: *NEW* PulseAudio Volume Control (gtk)
+        * SFElibao-pulse: *NEW* PulseAudio Plugin feed musik into pulsaudio networks
+
 2007-09-04  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEmjpegtools.spec: Added quicktime requirement

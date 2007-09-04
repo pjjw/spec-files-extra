@@ -22,6 +22,7 @@ Source:              http://www.musicpd.org/uploads/files/mpd-%{version}.tar.bz2
 Patch1:              mpd-01-include-ao-mpdconf.example.diff
 Patch2:              mpd-02-filesystem_charset-UTF-8-mpdconf.example.diff
 Patch3:              mpd-03-id3-tags-UTF-8-mpdconf.example.diff
+Patch4:              mpd-04-libao_pulse-pulseaudio-icecast-mpdconf.example.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -48,13 +49,25 @@ Requires: SUNWogg-vorbis
 Requires: SUNWgnome-audio
 Requires: SUNWflac
 Requires: SFElibshout
-#TODO# Requires: SFElibpulse-devel
+#TODO# Requires: SFElibpulse
 Requires: SFEavahi
+
+
+%description
+Music Daemon to play common audio fileformats to audio devices or 
+audio-networks. 
+Uses a database to stire indexes (mp3-tags,...) and supports Playlists.
+Controlled via Network by SFEgmpc, SFEmpc, SFEncmpc, pitchfork and others.
+Output might go to local Solaris Audio-Hardware, Streams with SFEicecast,
+auto-network SFEpulseaudio ( via pulseaudio, libao (sun|pulse) )
+
 
 %prep
 %setup -q -n mpd-%version
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 
@@ -110,6 +123,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Tue Sep 04 2007 Thomas Wagner
+- add description
+- add libao example to mpd.conf (sun|pulse)
+- enable missed patch3
+- add more configexamples see share/doc/mpd/mpdconf.example if you are upgrading
+  pulseaudio native output, libao driver "sun" or "pulse", icecast streaming (second example)
 * Mon May 28 2007 Thomas Wagner
 - bump to 0.13.0
 - --enable-flac --enable-oggflac

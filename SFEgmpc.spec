@@ -7,8 +7,8 @@
 Name:                    SFEgmpc
 Summary:                 gmpc - A gnome frontend for the mpd daemon
 URL:                     http://sarine.nl/gmpc/
-Version:                 0.15.0
-Source:                  http://download.sarine.nl/gmpc-0.15.0/gmpc-%{version}.tar.gz
+Version:                 0.15.1
+Source:                  http://download.sarine.nl/gmpc-%{version}/gmpc-%{version}.tar.gz
 
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -55,6 +55,10 @@ make
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
+%if %{build_l10n}
+%else
+rmdir $RPM_BUILD_ROOT/%{_datadir}/locale
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -92,6 +96,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Sep 04 2007  - Thomas Wagner
+- bump to 0.15.1, add %{version} to Download-Dir (might change again)
+- conditional !%build_l10n rmdir $RPM_BUILD_ROOT/%{_datadir}/locale
 * Sat May 26 2007  - Thomas Wagner
 - bump to 0.15.0
 - set compiler to gcc

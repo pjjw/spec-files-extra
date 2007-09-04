@@ -14,6 +14,7 @@ Summary:	pulseaudio - stream audio to clients
 Version:	0.9.5
 Source:		%{src_url}/%{src_name}-%{version}.tar.gz
 Patch1:		pulseaudio-01-ioctl.diff
+Patch2:		pulseaudio-02-default.pa.diff
 SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -52,7 +53,7 @@ fi
 export CPPFLAGS="-D_XPG4_2 -D__EXTENSIONS__"
 
 export CFLAGS="%optflags"
-export LDFLAGS="%{_ldflags} -lxnet -lgobject-2.0"
+export LDFLAGS="%{_ldflags} -lxnet -lsocket -lgobject-2.0"
 
 ./configure --prefix=%{_prefix}         \
             --mandir=%{_mandir}         \
@@ -67,7 +68,11 @@ make -j$CPUS
 rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.*a
+
+rm -f $RPM_BUILD_ROOT%{_libdir}/lib*\.a
+rm -f $RPM_BUILD_ROOT%{_libdir}/lib*\.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/pulse-*/lib*\.a
+rm -f $RPM_BUILD_ROOT%{_libdir}/pulse-*/lib*\.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -89,10 +94,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files root
 %defattr (-, root, bin)
-%attr (0755, root, sys) %dir %{_sysconfdir}
-%{_sysconfdir}/*
+%attr (0755, root, sys) %dir %{_sysconfdir}/pulse
+%{_sysconfdir}/pulse/*
 
 %changelog
+* Tue Sep 04 2007 - Thomas Wagner
+- Added LDFLAG -lsocket to solve ipv6 socket error when setting IP-ACLs
+- remove left over files from lib/pulse-*/lib*\.a and \.la
+- configuration-file default.pa: connection from mpd via 
+  pulse-output now works. Listens to localhost, see examples
+  for local LAN syntax
 * Sun Aug 12 2007 - dougs@truemail.co.th
 - Added ioctl patch and root package
 * Tue May 22 2007 - Thomas Wagner

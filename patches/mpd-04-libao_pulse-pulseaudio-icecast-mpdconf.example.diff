@@ -1,0 +1,40 @@
+--- mpd-0.xx.y/doc/mpdconf.example.pulse_libao-pulse_icecast	2007-09-04 16:08:03.000000000 +0200
++++ mpd-0.xx.y/doc/mpdconf.example	2007-09-04 16:13:47.848407434 +0200
+@@ -127,6 +127,37 @@
+ 	driver			"sun"
+ }
+ 
++#use the pulse-driver of the libao-framework
++#audio_output {
++#        type                    "ao"
++#        name                    "libao audio device"
++#	driver			"pulse"
++#}
++
++#use the native pulseaudio output
++#audio_output {
++#        type    "pulse"
++#        name    "My MPD PulseAudio Output"
++#        server  "localhost"   # optional
++#        sink    "solaris_output"
++#}
++
++#one more example for icecast
++#audio_output {
++#    type "shout"
++#    name "Music stream"
++#    host "localhost"
++#    port "8000"
++#    mount "/stream.ogg"
++#    password "takethispassword"
++#    quality "2"
++#    format "44100:16:1"
++#    user "takethissourceusername"
++#    description "All kinds of music"
++#    genre "Everything"
++#} # end of audio_output
++
++
+ #
+ # Force all decoded audio to be converted to this format before
+ # being passed to the audio outputs.
