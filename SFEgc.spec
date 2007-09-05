@@ -7,15 +7,15 @@
 
 Name:                SFEgc
 Summary:             A garbage collector for C and C++
-Version:             6.8
+Version:             7.0
 URL:                 http://www.hpl.hp.com/personal/Hans_Boehm/gc/
-Source:              http://www.hpl.hp.com/personal/Hans_Boehm/gc/gc_source/gc%{version}.tar.gz
+Source:              http://www.hpl.hp.com/personal/Hans_Boehm/gc/gc_source/gc-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 %prep
-%setup -q -n gc%{version}
+%setup -q -n gc-%{version}
 
 %build
 
@@ -48,10 +48,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
+%{_libdir}/*.so*
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/gc
 
 %changelog
+* Thu May 03 2007 - nonsea@users.sourceforge.net
+- Bump to 7.0
 * Thu May 03 2007 - nonsea@users.sourceforge.net
 - Initial spec

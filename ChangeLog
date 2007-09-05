@@ -1,3 +1,11 @@
+2007-09-05  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEgc.spec: Bump to 7.0
+	* SFEsqlite.spec: Bump to 3.5.0, Uncomment patch1, seems no crash when
+	  run tracker and opensync, will contact patch owner laca.
+	* SFEtracker.spec: Bump to 0.6.2, Move w3m to Requires.
+	* SFEw3m.spec: Bump to 0.5.2
+
 2007-09-04  Thomas Wagner <tom68@users.sourceforge.net>
 
         * SFEmpd: add description, add libao example to mpd.conf (sun|pulse)

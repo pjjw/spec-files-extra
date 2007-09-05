@@ -5,13 +5,12 @@
 
 %include Solaris.inc
 %define with_libgsf %(pkginfo -q SFElibgsf && echo 1 || echo 0)
-%define with_w3m    %(pkginfo -q SFEw3m && echo 1 || echo 0)
 %define with_mv     %(pkginfo -q SFEwv && echo 1 || echo 0)
 
 Name:           SFEtracker
 License:        GPL
 Summary:        Desktop search tool
-Version:        0.6.1
+Version:        0.6.2
 URL:            http://www.tracker-project.org
 Source:         http://www.gnome.org/~jamiemcc/tracker/tracker-%{version}.tar.gz
 SUNW_BaseDir:   %{_basedir}
@@ -35,6 +34,7 @@ Requires:       SUNWogg-vorbis
 Requires:       SUNWlibexif
 Requires:       SUNWgnome-pdf-viewer
 Requires:       SUNWlxsl
+Requires:       SFEw3m
 BuildRequires:  SUNWgnome-media-devel
 BuildRequires:  SUNWpng-devel
 BuildRequires:  SUNWogg-vorbis-devel
@@ -45,10 +45,7 @@ BuildRequires:  SUNWlxsl-devel
 Requires:       SFElibgsf
 BuildRequires:  SFElibgsf-devel
 %endif
-%if %with_w3m
-Requires:       SFEw3m
-%endif
-%if %with_w3m
+%if %with_mv
 Requires:       SFEwv
 BuildRequires:  SFEwv-devel
 %endif
@@ -116,6 +113,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*.so*
 %{_libdir}/tracker
+%dir %attr (0755, root, bin) %{_libdir}/deskbar-applet
+%dir %attr (0755, root, bin) %{_libdir}/deskbar-applet/handlers
+%{_libdir}/deskbar-applet/handlers/tracker-handler.py
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/tracker
 %dir %attr (0755, root, other) %{_datadir}/applications
@@ -150,6 +150,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Sep 05 2007 - nonsea@users.sourceforge.net
+- Bump to 0.6.2.
+- Move w3m to Requires.
 * Thu Aug 09 2007 - nonsea@users.sourceforge.net
 - Bump to 0.6.1.
 * Mon Aug 06 2007 - nonsea@users.sourceforge.net

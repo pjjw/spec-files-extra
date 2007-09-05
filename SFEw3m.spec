@@ -7,7 +7,7 @@
 
 Name:                SFEw3m
 Summary:             A text-based web browser
-Version:             0.5.1
+Version:             0.5.2
 Source:              http://superb-west.dl.sourceforge.net/sourceforge/w3m/w3m-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -27,7 +27,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CFLAGS="%optflags -I/usr/sfw/include"
-export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib"
+export LDFLAGS="%_ldflags -lX11 -L/usr/sfw/lib -R/usr/sfw/lib"
 
 ./configure --prefix=%{_prefix}  	\
 	    --libexecdir=%{_libdir}	\
@@ -59,5 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man*/*
 
 %changelog
+* Wed Sep 05 2007 - nonsea@users.sourceforge.net
+- Bump to 0.5.2
 * Thu May 03 2007 - nonsea@users.sourceforge.net
 - Initial spec
