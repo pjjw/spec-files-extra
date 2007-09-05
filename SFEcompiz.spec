@@ -15,6 +15,7 @@ Source4:	http://ftp.x.org/pub/individual/proto/damageproto-1.1.0.tar.bz2
 Source5:	http://ftp.x.org/pub/individual/proto/renderproto-0.9.2.tar.bz2
 #Source6:	http://ftp.x.org/pub/individual/proto/xproto-7.0.10.tar.bz2
 Source7:	http://ftp.x.org/pub/individual/lib/libXcomposite-0.3.1.tar.bz2
+Source8:	http://www.gnome.org/~erwannc/compiz/gnome-integration-0.5.2.tar.bz2
 Patch1:		compiz-01-solaris-port.diff
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -58,6 +59,7 @@ gtar fxvj %{SOURCE4}
 gtar fxvj %{SOURCE5}
 #gtar fxvj %{SOURCE6}
 gtar fxvj %{SOURCE7}
+gtar fxvj %{SOURCE8}
 cd compiz-%{version}
 %patch1 -p1
 cd ..
@@ -157,6 +159,12 @@ mv $RPM_BUILD_ROOT/usr/X11/lib/pkgconfig/* $RPM_BUILD_ROOT/usr/lib/pkgconfig
 rmdir $RPM_BUILD_ROOT/usr/X11/lib/pkgconfig
 rm -rf $RPM_BUILD_ROOT/usr/X11/share
 
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/xdg/autostart
+cp compiz-autostart.desktop $RPM_BUILD_ROOT%{_sysconfdir}/xdg/autostart
+cp compiz-autostart.sh run-compiz stop-compiz $RPM_BUILD_ROOT%{_bindir}
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/pixmaps
+cp compiz.png $RPM_BUILD_ROOT%{_datadir}/pixmaps
+
 %if %build_l10n
 %else
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
@@ -214,6 +222,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755, root, bin) %{_datadir}/gnome/wm-properties
 %{_datadir}/gnome/wm-properties/compiz.desktop
 %{_datadir}/compiz/*
+%{_datadir}/pixmaps/*
 %dir %attr (0755, root, bin) %{_prefix}/X11
 %dir %attr (0755, root, bin) %{_prefix}/X11/lib
 %{_prefix}/X11/lib/lib*.so*
@@ -223,6 +232,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (0755, root, sys)
 %attr (0755, root, sys) %dir %{_sysconfdir}
 %{_sysconfdir}/gconf/schemas/*
+%{_sysconfdir}/xdg/*
 
 %files devel
 %defattr (-, root, bin)

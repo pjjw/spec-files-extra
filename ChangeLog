@@ -1,3 +1,8 @@
+2007-09-05 Erwann Chenede - <erwann.chenede@sun.com>
+
+	* SFEcompiz-extra.spec: removed obsolete
+	* SFEcompiz.spec: added Gnome integration
+
 2007-09-05  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEy4mscaler.spec: *NEW* Video scaler
