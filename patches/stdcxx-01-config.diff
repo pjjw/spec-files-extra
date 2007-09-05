@@ -1,0 +1,42 @@
+--- stdcxx-4.1.3/etc/config/sunpro.config.orig	2007-09-05 14:02:09.168881693 +0700
++++ stdcxx-4.1.3/etc/config/sunpro.config	2007-09-05 14:05:36.354066280 +0700
+@@ -29,7 +29,7 @@
+ DEBUG_CXXFLAGS  = -g
+ DEBUG_CPPFLAGS  =
+ 
+-OPTMZ_CXXFLAGS  = -O
++OPTMZ_CXXFLAGS  = -xO4
+ OPTMZ_CPPFLAGS  =
+ 
+ # shared/static library options
+@@ -74,7 +74,7 @@
+ SINGL_LDFLAGS  =
+ 
+ # wide (64-bit flags)
+-WIDE_CXXFLAGS  = -xarch=v9
+-WIDE_LDFLAGS   = -xarch=v9
+-WIDE_LDSOFLAGS = -xarch=v9
++WIDE_CXXFLAGS  = -m64
++WIDE_LDFLAGS   = -m64
++WIDE_LDSOFLAGS = -m64
+ WIDE_ARFLAGS   =
+--- stdcxx-4.1.3/etc/config/gcc.config.orig	2007-09-05 14:09:10.683804830 +0700
++++ stdcxx-4.1.3/etc/config/gcc.config	2007-09-05 14:08:40.565487451 +0700
+@@ -64,7 +64,7 @@
+   endif
+ endif
+ 
+-LDSOFLAGS       = -shared
++LDSOFLAGS       = -Wl,-G
+ 
+ ifneq ($(CXX_MAJOR),2)
+ LDSOFLAGS      += -lsupc++
+@@ -122,7 +122,7 @@
+ DEBUG_CXXFLAGS  = -g
+ DEBUG_CPPFLAGS  =
+ 
+-OPTMZ_CXXFLAGS  = -O2
++OPTMZ_CXXFLAGS  = -O3
+ OPTMZ_CPPFLAGS  =
+ 
+ # shared/static library options

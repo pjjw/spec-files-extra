@@ -1,0 +1,58 @@
+--- y4mscaler-9.0/Makefile.orig	2007-09-05 08:56:33.933944288 +0700
++++ y4mscaler-9.0/Makefile	2007-09-05 09:12:33.027534518 +0700
+@@ -24,11 +24,15 @@
+ YS_VERSION_MAJOR = 9
+ YS_VERSION_MINOR = 0
+ 
++PREFIX ?= /usr
++BINDIR ?= ${PREFIX}/bin
++MANDIR ?= ${PREFIX}/share/man
++
+ ifeq ($(strip $(shell pkg-config --exists mjpegtools; echo $$?)),0)
+ MJPEG_CXXFLAGS := $(shell pkg-config --cflags mjpegtools)
+ MJPEG_LDFLAGS  := $(shell pkg-config --libs mjpegtools)
+ else
+-MJPEG_PREFIX = /usr/local
++MJPEG_PREFIX ?= /usr/local
+ MJPEG_LIBDIR = ${MJPEG_PREFIX}/lib
+ MJPEG_INCDIR = ${MJPEG_PREFIX}/include/mjpegtools
+ 
+@@ -38,13 +42,13 @@
+ 
+ 
+ #COPT = -O2 ${CPU_OPT} #-fomit-frame-pointer #-mno-fp-ret-in-387  #-fdelayed-branch
+-COPT = -O2 ${CPU_OPT}
++COPT ?= -O2 ${CPU_OPT}
+ 
+ VER_FLAGS = -DYS_VERSION_MAJOR=${YS_VERSION_MAJOR} -DYS_VERSION_MINOR=${YS_VERSION_MINOR}
+ 
+-CXXFLAGS = ${VER_FLAGS} ${DEV_FLAGS} ${COPT} ${MJPEG_CXXFLAGS} -Wall -W #-pg -g -a
++CXXFLAGS = ${VER_FLAGS} ${DEV_FLAGS} ${COPT} ${MJPEG_CXXFLAGS}
+ #STATFLAGS = -static
+-LDFLAGS = ${STATFLAGS} ${MJPEG_LDFLAGS} #-pg -fprofile-arcs -ftest-coverage -a
++LDFLAGS += ${MJPEG_LDFLAGS}
+ 
+ 
+ all:  y4mscaler
+@@ -83,7 +87,7 @@
+ #y4mscaler:  graphics.o ysStreamInfo.o y4mscaler.o  scaler-matto.o kernels.o ysSource.o ysTarget.o ysScaling.o   scaler-jit.o scaler-exp.o
+ #	${CXX} -o y4mscaler graphics.o ysStreamInfo.o ysSource.o ysTarget.o ysScaling.o y4mscaler.o scaler-matto.o scaler-jit.o scaler-exp.o kernels.o ${LDFLAGS} -lm
+ y4mscaler:  graphics.o ysStreamInfo.o y4mscaler.o  scaler-matto.o kernels.o ysSource.o ysTarget.o ysScaling.o
+-	${CXX} -o y4mscaler graphics.o ysStreamInfo.o ysSource.o ysTarget.o ysScaling.o y4mscaler.o scaler-matto.o kernels.o ${LDFLAGS} -lm
++	${CXX} ${CXXFLAGS} -o y4mscaler graphics.o ysStreamInfo.o ysSource.o ysTarget.o ysScaling.o y4mscaler.o scaler-matto.o kernels.o ${LDFLAGS} -lm
+ 
+ graphics.o: graphics.H y4m-config.h
+ 
+@@ -149,6 +153,12 @@
+ SRCTARBALL = y4mscaler-${YS_VERSION_MAJOR}.${YS_VERSION_MINOR}-src.tgz
+ BINTARBALL = y4mscaler-${YS_VERSION_MAJOR}.${YS_VERSION_MINOR}-bin-x86.tgz
+ 
++install: ${MANFILES} ${BINFILES}
++	mkdir -p ${DESTDIR}${BINDIR}
++	mkdir -p ${DESTDIR}${MANDIR}/man1
++	install -c -m 0755 y4mscaler ${DESTDIR}${BINDIR}
++	install -c -m 0644 y4mscaler.1 ${DESTDIR}${MANDIR}/man1
++
+ dist: ${SRCTARBALL} ${BINTARBALL} y4mscaler.1.html
+ 
+ distclean: squeaky

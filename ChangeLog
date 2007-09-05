@@ -1,3 +1,12 @@
+2007-09-05  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEy4mscaler.spec: *NEW* Video scaler
+	* SFEstdcxx.spec: *NEW* Apache Standard C++ Library
+	* base-specs/y4mscaler.spec: base spec
+	* base-specs/stdcxx.spec: base spec
+	* patches/y4mscaler-01-makefile.diff: Solaris Makefile
+	* patches/stdcxx-01-config.diff: Solaris config modes
+
 2007-09-05  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEgc.spec: Bump to 7.0
