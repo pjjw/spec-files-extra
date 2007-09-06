@@ -1,3 +1,8 @@
+2007-09-06  Halton Huo  <halton.huo@sun.com>
+
+	* SFEsqlite.spec: Bump to 3.4.2, 3.5.0 is still alpha.
+	  Uncomment patch1.
+
 2007-09-05 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* SFEcompiz-extra.spec: removed obsolete

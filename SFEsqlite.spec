@@ -6,7 +6,7 @@
 %include Solaris.inc
 Name:                    SFEsqlite
 Summary:                 SQLite - a small C library implementation of a SQL database engine
-Version:                 3.5.0
+Version:                 3.4.2
 Source:                  http://www.sqlite.org/sqlite-%{version}.tar.gz
 Patch1:                  sqlite-01-thread-lock-test.diff
 URL:                     http://www.sqlite.org/
@@ -22,7 +22,7 @@ Requires: %name
 
 %prep
 %setup -q -n sqlite-%version
-#%patch1 -p1
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -79,9 +79,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 06 2007 - nonsea@users.sourceforge.net
+- Bump to 3.4.2, 3.5.0 is still alpha.
+- Uncomment patch1.
 * Wed Sep 05 2007 - nonsea@users.sourceforge.net
 - Bump to 3.5.0
-- Uncomment patch1, seems no crash when run tracker and opensync,
+- Comment patch1, seems no crash when run tracker and opensync,
   will contact patch owner laca.
 * Mon Jul 30 2007 - markwright@internode.on.net
 - Bump to 3.4.1
