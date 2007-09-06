@@ -89,9 +89,11 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Sep 6 2007 - Petr Sobotka sobotkap@centum.cz
+- Fix typo in changelog
 * Wed Aug 29 2007 - trisk@acm.jhu.edu
 - Bump to 0.81, add workaround for broken tarball
 * Mon Aug 20 2007 - trisk@acm.jhu.edu
 - Clean up, allow building with Studio
-* Wed Jul 1 2007 - Petr Sobotka sobotkap@students.zcu.cz
+* Sun Aug 19 2007 - Petr Sobotka sobotkap@centrum.cz
 - Initial spec

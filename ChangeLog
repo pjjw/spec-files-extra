@@ -1,3 +1,9 @@
+2007-09-06  Petr Sobotka  sobotkap@centrum.cz
+
+	* SFEheroes.spec: Repair dependency on sdl-mixer
+	* SFEtransmission.spec: Fix typo in changelog
+	* SFEwesnoth.spec: Initial commit
+
 2007-09-06  Halton Huo  <halton.huo@sun.com>
 
 	* SFEsqlite.spec: Bump to 3.4.2, 3.5.0 is still alpha.

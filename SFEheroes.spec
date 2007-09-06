@@ -21,7 +21,7 @@ Source3:                %{src_url}/%{src_name}-sound-effects-%{se_ver}.tar.bz2
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires: SFEsdl_mixer-devel
+BuildRequires: SFEsdl-mixer-devel
 Requires: SFEsdl-mixer
 
 %prep
@@ -137,5 +137,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 6 2007 - sobotkap@centrum.cz
+- Fix sdl mixer dependency.
 * Mon Apr 30 2007 - dougs@truemail.co.th
 - Initial version
