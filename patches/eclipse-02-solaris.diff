@@ -1,0 +1,2864 @@
+diff -PNur eclipse.orig/assemble.org.eclipse.sdk.solaris.gtk.x86.xml eclipse/assemble.org.eclipse.sdk.solaris.gtk.x86.xml
+--- eclipse.orig/assemble.org.eclipse.sdk.solaris.gtk.x86.xml	2007-08-09 23:15:25.000000000 +0700
++++ eclipse/assemble.org.eclipse.sdk.solaris.gtk.x86.xml	2007-09-07 21:25:25.895389906 +0700
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project name="Assemble org.eclipse.sdk" default="main">
+-	<property name="archiveName" value="org.eclipse.sdk-${buildId}-solaris.gtk.x86.zip"/>
++	<property name="archiveName" value="org.eclipse.sdk-${buildId}-solaris.gtk.x86.tar.gz"/>
+ 	<property name="os" value="solaris"/>
+ 	<property name="ws" value="gtk"/>
+ 	<property name="arch" value="x86"/>
+@@ -56,6 +56,9 @@
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.team.cvs.core" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
++		<ant antfile="build.xml" dir="plugins/org.eclipse.update.core.solaris" target="gather.bin.parts">
++			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
++		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.jdt.doc.user" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+@@ -95,9 +98,6 @@
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.platform" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+-		<ant antfile="build.xml" dir="plugins/org.eclipse.swt.gtk.solaris.x86" target="gather.bin.parts">
+-			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+-		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.team.core" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+@@ -155,9 +155,6 @@
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.help" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+-		<ant antfile="build.xml" dir="plugins/org.eclipse.rcp.source.solaris.gtk.x86" target="gather.bin.parts">
+-			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+-		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.ui.browser" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+@@ -170,6 +167,9 @@
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.pde.ui.templates" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
++		<ant antfile="build.xml" dir="plugins/org.eclipse.equinox.launcher.gtk.solaris.x86" target="gather.bin.parts">
++			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
++		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.sdk" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+@@ -269,6 +269,9 @@
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.jface.text" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
++		<ant antfile="build.xml" dir="plugins/org.eclipse.rcp.source.solaris.gtk.x86" target="gather.bin.parts">
++			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
++		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.equinox.http.jetty" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+@@ -299,6 +302,9 @@
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.jsch.core" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
++		<ant antfile="build.xml" dir="plugins/org.eclipse.platform.source.solaris.gtk.x86" target="gather.bin.parts">
++			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
++		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.jdt.compiler.apt" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+@@ -314,6 +320,9 @@
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.jdt.junit4.runtime" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
++		<ant antfile="build.xml" dir="plugins/org.eclipse.swt.gtk.solaris.x86" target="gather.bin.parts">
++			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
++		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.ui.views.properties.tabbed" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+@@ -347,6 +356,9 @@
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.equinox.registry" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
++		<ant antfile="build.xml" dir="plugins/org.eclipse.core.filesystem.solaris.x86" target="gather.bin.parts">
++			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
++		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.ui.intro" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+@@ -446,6 +458,9 @@
+ 		<ant antfile="build.xml" dir="features/org.eclipse.jdt/" target="gather.bin.parts">
+ 			<property name="feature.base" value="${eclipse.base}"/>
+ 		</ant>
++		<ant antfile="build.xml" dir="features/org.eclipse.sdk/" target="gather.bin.parts">
++			<property name="feature.base" value="${eclipse.base}"/>
++		</ant>
+ 		<antcall target="jarUp">
+ 			<param name="source" value="${eclipse.plugins}"/>
+ 			<param name="elementName" value="org.eclipse.ltk.core.refactoring_3.3.100.v20070809-0800"/>
+@@ -460,6 +475,10 @@
+ 		</antcall>
+ 		<antcall target="jarUp">
+ 			<param name="source" value="${eclipse.plugins}"/>
++			<param name="elementName" value="org.eclipse.update.core.solaris_3.2.0.v20070615"/>
++		</antcall>
++		<antcall target="jarUp">
++			<param name="source" value="${eclipse.plugins}"/>
+ 			<param name="elementName" value="org.eclipse.jdt.doc.user_3.3.0.v20070808-1800"/>
+ 		</antcall>
+ 		<antcall target="jarUp">
+@@ -504,10 +523,6 @@
+ 		</antcall>
+ 		<antcall target="jarUp">
+ 			<param name="source" value="${eclipse.plugins}"/>
+-			<param name="elementName" value="org.eclipse.swt.gtk.solaris.x86_3.3.0.HEAD"/>
+-		</antcall>
+-		<antcall target="jarUp">
+-			<param name="source" value="${eclipse.plugins}"/>
+ 			<param name="elementName" value="org.eclipse.team.core_3.3.100.I20070808"/>
+ 		</antcall>
+ 		<antcall target="jarUp">
+@@ -760,6 +775,10 @@
+ 		</antcall>
+ 		<antcall target="jarUp">
+ 			<param name="source" value="${eclipse.plugins}"/>
++			<param name="elementName" value="org.eclipse.swt.gtk.solaris.x86_3.3.0.v3406"/>
++		</antcall>
++		<antcall target="jarUp">
++			<param name="source" value="${eclipse.plugins}"/>
+ 			<param name="elementName" value="org.eclipse.ui.views.properties.tabbed_3.3.0.I20070605-0010"/>
+ 		</antcall>
+ 		<antcall target="jarUp">
+@@ -800,6 +819,10 @@
+ 		</antcall>
+ 		<antcall target="jarUp">
+ 			<param name="source" value="${eclipse.plugins}"/>
++			<param name="elementName" value="org.eclipse.core.filesystem.solaris.x86_1.1.0.v20070416"/>
++		</antcall>
++		<antcall target="jarUp">
++			<param name="source" value="${eclipse.plugins}"/>
+ 			<param name="elementName" value="org.eclipse.ui.intro_3.2.100.v20070530"/>
+ 		</antcall>
+ 		<antcall target="jarUp">
+@@ -867,172 +890,24 @@
+ 			<param name="elementName" value="org.eclipse.osgi_3.4.0.v20070803"/>
+ 		</antcall>
+ 		<eclipse.brand root="${eclipse.base}/solaris.gtk.x86/${collectingFolder}" icons="${launcherIcons}" name="${launcherName}" os="${os}"		/>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.platform.source_3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9"/>
+-		</exec>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ltk.core.refactoring_3.3.100.v20070809-0800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.presentations.r21_3.2.100.I20070605-0010.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.team.cvs.core_3.3.100.I20070801.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.doc.user_3.3.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.jobs_3.3.100.v20070709.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.text_3.4.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.source_3.4.0.v20070808-1800-7o7nEGnEFpPqcYZSfXCjGcK"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jface.databinding_1.1.0.I20070717-0800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ltk.ui.refactoring_3.3.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.jsp.jasper.registry_1.0.0.v20070607.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.apt.core_3.3.100.v20070801-2020.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.platform.doc.isv_3.3.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.junit_3.3.100.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.http.registry_1.0.0.v20070608.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.osgi.services_3.1.200.v20070605.jar"/>
+-		</exec>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.platform_3.3.100.v20070807"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.swt.gtk.solaris.x86_3.3.0.HEAD.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.team.core_3.3.100.I20070808.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.apt.ui_3.3.100.v20070801-2020.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt_3.3.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.rcp_3.2.0.v20070612.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.help.webapp_3.3.100.v20070726.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jsch.ui_1.0.100.I20070709.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.team.cvs.ssh_3.2.100.I20061208.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.update.core_3.2.100.v20070615.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.runtime.compatibility.registry_3.2.200.v20070717"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.debug.ui_3.3.100.v20070801.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.platform.doc.user_3.3.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.update.configurator_3.2.200.v20070808.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde_3.3.0.v20070806-1300.jar"/>
+-		</exec>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.http.servlet_1.0.0.v20070730.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.core.manipulation_1.2.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.swt_3.3.0.v3406a.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.search_3.4.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.jsp.jasper_1.0.0.v20070730.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.help_3.3.100.v20070726.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.rcp.source.solaris.gtk.x86_3.4.0.r20070801-918jEZVEdkWLsRIcpb8I8IG"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.browser_3.2.200.v20070716.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.preferences_3.2.200.v20070723.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.app_1.0.100.v20070730.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde.ui.templates_3.3.0.v20070808-0800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.sdk_3.3.0.v20070613"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.editors_3.4.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.variables_3.2.0.v20070426.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.debug_3.4.0.v20070802"/>
+-		</exec>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.net_1.0.0.I20070801.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.compiler.tool_1.0.100.v_805.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.ide.application_1.0.0.I20070530-0100.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.runtime.compatibility.auth_3.2.100.v20070502.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.workbench.texteditor_3.4.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.runtime_3.3.100.v20070530.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.contenttype_3.2.100.v20070319.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.externaltools_3.1.200.v20070729.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.net_1.0.100.I20070709.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.filebuffers_3.3.100.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde.ui_3.4.0.v20070808-2000.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde.source_3.4.0.r20070724-7N7O8YDUUEF6F_H76HbDC"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.cvs.source_1.0.100.v20070807-7C79Do9EI99g_d9e"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.junit.runtime_3.3.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.navigator_3.3.0.I20070717-0800.jar"/>
++		<exec executable="cp" dir="${basedir}">
++			<arg line="-r &apos;${assemblyTempDir}/${collectingFolder}/solaris.gtk.x86/${collectingFolder}&apos; &apos;${assemblyTempDir}&apos;"/>
+ 		</exec>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.resources_3.3.100.v20070806.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde.build_3.3.100.v20070717"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.intro.universal_3.2.100.v20070530A"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.update.scheduler_3.2.100.v20070615.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.workbench.compatibility_3.2.0.I20070319-0010"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.boot_3.1.100.v20060603.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde.junit.runtime_3.3.0.v20070608-1300.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.launching_3.3.100.v20070730.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.console_3.2.0.v20070709.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.runtime.compatibility_3.1.200.v20070502.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.debug.core_3.4.0.v20070802.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.ide_3.3.0.I20070802-0800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ant.core_3.1.200.v20070729.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jface.text_3.4.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.http.jetty_1.0.0.v20070730.jar"/>
++		<exec executable="rm" dir="${basedir}">
++			<arg line="-rf &apos;${assemblyTempDir}/${collectingFolder}/solaris.gtk.x86&apos;"/>
+ 		</exec>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.cvs_1.0.0.v20070606.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.expressions_3.3.100.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.common_3.3.0.v20070426.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.views_3.2.100.I20070319-0010.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.launcher_1.0.100.v20070803.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.help.ui_3.3.100.v20070726.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.databinding_1.0.0.I20070731-0800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.filesystem_1.1.100.v20070723.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jsch.core_1.0.100.I20070709.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.compiler.apt_1.0.100.v20070801-2020.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.navigator.resources_3.3.0.I20070717-0800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.resources.compatibility_3.2.100.v20070502.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.compare_3.4.0.I20070801.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.junit4.runtime_1.0.100.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.views.properties.tabbed_3.3.0.I20070605-0010.jar"/>
++		<exec executable="gtar" dir="${assemblyTempDir}">
++			<arg line="${tarargs}-cvf &apos;${archiveFullPath}&apos; ${archivePrefix} "/>
+ 		</exec>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.team.cvs.ui_3.3.100.I20070808.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde.doc.user_3.3.0.v20070806-1300.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.commands_3.3.0.I20070605-0010.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jface_3.3.0.I20070802-0800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.rcp.source_3.4.0.r20070801-918jEZVEdkWLsRIcpb8I8IG"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.databinding.beans_1.0.0.I20070802-0800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.update.ui_3.2.100.v20070615.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.forms_3.3.100.v20070716.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.apt.pluggable.core_1.0.100.v20070801-2020.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.registry_3.4.0.v20070803.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.intro_3.2.100.v20070530.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.debug.ui_3.2.200.v20070730.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.help.appserver_3.1.200.v20070510.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.cheatsheets_3.3.100.v20070723.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.ui_3.4.0.v20070808-1800.jar"/>
+-		</exec>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
+-			<arg line="${pluginArchivePrefix}/org.junit4_4.3.1"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui_3.3.0.I20070802-0800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde.runtime_3.3.0.v20070716-0800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.core_3.4.0.v_805.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.osgi.util_3.1.200.v20070605.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.team.cvs.ssh2_3.2.200.I20070709.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde.core_3.4.0.v20070808-0010.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.doc.isv_3.3.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ant.ui_3.2.100.v20070802.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.team.ui_3.4.0.I20070808.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.workbench_3.3.0.I20070802-0800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.help.base_3.3.100.v20070723.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.osgi_3.4.0.v20070803.jar"/>
+-		</exec>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.rcp_3.4.0.r20070801-918jEZVEdkWLsRIcpb8I8IG"/>
+-		</exec>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.platform_3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.rcp.source_3.4.0.r20070801-918jEZVEdkWLsRIcpb8I8IG"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.platform.source_3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.cvs_1.0.100.v20070807-7C79Do9EI99g_d9e"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.cvs.source_1.0.100.v20070807-7C79Do9EI99g_d9e"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.jdt_3.4.0.v20070808-1800-7o7nEGnEFpPqcYZSfXCjGcK"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.jdt.source_3.4.0.v20070808-1800-7o7nEGnEFpPqcYZSfXCjGcK"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.pde_3.4.0.r20070724-7N7O8YDUUEF6F_H76HbDC"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.pde.source_3.4.0.r20070724-7N7O8YDUUEF6F_H76HbDC"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.sdk_3.4.0.v20070807-7M7P_7BAjmAez0HWcz-J2wiyYCz-"/>
+-		</exec>
+-		<exec executable="zip" dir="${eclipse.base}/solaris.gtk.x86">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos; . "/>
++		<antcall target="gzipResults"/>
++		<exec executable="rm">
++			<arg line="-rf"/>
++			<arg line="&apos;${assemblyTempDir}&apos;"/>
+ 		</exec>
+ 		<delete dir="${assemblyTempDir}"/>
+ 	</target>
++	<target name="gzipResults" unless="runPackager">
++		<move file="${archiveFullPath}" tofile="${assemblyTempDir}/${collectingFolder}/tmp.tar"/>
++		<gzip src="${assemblyTempDir}/${collectingFolder}/tmp.tar" zipfile="${archiveFullPath}"/>
++	</target>
+ </project>
+diff -PNur eclipse.orig/build.xml eclipse/build.xml
+--- eclipse.orig/build.xml	2007-08-09 23:39:02.000000000 +0700
++++ eclipse/build.xml	2007-09-07 21:23:50.337930437 +0700
+@@ -21,6 +21,16 @@
+ 		<mkdir dir="${linux.motif.rootfiles}" />
+ 		<copy tofile="${linux.motif.rootfiles}/about.html" file="${buildDirectory}/plugins/org.eclipse.swt.motif.linux.x86/about.html" />
+ 
++		<!--copy solaris gtk sparc about_files to in temp location where it will be copied into root of eclipse at assembly time-->
++		<property name="solaris.gtk.sparc.rootfiles" value="${buildDirectory}/features/org.eclipse.platform/about_files/solaris.gtk.sparc" />
++		<mkdir dir="${solaris.gtk.sparc.rootfiles}" />
++		<copy tofile="${solaris.gtk.sparc.rootfiles}/about.html" file="${buildDirectory}/plugins/org.eclipse.swt.gtk.solaris.sparc/about.html" />
++
++		<!--copy solaris gtk x86 about_files to in temp location where it will be copied into root of eclipse at assembly time-->
++		<property name="solaris.gtk.x86.rootfiles" value="${buildDirectory}/features/org.eclipse.platform/about_files/solaris.gtk.x86" />
++		<mkdir dir="${solaris.gtk.x86.rootfiles}" />
++		<copy tofile="${solaris.gtk.x86.rootfiles}/about.html" file="${buildDirectory}/plugins/org.eclipse.swt.gtk.solaris.x86/about.html" />
++
+ 		<!--copy linux gtk x86 about_files to in temp location where it will be copied into root of eclipse at assembly time-->
+ 		<property name="linux.gtk.x86.rootfiles" value="${buildDirectory}/features/org.eclipse.platform/about_files/linux.gtk.x86" />
+ 		<mkdir dir="${linux.gtk.x86.rootfiles}" />
+@@ -108,11 +118,11 @@
+ 		</copy>
+ 
+ 		<!-- build liblocalfile -->
+-		<exec dir="plugins/org.eclipse.core.filesystem/natives/unix/linux" executable="make" failonerror="true" />
+-		<move file="plugins/org.eclipse.core.filesystem/natives/unix/linux/liblocalfile_1_0_0.so" todir="plugins/org.eclipse.core.filesystem.linux.${installArch}/os/linux/${installArch}">
++		<exec dir="plugins/org.eclipse.core.filesystem/natives/unix/${installOs}" executable="make" failonerror="true" />
++		<move file="plugins/org.eclipse.core.filesystem/natives/unix/${installOs}/liblocalfile_1_0_0.so" todir="plugins/org.eclipse.core.filesystem.${installOs}.${installArch}/os/${installOs}/${installArch}">
+ 		</move>
+ 		<!-- build libupdate -->
+-		<ant dir="plugins/org.eclipse.update.core.linux/src" antfile="build.xml" />
++		<ant dir="plugins/org.eclipse.update.core.${installOs}/src" antfile="build.xml" />
+ 
+ 	</target>
+ 
+@@ -210,7 +220,7 @@
+ 
+ 	<!--helper targets used to build and include doc plug-ins-->
+ 	<target name="install.eclipse.tar">
+-		<apply executable="tar" dir="${buildDirectory}">
++		<apply executable="gtar" dir="${buildDirectory}">
+ 			<arg value="-xzf" />
+ 			<fileset dir="${buildDirectory}/${buildLabel}">
+ 				<patternset>
+@@ -227,7 +237,7 @@
+ 	</target>
+ 
+ 	<target name="archive.eclipse.tar">
+-		<exec dir="${buildDirectory}" executable="tar" failonerror="true">
++		<exec dir="${buildDirectory}" executable="gtar" failonerror="true">
+ 			<arg line="-cf ${buildDirectory}/${buildLabel}/${installOs}-${installWs}-${installArch}-sdk.tar eclipse" />
+ 		</exec>
+ 		<exec dir="${buildDirectory}" executable="gzip" failonerror="true">
+@@ -329,6 +339,7 @@
+ 				<equals arg1="${installOs}-${installWs}-${installArch}" arg2="hpux-motif-ia64" />
+ 				<equals arg1="${installOs}-${installWs}-${installArch}" arg2="hpux-motif-ia64_32" />
+ 				<equals arg1="${installOs}-${installWs}-${installArch}" arg2="solaris-gtk-x86" />
++				<equals arg1="${installOs}-${installWs}-${installArch}" arg2="solaris-gtk-sparc" />
+ 				<equals arg1="${installOs}-${installWs}-${installArch}" arg2="hpux-motif-PA_RISC" />
+ 			</or>
+ 		</condition>
+@@ -337,6 +348,9 @@
+ 		<condition property="archive.format" value="tar">
+ 			<equals arg1="${installOs}" arg2="linux" />
+ 		</condition>
++		<condition property="archive.format" value="tar">
++			<equals arg1="${installOs}" arg2="solaris" />
++		</condition>
+ 		<property name="archive.format" value="zip" />
+ 	</target>
+ 
+diff -PNur eclipse.orig/features/org.eclipse.equinox.executable/bin/gtk/solaris/x86/icon.xpm eclipse/features/org.eclipse.equinox.executable/bin/gtk/solaris/x86/icon.xpm
+--- eclipse.orig/features/org.eclipse.equinox.executable/bin/gtk/solaris/x86/icon.xpm	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/features/org.eclipse.equinox.executable/bin/gtk/solaris/x86/icon.xpm	2007-09-07 21:23:50.397742801 +0700
+@@ -0,0 +1,311 @@
++/* XPM */
++static char *ProductIcon48[] = {
++/* columns rows colors chars-per-pixel */
++"48 48 257 2",
++"   c black",
++".  c gray100",
++"X  c #695AE8",
++"o  c #494991",
++"O  c #CE92BF",
++"+  c #E7CAE0",
++"@  c #C88CBB",
++"#  c #C28ABA",
++"$  c #EAD7E8",
++"%  c #CFA9CC",
++"&  c #D9BCD8",
++"*  c #B687B9",
++"=  c #C399C7",
++"-  c #A77DB5",
++";  c #BDA3CD",
++":  c #D8CAE3",
++">  c #A88DC4",
++",  c #9275B2",
++"<  c #876CAA",
++"1  c #9A83BA",
++"2  c #7B63A3",
++"3  c #665495",
++"4  c #735FAD",
++"5  c #625192",
++"6  c #7F72A7",
++"7  c #6D5E9E",
++"8  c #6454A9",
++"9  c #7769B1",
++"0  c #493E82",
++"q  c #7D73B6",
++"w  c #5B4EAD",
++"e  c #5549BA",
++"r  c #5649BA",
++"t  c #564ABA",
++"y  c #5649B9",
++"u  c #5549B8",
++"i  c #4F44AC",
++"p  c #5348B4",
++"a  c #5348B3",
++"s  c #5449B5",
++"d  c #5247B0",
++"f  c #5247AF",
++"g  c #5449B3",
++"h  c #DEDCEE",
++"j  c #3E3698",
++"k  c #433B9F",
++"l  c #332C77",
++"z  c #423A9C",
++"x  c #4A40A8",
++"c  c #554ABA",
++"v  c #554AB9",
++"b  c #5449B7",
++"n  c #5248B1",
++"m  c #5147AE",
++"M  c #4E45A9",
++"N  c #4941A0",
++"B  c #5248AF",
++"V  c #5148AE",
++"C  c #5047AC",
++"Z  c #4F46AA",
++"A  c #5148AD",
++"S  c #5047AB",
++"D  c #5048AC",
++"F  c #5047A9",
++"G  c #4E46A7",
++"H  c #4E45A4",
++"J  c #4D45A4",
++"K  c #4F47A8",
++"L  c #4E46A5",
++"P  c #4D45A3",
++"I  c #3B357D",
++"U  c #4E46A3",
++"Y  c #554D9F",
++"T  c #4A4389",
++"R  c #514B90",
++"E  c #6760A5",
++"W  c #1D186A",
++"Q  c #27227D",
++"!  c #28237D",
++"~  c #2B2681",
++"^  c #332C89",
++"/  c #3B368E",
++"(  c #454097",
++")  c #4D46A4",
++"_  c #4C45A1",
++"`  c #4D46A2",
++"'  c #4B45A0",
++"]  c #4D46A1",
++"[  c #4C459F",
++"{  c #4B459E",
++"}  c #4A449C",
++"|  c #494498",
++" . c #484396",
++".. c #4A4599",
++"X. c #4F4AA0",
++"o. c #6863AA",
++"O. c #211D76",
++"+. c #242075",
++"@. c #2D2A7F",
++"#. c #2D2A7B",
++"$. c #3D398F",
++"%. c #484496",
++"&. c #474393",
++"*. c #464391",
++"=. c #45428E",
++"-. c #4D4A9C",
++";. c #5754A3",
++":. c #5A5897",
++">. c #5F5D99",
++",. c #8582C1",
++"<. c #9592C9",
++"1. c #B8B6DC",
++"2. c #070553",
++"3. c #080755",
++"4. c #0A0957",
++"5. c #0C0B58",
++"6. c #0F0D5C",
++"7. c #100F5C",
++"8. c #131164",
++"9. c #141360",
++"0. c #14135F",
++"q. c #171567",
++"w. c #161562",
++"e. c #161561",
++"r. c #181764",
++"t. c #1A1966",
++"y. c #1C1A64",
++"u. c #1D1C68",
++"i. c #1F1E6A",
++"p. c #22216C",
++"a. c #24236F",
++"s. c #272571",
++"d. c #272672",
++"f. c #272671",
++"g. c #292874",
++"h. c #2A2974",
++"j. c #2C2B77",
++"k. c #2F2E7C",
++"l. c #2E2D79",
++"z. c #34337E",
++"x. c #393786",
++"c. c #373681",
++"v. c #3A3984",
++"b. c #3A3983",
++"n. c #3D3B86",
++"m. c #42418C",
++"M. c #42418B",
++"N. c #44428B",
++"B. c #434189",
++"V. c #45448E",
++"C. c #45448D",
++"Z. c #424187",
++"A. c #434288",
++"S. c #444287",
++"D. c #424185",
++"F. c #414083",
++"G. c #484790",
++"H. c #434286",
++"J. c #4A4993",
++"K. c #46458A",
++"L. c #4D4C95",
++"P. c #5452A0",
++"I. c #504F98",
++"U. c #5857A0",
++"Y. c #525093",
++"T. c #5B59A2",
++"R. c #58579F",
++"E. c #6261A9",
++"W. c #6463AC",
++"Q. c #6B6AB2",
++"!. c #6B6AB1",
++"~. c #7574B8",
++"^. c #7F7DBD",
++"/. c #9C9BCF",
++"(. c #0B0B58",
++"). c #0D0D5A",
++"_. c #11115E",
++"`. c #131360",
++"'. c #21216D",
++"]. c #24246F",
++"[. c #2B2C77",
++"{. c #2B2B77",
++"}. c #2C2C77",
++"|. c #2E2E79",
++" X c #31317C",
++".X c #31317B",
++"XX c #34347E",
++"oX c #3C3C86",
++"OX c #3F3F89",
++"+X c #41428B",
++"@X c #42428B",
++"#X c #474790",
++"$X c #414184",
++"%X c #404081",
++"&X c #4A4A94",
++"*X c #4A4A93",
++"=X c #4D4D96",
++"-X c #4F4F98",
++";X c #505098",
++":X c #52529B",
++">X c #55559E",
++",X c #55559D",
++"<X c #5758A0",
++"1X c #5858A0",
++"2X c #57589F",
++"3X c #57579F",
++"4X c #5A5AA2",
++"5X c #5D5DA5",
++"6X c #5F5FA7",
++"7X c #6162AA",
++"8X c #6161A9",
++"9X c #6162A9",
++"0X c #6262AA",
++"qX c #6464AC",
++"wX c #6262A9",
++"eX c #6464AB",
++"rX c #6666AE",
++"tX c #6666AD",
++"yX c #6868B0",
++"uX c #6969AF",
++"iX c #6D6DB4",
++"pX c #6F6FB5",
++"aX c #7373BA",
++"sX c #7171B7",
++"dX c #7676BC",
++"fX c #7979BF",
++"gX c #7777B9",
++"hX c #8080C1",
++"jX c #8C8CC5",
++"kX c #9090C9",
++"lX c #9898CB",
++"zX c #A0A0CF",
++"xX c #A5A5D3",
++"cX c #ABABD6",
++"vX c #C4C4E3",
++"bX c #D1D1E9",
++"nX c #E5E5F3",
++"mX c #9FA0D1",
++"MX c #B6C5E5",
++"NX c #8EA6D6",
++"BX c #90A7D7",
++"VX c #91A9D7",
++"CX c #95ABD8",
++"ZX c #99AFDA",
++"AX c #9DB2DC",
++"SX c #A1B5DD",
++"DX c #A5B8DE",
++"FX c #A9BBE0",
++"GX c #ACBDE1",
++"HX c #B0C1E3",
++"JX c #B4C4E4",
++"KX c #B8C7E5",
++"LX c #BBC9E6",
++"PX c #AEC0E2",
++"IX c #B2C3E3",
++"UX c gray100",
++"YX c None",
++/* pixels */
++"YXX X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X YX",
++"X %X%X%XF.F.F.F.$XD.Z.Z.Z.B.B.B.N.N.=.=.=.*.*.*.&.&. . .| ....} } { { _ _ P P H G G G K S S C o ",
++"X %X%X%X%XF.F.$XD.D.Z.Z.B.A.B.N.N.N.=.=.=.*.*.&.&.%.%.%.| | ..} { { [ _ _ ` U J L G K F Z S C o ",
++"X %X%X%X%XF.F.F.D.D.H.Z.Z.A.B.N.N.N.C.=.=.*.*.&.&. . .%.| | ..} } { [ [ _ P P H G G K F S S C o ",
++"X %XF.%XF.F.$XF.$XZ.Z.Z.B.A.K.Y.7 , - - 1 1 ^.^.~.aX~.q 9 6XY { } { ' _ ] P P H L G K F Z S C o ",
++"X %XF.F.F.F.F.D.D.Z.Z.Z.K.:.1 ; % ; <.hXfXfXdXaXaXsXpXiX!.yXrXo.;.X.[ _ _ ` H H G K K F S S C o ",
++"X F.F.F.F.F.D.D.D.Z.H.Y.1 & & 1.cXmX/.kXfXdXaXaXsXpXiXQ.yXtXeXE.6X5XP.X._ ` J L G G K F Z S C o ",
++"X D.$XF.$XD.D.Z.Z.S.>.% + : vX1.1.cXmX/.dXaXaXsXpXiXQ.uXrXqX8X6X5XT.R.P.X.P ) H G K K S S S m o ",
++"X D.$XD.D.D.D.D.S.6 & $ h bXvXvX1.xX/.kXfXaXsXpXiXQ.yXrXW.E.6X5X4XU.,X:XI.-.` L G G K F Z C C o ",
++"X D.D.D.D.D.Z.H.6 & $ h h h bXvX1.cXmXkX,.dXpXiXQ.yXtXqXwX6X5XT.U.,X:XI.=X*X..` G K K Z S S m o ",
++"X Z.D.Z.H.Z.Z.7 & $ h h nXh bXvX1.cXmXkX,.gXiXQ.uXrXW.E.6X5X4XU.,X:X-XL.J.#XV. .P G F S S C m o ",
++"X Z.Z.Z.H.Z.R % + : bXh h h bXvX1.cX/.kXhX~.Q.yXrXqX9X6X5X4X2X,X:X;X=X*X#XV.M.OX( K Z S S C m o ",
++"X Z.Z.Z.A.A.* & & vXvXbXbXbXvXvX1.xXlXjX^.pXuXrXeXwX6X5X4XU.,X:X-XL.*XG.V.@XOXoXb.( Z S C C V o ",
++"X B.B.B.A.2 % % 1.1.vXvXvXvXvX1.cXzX<.,.gXiXrXW.E.6X5X4XU.,X:XI.=X*X#XV.@XOXn.b.c.x.N S S C m o ",
++"X B.B.B.S.* % ; xX1.1.1.1.1.cXcXzXlXjX^.pXrXeX7X6X5X4XR.,X:X-XL.J.#XV.@XOXn.b.c.XX X$.S C C m o ",
++"X N.N.N.2 O = /.mXxXcXcXcXcXxXzXlXjXhX~.uXeXE.6X5X4XU.,X:X-XL.J.#XV.M.OXn.v.c.z. X|.k.N D V f o ",
++"X N.N.N.- @ > kX<././.mXzXzXlX<.jXhXgXuXeXE.6X5X4X1X,X:XI.L.*X#XV.m.OXn.b.c.z. Xl.j.g./ C m V o ",
++"X N.N.R @ # ,.,.jXkXkX<.kXkXjX,.^.~.uXwXE.6X5X4X1X,X:XI.=XJ.#XC.M.OXn.v.c.z..X|.j.g.d.#.M m B o ",
++"X =.M.< @ * fXfXhXhX,.,.,.hX^.gXpXuXqX9X6X5X4XU.,X:XI.L.*XG.V.+XOXn.b.c.z..X|.[.g.d.a.p.z V B o ",
++"X =.N.- @ NXNXBXBXBXVXCXCXCXCXZXZXZXZXAXAXSXSXSXDXDXDXFXFXFXGXPXPXHXHXIXJXMXMXMXKXKXLXLXLXB d o ",
++"X =.=.* @ 1 dXdXaXaXsXpXiX!.yXrXeXwX6X5X4X<X,X:XI.=X*XG.V.M.OXn.v.c.XX.X|.j.g.d.a.p.i.u.@.f d o ",
++"X *.=.# @ ^.dXaXaXsXpXiXQ.yXrXeXwX6X5XT.U.,X:X-XL.&XG.C.m.OXoXv.c.z..X|.j.g.f.a.p.i.u.t.+.d d o ",
++"X *.*.@ @ NXNXNXBXVXVXCXCXCXCXZXZXZXZXAXAXAXSXSXDXDXDXFXFXGXGXPXPXHXHXJXJXJXMXKXKXKXLXLXLXd n o ",
++"X &.*.@ @ dXaXsXpXiXQ.yXtXeXE.6X5X4XU.>X:XI.L.*XG.V.m.OXoXv.c.z. X|.j.g.d.a.'.i.u.t.r.w.9.d n o ",
++"X &.&.@ @ ~.sXpXiXQ.yXtXW.E.6X5X4X1X,X:XI.=X*X#XC.m.OXn.b.c.z. X|.[.g.f.a.p.i.u.t.r.w.9.0.n a o ",
++"X &.&.@ @ NXNXBXBXVXVXVXCXCXCXZXZXZXZXAXAXSXSXSXDXDXDXFXFXGXGXPXPXHXIXIXJXMXMXKXKXKXLXLXLXn n o ",
++"X %. .# @ q iXQ.yXrXW.0X6X5X4XU.>X:XI.L.*X#XV.@XOXn.b.c.XX.X|.{.g.f.].'.i.u.t.r.w.0._.7.W n a o ",
++"X %. .* # , Q.yXtXeX7X6X5X4XU.,X:X-XL.*X#XV.@XOXn.b.c.XX Xl.{.g.d.a.p.i.u.t.r.e.0._.7.).+.a a o ",
++"X | | - # NXNXNXBXVXVXCXCXCXCXZXZXZXAXAXAXAXSXSXDXDXDXFXFXGXGXPXPXHXHXIXJXMXMXMXKXKXLXLXLXa a o ",
++"X | | < # - rXeX9X6X5X4XU.,X:X-XL.*X#XC.@XOXoXb.c.z. X|.j.h.s.a.'.i.u.t.r.w.9._.7.).5.4.j a p o ",
++"X | } Y # * 9 8X6X5X4X3X,X:XI.=X*XG.V.@XOXn.v.c.XX X|.j.g.f.a.p.i.u.t.r.e.0._.7.).5.4.q.i g p o ",
++"X } } | - # , 6X5X4XR.,X:XI.=X*XG.V.m.OXoXb.c.XX X|.j.g.f.a.p.i.u.t.r.e.9._.7.).5.4.3.~ a s s o ",
++"X } } } 4 # - E 4XU.>X:X-X=XJ.#XV.M.OXoXb.c.XX X|.{.h.d.a.'.i.u.t.r.e.9._.7.).5.4.3.6.z p s s o ",
++"X { { } } - # < U.,X:XI.=X*XG.V.+XOXoXb.c.z. X|.}.g.d.a.'.i.u.t.r.w.0._.7.).5.4.3.2.! g p s s o ",
++"X [ { ' [ 4 * - E :X;XL.J.#XV.m.OXoXb.c.z..X|.j.h.f.a.'.i.u.t.r.w.9._.6.).(.4.3.2.8.k p s s s o ",
++"X [ [ ' _ [ , * , ;XL.J.#XV.@XOXoXv.c.z..X|.{.g.f.a.p.i.u.t.r.w.`._.7.).(.4.3.2.2.^ s p s s s o ",
++"X _ _ _ _ P ] - * 2 *X#XV.m.OXn.v.c.XX X|.j.h.f.a.p.i.u.t.r.w.`._.7.).(.4.3.2.2.Q p s s s b u o ",
++"X ` ` ` ` ` ` 8 - - 7 V.@XOXoXv.c.XX.X|.j.g.d.a.'.i.u.t.r.w.0._.7.).5.4.3.2.2.O.x p s s s u u o ",
++"X P P ) P U U ) 8 - - 7 OXn.v.c.XX X|.j.h.f.a.p.i.u.t.r.w.0._.7.).5.4.3.2.2.O.x s s s s b u u o ",
++"X L L ) H ) L L L 8 1 - 7 b.c.z. X|.j.h.f.a.'.i.u.t.r.w.0._.7.).5.4.3.2.2.Q x p s s s b b u e o ",
++"X L G L G G G G G G G , * 2 T .Xl.j.h.f.a.p.i.u.t.r.e.0._.7.).5.4.3.2.8.^ p p s s s s u u e e o ",
++"X G G G G G G G K K M M 4 , , 3 I g.d.a.p.i.u.t.r.e.`._.7.).5.4.3.7.! k p s p s s s u u u e v o ",
++"X K G K K K K K K Z Z M F F 4 , < 3 I p.i.u.t.r.w.9._.7.).5.4.W ~ z a p p s s b s u u u e e e o ",
++"X F Z F F F F Z Z F F S S S S S w 9 < 2 5 0 l p.e.9.y.a.l ^ j i a p p p s s b b b u e v y r e o ",
++"X S Z Z S Z S Z S S S S S C C C A m d V f m B m B d d n d a a a p s p s s b u u u u e v e r t o ",
++"X S S S S S S S S S S C C C m m A V V B B B d d d n n a a a p p s p s s b u u u e e e c t r t o ",
++"X C C C C C C C C m C A m A m f V f f B d d d n n n a a a a s s s s s u b u u u u v t t r t t o ",
++"YXo o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o YX"
++};
+diff -PNur eclipse.orig/features/org.eclipse.equinox.executable/library/eclipseJNI.c eclipse/features/org.eclipse.equinox.executable/library/eclipseJNI.c
+--- eclipse.orig/features/org.eclipse.equinox.executable/library/eclipseJNI.c	2007-08-09 23:39:00.000000000 +0700
++++ eclipse/features/org.eclipse.equinox.executable/library/eclipseJNI.c	2007-09-07 21:23:37.487500547 +0700
+@@ -217,7 +217,7 @@
+ #else
+ 	jbyteArray bytes = (*env)->NewByteArray(env, length);
+ 	if(bytes != NULL) {
+-		(*env)->SetByteArrayRegion(env, bytes, 0, length, str);
++		(*env)->SetByteArrayRegion(env, bytes, 0, length, (char *)str);
+ 		if (!(*env)->ExceptionOccurred(env)) {
+ 			jclass stringClass = (*env)->FindClass(env, "java/lang/String");
+ 			if(stringClass != NULL) {
+diff -PNur eclipse.orig/features/org.eclipse.equinox.executable/library/gtk/build.sh eclipse/features/org.eclipse.equinox.executable/library/gtk/build.sh
+--- eclipse.orig/features/org.eclipse.equinox.executable/library/gtk/build.sh	2007-08-09 23:36:29.000000000 +0700
++++ eclipse/features/org.eclipse.equinox.executable/library/gtk/build.sh	2007-09-07 21:23:37.488916398 +0700
+@@ -36,7 +36,7 @@
+ defaultOSArch=""
+ defaultWS="gtk"
+ defaultJava=DEFAULT_JAVA_JNI
+-javaHome=""
++javaHome="/usr/java"
+ makefile=""
+ if [ "$OS" = "" ];  then
+     OS=`uname -s`
+diff -PNur eclipse.orig/features/org.eclipse.platform/about_files/solaris.gtk.sparc/about.html eclipse/features/org.eclipse.platform/about_files/solaris.gtk.sparc/about.html
+--- eclipse.orig/features/org.eclipse.platform/about_files/solaris.gtk.sparc/about.html	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/features/org.eclipse.platform/about_files/solaris.gtk.sparc/about.html	2007-09-07 21:23:37.498024435 +0700
+@@ -0,0 +1,237 @@
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
++    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml">
++<head>
++<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
++<title>About</title>
++</head>
++<body lang="EN-US">
++<h2>About This Content</h2>
++ 
++<p>August 17, 2006</p>	
++<h3>License</h3>
++
++<p>The Eclipse Foundation makes available all content in this plug-in (&quot;Content&quot;).  Unless otherwise 
++indicated below, the Content is provided to you under the terms and conditions of the
++Eclipse Public License Version 1.0 (&quot;EPL&quot;).  A copy of the EPL is available 
++at <a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>.
++For purposes of the EPL, &quot;Program&quot; will mean the Content.</p>
++
++<p>If you did not receive this Content directly from the Eclipse Foundation, the Content is 
++being redistributed by another party (&quot;Redistributor&quot;) and different terms and conditions may
++apply to your use of any object code in the Content.  Check the Redistributor's license that was 
++provided with the Content.  If no such license exists, contact the Redistributor.  Unless otherwise
++indicated below, the terms and conditions of the EPL still apply to any source code in the Content
++and such source code may be obtained at <a href="http://www.eclipse.org">http://www.eclipse.org</a>.</p>
++
++<h3>Third Party Content</h3>
++
++<p>The Content includes items that have been sourced from third parties as set out below. If you 
++did not receive this Content directly from the Eclipse Foundation, the following is provided 
++for informational purposes only, and you should look to the Redistributor&rsquo;s license for 
++terms and conditions of use.</p>
++
++<h4>Gnome Binding</h4>
++
++<p>The &quot;Gnome Binding&quot; is a binding to the Gnome API.  The Content may include any or all of the following files:</p>
++
++<p>The following files in the plug-in JAR shall be defined as the native code portion of the Gnome Binding:</p>
++<ul>
++	<li>libswt-gnome-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++</ul>
++
++<p>The following files in both the plug-in JAR and the src.zip shall be defined respectively as the bytecode and source code portions of the Gnome Binding:</p>
++<ul>
++	<li>The contents of the directory org/eclipse/swt/internal/gnome (but not including any sub-directories)</li>
++</ul>
++
++<p>The Gnome Binding contains portions of Gnome (&quot;Library&quot;).  Gnome is made available by The Free Software Foundation.  Use of the Library is governed by the terms and
++conditions of the GNU Lesser General Public License Version 2.1 (&quot;LGPL&quot;).  Use of the Gnome Binding on a standalone
++basis, is also governed by the terms and conditions of the LGPL.  A copy of the LGPL is provided with the Content (<a href="about_files/lgpl-v21.txt" target="_blank">lgpl-v21.txt</a>) and is also available at
++<a href="http://www.gnu.org/licenses/lgpl.html" target="_blank">http://www.gnu.org/licenses/lgpl.html</a>.</p>
++
++<p>In accordance with Section 6 of the LGPL, you may combine or link a "work that uses the Library" (e.g. the SWT) with the Library to produce a work
++containing portions of the Library (e.g. the Gnome Binding) and distribute that work under the terms of your choice (e.g. the EPL) provided you comply with all
++other terms and conditions of Section 6 as well as other Sections of the LGPL.  Please note, if you modify the Gnome Binding such modifications shall be
++governed by the terms and conditions of the LGPL.  Also note, the terms of the EPL permit you to modify the combined work and the source code of the combined
++work is provided for debugging purposes so there is no need to reverse engineer the combined work.</p>
++
++<h4>GTK+ Binding</h4>
++
++<p>The &quot;GTK+ Binding&quot; is a binding to the GTK+ API.  The Content may include any or all of the following files:</p>
++
++<p>The following files in the plug-in JAR shall be defined as the native code portion of the GTK+ Binding:</p>
++<ul>
++	<li>libswt-atk-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++	<li>libswt-pi-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++</ul>
++
++<p>The following files in both the plug-in JAR and the src.zip shall be defined respectively as the bytecode and source code portions of the GTK+ Binding:</p>
++<ul>
++	<li>The contents of the directory org/eclipse/swt/internal/accessibility/gtk (but not including any sub-directories)</li>
++	<li>The contents of the directory org/eclipse/swt/internal/cde (but not including any sub-directories)</li>
++	<li>The contents of the directory org/eclipse/swt/internal/gtk (but not including any sub-directories)</li>
++	<li>The contents of the directory org/eclipse/swt/internal/kde (but not including any sub-directories)</li>				
++</ul>
++
++<p>The GTK+ Binding contains portions of GTK+ (&quot;Library&quot;).  GTK+ is made available by The Free Software Foundation.  Use of the Library is governed by the terms and
++conditions of the GNU Lesser General Public License Version 2.1 (&quot;LGPL&quot;).  Use of the GTK+ Binding on a standalone
++basis, is also governed by the terms and conditions of the LGPL.  A copy of the LGPL is provided with the Content (<a href="about_files/lgpl-v21.txt" target="_blank">lgpl-v21.txt</a>) and is also available at
++<a href="http://www.gnu.org/licenses/lgpl.html" target="_blank">http://www.gnu.org/licenses/lgpl.html</a>.</p>
++
++<p>In accordance with Section 6 of the LGPL, you may combine or link a "work that uses the Library" (e.g. the SWT) with the Library to produce a work
++containing portions of the Library (e.g. the GTK+ Binding) and distribute that work under the terms of your choice (e.g. the EPL) provided you comply with all
++other terms and conditions of Section 6 as well as other Sections of the LGPL.  Please note, if you modify the GTK+ Binding such modifications shall be
++governed by the terms and conditions of the LGPL.  Also note, the terms of the EPL permit you to modify the combined work and the source code of the combined
++work is provided for debugging purposes so there is no need to reverse engineer the combined work.</p>
++
++<h4>Mozilla Binding</h4>
++
++<p>The &quot;Mozilla Binding&quot; is a binding to the Mozilla API.  The Content may include any or all of the following files:</p>
++
++<p>The following files in the plug-in JAR shall be defined as the native code portion of the Mozilla Binding:</p>
++<ul>
++	<li>libswt-mozilla-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++	<li>libswt-mozilla-gcc3-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++	<li>libswt-xulrunner-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++	<li>libswt-xpcominit-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++</ul>
++
++<p>The following files in both the plug-in JAR and the src.zip shall be defined respectively as the bytecode and source code portions of the Mozilla Binding:</p>
++<ul>
++	<li>The contents of the directory org/eclipse/swt/internal/mozilla (but not including any sub-directories)</li>
++</ul>
++
++<p>The Mozilla Binding contains portions of Mozilla (&quot;Mozilla&quot;).  Mozilla is made available by Mozilla.org.  Use of Mozilla is governed by the terms and
++conditions of the Mozilla Public License Version 1.1 (&quot;MPL&quot;).  A copy of the MPL is provided with the Content (<a href="about_files/mpl-v11.txt" target="_blank">mpl-v11.txt</a>) and is also available at
++<a href="http://www.mozilla.org/MPL/MPL-1.1.html" target="_blank">http://www.mozilla.org/MPL/MPL-1.1.html</a>.</p>
++
++<h4>Cairo Binding</h4>
++
++<p>The &quot;Cairo Binding&quot; is a binding to the Cairo API.  The Content may include any or all of the following files:</p>
++
++<p>The following files in the plug-in JAR shall be defined as the native code portion of the Cairo Binding:</p>
++<ul>
++	<li>libswt-cairo-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++</ul>
++
++<p>The following files in both the plug-in JAR and the src.zip shall be defined respectively as the bytecode and source code portions of the Cairo Binding:</p>
++<ul>
++	<li>The contents of the directory org/eclipse/swt/internal/cairo (but not including any sub-directories)</li>
++</ul>
++
++<p>The Cairo Binding contains portions of Cairo (&quot;Cairo&quot;).  Cairo is made available by the Cairo project at
++<a href="http://www.cairographics.org" target="_blank">http://www.cairographics.org</a>.  Use of Cairo by the Cairo Binding is governed by the terms and
++conditions of the Mozilla Public License Version 1.1 (&quot;MPL&quot;).  A copy of the MPL is
++provided with the Content (<a href="about_files/mpl-v11.txt" target="_blank">mpl-v11.txt</a>) and is also available at <a href="http://www.mozilla.org/MPL/MPL-1.1.html">http://www.mozilla.org/MPL/MPL-1.1.html</a>.</p>
++
++<h4>Cairo for Solari</h4>
++
++<p>Refer to the file <a href="about_files/about_cairo.html">about_files/about_cairo.html</a> for licensing details about &quot;Cairo for Solaris.&quot;
++
++<h4>Independent JPEG Group's JPEG software release 6b</h4>
++
++<p>This software is based in part on the work of the Independent JPEG Group's JPEG software release 6b (&quot;LIBJPEG&quot;).
++LIBJPEG was used to implement the decoding of JPEG format files in Java (TM).  The Content does NOT include any portion of the LIBJPEG file ansi2knr.c.</p>
++
++<p>Your use of LIBJPEG is subject to the terms and conditions located in the <a href="about_files/IJG_README">about_files/IJG_README</a> file which is included
++with the Content.</p>
++
++<p>The IJG's website is located at <a href="http://ijg.org/" target="_blank">http://ijg.org</a>.</p>
++
++<p>The class org.eclipse.swt.internal.image.JPEGFileFormat is based on following files from LIBJPEG:</p>
++
++<ul>
++    <li>cderror.h</li>
++    <li>cdjpeg.h</li>
++    <li>jchuff.h</li>
++    <li>jdcolor.c</li>
++    <li>jdct.h</li>
++    <li>jdhuff.h</li>
++    <li>jerror.h</li>
++    <li>jidctint.c</li>
++    <li>jinclude.h</li>
++    <li>jmemsys.h</li>
++    <li>jmorecfg.h</li>
++    <li>jpegint.h</li>
++    <li>jpeglib.h</li>
++    <li>jversion.h</li>
++    <li>transupp.h</li>
++</ul>
++
++<p>The class org.eclipse.swt.internal.image.JPEGDecoder is based on the following files from LIBJPEG:</p>
++
++<ul>
++	<li>jcapimin.c</li>
++	<li>jcapistd.c</li>
++	<li>jccoefct.c</li>
++	<li>jccolor.c</li>
++	<li>jcdctmgr.c</li>
++	<li>jchuff.c</li>
++	<li>jcinit.c</li>
++	<li>jcmainct.c</li>
++	<li>jcmarker.c</li>
++	<li>jcmaster.c</li>
++	<li>jcomapi.c</li>
++	<li>jcparam.c</li>
++	<li>jcphuff.c</li>
++	<li>jcprepct.c</li>
++	<li>jcsample.c</li>
++	<li>jctrans.c</li>
++	<li>jdapimin.c</li>
++	<li>jdapistd.c</li>
++	<li>jdatadst.c</li>
++	<li>jdatasrc.c</li>
++	<li>jdcoefct.c</li>
++	<li>jdcolor.c</li>
++	<li>jddctmgr.c</li>
++	<li>jdhuff.c</li>
++	<li>jdinput.c</li>
++	<li>jdmainct.c</li>
++	<li>jdmarker.c</li>
++	<li>jdmaster.c</li>
++	<li>jdmerge.c</li>
++	<li>jdphuff.c</li>
++	<li>jdpostct.c</li>
++	<li>jdsample.c</li>
++	<li>jdtrans.c</li>
++	<li>jerror.c</li>
++	<li>jfdctflt.c</li>
++	<li>jfdctfst.c</li>
++	<li>jfdctint.c</li>
++	<li>jidctflt.c</li>
++	<li>jidctfst.c</li>
++	<li>jidctint.c</li>
++	<li>jidctred.c</li>
++	<li>jpegtran.c</li>
++	<li>jquant1.c</li>
++	<li>jquant2.c</li>
++	<li>jutils.c</li>
++	<li>cderror.h</li>
++	<li>cdjpeg.h</li>
++	<li>jchuff.h</li>
++	<li>jconfig.h</li>
++	<li>jdct.h</li>
++	<li>jdhuff.h</li>
++	<li>jerror.h</li>
++	<li>jinclude.h</li>
++	<li>jmorecfg.h</li>
++	<li>jpegint.h</li>
++	<li>jpeglib.h</li>
++	<li>jversion.h</li>
++	<li>transupp.h</li>
++</ul>
++	
++<p>The following changes were made to the LIBJPEG code in the Content:</p>
++
++<ol>
++	<li>In Java, pointer math is not allowed so indexing was used instead.</li>
++	<li>Function pointers were replaced with switch statements.</li>
++	<li>The virtual memory, tracing and progress monitoring were removed.</li>
++	<li>The error handling was simplified and now uses Java exceptions.</li>
++</ol>
++
++<small>Java and all Java-based trademarks and logos are trademarks or registered trademarks of Sun Microsystems, Inc. in the United States and other countries.</small>
++
++</body>
++</html>
+diff -PNur eclipse.orig/features/org.eclipse.platform/about_files/solaris.gtk.x86/about.html eclipse/features/org.eclipse.platform/about_files/solaris.gtk.x86/about.html
+--- eclipse.orig/features/org.eclipse.platform/about_files/solaris.gtk.x86/about.html	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/features/org.eclipse.platform/about_files/solaris.gtk.x86/about.html	2007-09-07 21:23:37.498776760 +0700
+@@ -0,0 +1,237 @@
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
++    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml">
++<head>
++<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
++<title>About</title>
++</head>
++<body lang="EN-US">
++<h2>About This Content</h2>
++ 
++<p>August 17, 2006</p>	
++<h3>License</h3>
++
++<p>The Eclipse Foundation makes available all content in this plug-in (&quot;Content&quot;).  Unless otherwise 
++indicated below, the Content is provided to you under the terms and conditions of the
++Eclipse Public License Version 1.0 (&quot;EPL&quot;).  A copy of the EPL is available 
++at <a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>.
++For purposes of the EPL, &quot;Program&quot; will mean the Content.</p>
++
++<p>If you did not receive this Content directly from the Eclipse Foundation, the Content is 
++being redistributed by another party (&quot;Redistributor&quot;) and different terms and conditions may
++apply to your use of any object code in the Content.  Check the Redistributor's license that was 
++provided with the Content.  If no such license exists, contact the Redistributor.  Unless otherwise
++indicated below, the terms and conditions of the EPL still apply to any source code in the Content
++and such source code may be obtained at <a href="http://www.eclipse.org">http://www.eclipse.org</a>.</p>
++
++<h3>Third Party Content</h3>
++
++<p>The Content includes items that have been sourced from third parties as set out below. If you 
++did not receive this Content directly from the Eclipse Foundation, the following is provided 
++for informational purposes only, and you should look to the Redistributor&rsquo;s license for 
++terms and conditions of use.</p>
++
++<h4>Gnome Binding</h4>
++
++<p>The &quot;Gnome Binding&quot; is a binding to the Gnome API.  The Content may include any or all of the following files:</p>
++
++<p>The following files in the plug-in JAR shall be defined as the native code portion of the Gnome Binding:</p>
++<ul>
++	<li>libswt-gnome-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++</ul>
++
++<p>The following files in both the plug-in JAR and the src.zip shall be defined respectively as the bytecode and source code portions of the Gnome Binding:</p>
++<ul>
++	<li>The contents of the directory org/eclipse/swt/internal/gnome (but not including any sub-directories)</li>
++</ul>
++
++<p>The Gnome Binding contains portions of Gnome (&quot;Library&quot;).  Gnome is made available by The Free Software Foundation.  Use of the Library is governed by the terms and
++conditions of the GNU Lesser General Public License Version 2.1 (&quot;LGPL&quot;).  Use of the Gnome Binding on a standalone
++basis, is also governed by the terms and conditions of the LGPL.  A copy of the LGPL is provided with the Content (<a href="about_files/lgpl-v21.txt" target="_blank">lgpl-v21.txt</a>) and is also available at
++<a href="http://www.gnu.org/licenses/lgpl.html" target="_blank">http://www.gnu.org/licenses/lgpl.html</a>.</p>
++
++<p>In accordance with Section 6 of the LGPL, you may combine or link a "work that uses the Library" (e.g. the SWT) with the Library to produce a work
++containing portions of the Library (e.g. the Gnome Binding) and distribute that work under the terms of your choice (e.g. the EPL) provided you comply with all
++other terms and conditions of Section 6 as well as other Sections of the LGPL.  Please note, if you modify the Gnome Binding such modifications shall be
++governed by the terms and conditions of the LGPL.  Also note, the terms of the EPL permit you to modify the combined work and the source code of the combined
++work is provided for debugging purposes so there is no need to reverse engineer the combined work.</p>
++
++<h4>GTK+ Binding</h4>
++
++<p>The &quot;GTK+ Binding&quot; is a binding to the GTK+ API.  The Content may include any or all of the following files:</p>
++
++<p>The following files in the plug-in JAR shall be defined as the native code portion of the GTK+ Binding:</p>
++<ul>
++	<li>libswt-atk-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++	<li>libswt-pi-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++</ul>
++
++<p>The following files in both the plug-in JAR and the src.zip shall be defined respectively as the bytecode and source code portions of the GTK+ Binding:</p>
++<ul>
++	<li>The contents of the directory org/eclipse/swt/internal/accessibility/gtk (but not including any sub-directories)</li>
++	<li>The contents of the directory org/eclipse/swt/internal/cde (but not including any sub-directories)</li>
++	<li>The contents of the directory org/eclipse/swt/internal/gtk (but not including any sub-directories)</li>
++	<li>The contents of the directory org/eclipse/swt/internal/kde (but not including any sub-directories)</li>				
++</ul>
++
++<p>The GTK+ Binding contains portions of GTK+ (&quot;Library&quot;).  GTK+ is made available by The Free Software Foundation.  Use of the Library is governed by the terms and
++conditions of the GNU Lesser General Public License Version 2.1 (&quot;LGPL&quot;).  Use of the GTK+ Binding on a standalone
++basis, is also governed by the terms and conditions of the LGPL.  A copy of the LGPL is provided with the Content (<a href="about_files/lgpl-v21.txt" target="_blank">lgpl-v21.txt</a>) and is also available at
++<a href="http://www.gnu.org/licenses/lgpl.html" target="_blank">http://www.gnu.org/licenses/lgpl.html</a>.</p>
++
++<p>In accordance with Section 6 of the LGPL, you may combine or link a "work that uses the Library" (e.g. the SWT) with the Library to produce a work
++containing portions of the Library (e.g. the GTK+ Binding) and distribute that work under the terms of your choice (e.g. the EPL) provided you comply with all
++other terms and conditions of Section 6 as well as other Sections of the LGPL.  Please note, if you modify the GTK+ Binding such modifications shall be
++governed by the terms and conditions of the LGPL.  Also note, the terms of the EPL permit you to modify the combined work and the source code of the combined
++work is provided for debugging purposes so there is no need to reverse engineer the combined work.</p>
++
++<h4>Mozilla Binding</h4>
++
++<p>The &quot;Mozilla Binding&quot; is a binding to the Mozilla API.  The Content may include any or all of the following files:</p>
++
++<p>The following files in the plug-in JAR shall be defined as the native code portion of the Mozilla Binding:</p>
++<ul>
++	<li>libswt-mozilla-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++	<li>libswt-mozilla-gcc3-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++	<li>libswt-xulrunner-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++	<li>libswt-xpcominit-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++</ul>
++
++<p>The following files in both the plug-in JAR and the src.zip shall be defined respectively as the bytecode and source code portions of the Mozilla Binding:</p>
++<ul>
++	<li>The contents of the directory org/eclipse/swt/internal/mozilla (but not including any sub-directories)</li>
++</ul>
++
++<p>The Mozilla Binding contains portions of Mozilla (&quot;Mozilla&quot;).  Mozilla is made available by Mozilla.org.  Use of Mozilla is governed by the terms and
++conditions of the Mozilla Public License Version 1.1 (&quot;MPL&quot;).  A copy of the MPL is provided with the Content (<a href="about_files/mpl-v11.txt" target="_blank">mpl-v11.txt</a>) and is also available at
++<a href="http://www.mozilla.org/MPL/MPL-1.1.html" target="_blank">http://www.mozilla.org/MPL/MPL-1.1.html</a>.</p>
++
++<h4>Cairo Binding</h4>
++
++<p>The &quot;Cairo Binding&quot; is a binding to the Cairo API.  The Content may include any or all of the following files:</p>
++
++<p>The following files in the plug-in JAR shall be defined as the native code portion of the Cairo Binding:</p>
++<ul>
++	<li>libswt-cairo-gtk-xxxx.so (where &quot;xxxx&quot; is the version number)</li>
++</ul>
++
++<p>The following files in both the plug-in JAR and the src.zip shall be defined respectively as the bytecode and source code portions of the Cairo Binding:</p>
++<ul>
++	<li>The contents of the directory org/eclipse/swt/internal/cairo (but not including any sub-directories)</li>
++</ul>
++
++<p>The Cairo Binding contains portions of Cairo (&quot;Cairo&quot;).  Cairo is made available by the Cairo project at
++<a href="http://www.cairographics.org" target="_blank">http://www.cairographics.org</a>.  Use of Cairo by the Cairo Binding is governed by the terms and
++conditions of the Mozilla Public License Version 1.1 (&quot;MPL&quot;).  A copy of the MPL is
++provided with the Content (<a href="about_files/mpl-v11.txt" target="_blank">mpl-v11.txt</a>) and is also available at <a href="http://www.mozilla.org/MPL/MPL-1.1.html">http://www.mozilla.org/MPL/MPL-1.1.html</a>.</p>
++
++<h4>Cairo for Solaris</h4>
++
++<p>Refer to the file <a href="about_files/about_cairo.html">about_files/about_cairo.html</a> for licensing details about &quot;Cairo for Solaris.&quot;
++
++<h4>Independent JPEG Group's JPEG software release 6b</h4>
++
++<p>This software is based in part on the work of the Independent JPEG Group's JPEG software release 6b (&quot;LIBJPEG&quot;).
++LIBJPEG was used to implement the decoding of JPEG format files in Java (TM).  The Content does NOT include any portion of the LIBJPEG file ansi2knr.c.</p>
++
++<p>Your use of LIBJPEG is subject to the terms and conditions located in the <a href="about_files/IJG_README">about_files/IJG_README</a> file which is included
++with the Content.</p>
++
++<p>The IJG's website is located at <a href="http://ijg.org/" target="_blank">http://ijg.org</a>.</p>
++
++<p>The class org.eclipse.swt.internal.image.JPEGFileFormat is based on following files from LIBJPEG:</p>
++
++<ul>
++    <li>cderror.h</li>
++    <li>cdjpeg.h</li>
++    <li>jchuff.h</li>
++    <li>jdcolor.c</li>
++    <li>jdct.h</li>
++    <li>jdhuff.h</li>
++    <li>jerror.h</li>
++    <li>jidctint.c</li>
++    <li>jinclude.h</li>
++    <li>jmemsys.h</li>
++    <li>jmorecfg.h</li>
++    <li>jpegint.h</li>
++    <li>jpeglib.h</li>
++    <li>jversion.h</li>
++    <li>transupp.h</li>
++</ul>
++
++<p>The class org.eclipse.swt.internal.image.JPEGDecoder is based on the following files from LIBJPEG:</p>
++
++<ul>
++	<li>jcapimin.c</li>
++	<li>jcapistd.c</li>
++	<li>jccoefct.c</li>
++	<li>jccolor.c</li>
++	<li>jcdctmgr.c</li>
++	<li>jchuff.c</li>
++	<li>jcinit.c</li>
++	<li>jcmainct.c</li>
++	<li>jcmarker.c</li>
++	<li>jcmaster.c</li>
++	<li>jcomapi.c</li>
++	<li>jcparam.c</li>
++	<li>jcphuff.c</li>
++	<li>jcprepct.c</li>
++	<li>jcsample.c</li>
++	<li>jctrans.c</li>
++	<li>jdapimin.c</li>
++	<li>jdapistd.c</li>
++	<li>jdatadst.c</li>
++	<li>jdatasrc.c</li>
++	<li>jdcoefct.c</li>
++	<li>jdcolor.c</li>
++	<li>jddctmgr.c</li>
++	<li>jdhuff.c</li>
++	<li>jdinput.c</li>
++	<li>jdmainct.c</li>
++	<li>jdmarker.c</li>
++	<li>jdmaster.c</li>
++	<li>jdmerge.c</li>
++	<li>jdphuff.c</li>
++	<li>jdpostct.c</li>
++	<li>jdsample.c</li>
++	<li>jdtrans.c</li>
++	<li>jerror.c</li>
++	<li>jfdctflt.c</li>
++	<li>jfdctfst.c</li>
++	<li>jfdctint.c</li>
++	<li>jidctflt.c</li>
++	<li>jidctfst.c</li>
++	<li>jidctint.c</li>
++	<li>jidctred.c</li>
++	<li>jpegtran.c</li>
++	<li>jquant1.c</li>
++	<li>jquant2.c</li>
++	<li>jutils.c</li>
++	<li>cderror.h</li>
++	<li>cdjpeg.h</li>
++	<li>jchuff.h</li>
++	<li>jconfig.h</li>
++	<li>jdct.h</li>
++	<li>jdhuff.h</li>
++	<li>jerror.h</li>
++	<li>jinclude.h</li>
++	<li>jmorecfg.h</li>
++	<li>jpegint.h</li>
++	<li>jpeglib.h</li>
++	<li>jversion.h</li>
++	<li>transupp.h</li>
++</ul>
++	
++<p>The following changes were made to the LIBJPEG code in the Content:</p>
++
++<ol>
++	<li>In Java, pointer math is not allowed so indexing was used instead.</li>
++	<li>Function pointers were replaced with switch statements.</li>
++	<li>The virtual memory, tracing and progress monitoring were removed.</li>
++	<li>The error handling was simplified and now uses Java exceptions.</li>
++</ol>
++
++<small>Java and all Java-based trademarks and logos are trademarks or registered trademarks of Sun Microsystems, Inc. in the United States and other countries.</small>
++
++</body>
++</html>
+diff -PNur eclipse.orig/features/org.eclipse.platform/build.properties eclipse/features/org.eclipse.platform/build.properties
+--- eclipse.orig/features/org.eclipse.platform/build.properties	2007-08-09 23:35:23.000000000 +0700
++++ eclipse/features/org.eclipse.platform/build.properties	2007-09-07 21:23:50.400897746 +0700
+@@ -30,7 +30,7 @@
+ 
+ root.solaris.gtk.sparc=../../features/org.eclipse.equinox.executable/bin/gtk/solaris/sparc,gtk
+ root.solaris.motif.sparc=../../features/org.eclipse.equinox.executable/bin/gtk/solaris/sparc,motif
+-root.solaris.gtk.x86=../../launchertmp,gtk
++root.solaris.gtk.x86=about_files/solaris.gtk.x86,../../features/org.eclipse.equinox.executable/bin/gtk/solaris/x86,gtk
+ 
+ 
+ root.linux.gtk.x86=about_files/linux.gtk.x86,../../features/org.eclipse.equinox.executable/bin/gtk/linux/x86,gtk
+diff -PNur eclipse.orig/features/org.eclipse.platform/build.xml eclipse/features/org.eclipse.platform/build.xml
+--- eclipse.orig/features/org.eclipse.platform/build.xml	2007-08-09 23:14:08.000000000 +0700
++++ eclipse/features/org.eclipse.platform/build.xml	2007-09-07 21:23:50.402410581 +0700
+@@ -682,7 +682,10 @@
+ 	<target name="rootFilessolaris_gtk_x86">
+ 		<mkdir dir="${feature.base}/solaris.gtk.x86/${collectingFolder}/"/>
+ 		<copy todir="${feature.base}/solaris.gtk.x86/${collectingFolder}/" failonerror="true" overwrite="true">
+-			<fileset dir="${basedir}/../../launchertmp">
++			<fileset dir="${basedir}/about_files/solaris.gtk.x86">
++				<include name="**"/>
++			</fileset>
++			<fileset dir="${basedir}/../../features/org.eclipse.equinox.executable/bin/gtk/solaris/x86">
+ 				<include name="**"/>
+ 			</fileset>
+ 			<fileset dir="${basedir}/gtk">
+@@ -696,6 +699,7 @@
+ 			</fileset>
+ 		</copy>
+ 		<chmod perm="755" dir="${feature.base}/solaris.gtk.x86/${collectingFolder}" includes="eclipse" /> 
++		<chmod perm="755" dir="${feature.base}/solaris.gtk.x86/${collectingFolder}" includes="*.so*" /> 
+ 	</target>
+ 	<target name="rootFilessolaris_motif_sparc">
+ 		<mkdir dir="${feature.base}/solaris.motif.sparc/${collectingFolder}/"/>
+diff -PNur eclipse.orig/package.org.eclipse.sdk.solaris.gtk.x86.xml eclipse/package.org.eclipse.sdk.solaris.gtk.x86.xml
+--- eclipse.orig/package.org.eclipse.sdk.solaris.gtk.x86.xml	2007-08-09 23:15:37.000000000 +0700
++++ eclipse/package.org.eclipse.sdk.solaris.gtk.x86.xml	2007-09-07 21:24:37.150369564 +0700
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project name="Assemble org.eclipse.sdk" default="main">
+-	<property name="archiveName" value="org.eclipse.sdk-${buildId}-solaris.gtk.x86.zip"/>
++	<property name="archiveName" value="org.eclipse.sdk-${buildId}-solaris.gtk.x86.tar.gz"/>
+ 	<property name="os" value="solaris"/>
+ 	<property name="ws" value="gtk"/>
+ 	<property name="arch" value="x86"/>
+@@ -179,37 +179,18 @@
+ 			<param name="elementName" value="org.mortbay.jetty_5.1.11.v200706111724"/>
+ 		</antcall>
+ 		<eclipse.brand root="${eclipse.base}/solaris.gtk.x86/${collectingFolder}" icons="${launcherIcons}" name="${launcherName}" os="${os}"		/>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.commons.el.source_1.0.0.v200706111724"/>
++		<exec executable="gtar" dir="${assemblyTempDir}">
++			<arg line="${tarargs}-rvf &apos;${archiveFullPath}&apos; ${archivePrefix} "/>
+ 		</exec>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
+-			<arg line="${pluginArchivePrefix}/com.jcraft.jsch_0.1.31.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.mortbay.jetty.source_5.1.11.v200706111724"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.commons.logging_1.0.4.v200706111724.jar"/>
+-			<arg line="${pluginArchivePrefix}/com.ibm.icu_3.6.1.v20070417.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.commons.el_1.0.0.v200706111724.jar"/>
+-			<arg line="${pluginArchivePrefix}/javax.servlet.source_2.4.0.v200706111738"/>
+-			<arg line="${pluginArchivePrefix}/javax.servlet_2.4.0.v200706111738.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.lucene_1.9.1.v200706111724.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.commons.logging.source_1.0.4.v200706111724"/>
+-			<arg line="${pluginArchivePrefix}/org.junit.source_3.8.2.v200706111738"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.lucene.analysis_1.9.1.v200706181610.jar"/>
+-			<arg line="${pluginArchivePrefix}/javax.servlet.jsp.source_2.0.0.v200706191603"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.lucene.source_1.9.1.v200706111724"/>
+-			<arg line="${pluginArchivePrefix}/javax.servlet.jsp_2.0.0.v200706191603.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.junit_3.8.2.v200706111738"/>
+-		</exec>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.jasper.source_5.5.17.v200706111724"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.lucene.analysis.source_1.9.1.v200706181610"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.jasper_5.5.17.v200706111724.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.mortbay.jetty_5.1.11.v200706111724.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.ant_1.7.0.v200706080842"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.ant.source_1.7.0.v200706080842"/>
++		<antcall target="gzipResults"/>
++		<exec executable="rm">
++			<arg line="-rf"/>
++			<arg line="&apos;${assemblyTempDir}&apos;"/>
+ 		</exec>
+ 		<delete dir="${assemblyTempDir}"/>
+ 	</target>
++	<target name="gzipResults">
++		<move file="${archiveFullPath}" tofile="${assemblyTempDir}/${collectingFolder}/tmp.tar"/>
++		<gzip src="${assemblyTempDir}/${collectingFolder}/tmp.tar" zipfile="${archiveFullPath}"/>
++	</target>
+ </project>
+diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem/natives/unix/solaris/Makefile eclipse/plugins/org.eclipse.core.filesystem/natives/unix/solaris/Makefile
+--- eclipse.orig/plugins/org.eclipse.core.filesystem/natives/unix/solaris/Makefile	2007-08-09 23:35:01.000000000 +0700
++++ eclipse/plugins/org.eclipse.core.filesystem/natives/unix/solaris/Makefile	2007-09-07 21:23:37.540103309 +0700
+@@ -21,7 +21,7 @@
+ OS_TYPE = solaris
+ 
+ #Set this to be the location of your JRE
+-JAVA_HOME = ~/vm/sun142
++JAVA_HOME = /usr/java
+ 
+ JDK_INCLUDE = -I ${JAVA_HOME}/include -I ${JAVA_HOME}/include/${OS_TYPE}
+ COMMON_INCLUDE = -I include
+@@ -31,7 +31,7 @@
+ #To build with gcc, use:   make CC=gcc PICFLAG=-fPIC
+ PICFLAG=-K PIC
+ #PICFLAG=-fPIC
+-OPT_FLAGS=-O -s
++OPT_FLAGS=-xO4
+ #OPT_FLAGS=-g
+ 
+ $(LIB_NAME_FULL) : $(CORE.C)
+diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/.project eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/.project
+--- eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/.project	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/.project	2007-09-07 21:23:50.402989577 +0700
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>org.eclipse.core.filesystem.linux.x86</name>
++	<comment></comment>
++	<projects>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>org.eclipse.pde.ManifestBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.pde.SchemaBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>org.eclipse.pde.PluginNature</nature>
++	</natures>
++</projectDescription>
+diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/META-INF/MANIFEST.MF eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/META-INF/MANIFEST.MF
+--- eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/META-INF/MANIFEST.MF	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/META-INF/MANIFEST.MF	2007-09-07 21:23:50.403381479 +0700
+@@ -0,0 +1,9 @@
++Manifest-Version: 1.0
++Bundle-ManifestVersion: 2
++Bundle-Name: %fragmentName
++Bundle-SymbolicName: org.eclipse.core.filesystem.solaris.x86; singleton:=true
++Bundle-Version: 1.1.0.qualifier
++Bundle-Vendor: %providerName
++Fragment-Host: org.eclipse.core.filesystem;bundle-version="[1.1.0,2.0.0)"
++Bundle-Localization: fragment
++Eclipse-PlatformFilter: (& (osgi.os=solaris) (osgi.arch=x86))
+diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/about.html eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/about.html
+--- eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/about.html	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/about.html	2007-09-07 21:23:50.403789119 +0700
+@@ -0,0 +1,28 @@
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
++    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml">
++<head>
++<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
++<title>About</title>
++</head>
++<body lang="EN-US">
++<h2>About This Content</h2>
++ 
++<p>June 2, 2006</p>	
++<h3>License</h3>
++
++<p>The Eclipse Foundation makes available all content in this plug-in (&quot;Content&quot;).  Unless otherwise 
++indicated below, the Content is provided to you under the terms and conditions of the
++Eclipse Public License Version 1.0 (&quot;EPL&quot;).  A copy of the EPL is available 
++at <a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>.
++For purposes of the EPL, &quot;Program&quot; will mean the Content.</p>
++
++<p>If you did not receive this Content directly from the Eclipse Foundation, the Content is 
++being redistributed by another party (&quot;Redistributor&quot;) and different terms and conditions may
++apply to your use of any object code in the Content.  Check the Redistributor's license that was 
++provided with the Content.  If no such license exists, contact the Redistributor.  Unless otherwise
++indicated below, the terms and conditions of the EPL still apply to any source code in the Content
++and such source code may be obtained at <a href="http://www.eclipse.org">http://www.eclipse.org</a>.</p>
++
++</body>
++</html>
+\ No newline at end of file
+diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/build.properties eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/build.properties
+--- eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/build.properties	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/build.properties	2007-09-07 21:23:50.404152273 +0700
+@@ -0,0 +1,5 @@
++bin.includes = META-INF/,\
++               os/,\
++               fragment.properties,\
++               about.html
++src.includes = about.html
+diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/build.xml eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/build.xml
+--- eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/build.xml	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/build.xml	2007-09-07 21:23:50.404570865 +0700
+@@ -0,0 +1,126 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project name="org.eclipse.core.filesystem.solaris.x86" default="build.jars" basedir=".">
++
++	<property name="basews" value="${ws}"/>
++	<property name="baseos" value="${os}"/>
++	<property name="basearch" value="${arch}"/>
++	<property name="basenl" value="${nl}"/>
++	<property name="bundleId" value="org.eclipse.core.filesystem.solaris.x86"/>
++	<property name="bundleVersion" value="1.1.0.v20070416"/>
++
++	<!-- Compiler settings. -->
++	<property name="javacFailOnError" value="false"/>
++	<property name="javacDebugInfo" value="on"/>
++	<property name="javacVerbose" value="false"/>
++	<property name="logExtension" value=".log"/>
++	<property name="compilerArg" value=""/>
++	<property name="javacSource" value="1.3"/>
++	<property name="javacTarget" value="1.2"/>
++	<condition property="dir_bootclasspath" value="${java.home}/../Classes">
++		<os family="mac"/>
++	</condition>
++	<property name="dir_bootclasspath" value="${java.home}/lib"/>
++	<path id="path_bootclasspath">
++		<fileset dir="${dir_bootclasspath}">
++			<include name="*.jar"/>
++		</fileset>
++	</path>
++	<property name="bootclasspath" refid="path_bootclasspath"/>
++	<property name="bundleJavacSource" value="${javacSource}"/>
++	<property name="bundleJavacTarget" value="${javacTarget}"/>
++	<property name="bundleBootClasspath" value="${bootclasspath}"/>
++
++	<target name="init" depends="properties">
++		<condition property="pluginTemp" value="${buildTempFolder}/plugins">
++			<isset property="buildTempFolder"/>
++		</condition>
++		<property name="pluginTemp" value="${basedir}"/>
++		<condition property="build.result.folder" value="${pluginTemp}/org.eclipse.core.filesystem.solaris.x86_1.1.0.v20070416">
++			<isset property="buildTempFolder"/>
++		</condition>
++		<property name="build.result.folder" value="${basedir}"/>
++		<property name="temp.folder" value="${basedir}/temp.folder"/>
++		<property name="plugin.destination" value="${basedir}"/>
++	</target>
++
++	<target name="properties" if="eclipse.running">
++		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
++
++	</target>
++
++	<target name="build.update.jar" depends="init" description="Build the plug-in: org.eclipse.core.filesystem.solaris.x86 for an update site.">
++		<delete dir="${temp.folder}"/>
++		<mkdir dir="${temp.folder}"/>
++		<antcall target="build.jars"/>
++		<antcall target="gather.bin.parts">
++			<param name="destination.temp.folder" value="${temp.folder}/"/>
++		</antcall>
++		<jar destfile="${plugin.destination}/org.eclipse.core.filesystem.solaris.x86_1.1.0.v20070416.jar" basedir="${temp.folder}/org.eclipse.core.filesystem.solaris.x86_1.1.0.v20070416" filesetmanifest="merge"/>
++		<delete dir="${temp.folder}"/>
++	</target>
++
++	<target name="build.jars" depends="init" description="Compile classes and build nested jars for the plug-in: org.eclipse.core.filesystem.solaris.x86.">
++	</target>
++
++	<target name="build.sources" depends="init">
++	</target>
++
++	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
++		<mkdir dir="${destination.temp.folder}/org.eclipse.core.filesystem.solaris.x86_1.1.0.v20070416"/>
++		<copy todir="${destination.temp.folder}/org.eclipse.core.filesystem.solaris.x86_1.1.0.v20070416" failonerror="true" overwrite="false">
++			<fileset dir="${basedir}">
++				<include name="META-INF/"/>
++				<include name="os/"/>
++				<include name="fragment.properties"/>
++				<include name="about.html"/>
++			</fileset>
++		</copy>
++		<eclipse.versionReplacer path="${destination.temp.folder}/org.eclipse.core.filesystem.solaris.x86_1.1.0.v20070416" version="1.1.0.v20070416"/>
++	</target>
++
++	<target name="build.zips" depends="init">
++	</target>
++
++	<target name="gather.sources" depends="init" if="destination.temp.folder">
++		<copy todir="${destination.temp.folder}/org.eclipse.core.filesystem.solaris.x86_1.1.0.v20070416" failonerror="false" overwrite="false">
++			<fileset dir="${basedir}">
++				<include name="about.html"/>
++			</fileset>
++		</copy>
++	</target>
++
++	<target name="gather.logs" depends="init" if="destination.temp.folder">
++	</target>
++
++	<target name="clean" depends="init" description="Clean the plug-in: org.eclipse.core.filesystem.solaris.x86 of all the zips, jars and logs created.">
++		<delete file="${plugin.destination}/org.eclipse.core.filesystem.solaris.x86_1.1.0.v20070416.jar"/>
++		<delete file="${plugin.destination}/org.eclipse.core.filesystem.solaris.x86_1.1.0.v20070416.zip"/>
++		<delete dir="${temp.folder}"/>
++	</target>
++
++	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
++		<eclipse.convertPath fileSystemPath="/builds/I/src/plugins/org.eclipse.core.filesystem.solaris.x86" property="resourcePath"/>
++		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
++	</target>
++
++	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: org.eclipse.core.filesystem.solaris.x86.">
++		<delete dir="${temp.folder}"/>
++		<mkdir dir="${temp.folder}"/>
++		<antcall target="build.jars"/>
++		<antcall target="build.sources"/>
++		<antcall target="gather.bin.parts">
++			<param name="destination.temp.folder" value="${temp.folder}/"/>
++		</antcall>
++		<antcall target="gather.sources">
++			<param name="destination.temp.folder" value="${temp.folder}/"/>
++		</antcall>
++		<delete>
++			<fileset dir="${temp.folder}">
++				<include name="**/*.bin${logExtension}"/>
++			</fileset>
++		</delete>
++		<zip destfile="${plugin.destination}/org.eclipse.core.filesystem.solaris.x86_1.1.0.v20070416.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
++		<delete dir="${temp.folder}"/>
++	</target>
++
++</project>
+diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/fragment.properties eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/fragment.properties
+--- eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/fragment.properties	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/fragment.properties	2007-09-07 21:23:50.404879153 +0700
+@@ -0,0 +1,12 @@
++###############################################################################
++# Copyright (c) 2005 IBM Corporation and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Eclipse Public License v1.0
++# which accompanies this distribution, and is available at
++# http://www.eclipse.org/legal/epl-v10.html
++#
++# Contributors:
++#     IBM Corporation - initial API and implementation
++###############################################################################
++fragmentName = Core File System for Solaris
++providerName = Eclipse.org
+diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/.project eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/.project
+--- eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/.project	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/.project	2007-09-07 21:23:50.405261450 +0700
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>org.eclipse.equinox.launcher.gtk.solaris.x86</name>
++	<comment></comment>
++	<projects>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>org.eclipse.pde.ManifestBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.pde.SchemaBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>org.eclipse.pde.PluginNature</nature>
++	</natures>
++</projectDescription>
+diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/META-INF/MANIFEST.MF eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/META-INF/MANIFEST.MF
+--- eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/META-INF/MANIFEST.MF	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/META-INF/MANIFEST.MF	2007-09-07 21:23:50.405616004 +0700
+@@ -0,0 +1,9 @@
++Manifest-Version: 1.0
++Bundle-ManifestVersion: 2
++Bundle-Name: %pluginName
++Bundle-Vendor: %providerName
++Bundle-SymbolicName: org.eclipse.equinox.launcher.gtk.linux.x86
++Bundle-Version: 1.0.100.qualifier
++Fragment-Host: org.eclipse.equinox.launcher;bundle-version="[1.0.0,1.1.0)"
++Eclipse-PlatformFilter: (& (osgi.ws=gtk) (osgi.os=linux) (osgi.arch=x86))
++Bundle-Localization: launcher.gtk.linux.x86
+diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/about.html eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/about.html
+--- eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/about.html	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/about.html	2007-09-07 21:23:50.405910129 +0700
+@@ -0,0 +1,28 @@
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
++    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml">
++<head>
++<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
++<title>About</title>
++</head>
++<body lang="EN-US">
++<h2>About This Content</h2>
++
++<p>June 5, 2006</p>	
++<h3>License</h3>
++
++<p>The Eclipse Foundation makes available all content in this plug-in (&quot;Content&quot;).  
++Unless otherwise indicated below, the Content is provided to you under the terms and conditions of the
++Eclipse Public License Version 1.0 (&quot;EPL&quot;).  A copy of the EPL is available 
++at <a href="http://www.eclipse.org/org/documents/epl-v10.php">http://www.eclipse.org/legal/epl-v10.html</a>.
++For purposes of the EPL, &quot;Program&quot; will mean the Content.</p>
++
++<p>If you did not receive this Content directly from the Eclipse Foundation, the Content is 
++being redistributed by another party (&quot;Redistributor&quot;) and different terms and conditions may
++apply to your use of any object code in the Content.  Check the Redistributor&rsquo;s license 
++that was provided with the Content.  If no such license exists, contact the Redistributor.  Unless otherwise
++indicated below, the terms and conditions of the EPL still apply to any source code in the Content
++and such source code may be obtained at <a href="http://www.eclipse.org/">http://www.eclipse.org</a>.</p>
++
++</body>
++</html>
+\ No newline at end of file
+diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.properties eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.properties
+--- eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.properties	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.properties	2007-09-07 21:23:50.406187721 +0700
+@@ -0,0 +1,6 @@
++bin.includes = META-INF/,\
++               eclipse_*.so,\
++               launcher.gtk.solaris.x86.properties,\
++               about.html
++               
++customBuildCallbacks=customBuildCallbacks.xml
+diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.xml eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.xml
+--- eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.xml	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.xml	2007-09-07 21:23:50.406647914 +0700
+@@ -0,0 +1,165 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project name="org.eclipse.equinox.launcher.gtk.solaris.x86" default="build.jars" basedir=".">
++
++	<property name="basews" value="${ws}"/>
++	<property name="baseos" value="${os}"/>
++	<property name="basearch" value="${arch}"/>
++	<property name="basenl" value="${nl}"/>
++	<property name="bundleId" value="org.eclipse.equinox.launcher.gtk.solaris.x86"/>
++	<property name="bundleVersion" value="1.0.100.v20070730"/>
++
++	<available property="customBuildCallbacks" file="./customBuildCallbacks.xml" value="customBuildCallbacks.xml"/>
++
++	<!-- Compiler settings. -->
++	<property name="javacFailOnError" value="false"/>
++	<property name="javacDebugInfo" value="on"/>
++	<property name="javacVerbose" value="false"/>
++	<property name="logExtension" value=".log"/>
++	<property name="compilerArg" value=""/>
++	<property name="javacSource" value="1.3"/>
++	<property name="javacTarget" value="1.2"/>
++	<condition property="dir_bootclasspath" value="${java.home}/../Classes">
++		<os family="mac"/>
++	</condition>
++	<property name="dir_bootclasspath" value="${java.home}/lib"/>
++	<path id="path_bootclasspath">
++		<fileset dir="${dir_bootclasspath}">
++			<include name="*.jar"/>
++		</fileset>
++	</path>
++	<property name="bootclasspath" refid="path_bootclasspath"/>
++	<property name="bundleJavacSource" value="${javacSource}"/>
++	<property name="bundleJavacTarget" value="${javacTarget}"/>
++	<property name="bundleBootClasspath" value="${bootclasspath}"/>
++
++	<target name="init" depends="properties">
++		<condition property="pluginTemp" value="${buildTempFolder}/plugins">
++			<isset property="buildTempFolder"/>
++		</condition>
++		<property name="pluginTemp" value="${basedir}"/>
++		<condition property="build.result.folder" value="${pluginTemp}/org.eclipse.equinox.launcher.gtk.solaris.x86_1.0.100.v20070730">
++			<isset property="buildTempFolder"/>
++		</condition>
++		<property name="build.result.folder" value="${basedir}"/>
++		<property name="temp.folder" value="${basedir}/temp.folder"/>
++		<property name="plugin.destination" value="${basedir}"/>
++	</target>
++
++	<target name="properties" if="eclipse.running">
++		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
++
++	</target>
++
++	<target name="build.update.jar" depends="init" description="Build the plug-in: org.eclipse.equinox.launcher.gtk.solaris.x86 for an update site.">
++		<delete dir="${temp.folder}"/>
++		<mkdir dir="${temp.folder}"/>
++		<antcall target="build.jars"/>
++		<antcall target="gather.bin.parts">
++			<param name="destination.temp.folder" value="${temp.folder}/"/>
++		</antcall>
++		<jar destfile="${plugin.destination}/org.eclipse.equinox.launcher.gtk.solaris.x86_1.0.100.v20070730.jar" basedir="${temp.folder}/org.eclipse.equinox.launcher.gtk.solaris.x86_1.0.100.v20070730" filesetmanifest="merge"/>
++		<delete dir="${temp.folder}"/>
++	</target>
++
++	<target name="build.jars" depends="init" description="Compile classes and build nested jars for the plug-in: org.eclipse.equinox.launcher.gtk.solaris.x86.">
++		<subant antfile="${customBuildCallbacks}" target="pre.build.jars" failonerror="false" buildpath=".">
++			<property name="build.result.folder" value="${build.result.folder}"/>
++		</subant>
++		<subant antfile="${customBuildCallbacks}" target="post.build.jars" failonerror="false" buildpath=".">
++			<property name="build.result.folder" value="${build.result.folder}"/>
++		</subant>
++	</target>
++
++	<target name="build.sources" depends="init">
++		<subant antfile="${customBuildCallbacks}" target="pre.build.sources" failonerror="false" buildpath=".">
++			<property name="build.result.folder" value="${build.result.folder}"/>
++		</subant>
++		<subant antfile="${customBuildCallbacks}" target="post.build.sources" failonerror="false" buildpath=".">
++			<property name="build.result.folder" value="${build.result.folder}"/>
++		</subant>
++	</target>
++
++	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
++		<mkdir dir="${destination.temp.folder}/org.eclipse.equinox.launcher.gtk.solaris.x86_1.0.100.v20070730"/>
++		<subant antfile="${customBuildCallbacks}" target="pre.gather.bin.parts" failonerror="false" buildpath=".">
++			<property name="build.result.folder" value="${build.result.folder}"/>
++			<property name="target.folder" value="${destination.temp.folder}/org.eclipse.equinox.launcher.gtk.solaris.x86_1.0.100.v20070730"/>
++		</subant>
++		<copy todir="${destination.temp.folder}/org.eclipse.equinox.launcher.gtk.solaris.x86_1.0.100.v20070730" failonerror="true" overwrite="false">
++			<fileset dir="${basedir}">
++				<include name="META-INF/"/>
++				<include name="eclipse_*.so"/>
++				<include name="launcher.gtk.solaris.x86.properties"/>
++				<include name="about.html"/>
++			</fileset>
++		</copy>
++		<eclipse.versionReplacer path="${destination.temp.folder}/org.eclipse.equinox.launcher.gtk.solaris.x86_1.0.100.v20070730" version="1.0.100.v20070730"/>
++		<subant antfile="${customBuildCallbacks}" target="post.gather.bin.parts" failonerror="false" buildpath=".">
++			<property name="build.result.folder" value="${build.result.folder}"/>
++			<property name="target.folder" value="${destination.temp.folder}/org.eclipse.equinox.launcher.gtk.solaris.x86_1.0.100.v20070730"/>
++		</subant>
++	</target>
++
++	<target name="build.zips" depends="init">
++	</target>
++
++	<target name="gather.sources" depends="init" if="destination.temp.folder">
++		<subant antfile="${customBuildCallbacks}" target="pre.gather.sources" failonerror="false" buildpath=".">
++			<property name="target.folder" value="${destination.temp.folder}/org.eclipse.equinox.launcher.gtk.solaris.x86_1.0.100.v20070730"/>
++		</subant>
++		<subant antfile="${customBuildCallbacks}" target="post.gather.sources" failonerror="false" buildpath=".">
++			<property name="target.folder" value="${destination.temp.folder}/org.eclipse.equinox.launcher.gtk.solaris.x86_1.0.100.v20070730"/>
++		</subant>
++	</target>
++
++	<target name="gather.logs" depends="init" if="destination.temp.folder">
++		<subant antfile="${customBuildCallbacks}" target="pre.gather.logs" failonerror="false" buildpath=".">
++			<property name="destination.temp.folder" value="${destination.temp.folder}/org.eclipse.equinox.launcher.gtk.solaris.x86_1.0.100.v20070730"/>
++		</subant>
++		<subant antfile="${customBuildCallbacks}" target="post.gather.logs" failonerror="false" buildpath=".">
++			<property name="destination.temp.folder" value="${destination.temp.folder}/org.eclipse.equinox.launcher.gtk.solaris.x86_1.0.100.v20070730"/>
++		</subant>
++	</target>
++
++	<target name="clean" depends="init" description="Clean the plug-in: org.eclipse.equinox.launcher.gtk.solaris.x86 of all the zips, jars and logs created.">
++		<subant antfile="${customBuildCallbacks}" target="pre.clean" failonerror="false" buildpath=".">
++			<property name="plugin.destination" value="${plugin.destination}"/>
++			<property name="build.result.folder" value="${build.result.folder}"/>
++			<property name="temp.folder" value="${temp.folder}"/>
++		</subant>
++		<delete file="${plugin.destination}/org.eclipse.equinox.launcher.gtk.solaris.x86_1.0.100.v20070730.jar"/>
++		<delete file="${plugin.destination}/org.eclipse.equinox.launcher.gtk.solaris.x86_1.0.100.v20070730.zip"/>
++		<delete dir="${temp.folder}"/>
++		<subant antfile="${customBuildCallbacks}" target="post.clean" failonerror="false" buildpath=".">
++			<property name="plugin.destination" value="${plugin.destination}"/>
++			<property name="build.result.folder" value="${build.result.folder}"/>
++			<property name="temp.folder" value="${temp.folder}"/>
++		</subant>
++	</target>
++
++	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
++		<eclipse.convertPath fileSystemPath="/builds/I/src/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86" property="resourcePath"/>
++		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
++	</target>
++
++	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: org.eclipse.equinox.launcher.gtk.solaris.x86.">
++		<delete dir="${temp.folder}"/>
++		<mkdir dir="${temp.folder}"/>
++		<antcall target="build.jars"/>
++		<antcall target="build.sources"/>
++		<antcall target="gather.bin.parts">
++			<param name="destination.temp.folder" value="${temp.folder}/"/>
++		</antcall>
++		<antcall target="gather.sources">
++			<param name="destination.temp.folder" value="${temp.folder}/"/>
++		</antcall>
++		<delete>
++			<fileset dir="${temp.folder}">
++				<include name="**/*.bin${logExtension}"/>
++			</fileset>
++		</delete>
++		<zip destfile="${plugin.destination}/org.eclipse.equinox.launcher.gtk.solaris.x86_1.0.100.v20070730.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
++		<delete dir="${temp.folder}"/>
++	</target>
++
++</project>
+diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/customBuildCallbacks.xml eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/customBuildCallbacks.xml
+--- eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/customBuildCallbacks.xml	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/customBuildCallbacks.xml	2007-09-07 21:23:50.407287522 +0700
+@@ -0,0 +1,109 @@
++<!-- ===================================================================== -->
++<!-- Custom targets called from a project's generated build.xml            -->
++<!-- Set customBuildCallbacks=<path/to/this/file> in your build.properties.-->
++<!-- ===================================================================== -->
++<project name="Build specific targets and properties" default="noDefault">
++
++	<!-- ===================================================================== -->
++	<!-- Default target                                                        -->
++	<!-- ===================================================================== -->
++	<target name="noDefault">
++		<echo message="This file must be called with explicit targets" />
++	</target>
++	
++	<!-- ===================================================================== -->
++	<!-- Steps to do before the target build.jars                              -->
++	<!-- Available parameters :                                                -->
++	<!--   build.result.folder - folder to contain the build results           -->
++	<!-- ===================================================================== -->
++	<target name="pre.build.jars">
++	</target>
++
++	<!-- ===================================================================== -->
++	<!-- Steps to do after the target build.jars                               -->
++	<!-- Available parameters :                                                -->
++	<!--   build.result.folder - folder to contain the build results           -->
++	<!-- ===================================================================== -->
++	<target name="post.build.jars">	
++	</target>
++	
++	<!-- ===================================================================== -->
++	<!-- Steps to do before the target build.sources                           -->
++	<!-- Available parameters :                                                -->
++	<!--   build.result.folder - folder to contain the build results           -->
++	<!-- ===================================================================== -->
++	<target name="pre.build.sources">
++	</target>
++
++	<!-- ===================================================================== -->
++	<!-- Steps to do after the target build.sources                            -->
++	<!-- Available parameters :                                                -->
++	<!--   build.result.folder - folder to contain the build results           -->
++	<!-- ===================================================================== -->
++	<target name="post.build.sources">
++	</target>
++	
++	<target name="pre.gather.bin.parts">
++	</target>
++	
++	<!-- ===================================================================== -->
++	<!-- Steps to do after the target gather.bin.parts                         -->
++	<!-- Available parameters :                                                -->
++	<!--   base.dir - root of the project                                      -->
++	<!--   build.result.folder - folder containing the build results           -->
++	<!--   target.folder - destination folder                                  -->
++	<!-- ===================================================================== -->
++	<target name="post.gather.bin.parts">
++		<chmod perm="755" dir="${target.folder}" includes="eclipse_*" />
++	</target>
++	
++	<!-- ===================================================================== -->
++	<!-- Steps to do before the target gather.sources                          -->
++	<!-- Available parameters :                                                -->
++	<!--   destination.temp.folder - destination folder                        -->
++	<!-- ===================================================================== -->
++	<target name="pre.gather.sources">
++	</target>
++
++	<!-- ===================================================================== -->
++	<!-- Steps to do after the target gather.sources                           -->
++	<!-- Available parameters :                                                -->
++	<!--   destination.temp.folder - destination folder                        -->
++	<!-- ===================================================================== -->
++	<target name="post.gather.sources">
++	</target>
++
++	<!-- ===================================================================== -->
++	<!-- Steps to do before the target gather.logs                             -->
++	<!-- Available parameters :                                                -->
++	<!--   destination.temp.folder - destination folder                        -->
++	<!-- ===================================================================== -->
++	<target name="pre.gather.logs">        
++	</target>
++
++	<!-- ===================================================================== -->
++	<!-- Steps to do after the target gather.logs                              -->
++	<!-- Available parameters :                                                -->
++	<!--   destination.temp.folder - destination folder                        -->
++	<!-- ===================================================================== -->
++	<target name="post.gather.logs">       
++	</target>
++
++	<!-- ===================================================================== -->
++	<!-- Steps to do before the target clean                                   -->
++	<!-- Available parameters :                                                -->
++	<!--   destination.temp.folder - destination folder                        -->
++	<!-- ===================================================================== -->
++	<target name="pre.clean">              
++	</target>
++
++	<!-- ===================================================================== -->
++	<!-- Steps to do after the target clean                                    -->
++	<!-- Available parameters :                                                -->
++	<!--   plugin.destination - final destination of the build                 -->
++	<!--   build.result.folder - results of the compilation                    -->
++	<!--   temp.folder - temporary folder                                      -->
++	<!-- ===================================================================== -->
++	<target name="post.clean">             
++	</target>
++</project>
+diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/launcher.gtk.solaris.x86.properties eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/launcher.gtk.solaris.x86.properties
+--- eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/launcher.gtk.solaris.x86.properties	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/launcher.gtk.solaris.x86.properties	2007-09-07 21:23:50.407567884 +0700
+@@ -0,0 +1,12 @@
++###############################################################################
++# Copyright (c) 2007 IBM Corporation and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Eclipse Public License v1.0
++# which accompanies this distribution, and is available at
++# http://www.eclipse.org/legal/epl-v10.html
++# 
++# Contributors:
++#     IBM Corporation - initial API and implementation
++###############################################################################
++pluginName = Equinox Launcher Solaris X86 Fragment
++providerName = Eclipse.org
+diff -PNur eclipse.orig/plugins/org.eclipse.platform.source.solaris.gtk.x86/build.xml eclipse/plugins/org.eclipse.platform.source.solaris.gtk.x86/build.xml
+--- eclipse.orig/plugins/org.eclipse.platform.source.solaris.gtk.x86/build.xml	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.platform.source.solaris.gtk.x86/build.xml	2007-09-07 21:23:50.436798540 +0700
+@@ -0,0 +1,127 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project name="org.eclipse.platform.source.solaris.gtk.x86" default="build.jars" basedir=".">
++
++	<property name="basews" value="${ws}"/>
++	<property name="baseos" value="${os}"/>
++	<property name="basearch" value="${arch}"/>
++	<property name="basenl" value="${nl}"/>
++	<property name="bundleId" value="org.eclipse.platform.source.solaris.gtk.x86"/>
++	<property name="bundleVersion" value="3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9"/>
++
++	<!-- Compiler settings. -->
++	<property name="javacFailOnError" value="false"/>
++	<property name="javacDebugInfo" value="on"/>
++	<property name="javacVerbose" value="false"/>
++	<property name="logExtension" value=".log"/>
++	<property name="compilerArg" value=""/>
++	<property name="javacSource" value="1.3"/>
++	<property name="javacTarget" value="1.2"/>
++	<condition property="dir_bootclasspath" value="${java.home}/../Classes">
++		<os family="mac"/>
++	</condition>
++	<property name="dir_bootclasspath" value="${java.home}/lib"/>
++	<path id="path_bootclasspath">
++		<fileset dir="${dir_bootclasspath}">
++			<include name="*.jar"/>
++		</fileset>
++	</path>
++	<property name="bootclasspath" refid="path_bootclasspath"/>
++	<property name="bundleJavacSource" value="${javacSource}"/>
++	<property name="bundleJavacTarget" value="${javacTarget}"/>
++	<property name="bundleBootClasspath" value="${bootclasspath}"/>
++
++	<target name="init" depends="properties">
++		<condition property="pluginTemp" value="${buildTempFolder}/plugins">
++			<isset property="buildTempFolder"/>
++		</condition>
++		<property name="pluginTemp" value="${basedir}"/>
++		<condition property="build.result.folder" value="${pluginTemp}/org.eclipse.platform.source.solaris.gtk.x86_3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9">
++			<isset property="buildTempFolder"/>
++		</condition>
++		<property name="build.result.folder" value="${basedir}"/>
++		<property name="temp.folder" value="${basedir}/temp.folder"/>
++		<property name="plugin.destination" value="${basedir}"/>
++	</target>
++
++	<target name="properties" if="eclipse.running">
++		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
++
++	</target>
++
++	<target name="build.update.jar" depends="init" description="Build the plug-in: org.eclipse.platform.source.solaris.gtk.x86 for an update site.">
++		<delete dir="${temp.folder}"/>
++		<mkdir dir="${temp.folder}"/>
++		<antcall target="build.jars"/>
++		<antcall target="gather.bin.parts">
++			<param name="destination.temp.folder" value="${temp.folder}/"/>
++		</antcall>
++		<jar destfile="${plugin.destination}/org.eclipse.platform.source.solaris.gtk.x86_3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9.jar" basedir="${temp.folder}/org.eclipse.platform.source.linux.gtk.x86_3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9" filesetmanifest="merge"/>
++		<delete dir="${temp.folder}"/>
++	</target>
++	<target name="build.jars">
++		<ant antfile="build.xml" dir="../org.eclipse.core.filesystem.solaris.x86" target="build.sources"/>
++		<ant antfile="build.xml" dir="../org.eclipse.core.filesystem.solaris.x86" target="gather.sources">
++			<property name="destination.temp.folder" value="${basedir}/src"/>
++		</ant>
++		<ant antfile="build.xml" dir="../org.eclipse.update.core.solaris" target="build.sources"/>
++		<ant antfile="build.xml" dir="../org.eclipse.update.core.solaris" target="gather.sources">
++			<property name="destination.temp.folder" value="${basedir}/src"/>
++		</ant>
++	</target>
++	<target name="build.sources">
++	</target>
++
++	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
++		<mkdir dir="${destination.temp.folder}/org.eclipse.platform.source.solaris.gtk.x86_3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9"/>
++		<copy todir="${destination.temp.folder}/org.eclipse.platform.source.solaris.gtk.x86_3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9" failonerror="true" overwrite="false">
++			<fileset dir="${basedir}">
++				<include name="about.html"/>
++				<include name="fragment.xml"/>
++				<include name="src/**"/>
++				<include name="META-INF/"/>
++			</fileset>
++		</copy>
++		<eclipse.versionReplacer path="${destination.temp.folder}/org.eclipse.platform.source.solaris.gtk.x86_3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9" version="3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9"/>
++	</target>
++
++	<target name="build.zips" depends="init">
++	</target>
++
++	<target name="gather.sources" depends="init" if="destination.temp.folder">
++	</target>
++
++	<target name="gather.logs" depends="init" if="destination.temp.folder">
++	</target>
++
++	<target name="clean" depends="init" description="Clean the plug-in: org.eclipse.platform.source.solaris.gtk.x86 of all the zips, jars and logs created.">
++		<delete file="${plugin.destination}/org.eclipse.platform.source.solaris.gtk.x86_3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9.jar"/>
++		<delete file="${plugin.destination}/org.eclipse.platform.source.solaris.gtk.x86_3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9.zip"/>
++		<delete dir="${temp.folder}"/>
++	</target>
++
++	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
++		<eclipse.convertPath fileSystemPath="/builds/I/src/plugins/org.eclipse.platform.source.solaris.gtk.x86" property="resourcePath"/>
++		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
++	</target>
++
++	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: org.eclipse.platform.source.solaris.gtk.x86.">
++		<delete dir="${temp.folder}"/>
++		<mkdir dir="${temp.folder}"/>
++		<antcall target="build.jars"/>
++		<antcall target="build.sources"/>
++		<antcall target="gather.bin.parts">
++			<param name="destination.temp.folder" value="${temp.folder}/"/>
++		</antcall>
++		<antcall target="gather.sources">
++			<param name="destination.temp.folder" value="${temp.folder}/"/>
++		</antcall>
++		<delete>
++			<fileset dir="${temp.folder}">
++				<include name="**/*.bin${logExtension}"/>
++			</fileset>
++		</delete>
++		<zip destfile="${plugin.destination}/org.eclipse.platform.source.solaris.gtk.x86_3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
++		<delete dir="${temp.folder}"/>
++	</target>
++
++</project>
+diff -PNur eclipse.orig/plugins/org.eclipse.swt.gtk.solaris.sparc/build.xml eclipse/plugins/org.eclipse.swt.gtk.solaris.sparc/build.xml
+--- eclipse.orig/plugins/org.eclipse.swt.gtk.solaris.sparc/build.xml	2007-08-09 23:14:27.000000000 +0700
++++ eclipse/plugins/org.eclipse.swt.gtk.solaris.sparc/build.xml	2007-09-07 21:23:37.552127600 +0700
+@@ -74,6 +74,9 @@
+ 			<src path="${plugindir}/Eclipse SWT Custom Widgets/common/"/>
+ 			<src path="${plugindir}/Eclipse SWT Drag and Drop/common/"/>
+ 			<src path="${plugindir}/Eclipse SWT Drag and Drop/gtk/"/>
++			<src path="${plugindir}/Eclipse SWT OpenGL/gtk/"/>
++			<src path="${plugindir}/Eclipse SWT OpenGL/glx/"/>
++			<src path="${plugindir}/Eclipse SWT OpenGL/common/"/>
+ 			<src path="${plugindir}/Eclipse SWT PI/cairo/"/>
+ 			<src path="${plugindir}/Eclipse SWT PI/common/"/>
+ 			<src path="${plugindir}/Eclipse SWT PI/common_j2se/"/>
+@@ -111,6 +114,9 @@
+ 			<fileset dir="${plugindir}/Eclipse SWT Drag and Drop/gtk/" includes="${includes}" excludes="${excludes}"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT Mozilla/gtk/" includes="${includes}" excludes="${excludes}"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT Mozilla/common/" includes="${includes}" excludes="${excludes}"/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/gtk/" includes="${includes}" excludes="${excludes}"/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/glx/" includes="${includes}" excludes="${excludes}"/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/common/" includes="${includes}" excludes="${excludes}"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/cairo/" includes="${includes}" excludes="${excludes}"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/common/" includes="${includes}" excludes="${excludes}"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/common_j2se/" includes="${includes}" excludes="${excludes}"/>
+@@ -138,6 +144,28 @@
+ 		<antcall target="@dot"/>
+ 	</target>
+ 
++    <target name="build.cfiles" depends="init">
++		<mkdir dir="${build.result.folder}/library"/>
++		<copy todir="${build.result.folder}/library">
++			<fileset dir="${plugindir}/Eclipse SWT/common/library"/>
++			<fileset dir="${plugindir}/Eclipse SWT AWT/gtk/library"/>
++			<fileset dir="${plugindir}/Eclipse SWT Mozilla/common/library"/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/glx/library"/>
++			<fileset dir="${plugindir}/Eclipse SWT PI/cairo/library"/>
++			<fileset dir="${plugindir}/Eclipse SWT PI/gtk/library"/>
++			<fileset dir="${plugindir}/Eclipse SWT Program/cde/library"/>
++			<fileset dir="${plugindir}/Eclipse SWT Program/gnome/library"/>
++		</copy>
++	</target>
++
++	<target name="build.jnilibs" depends="build.cfiles">
++		<exec dir="${build.result.folder}/library" executable="sh">
++			<env key="OUTPUT_DIR" value="${build.result.folder}"/>
++			<arg line="${build.result.folder}/library/build.sh"/>
++			<arg line="install"/>
++		</exec>
++	</target>
++
+ 	<target name="src.zip" depends="init" unless="src.zip">
+ 		<mkdir dir="${build.result.folder}/"/>
+ 		<zip zipfile="${build.result.folder}/src.zip">
+@@ -162,13 +190,18 @@
+ 			<fileset dir="${plugindir}/Eclipse SWT Mozilla/common/" includes="**/*.java" excludes=""/>
+ 			<fileset dir="${plugindir}/Eclipse SWT Mozilla/common/library/"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT Mozilla/gtk/" includes="**/*.java" excludes=""/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/gtk/" includes="**/*.java" excludes=""/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/glx/" includes="**/*.java" excludes=""/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/glx/library/"/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/common/" includes="**/*.java" excludes=""/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/cairo/" includes="**/*.java" excludes=""/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/cairo/library/"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/common/" includes="**/*.java" excludes=""/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/common_j2se/" includes="**/*.java" excludes=""/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/common/library/"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/gtk/" includes="**/*.java" excludes=""/>
+-			<fileset dir="${plugindir}/Eclipse SWT PI/gtk/library/"/>
++			<fileset dir="${plugindir}/Eclipse SWT PI/gtk/library/" excludes="**/*.sh"/>
++			<zipfileset filemode="755" dir="${plugindir}/Eclipse SWT PI/gtk/library/" includes="**/*.sh"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT Printing/common/" includes="**/*.java" excludes=""/>
+ 			<fileset dir="${plugindir}/Eclipse SWT Printing/gtk/" includes="**/*.java" excludes=""/>
+ 			<fileset dir="${plugindir}/Eclipse SWT Program/cde/" includes="**/*.java" excludes=""/>
+@@ -196,7 +229,8 @@
+ 		<mkdir dir="${destination.temp.folder}/${full.name}"/>
+ 		<copy file="${build.result.folder}/src.zip" todir="${destination.temp.folder}/${full.name}/"/>
+ 		<copy todir="${destination.temp.folder}/${full.name}">
+-			<fileset dir="${basedir}" includes="about.html,about_files/"/>
++			<fileset dir="${basedir}" includes="about.html"/>
++			<fileset dir="${basedir}" includes="about_files/"/>
+ 		</copy>
+ 	</target>
+ 
+@@ -211,13 +245,15 @@
+ 			<fileset dir="${build.result.folder}/@dot" includes="**"/>
+ 		</copy>
+ 		<copy todir="${destination.temp.folder}/${full.name}">
+-			<fileset dir="${basedir}" includes="fragment.properties,about.html,about_files/,swt*.dll,libswt*.so,libswt*.sl,libswt*.a,libswt*.jnilib,META-INF/"/> 
++			<fileset dir="${basedir}" includes="fragment.properties,swt*.dll,libswt*.so,libswt*.sl,libswt*.a,libswt*.jnilib,libcairo-swt.so,META-INF/"/> 
++			<fileset dir="${basedir}" includes="about.html"/>
++			<fileset dir="${basedir}" includes="about_files/"/>
+ 		</copy>
+-	  	<chmod perm="755" dir="${destination.temp.folder}/${full.name}" includes="swt*.dll,libswt*.so,libswt*.sl,libswt*.a,libswt*.jnilib" />
++	  	<chmod perm="755" dir="${destination.temp.folder}/${full.name}" includes="swt*.dll,libswt*.so,libswt*.sl,libswt*.a,libswt*.jnilib,libcairo-swt.so" />
+ 		<eclipse.versionReplacer path="${destination.temp.folder}/${full.name}" version="${version.suffix}"/>
+ 	</target>
+ 	
+-	<target name="swtdownload" depends="init">	
++	<target name="swtdownload" depends="init">
+ 		<delete dir="${temp.folder}"/>
+ 		<delete dir="${build.result.folder}/@dot"/>   <!-- ensure entry into @dot target -->
+ 		<mkdir dir="${temp.folder}/swtdownload/"/>
+diff -PNur eclipse.orig/plugins/org.eclipse.swt.gtk.solaris.x86/build.xml eclipse/plugins/org.eclipse.swt.gtk.solaris.x86/build.xml
+--- eclipse.orig/plugins/org.eclipse.swt.gtk.solaris.x86/build.xml	2007-08-09 23:15:30.000000000 +0700
++++ eclipse/plugins/org.eclipse.swt.gtk.solaris.x86/build.xml	2007-09-07 21:23:37.563021089 +0700
+@@ -7,7 +7,7 @@
+ 		<property name="os" value="solaris"/>
+ 		<property name="arch" value="x86"/>
+ 		<property name="fragment" value="org.eclipse.swt.gtk.solaris.x86"/>
+-		<property name="version.suffix" value="3.3.0.HEAD"/>
++		<property name="version.suffix" value="3.3.0.v3406"/>
+ 		<property name="full.name" value="${fragment}_${version.suffix}"/>
+ 		<property name="temp.folder" value="${basedir}/temp.folder"/>
+ 		<property name="plugin.destination" value="${basedir}"/>
+@@ -74,6 +74,9 @@
+ 			<src path="${plugindir}/Eclipse SWT Custom Widgets/common/"/>
+ 			<src path="${plugindir}/Eclipse SWT Drag and Drop/common/"/>
+ 			<src path="${plugindir}/Eclipse SWT Drag and Drop/gtk/"/>
++			<src path="${plugindir}/Eclipse SWT OpenGL/gtk/"/>
++			<src path="${plugindir}/Eclipse SWT OpenGL/glx/"/>
++			<src path="${plugindir}/Eclipse SWT OpenGL/common/"/>
+ 			<src path="${plugindir}/Eclipse SWT PI/cairo/"/>
+ 			<src path="${plugindir}/Eclipse SWT PI/common/"/>
+ 			<src path="${plugindir}/Eclipse SWT PI/common_j2se/"/>
+@@ -111,6 +114,9 @@
+ 			<fileset dir="${plugindir}/Eclipse SWT Drag and Drop/gtk/" includes="${includes}" excludes="${excludes}"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT Mozilla/gtk/" includes="${includes}" excludes="${excludes}"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT Mozilla/common/" includes="${includes}" excludes="${excludes}"/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/gtk/" includes="${includes}" excludes="${excludes}"/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/glx/" includes="${includes}" excludes="${excludes}"/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/common/" includes="${includes}" excludes="${excludes}"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/cairo/" includes="${includes}" excludes="${excludes}"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/common/" includes="${includes}" excludes="${excludes}"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/common_j2se/" includes="${includes}" excludes="${excludes}"/>
+@@ -138,6 +144,28 @@
+ 		<antcall target="@dot"/>
+ 	</target>
+ 
++    <target name="build.cfiles" depends="init">
++		<mkdir dir="${build.result.folder}/library"/>
++		<copy todir="${build.result.folder}/library">
++			<fileset dir="${plugindir}/Eclipse SWT/common/library"/>
++			<fileset dir="${plugindir}/Eclipse SWT AWT/gtk/library"/>
++			<fileset dir="${plugindir}/Eclipse SWT Mozilla/common/library"/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/glx/library"/>
++			<fileset dir="${plugindir}/Eclipse SWT PI/cairo/library"/>
++			<fileset dir="${plugindir}/Eclipse SWT PI/gtk/library"/>
++			<fileset dir="${plugindir}/Eclipse SWT Program/cde/library"/>
++			<fileset dir="${plugindir}/Eclipse SWT Program/gnome/library"/>
++		</copy>
++	</target>
++
++	<target name="build.jnilibs" depends="build.cfiles">
++		<exec dir="${build.result.folder}/library" executable="sh">
++			<env key="OUTPUT_DIR" value="${build.result.folder}"/>
++			<arg line="${build.result.folder}/library/build.sh"/>
++			<arg line="install"/>
++		</exec>
++	</target>
++
+ 	<target name="src.zip" depends="init" unless="src.zip">
+ 		<mkdir dir="${build.result.folder}/"/>
+ 		<zip zipfile="${build.result.folder}/src.zip">
+@@ -162,13 +190,18 @@
+ 			<fileset dir="${plugindir}/Eclipse SWT Mozilla/common/" includes="**/*.java" excludes=""/>
+ 			<fileset dir="${plugindir}/Eclipse SWT Mozilla/common/library/"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT Mozilla/gtk/" includes="**/*.java" excludes=""/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/gtk/" includes="**/*.java" excludes=""/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/glx/" includes="**/*.java" excludes=""/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/glx/library/"/>
++			<fileset dir="${plugindir}/Eclipse SWT OpenGL/common/" includes="**/*.java" excludes=""/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/cairo/" includes="**/*.java" excludes=""/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/cairo/library/"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/common/" includes="**/*.java" excludes=""/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/common_j2se/" includes="**/*.java" excludes=""/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/common/library/"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT PI/gtk/" includes="**/*.java" excludes=""/>
+-			<fileset dir="${plugindir}/Eclipse SWT PI/gtk/library/"/>
++			<fileset dir="${plugindir}/Eclipse SWT PI/gtk/library/" excludes="**/*.sh"/>
++			<zipfileset filemode="755" dir="${plugindir}/Eclipse SWT PI/gtk/library/" includes="**/*.sh"/>
+ 			<fileset dir="${plugindir}/Eclipse SWT Printing/common/" includes="**/*.java" excludes=""/>
+ 			<fileset dir="${plugindir}/Eclipse SWT Printing/gtk/" includes="**/*.java" excludes=""/>
+ 			<fileset dir="${plugindir}/Eclipse SWT Program/cde/" includes="**/*.java" excludes=""/>
+@@ -196,7 +229,8 @@
+ 		<mkdir dir="${destination.temp.folder}/${full.name}"/>
+ 		<copy file="${build.result.folder}/src.zip" todir="${destination.temp.folder}/${full.name}/"/>
+ 		<copy todir="${destination.temp.folder}/${full.name}">
+-			<fileset dir="${basedir}" includes="about.html,about_files/"/>
++			<fileset dir="${basedir}" includes="about.html"/>
++			<fileset dir="${basedir}" includes="about_files/"/>
+ 		</copy>
+ 	</target>
+ 
+@@ -211,13 +245,15 @@
+ 			<fileset dir="${build.result.folder}/@dot" includes="**"/>
+ 		</copy>
+ 		<copy todir="${destination.temp.folder}/${full.name}">
+-			<fileset dir="${basedir}" includes="fragment.properties,about.html,about_files/,swt*.dll,libswt*.so,libswt*.sl,libswt*.a,libswt*.jnilib,META-INF/"/> 
++			<fileset dir="${basedir}" includes="fragment.properties,swt*.dll,libswt*.so,libswt*.sl,libswt*.a,libswt*.jnilib,libcairo-swt.so,META-INF/"/> 
++			<fileset dir="${basedir}" includes="about.html"/>
++			<fileset dir="${basedir}" includes="about_files/"/>
+ 		</copy>
+-	  	<chmod perm="755" dir="${destination.temp.folder}/${full.name}" includes="swt*.dll,libswt*.so,libswt*.sl,libswt*.a,libswt*.jnilib" />
++	  	<chmod perm="755" dir="${destination.temp.folder}/${full.name}" includes="swt*.dll,libswt*.so,libswt*.sl,libswt*.a,libswt*.jnilib,libcairo-swt.so" />
+ 		<eclipse.versionReplacer path="${destination.temp.folder}/${full.name}" version="${version.suffix}"/>
+ 	</target>
+ 	
+-	<target name="swtdownload" depends="init">	
++	<target name="swtdownload" depends="init">
+ 		<delete dir="${temp.folder}"/>
+ 		<delete dir="${build.result.folder}/@dot"/>   <!-- ensure entry into @dot target -->
+ 		<mkdir dir="${temp.folder}/swtdownload/"/>
+@@ -240,9 +276,7 @@
+ 		<copy file="${plugindir}/build/.classpath" todir="${temp.folder}/swtdownload"/>
+ 		<copy todir="${temp.folder}/swtdownload">
+ 			<fileset dir="${basedir}" includes="about.html,about_files/"/>
+-			<fileset dir="${basedir}" includes="swt*.dll,libswt*.so,libswt*.sl,libswt*.a,libswt*.jnilib,libXm.so.2"/>
+ 		</copy>
+-		<chmod dir="${temp.folder}/swtdownload" perm="755" includes="**/lib*"/>
+ 		<zip zipfile="${destination}/swt-${buildid}-${ws}-${os}-${arch}.zip">
+ 			<zipfileset dir="${temp.folder}/swtdownload/"/>
+ 		</zip>
+diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/.classpath eclipse/plugins/org.eclipse.update.core.solaris/.classpath
+--- eclipse.orig/plugins/org.eclipse.update.core.solaris/.classpath	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.update.core.solaris/.classpath	2007-09-07 21:23:37.563465483 +0700
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<classpath>
++	<classpathentry kind="src" path="src"/>
++	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
++	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
++	<classpathentry kind="output" path="bin"/>
++</classpath>
+diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/.project eclipse/plugins/org.eclipse.update.core.solaris/.project
+--- eclipse.orig/plugins/org.eclipse.update.core.solaris/.project	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.update.core.solaris/.project	2007-09-07 21:23:37.563781907 +0700
+@@ -0,0 +1,33 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>org.eclipse.update.core.linux</name>
++	<comment></comment>
++	<projects>
++		<project>org.eclipse.core.boot</project>
++		<project>org.eclipse.core.runtime</project>
++		<project>org.eclipse.core.runtime.compatibility</project>
++		<project>org.eclipse.update.configurator</project>
++		<project>org.eclipse.update.core</project>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>org.eclipse.jdt.core.javabuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.pde.ManifestBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.pde.SchemaBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>org.eclipse.jdt.core.javanature</nature>
++		<nature>org.eclipse.pde.PluginNature</nature>
++	</natures>
++</projectDescription>
+diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/META-INF/MANIFEST.MF eclipse/plugins/org.eclipse.update.core.solaris/META-INF/MANIFEST.MF
+--- eclipse.orig/plugins/org.eclipse.update.core.solaris/META-INF/MANIFEST.MF	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.update.core.solaris/META-INF/MANIFEST.MF	2007-09-07 21:23:37.564161127 +0700
+@@ -0,0 +1,9 @@
++Manifest-Version: 1.0
++Bundle-ManifestVersion: 2
++Bundle-Name: %fragmentNameSolaris
++Bundle-SymbolicName: org.eclipse.update.core.solaris
++Bundle-Version: 3.2.0.qualifier
++Bundle-Vendor: %providerName
++Fragment-Host: org.eclipse.update.core;bundle-version="[3.0.0,4.0.0)"
++Bundle-Localization: plugin
++Eclipse-PlatformFilter: (osgi.os=solaris)
+diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/about.html eclipse/plugins/org.eclipse.update.core.solaris/about.html
+--- eclipse.orig/plugins/org.eclipse.update.core.solaris/about.html	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.update.core.solaris/about.html	2007-09-07 21:23:37.564453423 +0700
+@@ -0,0 +1,28 @@
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
++    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml">
++<head>
++<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
++<title>About</title>
++</head>
++<body lang="EN-US">
++<h2>About This Content</h2>
++ 
++<p>June 2, 2006</p>	
++<h3>License</h3>
++
++<p>The Eclipse Foundation makes available all content in this plug-in (&quot;Content&quot;).  Unless otherwise 
++indicated below, the Content is provided to you under the terms and conditions of the
++Eclipse Public License Version 1.0 (&quot;EPL&quot;).  A copy of the EPL is available 
++at <a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>.
++For purposes of the EPL, &quot;Program&quot; will mean the Content.</p>
++
++<p>If you did not receive this Content directly from the Eclipse Foundation, the Content is 
++being redistributed by another party (&quot;Redistributor&quot;) and different terms and conditions may
++apply to your use of any object code in the Content.  Check the Redistributor's license that was 
++provided with the Content.  If no such license exists, contact the Redistributor.  Unless otherwise
++indicated below, the terms and conditions of the EPL still apply to any source code in the Content
++and such source code may be obtained at <a href="http://www.eclipse.org">http://www.eclipse.org</a>.</p>
++
++</body>
++</html>
+\ No newline at end of file
+diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/build.properties eclipse/plugins/org.eclipse.update.core.solaris/build.properties
+--- eclipse.orig/plugins/org.eclipse.update.core.solaris/build.properties	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.update.core.solaris/build.properties	2007-09-07 21:23:37.564729762 +0700
+@@ -0,0 +1,16 @@
++###############################################################################
++# Copyright (c) 2000, 2005 IBM Corporation and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Eclipse Public License v1.0
++# which accompanies this distribution, and is available at
++# http://www.eclipse.org/legal/epl-v10.html
++#
++# Contributors:
++#     IBM Corporation - initial API and implementation
++###############################################################################
++bin.includes = os/,\
++               fragment.properties,\
++               about.html,\
++               META-INF/
++src.includes = src/,\
++               about.html
+diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/build.xml eclipse/plugins/org.eclipse.update.core.solaris/build.xml
+--- eclipse.orig/plugins/org.eclipse.update.core.solaris/build.xml	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.update.core.solaris/build.xml	2007-09-07 21:23:37.565188166 +0700
+@@ -0,0 +1,127 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project name="org.eclipse.update.core.solaris" default="build.jars" basedir=".">
++
++	<property name="basews" value="${ws}"/>
++	<property name="baseos" value="${os}"/>
++	<property name="basearch" value="${arch}"/>
++	<property name="basenl" value="${nl}"/>
++	<property name="bundleId" value="org.eclipse.update.core.solaris"/>
++	<property name="bundleVersion" value="3.2.0.v20070615"/>
++
++	<!-- Compiler settings. -->
++	<property name="javacFailOnError" value="false"/>
++	<property name="javacDebugInfo" value="on"/>
++	<property name="javacVerbose" value="false"/>
++	<property name="logExtension" value=".log"/>
++	<property name="compilerArg" value=""/>
++	<property name="javacSource" value="1.3"/>
++	<property name="javacTarget" value="1.2"/>
++	<condition property="dir_bootclasspath" value="${java.home}/../Classes">
++		<os family="mac"/>
++	</condition>
++	<property name="dir_bootclasspath" value="${java.home}/lib"/>
++	<path id="path_bootclasspath">
++		<fileset dir="${dir_bootclasspath}">
++			<include name="*.jar"/>
++		</fileset>
++	</path>
++	<property name="bootclasspath" refid="path_bootclasspath"/>
++	<property name="bundleJavacSource" value="${javacSource}"/>
++	<property name="bundleJavacTarget" value="${javacTarget}"/>
++	<property name="bundleBootClasspath" value="${bootclasspath}"/>
++
++	<target name="init" depends="properties">
++		<condition property="pluginTemp" value="${buildTempFolder}/plugins">
++			<isset property="buildTempFolder"/>
++		</condition>
++		<property name="pluginTemp" value="${basedir}"/>
++		<condition property="build.result.folder" value="${pluginTemp}/org.eclipse.update.core.solaris_3.2.0.v20070615">
++			<isset property="buildTempFolder"/>
++		</condition>
++		<property name="build.result.folder" value="${basedir}"/>
++		<property name="temp.folder" value="${basedir}/temp.folder"/>
++		<property name="plugin.destination" value="${basedir}"/>
++	</target>
++
++	<target name="properties" if="eclipse.running">
++		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
++
++	</target>
++
++	<target name="build.update.jar" depends="init" description="Build the plug-in: org.eclipse.update.core.solaris for an update site.">
++		<delete dir="${temp.folder}"/>
++		<mkdir dir="${temp.folder}"/>
++		<antcall target="build.jars"/>
++		<antcall target="gather.bin.parts">
++			<param name="destination.temp.folder" value="${temp.folder}/"/>
++		</antcall>
++		<jar destfile="${plugin.destination}/org.eclipse.update.core.solaris_3.2.0.v20070615.jar" basedir="${temp.folder}/org.eclipse.update.core.solaris_3.2.0.v20070615" filesetmanifest="merge"/>
++		<delete dir="${temp.folder}"/>
++	</target>
++
++	<target name="build.jars" depends="init" description="Compile classes and build nested jars for the plug-in: org.eclipse.update.core.solaris.">
++	</target>
++
++	<target name="build.sources" depends="init">
++	</target>
++
++	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
++		<mkdir dir="${destination.temp.folder}/org.eclipse.update.core.solaris_3.2.0.v20070615"/>
++		<copy todir="${destination.temp.folder}/org.eclipse.update.core.solaris_3.2.0.v20070615" failonerror="true" overwrite="false">
++			<fileset dir="${basedir}">
++				<include name="os/"/>
++				<include name="fragment.properties"/>
++				<include name="about.html"/>
++				<include name="META-INF/"/>
++			</fileset>
++		</copy>
++		<eclipse.versionReplacer path="${destination.temp.folder}/org.eclipse.update.core.solaris_3.2.0.v20070615" version="3.2.0.v20070615"/>
++	</target>
++
++	<target name="build.zips" depends="init">
++	</target>
++
++	<target name="gather.sources" depends="init" if="destination.temp.folder">
++		<copy todir="${destination.temp.folder}/org.eclipse.update.core.solaris_3.2.0.v20070615" failonerror="false" overwrite="false">
++			<fileset dir="${basedir}">
++				<include name="src/"/>
++				<include name="about.html"/>
++			</fileset>
++		</copy>
++	</target>
++
++	<target name="gather.logs" depends="init" if="destination.temp.folder">
++	</target>
++
++	<target name="clean" depends="init" description="Clean the plug-in: org.eclipse.update.core.solaris of all the zips, jars and logs created.">
++		<delete file="${plugin.destination}/org.eclipse.update.core.solaris_3.2.0.v20070615.jar"/>
++		<delete file="${plugin.destination}/org.eclipse.update.core.solaris_3.2.0.v20070615.zip"/>
++		<delete dir="${temp.folder}"/>
++	</target>
++
++	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
++		<eclipse.convertPath fileSystemPath="/builds/I/src/plugins/org.eclipse.update.core.solaris" property="resourcePath"/>
++		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
++	</target>
++
++	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: org.eclipse.update.core.solaris.">
++		<delete dir="${temp.folder}"/>
++		<mkdir dir="${temp.folder}"/>
++		<antcall target="build.jars"/>
++		<antcall target="build.sources"/>
++		<antcall target="gather.bin.parts">
++			<param name="destination.temp.folder" value="${temp.folder}/"/>
++		</antcall>
++		<antcall target="gather.sources">
++			<param name="destination.temp.folder" value="${temp.folder}/"/>
++		</antcall>
++		<delete>
++			<fileset dir="${temp.folder}">
++				<include name="**/*.bin${logExtension}"/>
++			</fileset>
++		</delete>
++		<zip destfile="${plugin.destination}/org.eclipse.update.core.solaris_3.2.0.v20070615.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
++		<delete dir="${temp.folder}"/>
++	</target>
++
++</project>
+diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/src/build.xml eclipse/plugins/org.eclipse.update.core.solaris/src/build.xml
+--- eclipse.orig/plugins/org.eclipse.update.core.solaris/src/build.xml	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.update.core.solaris/src/build.xml	2007-09-07 21:23:37.565599247 +0700
+@@ -0,0 +1,69 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project name="buildlibrary" default="run" basedir="."> 
++  
++  <!-- The properties ${eclipse-home} ${jdk-path} should be passed into this script -->
++  <!-- Set a meaningful default value for when it is not. -->
++  <property name="eclipse-home" value="${basedir}/../.."/>
++  <property name="jdk-path" value="${java.home}"/>  
++  <property name="destination" value="${eclipse-home}/org.eclipse.update.core.solaris/os/solaris/${installArch}/"/>
++  <property name="obj-path" value="${eclipse-home}/org.eclipse.update.core.solaris/src/"/>
++  <property name="src-path" value="${eclipse-home}/org.eclipse.update.core.solaris/src/"/>  
++  
++  <!-- sets the properties -->
++  <property name="library-name" value="libupdate"/>  
++  <property name="library-platform" value="so"/>    
++  <property name="library-file" value="${library-name}.${library-platform}"/>
++  
++  <!-- This target holds all initialization code that needs to be done for -->
++  <!-- all tests that are to be run. Initialization for individual tests -->
++  <!-- should be done within the body of the suite target. -->
++  <target name="init">
++    <tstamp/>
++    <delete>
++      <fileset dir="${obj-path}" includes="${library-file}"/>
++      <fileset dir="${obj-path}" includes="${library-name}.o"/>
++    </delete>
++  </target>
++  
++  <!-- This target holds code to cleanup the testing environment after -->
++  <!-- after all of the tests have been run. You can use this target to -->
++  <!-- delete temporary files that have been created. -->
++  <target name="cleanup">
++      <delete>
++      <fileset dir="${obj-path}" includes="${library-file}"/>
++      <fileset dir="${obj-path}" includes="${library-name}.o"/>
++    </delete>
++  </target>
++  
++  
++  <!-- This target runs the build. -->
++  <target name="run" depends="init,build,cleanup">
++  </target>
++  
++  <!-- This target build the library -->
++  <target name="build">
++    <echo message="Building ${library-file}"/>
++
++    <property name="header-path" value="${jdk-path}/../include"/>
++    <property name="header-solaris-path" value="${header-path}/solaris" />
++
++	<echo message="cc -o  ${library-file} -Wl,-G -I${src-path} -I${header-solaris-path} -KPIC ${library-file}"/>
++
++    <apply executable="cc" dest="${eclipse-home}/" parallel="false">
++      <arg value="-o"/>
++      <arg value="${library-file}"/>
++      <arg value="-Wl,-G"/>
++      <arg value="-I${src-path}"/>
++      <arg value="-I${header-path}"/>      
++      <arg value="-I${header-solaris-path}"/>
++      <arg value="-KPIC"/>
++	  <srcfile/>
++      <fileset dir="${src-path}" includes="*.c"/>
++      <mapper type="glob" from="*.c" to="*.o"/>
++    </apply>
++    
++	<move file="${library-file}" todir="${destination}"/>
++  </target>
++  
++  
++</project>
+diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/src/update.c eclipse/plugins/org.eclipse.update.core.solaris/src/update.c
+--- eclipse.orig/plugins/org.eclipse.update.core.solaris/src/update.c	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.update.core.solaris/src/update.c	2007-09-07 21:23:37.566005483 +0700
+@@ -0,0 +1,164 @@
++/**********************************************************************
++ * Copyright (c) 2000, 2005 IBM Corporation and others.
++ * All rights reserved. This program and the accompanying materials
++ * are made available under the terms of the Eclipse Public License v1.0
++ * which accompanies this distribution, and is available at
++ * http://www.eclipse.org/legal/epl-v10.html
++ *
++ * Contributors:
++ *    IBM Corporation - Initial API and implementation
++ **********************************************************************/
++
++/* bug 82520 : need to include stdlib.h */
++# include <stdlib.h>
++# include <sys/types.h>
++# include <sys/statfs.h>
++# include <update.h>
++
++/*
++ * Class:     org_eclipse_update_configuration_LocalSystemInfo
++ * Method:    nativeGetFreeSpace
++ * Signature: (Ljava/io/File;)J
++ */
++JNIEXPORT jlong JNICALL Java_org_eclipse_update_configuration_LocalSystemInfo_nativeGetFreeSpace(
++	JNIEnv * jnienv,
++	jclass javaClass,
++	jobject file) {
++
++	// to retrive the String
++	jclass cls;
++	jmethodID id;
++	jobject obj;
++
++	// java.io.File.getAbsolutePath()
++	const char * lpDirectoryName;
++
++	// Linux Parameters
++	struct statfs buffer;
++
++	// the result
++	jlong result = org_eclipse_update_configuration_LocalSystemInfo_SIZE_UNKNOWN;
++
++	cls = (*jnienv) -> GetObjectClass(jnienv, file);
++	id = (*jnienv) -> GetMethodID(jnienv, cls, "getAbsolutePath", "()Ljava/lang/String;");
++	obj = (*jnienv) -> CallObjectMethod(jnienv, file, id);
++	lpDirectoryName = (*jnienv) -> GetStringUTFChars(jnienv, (jstring) obj, 0);
++
++	// cast one argument as jlong to have a jlong result
++	int err = statfs(lpDirectoryName,&buffer,sizeof(struct statfs),0);
++	if (err==0){
++		long size = buffer.f_bsize;
++		jlong free = buffer.f_bfree;
++		result = size*free;
++	}
++
++	return result;
++}
++
++/*
++ * Class:     org_eclipse_update_configuration_LocalSystemInfo
++ * Method:    nativeGetLabel
++ * Signature: (Ljava/io/File;)Ljava/lang/String;
++ */
++JNIEXPORT jstring JNICALL Java_org_eclipse_update_configuration_LocalSystemInfo_nativeGetLabel(
++	JNIEnv * jnienv,
++	jclass javaClass,
++	jobject file) {
++
++	// to retrive the String
++	jclass cls;
++	jmethodID id;
++	jobject obj;
++
++	// java.io.File.getAbsolutePath()
++	const char * lpDirectoryName;
++
++	// obtain the String from the parameter
++	cls = (*jnienv) -> GetObjectClass(jnienv, file);
++	id = (*jnienv) -> GetMethodID(jnienv, cls, "getAbsolutePath", "()Ljava/lang/String;");
++	obj = (*jnienv) -> CallObjectMethod(jnienv, file, id);
++	lpDirectoryName = (*jnienv) -> GetStringUTFChars(jnienv, (jstring) obj, 0);
++
++	jstring result = NULL;
++
++	// Linux implementation following
++
++	return result;
++}
++
++/*
++ * Class:     org_eclipse_update_configuration_LocalSystemInfo
++ * Method:    nativeGetType
++ * Signature: (Ljava/io/File;)I
++ */
++JNIEXPORT jint JNICALL Java_org_eclipse_update_configuration_LocalSystemInfo_nativeGetType(
++	JNIEnv * jnienv,
++	jclass javaClass,
++	jobject file) {
++
++	// to retrive the String
++	jclass cls;
++	jmethodID id;
++	jobject obj;
++
++	// java.io.File.getAbsolutePath()
++	const char * lpDirectoryName;
++
++	// obtain the String from the parameter
++	cls = (*jnienv) -> GetObjectClass(jnienv, file);
++	id = (*jnienv) -> GetMethodID(jnienv, cls, "getAbsolutePath", "()Ljava/lang/String;");
++	obj = (*jnienv) -> CallObjectMethod(jnienv, file, id);
++	lpDirectoryName = (*jnienv) -> GetStringUTFChars(jnienv, (jstring) obj, 0);
++
++	int result;
++	
++	// Linux implemantation
++
++	result = org_eclipse_update_configuration_LocalSystemInfo_VOLUME_INVALID_PATH;
++	return result;
++}
++
++/*
++ * Class:     org_eclipse_update_configuration_LocalSystemInfo
++ * Method:    nativeListMountPoints
++ * Signature: ()[Ljava/lang/String;
++ */
++JNIEXPORT jobjectArray JNICALL Java_org_eclipse_update_configuration_LocalSystemInfo_nativeListMountPoints(
++	JNIEnv * jnienv,
++	jclass javaClass) {
++
++	//
++	int drive;
++	char driveName[100];
++	jobjectArray returnArray;
++	int nDrive = 0;
++
++	// 
++	jclass stringClass;
++	jobject empty;
++	int index = 0;
++	jobject str;
++
++	// Linux implementation
++	// find mount points
++
++	drive = 0;
++	stringClass = (*jnienv) -> FindClass(jnienv, "java/lang/String");
++	empty = (*jnienv) -> NewStringUTF(jnienv, "");
++	//returnArray = (*jnienv) -> NewObjectArray(jnienv, nDrive, stringClass, empty);
++
++	// for now return null as method is not implemented
++	returnArray = NULL;
++
++	int i;
++	for (i = 0; i < drive; i++) {
++		// Linux implementation, create String for each mount point
++
++		str = (*jnienv) -> NewStringUTF(jnienv, driveName);
++		(*jnienv) -> SetObjectArrayElement(jnienv, returnArray, index, str);
++
++		index++;
++	}
++
++	return returnArray;
++}
+diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/src/update.h eclipse/plugins/org.eclipse.update.core.solaris/src/update.h
+--- eclipse.orig/plugins/org.eclipse.update.core.solaris/src/update.h	1970-01-01 07:00:00.000000000 +0700
++++ eclipse/plugins/org.eclipse.update.core.solaris/src/update.h	2007-09-07 21:23:37.566320409 +0700
+@@ -0,0 +1,76 @@
++/* DO NOT EDIT THIS FILE - it is machine generated */
++
++/**********************************************************************
++ * Copyright (c) 2000, 2005 IBM Corporation and others.
++ * All rights reserved. This program and the accompanying materials
++ * are made available under the terms of the Eclipse Public License v1.0
++ * which accompanies this distribution, and is available at
++ * http://www.eclipse.org/legal/epl-v10.html
++ *
++ * Contributors:
++ *    IBM Corporation - Initial API and implementation
++ **********************************************************************/
++ 
++#include <jni.h>
++/* Header for class org_eclipse_update_configuration_LocalSystemInfo */
++
++#ifndef _Included_org_eclipse_update_configuration_LocalSystemInfo
++#define _Included_org_eclipse_update_configuration_LocalSystemInfo
++#ifdef __cplusplus
++extern "C" {
++#endif
++#undef org_eclipse_update_configuration_LocalSystemInfo_SIZE_UNKNOWN
++#define org_eclipse_update_configuration_LocalSystemInfo_SIZE_UNKNOWN -1L
++#undef org_eclipse_update_configuration_LocalSystemInfo_VOLUME_UNKNOWN
++#define org_eclipse_update_configuration_LocalSystemInfo_VOLUME_UNKNOWN -1L
++#undef org_eclipse_update_configuration_LocalSystemInfo_VOLUME_INVALID_PATH
++#define org_eclipse_update_configuration_LocalSystemInfo_VOLUME_INVALID_PATH -2L
++#undef org_eclipse_update_configuration_LocalSystemInfo_VOLUME_REMOVABLE
++#define org_eclipse_update_configuration_LocalSystemInfo_VOLUME_REMOVABLE 1L
++#undef org_eclipse_update_configuration_LocalSystemInfo_VOLUME_FIXED
++#define org_eclipse_update_configuration_LocalSystemInfo_VOLUME_FIXED 2L
++#undef org_eclipse_update_configuration_LocalSystemInfo_VOLUME_REMOTE
++#define org_eclipse_update_configuration_LocalSystemInfo_VOLUME_REMOTE 3L
++#undef org_eclipse_update_configuration_LocalSystemInfo_VOLUME_CDROM
++#define org_eclipse_update_configuration_LocalSystemInfo_VOLUME_CDROM 4L
++#undef org_eclipse_update_configuration_LocalSystemInfo_VOLUME_RAMDISK
++#define org_eclipse_update_configuration_LocalSystemInfo_VOLUME_RAMDISK 5L
++/* Inaccessible static: listeners */
++/* Inaccessible static: hasNatives */
++/*
++ * Class:     org_eclipse_update_configuration_LocalSystemInfo
++ * Method:    nativeGetFreeSpace
++ * Signature: (Ljava/io/File;)J
++ */
++JNIEXPORT jlong JNICALL Java_org_eclipse_update_configuration_LocalSystemInfo_nativeGetFreeSpace
++  (JNIEnv *, jclass, jobject);
++
++/*
++ * Class:     org_eclipse_update_configuration_LocalSystemInfo
++ * Method:    nativeGetLabel
++ * Signature: (Ljava/io/File;)Ljava/lang/String;
++ */
++JNIEXPORT jstring JNICALL Java_org_eclipse_update_configuration_LocalSystemInfo_nativeGetLabel
++  (JNIEnv *, jclass, jobject);
++
++/*
++ * Class:     org_eclipse_update_configuration_LocalSystemInfo
++ * Method:    nativeGetType
++ * Signature: (Ljava/io/File;)I
++ */
++JNIEXPORT jint JNICALL Java_org_eclipse_update_configuration_LocalSystemInfo_nativeGetType
++  (JNIEnv *, jclass, jobject);
++
++/*
++ * Class:     org_eclipse_update_configuration_LocalSystemInfo
++ * Method:    nativeListMountPoints
++ * Signature: ()[Ljava/lang/String;
++ */
++JNIEXPORT jobjectArray JNICALL Java_org_eclipse_update_configuration_LocalSystemInfo_nativeListMountPoints
++  (JNIEnv *, jclass);
++
++#ifdef __cplusplus
++}
++
++#endif
++#endif

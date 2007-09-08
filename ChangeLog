@@ -1,3 +1,17 @@
+2007-09-08  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEeclipse.spec: *NEW* Eclipse IDE
+	* SFEgiflib.spec: *NEW* GIF Library
+	* base-specs/giflib.spec: base spec
+	* base-specs/eclipse.spec: base spec
+	* patches/eclipse-02-solaris.diff: Solaris x86 mods
+	* patches/eclipse-01-make.diff: gcc -> SS12
+	* patches/giflib-03-wall.diff: remove -Wall
+	* patches/giflib-04-u_int.diff: add u_intXX_t types
+	* patches/giflib-01-configure.diff: configure additions
+	* patches/giflib-02-giftext-segfault.diff: segfault patch from PLD
+	* include/eclipse.desktop: Eclipse .desktop file
+
 2007-09-06  Petr Sobotka  sobotkap@centrum.cz
 
 	* SFEheroes.spec: Repair dependency on sdl-mixer

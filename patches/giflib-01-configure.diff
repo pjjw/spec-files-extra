@@ -1,0 +1,40 @@
+diff -ur giflib-4.1.4.orig/configure.ac giflib-4.1.4/configure.ac
+--- giflib-4.1.4.orig/configure.ac	2005-10-10 13:22:20.000000000 +0700
++++ giflib-4.1.4/configure.ac	2007-09-06 11:24:47.602761795 +0700
+@@ -14,6 +14,27 @@
+ 
+ AC_PATH_XTRA
+ 
++AC_MSG_CHECKING([if inttypes has u_int32_t etc])
++AC_COMPILE_IFELSE(
++    [AC_LANG_PROGRAM(
++        [[
++#if HAVE_SYS_TYPES_H
++#include <sys/types.h>
++#endif
++#if HAVE_INTTYPES_H
++#include <inttypes.h>
++#endif
++#if HAVE_UNISTD_H
++#include <unistd.h>
++#endif
++        ]],[[
++    u_int32_t  s;
++    sleep((unsigned int)s);
++        ]]
++    )],
++    [AC_DEFINE(HAVE_U_INT_TYPES, 1, [Define to 1 if have u_int32_t types etc])
++    AC_MSG_RESULT(yes)],[AC_MSG_RESULT(no)])
++
+ dnl Checks for libraries.
+ 
+     AC_CHECK_LIB(m, pow, [MATH_LIB="${MATH_LIB} -lm"
+@@ -31,7 +52,7 @@
+                              AC_DEFINE(HAVE_LIBGL_S, [1], [Define if the gl_s library is installed (SGI GL library)])
+                  COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2iris"],, $X_LIBS)
+ 
+-    AC_CHECK_LIB(X11, main, [X11_LIB="${X11_LIB} ${X_PRE_LIBS} $X_LIBS ${X_EXTRA_LIBS} -lX11"
++    AC_CHECK_LIB(X11, main, [X11_LIB="${X11_LIB} $X_LIBS ${X_EXTRA_LIBS} -lX11"
+                              AC_DEFINE(HAVE_LIBX11, [1], [Define if the X11 library is installed])
+                  COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2x11"],, $X_LIBS)
+     DEVS="${GL_S_LIB} ${X11_LIB}" 

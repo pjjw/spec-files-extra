@@ -1,0 +1,12 @@
+diff -ur giflib-4.1.4.orig/util/giftext.c giflib-4.1.4/util/giftext.c
+--- giflib-4.1.4.orig/util/giftext.c	2005-10-10 13:22:23.000000000 +0700
++++ giflib-4.1.4/util/giftext.c	2007-09-06 11:09:25.645411558 +0700
+@@ -135,7 +135,7 @@
+ 	       GifFileName, GifFile->SWidth, GifFile->SHeight);
+ 	printf("\tColorResolution = %d, BitsPerPixel = %d, BackGround = %d.\n",
+ 	       GifFile->SColorResolution,
+-	       GifFile->SColorMap->BitsPerPixel,
++	       GifFile->SColorMap?GifFile->SColorMap->BitsPerPixel:0,
+ 	       GifFile->SBackGroundColor);
+ 	if (GifFile->SColorMap)
+ 	    printf("\tHas Global Color Map.\n\n");

@@ -1,0 +1,21 @@
+diff -ur giflib-4.1.4.orig/lib/Makefile.am giflib-4.1.4/lib/Makefile.am
+--- giflib-4.1.4.orig/lib/Makefile.am	2005-10-10 13:22:22.000000000 +0700
++++ giflib-4.1.4/lib/Makefile.am	2007-09-06 11:15:07.500837936 +0700
+@@ -23,4 +23,4 @@
+ 
+ libgif_la_LDFLAGS = -version-info 5:4:1
+ libgif_la_LIBADD = @DEVS@
+-AM_CFLAGS = @CFLAGS@ $(X_CFLAGS) -Wall
++AM_CFLAGS = @CFLAGS@ $(X_CFLAGS)
+diff -ur giflib-4.1.4.orig/util/Makefile.am giflib-4.1.4/util/Makefile.am
+--- giflib-4.1.4.orig/util/Makefile.am	2005-10-10 13:22:23.000000000 +0700
++++ giflib-4.1.4/util/Makefile.am	2007-09-06 11:14:51.324490493 +0700
+@@ -9,7 +9,7 @@
+ EXTRA_DIST=Makefile.unx $(bin_SCRIPTS)
+ 
+ LDADD = ../lib/libgif.la ../lib/libgetarg.a
+-AM_CFLAGS = @CFLAGS@ $(X_CFLAGS) -Wall
++AM_CFLAGS = @CFLAGS@ $(X_CFLAGS)
+ 
+ AM_CPPFLAGS = -I. -I.. -I$(top_srcdir)/lib
+ 

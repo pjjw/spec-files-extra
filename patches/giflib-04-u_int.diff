@@ -1,0 +1,18 @@
+--- giflib-4.1.4/lib/gif_hash.h.orig	2007-09-06 11:28:07.104671651 +0700
++++ giflib-4.1.4/lib/gif_hash.h	2007-09-06 11:28:50.701498713 +0700
+@@ -24,6 +24,15 @@
+ #ifdef HAVE_BASETSD_H
+ #include <basetsd.h>
+ #endif
++#ifdef HAVE_INTTYPES_H
++#include <inttypes.h>
++#endif
++#ifndef HAVE_U_INT_TYPES
++typedef uint8_t u_int8_t;
++typedef uint16_t u_int16_t;
++typedef uint32_t u_int32_t;
++typedef uint64_t u_int64_t;
++#endif
+ 
+ #define HT_SIZE			8192	   /* 12bits = 4096 or twice as big! */
+ #define HT_KEY_MASK		0x1FFF			      /* 13bits keys */
