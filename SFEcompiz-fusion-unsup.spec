@@ -85,7 +85,7 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/omf/*/*-[a-z]*.omf
 %endif
 
 %post root 
-GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source` gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/compiz-fakeargb.schemas \  
+GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source` gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/compiz-fakeargb.schemas \
 											   %{_sysconfdir}/gconf/schemas/compiz-mswitch.schemas \
 											   %{_sysconfdir}/gconf/schemas/compiz-snow.schemas \
 											   %{_sysconfdir}/gconf/schemas/compiz-tile.schemas
@@ -117,6 +117,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Sep 08 2007 - trisk@acm.jhu.edu
+- Typo fix
 * Fri Sep 07 2007 - trisk@acm.jhu.edu
 - Fix rules
 * Wed Aug 29 2007 - erwann@sun.com

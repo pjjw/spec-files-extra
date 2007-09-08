@@ -1,4 +1,9 @@
 2007-09-08  Albert Lee  <trisk@acm.jhu.edu>
+	* SFEcompiz-fusion-unsup.spec: Typo fix
+	* SFEcompizconfig-gconf.spec: Rename to match package name
+	* SFEcompizconfig-backend-gconf.spec: Removed
+
+2007-09-08  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEcompiz-bcop.spec: Change XSLT for plugins
 	* SFEcompiz-fusion-extra.spec: Fix rules
