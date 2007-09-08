@@ -1,4 +1,8 @@
 2007-09-08  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEccsm.spec: Correct rules, remove -root, fix Python library location
+
+2007-09-08  Albert Lee  <trisk@acm.jhu.edu>
 	* SFEcompiz-fusion-unsup.spec: Typo fix
 	* SFEcompizconfig-gconf.spec: Rename to match package name
 	* SFEcompizconfig-backend-gconf.spec: Removed
