@@ -53,6 +53,7 @@ export JAVA_HOME=/usr/java
 export CDE_HOME=/usr/dt
 %define _desktopdir %{_datadir}/applications
 %define _pixmapsdir %{_datadir}/pixmaps
+%define _javadir %{_datadir}/java
 
 install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_bindir},%{_libdir}/%{name}}
 # place for arch independent plugins
@@ -62,13 +63,17 @@ install -d $RPM_BUILD_ROOT%{_datadir}/%{name}/{features,plugins}
   cd swttmp && bash build.sh 
   cp lib*.so* $RPM_BUILD_ROOT%{_libdir}
 )
-
 install plugins/org.eclipse.core.filesystem/natives/unix/solaris/lib*.so $RPM_BUILD_ROOT%{_libdir}/%{name}
 
 find plugins/org.eclipse.update.core.solaris -name lib\*.so -exec cp {} $RPM_BUILD_ROOT%{_libdir}/%{name} \;
 
 ./build -os solaris -ws gtk -arch %{_eclipse_arch} -target install
 gtar xfz result/solaris-gtk-%{_eclipse_arch}-sdk.tar.gz -C $RPM_BUILD_ROOT%{_libdir} 
+install -d $RPM_BUILD_ROOT%{_javadir}
+(
+  cd $RPM_BUILD_ROOT%{_javadir}
+  ln -s %{_libdir}/%{name}/org.eclipse.swt.gtk.solaris.*.jar swt.jar
+)
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 
 
@@ -90,5 +95,7 @@ install -D features/org.eclipse.equinox.executable/bin/gtk/solaris/x86/icon.xpm 
 chmod 755 $RPM_BUILD_ROOT%{_libdir}/eclipse/eclipse
 
 %changelog
+* Sat Sep  8 2007 - dougs@truemail.co.th
+- Added swt.jar
 * Sat Sep  8 2007 - dougs@truemail.co.th
 - Initial base spec file

@@ -52,7 +52,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
 %{_datadir}/eclipse
+%{_datadir}/java
 
 %changelog
+* Sat Sep  8 2007 - dougs@truemail.co.th
+- Added swt.jar
 * Sat Sep  8 2007 - dougs@truemail.co.th
 - Initial version

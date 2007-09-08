@@ -1,5 +1,19 @@
 2007-09-08  Doug Scott  <dougs@truemail.co.th>
 
+	* SFEjunit.spec: *NEW* Java regression testing framework
+	* SFEazureus.spec: *NEW* bittorrent client
+	* SFEeclipse.spec: Added swt.jar link
+	* SFEjakarta-commons-cli.spec: *NEW* Java command line API
+	* SFElogging-log4j.spec: *NEW* logging for Java
+	* base-specs/eclipse.spec: Added swt.jar link
+	* patches/azureus-02-unixonly.diff: Remove osx and win32 stuff
+	* patches/azureus-01-buildfile.diff: configure build.xml
+	* include/azureus.png: icon 
+	* include/azureus.desktop: .desktop file
+	* include/azureus.sh: Startup script
+
+2007-09-08  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEeclipse.spec: *NEW* Eclipse IDE
 	* SFEgiflib.spec: *NEW* GIF Library
 	* base-specs/giflib.spec: base spec

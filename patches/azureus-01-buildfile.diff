@@ -1,0 +1,30 @@
+--- SFEazureus-3.0.2.2/build.xml.orig	2007-09-08 16:03:30.296866485 +0700
++++ SFEazureus-3.0.2.2/build.xml	2007-09-08 16:06:25.235727369 +0700
+@@ -29,17 +29,23 @@
+          <fileset dir="${root.dir}/${libs.dir}" includes="**/*.jar" />
+       </path>
+    
+-   	<javac srcdir="${root.dir}" destdir="${root.dir}" nowarn="yes" source="1.4" target="1.4" includeAntRuntime="no" debug="true" debuglevel="lines,vars,source" >
+-         <classpath refid="libs.classpath" />
++   	<javac srcdir="${root.dir}" destdir="${root.dir}" nowarn="yes" source="1.5" target="1.5" includeAntRuntime="no" debug="true" debuglevel="lines,vars,source" >
++         <classpath>
++            <pathelement location="/usr/share/java/swt.jar"/>
++            <pathelement location="/usr/share/java/commons-cli.jar"/>
++            <pathelement location="/usr/share/java/log4j.jar"/>
++            <pathelement location="/usr/share/java/junit.jar"/>
++         </classpath>
++
+       </javac>
+    </target>
+ 
+ 
+    <target name="jar" depends="compile" >
+-      <jar destfile="${root.dir}/${dist.dir}/Azureus2.jar" basedir="${root.dir}" excludes="${dist.jar.excludes}" >
++      <jar destfile="${root.dir}/${dist.dir}/Azureus.jar" basedir="${root.dir}" excludes="${dist.jar.excludes}" >
+          <manifest>
+             <attribute name="Main-Class" value="org.gudy.azureus2.ui.common.Main" />
+-            <attribute name="Class-Path" value="Azureus2.jar apple-extensions.jar commons-cli.jar log4j.jar swt.jar swt-win32.jar swt-osx.jar" />
++            <attribute name="Class-Path" value="Azureus.jar commons-cli.jar log4j.jar swt.jar" />
+          </manifest>
+       </jar>
+       
