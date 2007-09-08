@@ -1,0 +1,20 @@
+--- monodevelop-0.15.orig/configure.in	2007年  7月 31日 二 13:56:11
++++ monodevelop-0.15/configure.in	2007年  9月  2日 日 23:37:22
+@@ -189,7 +189,7 @@
+ 		[enable MonoQuery support [default=auto]]),
+ 		enable_monoquery=${enableval}, enable_monoquery=yes)
+ 
+-SQL_PROVIDER_ATTRIBUTES="[[XmlInclude (typeof (FirebirdDbProvider))]\n\t[XmlInclude (typeof (OdbcDbProvider))]]"
++SQL_PROVIDER_ATTRIBUTES="[[XmlInclude (typeof (FirebirdDbProvider))]	[XmlInclude (typeof (OdbcDbProvider))]]"
+ monoquery_avail=0
+ enable_postgres=no
+ enable_mysql=no
+@@ -220,7 +221,7 @@
+       if test $? -eq 0; then
+ 	 my_ac_conftest_result="yes"
+ 	 monoquery_avail=`expr $monoquery_avail + 1`
+-	 SQL_PROVIDER_ATTRIBUTES="[$SQL_PROVIDER_ATTRIBUTES\n\t[XmlInclude (typeof (${Dbase}DbProvider))]]"
++	 SQL_PROVIDER_ATTRIBUTES="[$SQL_PROVIDER_ATTRIBUTES	[XmlInclude (typeof (${Dbase}DbProvider))]]"
+       else
+          my_ac_conftest_result="no"
+       fi

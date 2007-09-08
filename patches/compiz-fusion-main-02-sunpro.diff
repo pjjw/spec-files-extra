@@ -1,0 +1,123 @@
+--- compiz-fusion-plugins-main-0.5.2.orig/src/neg/neg_options.c	2007年  9月  7日 五 13:24:04
++++ compiz-fusion-plugins-main-0.5.2/src/neg/neg_options.c	2007年  9月  7日 五 13:27:08
+@@ -277,8 +277,10 @@
+ 
+ static void negOptionsFiniScreen (CompPlugin *p, CompScreen *s)
+ {
+-    if (negPluginVTable && negPluginVTable->finiScreen)
+-        return negPluginVTable->finiScreen (p, s);
++    if (negPluginVTable && negPluginVTable->finiScreen) {
++        negPluginVTable->finiScreen (p, s);
++        return;
++    }
+ 
+     NEG_OPTIONS_SCREEN (s);
+ 
+@@ -318,8 +320,10 @@
+ 
+ static void negOptionsFiniDisplay (CompPlugin *p, CompDisplay *d)
+ {
+-    if (negPluginVTable && negPluginVTable->finiDisplay)
+-        return negPluginVTable->finiDisplay (p, d);
++    if (negPluginVTable && negPluginVTable->finiDisplay) {
++        negPluginVTable->finiDisplay (p, d);
++        return;
++    }
+ 
+     NEG_OPTIONS_DISPLAY (d);
+ 
+@@ -347,8 +351,10 @@
+ 
+ static void negOptionsFini (CompPlugin *p)
+ {
+-    if (negPluginVTable && negPluginVTable->fini)
+-        return negPluginVTable->fini (p);
++    if (negPluginVTable && negPluginVTable->fini) {
++        negPluginVTable->fini (p);
++        return;
++    }
+ 
+     if (displayPrivateIndex >= 0)
+         freeDisplayPrivateIndex(displayPrivateIndex);
+--- compiz-fusion-plugins-main-0.5.2.orig/src/opacify/opacify_options.c	2007年  9月  7日 五 19:11:09
++++ compiz-fusion-plugins-main-0.5.2/src/opacify/opacify_options.c	2007年  9月  7日 五 19:11:35
+@@ -427,8 +427,10 @@
+ 
+ static void opacifyOptionsFiniScreen (CompPlugin *p, CompScreen *s)
+ {
+-    if (opacifyPluginVTable && opacifyPluginVTable->finiScreen)
+-        return opacifyPluginVTable->finiScreen (p, s);
++    if (opacifyPluginVTable && opacifyPluginVTable->finiScreen) {
++        opacifyPluginVTable->finiScreen (p, s);
++        return;
++    }
+ 
+     OPACIFY_OPTIONS_SCREEN (s);
+ 
+@@ -468,8 +470,10 @@
+ 
+ static void opacifyOptionsFiniDisplay (CompPlugin *p, CompDisplay *d)
+ {
+-    if (opacifyPluginVTable && opacifyPluginVTable->finiDisplay)
+-        return opacifyPluginVTable->finiDisplay (p, d);
++    if (opacifyPluginVTable && opacifyPluginVTable->finiDisplay) {
++        opacifyPluginVTable->finiDisplay (p, d);
++        return;
++    }
+ 
+     OPACIFY_OPTIONS_DISPLAY (d);
+ 
+@@ -497,8 +501,10 @@
+ 
+ static void opacifyOptionsFini (CompPlugin *p)
+ {
+-    if (opacifyPluginVTable && opacifyPluginVTable->fini)
+-        return opacifyPluginVTable->fini (p);
++    if (opacifyPluginVTable && opacifyPluginVTable->fini) {
++        opacifyPluginVTable->fini (p);
++        return;
++    }
+ 
+     if (displayPrivateIndex >= 0)
+         freeDisplayPrivateIndex(displayPrivateIndex);
+--- compiz-fusion-plugins-main-0.5.2.orig/src/thumbnail/thumbnail_options.c	2007年  9月  7日 五 19:23:18
++++ compiz-fusion-plugins-main-0.5.2/src/thumbnail/thumbnail_options.c	2007年  9月  7日 五 19:23:52
+@@ -507,8 +507,10 @@
+ 
+ static void thumbnailOptionsFiniScreen (CompPlugin *p, CompScreen *s)
+ {
+-    if (thumbnailPluginVTable && thumbnailPluginVTable->finiScreen)
+-        return thumbnailPluginVTable->finiScreen (p, s);
++    if (thumbnailPluginVTable && thumbnailPluginVTable->finiScreen) {
++        thumbnailPluginVTable->finiScreen (p, s);
++        return;
++    }
+ 
+     THUMBNAIL_OPTIONS_SCREEN (s);
+ 
+@@ -543,8 +545,10 @@
+ 
+ static void thumbnailOptionsFiniDisplay (CompPlugin *p, CompDisplay *d)
+ {
+-    if (thumbnailPluginVTable && thumbnailPluginVTable->finiDisplay)
+-        return thumbnailPluginVTable->finiDisplay (p, d);
++    if (thumbnailPluginVTable && thumbnailPluginVTable->finiDisplay) {
++        thumbnailPluginVTable->finiDisplay (p, d);
++        return;
++    }
+ 
+     THUMBNAIL_OPTIONS_DISPLAY (d);
+ 
+@@ -569,8 +573,10 @@
+ 
+ static void thumbnailOptionsFini (CompPlugin *p)
+ {
+-    if (thumbnailPluginVTable && thumbnailPluginVTable->fini)
+-        return thumbnailPluginVTable->fini (p);
++    if (thumbnailPluginVTable && thumbnailPluginVTable->fini) {
++        thumbnailPluginVTable->fini (p);
++        return;
++    }
+ 
+     if (displayPrivateIndex >= 0)
+         freeDisplayPrivateIndex(displayPrivateIndex);

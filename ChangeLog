@@ -1,3 +1,17 @@
+2007-09-08  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEcompiz-bcop.spec: Change XSLT for plugins
+	* SFEcompiz-fusion-extra.spec: Fix rules
+	* SFEcompiz-fusion-main.spec: Fix rules, add patch2
+	* SFEcompiz-fusion-unsup.spec: Fix rules
+	* SFEcompiz.spec: Updated to coexist with newer X consolidation packages
+	* SFEcompizconfig-backend-gconf.spec: Update rules
+	* SFEcompizconfig-python.spec: Update rules, fix Python library location
+	* SFElibcompizconfig.spec: Update rules
+	* patches/compiz-bcop-01-solaris-port.pc: Fix XSLT rules
+	* patches/compiz-fusion-main-02-sunpro.diff: Changes for Studio compat.
+	* patches/monodevelop-01-configure.diff: Add missing patch
+
 2007-09-08  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEjunit.spec: *NEW* Java regression testing framework

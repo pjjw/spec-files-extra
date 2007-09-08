@@ -11,10 +11,12 @@
 
 %include Solaris.inc
 
+%define src_name compiz-bcop
+
 Name:                    SFEcompiz-bcop
 Summary:                 beryl compiz XML option parser
 Version:                 0.5.2
-Source:			 http://releases.compiz-fusion.org/0.5.2/compiz-bcop-%{version}.tar.bz2
+Source:			 http://releases.compiz-fusion.org/%{version}/%{src_name}-%{version}.tar.bz2
 Patch1:			 compiz-bcop-01-solaris-port.pc
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -23,11 +25,10 @@ Requires:		 SFEgetopt
 
 
 %prep
-%setup -q -c -n %name-%version
+%setup -q -n %{src_name}-%version
 %patch1 -p1
 
 %build
-cd compiz-bcop-%{version}
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
@@ -54,7 +55,6 @@ export MSGFMT="/usr/bin/msgfmt"
 make -j$CPUS
 
 %install
-cd compiz-bcop-%{version}
 make install DESTDIR=$RPM_BUILD_ROOT
 
 
@@ -72,6 +72,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
+* Sat Sep 08 2007 - trisk@acm.jhu.edu
+- Change XSLT for plugins
 * Fri Aug 31 2007 - trisk@acm.jhu.edu
 - Fix dir attributes
 * Tue Aug 28 2007 - erwann@sun.com

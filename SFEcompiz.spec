@@ -4,18 +4,22 @@
 
 %include Solaris.inc
 
+%define old_x11 %(pkgchk -l SUNWxwinc 2>/dev/null | grep compositeproto >/dev/null && echo 0 || echo 1)
+
 Name:           SFEcompiz
 Summary:        compiz
 Version:        0.5.2
 Source:		http://xorg.freedesktop.org/archive/individual/app/compiz-%{version}.tar.gz
 Source1:	http://www.gnome.org/~erwannc/compiz/missing-stuff.tar.bz2
+%if %old_x11
 Source2:	http://xorg.freedesktop.org/releases/X11R7.2/src/lib/libXrender-X11R7.2-0.9.2.tar.bz2
 Source3:	http://ftp.x.org/pub/individual/proto/compositeproto-0.3.1.tar.bz2
 Source4:	http://ftp.x.org/pub/individual/proto/damageproto-1.1.0.tar.bz2
 Source5:	http://ftp.x.org/pub/individual/proto/renderproto-0.9.2.tar.bz2
-#Source6:	http://ftp.x.org/pub/individual/proto/xproto-7.0.10.tar.bz2
+Source6:	http://ftp.x.org/pub/individual/proto/xproto-7.0.10.tar.bz2
 Source7:	http://ftp.x.org/pub/individual/lib/libXcomposite-0.3.1.tar.bz2
-Source8:	http://www.gnome.org/~erwannc/compiz/gnome-integration-0.5.2.tar.bz2
+%endif
+Source8:	http://www.gnome.org/~erwannc/compiz/gnome-integration-%{version}.tar.bz2
 Patch1:		compiz-01-solaris-port.diff
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -53,12 +57,14 @@ Requires:        %{name}
 %prep
 %setup -q -c -n %{name}
 gtar fxvj %{SOURCE1}
+%if %old_x11
 gtar fxvj %{SOURCE2}
 gtar fxvj %{SOURCE3}
 gtar fxvj %{SOURCE4}
 gtar fxvj %{SOURCE5}
 #gtar fxvj %{SOURCE6}
 gtar fxvj %{SOURCE7}
+%endif
 gtar fxvj %{SOURCE8}
 cd compiz-%{version}
 %patch1 -p1
@@ -82,6 +88,7 @@ export LDFLAGS="-L$PROTO_LIB -R/usr/X11/lib"
 mkdir -p $PROTO_INC/X11/extensions
 mkdir -p $PROTO_PKG
 cp missing-stuff/missing-headers/Xregion.h $PROTO_INC/X11
+%if %old_x11
 cp missing-stuff/missing-pc-files/*.pc $PROTO_PKG
 
 for i in compositeproto-0.3.1 damageproto-1.1.0 renderproto-0.9.2
@@ -112,6 +119,10 @@ make install DESTDIR=$RPM_BUILD_DIR/%{name}
 	$PROTO_PKG/xcomposite.pc
 
 cd ..
+%else
+cp missing-stuff/missing-pc-files/{x11,xext,ice,sm}.pc $PROTO_PKG
+
+%endif
 find usr -name \*.la -exec rm {} \;
 find usr -name \*.a -exec rm {} \;
 cd compiz-%{version}
@@ -138,26 +149,29 @@ rm -rf $RPM_BUILD_ROOT
 PROTO_PKG=$RPM_BUILD_DIR/%{name}/usr/X11/lib/pkgconfig
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 cp ${PROTO_PKG}/*.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
+rm -rf ${PROTO_PKG}
 
-for i in compositeproto-0.3.1 libXcomposite-0.3.1  libXrender-X11R7.2-0.9.2 compiz-%{version}
+%if %old_x11
+for i in compositeproto-0.3.1 libXcomposite-0.3.1  libXrender-X11R7.2-0.9.2
 do
     cd $i
     make install DESTDIR=$RPM_BUILD_ROOT
     cd ..
 done
 
-
-rm $RPM_BUILD_ROOT%{_libdir}/*.la
-rm $RPM_BUILD_ROOT%{_libdir}/*.a
-rm $RPM_BUILD_ROOT%{_libdir}/compiz/*.la
-rm $RPM_BUILD_ROOT%{_libdir}/compiz/*.a
-rm $RPM_BUILD_ROOT%{_libdir}/window-manager-settings/*.la
-rm $RPM_BUILD_ROOT%{_libdir}/window-manager-settings/*.a
-rm $RPM_BUILD_ROOT/usr/X11/lib/*.la
-rm -rf $RPM_BUILD_ROOT%{_basedir}/etc
-mv $RPM_BUILD_ROOT/usr/X11/lib/pkgconfig/* $RPM_BUILD_ROOT/usr/lib/pkgconfig
+mv $RPM_BUILD_ROOT/usr/X11/lib/pkgconfig/* $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rmdir $RPM_BUILD_ROOT/usr/X11/lib/pkgconfig
 rm -rf $RPM_BUILD_ROOT/usr/X11/share
+%endif
+
+cd compiz-%{version}
+make install DESTDIR=$RPM_BUILD_ROOT
+cd ..
+
+find $RPM_BUILD_ROOT%{_libdir} -type f -name "*.a" -exec rm -f {} ';'
+find $RPM_BUILD_ROOT%{_libdir} -type f -name "*.la" -exec rm -f {} ';'
+rm -f $RPM_BUILD_ROOT/usr/X11/lib/*.la
+rm -rf $RPM_BUILD_ROOT%{_basedir}/etc
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/xdg/autostart
 cp compiz-autostart.desktop $RPM_BUILD_ROOT%{_sysconfdir}/xdg/autostart
@@ -220,12 +234,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755, root, other) %{_datadir}/compiz
 %dir %attr(0755, root, other) %{_datadir}/gnome
 %dir %attr(0755, root, bin) %{_datadir}/gnome/wm-properties
+%dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/gnome/wm-properties/compiz.desktop
 %{_datadir}/compiz/*
 %{_datadir}/pixmaps/*
+%if %old_x11
 %dir %attr (0755, root, bin) %{_prefix}/X11
 %dir %attr (0755, root, bin) %{_prefix}/X11/lib
 %{_prefix}/X11/lib/lib*.so*
+%endif
 
 
 %files root
@@ -240,9 +257,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
+%if %old_x11
 %dir %attr (0755, root, bin) %{_prefix}/X11
 %dir %attr (0755, root, bin) %{_prefix}/X11/include
 %{_prefix}/X11/include/*
+%endif
 
 %if %build_l10n
 %files l10n
@@ -252,6 +271,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Sep 06 2007 - Albert Lee <trisk@acm.jhu.edu>
+- Updated to coexist with newer X consolidation packages
 * Wed Mar 08 2007 - Doug Scott <dougs at truemail.co.th>
 - Changed to build on un-modified system
 * Tue Mar 06 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)

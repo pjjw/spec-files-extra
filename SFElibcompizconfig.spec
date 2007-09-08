@@ -11,10 +11,12 @@
 
 %include Solaris.inc
 
+%define src_name libcompizconfig
+
 Name:                    SFElibcompizconfig
 Summary:                 compizconfig libraries - is an alternative configuration system for compiz
 Version:                 0.5.2
-Source:			 http://releases.compiz-fusion.org/0.5.2/libcompizconfig-%{version}.tar.bz2	 
+Source:			 http://releases.compiz-fusion.org/%{version}/%{src_name}-%{version}.tar.bz2
 Patch1:			 libcompizconfig-01-solaris-port.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -38,11 +40,10 @@ Requires:                %{name} = %{version}
 
 
 %prep
-%setup -q -c -n %name-%version
-%patch1 -p1
+%setup -q -n %{src_name}-%version
+%patch1 -p2
 
 %build
-cd libcompizconfig-%version
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
@@ -67,7 +68,6 @@ export MSGFMT="/usr/bin/msgfmt"
 make -j$CPUS
 
 %install
-cd libcompizconfig-%version
 make install DESTDIR=$RPM_BUILD_ROOT
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.*a
 rm -f $RPM_BUILD_ROOT%{_libdir}/compiz/*.*a
@@ -122,6 +122,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Sep 08 2007 - trisk@acm.jhu.edu
+- Update rules
 * Fri Aug 31 2007 - trisk@acm.jhu.edu
 - Fix duplicate package contents
 * Fri Aug  14 2007 - erwann@sun.com

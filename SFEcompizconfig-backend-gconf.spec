@@ -12,24 +12,31 @@
 
 %include Solaris.inc
 
+%define src_name compizconfig-backend-gconf
+
 Name:                    SFEcompizconfig-gconf
 Summary:                 cgconf backend for CompizConfig
 Version:                 0.5.2
-Source:			 http://releases.compiz-fusion.org/0.5.2/compizconfig-backend-gconf-%{version}.tar.bz2	 
+Source:			 http://releases.compiz-fusion.org/%{version}/%{src_name}-%{version}.tar.bz2
 Patch1:			 compizconfig-backend-gconf-01-solaris-port.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 # add build and runtime dependencies here:
+BuildRequires:	SUNWgnome-base-libs-devel
+BuildRequires:	SUNWgnome-libs-devel
+BuildRequires:	SUNWgnome-config-devel
 BuildRequires:  SFElibcompizconfig
+Requires:	SUNWgnome-base-libs
+Requires:	SUNWgnome-libs
+Requires:	SUNWgnome-config
 Requires:	SFElibcompizconfig
 
 %prep
-%setup -q -c -n %name-%version
-%patch1 -p1
+%setup -q -n %{src_name}-%version
+%patch1 -p2
 
 %build
-cd compizconfig-backend-gconf-%version
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
@@ -53,7 +60,6 @@ export MSGFMT="/usr/bin/msgfmt"
 make -j$CPUS
 
 %install
-cd compizconfig-backend-gconf-%version
 make install DESTDIR=$RPM_BUILD_ROOT
 rm -f $RPM_BUILD_ROOT%{_libdir}/compizconfig/backends/*.*a
 
@@ -75,7 +81,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
+%dir %attr (0755, root, bin) %{_libdir}/compizconfig
+%{_libdir}/compizconfig/*
 
 #
 # The files included here should match the ones removed in %install
@@ -90,5 +97,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Sep 07 2007 - trisk@acm.jhu.edu
+- Update rules
 * Fri Aug  14 2007 - erwann@sun.com
 - Initial spec

@@ -11,15 +11,19 @@
 
 %include Solaris.inc
 
+%define src_name compizconfig-python
+
 Name:                    SFEcompizconfig-python
 Summary:                 compizconfig libraries - is an alternative configuration system for compiz
 Version:                 0.5.2
-Source:			 http://releases.compiz-fusion.org/0.5.2/compizconfig-python-%{version}.tar.bz2	 
+Source:			 http://releases.compiz-fusion.org/%{version}/%{src_name}-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 # add build and runtime dependencies here:
+BuildRequires:	SUNWPython-devel
 BuildRequires:  SFElibcompizconfig
+Requires:	SUNWPython
 Requires:	SFElibcompizconfig
 
 %package devel
@@ -28,12 +32,12 @@ SUNW_BaseDir:            %{_basedir}
 Requires:                %{name} = %{version}
 %include default-depend.inc
 
+%define pythonver 2.4
 
 %prep
-%setup -q -c -n %name-%version
+%setup -q -n %{src_name}-%version
 
 %build
-cd compizconfig-python-%version
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
@@ -53,11 +57,16 @@ export MSGFMT="/usr/bin/msgfmt"
 make -j$CPUS
 
 %install
-cd compizconfig-python-%version
 make install DESTDIR=$RPM_BUILD_ROOT
+
+# move to vendor-packages
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages
+mv $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/* \
+   $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages/
+rmdir $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages
+
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.*a
-rm -f $RPM_BUILD_ROOT%{_libdir}/python2.4/site-packages/*.*a
-rm -f $RPM_BUILD_ROOT%{_libdir}/compizconfig/backends/*.*a
+rm -f $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages/*.*a
 
 #
 # when not building -l10n packages, remove anything l10n related from
@@ -77,7 +86,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
+%{_libdir}/python%{pythonver}/vendor-packages/*
 
 %files devel
 %defattr (-, root, bin)
@@ -97,5 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Sep 07 2007 - trisk@acm.jhu.edu
+- Update rules, fix Python library location
 * Fri Aug  14 2007 - erwann@sun.com
 - Initial spec
