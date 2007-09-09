@@ -1,0 +1,49 @@
+--- last-exit-4/dbus-sharp/dbus-sharp/UnixNativeTransport.cs	2007年  2月 12日 一 15:50:56
++++ last-exit-4.orig/dbus-sharp/dbus-sharp/UnixNativeTransport.cs	2007年  8月 10日 五 17:20:14
+@@ -22,20 +22,20 @@
+ 	{
+ 		public const short AF_UNIX = 1;
+ 		//TODO: SOCK_STREAM is 2 on Solaris
+-		public const short SOCK_STREAM = 1;
++		public const short SOCK_STREAM = 2;
+ 
+ 		//TODO: some of these are provided by libsocket instead of libc on Solaris
+ 
+-		[DllImport ("libc", SetLastError=true)]
++		[DllImport ("libsocket", SetLastError=true)]
+ 			protected static extern int socket (int domain, int type, int protocol);
+ 
+-		[DllImport ("libc", SetLastError=true)]
++		[DllImport ("libsocket", SetLastError=true)]
+ 			protected static extern int connect (int sockfd, byte[] serv_addr, uint addrlen);
+ 
+-		[DllImport ("libc", SetLastError=true)]
++		[DllImport ("libsocket", SetLastError=true)]
+ 			protected static extern int bind (int sockfd, byte[] my_addr, uint addrlen);
+ 
+-		[DllImport ("libc", SetLastError=true)]
++		[DllImport ("libsocket", SetLastError=true)]
+ 			protected static extern int listen (int sockfd, int backlog);
+ 
+ 		//TODO: this prototype is probably wrong, fix it
+--- last-exit-4.orig/src/Driver.cs	2007年  9月  8日 六 21:54:25
++++ last-exit-4/src/Driver.cs	2007年  9月  8日 六 21:55:01
+@@ -199,18 +199,8 @@
+ 			Gtk.Window.DefaultIconList = default_icon_list;
+ 		}
+ 
+-		[DllImport ("libc")]
+-			private static extern int prctl (int option,  
+-					byte[] arg2,
+-					ulong arg3,
+-					ulong arg4,
+-					ulong arg5);
+-
+ 		private static void SetProcessName (string name)
+ 		{
+-			if (prctl (15, Encoding.ASCII.GetBytes (name + "\0"), 0, 0, 0) != 0) {
+-				throw new ApplicationException ("Error setting process name: " + Mono.Unix.Native.Stdlib.GetLastError ());
+-			}
+ 		}
+ 
+ 		private static void SetUpConfigDirectory ()

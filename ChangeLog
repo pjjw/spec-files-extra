@@ -1,5 +1,12 @@
 2007-09-08  Albert Lee  <trisk@acm.jhu.edu>
 
+	* SFElast-exit.spec: *NEW* Last Exit - streaming media player for GNOME, using the Last.fm web service
+	* SFEsexy-python.spec: Fix rules, update Python library dir
+	* patches/last-exit-01-solaris.diff: Patch for Solaris compatibility
+	* patches/last-exit-02-memmem.diff: Patch to substitute memmem()
+
+2007-09-08  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEccsm.spec: Correct rules, remove -root, fix Python library location
 
 2007-09-08  Albert Lee  <trisk@acm.jhu.edu>

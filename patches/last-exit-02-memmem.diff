@@ -1,0 +1,70 @@
+diff -ru last-exit-4.orig/configure.ac last-exit-4/configure.ac
+--- last-exit-4.orig/configure.ac	2007年  9月  8日 六 21:54:56
++++ last-exit-4/configure.ac	2007年  9月  8日 六 22:17:37
+@@ -14,6 +14,7 @@
+ AC_PROG_CC
+ AC_ISC_POSIX
+ AC_HEADER_STDC
++AC_CHECK_FUNCS(memmem)
+ AM_PROG_LIBTOOL
+ 
+ GSTREAMER_REQUIRED=0.10.0
+diff -ru last-exit-4.orig/liblast-exit/player.c last-exit-4/liblast-exit/player.c
+--- last-exit-4.orig/liblast-exit/player.c	2007年  9月  8日 六 21:54:25
++++ last-exit-4/liblast-exit/player.c	2007年  9月  8日 六 22:20:04
+@@ -27,6 +27,55 @@
+ 
+ #include "player.h"
+ 
++#ifndef HAVE_MEMMEM
++/*
++ * This uses the "Not So Naive" algorithm, a very simple but
++ * usually effective algorithm, see:
++ *
++ * http://www-igm.univ-mlv.fr/~lecroq/string/
++ *
++ * SYSLINUX is Copyright 1994-2001 H. Peter Anvin, and is free software;
++ * you can redistribute it and/or modify it under the terms of the GNU
++ * General Public License as published by the Free Software Foundation,
++ * Inc., 675 Mass Ave, Cambridge MA 02139, USA; either version 2 of the
++ * License, or (at your option) any later version.
++ */
++
++#include <string.h>
++
++static void *memmem(const void *haystack, size_t n, const void *needle, size_t m)
++{
++  const unsigned char *y = (const unsigned char *)haystack;
++  const unsigned char *x = (const unsigned char *)needle;
++
++  size_t j, k, l;
++
++  if ( m > n )
++    return NULL;
++
++  if ( x[0] == x[1] ) {
++    k = 2;
++    l = 1;
++  } else {
++    k = 1;
++    l = 2;
++  }
++
++  j = 0;
++  while ( j <= n-m ) {
++    if (x[1] != y[j+1]) {
++      j += k;
++    } else {
++      if ( !memcmp(x+2, y+j+2, m-2) && x[0] == y[j] )
++	return (void *)&y[j];
++      j += l;
++    }
++  }
++
++  return NULL;
++}
++#endif
++
+ enum {
+ 	NEW_SONG,
+ 	ERROR,
