@@ -40,6 +40,7 @@ make -j$CPUS
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
+make install-doc DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -51,10 +52,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 %dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/ri
 %dir %attr (0755, root, bin) %{_mandir}
 %{_mandir}/*
 
 %changelog
+* Sun Sep 09 2007 - Ananth Shrinivas <ananth@sun.com>
+- YAML files required for ruby RDoc documentation need to be installed
 * Sat Apr 21 2007 - dougs@truemail.co.th
 - added isinf to configure.in to force configureto not add internal isinf
 - for Solaris 11

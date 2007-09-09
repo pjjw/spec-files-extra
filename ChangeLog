@@ -1,3 +1,7 @@
+2007-09-04  Ananth Shrinivas  <ananth@sun.com>
+
+	* SFEruby.spec: YAML files required for ruby RDoc documentation need to be installed
+
 2007-09-08  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFElast-exit.spec: *NEW* Last Exit - streaming media player for GNOME, using the Last.fm web service
