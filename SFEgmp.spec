@@ -164,7 +164,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 
-% changelog
+%changelog
 * Fri Aug 17 2007 - trisk@acm.jhu.edu
 - Fix amd64 build
 * Sat Jun 30 2007 - nonsea@users.sourceforge.net

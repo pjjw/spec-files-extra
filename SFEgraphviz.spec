@@ -38,7 +38,6 @@ BuildRequires: SUNWfreetype2
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWsfwhea
 BuildRequires: SFElibtool
-BuildRequires: SFEexpat-devel
 BuildRequires: SFEgd-devel
 BuildRequires: SUNWPython
 BuildRequires: SUNWTcl

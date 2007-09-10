@@ -9,13 +9,13 @@
 Name:		gnome-build
 License:	GPL
 Group:		Development/Libraries
-Version:	0.1.7
+Version:	0.2.0
 Release:	1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:		http://www.gnome.org
 Summary:	GNOME Build Framework.
-Source:		http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.1/%{name}-%{version}.tar.bz2
+Source:		http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.2/%{name}-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 Requires:	libglade >= 2.0.1
@@ -101,6 +101,8 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Sep 10 2007 - nonsea@users.sourceforge.net
+- Bump to 0.2.0
 * Sun May 13 2007 - nonsea@users.sourceforge.net
 - Bump to 0.1.7.
 - Remove patch gnu-regex.diff since solaris's one works fine now.

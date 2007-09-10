@@ -9,15 +9,13 @@
 Name:		gdl
 License:	GPL
 Group:		Development/Libraries
-Version:	0.7.6
+Version:	0.7.7
 Release:	1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:		http://www.gnome.org
 Summary:	Components and library for GNOME development tools.
 Source:		http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.7/%{name}-%{version}.tar.bz2
-# date:2006-03-28 bugzilla:407393 owner:nonsea type:bug
-Patch1:         %{name}-01-void0-suncc-error.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
 Requires: 	gtk2 >= 2.4.0
@@ -52,7 +50,6 @@ own programs.
 
 %prep
 %setup -q
-%patch1 -p1
 
 %build
 %ifos linux
@@ -107,6 +104,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/lib/pkgconfig/*
 
 %changelog
+* Sun Jun 30 2007 - nonsea@users.sourceforge.net
+- Bump to 0.7.7.
+- Remove upstreamed patch void0-suncc-error
+
 * Sun Jun 30 2007 - nonsea@users.sourceforge.net
 - Bump to 0.7.6.
 

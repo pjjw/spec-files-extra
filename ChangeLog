@@ -1,3 +1,14 @@
+2007-09-10  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEautogen.spec: Bump to 5.9.2
+	* SFEgmp.spec: Fix typo
+	* SFEgraphviz.spec: Remove -BuildRequires:SFEexpat-devel
+	* linux-specs/expat.spec: Bump to 2.0.1
+	* linux-specs/gdl.spec: Bump to 0.7.7
+	* linux-specs/gnome-build.spec: Bump to 0.2.0
+	* linux-specs/libgsf.spec: Bump to 1.14.7
+	* patches/gdl-01-void0-suncc-error.diff:Removed upstreamed patch.
+
 2007-09-10  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEtransmission.spec: Bump to 0.82

@@ -3,7 +3,7 @@
 #
 
 Name:         expat
-Version:      2.0.0
+Version:      2.0.1
 Release:      1
 Summary:      libexpat - XML parser library
 License:      MIT
@@ -41,6 +41,8 @@ ln -s libexpat.so.1 libexpat.so.0
 rm -fr $RPM_BUILD_ROOT
 
 %changelog
+* Mon Sep 10 2007 - nonsea@users.sourceforge.net
+- Bump to 2.0.1
 * Wed Mar 28 2007 - laca@sun.com
 - create temporary symlink libexpat.so.0
 * Fri Mar 25 2007 - laca@sun.com
