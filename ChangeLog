@@ -1,3 +1,7 @@
+2007-09-10  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEtransmission.spec: Bump to 0.82
+
 2007-09-04  Ananth Shrinivas  <ananth@sun.com>
 
 	* SFEruby.spec: YAML files required for ruby RDoc documentation need to be installed

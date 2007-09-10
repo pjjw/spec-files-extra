@@ -6,8 +6,8 @@
 
 Name:                    SFEtransmission
 Summary:                 Transmission - BitTorrent client
-Version:                 0.81
-Source:                  http://download.m0k.org/transmission/files/Transmission-%{version}.tar.gz
+Version:                 0.82
+Source:                  http://download.m0k.org/transmission/files/transmission-%{version}.tar.gz
 URL:                     http://transmission.m0k.org/
 Patch1:                  transmission-01-solaris.diff
 SUNW_BaseDir:            %{_basedir}
@@ -30,7 +30,7 @@ Requires:        %{name}
 
 %prep
 #%setup -q -n %{source_name}-%{version}
-# temporary workaround for missing parent dir in 0.81
+# temporary workaround for missing parent dir in 0.82
 %setup -q -c -n %{name}
 %patch1 -p1
 
@@ -58,6 +58,10 @@ mkdir -p $RPM_BUILD_ROOT%{_mandir}
 mv $RPM_BUILD_ROOT%{_prefix}/man/* $RPM_BUILD_ROOT%{_mandir}
 rm -rf $RPM_BUILD_ROOT%{_prefix}/man
 
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/sfw/share/zsh
+mv $RPM_BUILD_ROOT%{_datadir}/zsh/* $RPM_BUILD_ROOT%{_prefix}/sfw/share/zsh 
+rm -rf $RPM_BUILD_ROOT%{_datadir}/zsh
+
 %if %build_l10n
 %else
 # REMOVE l10n FILES
@@ -78,7 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
-%{_datadir}/zsh
+%dir %attr (0755, root, bin) %{_prefix}/sfw
+%dir %attr (0755, root, bin) %{_prefix}/sfw/share
+%{_prefix}/sfw/share/zsh
 
 %if %build_l10n
 %files l10n
@@ -89,6 +95,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Sep 10 2007 - trisk@acm.jhu.edu
+- Bump to 0.82
 * Thu Sep 6 2007 - Petr Sobotka sobotkap@centum.cz
 - Fix typo in changelog
 * Wed Aug 29 2007 - trisk@acm.jhu.edu
