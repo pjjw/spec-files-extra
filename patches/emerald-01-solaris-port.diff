@@ -1,0 +1,140 @@
+diff -rup tmp/emerald-0.5.2/configure.ac emerald-0.5.2/configure.ac
+--- tmp/emerald-0.5.2/configure.ac	2007-08-12 23:00:01.000000000 +0200
++++ emerald-0.5.2/configure.ac	2007-09-06 11:43:04.894494000 +0200
+@@ -1,6 +1,6 @@
+ AC_PREREQ(2.57)
+ 
+-AC_INIT([emerald],esyscmd(. ./VERSION;echo -n $VERSION), [livinglatexkali@gmail.com])
++AC_INIT([emerald],0.5.2, [livinglatexkali@gmail.com])
+ 
+ AC_DEFINE_UNQUOTED(VERSION,"$VERSION",[Version])
+ 
+@@ -76,6 +76,18 @@ AC_PATH_PROG(UPDATE_MIME_DATABASE, updat
+ AC_PATH_PROG(UPDATE_DESKTOP_DATABASE, update-desktop-database)
+ AC_PATH_PROG(UPDATE_ICON_CACHE, gtk-update-icon-cache)
+ 
++compiling_on_solaris=no
++case "$host" in
++        *-*-solaris*)
++	  AC_MSG_CHECKING(if compiling on Solaris)
++	  compiling_on_solaris=yes
++	  AC_MSG_RESULT($compiling_on_solaris)
++	  AC_DEFINE(SOLARIS, 1, [Compiling on Solaris])
++	;;
++esac
++
++
++
+ AC_OUTPUT([
+ libengine/emeraldengine.pc
+ Makefile
+diff -rup tmp/emerald-0.5.2/engines/line.c emerald-0.5.2/engines/line.c
+--- tmp/emerald-0.5.2/engines/line.c	2007-08-12 23:00:01.000000000 +0200
++++ emerald-0.5.2/engines/line.c	2007-09-06 11:18:14.235338000 +0200
+@@ -45,6 +45,7 @@ typedef struct _private_fs
+  */
+ typedef struct _private_ws
+ {
++  int dummy;
+ } private_ws;
+ 
+ void get_meta_info (EngineMetaInfo * emi)
+diff -rup tmp/emerald-0.5.2/themer/main.c emerald-0.5.2/themer/main.c
+--- tmp/emerald-0.5.2/themer/main.c	2007-08-12 23:00:01.000000000 +0200
++++ emerald-0.5.2/themer/main.c	2007-09-06 11:44:31.791672000 +0200
+@@ -38,6 +38,94 @@ GtkWidget * ExportButton;
+ GtkWidget * QuitButton;
+ gchar * svnpath;
+ gchar * themecache;
++#ifdef SOLARIS
++#include <ctype.h>
++/* states: S_N: normal, S_I: comparing integral part, S_F: comparing
++           fractional parts, S_Z: idem but with leading Zeroes only */
++#define  S_N    0x0
++#define  S_I    0x4
++#define  S_F    0x8
++#define  S_Z    0xC
++
++/* result_type: CMP: return diff; LEN: compare using len_diff/diff */
++#define  CMP    2
++#define  LEN    3
++
++
++/* Compare S1 and S2 as strings holding indices/version numbers,
++   returning less than, equal to or greater than zero if S1 is less than,
++   equal to or greater than S2 (for more info, see the Glibc texinfo doc).  */
++
++int
++strverscmp (const char *s1, const char *s2)
++{
++  const unsigned char *p1 = (const unsigned char *) s1;
++  const unsigned char *p2 = (const unsigned char *) s2;
++  unsigned char c1, c2;
++  int state;
++  int diff;
++
++  /* Symbol(s)    0       [1-9]   others  (padding)
++     Transition   (10) 0  (01) d  (00) x  (11) -   */
++  static const unsigned int next_state[] =
++    {
++      /* state    x    d    0    - */
++      /* S_N */  S_N, S_I, S_Z, S_N,
++      /* S_I */  S_N, S_I, S_I, S_I,
++      /* S_F */  S_N, S_F, S_F, S_F,
++      /* S_Z */  S_N, S_F, S_Z, S_Z
++    };
++
++  static const int result_type[] =
++    {
++      /* state   x/x  x/d  x/0  x/-  d/x  d/d  d/0  d/-
++                 0/x  0/d  0/0  0/-  -/x  -/d  -/0  -/- */
++
++      /* S_N */  CMP, CMP, CMP, CMP, CMP, LEN, CMP, CMP,
++                 CMP, CMP, CMP, CMP, CMP, CMP, CMP, CMP,
++      /* S_I */  CMP, -1,  -1,  CMP, +1,  LEN, LEN, CMP,
++                 +1,  LEN, LEN, CMP, CMP, CMP, CMP, CMP,
++      /* S_F */  CMP, CMP, CMP, CMP, CMP, LEN, CMP, CMP,
++                 CMP, CMP, CMP, CMP, CMP, CMP, CMP, CMP,
++      /* S_Z */  CMP, +1,  +1,  CMP, -1,  CMP, CMP, CMP,
++                 -1,  CMP, CMP, CMP
++    };
++
++  if (p1 == p2)
++    return 0;
++
++  c1 = *p1++;
++  c2 = *p2++;
++  /* Hint: '0' is a digit too.  */
++  state = S_N | ((c1 == '0') + (isdigit (c1) != 0));
++
++  while ((diff = c1 - c2) == 0 && c1 != '\0')
++    {
++      state = next_state[state];
++      c1 = *p1++;
++      c2 = *p2++;
++      state |= (c1 == '0') + (isdigit (c1) != 0);
++    }
++
++  state = result_type[state << 2 | (((c2 == '0') + (isdigit (c2) != 0)))];
++
++  switch (state)
++    {
++    case CMP:
++      return diff;
++      
++    case LEN:
++      while (isdigit (*p1++))
++	if (!isdigit (*p2++))
++	  return 1;
++      
++      return isdigit (*p2) ? -1 : diff;
++      
++    default:
++      return state;
++    }
++}
++#endif
+ 
+ static void theme_list_append(gchar * value,gchar * dir, gchar * fil)
+ {
+

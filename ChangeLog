@@ -1,3 +1,10 @@
+2007-09-11 Erwann Chenede - <erwann.chenede@sun.com>
+
+	* SFEemerald.spec : *NEW* window decorator for compiz
+	* patches/emerald-01-solaris-port.diff : solaris port patch
+	* SFEemerald-themes.spec : *NEW* theme for emerald
+	* patches/emerald-themes-01-solaris-port.diff : solaris port patch
+
 2007-09-11  Petr Sobotka  <sobotkap@centrum.cz>
 
 	* SFElua.spec: Initial version
