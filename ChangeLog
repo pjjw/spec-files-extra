@@ -1,3 +1,7 @@
+2007-09-11  Petr Sobotka  <sobotkap@centrum.cz>
+
+	* SFElua.spec: Initial version
+
 2007-09-11  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEw3m.spec: Add --with-browser=/usr/bin/firefox,
