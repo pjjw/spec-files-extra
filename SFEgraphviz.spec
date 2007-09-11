@@ -11,6 +11,7 @@ Name:                SFEgraphviz
 Summary:             Graph drawing tools and libraries
 Version:             2.14.1
 Source:              http://www.graphviz.org/pub/graphviz/ARCHIVE/graphviz-%{version}.tar.gz
+Patch1:              graphviz-01-arith-h.diff
 URL:                 http://www.graphviz.org
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -53,6 +54,7 @@ Requires: %name
 
 %prep
 %setup -q -n graphviz-%version
+%patch1 -p1
 
 %build
 
@@ -132,6 +134,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/graphviz/*
 
 %changelog
+* Thu Mar 22 2007 - nonsea@users.sourceforge.net
+- Add patch arith-h to export arith.h to let anjuta build pass.
+  This patch is already in cvs head, should be removed in next release.
 * Fri Aug 17 2007 - trisk@acm.jhu.edu
 - Bump to 2.14
 - Update dependencies, disable optional plugins

@@ -1,3 +1,9 @@
+2007-09-11  Halton Huo  <halton.huo@sun.com>
+
+	* SFEanjuta.spec: Bump to 2.2.1
+	* SFEgraphviz.spec: Add patch graphviz-01-arith-h.diff
+	* patches/graphviz-01-arith-h.diff: Add to export arith.h
+
 2007-09-10  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEautogen.spec: Bump to 5.9.2
