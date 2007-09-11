@@ -29,10 +29,11 @@ fi
 export CFLAGS="%optflags -I/usr/sfw/include"
 export LDFLAGS="%_ldflags -lX11 -L/usr/sfw/lib -R/usr/sfw/lib"
 
-./configure --prefix=%{_prefix}  	\
-	    --libexecdir=%{_libdir}	\
-            --mandir=%{_mandir} 	\
-            --enable-static=no
+./configure --prefix=%{_prefix}  		\
+			--libexecdir=%{_libdir}		\
+			--mandir=%{_mandir} 		\
+			--enable-static=no			\
+			--with-browser=/usr/bin/firefox
 
 make -j$CPUS
 
@@ -59,6 +60,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man*/*
 
 %changelog
+* Tue Sep 11 2007 - nonsea@users.sourceforge.net
+- Add --with-browser=/usr/bin/firefox, replace default value mozilla.
 * Wed Sep 05 2007 - nonsea@users.sourceforge.net
 - Bump to 0.5.2
 * Thu May 03 2007 - nonsea@users.sourceforge.net

@@ -1,4 +1,9 @@
-2007-09-11  Halton Huo  <halton.huo@sun.com>
+2007-09-11  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEw3m.spec: Add --with-browser=/usr/bin/firefox,
+	  replace default value mozilla.
+
+2007-09-11  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEanjuta.spec: Bump to 2.2.1
 	* SFEgraphviz.spec: Add patch graphviz-01-arith-h.diff
