@@ -1,0 +1,26 @@
+Index: llgal-trunk/Makefile
+===================================================================
+--- llgal-trunk/Makefile	(revision 637)
++++ llgal-trunk/Makefile	(working copy)
+@@ -11,7 +11,7 @@
+ DOC_SUBDIR	=	doc
+ 
+ DESTDIR	=	
+-PREFIX	=	/usr/local
++PREFIX	=	/usr
+ EXEC_PREFIX	=	$(PREFIX)
+ BINDIR	=	$(EXEC_PREFIX)/bin
+ DATADIR	=	$(PREFIX)/share
+Index: llgal-trunk/po/Makefile
+===================================================================
+--- llgal-trunk/po/Makefile	(revision 637)
++++ llgal-trunk/po/Makefile	(working copy)
+@@ -20,7 +20,7 @@
+ update:: $(BUILT_MO_FILES)
+ 
+ $(BUILT_MO_FILES): %.mo: %.po
+-	msgfmt $< -o $@
++	msgfmt -o $@ $< 
+ 
+ clean::
+ 	$(RM) $(BUILT_MO_FILES)
