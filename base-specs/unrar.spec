@@ -6,7 +6,7 @@
 
 Name:                    unrar
 Summary:                 Unrar Decompressor
-Version:                 3.5.4
+Version:                 3.7.8
 Source:                  http://www.rarlab.com/rar/unrarsrc-%{version}.tar.gz
 URL:                     http://www.rarlab.com/
 Patch1:			 unrar.diff
@@ -37,5 +37,7 @@ INSTALL=install \
 make -f makefile.unix install DESTDIR=$RPM_BUILD_ROOT
 
 %changelog
+* Wed Sep 12 2007 - nonsea@users.sourceforge.net
+- Bump to 3.7.8
 * Wed Aug 15 2007 - dougs@truemail.co.th
 - Converted to base spec

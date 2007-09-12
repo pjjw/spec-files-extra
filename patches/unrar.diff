@@ -1,36 +1,3 @@
-Only in unrar: archive.o
-Only in unrar: arcread.o
-Only in unrar: cmddata.o
-Only in unrar: consio.o
-Only in unrar: crc.o
-Only in unrar: crypt.o
-Only in unrar: encname.o
-Only in unrar: errhnd.o
-Only in unrar: extinfo.o
-Only in unrar: extract.o
-Only in unrar: filcreat.o
-Only in unrar: file.o
-Only in unrar: filefn.o
-Only in unrar: filestr.o
-Only in unrar: find.o
-Only in unrar: getbits.o
-Only in unrar: global.o
-diff -ur unrar.orig/int64.hpp unrar/int64.hpp
---- unrar.orig/int64.hpp	2005-10-04 14:57:54.000000000 +0700
-+++ unrar/int64.hpp	2007-08-15 15:52:34.883192494 +0700
-@@ -6,7 +6,7 @@
- typedef __int64 Int64;
- #endif
- 
--#if defined(__GNUC__) || defined(__HP_aCC)
-+#if defined(__GNUC__) || defined(__HP_aCC) || defined(SOLARIS)
- #define NATIVE_INT64
- typedef long long Int64;
- #endif
-Only in unrar: int64.o
-Only in unrar: isnt.o
-Only in unrar: libunrar.so
-Only in unrar: list.o
 diff -ur unrar.orig/makefile.unix unrar/makefile.unix
 --- unrar.orig/makefile.unix	2005-04-30 14:00:12.000000000 +0700
 +++ unrar/makefile.unix	2007-08-15 16:30:42.557524008 +0700
@@ -122,8 +89,6 @@ diff -ur unrar.orig/makefile.unix unrar/makefile.unix
 +		$(INSTALL) -d -m 755 $(DESTDIR)$(BINDIR)
 +		$(INSTALL) -m 755 unrar $(DESTDIR)$(BINDIR)/unrar
 +		$(INSTALL) -m 644 libunrar.so $(DESTDIR)$(LIBDIR)/libunrar.so
-Only in unrar: match.o
-Only in unrar: options.o
 diff -ur unrar.orig/os.hpp unrar/os.hpp
 --- unrar.orig/os.hpp	2005-10-04 14:57:54.000000000 +0700
 +++ unrar/os.hpp	2007-08-15 15:52:34.883568438 +0700
@@ -140,24 +105,3 @@ diff -ur unrar.orig/os.hpp unrar/os.hpp
  #endif
  
  typedef const char* MSGID;
-Only in unrar: pathfn.o
-Only in unrar: rar.o
-Only in unrar: rarvm.o
-Only in unrar: rawread.o
-Only in unrar: rdwrfn.o
-Only in unrar: recvol.o
-Only in unrar: resource.o
-Only in unrar: rijndael.o
-Only in unrar: rs.o
-Only in unrar: savepos.o
-Only in unrar: scantree.o
-Only in unrar: sha1.o
-Only in unrar: strfn.o
-Only in unrar: strlist.o
-Only in unrar: system.o
-Only in unrar: timefn.o
-Only in unrar: ulinks.o
-Only in unrar: unicode.o
-Only in unrar: unpack.o
-Only in unrar: unrar
-Only in unrar: volume.o

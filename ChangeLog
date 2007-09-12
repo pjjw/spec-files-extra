@@ -1,5 +1,10 @@
 2007-09-12  Halton Huo <nonsea@users.sourceforge.net>
 
+	* base-specs/unrar.spec: Bump to 3.7.8
+	* patches/unrar.diff: rework.
+
+2007-09-12  Halton Huo <nonsea@users.sourceforge.net>
+
 	* SFEllgal.spec: (new) Command-line online gallery generator
 	* SFEperl-gettext.spec: (new) gettext PERL module
 	* SFEperl-image-exiftool.spec: (new) Image-ExitTool PERL module
