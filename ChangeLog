@@ -1,3 +1,8 @@
+2007-09-12 Erwann Chenede - <erwann.chenede@sun.com>
+
+	* SFEemerald.spec: added BuildRequires SFEcompiz-devel
+	  as emerald needs libdecoration.so from compiz
+
 2007-09-12  Halton Huo <nonsea@users.sourceforge.net>
 
 	* base-specs/unrar.spec: Bump to 3.7.8

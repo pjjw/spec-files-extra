@@ -18,6 +18,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 # add build and runtime dependencies here:
 BuildRequires:  SFEcompiz
+BuildRequires:  SFEcompiz-devel
 Requires:	SFEcompiz
 Requires:	%{name}-root
 
