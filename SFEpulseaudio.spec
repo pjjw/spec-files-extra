@@ -41,6 +41,7 @@ SUNW_BaseDir:            /
 %prep
 %setup -q -n %{src_name}-%{version}
 %patch1 -p1
+%patch2 -p1
 
 %build
 
@@ -69,10 +70,11 @@ rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib*\.a
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib*\.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/pulse-*/lib*\.a
-rm -f $RPM_BUILD_ROOT%{_libdir}/pulse-*/lib*\.la
+#rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.a
+#rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.la
+#rm -f $RPM_BUILD_ROOT%{_libdir}/pulse-*/modules/lib*.a
+#rm -f $RPM_BUILD_ROOT%{_libdir}/pulse-*/modules/lib*.la
+find $RPM_BUILD_ROOT%{_libdir}/ -name ".*\.a" -exec rm {} \; -print -o -name  ".*\.la" -exec rm {} \; -print
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -98,6 +100,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/pulse/*
 
 %changelog
+* Thu Sep 13 2007 - Thomas Wagner
+- corrected rm lib*.a and lib*.la
+- activated patch2 (default.pa)
 * Tue Sep 04 2007 - Thomas Wagner
 - Added LDFLAG -lsocket to solve ipv6 socket error when setting IP-ACLs
 - remove left over files from lib/pulse-*/lib*\.a and \.la
