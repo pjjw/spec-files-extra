@@ -74,12 +74,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
-%defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
-
-%files root
-%defattr (0755, root, sys)
 %dir %attr(0755, root, sys) %{_datadir}
 %{_datadir}/*
 

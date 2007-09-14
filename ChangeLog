@@ -1,3 +1,9 @@
+2007-09-14 Erwann Chenede - <erwann.chenede@sun.com>
+
+	* SFEemerald.spec: fixed dir and files attributes
+	  removed unneeded generation of -root packages.
+	  (from Doug's comments).
+
 2007-09-14  Halton Huo <nonsea@users.sourceforge.net>
 
 	* linux-specs/libgsf.spec:
