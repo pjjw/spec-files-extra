@@ -105,10 +105,14 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-CFLAGS="$RPM_OPT_FLAGS"			\
+libtoolize --force
+intltoolize --copy --force --automake
 aclocal $ACLOCAL_FLAGS  -I ./m4
+autoheader
 automake -a -c -f
 autoconf
+
+CFLAGS="$RPM_OPT_FLAGS"			\
 ./configure --prefix=%{_prefix}			\
 	    --bindir=%{_bindir}			\
 	    --libdir=%{_libdir}			\
@@ -166,6 +170,9 @@ gconftool-2 --makefile-uninstall-rule %{_sysconfdir}/gconf/schemas/gsf-office-th
 %{_datadir}/gtk-doc/html/libgsf/*
 
 %changelog
+* Fri Sep 14 2007 - nonsea@users.sourceforge.net
+- Add libtoolize and intltoolize to fix build fail.
+
 * Mon Sep 10 2007 - nonsea@users.sourceforge.net
 - Bump to 1.14.7.
 

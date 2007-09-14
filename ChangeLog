@@ -1,7 +1,12 @@
+2007-09-14  Halton Huo <nonsea@users.sourceforge.net>
+
+	* linux-specs/libgsf.spec:
+	  Add libtoolize and intltoolize to fix build fail.
+
 2007-09-04  Thomas Wagner <tom68@users.sourceforge.net>
-        * SFEpulseaudio: corrected rm lib*.a and lib*.la
-            activated patch2 (default.pa), enable Network with
-            paprefs
+	* SFEpulseaudio: corrected rm lib*.a and lib*.la
+	  activated patch2 (default.pa), enable Network with
+	  paprefs
 
 2007-09-12 Erwann Chenede - <erwann.chenede@sun.com>
 
