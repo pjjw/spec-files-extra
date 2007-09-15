@@ -41,7 +41,7 @@ Requires:                %{name} = %{version}
 
 %prep
 %setup -q -n %{src_name}-%version
-%patch1 -p2
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -122,6 +122,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Sep 15 2007 - trisk@acm.jhu.edu
+- Fix patch rule
 * Sat Sep 08 2007 - trisk@acm.jhu.edu
 - Update rules
 * Fri Aug 31 2007 - trisk@acm.jhu.edu
