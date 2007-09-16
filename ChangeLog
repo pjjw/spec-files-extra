@@ -1,3 +1,15 @@
+2007-09-16  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEgimmie.spec: Add patch2
+	* SFEgrandr.spec: *NEW* GTK interface to the X Resize And Rotate
+	  (XRandR) extension
+	* SFEpulseaudio.spec: Fix rules, add patch3
+	* SFEsexy-python.spec: Fix rules, update Python library dir
+	* patches/gimmie-02-monitor.diff: Allow gnomevfs monitoring to fail
+	* patches/grandr-01-gconf.diff: Fix crash on empty gconf value
+	* patches/grandr-02-desktop-file.diff: Add desktop file
+	* patches/pulseaudio-03-esdcompat.diff: Fix bashism in esdcompat script
+
 2007-09-15  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFElibcompizconfig.spec: Fix patch rule

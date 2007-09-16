@@ -10,6 +10,7 @@ Summary:                 Gimmie - unique desktop organizer
 Version:                 0.2.7
 Source:                  http://www.beatniksoftware.com/gimmie/releases/gimmie-%{version}.tar.gz
 Patch1:                  gimmie-01-libsexy.diff
+Patch2:                  gimmie-02-monitor.diff
 URL:                     http://www.beatniksoftware.com/gimmie
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -51,6 +52,7 @@ Requires:                %{name}
 %prep
 %setup -q -n gimmie-%{version}
 %patch1 -p1
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -183,5 +185,7 @@ test -x $BASEDIR/lib/postrun || exit 0
 
 
 %changelog
+* Sat Sep 15 2007 - trisk@acm.jhu.edu
+- Add patch2
 * Sat Sep 01 2007 - trisk@acm.jhu.edu
 - Initial spec

@@ -1,6 +1,4 @@
 #
-# Copyright (c) 2006 Sun Microsystems, Inc.
-# This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
 
@@ -15,6 +13,7 @@ Version:	0.9.5
 Source:		%{src_url}/%{src_name}-%{version}.tar.gz
 Patch1:		pulseaudio-01-ioctl.diff
 Patch2:		pulseaudio-02-default.pa.diff
+Patch3:		pulseaudio-03-esdcompat.diff
 SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -42,6 +41,8 @@ SUNW_BaseDir:            /
 %setup -q -n %{src_name}-%{version}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+perl -pi -e 's,/bin/sh,/bin/ksh,' src/daemon/esdcompat.in
 
 %build
 
@@ -74,7 +75,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 #rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.la
 #rm -f $RPM_BUILD_ROOT%{_libdir}/pulse-*/modules/lib*.a
 #rm -f $RPM_BUILD_ROOT%{_libdir}/pulse-*/modules/lib*.la
-find $RPM_BUILD_ROOT%{_libdir}/ -name ".*\.a" -exec rm {} \; -print -o -name  ".*\.la" -exec rm {} \; -print
+find $RPM_BUILD_ROOT%{_libdir}/ -name "*.a" -exec rm {} \; -print -o -name  "*.la" -exec rm {} \; -print
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -96,10 +97,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files root
 %defattr (-, root, bin)
+%attr (0755, root, sys) %dir %{_sysconfdir}
 %attr (0755, root, sys) %dir %{_sysconfdir}/pulse
 %{_sysconfdir}/pulse/*
 
 %changelog
+* Sat Sep 15 2007 - trisk@acm.jhu.edu
+- Fix rules, add patch3
 * Thu Sep 13 2007 - Thomas Wagner
 - corrected rm lib*.a and lib*.la
 - activated patch2 (default.pa)

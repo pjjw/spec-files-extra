@@ -1,0 +1,14 @@
+--- /dev/null	2007年  9月 16日 日 13:54:15
++++ grandr-0.1/grandr.desktop	2007年  9月 16日 日 13:53:03
+@@ -0,0 +1,11 @@
++[Desktop Entry]
++Encoding=UTF-8
++Name=Multiple screens
++Comment=Configure multiple screens
++Exec=grandr
++Icon=display-capplet.png
++Terminal=false
++Type=Application
++StartupNotify=true
++Categories=GNOME;GTK;Settings;HardwareSettings;System;
++OnlyShowIn=GNOME;

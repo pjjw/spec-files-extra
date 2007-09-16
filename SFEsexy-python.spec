@@ -23,20 +23,13 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 BuildRequires: SFElibsexy
 Requires: SFElibsexy
 
-%if %build_l10n
-%package l10n
-Summary:                 foo - l10n files
-SUNW_BaseDir:            %{_basedir}
-%include default-depend.inc
-Requires:                %{name}
-%endif
+%define pythonver 2.4
 
 %prep
-%setup -q -c -n %name-%version
+%setup -q -n sexy-python-%version
 %patch1 -p1
 
 %build
-cd sexy-python-%version
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
@@ -57,21 +50,17 @@ export MSGFMT="/usr/bin/msgfmt"
 make -j$CPUS
 
 %install
-cd sexy-python-%version
+rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 rm $RPM_BUILD_ROOT%{_libdir}/python2.4/site-packages/*.la
 
-#
-# when not building -l10n packages, remove anything l10n related from
-# $RPM_BUILD_ROOT
-#
-%if %build_l10n
-%else
-# REMOVE l10n FILES
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
-rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/*/[a-z]*
-rm -rf $RPM_BUILD_ROOT%{_datadir}/omf/*/*-[a-z]*.omf
-%endif
+# move to vendor-packages
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages
+mv $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/* \
+   $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages/
+rmdir $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages
+
+%{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -79,21 +68,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
-%{_datadir}/*
-
-#
-# The files included here should match the ones removed in %install
-#
-%if %build_l10n
-%files l10n
-%defattr (-, root, other)
+%{_libdir}/python%{pythonver}/vendor-packages/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/locale
-%{_datadir}/gnome/help/*/[a-z]*
-%{_datadir}/omf/*/*-[a-z]*.omf
-%endif
+%dir %attr (0755, root, bin) %{_datadir}/pygtk
+%{_datadir}/pygtk/*
 
 %changelog
+* Sat Sep 08 2007 - trisk@acm.jhu.edu
+- Fix rules, update Python library dir
 * Fri Aug  24 2007 - erwann@sun.com
 - Initial spec

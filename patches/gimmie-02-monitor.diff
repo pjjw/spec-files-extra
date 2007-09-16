@@ -1,0 +1,14 @@
+--- gimmie-0.2.7.orig/gimmie/gimmie_util.py	2007年  9月 15日 六 22:17:09
++++ gimmie-0.2.7/gimmie/gimmie_util.py	2007年  9月 15日 六 22:27:20
+@@ -57,7 +57,10 @@
+                 monitor_type = gnomevfs.MONITOR_DIRECTORY
+             else:
+                 monitor_type = gnomevfs.MONITOR_FILE
+-            self.monitor = gnomevfs.monitor_add(self.path, monitor_type, self._queue_event)
++            try:
++                self.monitor = gnomevfs.monitor_add(self.path, monitor_type, self._queue_event)
++            except gnomevfs.NotSupportedError:
++                pass
+ 
+     def _clear_timeout(self, info_uri):
+         try:
