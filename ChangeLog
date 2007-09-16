@@ -1,3 +1,9 @@
+2007-09-16  Ananth Shrinivas <ananth@sun.com>
+
+    * SFEkiwi.spec: *NEW* A framework for Python applications with graphical user interfaces
+    * SFEgazpacho.spec: *NEW* A GTK+ User Interface Builder
+    * SFEpida.spec: *NEW* A Python Integrated Development Environment
+
 2007-09-16  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEgimmie.spec: Add patch2
