@@ -1,3 +1,10 @@
+2007-09-16  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFElast-exit.spec: Add patch3
+	* SFElynx.spec: Fix LDFLAGS
+	* patches/last-exit-03-format.diff: Don't crash on "tagged as" search
+	  (http://bugzilla.gnome.org/show_bug.cgi?id=448927)
+
 2007-09-16  Ananth Shrinivas <ananth@sun.com>
 
     * SFEkiwi.spec: *NEW* A framework for Python applications with graphical user interfaces

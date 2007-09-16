@@ -14,6 +14,7 @@ SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires:	SFEncurses-devel
+BuildRequires:	SUNWopenssl-include
 Requires:	SFEncurses
 Requires:	SUNWopenssl-libraries
 
@@ -34,8 +35,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CFLAGS="%optflags -I/usr/gnu/include -I/usr/sfw/include"
-export LDFLAGS="%_ldflags -lsocket -lnsl"
-export LD_OPTIONS="-L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib"
+export LDFLAGS="%_ldflags -lsocket -lnsl -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib"
 
 ./configure --prefix=%{_prefix}		\
             --bindir=%{_bindir}		\
@@ -74,6 +74,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}
 
 %changelog
+* Sun Sep 16 2007 - trisk@acm.jhu.edu
+- Fix LDFLAGS
 * Sat May 26 2007 - Thomas Wagner
 - version bump to 2.8.6, new download-URL since not in /current/-diry
 * Fri Apr 20 2007 - Doug Scott

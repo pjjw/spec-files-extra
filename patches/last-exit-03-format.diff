@@ -1,0 +1,18 @@
+--- last-exit-5.orig/src/FindStation.cs	2007年  9月 10日 一 22:04:13
++++ last-exit-5/src/FindStation.cs	2007年  9月 10日 一 22:36:53
+@@ -461,7 +461,14 @@
+ 
+ 				NumberFormatInfo match_fmt = new NumberFormatInfo();
+ 				match_fmt.NumberDecimalSeparator = ".";
+-				double match = Double.Parse (get_node_text (t_node, "match"), match_fmt);
++				match_fmt.NumberGroupSeparator = ",";
++				double match = Double.NaN;
++				try {
++					match = Double.Parse (get_node_text (t_node, "match"), match_fmt);
++				}
++				catch (FormatException) {
++					pass;
++				}
+ 
+ 				Tag t = new Tag (id, name, match);
+ 				tags.Add (t);

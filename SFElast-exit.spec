@@ -11,6 +11,7 @@ Summary:      Last Exit - streaming media player for GNOME, using the Last.fm we
 Source:       http://lastexit-player.org/releases/last-exit-%{version}.tar.bz2
 Patch1:       last-exit-01-solaris.diff
 Patch2:       last-exit-02-memmem.diff
+Patch3:       last-exit-03-format.diff
 URL:          http://lastexit-player.org
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
@@ -49,6 +50,7 @@ Requires:                %{name}
 %setup -q -n last-exit-%{version}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
