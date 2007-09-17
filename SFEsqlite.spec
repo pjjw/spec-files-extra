@@ -29,7 +29,7 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-export CFLAGS="%optflags -mt -DSOLARIS -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS -D_FILE_OFFSET_BITS=64 -D_XOPEN_SOURCE=500 -D__EXTENSIONS__"
+export CFLAGS="%optflags -mt -DSOLARIS -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS -D_FILE_OFFSET_BITS=64 -D_XOPEN_SOURCE=500 -D__EXTENSIONS__ -DSQLITE_ENABLE_REDEF_IO"
 export LDFLAGS="%{_ldflags}"
 
 ./configure --prefix=%{_prefix}					\
@@ -79,6 +79,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 17 2007 - nonsea@users.sourceforge.net
+- Add -DSQLITE_ENABLE_REDEF_IO to CFLAGS for firefox3.
 * Thu Sep 06 2007 - nonsea@users.sourceforge.net
 - Bump to 3.4.2, 3.5.0 is still alpha.
 - Uncomment patch1.
