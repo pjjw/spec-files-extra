@@ -21,9 +21,11 @@
 %use libvorbis = libvorbis.spec
 
 Name:                    SFEogg-vorbis
-Summary:                 Ogg bitstream and Vorbis audio codec libraries
+Summary:                 Ogg bitstream and Vorbis audio codec libraries - 64bit
 Version:                 %{default_pkg_version}
+%ifarch !amd64 !sparcv9
 Source:                  SUNWogg-vorbis-manpages-0.1.tar.gz
+%endif
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -52,8 +54,10 @@ mkdir %name-%version/%{base_arch}
 %libogg.prep -d %name-%version/%{base_arch}
 %libvorbis.prep -d %name-%version/%{base_arch}
 
+%ifarch !amd64 !sparcv9
 cd %{_builddir}/%name-%version
 gzcat %SOURCE0 | tar xf -
+%endif
 
 %build
 
@@ -80,9 +84,11 @@ rm -rf $RPM_BUILD_ROOT
 %libogg.install -d %name-%version/%{base_arch}
 %libvorbis.install -d %name-%version/%{base_arch}
 
+%ifarch !amd64 !sparcv9
 rm -rf $RPM_BUILD_ROOT%{_mandir}
 cd %{_builddir}/%name-%version/sun-manpages
 make install DESTDIR=$RPM_BUILD_ROOT
+%endif
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
 %ifarch amd64 sparcv9
@@ -131,6 +137,10 @@ rm -rf $RPM_BUILD_ROOT
 #%{_mandir}/man3/*
 
 %changelog
+* Thu Sep 06 2007 - Thomas.Wagner@Sun.COM
+- do not download and build manpages when 
+  doing amd64 or sparcv9 (already in SUNWogg-vorbis 32-bit)
+  TODO: re-ceck manpages for sparcv9
 * Sun Aug 12 2007 - dougs@truemail.co.th
 - copied from spec-files to provide 64bit libraries
 * Mon Sep 04 2006 - Matt.Keenan@sun.com

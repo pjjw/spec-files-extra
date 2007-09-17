@@ -20,6 +20,10 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
+#if build, examples will require libsndfile
+BuildRequires: SFElibsndfile-devel
+Requires: SFElibsndfile
+
 %package devel
 Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_basedir}
@@ -81,6 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Sep 06 2007 - Thomas Wagner
+- (Build)Requires on SFElibsndfile(-devel)
 * Sun Aug 12 2007 - dougs@truemail.co.th
 - Changed to build 64bit
 * 20070522 Thomas Wagner
