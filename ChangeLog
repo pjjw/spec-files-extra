@@ -1,3 +1,8 @@
+2007-09-17  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEdeluge.spec: Bump to 0.5.5
+	* patches/deluge-01-sunpro.diff: Update for libtorrent changes
+
 2007-09-17  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEsqlite.spec: Add -DSQLITE_ENABLE_REDEF_IO to CFLAGS for firefox3.
