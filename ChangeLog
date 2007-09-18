@@ -1,3 +1,8 @@
+2007-09-18  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEwv.spec: Add patch w3m-dump, Remove Requires SFElinks
+	* patches/wv-02-w3m-dump.diff: add to use w3m convert html to txt
+
 2007-09-18  Mark Wright <markwright@internode.on.net>
 
 	* SFEnetpbm.spec: Add netpbm. to svn_url.  Comment netpbm-02-stdlib.diff.

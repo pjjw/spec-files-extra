@@ -17,6 +17,8 @@ URL:                 http://wvware.sourceforge.net/
 Source:              http://easynews.dl.sourceforge.net/sourceforge/wvware/wv-%{version}.tar.gz
 # owner:halton date:2007-09-18 bugid:11195 type:bug
 Patch1:              wv-01-solaris-iconv.diff
+# owner:halton date:2007-09-18 bugid:11196 type:bug
+Patch2:              wv-02-w3m-dump.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -26,7 +28,6 @@ Requires:            SUNWzlib
 Requires:            SUNWlibmsr
 Requires:            SUNWbzip
 Requires:            SUNWcslr
-Requires:            SFElinks
 Requires:            SFElibgsf
 BuildRequires:       SUNWgnome-base-libs-devel
 BuildRequires:       SUNWlxml-devel
@@ -41,6 +42,7 @@ Requires:                %{name}
 %prep
 %setup -q -n wv-%version
 %patch1 -p1
+%patch2 -p1
 
 %build
 
@@ -91,6 +93,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Sep 18 2007 - nonsea@users.sourceforge.net
+- Add patch w3m-dump to use w3m convert html to txt
+- Remove Requires SFElinks
 * Tue Sep 18 2007 - nonsea@users.sourceforge.net
 - Add patch solaris-iconv to fix wvWare core dump
 * Sun Jun 10 2007 - nonsea@users.sourceforge.net

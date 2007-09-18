@@ -1,0 +1,59 @@
+Index: wv-trunk/wvText.in
+===================================================================
+--- wv-trunk/wvText.in	(revision 21979)
++++ wv-trunk/wvText.in	(working copy)
+@@ -18,20 +18,25 @@
+ else
+     which links >/dev/null 2>&1
+     if [ ${?} -eq "0" ]; then
+-	USE_DUMP=2
++		USE_DUMP=2
+     else
+-	which lynx >/dev/null 2>&1
+-	if [ ${?} -eq "0" ]; then
+-	    USE_DUMP=1
+-	fi
++		which lynx >/dev/null 2>&1
++		if [ ${?} -eq "0" ]; then
++			USE_DUMP=1
++		else
++			which w3m >/dev/null 2>&1
++			if [ ${?} -eq "0" ]; then
++				USE_DUMP=4
++			fi
++		fi
+     fi    
+ fi
+ 
+ if [ $USE_DUMP -eq "1" ]; then
+-	echo "Could not find required program 'elinks' or 'links'"
++	echo "Could not find required program 'elinks' or 'links' or 'w3m'"
+ 	echo "Using lynx. Ouput will be pretty ugly."
+ elif [ $USE_DUMP -eq "0" ]; then
+-	echo "Could not find required program 'elinks', 'links', or even 'lynx'"
++	echo "Could not find required program 'elinks', 'links', 'w3m', or even 'lynx'"
+ 	echo "Using wvWare -x wvText.xml. Ouput will be pretty bad."
+ fi
+ 
+@@ -45,7 +50,7 @@
+     fi
+ 
+     # intermediate file
+-    TMP_FILE=`mktemp "$tmpdir/wv-XXXXXX"`
++    TMP_FILE=`mktemp "$tmpdir/wv-XXXXXX.html"`
+     TMP_FILE=`basename "$TMP_FILE"`
+ 
+     wvHtml -1 "${1}" --targetdir="${tmpdir}" "${TMP_FILE}" >/dev/null 2>&1
+@@ -54,8 +59,11 @@
+ 	exit 1
+     fi
+ 
+-    if [ $USE_DUMP -eq "3" ]; then
++    if [ $USE_DUMP -eq "4" ]; then
+ 	# elinks does the best
++	w3m -dump "${tmpdir}/${TMP_FILE}" > "${2}"
++    elif [ $USE_DUMP -eq "3" ]; then
++	# elinks does the best
+ 	elinks -dump -force-html "${tmpdir}/${TMP_FILE}" > "${2}"
+     elif [ $USE_DUMP -eq "2" ]; then
+ 	# links does a pretty good job
