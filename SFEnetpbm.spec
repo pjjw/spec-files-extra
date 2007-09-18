@@ -4,14 +4,15 @@
 # includes module(s): SFEnetpbm
 #
 %include Solaris.inc
-%define svn_url https://svn.sourceforge.net/svnroot/netpbm/advanced
+%define svn_url https://netpbm.svn.sourceforge.net/svnroot/netpbm/advanced
 
 Name:                    SFEnetpbm
 Summary:                 netpbm - network portable bitmap tools
 Version:                 10.35
 Patch1:			 netpbm-01-strings.diff
 Patch2:			 netpbm-Makefile.conf
-Patch3:			 netpbm-02-stdlib.diff
+# Patch3:			 netpbm-02-stdlib.diff
+Patch4:			 netpbm-03-no-XDefs.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -35,7 +36,8 @@ rm -rf netpbm
 [ ! -d netpbm ] && bunzip2 -c ../../SOURCES/netpbm-%version.tar.bz2 | tar fxp -
 cd netpbm
 %patch1 -p1
-%patch3 -p1
+# %patch3 -p1
+%patch4 -p1
 cat Makefile.config.in %{PATCH2} > Makefile.config
 touch Makefile.depend
 
@@ -87,6 +89,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Tue Sep 18 2007 - markwright@internode.on.net
+- Add netpbm. to svn_url
+- Comment netpbm-02-stdlib.diff, as stdlib.h now included in generator/ppmrough.c
+- Add patch4 netpbm-03-no-XDefs.diff
 * Sat Apr 21 2007 - dougs@truemail.co.th
 - Disabled parallel make. Can be a problem on a multicpu system
 * Wed Feb 28 2007 - markgraf@med.ovgu.de

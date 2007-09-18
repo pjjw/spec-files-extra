@@ -1,3 +1,8 @@
+2007-09-18  Mark Wright <markwright@internode.on.net>
+
+	* SFEnetpbm.spec: Add netpbm. to svn_url.  Comment netpbm-02-stdlib.diff.
+	* patches/netpbm-03-no-XDefs.diff: remove #include <X11/XDefs.h>
+	
 2007-09-18  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEasciidoc.spec: Bump to 8.2.3
