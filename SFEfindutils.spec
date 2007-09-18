@@ -10,7 +10,8 @@
 
 Name:                SFEfindutils
 Summary:             GNU find, locate, and xargs
-Version:             4.2.27
+Version:             4.2.31
+URL:                 http://www.gnu.org/software/findutils/
 Source:              http://ftp.gnu.org/pub/gnu/findutils/findutils-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
@@ -58,5 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
+* Tue Sep 18 2007 - nonsea@users.sourceforge.net
+- Bump to 4.2.31
 * Sun Sep 24 2006 - Eric Boutilier
 - Initial spec

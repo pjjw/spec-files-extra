@@ -8,8 +8,9 @@
 
 Name:                    SFEcurl
 Summary:                 curl - Get a file from FTP or HTTP server.
-Version:                 7.16.2
-Source:			 http://curl.haxx.se/download/curl-%{version}.tar.gz
+Version:                 7.17.0
+URL:                     http://curl.haxx.se/
+Source:                  http://curl.haxx.se/download/curl-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -86,6 +87,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Tue Sep 18 2007 - nonsea@users.sourceforge.net
+- Bump to 7.17.0
 * Mon May 28 2007 - Thomas Wagner
 - bump to 7.16.2
 - --disable-static

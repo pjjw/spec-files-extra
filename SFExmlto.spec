@@ -9,8 +9,8 @@
 Name:                    SFExmlto
 Summary:                 xmlto - converts an XML file into a specified format
 Version:                 0.0.18
+URL:                     http://directory.fsf.org/all/xmlto.html
 Source:                  http://cyberelk.net/tim/data/xmlto/stable/xmlto-%{version}.tar.bz2
-URL:			 http://directory.fsf.org/all/xmlto.html
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

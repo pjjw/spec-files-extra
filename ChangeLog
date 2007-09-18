@@ -1,3 +1,11 @@
+2007-09-18  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEasciidoc.spec: Bump to 8.2.3
+	* SFEcurl.spec: Bump to 7.17.0
+	* SFEfindutils.spec: Bump to 4.2.31
+	* SFEw3m.spec: Add URL
+	* SFExmlto.spec:
+
 2007-09-18  Doug Scott  <dougs@truemail.co.th>
 
 	* SFElibmtp.spec: *NEW* Microsoft's Media Transfer Protocol

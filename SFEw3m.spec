@@ -8,6 +8,7 @@
 Name:                SFEw3m
 Summary:             A text-based web browser
 Version:             0.5.2
+URL:                 http://w3m.sourceforge.net/
 Source:              http://superb-west.dl.sourceforge.net/sourceforge/w3m/w3m-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -66,6 +67,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man*/*
 
 %changelog
+* Tue Sep 18 2007 - nonsea@users.sourceforge.net
+- Add URL
 * Tue Sep 11 2007 - nonsea@users.sourceforge.net
 - Add --with-browser=/usr/bin/firefox, replace default value mozilla.
 * Wed Sep 05 2007 - nonsea@users.sourceforge.net
