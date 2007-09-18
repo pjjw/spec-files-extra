@@ -12,8 +12,14 @@ Source:              http://superb-west.dl.sourceforge.net/sourceforge/w3m/w3m-%
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+Requires:            SUNWgnome-base-libs
+Requires:            SUNWlibmsr
+Requires:            SUNWperl584core
+Requires:            SUNWxwrtl
+Requires:            SUNWzlib
 Requires:            SFEgc
 Requires:            SUNWopenssl-libraries
+BuildRequires:       SUNWgnome-base-libs-devel
 BuildRequires:       SUNWopenssl-include
 
 %prep

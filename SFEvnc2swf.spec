@@ -18,7 +18,9 @@ Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires:           SUNWzlib
+Requires:           SUNWlibC
+Requires:           SUNWlibms
+Requires:           SUNWxwrtl
 
 %prep
 rm -rf %name-%version

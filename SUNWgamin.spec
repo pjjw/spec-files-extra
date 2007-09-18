@@ -21,6 +21,9 @@ Summary:		%{gamin.summary}
 Version:		%{gamin.version}
 SUNW_BaseDir:		%{_basedir}
 BuildRoot:		%{_tmppath}/%{name}-%{version}-build
+%include default-depend.inc
+Requires:      SUNWgnome-base-libs
+BuildRequires: SUNWgnome-base-libs-devel
 
 %package devel
 Summary:		%{summary} - developer files

@@ -18,6 +18,10 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:      SUNWgnome-libs
+Requires:      SUNWlibC
+Requires:      SUNWlibsdl
+BuildRequires: SUNWgnome-libs-devel
+BuildRequires: SUNWlibsdl-dvel
 Conflicts:     SFEwxGTK
 
 %package devel

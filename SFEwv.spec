@@ -2,6 +2,10 @@
 # Copyright (c) 2007 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
+#
+# owner: nonsea
+# bugdb: bugzilla.abisource.com
+#
 
 %include Solaris.inc
 
@@ -9,11 +13,24 @@ Name:                SFEwv
 License:             GPL
 Summary:             A library that allows access to Microsoft Word files
 Version:             1.2.4
-URL:                 http://sourceforge.net/projects/wvware/
+URL:                 http://wvware.sourceforge.net/
 Source:              http://easynews.dl.sourceforge.net/sourceforge/wvware/wv-%{version}.tar.gz
+# owner:halton date:2007-09-18 bugid:11195 type:bug
+Patch1:              wv-01-solaris-iconv.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+Requires:            SUNWgnome-base-libs
+Requires:            SUNWlxml
+Requires:            SUNWzlib
+Requires:            SUNWlibmsr
+Requires:            SUNWbzip
+Requires:            SUNWcslr
+Requires:            SFElinks
+Requires:            SFElibgsf
+BuildRequires:       SUNWgnome-base-libs-devel
+BuildRequires:       SUNWlxml-devel
+BuildRequires:       SFElibgsf-devel
 
 %package devel
 Summary:                 %{summary} - development files
@@ -23,6 +40,7 @@ Requires:                %{name}
 
 %prep
 %setup -q -n wv-%version
+%patch1 -p1
 
 %build
 
@@ -34,8 +52,9 @@ fi
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
 
-./configure --prefix=%{_prefix}  \
-            --mandir=%{_mandir} \
+./configure --prefix=%{_prefix}	\
+            --mandir=%{_mandir}	\
+            --with-glib=glib2	\
             --enable-static=no
 
 make -j$CPUS
@@ -72,6 +91,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Sep 18 2007 - nonsea@users.sourceforge.net
+- Add patch solaris-iconv to fix wvWare core dump
 * Sun Jun 10 2007 - nonsea@users.sourceforge.net
 - Add defattr root:bin to -devel package.
 * Fri May 04 2007 - nonsea@users.sourceforge.net

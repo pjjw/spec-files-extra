@@ -13,10 +13,13 @@ Patch1:		lynx-01-color.diff
 SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires:	SFEncurses-devel
-BuildRequires:	SUNWopenssl-include
 Requires:	SFEncurses
 Requires:	SUNWopenssl-libraries
+Requires:   SUNWbzip
+Requires:   SUNWzlib
+BuildRequires:	SFEncurses-devel
+BuildRequires:	SUNWopenssl-include
+
 
 %package root
 Summary:                 %{summary} - / filesystem

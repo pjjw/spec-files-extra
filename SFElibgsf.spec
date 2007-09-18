@@ -19,7 +19,14 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
 Requires: %{name}-root
+Requires: SUNWgnome-base-libs
+Requires: SUNWgnome-component
+Requires: SUNWgnome-vfs
+Requires: SUNWbzip
 Requires: SUNWpostrun
+BuildRequires: SUNWgnome-base-libs-devel
+BuildRequires: SUNWgnome-component-devel
+BuildRequires: SUNWgnome-vfs-devel 
 
 %package root
 Summary:                 %{summary} - / filesystem

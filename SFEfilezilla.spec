@@ -20,10 +20,16 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 
 Requires: SUNWgnome-libs
 Requires: SUNWgnome-base-libs
+Requires: SUNWgnome-vfs
+Requires: SUNWgnome-component
+Requires: SUNWgnome-config
 Requires: SFEwxwidgets
 Requires: SFElibidn
 BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWgnome-base-libs-devel
+BuildRequires: SUNWgnome-vfs-devel
+BuildRequires: SUNWgnome-component-devel
+BuildRequires: SUNWgnome-config-devel
 BuildRequires: SFEwxwidgets-devel
 BuildRequires: SFElibidn-devel
 

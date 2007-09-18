@@ -1,8 +1,22 @@
+2007-09-18  Halton Huo <nonsea@users.sourceforge.net>
+
+	Add Requires/BuildRequires after run check-deps.pl
+	* SFEfilezilla.spec:
+	* SFElibgsf.spec:
+	* SFElinks.spec:
+	* SFElynx.spec:
+	* SFEvnc2swf.spec:
+	* SFEw3m.spec:
+	* SFEwv.spec: Add patch wv-01-solaris-iconv.diff
+	* patches/wv-01-solaris-iconv.diff: Add to fix wvWare core dump
+	* SFEwxwidgets.spec:
+	* SUNWgamin.spec:
+
 2007-09-17  Thomas Wagner <tom68@users.sourceforge.net>
- 
-        * SFEogg-vorbis: 64-bit build: do not download and build manpages when
-            doing amd64 or sparcv9 (should already in SUNWogg-vorbis 32-bit)
-            TODO: re-ceck manpages for sparcv9
+
+	* SFEogg-vorbis: 64-bit build: do not download and build manpages when
+	  doing amd64 or sparcv9 (should already in SUNWogg-vorbis 32-bit)
+	  TODO: re-ceck manpages for sparcv9
 
 2007-09-17  Albert Lee  <trisk@acm.jhu.edu>
 

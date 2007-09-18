@@ -16,6 +16,8 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 Requires: SUNWopenssl-libraries
+Requires: SUNWbzip
+Requires: SUNWzlib
 
 %prep
 %setup -q -n links-%{tarball_version}
