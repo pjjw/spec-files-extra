@@ -1,0 +1,11 @@
+--- libmtp-0.2.1/configure.ac.orig	2007-09-18 15:49:52.609778878 +0700
++++ libmtp-0.2.1/configure.ac	2007-09-18 15:50:11.389951304 +0700
+@@ -85,7 +85,7 @@
+ CFLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64"
+ # Stick in "-Werror" if you want to be more aggressive.
+ # (No need to use AC_SUBST on this default substituted environment variable.)
+-CFLAGS="$CFLAGS -Wall -Wmissing-prototypes"
++# CFLAGS="$CFLAGS -Wall -Wmissing-prototypes"
+ 
+ # Output files
+ 

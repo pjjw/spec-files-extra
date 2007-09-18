@@ -9,7 +9,7 @@
 
 Name:                    SFElcms
 Summary:                 Little ColorManagement System
-Version:                 1.16
+Version:                 1.17
 Source:                  http://www.littlecms.com/lcms-%{version}.tar.gz
 Patch1:                  lcms-01-python-libs.diff
 URL:                     http://www.littlecms.com
@@ -93,6 +93,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sun Sep 16 2007 - dougs@truemail.co.th
+- Bump to 1.17
 * Tue Feb  6 2007 - damien.carbery@sun.com
 - Bump to 1.16. Add aclocal call because automake version mismatch.
 * Fri Jun 23 2006 - laca@sun.com

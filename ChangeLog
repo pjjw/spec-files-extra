@@ -1,3 +1,11 @@
+2007-09-18  Doug Scott  <dougs@truemail.co.th>
+
+	* SFElibmtp.spec: *NEW* Microsoft's Media Transfer Protocol
+	* SFElcms.spec: bump to 1.17
+	* base-specs/libmtp.spec: base spec
+	* patches/libmtp-02-u_int.diff: add u_int types
+	* patches/libmtp-01-wall.diff: remove -Wall
+
 2007-09-18  Halton Huo <nonsea@users.sourceforge.net>
 
 	Add Requires/BuildRequires after run check-deps.pl
