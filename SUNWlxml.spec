@@ -10,7 +10,7 @@
 
 %include Solaris.inc
 
-%define libxml2_version 2.6.23
+%define libxml2_version 2.6.27
 %define python_version 2.4
 
 Name:                    SUNWlxml
@@ -28,6 +28,13 @@ SUNW_BaseDir:            %{_prefix}
 Requires: SUNWlxml
 Requires: SUNWPython
 BuildRequires: SUNWPython-devel
+
+%package devel
+Summary:                 %{summary} - development files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires: SUNWlxml
+Requires: SUNWPython
 
 %prep
 %setup -c -q -n %name-%version
@@ -107,16 +114,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, other)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/xml*
+%{_bindir}/xmlcatalog
+%{_bindir}/xmllint
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
-%{_libdir}/pkgconfig
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
 %ifarch amd64 sparcv9
 %dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
 %{_libdir}/%{_arch64}/lib*.so*
-%{_libdir}/%{_arch64}/pkgconfig
 %endif
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/doc
@@ -127,7 +131,24 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/python*
 
+%files devel
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/xml2-config
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
+%ifarch amd64 sparcv9
+%{_libdir}/%{_arch64}/pkgconfig
+%endif
+%dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/gtk-doc
+
 %changelog
+* Mon Sep 17 2007 - brian.cameron@sun.com
+- Bump to 2.6.27.  Add devel packages.
 * Thu Dec 08 2005 - damien.carbery@sun.com
 - Add BuildRequires SUNWPython-devel. Build fails if python not installed.
 * Tue Sep 27 2005 - laca@sun.com

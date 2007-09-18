@@ -10,13 +10,13 @@
 
 %include Solaris.inc
 
-%define libxslt_version 1.1.15
+%define libxslt_version 1.1.20
 %define python_version 2.4
 
 Name:                    SUNWlxsl
 Summary:                 The XSLT library
 Version:                 11.10.%{libxslt_version}
-Source:                  ftp://ftp.gnome.org/pub/GNOME/stable/sources/libxslt/libxslt-%{libxslt_version}.tar.bz2
+Source:                  ftp://ftp.gnome.org/pub/GNOME/sources/libxslt/1.1/libxslt-%{libxslt_version}.tar.bz2
 SUNW_BaseDir:            %{_prefix}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -25,6 +25,13 @@ Requires: SUNWlxml
 %package python
 Summary:                 Python bindings for libxslt
 SUNW_BaseDir:            %{_prefix}
+%include default-depend.inc
+Requires: SUNWlxml
+Requires: SUNWPython
+
+%package devel
+Summary:                 %{summary} - development files
+SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: SUNWlxml
 Requires: SUNWPython
@@ -107,16 +114,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, other)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/xslt*
+%{_bindir}/xsltproc
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
-%{_libdir}/pkgconfig
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
+%dir %attr (0755, root, bin) %{_libdir}/libxslt-plugins
 %ifarch amd64 sparcv9
 %dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
 %{_libdir}/%{_arch64}/lib*.so*
-%{_libdir}/%{_arch64}/pkgconfig
 %endif
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/doc
@@ -126,8 +130,23 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/python*
+%ifarch amd64 sparcv9
+%{_libdir}/%{_arch64}/pkgconfig
+%endif
+
+%files devel
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/xslt-config
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
 
 %changelog
+* Mon Sep 17 2007 - brian.cameron@sun.com
+- Bump to 1.1.20.  Add devel package.
 * Tue Sep 27 2005 - laca@sun.com
 - move python bits from site-packages to vendor-packages
 * Tue Sep 20 2005 - laca@sun.com
