@@ -35,25 +35,15 @@ Index: wv-trunk/wvText.in
  	echo "Using wvWare -x wvText.xml. Ouput will be pretty bad."
  fi
  
-@@ -45,7 +50,7 @@
-     fi
- 
-     # intermediate file
--    TMP_FILE=`mktemp "$tmpdir/wv-XXXXXX"`
-+    TMP_FILE=`mktemp "$tmpdir/wv-XXXXXX.html"`
-     TMP_FILE=`basename "$TMP_FILE"`
- 
-     wvHtml -1 "${1}" --targetdir="${tmpdir}" "${TMP_FILE}" >/dev/null 2>&1
-@@ -54,8 +59,11 @@
+@@ -54,7 +59,10 @@
  	exit 1
      fi
  
 -    if [ $USE_DUMP -eq "3" ]; then
 +    if [ $USE_DUMP -eq "4" ]; then
- 	# elinks does the best
-+	w3m -dump "${tmpdir}/${TMP_FILE}" > "${2}"
++	# w3m
++	w3m -T text/html -dump "${tmpdir}/${TMP_FILE}" > "${2}"
 +    elif [ $USE_DUMP -eq "3" ]; then
-+	# elinks does the best
+ 	# elinks does the best
  	elinks -dump -force-html "${tmpdir}/${TMP_FILE}" > "${2}"
      elif [ $USE_DUMP -eq "2" ]; then
- 	# links does a pretty good job

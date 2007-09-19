@@ -1,3 +1,7 @@
+2007-09-19  Halton Huo <nonsea@users.sourceforge.net>
+
+	* patches/wv-02-w3m-dump.diff: rework.
+
 2007-09-18  Brian Cameron <brian.cameron@sun.com>
 
 	* SFEconsolekit.spec, patches/ConsoleKit-01-nox11check.diff:
