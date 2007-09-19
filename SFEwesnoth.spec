@@ -12,7 +12,7 @@
 
 Name:                    	SFEwesnoth
 Summary:                 	Battle for Wesnoth is a fantasy turn-based strategy game
-Version:                 	1.3.7
+Version:                 	1.3.8
 Source:                  	http://kent.dl.sourceforge.net/sourceforge/wesnoth/wesnoth-%{version}.tar.bz2
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -59,7 +59,6 @@ make -j$CPUS
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
-rm "${RPM_BUILD_ROOT}%{_datadir}/wesnoth/images/buttons/group_village-active copy.png"
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -86,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}/python2.4/site-packages/wesnoth
 %{_libdir}/python2.4/site-packages/wesnoth/*
 
+
 %changelog
+* Wed Sep 19 2007 Petr Sobotka <sobotkap@centrum.cz>
+- bump to 1.3.8
 * Thu Sep 6 2007 Petr Sobotka <sobotkap@centrum.cz>
 - Initial version
