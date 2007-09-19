@@ -5,8 +5,8 @@ diff -Nur gnome-power-manager-2.19.1/help/Makefile.am gnome-power-manager-2.19.1
  	figures/gpm-cell-capacity.png \
  	figures/gpm-suspend-problem.png
  
--DOC_LINGUAS = ca es fr hu it pa ru sv
-+DOC_LINGUAS = ca es fr it pa ru sv
+-DOC_LINGUAS = ca es fr hu it oc pa ru sv
++DOC_LINGUAS = ca es fr it oc pa ru sv
 diff -Nur gnome-power-manager-2.19.1/src/gpm-array-float.c gnome-power-manager-2.19.1-new/src/gpm-array-float.c
 --- gnome-power-manager-2.19.1/src/gpm-array-float.c	2007-04-25 07:09:49.000000000 +0800
 +++ gnome-power-manager-2.19.1-new/src/gpm-array-float.c	2007-05-08 18:15:32.105679000 +0800

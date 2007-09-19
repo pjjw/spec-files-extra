@@ -5,12 +5,12 @@
 Name:           gnome-power-manager
 License:        GPL
 Group:		X11/Applications
-Version:        2.19.6
+Version:        2.20.0
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 Summary:	GNOME Power Manager
-Source0:	http://ftp.gnome.org/pub/gnome/sources/gnome-power-manager/2.19/%{name}-%{version}.tar.bz2
+Source0:	http://ftp.gnome.org/pub/gnome/sources/gnome-power-manager/2.20/%{name}-%{version}.tar.bz2
 Patch1:         gnome-power-manager-01-build.diff
 Patch2:         gnome-power-manager-02-kstat.diff
 URL:		http://www.gnome.org/projects/gnome-power-manager/
@@ -121,6 +121,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Sep 19 2007 - simon.zheng@sun.com
+- Bump to version 2.20.0
+
 * Tue Aug 28 2007 - jeff.cai@sun.com
 - Bump to version 2.19.6.
 
