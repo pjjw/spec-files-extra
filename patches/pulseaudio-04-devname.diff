@@ -1,0 +1,32 @@
+--- pulseaudio-0.9.5/src/modules/module-solaris.c.orig	2007年  9月 18日 二 13:20:11
++++ pulseaudio-0.9.5/src/modules/module-solaris.c	2007年  9月 18日 二 13:52:23
+@@ -500,9 +500,19 @@
+     return 0;
+ }
+ 
++static int pa_solaris_get_devname(int fd, char *buf) {
++    audio_device_t dev;
++    if (ioctl(fd, AUDIO_GETDEV, &dev) < 0) {
++	return -1;
++    }
++    memcpy(buf, dev.name, MAX_AUDIO_DEV_LEN);
++    return 0;
++}
++
+ int pa__init(pa_core *c, pa_module*m) {
+     struct userdata *u = NULL;
+     const char *p;
++    char devname[MAX_AUDIO_DEV_LEN];
+     int fd = -1;
+     int buffer_size;
+     int mode;
+@@ -548,6 +558,9 @@
+ 
+     pa_log_info("device opened in %s mode.", mode == O_WRONLY ? "O_WRONLY" : (mode == O_RDONLY ? "O_RDONLY" : "O_RDWR"));
+ 
++    if (pa_solaris_get_devname(fd, devname) >= 0)
++        p = devname;
++    
+     if (pa_solaris_auto_format(fd, mode, &ss) < 0)
+         goto fail;
+ 

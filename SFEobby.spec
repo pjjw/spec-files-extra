@@ -5,11 +5,12 @@
 #
 %include Solaris.inc
 
+%define SFEavahi         %(/usr/bin/pkginfo -q SFEavahi && echo 1 || echo 0)
+
 Name:                    SFEobby
 Summary:                 obby - Network Text Editing Library
 Version:                 0.4.4
-%define tarball_version  0.4.4
-Source:                  http://releases.0x539.de/obby/obby-%{tarball_version}.tar.gz
+Source:                  http://releases.0x539.de/obby/obby-%{version}.tar.gz
 Patch1:                  obby-01-cast.diff
 URL:                     http://gobby.0x539.de/
 SUNW_BaseDir:            %{_basedir}
@@ -18,8 +19,18 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires: SFEgmp
 Requires: SFEsigcpp
 Requires: SFEnet6 >= 1.3.3
+%if %SFEavahi
+Requires: SFEavahi
+%else
+Requires: SUNWavahi-bridge-dsd
+%endif
 BuildRequires: SFEnet6-devel >= 1.3.3
 BuildRequires: SFEsigcpp-devel
+%if %SFEavahi
+BuildRequires: SFEavahi-devel
+%else
+BuildRequires: SUNWavahi-bridge-dsd-devel
+%endif
 
 %package devel
 Summary:                 %{summary} - development files
@@ -28,7 +39,7 @@ SUNW_BaseDir:            %{_basedir}
 Requires: %name
 
 %prep
-%setup -q -n obby-%{tarball_version}
+%setup -q -n obby-%{version}
 %patch1 -p1
 
 %build
@@ -44,7 +55,9 @@ export CXXFLAGS="%cxx_optflags"
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
-            --sysconfdir=%{_sysconfdir} --disable-python
+            --sysconfdir=%{_sysconfdir}      \
+            --enable-ipv6                    \
+            --with-zeroconf
 make -j$CPUS 
 
 %install
@@ -69,6 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Mon Sep 17 2007 - trisk@acm.jhu.edu
+- Enable IPv6 support and Zeroconf (avahi)
 * Fri Aug 17 2007 - trisk@acm.jhu.edu
 - Bump to 0.4.4
 - Add URL

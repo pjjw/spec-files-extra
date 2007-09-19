@@ -81,6 +81,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
+intltoolize --copy --force --automake
 autoheader
 autoconf
 ./configure --prefix=%{_prefix}			\
@@ -121,6 +122,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Sep 19 2007 - trisk@acm.jhu.edu
+- Add intltoolize to fix build
+
 * Wed Sep 19 2007 - simon.zheng@sun.com
 - Bump to version 2.20.0
 

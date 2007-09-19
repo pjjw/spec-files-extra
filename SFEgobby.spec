@@ -7,9 +7,8 @@
 
 Name:                    SFEgobby
 Summary:                 Gobby - collaborative editor
-Version:                 0.4.4
-%define tarball_version  0.4.4
-Source:                  http://releases.0x539.de/gobby/gobby-%{tarball_version}.tar.gz
+Version:                 0.4.5
+Source:                  http://releases.0x539.de/gobby/gobby-%{version}.tar.gz
 Patch1:                  gobby-01-prototype.diff
 Patch2:                  gobby-02-const.diff
 Patch3:                  gobby-03-auto_ptr.diff
@@ -29,10 +28,9 @@ BuildRequires: SFEglibmm-devel
 BuildRequires: SFEsigcpp-devel
 BuildRequires: SFElibxmlpp-devel
 BuildRequires: SFEnet6-devel
-BuildRequires: SFEavahi-devel
 
 %prep
-%setup -q -n gobby-%tarball_version
+%setup -q -n gobby-%version
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -73,6 +71,17 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+( echo 'test -x /usr/bin/update-desktop-database || exit 0';
+  echo '/usr/bin/update-desktop-database'
+) | $BASEDIR/lib/postrun -b -u -c JDS_wait
+
+%postun
+test -x $BASEDIR/lib/postrun || exit 0
+( echo 'test -x /usr/bin/update-desktop-database || exit 0';
+  echo '/usr/bin/update-desktop-database'
+) | $BASEDIR/lib/postrun -b -u -c JDS
+
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
@@ -94,5 +103,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Sep 17 2007 - trisk@acm.jhu.edu
+- Bump to 0.4.5
 * Fri Aug 17 2007 - trisk@acm.jhu.edu
 - Initial version

@@ -47,6 +47,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 libtoolize --copy --force
+intltoolize --copy --force --automake
 aclocal $ACLOCAL_FLAGS
 autoheader
 automake -a -c -f 
@@ -97,5 +98,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Sep 17 2007 - trisk@acm.jhu.edu
+- Add intltoolize to fix build
 * Fri Aug 31 2007 - simon.zheng@sun.com
 - Initialized.
