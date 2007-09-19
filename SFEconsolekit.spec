@@ -10,10 +10,10 @@
 
 Name:                    SFEconsolekit
 Summary:                 Framework for tracking users, login sessions, and seats.
-Version:                 0.2.1
+Version:                 0.2.3
 Source:                  http://people.freedesktop.org/~mccann/dist/ConsoleKit-%{version}.tar.gz
-Patch1:	                 ConsoleKit-01-head.diff
-Patch2:                  ConsoleKit-02-nox11check.diff
+Patch1:                  ConsoleKit-01-nox11check.diff
+Patch2:                  ConsoleKit-02-fixsolaris.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -134,5 +134,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Sep 18 2007 - Brian.Cameron@sun.com
+- Bump to 0.2.3.  Remove upstream ConsoleKit-01-head.diff
+  patch and add ConsoleKit-02-fixsolaris.diff to fix some
+  issues building ConsoleKit when VT is not present.
 * Mon Aug 16 2007 - Brian.Cameron@sun.com
 - Created.

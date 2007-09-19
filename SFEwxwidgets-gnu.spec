@@ -10,11 +10,10 @@
 Name:                    SFEwxwidgets-gnu
 Summary:                 wxWidgets - Cross-Platform GUI Library (g++)
 URL:                     http://wxwidgets.org/
-Version:                 2.8.4
-%define tarball_version  2.8.4
+Version:                 2.8.5
+%define tarball_version  2.8.5
 Source:			 http://easynews.dl.sourceforge.net/sourceforge/wxwindows/wxWidgets-%{tarball_version}.tar.bz2
 Patch1:                  wxwidgets-01-msgfmt.diff
-Patch2:                 wxwidgets-02-sqrt.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -38,7 +37,6 @@ Requires:                %{name}
 rm -rf %name-%version
 %setup -q -n wxWidgets-%tarball_version
 %patch1 -p1
-%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -122,6 +120,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Sep 18 2007 - brian.cameron@sun.com
+- Bump to 2.8.5.  Remove upstream patch wxwidgets-02-sqrt.diff.
 * Wed Aug 15 2007 - dougs@truemail.co.th
 - removed -pthreads from wx-config to stop it infecting other builds
 * Sat Aug 11 2007 - trisk@acm.jhu.edu

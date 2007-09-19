@@ -15,7 +15,7 @@
 
 Name:                SFEgit
 Summary:             GIT - the stupid content tracker
-Version:             1.5.2.2
+Version:             1.5.3
 Source:              http://www.kernel.org/pub/software/scm/git/git-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -92,10 +92,6 @@ rm $RPM_BUILD_ROOT%{_libdir}/*-solaris-*/perllocal.pod
 rmdir $RPM_BUILD_ROOT%{_libdir}/*-solaris-*
 rmdir $RPM_BUILD_ROOT%{_libdir}
 
-# move man3 pages to the right place
-mv $RPM_BUILD_ROOT%{_prefix}/man/man3 $RPM_BUILD_ROOT%{_mandir}
-rmdir $RPM_BUILD_ROOT%{_prefix}/man
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -125,6 +121,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/perl5/vendor_perl/%{perl_version}/*
 
 %changelog
+* Tue Sep 18 2007 - brian.cameron@sun.com
+- Bump to 1.5.3.
 * Thu Jul 05 2007 - alberto.ruiz@sun.com
 - fixing hook templates permisions
 * Tue Jul 03 2007 - alberto.ruiz@sun.com

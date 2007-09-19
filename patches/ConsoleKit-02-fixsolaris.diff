@@ -1,0 +1,92 @@
+--- ConsoleKit-0.2.3/configure.ac-orig2	2007-09-18 15:56:01.546343000 -0500
++++ ConsoleKit-0.2.3/configure.ac	2007-09-18 15:56:29.139438000 -0500
+@@ -39,6 +39,7 @@ X11_REQUIRED_VERSION=1.0.0
+ 
+ AC_CHECK_HEADERS(unistd.h)
+ AC_CHECK_HEADERS(paths.h)
++AC_CHECK_HEADERS(sys/vt.h)
+ 
+ AC_CHECK_FUNCS(getpeerucred getpeereid)
+ 
+--- ConsoleKit-0.2.3/src/ck-sysdeps-unix.c-orig	2007-09-18 15:57:40.372236000 -0500
++++ ConsoleKit-0.2.3/src/ck-sysdeps-unix.c	2007-09-18 15:59:52.739272000 -0500
+@@ -32,14 +32,23 @@
+ #include <sys/ioctl.h>
+ 
+ #ifdef __linux__
++#define HAVE_VT
+ #include <linux/kd.h>
+ #include <sys/vt.h>
+ #endif
+ 
+ #ifdef __FreeBSD__
++#define HAVE_VT
+ #include <sys/consio.h>
+ #endif
+ 
++#ifdef __sun
++#ifdef HAVE_SYS_VT_H
++#define HAVE_VT
++#include <sys/vt.h>
++#endif
++#endif
++
+ #ifdef HAVE_GETPEERUCRED
+ #include <ucred.h>
+ #endif
+@@ -254,7 +263,11 @@ ck_wait_for_active_console_num (int   co
+ 
+         g_debug ("VT_WAITACTIVE for vt %d", num);
+         errno = 0;
++#ifdef HAVE_VT
+         res = ioctl (console_fd, VT_WAITACTIVE, num);
++#else
++        res = ERROR;
++#endif
+ 
+         g_debug ("VT_WAITACTIVE for vt %d returned %d", num, ret);
+ 
+@@ -294,7 +307,11 @@ ck_activate_console_num (int   console_f
+         ret = FALSE;
+ 
+         errno = 0;
++#ifdef HAVE_VT
+         res = ioctl (console_fd, VT_ACTIVATE, num);
++#else
++        res = ERROR;
++#endif
+         if (res == 0) {
+                 ret = TRUE;
+         } else {
+--- ConsoleKit-0.2.3/src/ck-sysdeps-solaris.c-orig	2007-09-18 16:04:52.925630000 -0500
++++ ConsoleKit-0.2.3/src/ck-sysdeps-solaris.c	2007-09-18 16:11:10.544468000 -0500
+@@ -30,6 +30,11 @@
+ #include <sys/stat.h>
+ #include <sys/ioctl.h>
+ 
++#ifdef HAVE_SYS_VT_H
++#define HAVE_VT
++#include <sys/vt.h>
++#endif
++
+ #define DEV_ENCODE(M,m) ( \
+   ( (M&0xfff) << 8)   |   ( (m&0xfff00) << 12)   |   (m&0xff)   \
+ )
+@@ -432,6 +437,7 @@ ck_get_active_console_num (int    consol
+         gboolean       ret;
+         int            res;
+         guint          active;
++#if HAVE_VT
+         struct vt_stat stat;
+ 
+         g_assert (console_fd != -1);
+@@ -464,6 +470,9 @@ ck_get_active_console_num (int    consol
+         if (num != NULL) {
+                 *num = active;
+         }
++#else
++        ret = FALSE;
++#endif
+ 
+         return ret;
+ }

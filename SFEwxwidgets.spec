@@ -9,11 +9,10 @@
 Name:                    SFEwxwidgets
 Summary:                 wxWidgets - Cross-Platform GUI Library
 URL:                     http://wxwidgets.org/
-Version:                 2.8.4
-%define tarball_version  2.8.4
+Version:                 2.8.5
+%define tarball_version  2.8.5
 Source:			 http://easynews.dl.sourceforge.net/sourceforge/wxwindows/wxWidgets-%{tarball_version}.tar.bz2
 Patch1:                  wxwidgets-01-msgfmt.diff
-Patch2:                  wxwidgets-02-sqrt.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -21,7 +20,7 @@ Requires:      SUNWgnome-libs
 Requires:      SUNWlibC
 Requires:      SUNWlibsdl
 BuildRequires: SUNWgnome-libs-devel
-BuildRequires: SUNWlibsdl-dvel
+BuildRequires: SUNWlibsdl-devel
 Conflicts:     SFEwxGTK
 
 %package devel
@@ -42,7 +41,6 @@ Requires:                %{name}
 rm -rf %name-%version
 %setup -q -n wxWidgets-%tarball_version
 %patch1 -p1
-%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -128,6 +126,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Sep 18 2007 - brian.cameron@sun.com
+- Bump to 2.8.5.  Remove upstream patch wxwidgets-02-sqrt.diff.
 * Tue Aug 07 2007 - nonsea@users.sourceforge.net
 - Bump to 2.8.4
 - Add --enable-gui --enable-xrc --with-expat for ./configure.

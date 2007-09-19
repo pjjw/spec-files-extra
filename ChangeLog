@@ -1,5 +1,17 @@
 2007-09-18  Brian Cameron <brian.cameron@sun.com>
 
+	* SFEconsolekit.spec, patches/ConsoleKit-01-nox11check.diff:
+	  Bump to 0.2.3.  Rename ConsoleKit-02-nox11check.diff to
+	  ConsoleKit-01-nox11check.diff.
+	* patches/ConsoleKit-01-head.diff: Remove upstream patch.
+	* patches/ConsoleKit-02-fixsolaris.diff: Add patch to fix
+	  compile issues when VT is not present.
+	* SFEgit.spec: Bump to 1.5.3.
+	* SFEwxwidgets.spec, SFEwxwidgets-gnu.spec: Bump to 2.8.5
+	* patches/wxwidgets-02-sqrt.diff: Remove upstream patch.
+
+2007-09-18  Brian Cameron <brian.cameron@sun.com>
+
 	* SUNWlxsl.spec: Bump to version 1.1.20.
 	* SUNWlxml.spec: Bump to version 2.6.27.
 
