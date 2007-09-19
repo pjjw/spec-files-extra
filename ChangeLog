@@ -1,3 +1,20 @@
+2007-09-19  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEcompiz-fusion-main.spec: Drop patch2
+	* SFEgobby.spec: Bump to 0.4.5
+	* SFEioquake3.spec: *NEW* ioquake3 - icculus.org Quake3
+	* SFEobby.spec: Enable IPv6 support and Zeroconf (avahi)
+	* SFEopenarena.spec: *NEW* OpenArena - Fast-paced 3D first-person
+	  shooter based on ioquake3
+	* SFEpulseaudio.spec: Add patch4
+	* linux-specs/gnome-device-manager.spec: Add intltoolize to fix build
+	* linux-specs/gnome-power-manager.spec: Add intltoolize to fix build
+	* patches/compiz-fusion-main-02-sunpro.diff: Drop unnecessary patch
+	* patches/ioquake3-01-solaris.diff: Build changes for Solaris
+	* patches/openarena-01-solaris.diff: Build changes for Solaris
+	* patches/openarena-02-menudef.diff: menudef.h fix (from Debian)
+	* patches/pulseaudio-04-devname.diff: Show Solaris device names
+
 2007-09-19  Petr Sobotka  <sobotkap@centrum.cz>
 
 	* SFEwesnoth.spec: Bump to 1.3.8
