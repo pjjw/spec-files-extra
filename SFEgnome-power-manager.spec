@@ -105,7 +105,7 @@ test -x $BASEDIR/lib/postrun || exit 0
   echo "GCONF_CONFIG_SOURCE=xml:merged:%{_sysconfdir}/gconf/gconf.xml.defaults";
   echo 'export GCONF_CONFIG_SOURCE';
   echo "SDIR=%{_sysconfdir}/gconf/schemas";
-  echo '_usr/bin/gconftool-2 --makefile-install-rule $SDIR/gnome-power-manager.schemas'
+  echo '/usr/bin/gconftool-2 --makefile-install-rule $SDIR/gnome-power-manager.schemas'
 ) | $PKG_INSTALL_ROOT/usr/lib/postrun
 
 %preun root
@@ -117,7 +117,7 @@ test -x $BASEDIR/lib/postrun || exit 0
   echo "GCONF_CONFIG_SOURCE=xml:merged:%{_sysconfdir}/gconf/gconf.xml.defaults";
   echo 'export GCONF_CONFIG_SOURCE';
   echo "SDIR=%{_sysconfdir}/gconf/schemas";
-  echo '_usr/bin/gconftool-2 --makefile-uninstall-rule $SDIR/gnome-power-manager.schemas'
+  echo '/usr/bin/gconftool-2 --makefile-uninstall-rule $SDIR/gnome-power-manager.schemas'
 ) | $PKG_INSTALL_ROOT/usr/lib/postrun
 
 
@@ -187,6 +187,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Wed Sep 19 2007 - trisk@acm.jhu.edu
+- Fix %post/%preun typos
 * Thu Aug 30 2007 - trisk@acm.jhu.edu
 - Add missing doc dir
 * Thu Mar 29 2007 - daymobrew@users.sourceforge.net

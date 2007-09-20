@@ -10,6 +10,8 @@ Summary:                 gtkmm - C++ Wrapper for the Gtk+ Library
 Version:                 2.10.11
 URL:                     http://www.gtkmm.org/
 Source:                  http://ftp.acc.umu.se/pub/GNOME/sources/gtkmm/2.10/gtkmm-%{version}.tar.bz2
+Patch1:                  gtkmm-01-tooltips.diff
+Patch2:                  gtkmm-02-getc_unlocked.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -17,7 +19,6 @@ Requires: SFEglibmm
 Requires: SFEcairomm
 Requires: SUNWgnome-base-libs
 Requires: SUNWlibms
-Requires: SUNWmlib
 Requires: SFEsigcpp
 Requires: SUNWlibC
 BuildRequires: SFEsigcpp-devel
@@ -37,6 +38,8 @@ Requires: SFEsigcpp-devel
 
 %prep
 %setup -q -n gtkmm-%version
+%patch1 -p1
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -47,11 +50,13 @@ fi
 %else
 export CXX="${CXX} -norunpath"
 %endif
-export CXXFLAGS="%cxx_optflags"
+export CXXFLAGS="%cxx_optflags -D_XPG4_2 -D__EXTENSIONS__"
+
+autoconf
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
-            --sysconfdir=%{_sysconfdir} --disable-python
+            --sysconfdir=%{_sysconfdir}
 make -j$CPUS 
 
 %install
@@ -85,6 +90,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Wed Sep 19 2007 - trisk@acm.jhu.edu
+- Add patch1, patch2, change CFLAGS
 * Fri Aug 17 2007 - trisk@acm.jhu.edu
 - Bump to 2.10.11
 * Tue Apr 17 2007 - daymobrew@users.sourceforge.net

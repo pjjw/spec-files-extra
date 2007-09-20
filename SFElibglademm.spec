@@ -7,7 +7,7 @@
 
 Name:                    SFElibglademm
 Summary:                 libglademm - C++ Wrapper for the Gtk+ Library
-Version:                 2.6.3
+Version:                 2.6.4
 URL:                     http://www.gtkmm.org/
 Source:                  http://ftp.acc.umu.se/pub/GNOME/sources/libglademm/2.6/libglademm-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
@@ -17,7 +17,6 @@ Requires: SFEglibmm
 Requires: SFEcairomm
 Requires: SUNWgnome-base-libs
 Requires: SUNWlibms
-Requires: SUNWmlib
 Requires: SFEsigcpp
 Requires: SUNWlibC
 Requires: SFEgtkmm
@@ -85,6 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Wed Sep 19 2007 - trisk@acm.jhu.edu
+- Bump to 2.6.4
 * Jun 05 2007 Thomas Wagner
 - needed by pulseaudio frontends
 - initial version from the museeum of spec-files (copy of SFEgtkmm.spec)

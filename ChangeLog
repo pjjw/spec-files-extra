@@ -1,5 +1,16 @@
 2007-09-19  Albert Lee  <trisk@acm.jhu.edu>
 
+	* KNOWN_ISSUES: Update SFEbeagle, SFEf-spot, SFEgimmie
+	* SFEcairomm.spec: Bump to 1.4.4
+	* SFEgconfmm.spec: Fix dependencies
+	* SFEgnome-power-manager.spec: Fix %post/%preun typos
+	* SFEgtkmm.spec: Add patch1, patch2, change CFLAGS
+	* SFElibglademm.spec: Bump to 2.6.4
+	* patches/gtkmm-01-tooltips.diff: Fix Toolbar::get_tooltips_object
+	* patches/gtkmm-02-getc_unlocked.diff: Fix getc_unlocked() test
+
+2007-09-19  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEcompiz-fusion-main.spec: Drop patch2
 	* SFEgobby.spec: Bump to 0.4.5
 	* SFEioquake3.spec: *NEW* ioquake3 - icculus.org Quake3

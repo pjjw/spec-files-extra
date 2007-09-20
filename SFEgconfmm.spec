@@ -14,16 +14,17 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SFEglibmm
-Requires: SFEcairomm
+Requires: SFEgtkmm
 Requires: SUNWgnome-base-libs
+Requires: SUNWgnome-config
 Requires: SUNWlibms
-Requires: SUNWmlib
 Requires: SFEsigcpp
 Requires: SUNWlibC
 BuildRequires: SFEsigcpp-devel
 BuildRequires: SFEglibmm-devel
-BuildRequires: SFEcairomm-devel
+BuildRequires: SFEgtkmm-devel
 BuildRequires: SUNWgnome-base-libs-devel
+BuildRequires: SUNWgnome-config-devel
 
 %package devel
 Summary:                 %{summary} - developer files
@@ -80,6 +81,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sep 19 2007 - trisk@acm.jhu.edu
+- Fix dependencies
 * Jun 06 2007 Thomas Wagner
 - needed by pulseaudio frontends
 - initial version from the museeum of spec-files (copy of SFEgtkmm.spec)

@@ -1,0 +1,12 @@
+--- gtkmm-2.10.11.orig/configure.in	2007年  9月 19日 三 17:49:18
++++ gtkmm-2.10.11/configure.in	2007年  9月 19日 三 19:49:09
+@@ -175,7 +175,8 @@
+ AC_MSG_CHECKING([for getc_unlocked])
+ AC_TRY_LINK([
+ #include <stdio.h>],[
+-getc_unlocked (NULL);],[
++FILE *foo = NULL;
++getc_unlocked (foo);],[
+   AC_MSG_RESULT(yes)
+   AC_DEFINE(HAVE_GETC_UNLOCKED, 1,
+     [Define to 1 if you have the `getc_unlocked' function.])],[
