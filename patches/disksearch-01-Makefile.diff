@@ -1,0 +1,73 @@
+--- disksearch-1.2.1/Makefile.original	2007-09-18 14:25:50.287591680 +0200
++++ disksearch-1.2.1/Makefile	2007-09-18 14:28:24.521199226 +0200
+@@ -31,11 +31,11 @@
+ 
+ install_disksearch: install_echo install_i18n
+-	@$(TEST_DIR) $(ds_datadir)/libdisksearch || $(INSTALL_DIR) $(ds_datadir)/libdisksearch
+-	@$(INSTALL_FILE) ./libdisksearch/*.py* $(ds_datadir)/libdisksearch
+-	@$(TEST_DIR) $(ds_datadir)/resource || $(INSTALL_DIR) $(ds_datadir)/resource
+-	@$(INSTALL_FILE) ./resource/*.* $(ds_datadir)/resource
+-	@$(INSTALL_SCRIPT) ./disksearch.py $(ds_datadir)
+-	@$(TEST_DIR) $(bindir) || $(INSTALL_DIR) $(bindir)
+-	@$(INSTALL_SCRIPT) ./disksearch $(bindir)
++	@$(TEST_DIR) $(DESTDIR)/$(ds_datadir)/libdisksearch || $(INSTALL_DIR) $(DESTDIR)/$(ds_datadir)/libdisksearch
++	@$(INSTALL_FILE) ./libdisksearch/*.py* $(DESTDIR)/$(ds_datadir)/libdisksearch
++	@$(TEST_DIR) $(DESTDIR)/$(ds_datadir)/resource || $(INSTALL_DIR) $(DESTDIR)/$(ds_datadir)/resource
++	@$(INSTALL_FILE) ./resource/*.* $(DESTDIR)/$(ds_datadir)/resource
++	@$(INSTALL_SCRIPT) ./disksearch.py $(DESTDIR)/$(ds_datadir)
++	@$(TEST_DIR) $(DESTDIR)/$(bindir) || $(INSTALL_DIR) $(DESTDIR)/$(bindir)
++	@$(INSTALL_SCRIPT) ./disksearch $(DESTDIR)/$(bindir)
+ 
+ install_echo:
+@@ -43,14 +43,14 @@
+ 
+ install_i18n:
+-	@$(TEST_DIR) $(i18ndir)/de/LC_MESSAGES || $(INSTALL_DIR) $(i18ndir)/de/LC_MESSAGES
+-	@$(TEST_DIR) $(i18ndir)/es/LC_MESSAGES || $(INSTALL_DIR) $(i18ndir)/es/LC_MESSAGES
+-	@$(TEST_DIR) $(i18ndir)/it/LC_MESSAGES || $(INSTALL_DIR) $(i18ndir)/it/LC_MESSAGES
+-	@$(TEST_DIR) $(i18ndir)/fr/LC_MESSAGES || $(INSTALL_DIR) $(i18ndir)/fr/LC_MESSAGES
+-	@$(TEST_DIR) $(i18ndir)/pl/LC_MESSAGES || $(INSTALL_DIR) $(i18ndir)/pl/LC_MESSAGES
+-	@$(INSTALL_FILE) $(po_dir)/de.gmo $(i18ndir)/de/LC_MESSAGES/disksearch.mo
+-	@$(INSTALL_FILE) $(po_dir)/es.gmo $(i18ndir)/es/LC_MESSAGES/disksearch.mo
+-	@$(INSTALL_FILE) $(po_dir)/it.gmo $(i18ndir)/it/LC_MESSAGES/disksearch.mo
+-	@$(INSTALL_FILE) $(po_dir)/fr.gmo $(i18ndir)/fr/LC_MESSAGES/disksearch.mo
+-	@$(INSTALL_FILE) $(po_dir)/pl.gmo $(i18ndir)/pl/LC_MESSAGES/disksearch.mo
++	@$(TEST_DIR) $(DESTDIR)/$(i18ndir)/de/LC_MESSAGES || $(INSTALL_DIR) $(DESTDIR)/$(i18ndir)/de/LC_MESSAGES
++	@$(TEST_DIR) $(DESTDIR)/$(i18ndir)/es/LC_MESSAGES || $(INSTALL_DIR) $(DESTDIR)/$(i18ndir)/es/LC_MESSAGES
++	@$(TEST_DIR) $(DESTDIR)/$(i18ndir)/it/LC_MESSAGES || $(INSTALL_DIR) $(DESTDIR)/$(i18ndir)/it/LC_MESSAGES
++	@$(TEST_DIR) $(DESTDIR)/$(i18ndir)/fr/LC_MESSAGES || $(INSTALL_DIR) $(DESTDIR)/$(i18ndir)/fr/LC_MESSAGES
++	@$(TEST_DIR) $(DESTDIR)/$(i18ndir)/pl/LC_MESSAGES || $(INSTALL_DIR) $(DESTDIR)/$(i18ndir)/pl/LC_MESSAGES
++	@$(INSTALL_FILE) $(po_dir)/de.gmo $(DESTDIR)/$(i18ndir)/de/LC_MESSAGES/disksearch.mo
++	@$(INSTALL_FILE) $(po_dir)/es.gmo $(DESTDIR)/$(i18ndir)/es/LC_MESSAGES/disksearch.mo
++	@$(INSTALL_FILE) $(po_dir)/it.gmo $(DESTDIR)/$(i18ndir)/it/LC_MESSAGES/disksearch.mo
++	@$(INSTALL_FILE) $(po_dir)/fr.gmo $(DESTDIR)/$(i18ndir)/fr/LC_MESSAGES/disksearch.mo
++	@$(INSTALL_FILE) $(po_dir)/pl.gmo $(DESTDIR)/$(i18ndir)/pl/LC_MESSAGES/disksearch.mo
+ 
+ # Uninstall DiskSearch (and CDSearch)
+@@ -61,17 +61,17 @@
+ 
+ uninstall_disksearch: uninstall_i18n
+-	@$(REMOVE_DIR) $(ds_datadir)
+-	@$(REMOVE_FILE) $(bindir)/disksearch
++	@$(REMOVE_DIR) $(DESTDIR)/$(ds_datadir)
++	@$(REMOVE_FILE) $(DESTDIR)/$(bindir)/disksearch
+ 
+ uninstall_cdsearch:
+-	@$(REMOVE_DIR) $(datadir)/cdsearch
+-	@$(REMOVE_FILE) $(bindir)/cdsearch
++	@$(REMOVE_DIR) $(DESTDIR)/$(datadir)/cdsearch
++	@$(REMOVE_FILE) $(DESTDIR)/$(bindir)/cdsearch
+ 
+ uninstall_i18n:
+-	@$(REMOVE_FILE) $(i18ndir)/de/LC_MESSAGES/disksearch.mo
+-	@$(REMOVE_FILE) $(i18ndir)/es/LC_MESSAGES/disksearch.mo
+-	@$(REMOVE_FILE) $(i18ndir)/it/LC_MESSAGES/disksearch.mo
+-	@$(REMOVE_FILE) $(i18ndir)/fr/LC_MESSAGES/disksearch.mo
+-	@$(REMOVE_FILE) $(i18ndir)/pl/LC_MESSAGES/disksearch.mo
++	@$(REMOVE_FILE) $(DESTDIR)/$(i18ndir)/de/LC_MESSAGES/disksearch.mo
++	@$(REMOVE_FILE) $(DESTDIR)/$(i18ndir)/es/LC_MESSAGES/disksearch.mo
++	@$(REMOVE_FILE) $(DESTDIR)/$(i18ndir)/it/LC_MESSAGES/disksearch.mo
++	@$(REMOVE_FILE) $(DESTDIR)/$(i18ndir)/fr/LC_MESSAGES/disksearch.mo
++	@$(REMOVE_FILE) $(DESTDIR)/$(i18ndir)/pl/LC_MESSAGES/disksearch.mo
+ 
+ # For internal use - i18n
