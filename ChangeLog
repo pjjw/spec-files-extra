@@ -1,3 +1,8 @@
+2007-09-20  flistellox@gmail.com
+	
+	* SFEdisksearch.spec: *NEW* A disk searching tool 
+	* patches/disksearch-01-Makefile.diff: add DESTDIR
+
 2007-09-20  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEtremulous.spec: Fix package version
