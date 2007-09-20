@@ -1,5 +1,9 @@
 2007-09-20  Albert Lee  <trisk@acm.jhu.edu>
 
+	* SFEtremulous.spec: Fix package version
+
+2007-09-20  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEtremulous.spec: *NEW* Team-based first-person shooter game with RTS elements
 	* patches/tremulous-01-solaris.diff: Build changes and fixes for Solaris
 

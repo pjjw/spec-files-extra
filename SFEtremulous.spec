@@ -9,12 +9,13 @@
 
 %define src_name        tremulous
 %define src_url         http://dl.sourceforge.net/sourceforge/tremulous/
+%define src_version     1.1.0
 
 Name:                   SFEtremulous
 Summary:                Tremulous - Team-based first-person shooter game with RTS elements
 Version:                1.1.0-r971
 URL:                    http://tremulous.net/
-Source:                 %{src_url}/%{src_name}-%{version}.zip
+Source:                 %{src_url}/%{src_name}-%{src_version}.zip
 Source1:                http://dl.trem-servers.com/tremulous-gentoopatches-1.1.0-r5.zip
 Source2:                http://dl.trem-servers.com/vms-1.1.t971.pk3
 Patch1:                 tremulous-01-solaris.diff
@@ -40,9 +41,9 @@ Requires: SFEopenal
 
 %prep
 %setup -q -n %{src_name}
-gzcat %{src_name}-%{version}-src.tar.gz | tar xf -
-unzip -d %{src_name}-%{version}-src %{SOURCE1}
-cd %{src_name}-%{version}-src
+gzcat %{src_name}-%{src_version}-src.tar.gz | tar xf -
+unzip -d %{src_name}-%{src_version}-src %{SOURCE1}
+cd %{src_name}-%{src_version}-src
 gpatch -p0 -f < tremulous-svn755-upto-971.patch
 gpatch -p0 -f < tremulous-t971-client.patch
 %patch1 -p1
@@ -50,7 +51,7 @@ cd ..
 cp %{SOURCE2} base
 
 %build
-cd %{src_name}-%{version}-src
+cd %{src_name}-%{src_version}-src
 
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
@@ -66,7 +67,7 @@ mkdir -p $RPM_BUILD_ROOT%{_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/tremulous/base
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/tremulous
 
-cd %{src_name}-%{version}-src
+cd %{src_name}-%{src_version}-src
 
 Q3ARCH=$(uname -p | sed -e s/i.86/x86/)
 cp build/release-sunos-$Q3ARCH/tremulous.$Q3ARCH $RPM_BUILD_ROOT%{_libdir}/tremulous/tremulous.bin
@@ -112,5 +113,7 @@ rm -rf $RPM_BUILD_ROOT
 #%{_datadir}/pixmaps/*
 
 %changelog
+* Thu Sep 20 2007 - trisk@acm.jhu.edu
+- Fix version numbering
 * Thu Sep 20 2007 - trisk@acm.jhu.edu
 - Initial spec
