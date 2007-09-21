@@ -25,6 +25,7 @@ Patch1:			libsyncml-01-Makefile.diff
 Patch2:			libsyncml-02-define-func.diff
 Patch3:			libsyncml-03-fail-null.diff
 Patch4:                 libsyncml-04-cfmakeraw.diff
+Patch5:                 libsyncml-05-printf-null.diff
 BuildRoot:		%{_tmppath}/%{name}-%{version}-root
 Requires:		wbxml2 libsoup >= 2.2.91 
 BuildRequires:		wbxml2-devel libsoup-devel >= 2.2.91 
@@ -48,6 +49,7 @@ you will need to install %{name}-devel.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 %ifos linux
@@ -121,6 +123,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Sept 21 2007 - jijun.yu@sun.com
+- add patch5.
 * Tue Apr  3 2007 - laca@sun.com
 - add patch cfmakeraw.diff to fix build of the openobex module on Solaris
 - enable the openobex module

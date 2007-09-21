@@ -44,7 +44,7 @@ mkdir -p %name-%version
 
 %build
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export CFLAGS="%optflags"
+export CFLAGS="%optflags -g"
 export CXXFLAGS="-lsocket  -lnsl"
 export RPM_OPT_FLAGS="$CFLAGS"
 %libsyncml.build -d %name-%version
@@ -89,6 +89,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Sept 21 2007 - jijun.yu@sun.com
+- add debug flags.
 * Tue Apr  3 2007 - laca@sun.com
 - add openobex dependency
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net

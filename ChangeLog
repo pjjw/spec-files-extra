@@ -1,5 +1,12 @@
-2007-09-20  flistellox@gmail.com
+2007-09-21 jijun.yu@sun.com
+	* SFElibsyncml.spec: add debug flags
+	* SFEopenobex.spec: add debug flags
+	* linux-specs/libsyncml.spec: add patch5
+	* patches/openobex-02-libusb.diff: remade this patch
+	* patches/libsyncml-05-printf-null.diff: added
 	
+2007-09-20  flistellox@gmail.com
+
 	* SFErsnapshot.spec: *NEW* A filesystem backup utility based on rsync
 	* include/include/perl-depend.inc: a coomon depend definition for programs using perl
 
