@@ -1,0 +1,30 @@
+diff -r e83bcadee8a5 fardata.c
+--- a/fardata.c	Sat Aug 11 23:45:23 2007 +0530
++++ b/fardata.c	Sun Aug 12 00:31:36 2007 +0530
+@@ -190,6 +190,7 @@ int msg_sprintf(char *str, FMSG *fmt, ..
+ 
+ /* Length-limited strlen() */
+ 
++#ifndef SUNOS       /* Solaris defines its onw strnlen in strings.h */
+ static int strnlen(const char FAR *s, int count)
+ {
+  const char FAR *sc;
+@@ -198,6 +199,7 @@ static int strnlen(const char FAR *s, in
+   ;
+  return(sc-s);
+ }
++#endif
+ 
+ /* Hex representation of digits */
+ 
+diff -r e83bcadee8a5 gnu/configure.in
+--- a/gnu/configure.in	Sat Aug 11 23:45:23 2007 +0530
++++ b/gnu/configure.in	Sun Aug 12 00:31:36 2007 +0530
+@@ -78,7 +78,6 @@ interix3*)
+         CFLAGS="-DSUNOS -D_UNIX"
+         DLL_FLAGS="-shared -fPIC"
+         DLL_CFLAGS="-shared -fPIC"
+-        LD_STRIP="gnu/stripgcc.lnk"
+ 	;;
+ os2*)
+ 	PROG_EXT=".exe"

@@ -1,50 +1,57 @@
-# =========================================================================== 
-#                    Spec File
-# =========================================================================== 
+# ===========================================================================
+#                    Spec File for Html Tidy
+# ===========================================================================
 %include Solaris.inc
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Software specific variable definitions
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-%define src_name	easytag
-%define src_version	2.1
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+%define src_name	tidy
+%define src_version	051026
 %define pkg_release	1
+
+%define deploy_prefix	/usr/local
+
+
+# %{_topdir} is by default set to RPM_BUILD_ROOT
+# Default path for RPM_BUILD_ROOT is /var/tmp/pkgbuild-{username}
+# Install the software here as part of package building steps
 
 # =========================================================================== 
 #                    SVR4 required definitions
 # =========================================================================== 
-SUNW_Pkg: SFE%{src_name}-%{base_arch}
-SUNW_ProdVers:	%{src_version}
+SUNW_Pkg:	SFE%{src_name}-%{base_arch}
+SUNW_ProdVers:	${src_version}
 SUNW_BaseDir:	%{_basedir}
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Tag definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 Name:         	%{src_name}
-Summary:      	Easytag :  EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
+Summary:      	HTML parser and pretty printer
 Version:      	%{src_version}
 Release:      	%{pkg_release}
-License:      	GPL
-Group:          Entertainment
-Source:         http://nchc.dl.sourceforge.net/sourceforge/easytag/%{src_name}-%{version}.tar.bz2
-Patch:        	easytag2.1-01-libnsl.diff
-Vendor:       	http://easytag.sourceforge.net
-URL:            http://easytag.sourceforge.net
-Packager:     	Shivakumar GN
+License:      	W3C license
+Group:          Application/Web
+Source:	        http://tidy.sourceforge.net/src/old/%{src_name}_src_%{src_version}.tgz
+Patch:        	tidy-01-051026.diff
+Vendor:       	Dave Raggett
+URL:            http://tidy.sourceforge.net
+Packager:     	Ravi,Saurabh
 BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
 
+
+#Ideally these should be included for requires: glib2, gtk2, pango
 #Requires:      
 #BuildRequires: 
 
 %description 
-EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
-
+HTML Tidy is an open source program and library for checking and generating clean XHTML/HTML.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Prep-Section 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %prep 
-%setup -q -n %{src_name}-%{version}
-./configure --prefix=%{_prefix}
+%setup -q -n %{src_name}
 
 %patch0 -p 1
 
@@ -52,6 +59,7 @@ EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
 # Build-Section 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %build
+cd build/gmake
 make
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
@@ -59,7 +67,11 @@ make
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
 %install
+cd build/gmake
 make install DESTDIR=$RPM_BUILD_ROOT
+
+echo "_prefix  %{_prefix}"
+echo "RPM   $RPM_BUILD_ROOT"
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -70,19 +82,14 @@ rm -rf $RPM_BUILD_ROOT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %files
 %defattr(-,root,bin)
-%dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
 
-%dir %attr (0755, root, sys) %{_prefix}/man
-%{_prefix}/man/*
-
-%dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/pixmaps
-%{_datadir}/%{src_name}
-
-%dir %attr (0755, root, other) %{_datadir}/applications
-%{_datadir}/applications/*
+%dir %attr (0755, root, bin)  %{deploy_prefix}/bin
+%{deploy_prefix}/bin/*
+%dir %attr (0755, root, bin) %{deploy_prefix}/lib
+%{deploy_prefix}/lib/*
+%dir %attr (0755, root, bin) %{deploy_prefix}/include
+%{deploy_prefix}/include/*
 
 %changelog
-* 2007.Aug.11 - <shivakumar dot gn at gmail dot com>
-- Initial spec.
+* 2007.06.25 - Ravibharadwaj & Saurabh vyas
+- Initial spec

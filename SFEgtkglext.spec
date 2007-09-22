@@ -6,9 +6,13 @@
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Software specific variable definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-%define src_name	easytag
-%define src_version	2.1
+%define src_name	gtkglext
+%define src_version	1.2.0
 %define pkg_release	1
+
+# %{_topdir} is by default set to RPM_BUILD_ROOT
+# Default path for RPM_BUILD_ROOT is /var/tmp/pkgbuild-{username}
+# Install the software here as part of package building steps
 
 # =========================================================================== 
 #                    SVR4 required definitions
@@ -21,23 +25,23 @@ SUNW_BaseDir:	%{_basedir}
 # Tag definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 Name:         	%{src_name}
-Summary:      	Easytag :  EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
+Summary:      	GtkGLExt is an OpenGL extension to GTK+ 2.0 or later
 Version:      	%{src_version}
 Release:      	%{pkg_release}
-License:      	GPL
-Group:          Entertainment
-Source:         http://nchc.dl.sourceforge.net/sourceforge/easytag/%{src_name}-%{version}.tar.bz2
-Patch:        	easytag2.1-01-libnsl.diff
-Vendor:       	http://easytag.sourceforge.net
-URL:            http://easytag.sourceforge.net
+License:      	LGPL
+#Group:          
+Source:         http://nchc.dl.sourceforge.net/sourceforge/gtkglext/%{src_name}-%{version}.tar.bz2
+#Patch:        	yourpatch-name
+Vendor:       	http://gtkglext.sourceforge.net
+URL:            http://gtkglext.sourceforge.net
 Packager:     	Shivakumar GN
 BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
 
 #Requires:      
 #BuildRequires: 
 
-%description 
-EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
+%description
+GtkGLExt is an OpenGL extension to GTK+ 2.0 or later
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Prep-Section 
@@ -46,7 +50,7 @@ EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
 %setup -q -n %{src_name}-%{version}
 ./configure --prefix=%{_prefix}
 
-%patch0 -p 1
+#%patch0 -p 1
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Build-Section 
@@ -69,19 +73,17 @@ rm -rf $RPM_BUILD_ROOT
 # bin(_bindir),share(_datadir) & share/applications
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %files
+%files
 %defattr(-,root,bin)
-%dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
+%dir %attr (0755, root, sys) %{_includedir}
+%{_includedir}/*
 
-%dir %attr (0755, root, sys) %{_prefix}/man
-%{_prefix}/man/*
+%dir %attr (0755, root, sys) %{_libdir}
+%{_libdir}/*
 
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/pixmaps
-%{_datadir}/%{src_name}
+%{_datadir}/*
 
-%dir %attr (0755, root, other) %{_datadir}/applications
-%{_datadir}/applications/*
 
 %changelog
 * 2007.Aug.11 - <shivakumar dot gn at gmail dot com>

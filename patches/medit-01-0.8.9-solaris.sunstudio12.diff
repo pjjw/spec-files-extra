@@ -1,0 +1,12 @@
+diff -uNr medit-0.8.9/medit/Makefile medit-0.8.9-patched/medit/Makefile
+--- medit-0.8.9/medit/Makefile	2007-08-10 23:32:53.275565000 +0530
++++ medit-0.8.9-patched/medit/Makefile	2007-08-10 23:36:13.449021000 +0530
+@@ -70,7 +70,7 @@
+ medit_DEPENDENCIES = ../moo/libmoo.la
+ medit_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+ 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(medit_LDFLAGS) \
+-	$(LDFLAGS) -o $@
++	$(LDFLAGS) /usr/lib/libX11.so.4 -o $@
+ DEFAULT_INCLUDES = -I. -I$(top_builddir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles

@@ -6,8 +6,8 @@
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Software specific variable definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-%define src_name	easytag
-%define src_version	2.1
+%define src_name	medit
+%define src_version	0.8.9
 %define pkg_release	1
 
 # =========================================================================== 
@@ -18,33 +18,36 @@ SUNW_ProdVers:	%{src_version}
 SUNW_BaseDir:	%{_basedir}
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-# Tag definitions
+# Preamble 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 Name:         	%{src_name}
-Summary:      	Easytag :  EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
+Summary:      	Text editor
 Version:      	%{src_version}
 Release:      	%{pkg_release}
-License:      	GPL
-Group:          Entertainment
-Source:         http://nchc.dl.sourceforge.net/sourceforge/easytag/%{src_name}-%{version}.tar.bz2
-Patch:        	easytag2.1-01-libnsl.diff
-Vendor:       	http://easytag.sourceforge.net
-URL:            http://easytag.sourceforge.net
-Packager:     	Shivakumar GN
-BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
-
-#Requires:      
-#BuildRequires: 
+License:      	GPLv2
+Group:          Development/Tools
+Source:         http://jaist.dl.sourceforge.net/sourceforge/mooedit/%{src_name}-%{src_version}.tar.bz2
+Patch:		    medit-01-0.8.9-solaris.sunstudio12.diff
+Vendor:       	medit
+URL:            http://mooedit.sourceforge.net
+Packager:     	Komala, Jayanthi
+BuildRoot:		%{_tmppath}/%{name}-%{version}-build
+#BuildRoot:     %{_builddir}/%{name}-root
 
 %description 
-EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
+GNU auotool
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Prep-Section 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %prep 
-%setup -q -n %{src_name}-%{version}
-./configure --prefix=%{_prefix}
+%setup -q
+CC=gcc
+export CC
+./configure --prefix=%{_prefix} \
+            --bindir=%{_bindir} \
+            --mandir=%{_mandir} \
+            --libdir=%{_libdir}
 
 %patch0 -p 1
 
@@ -54,35 +57,29 @@ EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
 %build
 make
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-# Install-Section 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# File permissions, ownership information. Note the difference between 
-# bin(_bindir),share(_datadir) & share/applications
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %files
-%defattr(-,root,bin)
+%defattr(-,root,root)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 
-%dir %attr (0755, root, sys) %{_prefix}/man
-%{_prefix}/man/*
-
 %dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/applications
+%{_datadir}/icons
+%{_datadir}/moo
+%{_datadir}/man
+%{_datadir}/mime
 %{_datadir}/pixmaps
-%{_datadir}/%{src_name}
+%{_datadir}/locale
+%{_basedir}/lib
+%{_basedir}/include
 
-%dir %attr (0755, root, other) %{_datadir}/applications
-%{_datadir}/applications/*
 
 %changelog
-* 2007.Aug.11 - <shivakumar dot gn at gmail dot com>
-- Initial spec.
+* By Komala, Jayanthi
+- Initial spec

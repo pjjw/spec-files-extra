@@ -1,0 +1,21 @@
+diff -uNr gnomad2-2.8.13_orig/src/Makefile gnomad2-2.8.13/src/Makefile
+--- gnomad2-2.8.13_orig/src/Makefile	2007-09-04 07:53:03.505604000 +0530
++++ gnomad2-2.8.13/src/Makefile	2007-09-04 09:11:23.322649000 +0530
+@@ -216,7 +216,7 @@
+ top_srcdir = ..
+ MAINTAINERCLEANFILES = Makefile.in
+ INCLUDES = \
+-	-D_REENTRANT -D_PTHREADS -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0   \
++	-D_REENTRANT -D_PTHREADS -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/sfw/include  \
+ 	 \
+ 	 \
+ 	 \
+@@ -304,7 +304,7 @@
+ 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+ gnomad2$(EXEEXT): $(gnomad2_OBJECTS) $(gnomad2_DEPENDENCIES) 
+ 	@rm -f gnomad2$(EXEEXT)
+-	$(LINK) $(gnomad2_OBJECTS) $(gnomad2_LDADD) $(LIBS)
++	$(LINK) -L/usr/sfw/lib -R/usr/sfw/lib $(gnomad2_OBJECTS) $(gnomad2_LDADD) $(LIBS)
+ 
+ mostlyclean-compile:
+ 	-rm -f *.$(OBJEXT)

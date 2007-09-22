@@ -1,0 +1,90 @@
+diff -r 9562b0cc4e76 src/command.c
+--- a/src/command.c	Sat Aug 11 20:08:25 2007 +0530
++++ b/src/command.c	Sat Aug 11 20:10:26 2007 +0530
+@@ -159,7 +159,7 @@ static DeadKeyChar  dkc_tab[] = {
+  *--------------------------------------------------------------------*/
+ void           rxvt_process_keypress         (rxvt_t*, XKeyEvent*);
+ void           rxvt_clean_cmd_page           (rxvt_t*);
+-inline int     rxvt_cmdbuf_has_input	     ( rxvt_t *r, int page );
++int            rxvt_cmdbuf_has_input	     ( rxvt_t *r, int page );
+ int            rxvt_find_cmd_child           (rxvt_t*);
+ void           rxvt_check_cmdbuf             (rxvt_t*, int);
+ int            rxvt_read_child_cmdfd         (rxvt_t*, int, unsigned int);
+@@ -1637,7 +1637,7 @@ rxvt_clean_cmd_page (rxvt_t* r)
+ 
+ /* Returns true if there is input pending in PVTS(r, page)->cmdbuf */
+ /* INTPROTO */
+-inline int
++int
+ rxvt_cmdbuf_has_input( rxvt_t *r, int page )
+ {
+     return PVTS(r, page)->cmdbuf_escfail ?
+@@ -1734,7 +1734,7 @@ rxvt_check_cmdbuf (rxvt_t* r, int page)
+ 	unsigned char	*start;
+ 	unsigned int	n, len;
+ 
+-	start = PVTS(r, page)->cmdbuf_escstart ?: PVTS(r, page)->cmdbuf_ptr;
++	start = PVTS(r, page)->cmdbuf_escstart ? NULL : PVTS(r, page)->cmdbuf_ptr;
+ 
+ 
+ 	n   = start - PVTS(r, page)->cmdbuf_base;
+@@ -4394,13 +4394,13 @@ FILE*
+ FILE*
+ rxvt_popen_printer( rxvt_t *r, const char *pipeName )
+ {
+-    FILE*   stream = popen( pipeName ?: r->h->rs[Rs_print_pipe], "w" );
++    FILE*   stream = popen( pipeName ?NULL: r->h->rs[Rs_print_pipe], "w" );
+ 
+ 
+     assert( pipeName || r->h->rs[Rs_print_pipe] );
+     if (IS_NULL(stream))
+ 	rxvt_print_error("Can't open printer pipe %s",
+-		r->h->rs[Rs_print_pipe] ?: pipeName );
++		r->h->rs[Rs_print_pipe] ?NULL: pipeName );
+ 
+     return stream;
+ }
+diff -r 9562b0cc4e76 src/screen.c
+--- a/src/screen.c	Sat Aug 11 20:08:25 2007 +0530
++++ b/src/screen.c	Sat Aug 11 20:09:58 2007 +0530
+@@ -180,8 +180,8 @@ void rxvt_scr_reset_realloc       (rxvt_
+ void rxvt_scr_reset_realloc       (rxvt_t*, int);
+ void rxvt_scr_delete_row          (rxvt_t*, int);
+ void rxvt_scr_add_row             (rxvt_t*, int, unsigned int, unsigned int);
+-void inline rxvt_clear_area       (rxvt_t*, int page, int x, int y, unsigned int w, unsigned int h);
+-void inline rxvt_fill_rectangle   (rxvt_t*, int page, int x, int y, unsigned int w, unsigned int h);
++void rxvt_clear_area       (rxvt_t*, int page, int x, int y, unsigned int w, unsigned int h);
++void rxvt_fill_rectangle   (rxvt_t*, int page, int x, int y, unsigned int w, unsigned int h);
+ void
+ rxvt_scr_draw_string (rxvt_t* r, int page,
+ 	int x, int y, char* str, int len, int drawfunc,
+@@ -2740,7 +2740,7 @@ rxvt_free_clipping (rxvt_t* r, void* xft
+ #endif	/* TEXT_SHADOW */
+ 
+ 
+-void inline
++void 
+ rxvt_clear_area (rxvt_t* r, int page, int x, int y, unsigned int w, unsigned int h)
+ {
+     DBG_MSG(9, (stderr, "clear area (%d, %d, %d, %d)\n", x,y,w,h));
+@@ -2749,7 +2749,7 @@ rxvt_clear_area (rxvt_t* r, int page, in
+ }
+ 
+ 
+-void inline
++void 
+ rxvt_fill_rectangle (rxvt_t* r, int page, int x, int y, unsigned int w, unsigned int h)
+ {
+     DBG_MSG(9, (stderr, "fill rectangle (%d, %d, %d, %d)\n", x,y,w,h));
+diff -r 9562b0cc4e76 src/xdefaults.c
+--- a/src/xdefaults.c	Sat Aug 11 20:08:25 2007 +0530
++++ b/src/xdefaults.c	Sat Aug 11 20:09:28 2007 +0530
+@@ -806,7 +806,7 @@ rxvt_save_options (rxvt_t* r, const char
+     int		i;
+     FILE*	pf = fopen (filename, "w");
+ 
+-    const char	*name = r->h->rs[Rs_name] ?: APL_NAME;
++    const char	*name = r->h->rs[Rs_name] ?NULL: APL_NAME;
+ 
+     char	*tabs="\t\t\t\t\t";
+ 

@@ -6,8 +6,8 @@
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Software specific variable definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-%define src_name	easytag
-%define src_version	2.1
+%define src_name	speex
+%define src_version	1.0.5
 %define pkg_release	1
 
 # =========================================================================== 
@@ -21,15 +21,13 @@ SUNW_BaseDir:	%{_basedir}
 # Tag definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 Name:         	%{src_name}
-Summary:      	Easytag :  EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
+Summary:      	Speex: A Free Codec For Free Speech
 Version:      	%{src_version}
 Release:      	%{pkg_release}
-License:      	GPL
-Group:          Entertainment
-Source:         http://nchc.dl.sourceforge.net/sourceforge/easytag/%{src_name}-%{version}.tar.bz2
-Patch:        	easytag2.1-01-libnsl.diff
-Vendor:       	http://easytag.sourceforge.net
-URL:            http://easytag.sourceforge.net
+License:      	BSD license
+Source:         http://downloads.xiph.org/releases/speex/%{src_name}-%{version}.tar.gz
+#Patch:        	yourpatch-name
+URL:            http://www.speex.org
 Packager:     	Shivakumar GN
 BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
 
@@ -37,7 +35,21 @@ BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
 #BuildRequires: 
 
 %description 
-EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
+Speex is an Open Source/Free Software  patent-free audio compression format designed for speech. The Speex Project aims to lower the barrier of entry for voice applications by providing a free alternative to expensive proprietary speech codecs. Moreover, Speex is well-adapted to Internet applications and provides useful features that are not present in most other codecs.
+
+ Speex is based on CELP  and is designed to compress voice at bitrates ranging from 2 to 44 kbps. Some of Speex's features include:
+
+    * Narrowband (8 kHz), wideband (16 kHz), and ultra-wideband (32 kHz) compression in the same bitstream
+    * Intensity stereo encoding
+    * Packet loss concealment
+    * Variable bitrate operation (VBR)
+    * Voice Activity Detection (VAD)
+    * Discontinuous Transmission (DTX)
+    * Fixed-point port
+    * Acoustic echo canceller
+    * Noise suppression
+
+Note that Speex has a number of features that are not present in other codecs, such as intensity stereo encoding, integration of multiple sampling rates in the same bitstream (embedded coding), and a VBR mode;
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Prep-Section 
@@ -46,7 +58,7 @@ EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
 %setup -q -n %{src_name}-%{version}
 ./configure --prefix=%{_prefix}
 
-%patch0 -p 1
+#%patch0 -p 1
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Build-Section 
@@ -73,15 +85,20 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 
-%dir %attr (0755, root, sys) %{_prefix}/man
-%{_prefix}/man/*
+%dir %attr (0755, root, sys) %{_includedir}
+%{_includedir}/*
+
+%dir %attr (0755, root, sys) %{_libdir}
+%{_libdir}/*
 
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/pixmaps
-%{_datadir}/%{src_name}
+%{_datadir}/man
+%{_datadir}/doc
+%{_datadir}/aclocal
 
-%dir %attr (0755, root, other) %{_datadir}/applications
-%{_datadir}/applications/*
+#%dir %attr (0755, root, other) %{_datadir}/applications
+#%{_datadir}/applications/*
+
 
 %changelog
 * 2007.Aug.11 - <shivakumar dot gn at gmail dot com>

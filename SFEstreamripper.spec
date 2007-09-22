@@ -6,8 +6,8 @@
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Software specific variable definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-%define src_name	easytag
-%define src_version	2.1
+%define src_name	streamripper
+%define src_version	1.62.1
 %define pkg_release	1
 
 # =========================================================================== 
@@ -17,19 +17,19 @@ SUNW_Pkg: SFE%{src_name}-%{base_arch}
 SUNW_ProdVers:	%{src_version}
 SUNW_BaseDir:	%{_basedir}
 
+
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Tag definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 Name:         	%{src_name}
-Summary:      	Easytag :  EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
+Summary:      	streamripper : audio stream ripper
 Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	GPL
-Group:          Entertainment
-Source:         http://nchc.dl.sourceforge.net/sourceforge/easytag/%{src_name}-%{version}.tar.bz2
-Patch:        	easytag2.1-01-libnsl.diff
-Vendor:       	http://easytag.sourceforge.net
-URL:            http://easytag.sourceforge.net
+Source:         http://nchc.dl.sourceforge.net/sourceforge/streamripper/%{src_name}-%{version}.tar.gz
+#Patch:        	yourpatch-name
+URL:            http://streamripper.sourceforge.net
 Packager:     	Shivakumar GN
 BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
 
@@ -37,16 +37,25 @@ BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
 #BuildRequires: 
 
 %description 
-EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
+You can use it to rip (copy) streams of the following kinds:
+
+   1. .mp3 Shoutcast streams - the kind of streams found on shoutcast.com.
+   2. .mp3 Icecast streams - a GNU GPL/Open Source version of Shoutcast. Both Icecast 1.x and Icecast 2.x are supported. However, UDP metadata is not supported for Icecast 1.x.
+   3. .nvs (Nullsoft Streaming Video) streams - which Winamp tv uses.
+   4. .aac Shoutcast/Icecast streams - the kind of streams found on tuner2.com. NOTE: Streamripper can't rip RealAudio AAC streams, only shoutcast/icecast AAC.
+   5. .ogg streams - these streams are found at dir.xiph.org.
+
+Streamripper can't help with ripping stuff like RealPlayer, Windows MediaPlayer, MusicMatch or anything else similar.
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Prep-Section 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %prep 
 %setup -q -n %{src_name}-%{version}
+CC=gcc
 ./configure --prefix=%{_prefix}
 
-%patch0 -p 1
+#%patch0 -p 1
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Build-Section 
@@ -73,15 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 
-%dir %attr (0755, root, sys) %{_prefix}/man
-%{_prefix}/man/*
-
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/pixmaps
-%{_datadir}/%{src_name}
+%{_datadir}/man
 
-%dir %attr (0755, root, other) %{_datadir}/applications
-%{_datadir}/applications/*
 
 %changelog
 * 2007.Aug.11 - <shivakumar dot gn at gmail dot com>

@@ -1,0 +1,12 @@
+diff -uNr easytag-2.1.orig/src/Makefile easytag-2.1/src/Makefile
+--- easytag-2.1.orig/src/Makefile	2007-08-25 11:30:45.801855000 +0530
++++ easytag-2.1/src/Makefile	2007-08-25 11:34:09.293921000 +0530
+@@ -138,7 +138,7 @@
+ INTLLIBS = 
+ LDFLAGS = 
+ LIBOBJS =  lstat$U.o
+-LIBS = -lm -lm -lz -lstdc++ -lFLAC -lm -lvorbisfile -lvorbis -logg -lm -lsocket 
++LIBS = -lm -lm -lz -lstdc++ -lFLAC -lm -lvorbisfile -lvorbis -logg -lm -lsocket -lnsl
+ LIBTOOL = $(SHELL) $(top_builddir)/libtool
+ LN_S = ln -s
+ LTLIBOBJS =  lstat$U.lo

@@ -1,0 +1,25 @@
+diff -r 5294849045d2 Makefile
+--- a/Makefile	Sun Aug 12 02:00:50 2007 +0530
++++ b/Makefile	Sun Aug 12 02:08:39 2007 +0530
+@@ -71,7 +71,7 @@ MW=
+ MW=
+ #MW=-Wtraditional -Wcast-qual -Wcast-align -Wconversion -pedantic -Wlong-long -Wimplicit -Wuninitialized -W -Wshadow -Wsign-compare -Wstrict-prototypes -Wmissing-declarations
+ 
+-CFLAGS1 = -Wall -Wstrict-prototypes -s -O2 -fomit-frame-pointer ${LARGEFILEFLAGS} ${MW}
++CFLAGS1 = -Wall -Wstrict-prototypes -s -O3 -fomit-frame-pointer ${LARGEFILEFLAGS} ${MW}
+ 
+ CC=gcc
+ 
+@@ -88,8 +88,10 @@ clean:
+ 	cd regtest; /bin/sh regtest.clean
+ 
+ install: afio
+-	cp afio /usr/local/bin
+-	cp afio.1 /usr/share/man/man1
++	mkdir -p $(DESTDIR)/$(PREFIX)/bin
++	mkdir -p $(DESTDIR)/$(PREFIX)/share/man/man1
++	/usr/sbin/install -c $(DESTDIR)/$(PREFIX)/bin -m 0755 -u root -g bin afio
++	/usr/sbin/install -c $(DESTDIR)/$(PREFIX)/share/man/man1 -m 0644 -u root -g bin afio.1
+ 
+ # generate default list of -E extensions from manpage
+ # note: on sun, I had to change awk command below to nawk or gawk

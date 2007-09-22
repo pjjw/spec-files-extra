@@ -6,9 +6,10 @@
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Software specific variable definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-%define src_name	easytag
-%define src_version	2.1
+%define src_name	astyle
+%define src_version	1.18
 %define pkg_release	1
+%define src_tarball %{src_name}_%{src_version}__linux.tar.gz
 
 # =========================================================================== 
 #                    SVR4 required definitions
@@ -21,68 +22,73 @@ SUNW_BaseDir:	%{_basedir}
 # Tag definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 Name:         	%{src_name}
-Summary:      	Easytag :  EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
+Summary:      	astyle : source code indenter, formatter, and beautifier for the C, C++, C# and Java programming languages
 Version:      	%{src_version}
 Release:      	%{pkg_release}
-License:      	GPL
-Group:          Entertainment
-Source:         http://nchc.dl.sourceforge.net/sourceforge/easytag/%{src_name}-%{version}.tar.bz2
-Patch:        	easytag2.1-01-libnsl.diff
-Vendor:       	http://easytag.sourceforge.net
-URL:            http://easytag.sourceforge.net
+License:      	GPLv2
+Group:          Development/Tools
+Source:         http://jaist.dl.sourceforge.net/sourceforge/astyle/%{src_tarball}
+URL:            http://astyle.sourceforge.net
 Packager:     	Shivakumar GN
 BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
 
+
+#Ideally these should be included for requires: glib2, gtk2, pango
 #Requires:      
 #BuildRequires: 
 
 %description 
-EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
+Artistic Style is a source code indenter, formatter, and beautifier for the C, C++, C# and Java programming languages.
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+# Packages to build
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+#%package -n SFE%{src_name}-l10n
+#Summary:                 %{summary} - l10n files
+#SUNW_BaseDir:            %{_basedir}
+#Requires:                %{name}
+
+#%package -n SFEgeany-docs
+#Summary:                 %{summary} - documentation, man pages
+#SUNW_BaseDir:            %{_basedir}
+#Requires:                %{name}
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Prep-Section 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %prep 
-%setup -q -n %{src_name}-%{version}
-./configure --prefix=%{_prefix}
-
-%patch0 -p 1
+%setup -q -n %{name}
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Build-Section 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %build
-make
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-# Install-Section 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
+if test "x$CPUS" = "x" -o $CPUS = 0; then
+     CPUS=1
+fi
+
+export CFLAGS="%optflags"
+export CXXFLAGS="%cxx_optflags"
+export LDFLAGS="%_ldflags"
+
+cd src
+make -j$CPUS
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT/%{_bindir}
+install -m 755 -c ./src/astyle $RPM_BUILD_ROOT%{_bindir}/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# File permissions, ownership information. Note the difference between 
-# bin(_bindir),share(_datadir) & share/applications
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %files
-%defattr(-,root,bin)
+%defattr(0755,root,bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 
-%dir %attr (0755, root, sys) %{_prefix}/man
-%{_prefix}/man/*
-
-%dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/pixmaps
-%{_datadir}/%{src_name}
-
-%dir %attr (0755, root, other) %{_datadir}/applications
-%{_datadir}/applications/*
 
 %changelog
-* 2007.Aug.11 - <shivakumar dot gn at gmail dot com>
-- Initial spec.
+* 2007.Aug.08 - <shivakumar dot gn at gmail dot com>

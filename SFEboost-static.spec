@@ -6,30 +6,31 @@
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Software specific variable definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-%define src_name	easytag
-%define src_version	2.1
+%define src_name	boost
+%define src_version	1_34_1
+%define deploy_version	1.34.1
 %define pkg_release	1
 
 # =========================================================================== 
 #                    SVR4 required definitions
 # =========================================================================== 
-SUNW_Pkg: SFE%{src_name}-%{base_arch}
-SUNW_ProdVers:	%{src_version}
+SUNW_Pkg:       SFE%{src_name}-%{base_arch}
+SUNW_ProdVers:	%{deploy_version}
 SUNW_BaseDir:	%{_basedir}
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Tag definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 Name:         	%{src_name}
-Summary:      	Easytag :  EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
+Summary:      	Boost library for static compilation (source only)
 Version:      	%{src_version}
 Release:      	%{pkg_release}
-License:      	GPL
-Group:          Entertainment
-Source:         http://nchc.dl.sourceforge.net/sourceforge/easytag/%{src_name}-%{version}.tar.bz2
-Patch:        	easytag2.1-01-libnsl.diff
-Vendor:       	http://easytag.sourceforge.net
-URL:            http://easytag.sourceforge.net
+License:      	Boost Software License
+Group:          Developement
+Source:         http://jaist.dl.sourceforge.net/sourceforge/boost/%{src_name}_%{version}.tar.bz2
+#Patch:        	yourpatch-name
+Vendor:       	http://www.boost.org
+URL:            http://www.boost.org
 Packager:     	Shivakumar GN
 BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
 
@@ -37,30 +38,30 @@ BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
 #BuildRequires: 
 
 %description 
-EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
+Boost library for static compilation (source only)
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Prep-Section 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-%prep 
-%setup -q -n %{src_name}-%{version}
-./configure --prefix=%{_prefix}
-
-%patch0 -p 1
+%prep
+%setup -q -n %{src_name}_%{version}
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Build-Section 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %build
-make
+echo "boost library does not need a build..."
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Install-Section 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
-
+#Using install command is technically more appropriate
+mkdir -p $RPM_BUILD_ROOT/%{_prefix}/%{src_name}-%{deploy_version}/
+cp -r . $RPM_BUILD_ROOT/%{_prefix}/%{src_name}-%{deploy_version}/
+rm -f $RPM_BUILD_ROOT/%{_prefix}/%{src_name}-%{deploy_version}/.pkgbuild.build.sh
+rm -f $RPM_BUILD_ROOT/%{_prefix}/%{src_name}-%{deploy_version}/.pkgbuild.install.sh
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -70,18 +71,14 @@ rm -rf $RPM_BUILD_ROOT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %files
 %defattr(-,root,bin)
-%dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
+%dir %attr (0755, root, bin) %{_prefix}/%{src_name}-%{deploy_version}
+%{_prefix}/%{src_name}-%{deploy_version}/*
 
-%dir %attr (0755, root, sys) %{_prefix}/man
-%{_prefix}/man/*
 
-%dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/pixmaps
-%{_datadir}/%{src_name}
+#%dir %attr (0755, root, other) %{_datadir}/applications
+#%{_datadir}/applications/*
 
-%dir %attr (0755, root, other) %{_datadir}/applications
-%{_datadir}/applications/*
+
 
 %changelog
 * 2007.Aug.11 - <shivakumar dot gn at gmail dot com>
