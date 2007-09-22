@@ -7,6 +7,8 @@
 %include Solaris.inc
 %include usr-gnu.inc
 
+%define using_gld %(gcc -v 2>&1 | /usr/xpg4/bin/grep -q with-gnu-ld && echo 1 || echo 0)
+
 Name:                    SFEwxwidgets-gnu
 Summary:                 wxWidgets - Cross-Platform GUI Library (g++)
 URL:                     http://wxwidgets.org/
@@ -43,13 +45,21 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
+
 export CPPFLAGS="-I/usr/X11/include"
 export CC=gcc
 export CFLAGS="%{gcc_optflags}"
 export CXX=g++
 export CXXFLAGS="%{gcc_cxx_optflags}"
-export LDFLAGS="%{_ldflags} -lm"
-export LD_OPTIONS="-i -L%{_libdir} -L/usr/X11/lib -R%{_libdir}:/usr/X11/lib"
+%if %using_gld
+  export LDFLAGS="-L%{_libdir} -L/usr/X11/lib -R%{_libdir} -R/usr/X11/lib -lm"
+  CFLAGS="$( echo $CFLAGS | sed 's/ -Xlinker -i//' )"
+  CXXFLAGS="$( echo $CXXFLAGS | sed 's/ -Xlinker -i//' )"
+%else
+  export LDFLAGS="%{_ldflags} -lm"
+  export LD_OPTIONS="-i -L%{_libdir} -L/usr/X11/lib -R%{_libdir}:/usr/X11/lib"
+%endif
+
 ./configure --prefix=%{_prefix}			\
 	    --bindir=%{_bindir}			\
 	    --includedir=%{_includedir}		\
@@ -120,6 +130,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Sep 22 2007 - dougs@truemail.co.th
+- Modified for GNU ld with gcc
 * Tue Sep 18 2007 - brian.cameron@sun.com
 - Bump to 2.8.5.  Remove upstream patch wxwidgets-02-sqrt.diff.
 * Wed Aug 15 2007 - dougs@truemail.co.th

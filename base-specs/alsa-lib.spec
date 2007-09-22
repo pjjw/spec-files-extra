@@ -52,9 +52,10 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 # /usr/bin/sed is busted. Find a better one :)
-export PATH=/usr/xpg4/bin:$PATH
+export PATH=/usr/gnu/bin:/usr/xpg4/bin:$PATH
 
-CC=/usr/sfw/bin/gcc
+CC=/usr/gnu/bin/gcc
+export LD=/usr/gnu/bin/ld
 export CPPFLAGS="-D_POSIX_SOURCE -D__EXTENSIONS__ -D_XPG4_2"
 
 %if %debug_build
@@ -65,18 +66,22 @@ export CFLAGS="-O4"
 dbgopt=-disable-debug
 %endif
 
-export LDFLAGS="%_ldflags"
+LDFLAGS="$( echo %_ldflags | sed 's/ -Wl,-Bdirect/-Wl,-Bsymbolic/' )"
 
 if $( echo "%{_libdir}" | /usr/xpg4/bin/grep -q amd64 ) ; then
 	export CFLAGS="$CFLAGS -m64"
-	export LDFLAGS="-Wl,-64 -L%{_libdir} -R%{_libdir} $LDFLAGS"
+	LDFLAGS="$LDFLAGS -L/usr/gnu/lib/%{_arch64} -R/usr/gnu/lib/%{_arch64}"
+else
+	LDFLAGS="$LDFLAGS -L/usr/gnu/lib -R/usr/gnu/lib"
 fi
+export LDFLAGS
 
 libtoolize -f -c
 aclocal
+autoconf -f
 autoheader
 automake -f -a
-autoconf -f
+
 ./configure --prefix=%{_prefix}			\
 	    --bindir=%{_bindir}			\
 	    --datadir=%{_datadir}		\
@@ -84,9 +89,9 @@ autoconf -f
             --libdir=%{_libdir}			\
             --libexecdir=%{_libexecdir}		\
             --sysconfdir=%{_sysconfdir}		\
+	    --without-versioned			\
             --enable-shared			\
-	    --disable-static			\
-	    --without-versioned
+	    --disable-static
 
 gmake -j$CPUS 
 
@@ -99,6 +104,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/alsa-lib/*/*la
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Sat Sep 22 2007 - dougs@truemail.co.th
+- Changed to build with SFEgcc
 * Sun Aug 12 2007 - dougs@truemail.co.th
 - Changed to build 64bit
 * Sun Aug 12 2007 - dougs@truemail.co.th

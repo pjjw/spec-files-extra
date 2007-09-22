@@ -9,7 +9,7 @@
 %define src_url		http://www.portaudio.com/archives
 
 Name:                   SFEportaudio
-Summary:                Yet another assembler
+Summary:                Portable cross-platform Audio API
 Version:                v19_061121
 Source:                 %{src_url}/pa_stable_%{version}.tar.gz
 Patch1:			portaudio-01-oss.diff
@@ -52,6 +52,7 @@ export LDFLAGS="%_ldflags"
             --sysconfdir=%{_sysconfdir} \
             --enable-shared		\
 	    --disable-static		\
+	    --without-jack		\
 	    --enable-cxx
 make -j$CPUS 
 
@@ -77,6 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sat Sep 22 2007 - dougs@truemail.co.th
+- disabled building with jack audio
 * Sun May 13 2007 - dougs@truemail.co.th
 - Fixed typo
 * Mon Apr 30 2007 - dougs@truemail.co.th

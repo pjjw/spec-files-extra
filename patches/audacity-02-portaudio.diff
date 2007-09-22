@@ -1,0 +1,22 @@
+--- audacity-src-1.3.3-beta/lib-src/portaudio-v19/src/hostapi/oss/pa_unix_oss.c.orig	2007-09-21 15:05:19.781489852 +0700
++++ audacity-src-1.3.3-beta/lib-src/portaudio-v19/src/hostapi/oss/pa_unix_oss.c	2007-09-21 15:06:03.811387490 +0700
+@@ -63,7 +63,7 @@
+ #include <limits.h>
+ #include <semaphore.h>
+ 
+-#ifdef __FreeBSD__
++#if defined(__FreeBSD__) || defined(sun)
+ # include <sys/soundcard.h>
+ # define DEVICE_NAME_BASE            "/dev/dsp"
+ #elif defined __linux__
+--- audacity-src-1.3.3-beta/lib-src/portaudio/pa_unix_oss/pa_unix_oss.c.orig	2007-09-21 15:02:35.292018083 +0700
++++ audacity-src-1.3.3-beta/lib-src/portaudio/pa_unix_oss/pa_unix_oss.c	2007-09-21 15:03:57.041407287 +0700
+@@ -42,7 +42,7 @@
+ 
+ #if defined(__linux__)
+ #include <linux/soundcard.h>
+-#elif defined(__FreeBSD__)
++#elif defined(__FreeBSD__) || defined(sun) || defined(__sun)
+ #include <sys/soundcard.h>
+ #else
+ #include <machine/soundcard.h> /* JH20010905 */

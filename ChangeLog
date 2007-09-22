@@ -1,4 +1,21 @@
+2007-09-22  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEaudacity.spec: *NEW* Open Source multimedia framework
+	* SFEwxwidgets-gnu.spec: Modified to build with SFEgcc and gld
+	* SFETcl.spec: 64bit build only. SUNWTcl is only 32bit
+	* SFETk.spec: 64bit build only. SUNWTk is only 32bit
+	* SFEportaudio.spec: disable building with jack audio
+	* SFEalsa-lib.spec: build with SFEgcc and gld
+	* base-specs/Tk.spec: base spec
+	* base-specs/Tcl.spec: base spec
+	* base-specs/alsa-lib.spec: base spec
+	* patches/audacity-03-alloca.diff: add alloca.h
+	* patches/audacity-04-twolame.diff: add build with system twolame
+	* patches/audacity-01-solaris.diff: Solaris changes
+	* patches/audacity-02-portaudio.diff: Solaris port audio fixes
+
 2007-09-21 jijun.yu@sun.com
+
 	* SFElibsyncml.spec: add debug flags
 	* SFEopenobex.spec: add debug flags
 	* linux-specs/libsyncml.spec: add patch5

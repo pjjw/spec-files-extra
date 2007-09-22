@@ -18,6 +18,7 @@ Version:                 %{alsalib.version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+BuildRequires: SFEgcc
 
 %package devel
 Summary:                 %{summary} - development files
@@ -87,6 +88,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Sep 22 2007 - dougs@truemail.co.th
+- Added SFEgcc requirement
 * Sun Aug 12 2007 - dougs@truemail.co.th
 - Fixed headers for easier building of apps
 * Sat Aug 11 2007 - dougs@truemail.co.th
