@@ -7,6 +7,8 @@
 %define with_libgsf %(pkginfo -q SFElibgsf && echo 1 || echo 0)
 %define with_mv     %(pkginfo -q SFEwv && echo 1 || echo 0)
 
+%define gnome_2_20  %(pkg-config --atleast-version=2.19.0 libgnome-2.0 && echo 1 || echo 0)
+
 Name:           SFEtracker
 License:        GPL
 Summary:        Desktop search tool
@@ -82,6 +84,7 @@ fi
 export CFLAGS="%optflags -I/usr/gnu/include"
 export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib"
 
+intltoolize --force --automake
 ./configure --prefix=%{_prefix} 		\
 			--sysconfdir=%{_sysconfdir}	\
 			--disable-warnings			\
@@ -114,8 +117,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*.so*
 %{_libdir}/tracker
 %dir %attr (0755, root, bin) %{_libdir}/deskbar-applet
+%if %gnome_2_20
+%dir %attr (0755, root, bin) %{_libdir}/deskbar-applet/modules-2.20-compatible
+%{_libdir}/deskbar-applet/modules-2.20-compatible/tracker-module.py
+%else
 %dir %attr (0755, root, bin) %{_libdir}/deskbar-applet/handlers
 %{_libdir}/deskbar-applet/handlers/tracker-handler.py
+%endif
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/tracker
 %dir %attr (0755, root, other) %{_datadir}/applications
@@ -150,6 +158,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Sep 21 2007 - trisk@acm.jhu.edu
+- Fix install in GNOME 2.19/2.20
 * Wed Sep 05 2007 - nonsea@users.sourceforge.net
 - Bump to 0.6.2.
 - Move w3m to Requires.

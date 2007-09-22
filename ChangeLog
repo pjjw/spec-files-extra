@@ -1,3 +1,8 @@
+2007-09-22  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEcompiz.spec: Fix install in GNOME 2.19/2.20
+	* SFEtracker.spec: Fix install in GNOME 2.19/2.20
+
 2007-09-22  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEaudacity.spec: *NEW* Open Source multimedia framework

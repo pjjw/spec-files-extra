@@ -4,7 +4,9 @@
 
 %include Solaris.inc
 
-%define old_x11 %(pkgchk -l SUNWxwinc 2>/dev/null | grep compositeproto >/dev/null && echo 0 || echo 1)
+%define old_x11     %(pkgchk -l SUNWxwinc 2>/dev/null | grep compositeproto >/dev/null && echo 0 || echo 1)
+
+%define gnome_2_20  %(pkg-config --atleast-version=2.19.0 libgnome-2.0 && echo 1 || echo 0)
 
 Name:           SFEcompiz
 Summary:        compiz
@@ -127,6 +129,7 @@ find usr -name \*.la -exec rm {} \;
 find usr -name \*.a -exec rm {} \;
 cd compiz-%{version}
 
+intltoolize --copy --force --automake
 aclocal
 autoheader
 automake -a -c -f
@@ -234,9 +237,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755, root, other) %{_datadir}/compiz
 %dir %attr(0755, root, other) %{_datadir}/gnome
 %dir %attr(0755, root, bin) %{_datadir}/gnome/wm-properties
+%if %gnome_2_20
+%dir %attr(0755, root, bin) %{_datadir}/gnome-control-center
+%dir %attr(0755, root, bin) %{_datadir}/gnome-control-center/keybindings
+%endif
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
-%{_datadir}/gnome/wm-properties/compiz.desktop
 %{_datadir}/compiz/*
+%{_datadir}/gnome/wm-properties/compiz.desktop
+%if %gnome_2_20
+%{_datadir}/gnome-control-center/keybindings/*
+%endif
 %{_datadir}/pixmaps/*
 %if %old_x11
 %dir %attr (0755, root, bin) %{_prefix}/X11
@@ -271,6 +281,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Sep 21 2007 - Albert Lee <trisk@acm.jhu.edu>
+- Add optional patch for "black windows" workaround
+- Fix install in GNOME 2.19/2.20
 * Thu Sep 06 2007 - Albert Lee <trisk@acm.jhu.edu>
 - Updated to coexist with newer X consolidation packages
 * Wed Mar 08 2007 - Doug Scott <dougs at truemail.co.th>
