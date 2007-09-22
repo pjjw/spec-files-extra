@@ -15,6 +15,7 @@ Patch1:		pulseaudio-01-ioctl.diff
 Patch2:		pulseaudio-02-default.pa.diff
 Patch3:		pulseaudio-03-esdcompat.diff
 Patch4:		pulseaudio-04-devname.diff
+Patch5:		pulseaudio-05-dirty_hack_IP_MULTICAST_LOOP-module-rtp-send.c
 SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -44,6 +45,7 @@ SUNW_BaseDir:            /
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 perl -pi -e 's,/bin/sh,/bin/ksh,' src/daemon/esdcompat.in
 
 %build
@@ -104,6 +106,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/pulse/*
 
 %changelog
+* Sat Sep 22 2007 - Thomas Wagner
+- add patch5 dirty_hack_IP_MULTICAST_LOOP-module-rtp-send.c
+  TODO: find correct way to setup IP_MULTICAST_LOOP or isn't it necessary
 * Tue Sep 18 2007 - trisk@acm.jhu.edu
 - Add patch4
 * Sat Sep 15 2007 - trisk@acm.jhu.edu

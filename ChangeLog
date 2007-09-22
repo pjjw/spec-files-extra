@@ -1,3 +1,8 @@
+2007-09-17  Thomas Wagner <tom68@users.sourceforge.net>
+
+	* SFEpulseaudio: add patch5 dirty_hack_IP_MULTICAST_LOOP-module-rtp-send.c
+          TODO: find correct way to setup IP_MULTICAST_LOOP or isn't it necessary
+
 2007-09-22  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEcompiz.spec: Fix install in GNOME 2.19/2.20
