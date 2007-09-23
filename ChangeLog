@@ -1,3 +1,7 @@
+2007-09-27  Thomas Wagner <tom68@users.sourceforge.net>
+ 
+        * SFEglassfish: *NEW* fish, jailed
+
 2007-09-17  Thomas Wagner <tom68@users.sourceforge.net>
 
 	* SFEpulseaudio: add patch5 dirty_hack_IP_MULTICAST_LOOP-module-rtp-send.c
