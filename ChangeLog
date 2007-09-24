@@ -1,4 +1,17 @@
-2007-09-27  Thomas Wagner <tom68@users.sourceforge.net>
+2007-09-24  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEgourmet.spec: *NEW* Gourmet - Recipe management for GNOME
+	* SFEgraphviz.spec: Allow building with Tcl 8.4 (newer SUNWTcl)
+	* SFEmetakit.spec: *NEW* Metakit - Efficient embedded database library
+	* SFEpython-pypdf.spec: Move to vendor-packages
+	* SFEpython-pyrtf.spec: *NEW* Rich Text Format (RTF) document generation
+	  for Python
+	* SFEpython-reportlab.spec: *NEW* ReportLab Toolkit - PDF library for
+	  Python
+	* patches/metakit-01-sunpro.diff: Patch for Studio compatibility
+	* patches/metakit-02-wideint.diff: Fix use of long long in Tcl bindings
+
+2007-09-23  Thomas Wagner <tom68@users.sourceforge.net>
  
         * SFEglassfish: *NEW* fish, jailed
 

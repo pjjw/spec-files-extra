@@ -5,7 +5,8 @@
 
 %include Solaris.inc
 
-%define SFEfreetype     %(/usr/bin/pkginfo -q SFEfreetype && echo 1 || echo 0)
+%define SFEfreetype %(/usr/bin/pkginfo -q SFEfreetype && echo 1 || echo 0)
+%define tcl_8_3 %(pkgchk -l SUNWTcl 2>/dev/null | grep /usr/sfw/bin/tclsh8.3 >/dev/null && echo 1 || echo 0)
 
 Name:                SFEgraphviz
 Summary:             Graph drawing tools and libraries
@@ -66,6 +67,12 @@ fi
 export CPPFLAGS="-I/usr/sfw/include"
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
+%if %tcl_8_3
+TCL_OPTS="--with-tclsh=/usr/sfw/bin/tclsh8.3 \
+          --with-wish=/usr/sfw/bin/wish8.3"
+%else
+TCL_OPTS=
+%endif
 
 libtoolize --copy --force
 aclocal $ACLOCAL_FLAGS
@@ -84,8 +91,7 @@ autoconf
             --disable-lua \
             --disable-ocaml \
             --disable-php \
-            --with-tclsh=/usr/sfw/bin/tclsh8.3 \
-            --with-wish=/usr/sfw/bin/wish8.3
+            $TCL_OPTS
 
 make -j$CPUS
 
@@ -134,6 +140,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/graphviz/*
 
 %changelog
+* Mon Sep 24 2007 - trisk@acm.jhu.edu
+- Allow building with Tcl 8.4 (newer SUNWTcl)
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Add patch arith-h to export arith.h to let anjuta build pass.
   This patch is already in cvs head, should be removed in next release.

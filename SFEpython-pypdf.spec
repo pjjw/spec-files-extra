@@ -6,6 +6,8 @@
 #
 %include Solaris.inc
 
+%define python_version 2.4
+
 Name:                SFEpython-pypdf
 Summary:             PDF toolkit library for Python
 Version:             1.9
@@ -31,7 +33,13 @@ exit 0
 # preferred IMO) to not specify any here, except, of course, $RPM_BUILD_ROOT
 
 rm -rf $RPM_BUILD_ROOT
-/usr/bin/python2.4 ./setup.py install --root=$RPM_BUILD_ROOT
+/usr/bin/python%{python_version} setup.py install --root=$RPM_BUILD_ROOT
+
+# move to vendor-packages
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{python_version}/vendor-packages
+mv $RPM_BUILD_ROOT%{_libdir}/python%{python_version}/site-packages/* \
+   $RPM_BUILD_ROOT%{_libdir}/python%{python_version}/vendor-packages/
+rmdir $RPM_BUILD_ROOT%{_libdir}/python%{python_version}/site-packages
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -42,6 +50,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
-* 
+* Mon Sep 24 2007 - trisk@acm.jhu.edu
+- Move to vendor-packages
 * Mon Apr 02 2007 - Eric Boutilier
 - Initial spec

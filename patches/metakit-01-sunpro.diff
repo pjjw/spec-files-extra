@@ -1,0 +1,37 @@
+diff -ru metakit-2.4.9.7.orig/unix/Makefile.in metakit-2.4.9.7/unix/Makefile.in
+--- metakit-2.4.9.7.orig/unix/Makefile.in	2007年  6月 15日 五 20:23:25
++++ metakit-2.4.9.7/unix/Makefile.in	2007年  9月 24日 一 13:45:37
+@@ -16,7 +16,7 @@
+ 
+ DEMOS   = demo dump myio
+ 
+-LINK_SPECIAL_FLAGS	=	@LINK_SPECIAL_FLAGS@ @LIBS@
++LINK_SPECIAL_FLAGS	=	@LINK_SPECIAL_FLAGS@ @LDFLAGS@ @LIBS@
+ LINK_SPECIAL_FILES	=	@LINK_SPECIAL_FILES@
+ 
+ #---------- Autoconf settings, can be overriden as "make" args
+diff -ru metakit-2.4.9.7.orig/unix/configure.in metakit-2.4.9.7/unix/configure.in
+--- metakit-2.4.9.7.orig/unix/configure.in	2007年  6月 15日 五 19:26:40
++++ metakit-2.4.9.7/unix/configure.in	2007年  9月 24日 一 13:59:11
+@@ -115,9 +115,9 @@
+ fi
+ 
+ if test $SHARED_BUILD = 1; then
+-  SHLIB_FLAGS="-shared"
+-  SHLIB_CFLAGS="-fPIC -DUSE_TCL_STUBS"
+-  SHLIB_LD="g++ -shared"
++  SHLIB_FLAGS="-G"
++  SHLIB_CFLAGS="-KPIC -DUSE_TCL_STUBS"
++  SHLIB_LD="CC -G"
+ else
+   SHLIB_FLAGS=""
+   SHLIB_CFLAGS=""
+@@ -235,7 +235,7 @@
+ 	fi
+     fi
+     ;;
+-  SunOS-*)
++  SunOS*)
+     # Tested for solaris-2.8.
+ 
+     if test "x`basename $CXX`" = "xCC"

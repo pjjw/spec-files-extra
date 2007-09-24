@@ -1,0 +1,21 @@
+diff -ru metakit-2.4.9.7.orig/tcl/mk4tcl.cpp metakit-2.4.9.7/tcl/mk4tcl.cpp
+--- metakit-2.4.9.7.orig/tcl/mk4tcl.cpp	2007年  6月 15日 五 20:23:25
++++ metakit-2.4.9.7/tcl/mk4tcl.cpp	2007年  9月 24日 一 14:26:00
+@@ -2,6 +2,7 @@
+ // $Id: mk4tcl.cpp 1680 2007-06-18 21:05:24Z jcw $
+ // This is part of Metakit, see http://www.equi4.com/metakit.html
+ 
++#include "../builds/config.h"
+ #include "mk4tcl.h"
+ #include "mk4io.h"
+ 
+--- metakit-2.4.9.7.orig/tcl/mk4too.cpp	2007年  3月  9日 五 10:58:53
++++ metakit-2.4.9.7/tcl/mk4too.cpp	2007年  9月 24日 一 14:40:31
+@@ -3,6 +3,7 @@
+ // This is part of Metakit, see http://www.equi4.com/metakit.html
+ // Copyright (C) 2000-2004 by Matt Newman and Jean-Claude Wippler.
+ 
++#include "../builds/config.h"
+ #include "mk4tcl.h"
+ #include <stdio.h>
+ #include <string.h>
