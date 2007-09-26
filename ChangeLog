@@ -1,3 +1,7 @@
+2007-09-26  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEtomboy.spec: Bump to 0.8.0, add PATH fix
+
 2007-09-26  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEtracker.spec: Bump to 0.6.3, Move wv and libgsf to Requires.

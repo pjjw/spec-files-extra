@@ -6,9 +6,9 @@
 %include Solaris.inc
 
 Name:         SFEtomboy
-Version:      0.6.3
+Version:      0.8.0
 Summary:      Tomboy - a desktop note-taking application
-Source:       http://download.gnome.org/sources/tomboy/0.6/tomboy-%{version}.tar.gz
+Source:       http://download.gnome.org/sources/tomboy/0.8/tomboy-%{version}.tar.gz
 Patch1:       tomboy-01-solaris.diff
 URL:          http://www.gnome.org/projects/tomboy/
 SUNW_BaseDir: %{_basedir}
@@ -74,7 +74,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/tomboy/lib*a
 
-perl -pi -e 's/^exec mono /exec \/usr\/mono\/bin\/mono /' \
+perl -pi -e 's/^exec mono /PATH=\/usr\/mono\/bin:\$PATH\nexport PATH\nexec \/usr\/mono\/bin\/mono /' \
     $RPM_BUILD_ROOT%{_bindir}/tomboy
 perl -pi -e 's/^#!\/bin\/sh/#!\/bin\/bash/' $RPM_BUILD_ROOT%{_bindir}/tomboy
 
@@ -195,6 +195,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Wed Sep 26 2007 - trisk@acm.jhu.edu
+- Bump to 0.8.0, add PATH fix
 * Sat Sep 01 2007 - trisk@acm.jhu.edu
 - Add tomboy-01-solaris.diff for yet another dbus-sharp patch
 * Sat Sep 01 2007 - trisk@acm.jhu.edu
