@@ -4,17 +4,15 @@
 # package are under the same license as the package itself.
 
 %include Solaris.inc
-%define with_libgsf %(pkginfo -q SFElibgsf && echo 1 || echo 0)
-%define with_mv     %(pkginfo -q SFEwv && echo 1 || echo 0)
-
 %define gnome_2_20  %(pkg-config --atleast-version=2.19.0 libgnome-2.0 && echo 1 || echo 0)
 
 Name:           SFEtracker
 License:        GPL
 Summary:        Desktop search tool
-Version:        0.6.2
+Version:        0.6.3
 URL:            http://www.tracker-project.org
-Source:         http://www.gnome.org/~jamiemcc/tracker/tracker-%{version}.tar.gz
+Source:         http://www.gnome.org/~jamiemcc/tracker/tracker-%{version}.tar.bz2
+Patch1:         tracker-01-w3m-crash.diff
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -37,20 +35,16 @@ Requires:       SUNWlibexif
 Requires:       SUNWgnome-pdf-viewer
 Requires:       SUNWlxsl
 Requires:       SFEw3m
+Requires:       SFEwv
+Requires:       SFElibgsf
 BuildRequires:  SUNWgnome-media-devel
 BuildRequires:  SUNWpng-devel
 BuildRequires:  SUNWogg-vorbis-devel
 BuildRequires:  SUNWlibexif-devel
 BuildRequires:  SUNWgnome-pdf-viewer-devel
 BuildRequires:  SUNWlxsl-devel
-%if %with_libgsf
-Requires:       SFElibgsf
-BuildRequires:  SFElibgsf-devel
-%endif
-%if %with_mv
-Requires:       SFEwv
 BuildRequires:  SFEwv-devel
-%endif
+BuildRequires:  SFElibgsf-devel
 
 %package devel
 Summary:        %{summary} - development files
@@ -73,6 +67,7 @@ Requires:                %{name}
 
 %prep
 %setup -q -n tracker-%version
+%patch1 -p1
 
 %build
 
@@ -123,6 +118,7 @@ rm -rf $RPM_BUILD_ROOT
 %else
 %dir %attr (0755, root, bin) %{_libdir}/deskbar-applet/handlers
 %{_libdir}/deskbar-applet/handlers/tracker-handler.py
+%{_libdir}/deskbar-applet/handlers/tracker-handler-static.py
 %endif
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/tracker
@@ -158,6 +154,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Sep 26 2007 - nonsea@users.sourceforge.net
+- Bump to 0.6.3.
+- Move wv and libgsf to Requires.
+- Add patch w3m-crash to fix w3m crash on solaris.
 * Fri Sep 21 2007 - trisk@acm.jhu.edu
 - Fix install in GNOME 2.19/2.20
 * Wed Sep 05 2007 - nonsea@users.sourceforge.net

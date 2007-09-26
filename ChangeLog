@@ -1,3 +1,9 @@
+2007-09-26  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEtracker.spec: Bump to 0.6.3, Move wv and libgsf to Requires.
+	  Add patch w3m-crash to fix w3m crash on solaris.
+	* patches/tracker-01-w3m-crash.diff:
+
 2007-09-24  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEgourmet.spec: *NEW* Gourmet - Recipe management for GNOME
@@ -12,13 +18,13 @@
 	* patches/metakit-02-wideint.diff: Fix use of long long in Tcl bindings
 
 2007-09-23  Thomas Wagner <tom68@users.sourceforge.net>
- 
-        * SFEglassfish: *NEW* fish, jailed
+
+	* SFEglassfish: *NEW* fish, jailed
 
 2007-09-17  Thomas Wagner <tom68@users.sourceforge.net>
 
 	* SFEpulseaudio: add patch5 dirty_hack_IP_MULTICAST_LOOP-module-rtp-send.c
-          TODO: find correct way to setup IP_MULTICAST_LOOP or isn't it necessary
+	  TODO: find correct way to setup IP_MULTICAST_LOOP or isn't it necessary
 
 2007-09-22  Albert Lee  <trisk@acm.jhu.edu>
 
