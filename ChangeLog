@@ -1,3 +1,8 @@
+2007-09-28  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEtracker.spec: Add patch thunderbird.diff to enable thunderbird index.
+	* patches/tracker-02-thunderbird.diff: Added
+
 2007-09-26  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEtomboy.spec: Bump to 0.8.0, add PATH fix

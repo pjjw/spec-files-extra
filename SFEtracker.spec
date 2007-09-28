@@ -13,6 +13,7 @@ Version:        0.6.3
 URL:            http://www.tracker-project.org
 Source:         http://www.gnome.org/~jamiemcc/tracker/tracker-%{version}.tar.bz2
 Patch1:         tracker-01-w3m-crash.diff
+Patch2:         tracker-02-thunderbird.diff
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -68,6 +69,7 @@ Requires:                %{name}
 %prep
 %setup -q -n tracker-%version
 %patch1 -p1
+%patch2 -p1
 
 %build
 
@@ -154,6 +156,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Sep 28 2007 - nonsea@users.sourceforge.net
+- Add patch thunderbird.diff to enable thunderbird index.
 * Wed Sep 26 2007 - nonsea@users.sourceforge.net
 - Bump to 0.6.3.
 - Move wv and libgsf to Requires.
