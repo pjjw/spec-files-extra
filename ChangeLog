@@ -1,3 +1,8 @@
+2007-09-29 Dick Hoogendijk <dick@nagual.nl>
+
+	* SFEmplayer-plugin.spec: bumped to the latest stable release v2.45
+	* patches/mpplayer-02-strings_h.diff: slight adjustment to v2.45 code
+
 2007-09-28  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEtracker.spec: Add patch thunderbird.diff to enable thunderbird index.

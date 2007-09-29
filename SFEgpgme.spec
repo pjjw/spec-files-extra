@@ -7,7 +7,7 @@
 
 Name:                SFEgpgme
 Summary:             A C wrapper library for GnuPG
-Version:             1.0.3
+Version:             1.1.4
 Source:              ftp://ftp.gnupg.org/gcrypt/gpgme/gpgme-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}

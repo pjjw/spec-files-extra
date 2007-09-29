@@ -1,12 +1,12 @@
---- mplayerplug-in/Source/plugin.h-p2	Tue Nov 14 19:23:30 2006
-+++ mplayerplug-in/Source/plugin.h	Sat May 19 11:59:29 2007
-@@ -56,6 +56,9 @@
- #include <pthread.h>
+--- ./Source/plugin.h-p2	2007-09-29 12:17:27.000000000 +0200
++++ ./Source/plugin.h	2007-09-29 12:33:35.430132000 +0200
+@@ -57,6 +57,9 @@
  #include <sys/types.h>
  #include <signal.h>
+ #include <string.h>
 +#ifdef sun
 +#include <strings.h>
 +#endif
- #include <string.h>
+ #include <time.h>
  #ifdef HAVE_GETTEXT
  # include <libintl.h>

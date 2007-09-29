@@ -7,8 +7,9 @@
 
 Name:                    SFEmplayer-plugin
 Summary:                 MPlayer plugin for firefox on Nevada
-Version:                 3.40
-Source:                  http://mplayerplug-in.sourceforge.net/mplayerplug-in-daily.tar.gz
+Version:                 3.45
+Source:                  http://kent.dl.sourceforge.net/sourceforge/mplayerplug-in/mplayerplug-in-%{version}.tar.gz
+#Source:                  http://mplayerplug-in.sourceforge.net/mplayerplug-in-3.45.tar.gz
 Patch1:			 mpplugin-01-makefile.diff
 Patch2:                  mpplugin-02-strings_h.diff
 Patch3:                  mpplugin-03-strstr.diff
@@ -102,6 +103,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Sep 29 2007 - dick@nagual.nl
+- Bumped to the latest stable release v2.45
 * Sun May 20 2007 - dick@nagual.nl
 - Changed the code patchfiles to apply to the latest code
   As of this writing version 3.40 (and higher)
