@@ -1,4 +1,9 @@
 2007-09-29 Dick Hoogendijk <dick@nagual.nl>
+	* version bump for:
+	* SFEtcl.spec: Tcl - Tool Command Language v8.4.16
+	* SFEtk.spec: Tk - TCL GUI Toolkit v8.4.16
+
+2007-09-29 Dick Hoogendijk <dick@nagual.nl>
 
 	* SFEmplayer-plugin.spec: bumped to the latest stable release v2.45
 	* patches/mpplayer-02-strings_h.diff: slight adjustment to v2.45 code
