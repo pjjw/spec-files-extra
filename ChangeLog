@@ -1,6 +1,11 @@
 2007-10-02  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEzfs-auto-backup: cleand up %files and uninstall
+           SMF Service
+
+2007-10-02  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEzfs-auto-backup: *NEW* untested zfs-auto-backup
            to removable media (full/automatic incremental backup)
+         
 
 2007-10-01  Thomas Wagner <tom68@users.sourceforge.net>
 
