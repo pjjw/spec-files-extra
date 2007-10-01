@@ -24,7 +24,7 @@ Requires: SUNWmlib
 Requires: SUNWxwrtl
 Requires: SUNWTcl
 Requires: SUNWPython
-Requires: SFEruby
+#Requires: SFEruby
 Requires: SUNWperl584core
 BuildRequires: SUNWPython-devel
 %if %SPROsslnk
