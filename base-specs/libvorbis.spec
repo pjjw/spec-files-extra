@@ -20,7 +20,7 @@ Group:        System/Libraries
 License:      BSD
 URL:          http://downloads.xiph.org/
 Source:       http://downloads.xiph.org/releases/vorbis/%{name}-%{version}.tar.gz
-Source1:       l10n-configure.sh
+#Source1:       l10n-configure.sh
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -51,7 +51,7 @@ Authors:
 %prep
 %setup
 
-bash -x %SOURCE1
+#bash -x %SOURCE1
 
 %build
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
@@ -97,6 +97,10 @@ sed -e s/XIPH_PATH_VORBIS/AM_PATH_VORBIS/g < $RPM_BUILD_ROOT%{_datadir}/aclocal/
 %{_datadir}/gtk-doc
 
 %changelog -n libvorbis
+* Mon Oct  1 2007 - Thomas Wagner
+- base-spec/libogg.spec vorbis.spec
+  removed Source1 l10* and in %prep removed calling l10*
+  since it's not needed or not there
 * Tue Sep  4 2007 - dougs@truemail.co.th
 - enabled shared
 * Sun Aug 12 2007 - dougs@truemail.co.th

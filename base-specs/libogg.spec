@@ -20,7 +20,7 @@ Group:        System/Libraries
 License:      BSD
 URL:          http://downloads.xiph.org/
 Source:       http://downloads.xiph.org/releases/ogg/%{name}-%{version}.tar.gz
-Source1:       l10n-configure.sh
+#Source1:       l10n-configure.sh
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -49,7 +49,7 @@ Authors:
 %prep
 %setup
 
-bash -x %SOURCE1
+#bash -x %SOURCE1
 
 %build
 
@@ -92,6 +92,10 @@ sed -e s/XIPH_PATH_OGG/AM_PATH_OGG/g < $RPM_BUILD_ROOT%{_datadir}/aclocal/ogg.m4
 %{_datadir}/gtk-doc
 
 %changelog -n libogg
+* Mon Oct  1 2007 - Thomas Wagner
+- base-spec/libogg.spec vorbis.spec
+  removed Source1 l10* and in %prep removed calling l10*
+  since it's not needed or not there
 * Sun Aug 12 2007 - dougs@truemail.co.th
 - copied from spec-files to provide 64bit libraries
 * Tue Dec 27 2005 - damien.carbery@sun.com

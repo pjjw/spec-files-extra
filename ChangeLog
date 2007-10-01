@@ -1,3 +1,8 @@
+2007-10-01  Thomas Wagner <tom68@users.sourceforge.net>
+
+	* SFEogg-vorbis: base-spec/libogg.spec vorbis.spec
+          removed Source1 l10* and in %prep removed calling l10*
+
 2007-09-29 Dick Hoogendijk <dick@nagual.nl>
 	* version bump for:
 	* SFEtcl.spec: Tcl - Tool Command Language v8.4.16
