@@ -12,7 +12,7 @@
 
 
 Name:                   SFEzfs-auto-backup
-Summary:                zfs-auto-backup service. Plugin configured storage and full/incremental backup of flagged zfs-filesystems starts (recursively)
+Summary:                zfs-auto-backup service
 Version:                0.1
 Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
 Url:			http://blogs.sun.com/timf/entry/zfs_automatic_backup_0_1
@@ -24,6 +24,24 @@ BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 Summary:                 %{summary} - / filesystem
 SUNW_BaseDir:            /
 %include default-depend.inc
+
+%description
+Plugin configured storage into your computer and automatic full/incremental backup of zfs-filesystems with user-property com.sun:auto-backup starts (recursively).
+
+Administrativa:
+Register the name of the backup-media (label-name) with: (replace MYLABEL with the corresponding name displayed in /media/*)
+svccfg -s svc:/system/filesystem/zfs/auto-backup setprop zfs/volume = astring: "MYLABEL"
+
+Set the user-property at each filesystem to be backuped:  (replace zfs/tmp with your poolname and filesystem, beware of recursion!)
+zfs set com.sun:auto-backup=true zfs/tmp
+
+If you want verbose logging:
+svccfg -s svc:/system/filesystem/zfs/auto-backup setprop zfs/verbose = boolean: true
+
+Display the log with: 
+tail -f "/var/svc/log/system-filesystem-zfs-auto-backup:default.log" 
+
+
 
 
 %prep
@@ -119,6 +137,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Oct 03 2007 - Thomas Wagner
+- shortened Summary
+- description: command for verbose mode corrected (thanks to Tim Foster)
 * Tue Oct 02 2007 - Thomas Wagner
 - Initial version
 - corrected files-section and pkgremove-scripts
+- add description

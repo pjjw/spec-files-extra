@@ -1,3 +1,6 @@
+2007-10-02  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEzfs-auto-backup: shortend summary, doc correction
+
 2007-10-03  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* base-specs/sdl-gfx.spec: Move src_url into Source so that the
