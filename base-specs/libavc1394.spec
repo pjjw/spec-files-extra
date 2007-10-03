@@ -13,15 +13,13 @@ Summary:	Programming interface to the 1394 AV/C specification
 Version:	%{src_ver}
 Source:		%{src_url}/%{src_name}-%{version}.tar.gz
 Patch1:		libavc1394-01-wall.diff
-Source1:	byteswap-compat.h
-Source2:	endian-compat.h
+Patch2:		libavc1394-02-solaris.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
 %prep
 %setup -q -n %{src_name}-%{version}
 %patch1 -p1
-#cp %SOURCE1 src/byteswap.h
-#cp %SOURCE2 src/endian.h
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`

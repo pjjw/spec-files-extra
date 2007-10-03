@@ -1,0 +1,2190 @@
+diff -PNur libraw1394-1.2.1.orig/configure.ac libraw1394-1.2.1/configure.ac
+--- libraw1394-1.2.1.orig/configure.ac	2005-06-23 03:12:08.000000000 +0700
++++ libraw1394-1.2.1/configure.ac	2007-09-30 20:07:16.989092560 +0700
+@@ -24,6 +24,25 @@
+ AC_SUBST(lt_revision)
+ AC_SUBST(lt_age)
+ 
++case $host_os in
++      solaris*) SOLARIS=true ;;
++      *) ;;
++esac
++
++
++if test $SOLARIS ; then
++    AC_CHECK_HEADERS(sys/av/iec61883.h)
++    if test ! $HAVE_SYS_AV_IEC61883.H ; then
++	AC_ERROR("<sys/av/iec61883.h> needs to be installed")
++	AC_ERROR("    It can be found in the OpenSolaris source tree at")
++	AC_ERROR("    - usr/src/uts/common/sys/av/iec61883.h")
++	exit 1
++    fi
++    AC_DEFINE(_FILE_OFFSET_BITS, 64, [Define for large file support on Solaris])
++fi
++
++AM_CONDITIONAL(SOLARIS, test $SOLARIS )
++
+ 
+ #CFLAGS=${CFLAGS:-"-Wall"}
+ AC_OUTPUT([
+diff -PNur libraw1394-1.2.1.orig/src/Makefile.am libraw1394-1.2.1/src/Makefile.am
+--- libraw1394-1.2.1.orig/src/Makefile.am	2004-11-06 07:26:44.000000000 +0700
++++ libraw1394-1.2.1/src/Makefile.am	2007-09-30 20:53:32.465256179 +0700
+@@ -19,5 +19,12 @@
+ 	raw1394_private.h \
+ 	ieee1394-ioctl.h
+ 
++if SOLARIS
++libraw1394_la_SOURCES +=  \
++	solaris.c	  \
++	solaris.h	  \
++	solaris-raw1394.h
++endif
++
+ # headers to be installed
+-pkginclude_HEADERS = raw1394.h csr.h ieee1394.h
++pkginclude_HEADERS = raw1394.h csr.h ieee1394.h solaris.h
+diff -PNur libraw1394-1.2.1.orig/src/arm.c libraw1394-1.2.1/src/arm.c
+--- libraw1394-1.2.1.orig/src/arm.c	2004-11-11 09:12:16.000000000 +0700
++++ libraw1394-1.2.1/src/arm.c	2007-09-30 19:59:19.480366401 +0700
+@@ -16,7 +16,11 @@
+ #include <string.h>
+ 
+ #include "raw1394.h"
++#if defined(sun) || defined(__sun)
++#include "solaris-raw1394.h"
++#else
+ #include "kernel-raw1394.h"
++#endif
+ #include "raw1394_private.h"
+ 
+ /*
+@@ -51,6 +55,14 @@
+ {
+         int     retval=0;
+         struct  raw1394_request req;
++	int fd;
++
++#if defined(sun) || defined(__sun)
++	fd = raw1394_get_fd(handle);
++#else 
++	fd = handle->fd
++#endif
++	if (fd < 0) return (-1);
+ 
+ 	if (((start & ~(0xFFFFFFFF)) != 0) ||
+                 (((start + length) & ~(0xFFFFFFFF)) != 0)) {
+@@ -67,7 +79,7 @@
+         req.misc = ((client_transactions & 0x0f) << 8)|((notification_options & 0x0F) << 4)|(access_rights & 0x0F)
+                     |((ARM_REC_LENGTH & 0xFFFF) << 16);
+         req.sendb = ptr2int(initial_value); 
+-        retval = (int) write(handle->fd, &req, sizeof(req));
++        retval = (int) write(fd, &req, sizeof(req));
+         return (retval == sizeof(req)) ? 0:-1;
+ }
+ 
+@@ -83,12 +95,20 @@
+ {
+         int retval;
+         struct raw1394_request req;
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         CLEAR_REQ(&req);
+         req.type = RAW1394_REQ_ARM_UNREGISTER;
+         req.generation = handle->generation; /* not necessary */
+         req.address = start;
+-        retval = write(handle->fd, &req, sizeof(req));
++        retval = write(fd, &req, sizeof(req));
+         return (retval == sizeof(req)) ? 0:-1;
+ }
+ 
+@@ -110,6 +130,15 @@
+ {
+         struct raw1394_request req;
+         int status;
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
++
+ 
+         CLEAR_REQ(&req);
+ 
+@@ -118,7 +147,7 @@
+         req.length = length;
+         req.address = start;
+ 
+-        if (write(handle->fd, &req, sizeof(req)) < 0) return -1;
++        if (write(fd, &req, sizeof(req)) < 0) return -1;
+ 
+         return 0;
+ }
+@@ -140,6 +169,14 @@
+ {
+         struct raw1394_request req;
+         int status;
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         CLEAR_REQ(&req);
+ 
+@@ -148,7 +185,7 @@
+         req.length = length;
+         req.address = start;
+ 
+-        if (write(handle->fd, &req, sizeof(req)) < 0) return -1;
++        if (write(fd, &req, sizeof(req)) < 0) return -1;
+ 
+         return 0;
+ }
+diff -PNur libraw1394-1.2.1.orig/src/errors.c libraw1394-1.2.1/src/errors.c
+--- libraw1394-1.2.1.orig/src/errors.c	2004-11-11 06:53:05.000000000 +0700
++++ libraw1394-1.2.1/src/errors.c	2007-09-30 20:00:07.744634540 +0700
+@@ -12,7 +12,11 @@
+ #include <errno.h>
+ 
+ #include "raw1394.h"
++#if defined(sun) || defined(__sun)
++#include "solaris-raw1394.h"
++#else
+ #include "kernel-raw1394.h"
++#endif
+ #include "raw1394_private.h"
+ #include "ieee1394.h"
+ 
+@@ -38,7 +42,11 @@
+                 0xdead,
+                 0xdead,
+                 0xdead,
++#if defined(sun) || defined(__sun)
++		EIO,	   /* ack_data_error */
++#else
+                 EREMOTEIO, /* ack_data_error */
++#endif
+                 EPERM,     /* ack_type_error */
+                 0xdead     /* invalid ack code */
+         };
+@@ -48,7 +56,11 @@
+                 0xdead,
+                 0xdead,
+                 EAGAIN,    /* rcode_conflict_error */
++#if defined(sun) || defined(__sun)
++                EIO,	   /* rcode_data_error */
++#else
+                 EREMOTEIO, /* rcode_data_error */
++#endif
+                 EPERM,     /* rcode_type_error */
+                 EINVAL,    /* rcode_address_error */
+                 0xdead,    /* invalid rcodes */
+diff -PNur libraw1394-1.2.1.orig/src/eventloop.c libraw1394-1.2.1/src/eventloop.c
+--- libraw1394-1.2.1.orig/src/eventloop.c	2006-04-09 09:29:54.000000000 +0700
++++ libraw1394-1.2.1/src/eventloop.c	2007-09-30 20:01:07.553401545 +0700
+@@ -20,18 +20,105 @@
+ 
+ #include <config.h>
+ #include <unistd.h>
++#if defined(sun) || defined(__sun)
++#include <sys/byteorder.h>
++#define bswap_8  BSWAP_8
++#define bswap_16 BSWAP_16
++#define bswap_32 BSWAP_32
++#define bswap_64 BSWAP_64
++#else
+ #include <byteswap.h>
++#endif
+ 
+ #include "raw1394.h"
++#if defined(sun) || defined(__sun)
++#include "solaris-raw1394.h"
++#else
+ #include "kernel-raw1394.h"
++#endif
+ #include "raw1394_private.h"
+ 
++#if defined(sun) || defined(__sun)
++hrtime_t start = 0;
++int frame_start = 0;
++int frame_end = 0;
++#endif
+ 
++#if defined(sun) || defined(__sun)
++int raw1394_loop_iterate(struct raw1394_handle *handle)
++{
++	size_t fs;
++	iec61883_recv_t *recv = &handle->iso_recv;
++	int cur, cnt;
++	hrtime_t elapsed;
++	int dotime;
++
++	if (handle->iso_handle == -1) return 0;
++	if (handle->iso_fd == -1)  return -1;
++	if (handle->log && start != 0)
++		elapsed = gethrtime() - start;
++
++	if (ioctl(handle->iso_fd, IEC61883_RECV, recv) != 0) {
++		(void) fprintf(stderr, "ioctl(isoch_RECV) failed with "
++			"errno %d (%s)\n", errno, strerror(errno));
++		return -1;
++	}
++
++	if (handle->log) {
++		dotime = (start != 0);
++		start = gethrtime();
++		if (dotime && elapsed > 2000) {
++			(void) fprintf(handle->log,
++			    "processed frames %d - %d for %d microseconds\n",
++			    frame_start, frame_end, elapsed / 1000);
++		}
++	}
++
++	fs = handle->iso_pkt_size * handle->iso_frame_size;
++
++	cnt = 1;
++	cur = recv->rx_xfer.xf_full_idx;
++	frame_start = cur;
++
++	for ( ; ; ) {
++		uint8_t *data, *end;
++
++		data = handle->iso_mmap + cur * fs;
++		end = data + fs;
++
++		for ( ; data < end; data += handle->iso_pkt_size) {
++			if (*((uint32_t *)data + 4) == 0) continue;
++
++			uint16_t len = *((uint32_t *)data + 1) >> 16;
++
++			/* XXX Should check return */
++			(void) handle->iso_handler(handle,
++			    handle->iso_channel, len, (quadlet_t *)data + 1);
++		}
++
++		--cnt;
++		if (cnt == 0) break;
++
++		++cur;
++		if (cur == handle->iso_frame_cnt) cur = 0;
++	}
++
++	frame_end = cur;
++	handle->iso_recv.rx_xfer.xf_empty_idx =
++		 handle->iso_recv.rx_xfer.xf_full_idx;
++
++	/*
++	 * h->iso_recv.rx_xfer.xf_empty_cnt = h->iso_recv.rx_xfer.xf_full_cnt;
++	 */
++
++	handle->iso_recv.rx_xfer.xf_empty_cnt = 1;
++	return 0;
++}
++#else
+ int raw1394_loop_iterate(struct raw1394_handle *handle)
+ {
+         struct raw1394_request req;
+         int retval = 0, channel;
+-
+         if (read(handle->fd, &req, sizeof(req)) < 0) {
+                 return -1;
+         }
+@@ -102,6 +189,7 @@
+ 
+         return retval;
+ }
++#endif
+ 
+ 
+ bus_reset_handler_t raw1394_set_bus_reset_handler(struct raw1394_handle *handle,
+@@ -127,7 +215,7 @@
+ }
+ 
+ arm_tag_handler_t raw1394_set_arm_tag_handler(struct raw1394_handle *handle, 
+-                                      arm_tag_handler_t new)
++                                              arm_tag_handler_t new)
+ {
+         arm_tag_handler_t old;
+ 
+@@ -138,6 +226,17 @@
+ }
+ 
+ 
++#if defined(sun) || defined(__sun)
++iso_handler_t raw1394_set_iso_handler(struct raw1394_handle *handle,
++				      unsigned int channel,
++				      iso_handler_t new_handler)
++{
++
++	iso_handler_t old = handle->iso_handler;
++	handle->iso_handler = new_handler;
++	return (old);
++}
++#else
+ iso_handler_t raw1394_set_iso_handler(struct raw1394_handle *handle,
+                                       unsigned int channel, iso_handler_t new)
+ {
+@@ -158,14 +257,15 @@
+         handle->iso_handler[channel] = new;
+         return NULL;
+ }
++#endif
+ 
+ fcp_handler_t raw1394_set_fcp_handler(struct raw1394_handle *handle,
+-                                      fcp_handler_t new)
++                                      fcp_handler_t new_handler)
+ {
+         fcp_handler_t old;
+ 
+         old = handle->fcp_handler;
+-        handle->fcp_handler = new;
++        handle->fcp_handler = new_handler;
+ 
+         return old;
+ }
+diff -PNur libraw1394-1.2.1.orig/src/fcp.c libraw1394-1.2.1/src/fcp.c
+--- libraw1394-1.2.1.orig/src/fcp.c	2004-11-11 06:46:32.000000000 +0700
++++ libraw1394-1.2.1/src/fcp.c	2007-09-30 20:01:21.441375214 +0700
+@@ -14,7 +14,11 @@
+ #include <string.h>
+ 
+ #include "raw1394.h"
++#if defined(sun) || defined(__sun)
++#include "solaris-raw1394.h"
++#else
+ #include "kernel-raw1394.h"
++#endif
+ #include "raw1394_private.h"
+ 
+ static int do_fcp_listen(struct raw1394_handle *handle, int startstop)
+@@ -24,6 +28,13 @@
+         int err;
+         struct raw1394_request req;
+ 
++#if defined(sun) || defined(__sun)
++        int fd = raw1394_get_fd(handle);
++#else
++        int fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
++
+         CLEAR_REQ(&req);
+         req.type = RAW1394_REQ_FCP_LISTEN;
+         req.generation = handle->generation;
+@@ -32,7 +43,7 @@
+         req.recvb = ptr2int(handle->buffer);
+         req.length = 512;
+ 
+-        err = write(handle->fd, &req, sizeof(req));
++        err = write(fd, &req, sizeof(req));
+         while (!sd.done) {
+                 if (err < 0) return err;
+                 err = raw1394_loop_iterate(handle);
+diff -PNur libraw1394-1.2.1.orig/src/ieee1394-ioctl.h libraw1394-1.2.1/src/ieee1394-ioctl.h
+--- libraw1394-1.2.1.orig/src/ieee1394-ioctl.h	2004-02-01 03:26:07.000000000 +0700
++++ libraw1394-1.2.1/src/ieee1394-ioctl.h	2007-09-30 20:01:36.425602344 +0700
+@@ -4,8 +4,15 @@
+ #ifndef __IEEE1394_IOCTL_H
+ #define __IEEE1394_IOCTL_H
+ 
++#if defined(sun) || defined(__sun)
++#include <sys/types.h>
++#include <sys/filio.h>
++#include <sys/ioctl.h>
++#else
+ #include <linux/ioctl.h>
+ #include <linux/types.h>
++#endif
++
+ 
+ 
+ /* AMDTP Gets 6 */
+@@ -78,10 +85,20 @@
+ 	_IOW ('#', 0x1a, struct raw1394_iso_status)
+ #define RAW1394_IOC_ISO_RECV_INIT		\
+ 	_IOWR('#', 0x1b, struct raw1394_iso_status)
++#if defined(sun) || defined(__sun)
++#define RAW1394_IOC_ISO_RECV_START             \
++	_IORN ('#', 0x1c, sizeof(int) * 3)
++#else
+ #define RAW1394_IOC_ISO_RECV_START		\
+ 	_IOC (_IOC_WRITE, '#', 0x1c, sizeof(int) * 3)
++#endif
++#if defined(sun) || defined(__sun)
++#define RAW1394_IOC_ISO_XMIT_START		\
++	_IOWN ('#', 0x1d, sizeof(int) * 2)
++#else
+ #define RAW1394_IOC_ISO_XMIT_START		\
+ 	_IOC (_IOC_WRITE, '#', 0x1d, sizeof(int) * 2)
++#endif
+ #define RAW1394_IOC_ISO_XMIT_RECV_STOP		\
+ 	_IO  ('#', 0x1e)
+ #define RAW1394_IOC_ISO_GET_STATUS		\
+@@ -94,8 +111,13 @@
+ 	_IOW ('#', 0x22, unsigned char)
+ #define RAW1394_IOC_ISO_RECV_UNLISTEN_CHANNEL	\
+ 	_IOW ('#', 0x23, unsigned char)
++#if defined(sun) || defined(__sun)
++#define RAW1394_IOC_ISO_RECV_SET_CHANNEL_MASK  \
++	_IOW ('#', 0x24, uint64_t)
++#else
+ #define RAW1394_IOC_ISO_RECV_SET_CHANNEL_MASK	\
+ 	_IOW ('#', 0x24, __u64)
++#endif
+ #define RAW1394_IOC_ISO_RECV_PACKETS		\
+ 	_IOW ('#', 0x25, struct raw1394_iso_packets)
+ #define RAW1394_IOC_ISO_RECV_RELEASE_PACKETS	\
+diff -PNur libraw1394-1.2.1.orig/src/iso.c libraw1394-1.2.1/src/iso.c
+--- libraw1394-1.2.1.orig/src/iso.c	2006-04-09 09:02:31.000000000 +0700
++++ libraw1394-1.2.1/src/iso.c	2007-09-30 20:05:06.547933322 +0700
+@@ -19,9 +19,15 @@
+ #include <malloc.h>
+ 
+ #include "raw1394.h"
++#if defined(sun) || defined(__sun)
++#include "solaris-raw1394.h"
++#include "solaris.h"
++#else
+ #include "kernel-raw1394.h"
++#endif
+ #include "raw1394_private.h"
+ 
++#if !defined(sun) && !defined(__sun)
+ /* old ISO API - kept for backwards compatibility */
+ 
+ static int do_iso_listen(struct raw1394_handle *handle, int channel)
+@@ -59,7 +65,81 @@
+                 return sd.errcode;
+         }
+ }
++#endif
+ 
++#if defined(sun) || defined(__sun)
++int raw1394_start_iso_rcv(struct raw1394_handle *handle, unsigned int channel)
++{
++	int fd;
++	iec61883_isoch_init_t ii;
++
++	fd = solaris_get_fd(handle, /* XXX this is weird */ 0, 0);
++	if (fd < 0) return -1;
++	
++	ii.ii_version = IEC61883_V1_0;
++	/*
++	 * Hmm, it seems that if the buffer is too small, isoch_RECV will
++	 * hang...
++	 */
++	ii.ii_pkt_size = 512;
++	ii.ii_frame_size = 10;
++	ii.ii_frame_cnt = 50;
++	ii.ii_direction = IEC61883_DIR_RECV;
++	ii.ii_bus_speed = IEC61883_S100;
++	ii.ii_channel = 1ULL << channel;
++	ii.ii_dbs = 0;
++	ii.ii_fn = 0;
++	ii.ii_rate_n = 0;
++	ii.ii_rate_d = 0;
++	ii.ii_ts_mode = 0;
++	ii.ii_flags = 0;
++	ii.ii_error = 0;
++
++	if (ioctl(fd, IEC61883_ISOCH_INIT, &ii) != 0) {
++		(void) fprintf(stderr, "ioctl(_ISOCH_INIT) failed with %d\n",
++			ii.ii_error);
++			return -1;
++	}
++
++	handle->iso_mmap = (uint8_t *)mmap(NULL,
++		ii.ii_pkt_size * ii.ii_frame_size * ii.ii_frame_rcnt,
++		PROT_READ,
++		MAP_PRIVATE, fd,
++		ii.ii_mmap_off);
++
++	if (handle->iso_mmap == MAP_FAILED) {
++		(void) fprintf(stderr, "mmap() failed with errno %d (%s)\n",
++			errno, strerror(errno));
++		goto err;
++	}
++
++	handle->iso_handle = ii.ii_handle;
++	handle->iso_pkt_size = ii.ii_pkt_size;
++	handle->iso_frame_size = ii.ii_frame_size;
++	handle->iso_frame_cnt = ii.ii_frame_rcnt;
++	handle->iso_channel = ii.ii_rchannel;
++	handle->iso_next_dbc = 0;
++
++	handle->iso_recv.rx_handle = ii.ii_handle;
++	handle->iso_recv.rx_flags = 0;
++	handle->iso_recv.rx_xfer.xf_empty_cnt = 0;
++
++	if (ioctl(fd, IEC61883_START, handle->iso_handle) != 0) {
++		(void) fprintf(stderr, "ioctl(isoch_START) failed with "
++			"errno %d (%s)\n", errno, strerror(errno));
++
++		goto err;
++	}
++
++	return 0;
++	
++err:
++	if (ioctl(fd, IEC61883_ISOCH_FINI, ii.ii_handle) != 0)
++		(void) fprintf(stderr, "ioctl(_ISOCH_FINI) failed with "
++			"errno %d (%s)\n", errno, strerror(errno));
++	return -1;
++}
++#else
+ int raw1394_start_iso_rcv(struct raw1394_handle *handle, unsigned int channel)
+ {
+         if (channel > 63) {
+@@ -69,7 +149,50 @@
+ 
+         return do_iso_listen(handle, channel);
+ }
++#endif
+ 
++#if defined(sun) || defined(__sun)
++int raw1394_stop_iso_rcv(struct raw1394_handle *handle, unsigned int channel)
++{
++	int fd;
++	extern int errno;
++
++	if (channel != handle->iso_channel) {
++		errno = EINVAL;
++		(void) fprintf(stderr,
++			"raw1394_stop_iso_rcv: iso channel mismatch\n");
++		return -1;
++	}
++
++	fd = handle->iso_fd;
++	if (fd < 0) return -1;
++
++	if (munmap((void *)handle->iso_mmap, handle->iso_pkt_size *
++		handle->iso_frame_size * handle->iso_frame_cnt) != 0) {
++
++		(void) fprintf(stderr, "munmap() failed with errno %d (%s)\n",
++			errno, strerror(errno));
++		return -1;
++	}
++
++	handle->iso_mmap = NULL;
++
++	if (ioctl(fd, IEC61883_STOP, handle->iso_handle) < 0) {
++		(void) fprintf(stderr, "ioctl(isoch_STOP) failed with errno "
++			"%d (%s)\n", errno, strerror(errno));
++
++		return -1;
++	}
++
++	if (close(handle->iso_fd) != 0)
++		(void) fprintf(stderr, "close(%d) failed with errno %d (%s)\n",
++			handle->iso_fd, errno, strerror(errno));
++	
++	handle->iso_fd = -1;
++	handle->iso_handle = -1;
++	return 0;
++}
++#else
+ int raw1394_stop_iso_rcv(struct raw1394_handle *handle, unsigned int channel)
+ {
+         if (channel > 63) {
+@@ -79,6 +202,7 @@
+ 
+         return do_iso_listen(handle, ~channel);
+ }
++#endif
+ 
+ 
+ 
+@@ -129,8 +253,21 @@
+ 	handle->iso_status.config.irq_interval = irq_interval;
+ 	handle->iso_status.config.dma_mode = mode;
+ 
+-	if(ioctl(handle->fd, cmd, &handle->iso_status))
++#if defined(sun) || defined(__sun)
++	if (ioctl(handle->iso_fd, cmd, &handle->iso_status)) return -1;
++
++	handle->iso_mmap = (uint8_t*)mmap(NULL,
++			        handle->iso_status.config.data_buf_size,
++				PROT_READ | PROT_WRITE,
++				MAP_SHARED, handle->iso_fd, 0);
++
++	if (handle->iso_mmap == (unsigned char*) MAP_FAILED) {
++		handle->iso_mmap = NULL;
++		ioctl(handle->iso_fd, RAW1394_IOC_ISO_SHUTDOWN, 0);
+ 		return -1;
++	}
++#else
++	if(ioctl(handle->fd, cmd, &handle->iso_status)) return -1;
+ 
+ 	/* mmap the DMA buffer */
+ 	/* (we assume the kernel sets buf_size to an even number of pages) */
+@@ -144,6 +281,7 @@
+ 		ioctl(handle->fd, RAW1394_IOC_ISO_SHUTDOWN, 0);
+ 		return -1;
+ 	}
++#endif
+ 
+ 	handle->iso_status.overflows = 0;
+ 	handle->iso_packets_dropped = 0;
+@@ -154,15 +292,34 @@
+ 	handle->iso_state = ISO_STOP;
+ 
+ 	handle->iso_packet_infos = malloc(buf_packets * sizeof(struct raw1394_iso_packet_info));
++
++#if defined(sun) || defined(__sun)
++	if(handle->iso_packet_infos == NULL) {
++		munmap((char *)handle->iso_mmap,
++		       handle->iso_status.config.data_buf_size);
++		handle->iso_mmap = NULL;
++		ioctl(handle->iso_fd, RAW1394_IOC_ISO_SHUTDOWN, 0);
++		return -1;
++	}
++#else
+ 	if(handle->iso_packet_infos == NULL) {
+ 		munmap(handle->iso_buffer, handle->iso_status.config.data_buf_size);
+ 		handle->iso_buffer = NULL;
+ 		ioctl(handle->fd, RAW1394_IOC_ISO_SHUTDOWN, 0);
+ 		return -1;
+ 	}
++#endif
+ #if _POSIX_MEMLOCK > 0
+ 	result = mlock(handle->iso_packet_infos, buf_packets * sizeof(struct raw1394_iso_packet_info));
+ 	/* Ignore a permission error - app is responsible for that, */
++#if defined(sun) || defined(__sun)
++	if (result < 0 && result != -EPERM) {
++		munmap((char *)handle->iso_mmap, handle->iso_status.config.data_buf_size);
++		handle->iso_mmap = NULL;
++		ioctl(handle->iso_fd, RAW1394_IOC_ISO_SHUTDOWN, 0);
++		return -1;
++	}
++#else
+ 	if (result < 0 && result != -EPERM) {
+ 		munmap(handle->iso_buffer, handle->iso_status.config.data_buf_size);
+ 		handle->iso_buffer = NULL;
+@@ -170,6 +327,7 @@
+ 		return -1;
+ 	}
+ #endif
++#endif
+ 	return 0;
+ }
+ 
+@@ -229,47 +387,76 @@
+ 
+ int raw1394_iso_recv_listen_channel(raw1394handle_t handle, unsigned char channel)
+ {
++#if defined(sun) || defined(__sun)
++	int fd = handle->iso_fd;
++#else
++	int fd = handle->fd;
++#endif
++
+ 	if (handle->iso_mode != ISO_RECV) {
+ 		errno = EINVAL;
+ 		return -1;
+ 	}
+ 
+-	return ioctl(handle->fd, RAW1394_IOC_ISO_RECV_LISTEN_CHANNEL, channel);
++	return ioctl(fd, RAW1394_IOC_ISO_RECV_LISTEN_CHANNEL, channel);
+ }
+ 
+ int raw1394_iso_recv_unlisten_channel(raw1394handle_t handle, unsigned char channel)
+ {
++#if defined(sun) || defined(__sun)
++	int fd = handle->iso_fd;
++#else
++	int fd = handle->fd;
++#endif
++
+ 	if (handle->iso_mode != ISO_RECV) {
+ 		errno = EINVAL;
+ 		return -1;
+ 	}
+ 
+-	return ioctl(handle->fd, RAW1394_IOC_ISO_RECV_UNLISTEN_CHANNEL, channel);
++	return ioctl(fd, RAW1394_IOC_ISO_RECV_UNLISTEN_CHANNEL, channel);
+ }
+ 
+ int raw1394_iso_recv_flush(raw1394handle_t handle)
+ {
++#if defined(sun) || defined(__sun)
++	int fd = handle->iso_fd;
++#else
++	int fd = handle->fd;
++#endif
++
+ 	if (handle->iso_mode != ISO_RECV) {
+ 		errno = EINVAL;
+ 		return -1;
+ 	}
+ 
+-	return ioctl(handle->fd, RAW1394_IOC_ISO_RECV_FLUSH, 0);
++	return ioctl(fd, RAW1394_IOC_ISO_RECV_FLUSH, 0);
+ }
+ 
+ int raw1394_iso_recv_set_channel_mask(raw1394handle_t handle, u_int64_t mask)
+ {
++#if defined(sun) || defined(__sun)
++	int fd = handle->iso_fd;
++#else
++	int fd = handle->fd;
++#endif
++
+ 	if (handle->iso_mode != ISO_RECV) {
+ 		errno = EINVAL;
+ 		return -1;
+ 	}
+ 
+-	return ioctl(handle->fd, RAW1394_IOC_ISO_RECV_SET_CHANNEL_MASK, (void*) &mask);
++	return ioctl(fd, RAW1394_IOC_ISO_RECV_SET_CHANNEL_MASK, (void*) &mask);
+ }
+ 
+ int raw1394_iso_recv_start(raw1394handle_t handle, int start_on_cycle, int tag_mask, int sync)
+ {
+ 	int args[3];
++#if defined(sun) || defined(__sun)
++	int fd = handle->iso_fd;
++#else
++	int fd = handle->fd;
++#endif
+ 
+ 	if(handle->iso_mode != ISO_RECV) {
+ 		errno = EINVAL;
+@@ -280,7 +467,7 @@
+ 	args[1] = tag_mask;
+ 	args[2] = sync;
+ 
+-	if(ioctl(handle->fd, RAW1394_IOC_ISO_RECV_START, &args[0]))
++	if(ioctl(fd, RAW1394_IOC_ISO_RECV_START, &args[0]))
+ 		return -1;
+ 
+ 	handle->iso_state = ISO_GO;
+@@ -293,6 +480,12 @@
+ 	struct raw1394_iso_packets packets;
+ 	int retval = -1;
+ 	int stop_sync = 0;
++#if defined(sun) || defined(__sun)
++	int fd = handle->iso_fd;
++#else
++	int fd = handle->fd;
++#endif
++
+ 
+ 	if(handle->iso_mode != ISO_XMIT) {
+ 		errno = EINVAL;
+@@ -318,12 +511,21 @@
+ 		info->offset = handle->iso_buf_stride * handle->next_packet;
+ 		
+ 		/* call handler */
++#if defined(sun) || defined(__sun)
++		disp = handle->iso_xmit_handler(handle,
++						handle->iso_mmap + info->offset,
++						&len,
++						&info->tag, &info->sy,
++						stat->xmit_cycle,
++						_raw1394_iso_dropped(handle));
++#else
+ 		disp = handle->iso_xmit_handler(handle,
+ 						handle->iso_buffer + info->offset,
+ 						&len,
+ 						&info->tag, &info->sy,
+ 						stat->xmit_cycle,
+ 						_raw1394_iso_dropped(handle));
++#endif
+ 		info->len = len;
+ 		
+ 		/* advance packet cursors and cycle counter */
+@@ -335,7 +537,7 @@
+ 
+ 		if(disp == RAW1394_ISO_DEFER) {
+ 			/* queue an event so that we don't hang in the next read() */
+-			if(ioctl(handle->fd, RAW1394_IOC_ISO_QUEUE_ACTIVITY, 0))
++			if(ioctl(fd, RAW1394_IOC_ISO_QUEUE_ACTIVITY, 0))
+ 				goto out_produce;
+ 			break;
+ 		} else if(disp == RAW1394_ISO_AGAIN) {
+@@ -343,7 +545,7 @@
+ 			packets.n_packets--;
+ 			
+ 			/* queue an event so that we don't hang in the next read() */
+-			if(ioctl(handle->fd, RAW1394_IOC_ISO_QUEUE_ACTIVITY, 0))
++			if(ioctl(fd, RAW1394_IOC_ISO_QUEUE_ACTIVITY, 0))
+ 				goto out_produce;
+ 			break;
+ 		} else if(disp == RAW1394_ISO_STOP) {
+@@ -362,7 +564,7 @@
+ 
+ out_produce:
+ 	if(packets.n_packets > 0) {
+-		if(ioctl(handle->fd, RAW1394_IOC_ISO_XMIT_PACKETS, &packets))
++		if(ioctl(fd, RAW1394_IOC_ISO_XMIT_PACKETS, &packets))
+ 			retval = -1;
+ 	}
+ out:
+@@ -381,6 +583,12 @@
+ 	struct raw1394_iso_status *stat = &handle->iso_status;
+ 	struct raw1394_iso_packets packets;
+ 	struct raw1394_iso_packet_info info;
++#if defined(sun) || defined(__sun)
++	int fd = handle->iso_fd;
++#else
++	int fd = handle->fd;
++#endif
++
+ 
+ 	if(handle->iso_mode != ISO_XMIT || handle->iso_xmit_handler != NULL) {
+ 		errno = EINVAL;
+@@ -391,7 +599,7 @@
+ 	while(handle->iso_status.n_packets <= 1) {
+ 		/* if the file descriptor has been set non-blocking,
+ 		   return immediately */
+-		if(fcntl(handle->fd, F_GETFL) & O_NONBLOCK) {
++		if(fcntl(fd, F_GETFL) & O_NONBLOCK) {
+ 			errno = EAGAIN;
+ 			return -1;
+ 		}
+@@ -407,12 +615,16 @@
+ 	info.tag = tag;
+ 	info.sy = sy;
+ 	
++#if defined(sun) || defined(__sun)
++	memcpy(handle->iso_mmap + info.offset, data, len);
++#else
+ 	memcpy(handle->iso_buffer + info.offset, data, len);
++#endif
+ 	
+ 	packets.n_packets = 1;
+ 	packets.infos = &info;
+ 
+-	if(ioctl(handle->fd, RAW1394_IOC_ISO_XMIT_PACKETS, &packets))
++	if(ioctl(fd, RAW1394_IOC_ISO_XMIT_PACKETS, &packets))
+ 		return -1;
+ 
+ 	stat->n_packets--;
+@@ -426,6 +638,11 @@
+ int raw1394_iso_xmit_start(raw1394handle_t handle, int start_on_cycle, int prebuffer_packets)
+ {
+ 	int args[2];
++#if defined(sun) || defined(__sun)
++	int fd = handle->iso_fd;
++#else
++	int fd = handle->fd;
++#endif
+ 
+ 	if(handle->iso_mode != ISO_XMIT) {
+ 		errno = EINVAL;
+@@ -435,7 +652,7 @@
+ 	args[0] = start_on_cycle;
+ 	args[1] = prebuffer_packets;
+ 
+-	if(ioctl(handle->fd, RAW1394_IOC_ISO_XMIT_START, &args[0]))
++	if(ioctl(fd, RAW1394_IOC_ISO_XMIT_START, &args[0]))
+ 		return -1;
+ 
+ 	handle->iso_state = ISO_GO;
+@@ -444,33 +661,60 @@
+ 
+ int raw1394_iso_xmit_sync(raw1394handle_t handle)
+ {
++#if defined(sun) || defined(__sun)
++	int fd = handle->iso_fd;
++#else
++	int fd = handle->fd;
++#endif
++
+ 	if(handle->iso_mode != ISO_XMIT) {
+ 		errno = EINVAL;
+ 		return -1;
+ 	}
+-	return ioctl(handle->fd, RAW1394_IOC_ISO_XMIT_SYNC, 0);
++	return ioctl(fd, RAW1394_IOC_ISO_XMIT_SYNC, 0);
+ }
+ 
+ void raw1394_iso_stop(raw1394handle_t handle)
+ {
++#if defined(sun) || defined(__sun)
++	int fd = handle->iso_fd;
++#else
++	int fd = handle->fd;
++#endif
++
+ 	if(handle->iso_mode == ISO_INACTIVE) {
+ 		return;
+ 	}
+ 
+-	ioctl(handle->fd, RAW1394_IOC_ISO_XMIT_RECV_STOP, 0);
++	ioctl(fd, RAW1394_IOC_ISO_XMIT_RECV_STOP, 0);
+ 	handle->iso_state = ISO_STOP;
+ }
+ 
+ void raw1394_iso_shutdown(raw1394handle_t handle)
+ {
++#if defined(sun) || defined(__sun)
++	int fd = handle->iso_fd;
++#else
++	int fd = handle->fd;
++#endif
++
++#if defined(sun) || defined(__sun)
++	if(handle->iso_mmap) {
++		munmap((char *)handle->iso_mmap,
++			handle->iso_status.config.data_buf_size);
++		handle->iso_mmap = NULL;
++	}
++#else
+ 	if(handle->iso_buffer) {
+-		munmap(handle->iso_buffer, handle->iso_status.config.data_buf_size);
++		munmap(handle->iso_mmap,
++			handle->iso_status.config.data_buf_size);
+ 		handle->iso_buffer = NULL;
+ 	}
++#endif
+ 	
+ 	if(handle->iso_mode != ISO_INACTIVE) {
+ 		raw1394_iso_stop(handle);
+-		ioctl(handle->fd, RAW1394_IOC_ISO_SHUTDOWN, 0);
++		ioctl(fd, RAW1394_IOC_ISO_SHUTDOWN, 0);
+ 	}
+ 
+ 	if(handle->iso_packet_infos) {
+@@ -490,6 +734,11 @@
+ {
+ 	struct raw1394_iso_status *stat = &handle->iso_status;
+ 	struct raw1394_iso_packets packets;
++#if defined(sun) || defined(__sun)
++	int fd = handle->iso_fd;
++#else
++	int fd = handle->fd;
++#endif
+ 
+ 	int retval = -1, packets_done = 0;
+ 
+@@ -504,7 +753,7 @@
+ 	if(packets.infos == NULL)
+ 		goto out;
+ 
+-	if(ioctl(handle->fd, RAW1394_IOC_ISO_RECV_PACKETS, &packets) < 0)
++	if(ioctl(fd, RAW1394_IOC_ISO_RECV_PACKETS, &packets) < 0)
+ 		goto out;
+ 
+ 	while(stat->n_packets > 0) {
+@@ -514,12 +763,21 @@
+ 		info = &packets.infos[packets_done];
+ 
+ 		/* call handler */
++#if defined(sun) || defined(__sun)
++		disp = handle->iso_recv_handler(handle,
++						handle->iso_mmap + info->offset,
++						info->len, info->channel,
++						info->tag, info->sy,
++						info->cycle,
++						_raw1394_iso_dropped(handle));
++#else
+ 		disp = handle->iso_recv_handler(handle,
+ 						handle->iso_buffer + info->offset,
+ 						info->len, info->channel,
+ 						info->tag, info->sy,
+ 						info->cycle,
+ 						_raw1394_iso_dropped(handle));
++#endif
+ 
+ 		/* advance packet cursors */
+ 		stat->n_packets--;
+@@ -527,7 +785,7 @@
+ 		
+ 		if(disp == RAW1394_ISO_DEFER) {
+ 			/* queue an event so that we don't hang in the next read() */
+-			if(ioctl(handle->fd, RAW1394_IOC_ISO_QUEUE_ACTIVITY, 0))
++			if(ioctl(fd, RAW1394_IOC_ISO_QUEUE_ACTIVITY, 0))
+ 				goto out_consume;
+ 			break;
+ 		} else if(disp == RAW1394_ISO_STOP || disp == RAW1394_ISO_STOP_NOSYNC) {
+@@ -543,7 +801,7 @@
+ 
+ out_consume:
+ 	if(packets_done > 0) {
+-		if(ioctl(handle->fd, RAW1394_IOC_ISO_RECV_RELEASE_PACKETS, packets_done))
++		if(ioctl(fd, RAW1394_IOC_ISO_RECV_RELEASE_PACKETS, packets_done))
+ 			retval = -1;
+ 	}
+ out:	
+@@ -554,11 +812,17 @@
+ int _raw1394_iso_iterate(raw1394handle_t handle)
+ {
+ 	int err;
++#if defined(sun) || defined(__sun)
++	int fd = handle->iso_fd;
++#else
++	int fd = handle->fd;
++#endif
++
+ 
+ 	if(handle->iso_mode == ISO_INACTIVE)
+ 		return 0;
+ 
+-	err = ioctl(handle->fd, RAW1394_IOC_ISO_GET_STATUS, &handle->iso_status);
++	err = ioctl(fd, RAW1394_IOC_ISO_GET_STATUS, &handle->iso_status);
+ 	if(err != 0)
+ 		return err;
+ 
+diff -PNur libraw1394-1.2.1.orig/src/main.c libraw1394-1.2.1/src/main.c
+--- libraw1394-1.2.1.orig/src/main.c	2005-02-16 23:17:38.000000000 +0700
++++ libraw1394-1.2.1/src/main.c	2007-09-30 20:02:17.346140796 +0700
+@@ -31,7 +31,11 @@
+ 
+ #include "raw1394.h"
+ #include "csr.h"
++#if defined(sun) || defined(__sun)
++#include "solaris-raw1394.h"
++#else
+ #include "kernel-raw1394.h"
++#endif
+ #include "raw1394_private.h"
+ 
+ 
+@@ -84,29 +88,37 @@
+ 
+ 
+ 
+-static unsigned int init_rawdevice(struct raw1394_handle *h)
++static unsigned int init_rawdevice(struct raw1394_handle *handle)
+ {
+         struct raw1394_request req;
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         CLEAR_REQ(&req);
+         req.type = RAW1394_REQ_INITIALIZE;
+         req.misc = RAW1394_KERNELAPI_VERSION;
+-        h->protocol_version = RAW1394_KERNELAPI_VERSION;
++        handle->protocol_version = RAW1394_KERNELAPI_VERSION;
+ 
+-        if (write(h->fd, &req, sizeof(req)) < 0) return -1;
+-        if (read(h->fd, &req, sizeof(req)) < 0) return -1;
++        if (write(fd, &req, sizeof(req)) < 0) return -1;
++        if (read(fd, &req, sizeof(req)) < 0) return -1;
+ 
+-        if (req.error == RAW1394_ERROR_COMPAT && req.misc == 3) {
+-                h->protocol_version = 3;
+-                if (write(h->fd, &req, sizeof(req)) < 0) return -1;
+-                if (read(h->fd, &req, sizeof(req)) < 0) return -1;
++        if ((req.error == RAW1394_ERROR_COMPAT) && (req.misc == 3)) {
++                handle->protocol_version = 3;
++                if (write(fd, &req, sizeof(req)) < 0) return -1;
++                if (read(fd, &req, sizeof(req)) < 0) return -1;
+         }
+ 
+         if (req.error) {
+                 errno = 0;
+                 return -1;
+         }
+-        memset(h->buffer, 0, HBUF_SIZE);
++        (void)memset(handle->buffer, '\0', HBUF_SIZE);
+ 
+         return req.generation;
+ }
+@@ -117,11 +129,50 @@
+         struct raw1394_handle *handle;
+ 
+         handle = malloc(sizeof(struct raw1394_handle));
+-        if (!handle) {
++        if (handle == NULL) {
+                 errno = ENOMEM;
+                 return NULL;
+         }
+ 
++#if defined(sun) || defined(__sun)
++	for (int i = 0; i < RAW_NFDS; ++i)
++		handle->async_fds[i] = -1;
++
++	handle->iso_fd = -1;
++	handle->protocol_version = 0;
++	handle->generation = 0;
++
++	handle->local_id = 0;
++	handle->num_of_nodes = 0;
++	handle->irm_id = 0;
++
++	handle->err = 0;
++ 
++	handle->iso_handler = NULL;
++	handle->bus_reset_handler = NULL;
++	handle->tag_handler = NULL;
++	handle->arm_tag_handler = NULL;
++	handle->fcp_handler = NULL;
++
++	handle->iso_xmit_handler = NULL;
++	handle->iso_recv_handler = NULL;
++
++	handle->iso_handle = -1;
++	handle->iso_pkt_size = 0;
++	handle->iso_frame_size = 0;
++	handle->iso_frame_cnt = 0;
++	handle->iso_channel = -1;
++	handle->iso_mmap = NULL;
++	handle->iso_mode = ISO_INACTIVE;
++	handle->iso_state = ISO_STOP;
++
++	handle->iso_buf_stride = 0;
++	handle->next_packet = 0;
++
++	handle->iso_packets_dropped = 0;
++	handle->userdata = NULL;
++	handle->log = NULL;
++#else
+         handle->fd = open("/dev/raw1394", O_RDWR);
+         if (handle->fd < 0) {
+                 free(handle);
+@@ -142,37 +193,110 @@
+         memset(handle->iso_handler, 0, sizeof(handle->iso_handler));
+ 	handle->iso_buffer = NULL;
+ 	handle->iso_mode = ISO_INACTIVE;
++#endif
+         return handle;
+ }
+ 
+ void raw1394_destroy_handle(struct raw1394_handle *handle)
+ {
+-	if (handle) {
++#if defined(sun) || defined(__sun)
++	int i, fd, r;
++
++	if (handle == NULL) return;
++
++	for (i = 0; i < RAW_NFDS; ++i) {
++		fd = handle->async_fds[i];
++		if (fd < 0) continue;
++
++		r = close(fd);
++		if (r != 0){
++			(void) fprintf(stderr, "close(%d) failed with "
++				"errno %d (%s)\n", fd, errno, strerror(errno));
++		}
++	}
++#else
++	if (handle == NULL) {
+ 		if(handle->iso_mode != ISO_INACTIVE) {
+ 			raw1394_iso_shutdown(handle);
+ 		}
+ 		close(handle->fd);
+ 		free(handle);
+ 	}
++#endif
+ }
+ 
+ int raw1394_get_fd(struct raw1394_handle *handle)
+ {
++#if defined(sun) || defined(__sun)
++	int fd = -1;
++	int i;
++
++	for (i = 0; i < RAW_NFDS; ++i) {
++		if (handle->async_fds[i] < 0) continue;
++
++		if (fd >= 0) {
++			(void) fprintf(stderr,
++				"Must implement multi-fd _get_fd().\n");
++			abort();
++		}
++		fd = handle->async_fds[i];
++	}
++
++	if (fd < 0) fd = handle->iso_fd;
++
++	return fd;
++#else
+         return handle->fd;
++#endif
+ }
+ 
+ unsigned int raw1394_get_generation(struct raw1394_handle *handle)
+ {
+-        return handle->generation;
++        return  handle?handle->generation:0;
+ }
+ 
+ void raw1394_update_generation(struct raw1394_handle *handle, unsigned int gen)
+ {
+-        handle->generation = gen;
++	if (handle != NULL) handle->generation = gen;
+ }
+ 
+ int raw1394_get_nodecount(struct raw1394_handle *handle)
+ {
++#if defined(sun) || defined(__sun)
++	DIR *dir;
++	int count = 0;
++	struct dirent* de;
++	struct dirent* dresult;
++	long name_max;
++
++	dir = opendir("/dev/av");
++	if (dir == NULL) return count;
++	++count;
++#if defined(__XOPEN_OR_POSIX)
++	name_max = fpathconf(dir->d_fd, _PC_NAME_MAX);
++#else
++	name_max = fpathconf(dir->dd_fd, _PC_NAME_MAX);
++#endif
++
++	de = malloc(sizeof (*de) + name_max);
++	if (de == NULL) {
++		closedir(dir);
++		return -1;
++	}
++
++	while (readdir_r(dir, de, &dresult) != NULL) {
++		char buf[128];
++
++		if (de->d_name[0] == '.' && (de->d_name[1] == '\0' ||
++			(de->d_name[1] == '.' && de->d_name[2] == '\0')))
++			continue;
++
++		snprintf(buf, sizeof (buf), "/dev/av/%s/async", de->d_name);
++		if (access(buf, R_OK | W_OK) == 0) ++count;
++	}
++	closedir(dir);
++	handle->num_of_nodes = count;
++#endif
+         return handle->num_of_nodes;
+ }
+ 
+@@ -188,17 +312,30 @@
+ 
+ void raw1394_set_userdata(struct raw1394_handle *handle, void *data)
+ {
+-        handle->userdata = data;
++        if (handle != NULL) handle->userdata = data;
+ }
+ 
+ void *raw1394_get_userdata(struct raw1394_handle *handle)
+ {
+-        return handle->userdata;
++        return handle?handle->userdata:NULL;
+ }
+ 
+ int raw1394_get_port_info(struct raw1394_handle *handle, 
+                           struct raw1394_portinfo *pinf, int maxports)
+ {
++#if defined(sun) || defined(__sun)
++
++	struct stat st;
++
++	if (stat("/dev/av", &st) != 0) return 0;
++
++	if (maxports > 0) {
++		pinf[0].nodes = raw1394_get_nodecount(handle);
++		snprintf(pinf[0].name, sizeof (pinf[0].name),
++			"Solaris 1394 port");
++		}
++	return 1;
++#else
+         int num;
+         struct raw1394_request req;
+         struct raw1394_khost_list *khl;
+@@ -229,12 +366,21 @@
+         }
+ 
+         return req.misc;
++#endif
+ }
+ 
+ 
+ int raw1394_set_port(struct raw1394_handle *handle, int port)
+ {
+         struct raw1394_request req;
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         CLEAR_REQ(&req);
+ 
+@@ -242,8 +388,8 @@
+         req.generation = handle->generation;
+         req.misc = port;
+ 
+-        if (write(handle->fd, &req, sizeof(req)) < 0) return -1;
+-        if (read(handle->fd, &req, sizeof(req)) < 0) return -1;
++        if (write(fd, &req, sizeof(req)) < 0) return -1;
++        if (read(fd, &req, sizeof(req)) < 0) return -1;
+ 
+         switch (req.error) {
+         case RAW1394_ERROR_GENERATION:
+@@ -273,8 +419,8 @@
+ raw1394handle_t raw1394_new_handle_on_port(int port)
+ {
+ 	raw1394handle_t handle = raw1394_new_handle();
+-	if (!handle)
+-		return NULL;
++
++	if (handle == NULL) return NULL;
+ 
+ tryagain:
+ 	if (raw1394_get_port_info(handle, NULL, 0) < 0) {
+@@ -297,6 +443,14 @@
+ int raw1394_reset_bus_new(struct raw1394_handle *handle, int type)
+ {
+         struct raw1394_request req;
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         CLEAR_REQ(&req);
+ 
+@@ -304,7 +458,7 @@
+         req.generation = handle->generation;
+         req.misc = type;
+ 	
+-        if (write(handle->fd, &req, sizeof(req)) < 0) return -1;
++        if (write(fd, &req, sizeof(req)) < 0) return -1;
+ 
+         return 0; /* success */
+ }
+@@ -319,6 +473,14 @@
+                              int off_on_switch)
+ {
+         struct raw1394_request req;
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         CLEAR_REQ(&req);
+ 
+@@ -326,7 +488,7 @@
+         req.generation = handle->generation;
+         req.misc = off_on_switch;
+ 
+-        if (write(handle->fd, &req, sizeof(req)) < 0) return -1;
++        if (write(fd, &req, sizeof(req)) < 0) return -1;
+ 
+         return 0; /* success */
+ }
+@@ -336,6 +498,14 @@
+ {
+         struct raw1394_request req;
+         int status;
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         CLEAR_REQ(&req);
+ 
+@@ -345,7 +515,7 @@
+         req.misc = rom_version;
+         req.recvb = (unsigned long) &status;
+ 
+-        if (write(handle->fd, &req, sizeof(req)) < 0) return -8;
++        if (write(fd, &req, sizeof(req)) < 0) return -8;
+ 
+         return status;
+ }
+@@ -355,6 +525,14 @@
+ {
+         struct raw1394_request req;
+         int status;
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         CLEAR_REQ(&req);
+ 
+@@ -365,7 +543,7 @@
+         req.address = (unsigned long) rom_version;
+         req.sendb = (unsigned long) &status;
+ 
+-        if (write(handle->fd, &req, sizeof(req)) < 0) return -8;
++        if (write(fd, &req, sizeof(req)) < 0) return -8;
+ 
+         return status;
+ }
+diff -PNur libraw1394-1.2.1.orig/src/raw1394.h libraw1394-1.2.1/src/raw1394.h
+--- libraw1394-1.2.1.orig/src/raw1394.h	2006-03-04 08:25:13.000000000 +0700
++++ libraw1394-1.2.1/src/raw1394.h	2007-09-30 19:57:54.999939106 +0700
+@@ -13,6 +13,9 @@
+ #define _LIBRAW1394_RAW1394_H
+ 
+ #include <sys/types.h>
++#if defined(sun) || defined(__sun)
++#include <inttypes.h>
++#endif
+ 
+ #define RAW1394_ARM_READ  1
+ #define RAW1394_ARM_WRITE 2
+@@ -40,6 +43,13 @@
+ #define RAW1394_RCODE_TYPE_ERROR         0x6
+ #define RAW1394_RCODE_ADDRESS_ERROR      0x7
+ 
++#if defined(sun) || defined(__sun)
++#define u_int8_t uint8_t
++#define u_int16_t uint16_t
++#define u_int32_t uint32_t
++#define u_int64_t uint64_t
++#endif
++
+ typedef u_int8_t  byte_t;
+ typedef u_int32_t quadlet_t;
+ typedef u_int64_t octlet_t;
+diff -PNur libraw1394-1.2.1.orig/src/raw1394_private.h libraw1394-1.2.1/src/raw1394_private.h
+--- libraw1394-1.2.1.orig/src/raw1394_private.h	2006-03-04 09:04:40.000000000 +0700
++++ libraw1394-1.2.1/src/raw1394_private.h	2007-09-30 20:02:41.850230589 +0700
+@@ -6,6 +6,67 @@
+ #define ARM_REC_LENGTH 4096 
+ #define MAXIMUM_BANDWIDTH 4915
+ 
++#include <sys/types.h>
++#include <inttypes.h>
++
++#if defined(sun) || defined(__sun)
++#define RAW_NFDS 64
++#include <sys/av/iec61883.h>
++#include <sys/mman.h>
++#include <sys/stat.h>
++#include <dirent.h>
++#include <errno.h>
++#include <fcntl.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++
++struct raw1394_handle {
++    int async_fds[RAW_NFDS];
++    int iso_fd;
++    int protocol_version;
++    unsigned int generation;
++
++    nodeid_t local_id;
++    int num_of_nodes;
++    nodeid_t irm_id;
++
++    raw1394_errcode_t err;
++
++    iso_handler_t iso_handler;
++    bus_reset_handler_t bus_reset_handler;
++    tag_handler_t tag_handler;
++    arm_tag_handler_t arm_tag_handler;
++    fcp_handler_t fcp_handler;
++
++    raw1394_iso_xmit_handler_t iso_xmit_handler;
++    raw1394_iso_recv_handler_t iso_recv_handler;
++
++    int iso_handle;
++    int iso_pkt_size;
++    int iso_frame_size;
++    int iso_frame_cnt;
++    int iso_channel;
++
++    uint8_t* iso_mmap;
++    enum { ISO_INACTIVE, ISO_XMIT, ISO_RECV } iso_mode;
++    enum { ISO_STOP, ISO_GO } iso_state;
++
++    unsigned int iso_buf_stride;
++    unsigned int next_packet;
++
++    struct raw1394_iso_status iso_status;
++    unsigned int iso_packets_dropped;
++
++    iec61883_recv_t iso_recv;
++    int iso_next_dbc;
++    void* userdata;
++    quadlet_t buffer[HBUF_SIZE/4];
++    void *iso_packet_infos; /* actually a struct raw1394_iso_packet_info* */
++    FILE* log;
++};
++#else
+ struct raw1394_handle {
+         int fd;
+         int protocol_version;
+@@ -46,6 +107,7 @@
+ 	quadlet_t buffer[HBUF_SIZE/4]; /* 2048 */
+ 	void *iso_packet_infos; /* actually a struct raw1394_iso_packet_info* */
+ };
++#endif
+ 
+ struct sync_cb_data {
+         int done;
+@@ -58,11 +120,20 @@
+ #define CLEAR_REQ(reqp) memset((reqp), 0, sizeof(struct raw1394_request))
+ 
+ #if SIZEOF_VOID_P == 4
++#if defined(sun) || defined(__sun)
++#define int2ptr(x) ((void *)(uint32_t)x)
++#define ptr2int(x) ((uint64_t)(uint32_t)x)
++#else
+ #define int2ptr(x) ((void *)(__u32)x)
+ #define ptr2int(x) ((__u64)(__u32)x)
++#endif /* SOLARIS */
+ #else
+ #define int2ptr(x) ((void *)x)
++#if defined(sun) || defined(__sun)
++#define ptr2int(x) ((uint64_t)x)
++#else
+ #define ptr2int(x) ((__u64)x)
++#endif /* SOLARIS */
+ #endif
+ 
+ #endif /* _RAW1394_PRIVATE_H */
+diff -PNur libraw1394-1.2.1.orig/src/readwrite.c libraw1394-1.2.1/src/readwrite.c
+--- libraw1394-1.2.1.orig/src/readwrite.c	2004-11-11 06:39:00.000000000 +0700
++++ libraw1394-1.2.1/src/readwrite.c	2007-09-30 20:02:57.882586545 +0700
+@@ -27,7 +27,13 @@
+ #include <string.h>
+ 
+ #include "raw1394.h"
++#if defined(sun) || defined(__sun)
++#include "solaris-raw1394.h"
++#include "solaris.h"
++typedef uint64_t __u64;
++#else
+ #include "kernel-raw1394.h"
++#endif
+ #include "raw1394_private.h"
+ 
+ 
+@@ -36,6 +42,14 @@
+                        unsigned long tag)
+ {
+         struct raw1394_request req;
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         CLEAR_REQ(&req);
+ 
+@@ -47,7 +61,7 @@
+         req.length = length;
+         req.recvb = ptr2int(buffer);
+ 
+-        return (int)write(handle->fd, &req, sizeof(req));
++        return (int)write(fd, &req, sizeof(req));
+ }
+ 
+ 
+@@ -56,6 +70,14 @@
+                         unsigned long tag)
+ {
+         struct raw1394_request req;
++	int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         CLEAR_REQ(&req);
+ 
+@@ -67,7 +89,7 @@
+         req.length = length;
+         req.sendb = ptr2int(data);
+ 
+-        return (int)write(handle->fd, &req, sizeof(req));
++        return (int)write(fd, &req, sizeof(req));
+ }
+ 
+ 
+@@ -77,6 +99,14 @@
+ {
+         struct raw1394_request req;
+         quadlet_t sendbuf[2];
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         if ((extcode > 7) || (extcode == 0)) {
+                 errno = EINVAL;
+@@ -106,7 +136,7 @@
+                 req.length = 8;
+                 break;
+         }
+-        return (int)write(handle->fd, &req, sizeof(req));
++        return (int)write(fd, &req, sizeof(req));
+ }
+ 
+ int raw1394_start_lock64(struct raw1394_handle *handle, nodeid_t node,
+@@ -115,6 +145,14 @@
+ {
+         struct raw1394_request req;
+         octlet_t sendbuf[2];
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         if ((extcode > 7) || (extcode == 0)) {
+                 errno = EINVAL;
+@@ -129,6 +167,7 @@
+ 
+         req.address = ((__u64)node << 48) | addr;
+         req.sendb = ptr2int(sendbuf);
++        req.sendb = ptr2int(sendbuf);
+         req.recvb = ptr2int(result);
+         req.misc = extcode;
+ 
+@@ -145,7 +184,7 @@
+                 break;
+         }
+ 
+-        return (int)write(handle->fd, &req, sizeof(req));
++        return (int)write(fd, &req, sizeof(req));
+ }
+ 
+ 
+@@ -155,6 +194,14 @@
+                             unsigned long rawtag)
+ {
+         struct raw1394_request req;
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         CLEAR_REQ(&req);
+ 
+@@ -167,7 +214,7 @@
+         req.length = length;
+         req.sendb = ptr2int(data);
+ 
+-        return (int)write(handle->fd, &req, sizeof(req));
++        return (int)write(fd, &req, sizeof(req));
+ }
+ 
+ int raw1394_start_async_stream(struct raw1394_handle *handle,
+@@ -177,6 +224,14 @@
+                                unsigned long rawtag)
+ {
+         struct raw1394_request req;
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         CLEAR_REQ(&req);
+ 
+@@ -189,7 +244,7 @@
+         req.length = length;
+         req.sendb = ptr2int(data);
+ 
+-        return (int)write(handle->fd, &req, sizeof(req));
++        return (int)write(fd, &req, sizeof(req));
+ }
+ 
+ int raw1394_start_async_send(struct raw1394_handle *handle,
+@@ -197,6 +252,14 @@
+                              quadlet_t *data, unsigned long rawtag)
+ {
+         struct raw1394_request req;
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         CLEAR_REQ(&req);
+ 
+@@ -208,7 +271,7 @@
+         req.misc = (expect_response << 16) | (header_length & 0xffff);
+         req.sendb = ptr2int(data);
+ 
+-        return (int)write(handle->fd, &req, sizeof(req));
++        return (int)write(fd, &req, sizeof(req));
+ }
+ 
+ 
+@@ -316,6 +379,14 @@
+ 	quadlet_t data, unsigned long tag)
+ {
+         struct raw1394_request req;
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         CLEAR_REQ(&req);
+ 
+@@ -325,7 +396,7 @@
+ 
+         req.sendb = data;
+ 
+-        return (int)write(handle->fd, &req, sizeof(req));
++        return (int)write(fd, &req, sizeof(req));
+ }
+ 
+ int raw1394_phy_packet_write (struct raw1394_handle *handle, quadlet_t data)
+@@ -341,13 +412,21 @@
+ {
+         struct raw1394_request req;
+         int retval=0;
++        int fd;
++
++#if defined(sun) || defined(__sun)
++        fd = raw1394_get_fd(handle);
++#else 
++        fd = handle->fd
++#endif
++        if (fd < 0) return (-1);
+ 
+         CLEAR_REQ(&req);
+ 
+         req.type = RAW1394_REQ_ECHO;
+         req.misc = data;
+ 
+-        retval = (int)write(handle->fd, &req, sizeof(req));
++        retval = (int)write(fd, &req, sizeof(req));
+         if (retval == sizeof(req)) {
+                 return 0; /* succcess */
+ 	}
+diff -PNur libraw1394-1.2.1.orig/src/solaris-raw1394.h libraw1394-1.2.1/src/solaris-raw1394.h
+--- libraw1394-1.2.1.orig/src/solaris-raw1394.h	1970-01-01 07:00:00.000000000 +0700
++++ libraw1394-1.2.1/src/solaris-raw1394.h	2007-09-30 20:03:38.738899989 +0700
+@@ -0,0 +1,181 @@
++#ifndef SOLARIS_RAW1394_H
++#define SOLARIS_RAW1394_H
++
++/* header for the raw1394 API that is exported to user-space */
++
++#define RAW1394_KERNELAPI_VERSION 4
++
++/* state: opened */
++#define RAW1394_REQ_INITIALIZE    1
++
++/* state: initialized */
++#define RAW1394_REQ_LIST_CARDS    2
++#define RAW1394_REQ_SET_CARD      3
++
++/* state: connected */
++#define RAW1394_REQ_ASYNC_READ      100
++#define RAW1394_REQ_ASYNC_WRITE     101
++#define RAW1394_REQ_LOCK            102
++#define RAW1394_REQ_LOCK64          103
++#define RAW1394_REQ_ISO_SEND        104
++#define RAW1394_REQ_ASYNC_SEND      105
++#define RAW1394_REQ_ASYNC_STREAM    106
++
++#define RAW1394_REQ_ISO_LISTEN      200
++#define RAW1394_REQ_FCP_LISTEN      201
++#define RAW1394_REQ_RESET_BUS       202
++#define RAW1394_REQ_GET_ROM         203
++#define RAW1394_REQ_UPDATE_ROM      204
++#define RAW1394_REQ_ECHO            205
++
++#define RAW1394_REQ_ARM_REGISTER    300
++#define RAW1394_REQ_ARM_UNREGISTER  301
++#define RAW1394_REQ_ARM_SET_BUF     302
++#define RAW1394_REQ_ARM_GET_BUF     303
++
++#define RAW1394_REQ_RESET_NOTIFY    400
++
++#define RAW1394_REQ_PHYPACKET       500
++
++/* kernel to user */
++#define RAW1394_REQ_BUS_RESET        10000
++#define RAW1394_REQ_ISO_RECEIVE      10001
++#define RAW1394_REQ_FCP_REQUEST      10002
++#define RAW1394_REQ_ARM              10003
++#define RAW1394_REQ_RAWISO_ACTIVITY  10004
++
++/* error codes */
++#define RAW1394_ERROR_NONE        0
++#define RAW1394_ERROR_COMPAT      (-1001)
++#define RAW1394_ERROR_STATE_ORDER (-1002)
++#define RAW1394_ERROR_GENERATION  (-1003)
++#define RAW1394_ERROR_INVALID_ARG (-1004)
++#define RAW1394_ERROR_MEMFAULT    (-1005)
++#define RAW1394_ERROR_ALREADY     (-1006)
++
++#define RAW1394_ERROR_EXCESSIVE   (-1020)
++#define RAW1394_ERROR_UNTIDY_LEN  (-1021)
++
++#define RAW1394_ERROR_SEND_ERROR  (-1100)
++#define RAW1394_ERROR_ABORTED     (-1101)
++#define RAW1394_ERROR_TIMEOUT     (-1102)
++
++/* arm_codes */
++#define ARM_READ   1
++#define ARM_WRITE  2
++#define ARM_LOCK   4
++
++#define RAW1394_LONG_RESET  0
++#define RAW1394_SHORT_RESET 1
++
++/* busresetnotify ... */
++#define RAW1394_NOTIFY_OFF 0
++#define RAW1394_NOTIFY_ON  1
++
++#include <sys/types.h>
++#include <inttypes.h>
++
++struct raw1394_request {
++        uint32_t type;
++        int32_t error;
++        uint32_t misc;
++
++        uint32_t generation;
++        uint32_t length;
++
++        uint64_t address;
++
++        uint64_t tag;
++
++        uint64_t sendb;
++        uint64_t recvb;
++};
++
++struct raw1394_khost_list {
++        uint32_t nodes;
++        uint8_t name[32];
++};
++
++typedef struct arm_request {
++        uint16_t           destination_nodeid;
++        uint16_t           source_nodeid;
++        uint64_t           destination_offset;
++        uint8_t            tlabel;
++        uint8_t            tcode;
++        uint8_t            extended_transaction_code;
++        uint32_t           generation;
++        uint16_t           buffer_length;
++        uint8_t            *buffer;
++} *arm_request_t;
++
++typedef struct arm_response {
++        int32_t           response_code;
++        uint16_t           buffer_length;
++        uint8_t            *buffer;
++} *arm_response_t;
++
++typedef struct arm_request_response {
++        struct arm_request  *request;
++        struct arm_response *response;
++} *arm_request_response_t;
++
++/* rawiso API */
++#include "ieee1394-ioctl.h"
++
++/* per-packet metadata embedded in the ringbuffer */
++/* must be identical to hpsb_iso_packet_info in iso.h! */
++struct raw1394_iso_packet_info {
++	uint32_t offset;
++	uint16_t len;
++	uint16_t cycle;   /* recv only */
++	uint8_t  channel; /* recv only */
++	uint8_t  tag;
++	uint8_t  sy;
++};
++
++/* argument for RAW1394_ISO_RECV/XMIT_PACKETS ioctls */
++struct raw1394_iso_packets {
++	uint32_t n_packets;
++	struct raw1394_iso_packet_info *infos;
++};
++
++struct raw1394_iso_config {
++	/* size of packet data buffer, in bytes (will be rounded up to PAGE_SIZE) */
++	uint32_t data_buf_size;
++
++	/* # of packets to buffer */
++	uint32_t buf_packets;
++
++	/* iso channel (set to -1 for multi-channel recv) */
++	int32_t channel;
++
++	/* xmit only - iso transmission speed */
++	uint8_t speed;
++
++	/* The mode of the dma when receiving iso data. Must be supported by chip */
++	uint8_t dma_mode;
++
++	/* max. latency of buffer, in packets (-1 if you don't care) */
++	int32_t irq_interval;
++};
++
++/* argument to RAW1394_ISO_XMIT/RECV_INIT and RAW1394_ISO_GET_STATUS */
++struct raw1394_iso_status {
++	/* current settings */
++	struct raw1394_iso_config config;
++
++	/* number of packets waiting to be filled with data (ISO transmission)
++	   or containing data received (ISO reception) */
++	uint32_t n_packets;
++
++	/* approximate number of packets dropped due to overflow or
++	   underflow of the packet buffer (a value of zero guarantees
++	   that no packets have been dropped) */
++	uint32_t overflows;
++
++	/* cycle number at which next packet will be transmitted;
++	   -1 if not known */
++	int16_t xmit_cycle;
++};
++
++#endif /* SOLARIS_RAW1394_H */
+diff -PNur libraw1394-1.2.1.orig/src/solaris.c libraw1394-1.2.1/src/solaris.c
+--- libraw1394-1.2.1.orig/src/solaris.c	1970-01-01 07:00:00.000000000 +0700
++++ libraw1394-1.2.1/src/solaris.c	2007-09-30 20:57:33.851784765 +0700
+@@ -0,0 +1,115 @@
++#include <config.h>
++#include "raw1394.h"
++#include "solaris-raw1394.h"
++#include "raw1394_private.h"
++#include "solaris.h"
++
++void
++solaris_bad_error(const char *file, int line, const char *func, int err)
++{
++    (void) fprintf(stderr, "%s:%d: %s() failed with unexpected error %d.\n",
++            file, line, func, err);
++    abort();
++}
++
++/*
++ * Get the file descriptor associated with the given node.  On failure,
++ * returns -1 with errno set to
++ *
++ * E2BIG        Invalid node (too big).
++ * EACCES       Insufficient permission.
++ * EINVAL       The system does not support synchronized I/O for this device.
++ * ELOOP        The device is behind too many symbolic links.
++ * EMFILE       This process is out of file descriptors.
++ * ENOENT       The node doesn't exist.
++ * ENOSR        The system is unable to allocate a STREAM.
++ * EROFS        The device's filesystem is read-ony.
++ * ENAMETOOLONG The device path includes a link who's name is too long.
++ * ENOMEM       Insufficient resources.
++ * ENODEV       Couldn't find the device.
++ */
++int
++solaris_get_fd(raw1394handle_t handle, nodeid_t node, int async)
++{
++    int fd;
++    char buf[64];
++
++    if (node >= RAW_NFDS) {
++        errno = E2BIG;
++        return -1;
++    }
++
++    fd = async ? handle->async_fds[node] : handle->iso_fd;
++    if (fd != -1)
++        return fd;
++
++    snprintf(buf, sizeof (buf), "/dev/av/%d/%s", node,
++            async ? "async" : "isoch");
++
++again:
++    fd = open(buf, O_RDWR);
++    if (fd >= 0) {
++        if (async)
++            handle->async_fds[node] = fd;
++        else
++            handle->iso_fd = fd;
++        return fd;
++    }
++
++    switch(errno) {
++        case EACCES:
++        case EINVAL:
++        case ELOOP:
++        case EMFILE:
++        case EMULTIHOP:
++        case ENFILE:
++        case ENOENT:
++        case ENOSR:
++        case EROFS:
++        case ENAMETOOLONG:
++        case ENOMEM:
++            return -1;
++
++        case EISDIR:
++        case ENOLINK:
++        case ENOSYS:
++        case ENOTDIR:
++        case ENXIO:
++        case EOPNOTSUPP:
++        case EOVERFLOW:
++        case EAGAIN:
++        case ETXTBSY:
++            errno = ENODEV;
++            return -1;
++
++        case EINTR:
++            goto again;
++
++        case EBADF:
++        case EDQUOT:
++        case EEXIST:
++        case EFAULT:
++        case EIO:
++        case EMLINK:
++        case ENOSPC:
++            solaris_bad_error(__FILE__, __LINE__, "open", errno);
++    }
++}
++
++void
++solaris_close_fd(raw1394handle_t handle, nodeid_t node, int async)
++{
++    int fd;
++    int r;
++
++    fd = async ? handle->async_fds[node] : handle->iso_fd;
++    if (fd == -1)
++        return;
++
++    r = close(fd);
++    if (r != 0) {
++        (void) fprintf(stderr, "close(%d) failed with errno %d (%s)\n",
++                fd, errno, strerror(errno));
++    }
++} 
++
+diff -PNur libraw1394-1.2.1.orig/src/solaris.h libraw1394-1.2.1/src/solaris.h
+--- libraw1394-1.2.1.orig/src/solaris.h	1970-01-01 07:00:00.000000000 +0700
++++ libraw1394-1.2.1/src/solaris.h	2007-09-30 20:58:04.540076731 +0700
+@@ -0,0 +1,19 @@
++#ifndef RAW1394_SOLARIS_H
++#define RAW1394_SOLARIS_H
++
++#include "raw1394.h"
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++extern void solaris_bad_error(const char *file, int line, const char *func,
++        int err);
++extern int solaris_get_fd(raw1394handle_t handle, nodeid_t node, int async);
++extern void solaris_close_fd(raw1394handle_t handle, nodeid_t node, int async);
++
++#ifdef __cplusplus
++}
++#endif
++
++#endif
+diff -PNur libraw1394-1.2.1.orig/tools/dumpiso.c libraw1394-1.2.1/tools/dumpiso.c
+--- libraw1394-1.2.1.orig/tools/dumpiso.c	2004-11-19 09:01:09.000000000 +0700
++++ libraw1394-1.2.1/tools/dumpiso.c	2007-09-30 20:59:57.677230632 +0700
+@@ -14,6 +14,7 @@
+ #include <getopt.h>
+ #include <errno.h>
+ #include <fcntl.h>
++#include <string.h>
+ 
+ #include "../src/raw1394.h"
+ 
+@@ -22,7 +23,7 @@
+ 
+ u_int64_t listen_channels;
+ unsigned long which_port;
+-char *filename;
++char *filename = "dumpiso.out";
+ int file;
+ enum raw1394_iso_dma_recv_mode mode = RAW1394_DMA_DEFAULT;
+ 
+@@ -35,6 +36,7 @@
+ "-c --channels  CHANNELS    Listen on these channels; CHANNELS is either a\n"
+ "                           number X or a range X-Y.\n"
+ "-p --port      PORT        Choose 1394 chip PORT. (default: 0)\n"
++"-f --file      FILE        Output File. (default dumpiso.out)\n"
+ "-h --help                  Show this help.\n"
+ );
+ 
+@@ -52,12 +54,13 @@
+         static struct option opts[] = {
+                 { "channels", required_argument, NULL, 'c' },
+                 { "port",     required_argument, NULL, 'p' },
++                { "file",     required_argument, NULL, 'f' },
+                 { "help",     no_argument,       NULL, 'h' },
+                 { 0 }
+         };
+ 
+         while (1) {
+-                c = getopt_long(argc, argv, "hc:p:", opts, &index);
++                c = getopt_long(argc, argv, "hc:p:f:", opts, &index);
+                 if (c == -1) break;
+ 
+                 switch (c) {
+@@ -111,6 +114,9 @@
+                                 usage_exit(1);
+                         }
+                         break;
++                case 'f':
++			filename = strdup(optarg);
++			break;
+                 case 'h':
+                         usage_exit(0);
+                 case '?':

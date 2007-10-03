@@ -5,12 +5,13 @@
 #
 %include Solaris.inc
 
-Name:                SFEopenvpn
-Summary:             Opensource, full-featured SSL VPN package
-Version:             2.0.9
-Source:              http://openvpn.net/release/openvpn-%{version}.tar.gz
-SUNW_BaseDir:        %{_basedir}
-BuildRoot:           %{_tmppath}/%{name}-%{version}-build
+Name:		SFEopenvpn
+Summary:	Opensource, full-featured SSL VPN package
+Version:	2.0.9
+Source:		http://openvpn.net/release/openvpn-%{version}.tar.gz
+Source1:	http://www.whiteboard.ne.jp/~admin2/tuntap/source/openvpn/tun.c
+SUNW_BaseDir:   %{_basedir}
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 BuildRequires: SFElzo
@@ -20,6 +21,7 @@ Requires: SFEtun
 
 %prep
 %setup -q -n openvpn-%version
+cp %SOURCE1 .
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -54,5 +56,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/openvpn.8
 
 %changelog
+* Wed Oct  3 2007 - Doug Scott <dougs@truemail.co.th>
+- Added modified tun.c
 * Wed Apr 07 2007 - Eric Boutilier
 - Initial spec

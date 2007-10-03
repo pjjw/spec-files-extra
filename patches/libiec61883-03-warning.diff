@@ -1,0 +1,444 @@
+--- libiec61883-1.1.0/src/plug.c.orig	2007-09-30 20:33:09.432273106 +0700
++++ libiec61883-1.1.0/src/plug.c	2007-09-30 20:33:32.005281233 +0700
+@@ -131,7 +131,7 @@
+ 	/* allocate response packet */
+ 	response = malloc(num * sizeof(quadlet_t));
+ 	if (!response)
+-		FAIL("unable to allocate response packet");
++		FAIL("unable to allocate response packet","");
+ 	memset(response, 0x00, num * sizeof(quadlet_t));
+ 	
+ 	/* fill data of response */
+@@ -189,7 +189,7 @@
+ 		num = 4 + requested_length;
+ 		response = malloc(num * sizeof(quadlet_t));
+ 		if (!response)
+-			FAIL("unable to allocate response packet");
++			FAIL("unable to allocate response packet","");
+ 		memset(response, 0x00, num * sizeof(quadlet_t));
+ 		
+ 		/* load data */
+--- libiec61883-1.1.0/src/iec61883-private.h.orig	2007-09-30 20:21:44.169346610 +0700
++++ libiec61883-1.1.0/src/iec61883-private.h	2007-09-30 20:25:34.752310409 +0700
+@@ -29,16 +29,16 @@
+ #endif
+ 
+ #ifdef IEC61883_DEBUG
+-#define DEBUG(s, args...) fprintf(stderr, "libiec61883 debug: " s "\n", ## args)
++#define DEBUG(s, args...) fprintf(stderr, "libiec61883 debug: " s "\n", ##args)
+ #else
+ #define DEBUG(s, args...)
+ #endif
+ #ifndef QUIET
+-#define WARN(s, args...) {fprintf(stderr, "libiec61883 warning: " s "\n", ## args);}
++#define WARN(s, args...) {fprintf(stderr, "libiec61883 warning: " s "\n", ##args);}
+ #else
+ #define WARN(s, args...) {}
+ #endif
+-#define FAIL(s, args...) {fprintf(stderr, "libiec61883 error: " s "\n", ## args);return(-1);}
++#define FAIL(s, args...) {fprintf(stderr, "libiec61883 error: " s "\n", ##args);return(-1);}
+ 
+ /*
+  * The TAG value is present in the isochronous header (first quadlet). It
+@@ -88,7 +88,7 @@
+ 
+ 	unsigned int syt      : 16;
+ 
+-	unsigned char data[0];
++	unsigned char data[];
+ };
+ 
+ #elif __BYTE_ORDER == __LITTLE_ENDIAN
+@@ -120,7 +120,7 @@
+ 
+ 	unsigned int syt      : 16;
+ 
+-	unsigned char data[0];
++	unsigned char data[];
+ };
+ 
+ #else
+--- libiec61883-1.1.0/src/amdtp.c.orig	2007-09-30 20:28:55.685626460 +0700
++++ libiec61883-1.1.0/src/amdtp.c	2007-09-30 20:32:24.828527413 +0700
+@@ -166,8 +166,13 @@
+ 	memset (packet->data, '\0', nsamples * amdtp->dimension * sizeof (quadlet_t));
+ 
+ 	if (nevents > 0) {
+-		if( amdtp->get_data (amdtp, packet->data, nevents, packet->dbc, dropped, 
++		if( amdtp->get_data (amdtp,
++				     (char *)packet->data,
++				     nevents,
++				     packet->dbc,
++				     dropped, 
+ 				     amdtp->callback_data) < 0 ) {
++
+ 			result = RAW1394_ISO_ERROR;
+ 		}
+ 	}
+@@ -350,24 +355,24 @@
+ 
+ 			/* Checking label. */
+ 			if ((label & ~0x03) == IEC61883_AM824_LABEL) {
+-				DEBUG ("Multi-bit Linear Audio (MBLA) samples.");
++				DEBUG ("Multi-bit Linear Audio (MBLA) samples.","");
+ 				/* Multi-bit Linear Audio (MBLA). */
+ 				amdtp->format = IEC61883_AMDTP_FORMAT_RAW;
+ 
+ 				/* Checking Valid Bit Length code. */
+ 				switch (label & 0x03) {
+ 				case IEC61883_AM824_VBL_24BITS:
+-					DEBUG ("24-bits samples.");
++					DEBUG ("24-bits samples.","");
+ 					amdtp->sample_format =
+ 						IEC61883_AMDTP_INPUT_LE24;
+ 					break;
+ 				case IEC61883_AM824_VBL_20BITS:
+-					DEBUG ("20-bits samples.");
++					DEBUG ("20-bits samples.","");
+ 					amdtp->sample_format =
+ 						IEC61883_AMDTP_INPUT_LE20;
+ 					break;
+ 				case IEC61883_AM824_VBL_16BITS:
+-					DEBUG ("16-bits samples.");
++					DEBUG ("16-bits samples.","");
+ 					amdtp->sample_format =
+ 						IEC61883_AMDTP_INPUT_LE16;
+ 					break;
+@@ -396,8 +401,12 @@
+ 			for (i = 0; i < nsamples; i++)
+ 				event[i] = ntohl (event[i]);
+ 				
+-			if (amdtp->put_data (amdtp, packet->data, nsamples, packet->dbc, dropped,
+-				amdtp->callback_data) < 0)
++			if (amdtp->put_data (amdtp,
++					     (char *)packet->data,
++					     nsamples,
++					     packet->dbc,
++					     dropped,
++					     amdtp->callback_data) < 0)
+ 				result = RAW1394_ISO_ERROR;
+ 		}
+ 	}
+--- libiec61883-1.1.0/src/cmp.c.orig	2007-09-30 20:17:18.294631539 +0700
++++ libiec61883-1.1.0/src/cmp.c	2007-09-30 20:38:09.680489053 +0700
+@@ -73,7 +73,7 @@
+ 	struct iec61883_oPCR opcr, save_opcr;
+ 	struct iec61883_iPCR ipcr;
+ 	
+-	DEBUG ("%s", __FUNCTION__);
++	DEBUG ("%s", __FUNCTION__, "");
+ 	
+ 	if (iec61883_get_oPCRX (handle, output_node, &opcr, output_plug) < 0) {
+ 		WARN ("%s: Failed to get the oPCR[%d] plug for node %d.", __FUNCTION__,
+@@ -120,7 +120,7 @@
+ {
+ 	struct iec61883_oPCR opcr;
+ 	
+-	DEBUG ("%s", __FUNCTION__);
++	DEBUG ("%s", __FUNCTION__, "");
+ 	
+ 	if (iec61883_get_oPCRX (handle, output_node, &opcr, output_plug) < 0) {
+ 		WARN ("%s: Failed to get the oPCR[%d] plug for node %d.", __FUNCTION__,
+@@ -149,7 +149,7 @@
+ {
+ 	struct iec61883_iPCR ipcr;
+ 	
+-	DEBUG ("%s", __FUNCTION__);
++	DEBUG ("%s", __FUNCTION__, "");
+ 	
+ 	if (iec61883_get_iPCRX (handle, input_node, &ipcr, input_plug) < 0) {
+ 		WARN ("%s: Failed to get the iPCR[%d] plug for node %d.", __FUNCTION__,
+@@ -179,7 +179,7 @@
+ 	struct iec61883_oPCR opcr, save_opcr;
+ 	struct iec61883_iPCR ipcr;
+ 	
+-	DEBUG ("%s", __FUNCTION__);
++	DEBUG ("%s", __FUNCTION__, "");
+ 	
+ 	if (iec61883_get_oPCRX (handle, output_node, &opcr, output_plug) < 0) {
+ 		WARN ("%s: Failed to get the oPCR[%d] plug for node %d.", __FUNCTION__,
+@@ -224,7 +224,7 @@
+ {
+ 	struct iec61883_oPCR opcr;
+ 	
+-	DEBUG ("%s", __FUNCTION__);
++	DEBUG ("%s", __FUNCTION__, "");
+ 	
+ 	if (iec61883_get_oPCRX (handle, output_node, &opcr, output_plug) < 0) {
+ 		WARN ("%s: Failed to get the oPCR[%d] plug for node %d.", __FUNCTION__,
+@@ -252,7 +252,7 @@
+ {
+ 	struct iec61883_iPCR ipcr;
+ 	
+-	DEBUG ("%s", __FUNCTION__);
++	DEBUG ("%s", __FUNCTION__, "");
+ 	
+ 	if (iec61883_get_iPCRX (handle, input_node, &ipcr, input_plug) < 0) {
+ 		WARN ("%s: Failed to get the iPCR[%d] plug for node %d.", __FUNCTION__,
+@@ -280,7 +280,7 @@
+ 	struct iec61883_oPCR opcr, save_opcr;
+ 	struct iec61883_iPCR ipcr;
+ 	
+-	DEBUG ("%s", __FUNCTION__);
++	DEBUG ("%s", __FUNCTION__, "");
+ 	
+ 	if (iec61883_get_oPCRX (handle, output_node, &opcr, output_plug) < 0) {
+ 		WARN ("%s: Failed to get the oPCR[%d] plug for node %d.", __FUNCTION__,
+@@ -327,7 +327,7 @@
+ {
+ 	struct iec61883_oPCR opcr;
+ 	
+-	DEBUG ("%s", __FUNCTION__);
++	DEBUG ("%s", __FUNCTION__, "");
+ 	
+ 	if (iec61883_get_oPCRX (handle, output_node, &opcr, output_plug) < 0) {
+ 		WARN ("%s: Failed to get the oPCR[%d] plug for node %d.", __FUNCTION__,
+@@ -355,7 +355,7 @@
+ {
+ 	struct iec61883_iPCR ipcr;
+ 	
+-	DEBUG ("%s", __FUNCTION__);
++	DEBUG ("%s", __FUNCTION__, "");
+ 	
+ 	if (iec61883_get_iPCRX (handle, input_node, &ipcr, input_plug) < 0) {
+ 		WARN ("%s: Failed to get the iPCR[%d] plug for node %d.", __FUNCTION__,
+@@ -385,7 +385,7 @@
+ 	struct iec61883_oPCR opcr, save_opcr;
+ 	struct iec61883_iPCR ipcr;
+ 	
+-	DEBUG ("%s", __FUNCTION__);
++	DEBUG ("%s", __FUNCTION__, "");
+ 	
+ 	if (iec61883_get_oPCRX (handle, output_node, &opcr, output_plug) < 0) {
+ 		WARN ("%s: Failed to get the oPCR[%d] plug for node %d.", __FUNCTION__,
+@@ -450,7 +450,7 @@
+ 	int skip_bandwidth = (*bandwidth == 0);
+ 	int failure = 0;
+ 	
+-	DEBUG ("%s", __FUNCTION__);
++	DEBUG ("%s", __FUNCTION__, "");
+ 	
+ 	*bandwidth = 0;
+ 		
+@@ -510,10 +510,10 @@
+ 				if (!skip_bandwidth) {
+ 					*bandwidth = iec61883_cmp_calc_bandwidth (handle, output, *oplug, speed);
+ 					if (*bandwidth < 1) {
+-						WARN ("Failed to calculate bandwidth.");
++						WARN ("Failed to calculate bandwidth.","");
+ 						failure = 1;
+ 					} else if (raw1394_bandwidth_modify (handle, *bandwidth, RAW1394_MODIFY_ALLOC) < 0) {
+-						WARN ("Failed to allocate bandwidth.");
++						WARN ("Failed to allocate bandwidth.","");
+ 						failure = 1;
+ 					}
+ 				}
+@@ -556,7 +556,7 @@
+ 					channel = -1;
+ 			}
+ 		} else {
+-			WARN ("All the plugs on both nodes are offline!");
++			WARN ("All the plugs on both nodes are offline!","");
+ 			*oplug = *iplug = -1;
+ 		}
+ 			
+@@ -595,10 +595,10 @@
+ 				if (!skip_bandwidth) {
+ 					*bandwidth = iec61883_cmp_calc_bandwidth (handle, output, *oplug, ompr.data_rate);
+ 					if (*bandwidth < 1) {
+-						WARN ("Failed to calculate bandwidth.");
++						WARN ("Failed to calculate bandwidth.","");
+ 						failure = 1;
+ 					} else if (raw1394_bandwidth_modify (handle, *bandwidth, RAW1394_MODIFY_ALLOC) < 0) {
+-						WARN ("Failed to allocate bandwidth.");
++						WARN ("Failed to allocate bandwidth.","");
+ 						failure = 1;
+ 					}
+ 				}
+@@ -633,17 +633,17 @@
+ 				  "You may need to manually set the channel on the receiving node.",
+ 				  channel);
+ 		} else {
+-			WARN ("Transmission node has no plugs online!");
++			WARN ("Transmission node has no plugs online!","");
+ 			*oplug = -1;
+ 			// failover to broadcast
+ 			// allocate bandwidth based upon first out plug
+ 			if (!skip_bandwidth) {
+ 				*bandwidth = iec61883_cmp_calc_bandwidth (handle, output, 0, ompr.data_rate);
+ 				if (*bandwidth < 1) {
+-					WARN ("Failed to calculate bandwidth.");
++					WARN ("Failed to calculate bandwidth.","");
+ 					failure = 1;
+ 				} else if (raw1394_bandwidth_modify (handle, *bandwidth, RAW1394_MODIFY_ALLOC) < 0) {
+-					WARN ("Failed to allocate bandwidth.");
++					WARN ("Failed to allocate bandwidth.","");
+ 					failure = 1;
+ 				}
+ 			}
+@@ -683,10 +683,10 @@
+ 				if (!skip_bandwidth) {
+ 					*bandwidth = iec61883_cmp_calc_bandwidth (handle, input, *iplug, -1);
+ 					if (*bandwidth < 1) {
+-						WARN ("Failed to calculate bandwidth.");
++						WARN ("Failed to calculate bandwidth.","");
+ 						failure = 1;
+ 					} else if (raw1394_bandwidth_modify (handle, *bandwidth, RAW1394_MODIFY_ALLOC) < 0) {
+-						WARN ("Failed to allocate bandwidth.");
++						WARN ("Failed to allocate bandwidth.","");
+ 						failure = 1;
+ 					}
+ 				}
+@@ -720,16 +720,16 @@
+ 				  "You may need to manually set the channel on the transmitting node.",
+ 				  channel);
+ 		} else {
+-			WARN ("Receiving node has no plugs online!");
++			WARN ("Receiving node has no plugs online!","");
+ 			// failover to broadcast
+ 			// allocate bandwidth based upon first input plug
+ 			if (!skip_bandwidth) {
+ 				*bandwidth = iec61883_cmp_calc_bandwidth (handle, input, 0, impr.data_rate);
+ 				if (*bandwidth < 1) {
+-					WARN ("Failed to calculate bandwidth.");
++					WARN ("Failed to calculate bandwidth.","");
+ 					failure = 1;
+ 				} else if (raw1394_bandwidth_modify (handle, *bandwidth, RAW1394_MODIFY_ALLOC) < 0) {
+-					WARN ("Failed to allocate bandwidth.");
++					WARN ("Failed to allocate bandwidth.","");
+ 					failure = 1;
+ 				}
+ 			}
+@@ -746,7 +746,7 @@
+ 		if (raw1394_channel_modify (handle, 63, RAW1394_MODIFY_ALLOC) == 0)
+ 			channel = 63;
+ 		if (channel == 63)
+-			WARN ("No plugs exist on either node; using default broadcast channel 63.");
++			WARN ("No plugs exist on either node; using default broadcast channel 63.","");
+ 	}
+ 
+ 	return channel;
+@@ -764,7 +764,7 @@
+ 	int skip_bandwidth = (*bandwidth == 0);
+ 	int failure = 0;
+ 
+-	DEBUG ("%s", __FUNCTION__);
++	DEBUG ("%s", __FUNCTION__, "");
+ 	
+ 	*bandwidth = 0;
+ 
+@@ -823,10 +823,10 @@
+ 				if (!skip_bandwidth) {
+ 					*bandwidth = iec61883_cmp_calc_bandwidth (handle, output, *oplug, speed);
+ 					if (*bandwidth < 1) {
+-						WARN ("Failed to calculate bandwidth.");
++						WARN ("Failed to calculate bandwidth.","");
+ 						failure = 1;
+ 					} else if (raw1394_bandwidth_modify (handle, *bandwidth, RAW1394_MODIFY_ALLOC) < 0) {
+-						WARN ("Failed to allocate bandwidth.");
++						WARN ("Failed to allocate bandwidth.","");
+ 						failure = 1;
+ 					}
+ 				}
+@@ -867,7 +867,7 @@
+ 					channel = -1;
+ 			}
+ 		} else {
+-			WARN ("All the plugs on both nodes are offline!");
++			WARN ("All the plugs on both nodes are offline!","");
+ 			*oplug = *iplug = -1;
+ 		}
+ 
+@@ -906,10 +906,10 @@
+ 				if (!skip_bandwidth) {
+ 					*bandwidth = iec61883_cmp_calc_bandwidth (handle, output, *oplug, ompr.data_rate);
+ 					if (*bandwidth < 1) {
+-						WARN ("Failed to calculate bandwidth.");
++						WARN ("Failed to calculate bandwidth.","");
+ 						failure = 1;
+ 					} else if (raw1394_bandwidth_modify (handle, *bandwidth, RAW1394_MODIFY_ALLOC) < 0) {
+-						WARN ("Failed to allocate bandwidth.");
++						WARN ("Failed to allocate bandwidth.","");
+ 						failure = 1;
+ 					}
+ 				}
+@@ -943,17 +943,17 @@
+ 			      "You may need to manually set the channel on the receiving node.",
+ 			      channel);
+ 		} else {
+-			WARN ("Transmission node has no plugs online!");
++			WARN ("Transmission node has no plugs online!","");
+ 			// failover to broadcast
+ 			// allocate bandwidth based upon first out plug
+ 			*oplug = -1;
+ 			if (!skip_bandwidth) {
+ 				*bandwidth = iec61883_cmp_calc_bandwidth (handle, output, 0, ompr.data_rate);
+ 				if (*bandwidth < 1) {
+-					WARN ("Failed to calculate bandwidth.");
++					WARN ("Failed to calculate bandwidth.","");
+ 					failure = 1;
+ 				} else if (raw1394_bandwidth_modify (handle, *bandwidth, RAW1394_MODIFY_ALLOC) < 0) {
+-					WARN ("Failed to allocate bandwidth.");
++					WARN ("Failed to allocate bandwidth.","");
+ 					failure = 1;
+ 				}
+ 			}
+@@ -993,10 +993,10 @@
+ 				if (!skip_bandwidth) {
+ 					*bandwidth = iec61883_cmp_calc_bandwidth (handle, input, *iplug, -1);
+ 					if (*bandwidth < 1) {
+-						WARN ("Failed to calculate bandwidth.");
++						WARN ("Failed to calculate bandwidth.","");
+ 						failure = 1;
+ 					} else if (raw1394_bandwidth_modify (handle, *bandwidth, RAW1394_MODIFY_ALLOC) < 0) {
+-						WARN ("Failed to allocate bandwidth.");
++						WARN ("Failed to allocate bandwidth.","");
+ 						failure = 1;
+ 					}
+ 				}
+@@ -1030,17 +1030,17 @@
+ 			      "You may need to manually set the channel on the transmitting node.",
+ 			      channel);
+ 		} else {
+-			WARN ("Receiving node has no plugs online!");
++			WARN ("Receiving node has no plugs online!","");
+ 			// failover to broadcast
+ 			// allocate bandwidth based upon first input plug
+ 			*iplug = -1;
+ 			if (!skip_bandwidth) {
+ 				*bandwidth = iec61883_cmp_calc_bandwidth (handle, input, 0, impr.data_rate);
+ 				if (*bandwidth < 1) {
+-					WARN ("Failed to calculate bandwidth.");
++					WARN ("Failed to calculate bandwidth.","");
+ 					failure = 1;
+ 				} else if (raw1394_bandwidth_modify (handle, *bandwidth, RAW1394_MODIFY_ALLOC) < 0) {
+-					WARN ("Failed to allocate bandwidth.");
++					WARN ("Failed to allocate bandwidth.","");
+ 					failure = 1;
+ 				}
+ 			}
+@@ -1057,7 +1057,7 @@
+ 		if (raw1394_channel_modify (handle, 63, RAW1394_MODIFY_ALLOC) == 0)
+ 			channel = 63;
+ 		if (channel == 63)
+-			WARN ("No plugs exist on either node; using default broadcast channel 63.");
++			WARN ("No plugs exist on either node; using default broadcast channel 63.","");
+ 	}
+ 
+ 	return channel;
+@@ -1254,13 +1254,13 @@
+ 				} else if (c < 64)
+ 					addr += CSR_CHANNELS_AVAILABLE_HI;
+ 				else
+-					FAIL ("Invalid channel");
++					FAIL ("Invalid channel","");
+ 				c = 31 - c;
+ 
+ 				result = iec61883_cooked_read (handle, raw1394_get_irm_id (handle), addr, 
+ 					sizeof (quadlet_t), &buffer);
+ 				if (result < 0)
+-					FAIL ("Failed to get channels available.");
++					FAIL ("Failed to get channels available.","");
+ 				
+ 				buffer = ntohl (buffer);
+ 				DEBUG ("channels available before: 0x%08x", buffer);

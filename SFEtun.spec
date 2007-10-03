@@ -5,13 +5,19 @@
 # includes module(s): tun
 #
 %include Solaris.inc
+%define src_name tuntap
+%define src_url http://www.whiteboard.ne.jp/~admin2/tuntap/source/%{src_name}
 
-Name:                SFEtun
-Summary:             Virtual Point-to-Point network device
-Version:             1.1
-Source:              http://vtun.sourceforge.net/tun/tun-%{version}.tar.gz
-SUNW_BaseDir:        %{_basedir}
-BuildRoot:           %{_tmppath}/%{name}-%{version}-build
+%define usr_kernel /usr/kernel
+%define drv_base %{usr_kernel}/drv
+
+Name:		SFEtun
+Summary:	Virtual Point-to-Point network device
+Version:	1.1
+Source:		%{src_url}/%{src_name}.tar.gz
+Patch1:		tun-01-solaris.diff
+SUNW_BaseDir:	%{_basedir}
+BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 %package devel
@@ -21,49 +27,63 @@ SUNW_BaseDir:            %{_basedir}
 Requires:                %{name}
 
 %prep
-%setup -q -n tun-%version
+%setup -q -n %{src_name}
+%patch1 -p1
 
 %build
-export CC=/usr/sfw/bin/gcc
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
-export LDFLAGS="%_ldflags"
-
-cd solaris
-./configure
+autoconf -f
+./configure --prefix=%{_prefix}
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd solaris 
 install -D if_tun.h $RPM_BUILD_ROOT%{_includedir}/net/if_tun.h
-install -D tun $RPM_BUILD_ROOT/usr/kernel/drv/tun
-install -D tun.conf $RPM_BUILD_ROOT/usr/kernel/drv/tun.conf
+install -D tun $RPM_BUILD_ROOT%{drv_base}/tun
+install -D tap $RPM_BUILD_ROOT%{drv_base}/tap
+%ifarch sparcv9 amd64
+install -D tun64 $RPM_BUILD_ROOT%{drv_base}/%{_arch64}/tun
+install -D tap64 $RPM_BUILD_ROOT%{drv_base}/%{_arch64}/tap
+%endif
+install -D tun.conf $RPM_BUILD_ROOT%{drv_base}/tun.conf
+install -D tap.conf $RPM_BUILD_ROOT%{drv_base}/tap.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
-  echo 'retval=0';
-  echo 'add_drv tun || retval=1';
-  echo 'exit $retval' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
+( PATH=/usr/bin:/usr/sfw/bin; export PATH ;
+  retval=0;
+  /usr/sbin/add_drv tun || retval=1;
+  [ "$retval" = 0 ] && /usr/sbin/add_drv tap || retval=1;
+  exit $retval ) 
 
 %preun
-( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
-  echo 'rem_drv tun || retval=1';
-  echo 'done';
-  echo 'exit 0' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
+( echo PATH=/usr/bin:/usr/sfw/bin; export PATH ;
+  /usr/sbin/rem_drv tun || retval=1;
+  /usr/sbin/rem_drv tap || retval=1;
+  exit 0
+)
 
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
 %dir %attr (0755, root, bin) %{_includedir}/net
 %{_includedir}/net/if_tun.h
-%dir %attr (0755, root, sys) /usr/kernel
-%dir %attr (0755, root, sys) /usr/kernel/drv
-/usr/kernel/drv/tun
-/usr/kernel/drv/tun.conf
+%dir %attr (0755, root, sys) %{usr_kernel}
+%dir %attr (0755, root, sys) %{drv_base}
+%{drv_base}/tun
+%{drv_base}/tap
+%{drv_base}/tun.conf
+%{drv_base}/tap.conf
+%ifarch amd64 sparcv9
+%dir %attr (0755, root, sys) %{drv_base}/%{_arch64}
+%{drv_base}/%{_arch64}/tun
+%{drv_base}/%{_arch64}/tap
+%endif
 
 %changelog
+* Wed Oct  3 2007 - Doug Scott
+- Added base spec
+- Updated to build tap from latest source
 * Wed Apr 07 2007 - Eric Boutilier
 - Initial spec

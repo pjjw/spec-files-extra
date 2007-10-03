@@ -1,0 +1,160 @@
+--- tuntap/configure.in.orig	2007-10-02 18:19:38.220754720 +0700
++++ tuntap/configure.in	2007-10-02 18:10:24.816833446 +0700
+@@ -32,20 +32,83 @@
+     KARCH='i386'
+ fi
+ 
++drv_base=/usr/kernel
++AC_ARG_WITH(drv_basedir,
++   [  --with-drv-base=DIR      Kernel install directory [[$drv_base]]) ],
++   [ drv_base="$withval" ])
++
++AC_CHECK_HEADERS(sys/types.h unistd.h)
++
++SUN_STUDIO12=false
++MODULES32="tun tap"
++MODULES64=""
++AC_MSG_CHECKING([for Sun Studio 12 or greater])
++AC_COMPILE_IFELSE(
++  [AC_LANG_PROGRAM(
++    [[
++#if __SUNPRO_C < 0x590
++#error "Sun Studio < 12"
++#endif
++#if HAVE_SYS_TYPES_H
++#include <sys/types.h>
++#endif
++#if HAVE_UNISTD_H
++#include <unistd.h>
++#endif
++    ]],[[
++	unsigned int  s;
++	sleep(s);
++    ]]
++  )],
++  [
++    SUN_STUDIO12=true
++    AC_MSG_RESULT(yes)
++  ],[
++    AC_MSG_RESULT(no)])
++    
++
++DRV_DIR="${drv_base}/drv"
+ case $KARCH in
+      'sparc' | 'i386')
+-	M64_OPT=""
+-	DRV_DIR="/usr/kernel/drv"
++	DRV64_DIR="nobuild"
++	if test "x$GCC" = "xyes"; then
++	  M32_OPT="-O2 -Wall -m32"
++	  M64_OPT=""
++	else
++	  M32_OPT="-xO4"
++	  M64_OPT=""
++	fi
+ 	;;
+       'sparcv9')
+-	M64_OPT="-m64"
+-	DRV_DIR="/usr/kernel/drv/sparcv9"
++	MODULES64="tun64 tap64"
++	DRV64_DIR="${DRV_DIR}/sparcv9"
++	if test "x$GCC" = "xyes"; then
++	  M32_OPT="-O2 -Wall -m32"
++	  M64_OPT="-O2 -Wall -m64"
++	elif test $SUN_STUDIO12 ; then
++	  M32_OPT="-xO4 -m32"
++	  M64_OPT="-xO4 -m64"
++	else
++	  M32_OPT="-xO4 -m32"
++	  M64_OPT="-xO4 -xarch=v9"
++	fi
+ 	;;
+       'amd64')
+-	M64_OPT="-m64 -mcmodel=kernel -mno-red-zone"
+-	DRV_DIR="/usr/kernel/drv/amd64"
++	MODULES64="tun64 tap64"
++	DRV64_DIR="${DRV_DIR}/amd64"
++	if test "x$GCC" = "xyes"; then 
++	    M32_OPT="-O2 -Wall -m32"
++	    M64_OPT="-O2 -Wall -m64 -mcmodel=kernel -mno-red-zone"
++	elif test $SUN_STUDIO12 ; then
++	    M32_OPT="-xO4 -m32"
++	    M64_OPT="-xO4 -m64 -xarch=sse2a -xmodel=kernel"
++	else
++	    M32_OPT="-xO4 -m32"
++	    M64_OPT="-xO4 -xarch=amd64 -xmodel=kernel"
++	fi
+ 	;;
+ esac
++	
+ REL="1.1"
+ TUN_VER="$REL `date '+%m/%d/%Y'`"; export TUN_VER
+ 
+@@ -55,8 +118,12 @@
+ )
+ 
+ AC_DEFINE_UNQUOTED(TUN_VER, "$TUN_VER")
++AC_SUBST(M32_OPT)
+ AC_SUBST(M64_OPT)
+ AC_SUBST(DRV_DIR)
++AC_SUBST(DRV64_DIR)
++AC_SUBST(MODULES32)
++AC_SUBST(MODULES64)
+ 
+ AC_OUTPUT(Makefile)
+ 
+--- tuntap/Makefile.in.orig	2007-10-02 18:19:48.516100121 +0700
++++ tuntap/Makefile.in	2007-10-02 18:12:58.250939530 +0700
+@@ -24,30 +24,46 @@
+ 
+ CONFIGURE_FILES = Makefile config.status config.cache config.h config.log
+ 
+-CC = gcc
+ LD = ld
+ 
+ DEFS = @DEFS@
+-CFLAGS = $(DEFS) -O2 -Wall -D_KERNEL -I. @M64_OPT@
++CFLAGS = $(DEFS) -D_KERNEL -I.
+ 
+ ADD_DRV = /usr/sbin/add_drv
+ REM_DRV = /usr/sbin/rem_drv
+ DRV_DIR = @DRV_DIR@
+-DRV_CONF_DIR = /usr/kernel/drv
++DRV64_DIR = @DRV64_DIR@
++DRV_CONF_DIR = @DRV_DIR@
+ 
+ INSTALL = @INSTALL@
+ 
+ all: modules
+ 
+-modules: tun.o tap.o
++modules: @MODULES32@ @MODULES64@
++
++tun: tun.o
+ 	$(LD) -r -o tun tun.o
++
++tap: tap.o
+ 	$(LD) -r -o tap tap.o
+ 
++tun64: tun64.o
++	$(LD) -r -o tun64 tun64.o
++
++tap64: tap64.o
++	$(LD) -r -o tap64 tap64.o
++
+ tun.o: tun.c if_tun.h
+-	$(CC) $(CFLAGS) -c tun.c -o tun.o -DTUNTAP_TUN
++	$(CC) $(CFLAGS) @M32_OPT@ -c tun.c -o tun.o -DTUNTAP_TUN
+ 
+ tap.o: tun.c if_tun.h
+-	$(CC) $(CFLAGS) -c tun.c -o tap.o -DTUNTAP_TAP
++	$(CC) $(CFLAGS) @M32_OPT@ -c tun.c -o tap.o -DTUNTAP_TAP
++
++tun64.o: tun.c if_tun.h
++	$(CC) $(CFLAGS) @M64_OPT@ -c tun.c -o tun64.o -DTUNTAP_TUN
++
++tap64.o: tun.c if_tun.h
++	$(CC) $(CFLAGS) @M64_OPT@ -c tun.c -o tap64.o -DTUNTAP_TAP
+ 
+ install: modules 
+ 	$(INSTALL) -m 644 -o root -g root if_tun.h /usr/include/net 

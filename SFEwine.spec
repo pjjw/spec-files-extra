@@ -10,7 +10,7 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                0.9.44
+Version:                0.9.46
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
 Patch2:			wine-02-configure.diff
@@ -57,7 +57,7 @@ X11LIB="-L/usr/X11/lib -R/usr/X11/lib"
 SFWLIB="-L/usr/SFW/lib -R/usr/SFW/lib"
 GNULIB="-L/usr/gnu/lib -R/usr/gnu/lib"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export CC=gcc
+export CC=/usr/gnu/bin/gcc
 export CPPFLAGS="-I/usr/X11/include -I/usr/gnu/include -I/usr/gnu/include/ncurses -I/usr/sfw/include"
 export CFLAGS="-O4 -fno-omit-frame-pointer -fpic -Dpic"
 export LDFLAGS="$X11LIB $GNULIB $SFWLIB"
@@ -121,6 +121,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Wed Oct  3 2007 - Doug Scott <dougs@truemail.co.th>
+- bump to 0.9.46
 * Tue Aug 28 2007 - dougs@truemail.co.th
 - bump to 0.9.44
 * Mon Aug 13 2007 - dougs@truemail.co.th

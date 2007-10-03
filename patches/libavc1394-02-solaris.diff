@@ -1,0 +1,1227 @@
+diff -ur libavc1394-0.5.3.orig/libavc1394/avc1394.h libavc1394-0.5.3/libavc1394/avc1394.h
+--- libavc1394-0.5.3.orig/libavc1394/avc1394.h	2006-05-22 07:11:14.000000000 +0700
++++ libavc1394-0.5.3/libavc1394/avc1394.h	2007-09-30 21:03:19.658948532 +0700
+@@ -24,6 +24,7 @@
+ 
+ 
+ #include <libraw1394/raw1394.h>
++#include <libraw1394/solaris.h>
+ 
+ /* AV/C response codes */
+ #define AVC1394_RESPONSE_NOT_IMPLEMENTED 0x08000000
+diff -ur libavc1394-0.5.3.orig/libavc1394/avc1394_simple.c libavc1394-0.5.3/libavc1394/avc1394_simple.c
+--- libavc1394-0.5.3.orig/libavc1394/avc1394_simple.c	2006-04-13 23:16:41.000000000 +0700
++++ libavc1394-0.5.3/libavc1394/avc1394_simple.c	2007-09-30 21:03:27.419832101 +0700
+@@ -37,46 +37,152 @@
+ #include "avc1394_internal.h"
+ #include "../common/raw1394util.h"
+ 
+-/* For select() */
+-#include <sys/time.h>
++#include <sys/1394/ieee1394.h>
++#include <sys/av/iec61883.h>
++#include <sys/stat.h>
+ #include <sys/types.h>
++#include <netinet/in.h>
++#include <assert.h>
++#include <errno.h>
++#include <fcntl.h>
++#include <inttypes.h>
++#include <sys/time.h>
+ #include <sys/poll.h>
+ #include <unistd.h>
+ #include <time.h>
+ #include <string.h>
+-#include <netinet/in.h>
+ #include <stdlib.h>
+ 
+ #ifdef DEBUG
+ #include <stdio.h>
+ #endif
+ 
++extern int errno;
+ 
+-int avc1394_send_command(raw1394handle_t handle, nodeid_t node, quadlet_t command)
+-{
+-	quadlet_t cmd = htonl(command);
++/*
++ * Send an AV/C quadlet command.
++ * On failure, returns -1 with errno set.
++ */
+ 
+-	return cooked1394_write(handle, 0xffc0 | node, FCP_COMMAND_ADDR, sizeof(quadlet_t), &cmd);
++int
++avc1394_send_command(raw1394handle_t handle, nodeid_t node, quadlet_t command)
++{
++    int fd;
++    iec61883_arq_t arq;
++    ssize_t ssz;
++    fd = solaris_get_fd(handle, node, 1);
++    if (fd < 0)
++        return -1;
++
++    arq.arq_type = IEC61883_ARQ_FCP_CMD;
++    arq.arq_len = IEEE1394_QUADLET;
++    arq.arq_data.quadlet = htonl(command);
++
++again:
++    ssz = write(fd, &arq, sizeof (arq));
++    if (ssz == sizeof (arq))
++        return 0;
++
++    if (ssz != -1)
++        solaris_bad_error(__FILE__, __LINE__, "write", -1);
++
++    switch(errno) {
++        case EAGAIN:
++        case EDQUOT:
++        case EFBIG:
++        case EIO:
++        case ENOLCK:
++        case ENOLINK:
++        case ENOSPC:
++        case EPIPE:
++        case ERANGE:
++        case EINVAL:
++            solaris_close_fd(handle, node, 1);
++            errno = ENODEV;
++            return -1;
++
++        case ENOSR:
++        case ENXIO:
++            return -1;
++
++        case EINTR:
++            goto again;
++
++        case EBADF:
++        case EDEADLK:
++        case EFAULT:
++        default:
++            solaris_bad_error(__FILE__, __LINE__, "write", errno);
++    }
++#ifdef DEBUG
++    fprintf(stderr, "avc1394_send_command: ");
++    for (int i = 0; i < command_len; i++)
++        (void) fprintf(stderr, " 0x%08X", htonl(command[i]));
++    (void) fprintf(stderr, " (%s)\n", decode_ctype(command[0]));
++#endif
+ }
+ 
+-int avc1394_send_command_block(raw1394handle_t handle, nodeid_t node,
++int
++avc1394_send_command_block(raw1394handle_t handle, nodeid_t node,
+                            quadlet_t *command, int command_len)
+ {
+-	quadlet_t cmd[command_len];
+-	int i;
+-	
+-	for (i=0; i < command_len; i++) {
+-		cmd[i] = htonl(command[i]);
+-	}
+-
+-#ifdef DEBUG
+-	fprintf(stderr, "avc1394_send_command_block: ");
+-	for (i=0; i < command_len; i++)
+-		fprintf(stderr, " 0x%08X", htonl(command[i]));
+-	fprintf(stderr, " (%s)\n", decode_ctype(command[0]));
+-#endif
+-	return cooked1394_write(handle, 0xffc0 | node, FCP_COMMAND_ADDR,
+-	                        command_len * sizeof(quadlet_t), cmd);
++    int fd;
++    iec61883_arq_t *arqp;
++    size_t asz;
++    ssize_t ssz;
++    uint32_t *ca;
++	
++    fd = solaris_get_fd(handle, node, 1);
++    if (fd < 0)
++        return -1;
++
++    asz = sizeof (*arqp) - sizeof (arqp->arq_data) + command_len * 4;
++    arqp = malloc(asz);
++    if (arqp == NULL)
++        return -1;
++
++    arqp->arq_type = IEC61883_ARQ_FCP_CMD;
++    arqp->arq_len = command_len * 4;
++
++    ca = (quadlet_t *)&arqp->arq_data;
++    for (int i = 0; i < command_len; ++i)
++        ca[i] = htonl(command[i]);
++
++again:
++    ssz = write(fd, arqp, asz);
++    if (ssz == asz)
++        return 0;
++
++    if (ssz != -1)
++        solaris_bad_error(__FILE__, __LINE__, "write", -1);
++
++    switch(errno) {
++        case EAGAIN:
++        case EDQUOT:
++        case EFBIG:
++        case EIO:
++        case ENOLCK:
++        case ENOLINK:
++        case ENOSPC:
++        case EPIPE:
++        case ERANGE:
++        case EINVAL:
++            solaris_close_fd(handle, node, 1);
++            errno = ENODEV;
++            return -1;
++
++        case ENOSR:
++        case ENXIO:
++            return -1;
++
++        case EINTR:
++            goto again;
++
++        case EBADF:
++        case EDEADLK:
++        case EFAULT:
++            solaris_bad_error(__FILE__, __LINE__, "write", errno);
++    }
+ }
+ 
+ 
+@@ -90,73 +196,54 @@
+  * RETURNS:	the AV/C response if everything went well, -1 in case of an
+  * 		error
+  */
+-quadlet_t avc1394_transaction(raw1394handle_t handle, nodeid_t node,
++quadlet_t
++avc1394_transaction(raw1394handle_t handle, nodeid_t node,
+                           quadlet_t request, int retry)
+ {
+-	quadlet_t response = 0;
+-	struct pollfd raw1394_poll;
+-	raw1394_poll.fd = raw1394_get_fd(handle);
+-	raw1394_poll.events = POLLIN;
+-	struct fcp_response fr;
+-
+-	do {
+-		response = 0;
+-		fr.length = 0;
+-
+-		init_avc_response_handler(handle, &fr);
+-		if (avc1394_send_command(handle, node, request) < 0) {
+-			struct timespec ts = {0, AVC1394_SLEEP};
+-			fprintf(stderr,"send oops\n");
+-			nanosleep(&ts, NULL);
+-			continue;
+-		}
+-	
+-		// Only poll if the receive handler hasn't been called yet.
+-		// This can occur while waiting for command acknowledgement inside of
+-		// raw1394_write.
+-		if (fr.length==0) {
+-			if ( poll( &raw1394_poll, 1, AVC1394_POLL_TIMEOUT) > 0 ) {
+-				if (raw1394_poll.revents & POLLIN) {
+-					raw1394_loop_iterate(handle);
+-					response = ntohl(fr.data[0]);
+-				}
+-			}
+-		} else {
+-			response = ntohl(fr.data[0]);
+-		}
+-		if (response != 0) {
+-			while (AVC1394_MASK_RESPONSE(response) == AVC1394_RESPONSE_INTERIM) {
+-#ifdef DEBUG
+-				fprintf(stderr,"INTERIM\n");
+-#endif
+-				response = 0;
+-				fr.length = 0;
+-
+-				if ( poll( &raw1394_poll, 1, AVC1394_POLL_TIMEOUT) > 0 ) {
+-					if (raw1394_poll.revents & POLLIN) {
+-						raw1394_loop_iterate(handle);
+-						response = ntohl(fr.data[0]);
+-					}
+-				}
+-			}
+-		}
+-		stop_avc_response_handler(handle);
+-
+-#ifdef DEBUG
+-		if (response != 0)
+-			fprintf(stderr, "avc1394_transaction: Got AVC response 0x%0x (%s)\n", response, decode_response(response));
+-		else
+-			fprintf(stderr, "avc1394_transaction: no response\n");
+-#endif
++    int fd;
++    iec61883_arq_t arq;
++    ssize_t ssz;
++
++    fd = solaris_get_fd(handle, node, 1);
++    if (fd < 0)
++        return -1;
++
++    if (avc1394_send_command(handle, node, request) != 0)
++        return -1;
++
++again:
++    ssz = read(fd, &arq, sizeof (arq));
++    if (ssz < 0)
++        return -1;
++
++    if (ssz != sizeof (arq)) {
++        (void) fprintf(stderr, "Unexpected read() size on node %d "
++                "(%d bytes)\n", node, ssz);
++        goto again;
++		}
++
++    switch (arq.arq_type) {
++        case IEC61883_ARQ_FCP_RESP:
++            break;
+ 		
+-		if (response != 0) {
+-			return response;
+-		}
+-
+-	} while (--retry >= 0);
++        case IEC61883_ARQ_BUS_RESET:
++            (void) fprintf(stderr, "Skipping bus reset on node %d.\n",
++                    node);
++            goto again;
++
++        default:
++            (void) fprintf(stderr, "Skipping packet with unexpected "
++                    "response type %d on node %d.\n", arq.arq_type, node);
++            goto again;
++		}
++
++    if (arq.arq_len != IEEE1394_QUADLET) {
++        (void) fprintf(stderr, "Skipping packet with unexpected length "
++                "%d on node %d.\n", arq.arq_len, node);
++        goto again;
++    }
+ 	
+-	stop_avc_response_handler(handle);
+-	return (response == 0 ? -1 : response);
++    return (ntohl(arq.arq_data.quadlet));
+ }
+ 
+ /*
+@@ -171,100 +258,113 @@
+  * RETURNS:	the AV/C response if everything went well, NULL in case of an
+  * 		error.
+  */
+-quadlet_t *avc1394_transaction_block2(raw1394handle_t handle, nodeid_t node,
++quadlet_t*
++avc1394_transaction_block2(raw1394handle_t handle, nodeid_t node,
+ 		quadlet_t *request, int len, unsigned int *response_len, int retry)
+ {
+-	quadlet_t *response;
+-	struct pollfd raw1394_poll;
+-	raw1394_poll.fd = raw1394_get_fd(handle);
+-	raw1394_poll.events = POLLIN;
+-	struct fcp_response *fr = NULL;
++    int fd;
++    iec61883_arq_t *arqp;
++    size_t asz;
++    quadlet_t *rbuf;
++    ssize_t ssz;
+ 
+ 	*response_len = 0;
+-	fr = calloc(1, sizeof(struct fcp_response));
+-	if (fr == NULL)
++    fd = solaris_get_fd(handle, node, 1);
++    if (fd < 0)
+ 		return NULL;
+ 	
+-	do {
+-		response = NULL;
+-		fr->length = 0;
+-		*response_len = 0;
+-
+-		init_avc_response_handler(handle, fr);
+-		if (avc1394_send_command_block(handle, node, request, len) < 0) {
+-			struct timespec ts = {0, AVC1394_SLEEP};
+-			fprintf(stderr,"send oops\n");
+-			nanosleep(&ts, NULL);
+-			continue;
+-		}
+-	
+-		// Only poll if the receive handler hasn't been called yet.
+-		// This can occur while waiting for command acknowledgement inside of
+-		// raw1394_write.
+-		if (fr->length==0) {
+-			if ( poll( &raw1394_poll, 1, AVC1394_POLL_TIMEOUT) > 0 ) {
+-				if (raw1394_poll.revents & POLLIN) {
+-					raw1394_loop_iterate(handle);
+-					response = fr->data;
+-					ntohl_block(response, fr->length);
+-					*response_len = fr->length;
+-				}
+-			}
+-		} else {
+-			response = fr->data;
+-			ntohl_block(response, fr->length);
+-			*response_len = fr->length;
+-		}
+-		if (response != NULL) {
+-			while (AVC1394_MASK_RESPONSE(response[0]) == AVC1394_RESPONSE_INTERIM) {
+-#ifdef DEBUG
+-				fprintf(stderr,"INTERIM\n");
+-#endif
+-				response = NULL;
+-				fr->length = 0;
+-				*response_len = 0;
+-
+-				if ( poll( &raw1394_poll, 1, AVC1394_POLL_TIMEOUT) > 0 ) {
+-					if (raw1394_poll.revents & POLLIN) {
+-						raw1394_loop_iterate(handle);
+-						response = fr->data;
+-						ntohl_block(response, fr->length);
+-						*response_len = fr->length;
+-					}
+-				}
+-			}
+-		}
+-		stop_avc_response_handler(handle);
+-
+-#ifdef DEBUG
+-		if (response != NULL) {
+-			int i;
+-			fprintf(stderr, "avc1394_transaction_block received response (retry %d): ",
+-				retry);
+-			for (i=0; i<len; i++) fprintf(stderr, " 0x%08X", response[i]);
+-			fprintf(stderr, " (%s)\n", decode_response(response[0]));
+-		} else {
+-			fprintf(stderr, "avc1394_transaction_block: no response\n");
++    asz = sizeof (*arqp) - sizeof (arqp->arq_data) + len * 4;
++    arqp = malloc(asz);
++    if (arqp == NULL)
++        return NULL;
++
++    rbuf = malloc(len * 4);
++    if (rbuf == NULL) {
++        free(arqp);
++        return NULL;
+ 		}
+-#endif
+ 		
+-		if (response != NULL) {
+-			return response;
+-		}
+-	} while (--retry >= 0);
++    if (avc1394_send_command_block(handle, node, request, len) < 0)
++        goto err;
+ 	
+-	stop_avc_response_handler(handle);
++again:
++    ssz = read(fd, arqp, sizeof (iec61883_arq_t));
++    if (ssz < 0)
++        goto err;
++
++    if (ssz != sizeof (iec61883_arq_t)) {
++        (void) fprintf(stderr, "Unexpected read() size on node %d "
++                "(%d bytes)\n", node, ssz);
++        goto again;
++    }
++
++    switch (arqp->arq_type) {
++        case IEC61883_ARQ_FCP_RESP:
++            *response_len = (unsigned int) arqp->arq_len;
++            break;
++        case IEC61883_ARQ_BUS_RESET:
++            (void) fprintf(stderr, "Skipping bus reset on node %d.\n",
++                    node);
++            goto again;
++
++        default:
++            (void) fprintf(stderr, "Skipping packet with unexpected "
++                    "response type %d on node %d.\n", arqp->arq_type, node);
++            goto again;
++    }
++
++    if (arqp->arq_len != len * 4) {
++        (void) fprintf(stderr, "Skipping packet with unexpected length "
++                "%d != %d on node %d.\n", arqp->arq_len, len * 4, node);
++        goto again;
++    }
++
++    ssz = read(fd, arqp, asz);
++    if (ssz < 0)
++        goto err;
++
++    if (ssz != asz) {
++        (void) fprintf(stderr, "Unexpected read() size on node %d "
++                "(%d bytes)\n", node, ssz);
++        goto err;
++    }
++
++    switch (arqp->arq_type) {
++        case IEC61883_ARQ_FCP_RESP:
++            *response_len = (unsigned int) arqp->arq_len;
++            break;
++        case IEC61883_ARQ_BUS_RESET:
++            (void) fprintf(stderr, "Skipping bus reset on node %d.\n",
++                    node);
++            goto err;
++
++        default:
++            (void) fprintf(stderr, "Skipping packet with unexpected "
++                    "response type %d on node %d.\n", arqp->arq_type, node);
++            goto err;
++    }
++    for (int i = 0; i < len; ++i)
++        rbuf[i] = ntohl(((quadlet_t *)&arqp->arq_data)[i]);
++
++    free(arqp);
++    return rbuf;
++
++err:
++    free(arqp);
++    free(rbuf);
+ 	return NULL;
+ }
+ 
+ /*
+  * kept for backwards compatibility
+  */
+-quadlet_t *avc1394_transaction_block(raw1394handle_t handle, nodeid_t node,
++quadlet_t*
++avc1394_transaction_block(raw1394handle_t handle, nodeid_t node,
+                               quadlet_t *request, int len, int retry)
+ {
+ 	unsigned int response_len;
+-	return avc1394_transaction_block2(handle, node, request, len, &response_len, retry);
++    return avc1394_transaction_block2(handle, node, request, len,
++            &response_len, retry);
+ }
+ 
+ void avc1394_transaction_block_close(raw1394handle_t handle)
+@@ -381,9 +481,10 @@
+  *   Caller must call avc1394_transaction_block_close() when finished with 
+  *   return value.
+  */
+-unsigned char *avc1394_read_descriptor(raw1394handle_t handle, nodeid_t node,
+-                                   quadlet_t subunit,
+-                                   unsigned char *descriptor_identifier, int len_descriptor_identifier)
++unsigned char*
++avc1394_read_descriptor(raw1394handle_t handle, nodeid_t node,
++        quadlet_t subunit, unsigned char *descriptor_identifier,
++        int len_descriptor_identifier)
+ {
+ 	quadlet_t  request[128];
+ 	quadlet_t *response;
+@@ -392,8 +493,7 @@
+ 		fprintf(stderr, "Unimplemented.\n");
+ 	
+ 	memset(request, 0, 128*4);
+-	request[0] = AVC1394_CTYPE_CONTROL | subunit | AVC1394_COMMAND_READ_DESCRIPTOR
+-	             | *descriptor_identifier;
++    request[0] = AVC1394_CTYPE_CONTROL | subunit | AVC1394_COMMAND_READ_DESCRIPTOR | *descriptor_identifier;
+ 	request[1] = 0xFF000000;	/* read entire descriptor */
+ 	request[2] = 0x00000000;	/* beginning from 0x0000 */
+ 	
+@@ -408,7 +508,8 @@
+  * Get subunit info
+  */
+ #define EXTENSION_CODE 7
+-int avc1394_subunit_info(raw1394handle_t handle, nodeid_t node, quadlet_t *table)
++int
++avc1394_subunit_info(raw1394handle_t handle, nodeid_t node, quadlet_t *table)
+ {
+ 	quadlet_t  request[2];
+ 	quadlet_t *response;
+@@ -429,11 +530,10 @@
+ 	}
+ 
+ #ifdef DEBUG
+-	{
+-		fprintf(stderr, "avc_subunit_info:");
+-		for (page=0; page < 8; page++) fprintf(stderr, " 0x%08X", table[page]);
+-		fprintf(stderr, "\n");
+-	}
++    (void) fprintf(stderr, "avc_subunit_info:");
++    for (page=0; page < 8; page++)
++        (void) fprintf(stderr, " 0x%08X", table[page]);
++    (void) fprintf(stderr, "\n");
+ #endif
+ 
+ 	return 0;
+@@ -448,6 +548,7 @@
+ 	
+ 	if ( avc1394_subunit_info( handle, node, table) < 0) 
+ 		return 0;
++
+ 	for (i=0; i<8; i++) {
+ 		for (j=3; j>=0; j--) {
+ 			entry = (table[i] >> (j * 8)) & 0xFF;
+@@ -465,21 +566,21 @@
+  *   Caller must call avc1394_transaction_block_close() when finished with 
+  *   return value.
+  */
+-quadlet_t *avc1394_unit_info(raw1394handle_t handle, nodeid_t node)
++quadlet_t*
++avc1394_unit_info(raw1394handle_t handle, nodeid_t node)
+ {
+ 
+ 	quadlet_t  request[2];
+ 	quadlet_t *response;
+ 
+-	request[0] = AVC1394_CTYPE_STATUS | AVC1394_SUBUNIT_TYPE_UNIT
+-	             | AVC1394_SUBUNIT_ID_IGNORE | AVC1394_COMMAND_UNIT_INFO | 0xFF;
++    request[0] = AVC1394_CTYPE_STATUS | AVC1394_SUBUNIT_TYPE_UNIT | AVC1394_SUBUNIT_ID_IGNORE | AVC1394_COMMAND_UNIT_INFO | 0xFF;
+ 	request[1] = 0xFFFFFFFF;
+ 	response = avc1394_transaction_block(handle, node, request, 2, AVC1394_RETRY);
+ 	if (response == NULL)
+ 		return NULL;
+ 
+ #ifdef DEBUG
+-	fprintf(stderr, "avc_unit_info: 0x%08X 0x%08X\n",
++    (void) fprintf(stderr, "avc_unit_info: 0x%08X 0x%08X\n",
+ 			response[0], response[1]);
+ #endif
+ 	return response;
+@@ -489,7 +590,8 @@
+ 
+ avc1394_command_handler_t g_command_handler = NULL;
+ 
+-int target_fcp_handler( raw1394handle_t handle, nodeid_t nodeid, int response, 
++int
++target_fcp_handler( raw1394handle_t handle, nodeid_t nodeid, int response, 
+ 	size_t length, unsigned char *data )
+ {
+ 	int result;
+@@ -500,24 +602,19 @@
+ 	memset(&cmd_resp, 0, sizeof(cmd_resp));
+ 	memcpy(r, data, length);
+ 
+-	if ( response != 0 )
+-	{
++    if (response != 0) {
+ 		return 0;
+-	}
+-	else
+-	{
++    } else {
+ #ifdef DEBUG
+-		{
+ 		int q, z;
+ 		z = (length % 4) ? length + (4 - (length % 4)) : length;
+ 		printf("----> ");
+ 		for (q = 0; q < z / 4; q++)
+ 		    printf("%08x ", r[q]);
+-		printf("(length %d)\n", length);
+-		printf("----> type=0x%02x subunit_type=0x%x subunit_id=0x%x opcode=0x%x operand0=0x%x\n",
++        (void) fprintf(stderr, "(length %d)\n", length);
++        (void) fprintf(stderr, "----> type=0x%02x subunit_type=0x%x subunit_id=0x%x opcode=0x%x operand0=0x%x\n",
+ 			cmd_resp.status, cmd_resp.subunit_type,
+ 			cmd_resp.subunit_id, cmd_resp.opcode, cmd_resp.operand[0]);
+-	    }
+ #endif
+ 		result = g_command_handler( &cmd_resp );
+ 		
+@@ -525,26 +622,27 @@
+ 			cmd_resp.status = AVC1394_RESP_NOT_IMPLEMENTED;
+ 		
+ #ifdef DEBUG
+-		{
+ 		int q, z;
+ 		z = (length % 4) ? length + (4 - (length % 4)) : length;
+ 		printf("<---- ");
+ 		for (q = 0; q < z / 4; q++)
+ 		    printf("%08x ", r[q]);
+-		printf("(length %d)\n", length);
+-		printf("<---- type=0x%02x subunit_type=0x%x subunit_id=0x%x opcode=0x%x operand0=0x%x\n",
++        (void) fprintf(stderr, "(length %d)\n", length);
++        (void) fprintf(stderr, "<---- type=0x%02x subunit_type=0x%x subunit_id=0x%x opcode=0x%x operand0=0x%x\n",
+ 			cmd_resp.status, cmd_resp.subunit_type,
+ 			cmd_resp.subunit_id, cmd_resp.opcode, cmd_resp.operand[0]);
+-	    }
+ #endif
+ 		
+-		return cooked1394_write(handle, 0xffc0 | nodeid, FCP_RESPONSE_ADDR, length, r);
++        result = avc1394_send_command_block(handle, (0xffc0 | nodeid), r,
++                length);
++        return result;
+ 	}
+ }
+ 
+ 
+ int
+-avc1394_init_target( raw1394handle_t handle, avc1394_command_handler_t cmd_handler)
++avc1394_init_target( raw1394handle_t handle,
++        avc1394_command_handler_t cmd_handler)
+ {
+ 	if (cmd_handler == NULL)
+ 		return -1;
+@@ -560,3 +658,4 @@
+ {
+ 	return raw1394_stop_fcp_listen(handle);
+ }
++
+diff -ur libavc1394-0.5.3.orig/libavc1394/avc1394_vcr.c libavc1394-0.5.3/libavc1394/avc1394_vcr.c
+--- libavc1394-0.5.3.orig/libavc1394/avc1394_vcr.c	2006-04-13 23:16:41.000000000 +0700
++++ libavc1394-0.5.3/libavc1394/avc1394_vcr.c	2007-09-30 21:15:37.358893716 +0700
+@@ -22,6 +22,8 @@
+ #include <unistd.h>
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <string.h>
++#include <errno.h>
+ #include "avc1394_vcr.h"
+ #include "avc1394.h"
+ 
+@@ -35,196 +37,272 @@
+ #define CTLUNIT AVC1394_CTYPE_CONTROL | AVC1394_SUBUNIT_TYPE_UNIT | AVC1394_SUBUNIT_ID_IGNORE
+ #define STATUNIT AVC1394_CTYPE_STATUS | AVC1394_SUBUNIT_TYPE_UNIT | AVC1394_SUBUNIT_ID_IGNORE
+ 
+-int avc1394_vcr_is_playing(raw1394handle_t handle, nodeid_t node)
++static void
++_send_command_failed(const char *file, int line, int err, const char *func)
+ {
+-	quadlet_t response = avc1394_transaction(handle, node, STATVCR0
+-		| AVC1394_VCR_COMMAND_TRANSPORT_STATE | AVC1394_VCR_OPERAND_TRANSPORT_STATE,
+-		AVC1394_RETRY);
+-	if (AVC1394_MASK_OPCODE(response)
+-		== AVC1394_VCR_RESPONSE_TRANSPORT_STATE_PLAY)
++    (void) fprintf(stderr, "%s:%d: avc1394_send_command() failed with "
++            "errno %d (%s) in %s\n", file, line, err, strerror(err), func);
++}
++
++#define send_command_failed(err, func)  \
++    _send_command_failed(__FILE__, __LINE__, err, func)
++
++
++int
++avc1394_vcr_is_playing(raw1394handle_t handle, nodeid_t node)
++{
++    quadlet_t response;
++
++    response = avc1394_transaction(handle, node, STATVCR0 |
++            AVC1394_VCR_COMMAND_TRANSPORT_STATE |
++            AVC1394_VCR_OPERAND_TRANSPORT_STATE, AVC1394_RETRY);
++
++    if (AVC1394_MASK_OPCODE(response) ==
++            AVC1394_VCR_RESPONSE_TRANSPORT_STATE_PLAY)
+ 		return AVC1394_GET_OPERAND0(response);
+-	else
++
+ 		return 0;
+ }
+ 
+ 
+-int avc1394_vcr_is_recording(raw1394handle_t handle, nodeid_t node)
++int
++avc1394_vcr_is_recording(raw1394handle_t handle, nodeid_t node)
+ {
+-	quadlet_t response = avc1394_transaction(handle, node, STATVCR0
+-		| AVC1394_VCR_COMMAND_TRANSPORT_STATE | AVC1394_VCR_OPERAND_TRANSPORT_STATE,
+-		AVC1394_RETRY);
+-	if (AVC1394_MASK_OPCODE(response)
+-		== AVC1394_VCR_RESPONSE_TRANSPORT_STATE_RECORD)
++    quadlet_t response;
++
++    response = avc1394_transaction(handle, node, STATVCR0 |
++            AVC1394_VCR_COMMAND_TRANSPORT_STATE |
++            AVC1394_VCR_OPERAND_TRANSPORT_STATE, AVC1394_RETRY);
++
++    if (AVC1394_MASK_OPCODE(response) ==
++            AVC1394_VCR_RESPONSE_TRANSPORT_STATE_RECORD)
+ 		return AVC1394_GET_OPERAND0(response);
+-	else
++
+ 		return 0;
+ }
+ 
+ 
+-void avc1394_vcr_play(raw1394handle_t handle, nodeid_t node)
++void
++avc1394_vcr_play(raw1394handle_t handle, nodeid_t node)
+ {
+-	if (avc1394_vcr_is_playing(handle, node) == AVC1394_VCR_OPERAND_PLAY_FORWARD) {
+-		avc1394_send_command(handle, node, CTLVCR0
+-			| AVC1394_VCR_COMMAND_PLAY | AVC1394_VCR_OPERAND_PLAY_SLOWEST_FORWARD);
+-	} else {
+-		avc1394_send_command(handle, node, CTLVCR0
+-			| AVC1394_VCR_COMMAND_PLAY | AVC1394_VCR_OPERAND_PLAY_FORWARD);
+-	}
++    int op;
++
++    if (avc1394_vcr_is_playing(handle, node) ==
++            AVC1394_VCR_OPERAND_PLAY_FORWARD)
++        op = AVC1394_VCR_OPERAND_PLAY_SLOWEST_FORWARD;
++    else
++        op = AVC1394_VCR_OPERAND_PLAY_FORWARD;
++
++    if (avc1394_send_command(handle, node,
++                CTLVCR0 | AVC1394_VCR_COMMAND_PLAY | op) < 0)
++        send_command_failed(errno, "avc1394_vcr_play");
+ }
+ 
+ 
+-void avc1394_vcr_reverse(raw1394handle_t handle, nodeid_t node)
++void
++avc1394_vcr_reverse(raw1394handle_t handle, nodeid_t node)
+ {
+-	if (avc1394_vcr_is_playing(handle, node) == AVC1394_VCR_OPERAND_PLAY_REVERSE) {
+-		avc1394_send_command(handle, node, CTLVCR0
+-			| AVC1394_VCR_COMMAND_PLAY | AVC1394_VCR_OPERAND_PLAY_SLOWEST_REVERSE);
+-	} else {
+-		avc1394_send_command(handle, node, CTLVCR0
+-			| AVC1394_VCR_COMMAND_PLAY | AVC1394_VCR_OPERAND_PLAY_REVERSE);
+-	}
++    int op;
++
++    if (avc1394_vcr_is_playing(handle, node) ==
++            AVC1394_VCR_OPERAND_PLAY_REVERSE)
++        op = AVC1394_VCR_OPERAND_PLAY_SLOWEST_REVERSE;
++    else
++        op = AVC1394_VCR_OPERAND_PLAY_REVERSE;
++    if (avc1394_send_command(handle, node,
++                CTLVCR0 | AVC1394_VCR_COMMAND_PLAY | op) < 0)
++        send_command_failed(errno, "avc1394_vcr_reverse");
+ }
+ 
+ 
+-void avc1394_vcr_trick_play(raw1394handle_t handle, nodeid_t node, int speed)
++void
++avc1394_vcr_trick_play(raw1394handle_t handle, nodeid_t node, int speed)
+ {
+-	if (!avc1394_vcr_is_recording(handle, node)) {
++    int op;
++
++    if (avc1394_vcr_is_recording(handle, node))
++        return;
++
+ 	    if (speed == 0) {
+-		    avc1394_send_command(handle, node, CTLVCR0
+-			    | AVC1394_VCR_COMMAND_PLAY | AVC1394_VCR_OPERAND_PLAY_FORWARD);
++        op = AVC1394_VCR_OPERAND_PLAY_FORWARD;
+ 	    } else if (speed > 0) {
+-	        if (speed > 14) speed = 14;
+-		    avc1394_send_command(handle, node, CTLVCR0
+-			    | AVC1394_VCR_COMMAND_PLAY | (AVC1394_VCR_OPERAND_PLAY_NEXT_FRAME + speed));	        
+-	    } else {
+-	        if (speed < -14) speed = -14;
+-		    avc1394_send_command(handle, node, CTLVCR0
+-			    | AVC1394_VCR_COMMAND_PLAY | (AVC1394_VCR_OPERAND_PLAY_PREVIOUS_FRAME - speed));	        
+-	    }
++        if (speed > 14)
++            speed = 14;
++        op = AVC1394_VCR_OPERAND_PLAY_NEXT_FRAME + speed;
++    } else {
++        if (speed < -14)
++            speed = -14;
++        op = AVC1394_VCR_OPERAND_PLAY_PREVIOUS_FRAME - speed;
+ 	}
++
++    if (avc1394_send_command(handle, node,
++                CTLVCR0 | AVC1394_VCR_COMMAND_PLAY | op) < 0)
++        send_command_failed(errno, "avc1394_vcr_trick_play");
+ }
+ 
+ 
+-void avc1394_vcr_stop(raw1394handle_t handle, nodeid_t node)
++void
++avc1394_vcr_stop(raw1394handle_t handle, nodeid_t node)
+ {
+-	avc1394_send_command(handle, node, CTLVCR0
+-		| AVC1394_VCR_COMMAND_WIND | AVC1394_VCR_OPERAND_WIND_STOP);
++    if (avc1394_send_command(handle, node, CTLVCR0
++            | AVC1394_VCR_COMMAND_WIND | AVC1394_VCR_OPERAND_WIND_STOP) != 0)
++        send_command_failed(errno, "avc1394_vcr_stop");
+ }
+ 
+ 
+-void avc1394_vcr_rewind(raw1394handle_t handle, nodeid_t node)
++void
++avc1394_vcr_rewind(raw1394handle_t handle, nodeid_t node)
+ {
+-	if (avc1394_vcr_is_playing(handle, node)) {
+-		avc1394_send_command(handle, node, CTLVCR0
+-			| AVC1394_VCR_COMMAND_PLAY | AVC1394_VCR_OPERAND_PLAY_FASTEST_REVERSE);
+-	} else {
+-		avc1394_send_command(handle, node, CTLVCR0
+-			| AVC1394_VCR_COMMAND_WIND | AVC1394_VCR_OPERAND_WIND_REWIND);
+-	}
++    int op;
++
++    op = avc1394_vcr_is_playing(handle, node) ?
++        AVC1394_VCR_OPERAND_PLAY_FASTEST_REVERSE :
++        AVC1394_VCR_OPERAND_WIND_REWIND;
++
++    if (avc1394_send_command(handle, node,
++                CTLVCR0 | AVC1394_VCR_COMMAND_PLAY | op) != 0)
++        send_command_failed(errno, "avc1394_vcr_rewind");
+ }
+ 
+ 
+-void avc1394_vcr_pause(raw1394handle_t handle, nodeid_t node)
++void
++avc1394_vcr_pause(raw1394handle_t handle, nodeid_t node)
+ {
+ 	int mode;
++    int cmd;
+ 	
+-	if ((mode = avc1394_vcr_is_recording(handle, node))) {
+-		if (mode == AVC1394_VCR_OPERAND_RECORD_PAUSE) {
+-			avc1394_send_command(handle, node, CTLVCR0
+-			| AVC1394_VCR_COMMAND_RECORD | AVC1394_VCR_OPERAND_RECORD_RECORD);
+-		} else {
+-			avc1394_send_command(handle, node, CTLVCR0
+-			| AVC1394_VCR_COMMAND_RECORD | AVC1394_VCR_OPERAND_RECORD_PAUSE);
+-		}
+-	} else {
+-		if (avc1394_vcr_is_playing(handle, node)==AVC1394_VCR_OPERAND_PLAY_FORWARD_PAUSE) {
+-			avc1394_send_command(handle, node, CTLVCR0
+-			| AVC1394_VCR_COMMAND_PLAY | AVC1394_VCR_OPERAND_PLAY_FORWARD);
+-		} else {
+-			avc1394_send_command(handle, node, CTLVCR0
+-			| AVC1394_VCR_COMMAND_PLAY | AVC1394_VCR_OPERAND_PLAY_FORWARD_PAUSE);
++    mode = avc1394_vcr_is_recording(handle, node);
++
++    switch(mode) {
++        case AVC1394_VCR_OPERAND_RECORD_PAUSE:
++            cmd = AVC1394_VCR_COMMAND_RECORD |
++                AVC1394_VCR_OPERAND_RECORD_RECORD;
++            break;
++        default:
++            cmd = AVC1394_VCR_COMMAND_RECORD |
++                AVC1394_VCR_OPERAND_RECORD_PAUSE;
++            break;
++
++        case 0: {
++            cmd = AVC1394_VCR_COMMAND_PLAY;
++            if (avc1394_vcr_is_playing(handle, node) ==
++                    AVC1394_VCR_OPERAND_PLAY_FORWARD_PAUSE)
++                cmd |= AVC1394_VCR_OPERAND_PLAY_FORWARD;
++            else
++                cmd |= AVC1394_VCR_OPERAND_PLAY_FORWARD_PAUSE;
+ 		}
+ 	}
+-
++    if (avc1394_send_command(handle, node, CTLVCR0 | cmd) < 0)
++        send_command_failed(errno, "avc1394_vcr_pause");
+ }
+ 
+ 
+-void avc1394_vcr_forward(raw1394handle_t handle, nodeid_t node)
++void
++avc1394_vcr_forward(raw1394handle_t handle, nodeid_t node)
+ {
+-	if (avc1394_vcr_is_playing(handle, node)) {
+-		avc1394_send_command(handle, node, CTLVCR0
+-			| AVC1394_VCR_COMMAND_PLAY | AVC1394_VCR_OPERAND_PLAY_FASTEST_FORWARD);
+-	} else {
+-		avc1394_send_command(handle, node, CTLVCR0
+-			| AVC1394_VCR_COMMAND_WIND | AVC1394_VCR_OPERAND_WIND_FAST_FORWARD);
++    int cmd;
++    if (avc1394_vcr_is_playing(handle, node))
++        cmd = AVC1394_VCR_COMMAND_PLAY|AVC1394_VCR_OPERAND_PLAY_FASTEST_FORWARD;
++    else
++        cmd = AVC1394_VCR_COMMAND_WIND|AVC1394_VCR_OPERAND_WIND_FAST_FORWARD;
+ 
+-	}
++    if (avc1394_send_command(handle, node, CTLVCR0 | cmd) < 0)
++        send_command_failed(errno, "avc1394_vcr_forward");
+ }
+ 
+ 
+-void avc1394_vcr_next(raw1394handle_t handle, nodeid_t node)
++void
++avc1394_vcr_next(raw1394handle_t handle, nodeid_t node)
+ {
+-	if (avc1394_vcr_is_playing(handle, node)) {
+-		avc1394_send_command(handle, node, CTLVCR0
+-			| AVC1394_VCR_COMMAND_PLAY | AVC1394_VCR_OPERAND_PLAY_NEXT_FRAME);
+-	} 
++    if (!avc1394_vcr_is_playing(handle, node))
++        return;
++
++    if (avc1394_send_command(handle, node, CTLVCR0
++            | AVC1394_VCR_COMMAND_PLAY
++            | AVC1394_VCR_OPERAND_PLAY_NEXT_FRAME) != 0)
++        send_command_failed(errno, "avc1394_vcr_next");
+ }
+ 
+-void avc1394_vcr_next_index(raw1394handle_t handle, nodeid_t node)
++void
++avc1394_vcr_next_index(raw1394handle_t handle, nodeid_t node)
+ {
+     quadlet_t request[2];
+-	if (avc1394_vcr_is_playing(handle, node)) {
++
++    if (!avc1394_vcr_is_playing(handle, node))
++        return ;
++
+ 	    request[0] = CTLVCR0 | AVC1394_VCR_COMMAND_FORWARD | 
+ 	        AVC1394_VCR_MEASUREMENT_INDEX;
+ 	    request[1] = 0x01FFFFFF;
+-		avc1394_send_command_block(handle, node, request, 2);
+-	} 
++
++    if (avc1394_send_command_block(handle, node, request, 2) != 0)
++        (void) fprintf(stderr, "avc1394_send_command_block() failed with "
++                "errno %d (%s) in avc1394_vcr_next_index()\n", errno,
++                strerror(errno));
+ }
+ 
+-void avc1394_vcr_previous(raw1394handle_t handle, nodeid_t node)
++void
++avc1394_vcr_previous(raw1394handle_t handle, nodeid_t node)
+ {
+-	if (avc1394_vcr_is_playing(handle, node)) {
+-		avc1394_send_command(handle, node, CTLVCR0
+-			| AVC1394_VCR_COMMAND_PLAY | AVC1394_VCR_OPERAND_PLAY_PREVIOUS_FRAME);
+-	} 
++    if (!avc1394_vcr_is_playing(handle, node))
++        return;
++
++    if (avc1394_send_command(handle, node, CTLVCR0
++            | AVC1394_VCR_COMMAND_PLAY
++            | AVC1394_VCR_OPERAND_PLAY_PREVIOUS_FRAME) != 0)
++        send_command_failed(errno, "avc1394_vcr_previous");
++
+ }
+ 
+-void avc1394_vcr_previous_index(raw1394handle_t handle, nodeid_t node)
++void
++avc1394_vcr_previous_index(raw1394handle_t handle, nodeid_t node)
+ {
+     quadlet_t request[2];
+-	if (avc1394_vcr_is_playing(handle, node)) {
++
++    if (!avc1394_vcr_is_playing(handle, node))
++        return;
++
+ 	    request[0] = CTLVCR0 | AVC1394_VCR_COMMAND_BACKWARD | 
+ 	        AVC1394_VCR_MEASUREMENT_INDEX;
+ 	    request[1] = 0x01FFFFFF;
+-		avc1394_send_command_block(handle, node, request, 2);
+-	} 
++
++    if (avc1394_send_command_block(handle, node, request, 2) != 0)
++        (void) fprintf(stderr, "avc1394_send_command_block() failed with "
++                "errno %d (%s) in avc1394_vcr_previous_index()\n", errno,
++                strerror(errno));
+ }
+ 
+ 
+-void avc1394_vcr_eject(raw1394handle_t handle, nodeid_t node)
++void
++avc1394_vcr_eject(raw1394handle_t handle, nodeid_t node)
+ {
+-	avc1394_send_command(handle, node, CTLVCR0
+-		| AVC1394_VCR_COMMAND_LOAD_MEDIUM | AVC1394_VCR_OPERAND_LOAD_MEDIUM_EJECT);
++    if (avc1394_send_command(handle, node, CTLVCR0
++            | AVC1394_VCR_COMMAND_LOAD_MEDIUM
++            | AVC1394_VCR_OPERAND_LOAD_MEDIUM_EJECT) != 0)
++        send_command_failed(errno, "avc1394_vcr_eject");
+ }
+ 
+ 
+-void avc1394_vcr_record(raw1394handle_t handle, nodeid_t node)
++void
++avc1394_vcr_record(raw1394handle_t handle, nodeid_t node)
+ {
+-	avc1394_send_command(handle, node, CTLVCR0
+-		| AVC1394_VCR_COMMAND_RECORD | AVC1394_VCR_OPERAND_RECORD_RECORD);
++    if (avc1394_send_command(handle, node, CTLVCR0
++            | AVC1394_VCR_COMMAND_RECORD
++            | AVC1394_VCR_OPERAND_RECORD_RECORD) != 0)
++        send_command_failed(errno, "avc1394_vcr_record");
+ }
+ 
+-quadlet_t avc1394_vcr_status(raw1394handle_t handle, nodeid_t node)
++quadlet_t
++avc1394_vcr_status(raw1394handle_t handle, nodeid_t node)
+ {
+ 	return avc1394_transaction(handle, node,
+ 			STATVCR0 | AVC1394_VCR_COMMAND_TRANSPORT_STATE
+ 			| AVC1394_VCR_OPERAND_TRANSPORT_STATE, AVC1394_RETRY);
+-
+ }
+ 
+-char *avc1394_vcr_decode_status(quadlet_t response)
++char*
++avc1394_vcr_decode_status(quadlet_t response)
+ {
+-	/*quadlet_t resp0 = AVC1394_MASK_RESPONSE_OPERAND(response, 0);
+-	quadlet_t resp1 = AVC1394_MASK_RESPONSE_OPERAND(response, 1);*/
+ 	quadlet_t resp2 = AVC1394_MASK_RESPONSE_OPERAND(response, 2);
+ 	quadlet_t resp3 = AVC1394_MASK_RESPONSE_OPERAND(response, 3);
+ 	
+@@ -274,25 +352,28 @@
+ 	quadlet_t *response;
+ 	char      *output = NULL;
+ 		
++    output = malloc(12);
++    if (output == NULL)
++        return NULL;
++
+ 	request[0] = STATVCR0 | AVC1394_VCR_COMMAND_TIME_CODE | 
+ 		AVC1394_VCR_OPERAND_TIME_CODE_STATUS;
+ 	request[1] = 0xFFFFFFFF;
+-	response = avc1394_transaction_block(handle, node, request, 2, AVC1394_RETRY);
+-	if (response == NULL || response[1] == 0xffffffff) {
+-		avc1394_transaction_block_close(handle);
++    response =
++        avc1394_transaction_block(handle, node, request, 2, AVC1394_RETRY);
++    if (response == NULL) {
++        free(output);
+ 		return NULL;
+ 	}
+ 	
+-	output = malloc(12);
+-	if (output)
+ 		// consumer timecode format
+-		sprintf(output, "%2.2x:%2.2x:%2.2x:%2.2x",
++    (void) snprintf(output, 12, "%2.2x:%2.2x:%2.2x:%2.2x",
+ 			response[1] & 0x000000ff,
+ 			(response[1] >> 8) & 0x000000ff,
+ 			(response[1] >> 16) & 0x000000ff,
+ 			(response[1] >> 24) & 0x000000ff);
+ 
+-	avc1394_transaction_block_close(handle);
++    free(response);
+ 	return output;
+ }
+ 
+@@ -307,19 +388,17 @@
+ 		AVC1394_VCR_OPERAND_TIME_CODE_STATUS;
+ 	request[1] = 0xFFFFFFFF;
+ 	response = avc1394_transaction_block(handle, node, request, 2, AVC1394_RETRY);
+-	if (response == NULL || response[1] == 0xffffffff) {
+-		avc1394_transaction_block_close(handle);
++    if (response == NULL) {
+ 		return -1;
+ 	}
+ 
+ 	// consumer timecode format
+-	sprintf(output, "%2.2x:%2.2x:%2.2x:%2.2x",
++    (void) sprintf(output, "%2.2x:%2.2x:%2.2x:%2.2x",
+ 		response[1] & 0x000000ff,
+ 		(response[1] >> 8) & 0x000000ff,
+ 		(response[1] >> 16) & 0x000000ff,
+ 		(response[1] >> 24) & 0x000000ff);
+ 	
+-	avc1394_transaction_block_close(handle);
+ 	return 0;
+ }
+ 
+@@ -335,13 +414,17 @@
+ 		AVC1394_VCR_OPERAND_TIME_CODE_CONTROL;
+ 	
+ 	// consumer timecode format
+-	sscanf(timecode, "%2x:%2x:%2x:%2x", &hh, &mm, &ss, &ff);
++	if (sscanf(timecode, "%2x:%2x:%2x:%2x", &hh, &mm, &ss, &ff) != 4)
++            solaris_bad_error(__FILE__, __LINE__, "sscanf", 0);
++
+ 	request[1] = 
+ 		((ff & 0x000000ff) << 24) |
+ 		((ss & 0x000000ff) << 16) |
+ 		((mm & 0x000000ff) <<  8) |
+ 		((hh & 0x000000ff) <<  0) ;
+-	printf("timecode: %08x\n", request[1]);
++	(void) fprintf(stderr, "timecode: %08x\n", request[1]);
+ 	
+-	avc1394_send_command_block( handle, node, request, 2);
++	if (avc1394_send_command_block( handle, node, request, 2) != 0)
++            send_command_failed(errno, "avc1394_vcr_seek_timecode");
+ }
++
+diff -ur libavc1394-0.5.3.orig/librom1394/rom1394_internal.h libavc1394-0.5.3/librom1394/rom1394_internal.h
+--- libavc1394-0.5.3.orig/librom1394/rom1394_internal.h	2006-04-13 23:16:41.000000000 +0700
++++ libavc1394-0.5.3/librom1394/rom1394_internal.h	2007-09-30 21:17:18.895748546 +0700
+@@ -35,10 +35,10 @@
+ #define NODECHECK(handle, node) \
+ 	if ( ((int16_t) node < 0) || node >= raw1394_get_nodecount( (raw1394handle_t) handle)) FAIL(node,"invalid node"); 
+ #ifdef ROM1394_DEBUG
+-#define DEBUG(node, s, args...) \
+-printf("rom1394_%i debug: " s "\n", node, ## args)
++#define DEBUG(node, s, args, ...) \
++printf("rom1394_%i debug: " s "\n", node, ##args)
+ #else
+-#define DEBUG(node, s, args...)
++#define DEBUG(node, s, args, ...)
+ #endif
+ 
+ int
+diff -ur libavc1394-0.5.3.orig/librom1394/rom1394_main.c libavc1394-0.5.3/librom1394/rom1394_main.c
+--- libavc1394-0.5.3.orig/librom1394/rom1394_main.c	2006-04-13 23:16:41.000000000 +0700
++++ libavc1394-0.5.3/librom1394/rom1394_main.c	2007-09-30 21:12:13.684762999 +0700
+@@ -25,12 +25,18 @@
+ #include "rom1394.h"
+ #include "rom1394_internal.h"
+ #include "../common/raw1394util.h"
++#include <libraw1394/csr.h>
++#include <libraw1394/solaris.h>
++
+ #include <netinet/in.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <malloc.h>
+ #include <math.h>
++#if defined(sun) || defined(__sun)
++#include <sys/av/iec61883.h>
++#endif
+ 
+ #define MAXLINE 80
+ #define MAX_OFFSETS	256
+@@ -53,16 +59,16 @@
+ 	
+ quadlet_t rom1394_get_bus_id(raw1394handle_t handle, nodeid_t node)
+ {
++    int fd;
+ 	quadlet_t 	quadlet;
+-	octlet_t 	offset;
+ 
+-	NODECHECK(handle, node);
+-	offset = CSR_REGISTER_BASE + CSR_CONFIG_ROM + ROM1394_BUS_ID;
+-	QUADREADERR (handle, node, offset, &quadlet);
+-	quadlet = htonl (quadlet);
++    fd = solaris_get_fd(handle, node, 1);
++    if (fd < 0)
++        return -1;
++
++    if (ioctl(fd, IEC61883_NODE_GET_BUS_NAME, &quadlet) != 0)
++        return -1;
+ 
+-	if (quadlet != 0x31333934)
+-		WARN (node, "invalid bus id", offset);
+     return quadlet;
+ }
+ 
+@@ -87,20 +93,15 @@
+ 
+ octlet_t rom1394_get_guid(raw1394handle_t handle, nodeid_t node)
+ {
+-	quadlet_t 	quadlet;
+-	octlet_t 	offset;
++    int fd;
+ 	octlet_t    guid = 0;
+ 
+-	NODECHECK(handle, node);
+-	offset = CSR_REGISTER_BASE + CSR_CONFIG_ROM + ROM1394_GUID_HI;
+-	QUADREADERR (handle, node, offset, &quadlet);
+-	quadlet = htonl (quadlet);
+-	guid = quadlet;
+-	guid <<= 32;
+-	offset = CSR_REGISTER_BASE + CSR_CONFIG_ROM + ROM1394_GUID_LO;
+-	QUADREADERR (handle, node, offset, &quadlet);
+-	quadlet = htonl (quadlet);
+-	guid += quadlet;
++    fd = solaris_get_fd(handle, node, 1);
++    if (fd < 0)
++        return -1;
++
++    if (ioctl(fd, IEC61883_NODE_GET_UID, &guid) != 0)
++        return -1;
+ 
+     return guid;
+ }
+@@ -361,3 +362,4 @@
+ 
+ 	return 0;
+ }
++

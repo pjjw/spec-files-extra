@@ -1,3 +1,24 @@
+2007-10-03  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEtun.spec: Build with tap from latest source
+	* SFEwine.spec: bump to 0.9.46
+	* SFEopenvpn.spec: Added modified tun.c
+	* SFEmpfr.spec: bump to 2.3.0
+	* base-specs/eclipse.spec: bump to eclipse-3.4M2
+	* base-specs/libiec61883.spec: added updates from cvsdude
+	* base-specs/libraw1394.spec: added updates from cvsdude
+	* base-specs/libavc1394.spec: added updates from cvsdude
+	* patches/eclipse-01-make.diff: Solaris 10 fixes
+	* patches/tun-01-solaris.diff: solaris modifications
+	* patches/eclipse-02-solaris.diff: updated for eclipse-3.4M2
+	* patches/libraw1394-04-eremoteio.diff: deleted, not required
+	* patches/libavc1394-02-solaris.diff: merged patches from cvsdude
+	* patches/libraw1394-01-solaris.diff: merged patches from cvsdude
+	* patches/libraw1394-03-kernel.diff: deleted, not required
+	* patches/libraw1394-01-configure.diff: deleted, not required
+	* patches/libraw1394-02-u_int.diff: deleted, not required
+	* patches/libiec61883-03-warning.diff: fix warnings
+
 2007-10-02  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEzfs-auto-backup: cleand up %files and uninstall
            SMF Service

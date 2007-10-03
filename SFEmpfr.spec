@@ -7,7 +7,7 @@
 
 Name:                SFEmpfr
 Summary:             C library for multiple-precision floating-point computations
-Version:             2.2.1
+Version:             2.3.0
 Source:              http://www.mpfr.org/mpfr-current/mpfr-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -142,5 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Wed Oct  3 2007 - Doug Scott <dougs@truemail.co.th>
+- bump to 2.3.0
 * Tue Mar  7 2007 - Doug Scott <dougs@truemail.co.th>
 - Initial spec

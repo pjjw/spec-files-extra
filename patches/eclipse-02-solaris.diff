@@ -1,6 +1,6 @@
-diff -PNur eclipse.orig/assemble.org.eclipse.sdk.solaris.gtk.x86.xml eclipse/assemble.org.eclipse.sdk.solaris.gtk.x86.xml
---- eclipse.orig/assemble.org.eclipse.sdk.solaris.gtk.x86.xml	2007-08-09 23:15:25.000000000 +0700
-+++ eclipse/assemble.org.eclipse.sdk.solaris.gtk.x86.xml	2007-09-07 21:25:25.895389906 +0700
+diff -PNur eclipse-3.4M2.orig/assemble.org.eclipse.sdk.solaris.gtk.x86.xml eclipse-3.4M2/assemble.org.eclipse.sdk.solaris.gtk.x86.xml
+--- eclipse-3.4M2.orig/assemble.org.eclipse.sdk.solaris.gtk.x86.xml	2007-09-21 20:52:31.000000000 +0700
++++ eclipse-3.4M2/assemble.org.eclipse.sdk.solaris.gtk.x86.xml	2007-10-01 18:41:51.211623472 +0700
 @@ -1,6 +1,6 @@
  <?xml version="1.0" encoding="UTF-8"?>
  <project name="Assemble org.eclipse.sdk" default="main">
@@ -9,84 +9,83 @@ diff -PNur eclipse.orig/assemble.org.eclipse.sdk.solaris.gtk.x86.xml eclipse/ass
  	<property name="os" value="solaris"/>
  	<property name="ws" value="gtk"/>
  	<property name="arch" value="x86"/>
-@@ -56,6 +56,9 @@
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.team.cvs.core" target="gather.bin.parts">
+@@ -74,6 +74,9 @@
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.team.ui" target="gather.bin.parts">
  			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
  		</ant>
 +		<ant antfile="build.xml" dir="plugins/org.eclipse.update.core.solaris" target="gather.bin.parts">
 +			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
 +		</ant>
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.jdt.doc.user" target="gather.bin.parts">
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.equinox.common" target="gather.bin.parts">
  			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
  		</ant>
-@@ -95,9 +98,6 @@
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.platform" target="gather.bin.parts">
- 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
- 		</ant>
--		<ant antfile="build.xml" dir="plugins/org.eclipse.swt.gtk.solaris.x86" target="gather.bin.parts">
--			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
--		</ant>
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.team.core" target="gather.bin.parts">
- 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
- 		</ant>
-@@ -155,9 +155,6 @@
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.help" target="gather.bin.parts">
- 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
- 		</ant>
--		<ant antfile="build.xml" dir="plugins/org.eclipse.rcp.source.solaris.gtk.x86" target="gather.bin.parts">
--			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
--		</ant>
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.ui.browser" target="gather.bin.parts">
- 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
- 		</ant>
-@@ -170,6 +167,9 @@
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.pde.ui.templates" target="gather.bin.parts">
- 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
- 		</ant>
-+		<ant antfile="build.xml" dir="plugins/org.eclipse.equinox.launcher.gtk.solaris.x86" target="gather.bin.parts">
-+			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
-+		</ant>
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.sdk" target="gather.bin.parts">
- 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
- 		</ant>
-@@ -269,6 +269,9 @@
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.jface.text" target="gather.bin.parts">
- 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
- 		</ant>
-+		<ant antfile="build.xml" dir="plugins/org.eclipse.rcp.source.solaris.gtk.x86" target="gather.bin.parts">
-+			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
-+		</ant>
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.equinox.http.jetty" target="gather.bin.parts">
- 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
- 		</ant>
-@@ -299,6 +302,9 @@
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.jsch.core" target="gather.bin.parts">
- 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
- 		</ant>
-+		<ant antfile="build.xml" dir="plugins/org.eclipse.platform.source.solaris.gtk.x86" target="gather.bin.parts">
-+			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
-+		</ant>
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.jdt.compiler.apt" target="gather.bin.parts">
- 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
- 		</ant>
-@@ -314,6 +320,9 @@
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.jdt.junit4.runtime" target="gather.bin.parts">
+@@ -98,6 +101,9 @@
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.core.filebuffers" target="gather.bin.parts">
  			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
  		</ant>
 +		<ant antfile="build.xml" dir="plugins/org.eclipse.swt.gtk.solaris.x86" target="gather.bin.parts">
 +			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
 +		</ant>
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.ui.views.properties.tabbed" target="gather.bin.parts">
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.update.scheduler" target="gather.bin.parts">
  			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
  		</ant>
-@@ -347,6 +356,9 @@
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.equinox.registry" target="gather.bin.parts">
+@@ -113,9 +119,6 @@
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.ui.console" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+-		<ant antfile="build.xml" dir="plugins/org.eclipse.rcp.source.solaris.gtk.x86" target="gather.bin.parts">
+-			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+-		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.ui.ide.application" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+@@ -275,12 +278,18 @@
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.core.databinding" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
++		<ant antfile="build.xml" dir="plugins/org.eclipse.platform.source.solaris.gtk.x86" target="gather.bin.parts">
++			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
++		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.core.runtime.compatibility.auth" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.jdt.launching" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
++		<ant antfile="build.xml" dir="plugins/org.eclipse.equinox.launcher.gtk.solaris.x86" target="gather.bin.parts">
++			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
++		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.ui.views" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+@@ -302,6 +311,9 @@
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.team.cvs.ssh" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
++		<ant antfile="build.xml" dir="plugins/org.eclipse.rcp.source.solaris.gtk.x86" target="gather.bin.parts">
++			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
++		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.ui.intro" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+@@ -380,9 +392,6 @@
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.jdt.doc.isv" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+-		<ant antfile="build.xml" dir="plugins/org.eclipse.swt.gtk.solaris.x86" target="gather.bin.parts">
+-			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+-		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.ui.workbench.texteditor" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+@@ -398,6 +407,9 @@
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.equinox.app" target="gather.bin.parts">
  			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
  		</ant>
 +		<ant antfile="build.xml" dir="plugins/org.eclipse.core.filesystem.solaris.x86" target="gather.bin.parts">
 +			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
 +		</ant>
- 		<ant antfile="build.xml" dir="plugins/org.eclipse.ui.intro" target="gather.bin.parts">
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.jface.databinding" target="gather.bin.parts">
  			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
  		</ant>
 @@ -446,6 +458,9 @@
@@ -98,41 +97,41 @@ diff -PNur eclipse.orig/assemble.org.eclipse.sdk.solaris.gtk.x86.xml eclipse/ass
 +		</ant>
  		<antcall target="jarUp">
  			<param name="source" value="${eclipse.plugins}"/>
- 			<param name="elementName" value="org.eclipse.ltk.core.refactoring_3.3.100.v20070809-0800"/>
-@@ -460,6 +475,10 @@
+ 			<param name="elementName" value="org.eclipse.help.base_3.3.100.v20070914"/>
+@@ -484,6 +499,10 @@
  		</antcall>
  		<antcall target="jarUp">
  			<param name="source" value="${eclipse.plugins}"/>
-+			<param name="elementName" value="org.eclipse.update.core.solaris_3.2.0.v20070615"/>
++			<param name="elementName" value="org.eclipse.update.core.solaris.2.0.v20070615"/>
 +		</antcall>
 +		<antcall target="jarUp">
 +			<param name="source" value="${eclipse.plugins}"/>
- 			<param name="elementName" value="org.eclipse.jdt.doc.user_3.3.0.v20070808-1800"/>
+ 			<param name="elementName" value="org.eclipse.equinox.common_3.4.0.v20070910"/>
  		</antcall>
  		<antcall target="jarUp">
-@@ -504,10 +523,6 @@
+@@ -516,6 +535,10 @@
  		</antcall>
  		<antcall target="jarUp">
  			<param name="source" value="${eclipse.plugins}"/>
--			<param name="elementName" value="org.eclipse.swt.gtk.solaris.x86_3.3.0.HEAD"/>
++			<param name="elementName" value="org.eclipse.swt.gtk.solaris.x86_3.4.0.v3410"/>
++		</antcall>
++		<antcall target="jarUp">
++			<param name="source" value="${eclipse.plugins}"/>
+ 			<param name="elementName" value="org.eclipse.update.scheduler_3.2.100.v20070615"/>
+ 		</antcall>
+ 		<antcall target="jarUp">
+@@ -840,10 +863,6 @@
+ 		</antcall>
+ 		<antcall target="jarUp">
+ 			<param name="source" value="${eclipse.plugins}"/>
+-			<param name="elementName" value="org.eclipse.swt.gtk.solaris.x86_3.4.0.HEAD"/>
 -		</antcall>
 -		<antcall target="jarUp">
 -			<param name="source" value="${eclipse.plugins}"/>
- 			<param name="elementName" value="org.eclipse.team.core_3.3.100.I20070808"/>
+ 			<param name="elementName" value="org.eclipse.ui.workbench.texteditor_3.4.0.v20070917-1800"/>
  		</antcall>
  		<antcall target="jarUp">
-@@ -760,6 +775,10 @@
- 		</antcall>
- 		<antcall target="jarUp">
- 			<param name="source" value="${eclipse.plugins}"/>
-+			<param name="elementName" value="org.eclipse.swt.gtk.solaris.x86_3.3.0.v3406"/>
-+		</antcall>
-+		<antcall target="jarUp">
-+			<param name="source" value="${eclipse.plugins}"/>
- 			<param name="elementName" value="org.eclipse.ui.views.properties.tabbed_3.3.0.I20070605-0010"/>
- 		</antcall>
- 		<antcall target="jarUp">
-@@ -800,6 +819,10 @@
+@@ -864,175 +883,31 @@
  		</antcall>
  		<antcall target="jarUp">
  			<param name="source" value="${eclipse.plugins}"/>
@@ -140,181 +139,177 @@ diff -PNur eclipse.orig/assemble.org.eclipse.sdk.solaris.gtk.x86.xml eclipse/ass
 +		</antcall>
 +		<antcall target="jarUp">
 +			<param name="source" value="${eclipse.plugins}"/>
- 			<param name="elementName" value="org.eclipse.ui.intro_3.2.100.v20070530"/>
- 		</antcall>
- 		<antcall target="jarUp">
-@@ -867,172 +890,24 @@
- 			<param name="elementName" value="org.eclipse.osgi_3.4.0.v20070803"/>
+ 			<param name="elementName" value="org.eclipse.jface.databinding_1.2.0.I20070917-0010"/>
  		</antcall>
  		<eclipse.brand root="${eclipse.base}/solaris.gtk.x86/${collectingFolder}" icons="${launcherIcons}" name="${launcherName}" os="${os}"		/>
 -		<exec executable="zip" dir="${assemblyTempDir}">
 -			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.platform.source_3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.help.base_3.3.100.v20070914.jar"/>
 -		</exec>
 -		<exec executable="zip" dir="${assemblyTempDir}">
 -			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ltk.core.refactoring_3.3.100.v20070809-0800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.presentations.r21_3.2.100.I20070605-0010.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.team.cvs.core_3.3.100.I20070801.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.doc.user_3.3.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde.build_3.3.100.v20070914"/>
 -			<arg line="${pluginArchivePrefix}/org.eclipse.core.jobs_3.3.100.v20070709.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.text_3.4.0.v20070808-1800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.source_3.4.0.v20070808-1800-7o7nEGnEFpPqcYZSfXCjGcK"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jface.databinding_1.1.0.I20070717-0800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ltk.ui.refactoring_3.3.0.v20070808-1800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.jsp.jasper.registry_1.0.0.v20070607.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.apt.core_3.3.100.v20070801-2020.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.platform.doc.isv_3.3.0.v20070808-1800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.junit_3.3.100.v20070808-1800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.http.registry_1.0.0.v20070608.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.osgi.services_3.1.200.v20070605.jar"/>
--		</exec>
--		<exec executable="zip" dir="${assemblyTempDir}">
--			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.platform_3.3.100.v20070807"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.swt.gtk.solaris.x86_3.3.0.HEAD.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.team.core_3.3.100.I20070808.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.apt.ui_3.3.100.v20070801-2020.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt_3.3.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.core_3.4.0.v_814.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.doc.user_3.4.0.v20070917-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.net_1.0.0.I20070910.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.search_3.4.0.v20070917-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.team.cvs.ui_3.3.100.I20070914.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.junit_3.3.100.v20070917-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.team.ui_3.4.0.I20070914.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.common_3.4.0.v20070910.jar"/>
 -			<arg line="${pluginArchivePrefix}/org.eclipse.rcp_3.2.0.v20070612.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.help.webapp_3.3.100.v20070726.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jsch.ui_1.0.100.I20070709.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.team.cvs.ssh_3.2.100.I20061208.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.update.core_3.2.100.v20070615.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.runtime.compatibility.registry_3.2.200.v20070717"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.debug.ui_3.3.100.v20070801.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.platform.doc.user_3.3.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.compiler.tool_1.0.100.v_814.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.ui_3.4.0.v20070919-1300.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.team.cvs.core_3.3.100.I20070914.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.forms_3.3.100.v20070910.jar"/>
+-		</exec>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
 -			<arg line="${pluginArchivePrefix}/org.eclipse.update.configurator_3.2.200.v20070808.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.pde_3.3.0.v20070806-1300.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.filebuffers_3.3.100.v20070917-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.update.scheduler_3.2.100.v20070615.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.apt.pluggable.core_1.0.100.v20070913-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.update.core_3.2.100.v20070828.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.osgi.services_3.1.200.v20070605.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.console_3.2.100.v20070919-1300.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.rcp.source.solaris.gtk.x86_3.4.0.v20070824-9197Eb4EdkWMz0HkJlJ8LOMHr"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.ide.application_1.0.0.I20070917-0010.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.osgi_3.4.0.v20070914.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ant.core_3.1.300.v20070826.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde.ui_3.4.0.v20070919-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde_3.3.0.v20070911-0800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.compiler.apt_1.0.100.v20070913-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.editors_3.4.0.v20070917-1800.jar"/>
 -		</exec>
 -		<exec executable="zip" dir="${assemblyTempDir}">
 -			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.http.servlet_1.0.0.v20070730.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.core.manipulation_1.2.0.v20070808-1800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.swt_3.3.0.v3406a.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.search_3.4.0.v20070808-1800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.jsp.jasper_1.0.0.v20070730.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.help_3.3.100.v20070726.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.rcp.source.solaris.gtk.x86_3.4.0.r20070801-918jEZVEdkWLsRIcpb8I8IG"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.browser_3.2.200.v20070716.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.preferences_3.2.200.v20070723.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.app_1.0.100.v20070730.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.resources_3.3.100.v20070916.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.swt_3.4.0.v3410b.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jface_3.4.0.I20070919-0010b.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.http.servlet_1.0.100.v20070913.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.launcher_1.0.100.v20070903.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.boot_3.1.100.v20060603.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.rcp.source_3.4.0.v20070824-9197Eb4EdkWMz0HkJlJ8LOMHr"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde.runtime_3.3.0.v20070917-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.http.jetty_1.0.100.v20070913.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.jsp.jasper.registry_1.0.0.v20070827.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.junit4.runtime_1.0.100.v20070917-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.team.cvs.ssh2_3.2.200.I20070914.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.registry_3.4.0.v20070827.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.platform.source_3.4.0.v20070824-9y9gFHpEzbtbi1AQz0CvanWg9lKm"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.preferences_3.2.200.v20070827.jar"/>
+-		</exec>
+-		<exec executable="zip" dir="${assemblyTempDir}">
+-			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.debug_3.4.0.v20070919-1800"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.ide_3.3.100.I20070918-0010.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.platform.doc.user_3.4.0.v20070919-1300.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.help.appserver_3.1.200.v20070510.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.compare_3.4.0.I20070914.jar"/>
 -			<arg line="${pluginArchivePrefix}/org.eclipse.pde.ui.templates_3.3.0.v20070808-0800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.sdk_3.3.0.v20070613"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.editors_3.4.0.v20070808-1800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.variables_3.2.0.v20070426.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.debug_3.4.0.v20070802"/>
--		</exec>
--		<exec executable="zip" dir="${assemblyTempDir}">
--			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.net_1.0.0.I20070801.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.compiler.tool_1.0.100.v_805.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.ide.application_1.0.0.I20070530-0100.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.runtime.compatibility.auth_3.2.100.v20070502.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.workbench.texteditor_3.4.0.v20070808-1800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.runtime_3.3.100.v20070530.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.contenttype_3.2.100.v20070319.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.externaltools_3.1.200.v20070729.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.net_1.0.100.I20070709.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.filebuffers_3.3.100.v20070808-1800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.pde.ui_3.4.0.v20070808-2000.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.pde.source_3.4.0.r20070724-7N7O8YDUUEF6F_H76HbDC"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.cvs.source_1.0.100.v20070807-7C79Do9EI99g_d9e"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.junit.runtime_3.3.0.v20070808-1800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.navigator_3.3.0.I20070717-0800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.http.registry_1.0.0.v20070827.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.commands_3.3.0.I20070917-0010.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jsch.core_1.0.100.I20070709.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jface.text_3.4.0.v20070917-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.help_3.3.100.v20070827.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde.doc.user_3.3.0.v20070911-0800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.core.manipulation_1.2.0.v20070917-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.variables_3.2.0.v20070910.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ant.ui_3.2.200.v20070826.jar"/>
 +		<exec executable="cp" dir="${basedir}">
 +			<arg line="-r &apos;${assemblyTempDir}/${collectingFolder}/solaris.gtk.x86/${collectingFolder}&apos; &apos;${assemblyTempDir}&apos;"/>
  		</exec>
 -		<exec executable="zip" dir="${assemblyTempDir}">
 -			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.resources_3.3.100.v20070806.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.pde.build_3.3.100.v20070717"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.intro.universal_3.2.100.v20070530A"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.update.scheduler_3.2.100.v20070615.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.workbench.compatibility_3.2.0.I20070319-0010"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.boot_3.1.100.v20060603.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.debug.core_3.4.0.v20070919-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.text_3.4.0.v20070917-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.junit.runtime_3.3.0.v20070917-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.navigator.resources_3.3.100.I20070919-0010b.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.workbench.compatibility_3.2.0.I20070917-0010"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.platform_3.3.100.v20070807"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.cvs.source_1.0.100.v20070824-7C79Do9EI99h9oCU"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.help.webapp_3.3.100.v20070918B.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde.core_3.4.0.v20070919-1300.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.externaltools_3.2.0.v20070826.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.presentations.r21_3.2.100.I20070917-0010.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.source_3.4.0.v20070917-1800-7o7qEDfEFpPqeWZiroElwgO"/>
+-			<arg line="${pluginArchivePrefix}/org.junit4_4.3.1"/>
 -			<arg line="${pluginArchivePrefix}/org.eclipse.pde.junit.runtime_3.3.0.v20070608-1300.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.launching_3.3.100.v20070730.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.console_3.2.0.v20070709.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.runtime.compatibility_3.1.200.v20070502.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.debug.core_3.4.0.v20070802.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.ide_3.3.0.I20070802-0800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ant.core_3.1.200.v20070729.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jface.text_3.4.0.v20070808-1800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.http.jetty_1.0.0.v20070730.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.databinding.beans_1.0.100.I20070919-0010b.jar"/>
 +		<exec executable="rm" dir="${basedir}">
 +			<arg line="-rf &apos;${assemblyTempDir}/${collectingFolder}/solaris.gtk.x86&apos;"/>
  		</exec>
 -		<exec executable="zip" dir="${assemblyTempDir}">
 -			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.cvs_1.0.0.v20070606.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.expressions_3.3.100.v20070808-1800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.common_3.3.0.v20070426.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.views_3.2.100.I20070319-0010.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.launcher_1.0.100.v20070803.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.databinding_1.1.0.I20070919-0010b.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.runtime.compatibility.auth_3.2.100.v20070502.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.launching_3.4.0.v20070910.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.views_3.2.200.I20070919-0010b.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.navigator_3.3.100.I20070919-0010b.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ltk.ui.refactoring_3.3.100.v20070917-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui_3.4.0.I20070919-2000.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.net_1.0.100.I20070709.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.sdk_3.4.0.v20070920"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.team.cvs.ssh_3.2.100.I20070914.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.intro_3.2.200.v20070919.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.runtime_3.4.0.v20070827.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.runtime.compatibility.registry_3.2.200.v20070717"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.expressions_3.3.100.v20070917-1800.jar"/>
 -			<arg line="${pluginArchivePrefix}/org.eclipse.help.ui_3.3.100.v20070726.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.databinding_1.0.0.I20070731-0800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.filesystem_1.1.100.v20070723.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jsch.core_1.0.100.I20070709.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.compiler.apt_1.0.100.v20070801-2020.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.navigator.resources_3.3.0.I20070717-0800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.resources.compatibility_3.2.100.v20070502.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.compare_3.4.0.I20070801.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.junit4.runtime_1.0.100.v20070808-1800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.views.properties.tabbed_3.3.0.I20070605-0010.jar"/>
-+		<exec executable="gtar" dir="${assemblyTempDir}">
++		<exec executable="tar" dir="${assemblyTempDir}">
 +			<arg line="${tarargs}-cvf &apos;${archiveFullPath}&apos; ${archivePrefix} "/>
  		</exec>
 -		<exec executable="zip" dir="${assemblyTempDir}">
 -			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.team.cvs.ui_3.3.100.I20070808.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.pde.doc.user_3.3.0.v20070806-1300.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.commands_3.3.0.I20070605-0010.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jface_3.3.0.I20070802-0800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.rcp.source_3.4.0.r20070801-918jEZVEdkWLsRIcpb8I8IG"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.core.databinding.beans_1.0.0.I20070802-0800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.filesystem_1.2.0.v20070916.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.pde.source_3.4.0.r20070724-7N7O8YDUUEF6FHKz-6GwCC"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.cvs_1.0.0.v20070606.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.apt.ui_3.3.100.v20070920-1840.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.team.core_3.3.100.I20070914.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.platform.doc.isv_3.4.0.v20070919.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.runtime.compatibility_3.1.200.v20070502.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.debug.ui_3.3.100.v20070920.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.intro.universal_3.2.100.v20070530A"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.workbench_3.4.0.I20070919-2000.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.jsp.jasper_1.0.100.v20070913.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.debug.ui_3.3.0.v20070919-1300.jar"/>
 -			<arg line="${pluginArchivePrefix}/org.eclipse.update.ui_3.2.100.v20070615.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.forms_3.3.100.v20070716.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.apt.pluggable.core_1.0.100.v20070801-2020.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.registry_3.4.0.v20070803.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.intro_3.2.100.v20070530.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.debug.ui_3.2.200.v20070730.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.help.appserver_3.1.200.v20070510.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.cheatsheets_3.3.100.v20070723.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.ui_3.4.0.v20070808-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ltk.core.refactoring_3.3.100.v20070917-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.resources.compatibility_3.2.100.v20070502.jar"/>
 -		</exec>
 -		<exec executable="zip" dir="${assemblyTempDir}">
 -			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
--			<arg line="${pluginArchivePrefix}/org.junit4_4.3.1"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui_3.3.0.I20070802-0800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.pde.runtime_3.3.0.v20070716-0800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.core_3.4.0.v_805.jar"/>
 -			<arg line="${pluginArchivePrefix}/org.eclipse.osgi.util_3.1.200.v20070605.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.team.cvs.ssh2_3.2.200.I20070709.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.pde.core_3.4.0.v20070808-0010.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.doc.isv_3.3.0.v20070808-1800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ant.ui_3.2.100.v20070802.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.team.ui_3.4.0.I20070808.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.ui.workbench_3.3.0.I20070802-0800.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.help.base_3.3.100.v20070723.jar"/>
--			<arg line="${pluginArchivePrefix}/org.eclipse.osgi_3.4.0.v20070803.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.cheatsheets_3.3.100.v20070919.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.browser_3.2.200.v20070716.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.apt.core_3.3.100.v20070920-1840.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.core.contenttype_3.2.200.v20070910.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt.doc.isv_3.3.0.v20070919.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.swt.gtk.solaris.x86_3.4.0.HEAD.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.workbench.texteditor_3.4.0.v20070917-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.ui.views.properties.tabbed_3.4.0.I20070917-0010.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jdt_3.3.0.v20070917-1800.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jsch.ui_1.0.100.I20070709.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.equinox.app_1.0.100.v20070827.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.eclipse.jface.databinding_1.2.0.I20070917-0010.jar"/>
 -		</exec>
 -		<exec executable="zip" dir="${assemblyTempDir}">
 -			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
--			<arg line="${featureArchivePrefix}/org.eclipse.rcp_3.4.0.r20070801-918jEZVEdkWLsRIcpb8I8IG"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.rcp_3.4.0.v20070824-9197Eb4EdkWMz0HkJlJ8LOMHr"/>
 -		</exec>
 -		<exec executable="zip" dir="${assemblyTempDir}">
 -			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
--			<arg line="${featureArchivePrefix}/org.eclipse.platform_3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9"/>
--			<arg line="${featureArchivePrefix}/org.eclipse.rcp.source_3.4.0.r20070801-918jEZVEdkWLsRIcpb8I8IG"/>
--			<arg line="${featureArchivePrefix}/org.eclipse.platform.source_3.4.0.r20070801-9y9cF6JEzbtbI18ZosfU-I0Jdqc9"/>
--			<arg line="${featureArchivePrefix}/org.eclipse.cvs_1.0.100.v20070807-7C79Do9EI99g_d9e"/>
--			<arg line="${featureArchivePrefix}/org.eclipse.cvs.source_1.0.100.v20070807-7C79Do9EI99g_d9e"/>
--			<arg line="${featureArchivePrefix}/org.eclipse.jdt_3.4.0.v20070808-1800-7o7nEGnEFpPqcYZSfXCjGcK"/>
--			<arg line="${featureArchivePrefix}/org.eclipse.jdt.source_3.4.0.v20070808-1800-7o7nEGnEFpPqcYZSfXCjGcK"/>
--			<arg line="${featureArchivePrefix}/org.eclipse.pde_3.4.0.r20070724-7N7O8YDUUEF6F_H76HbDC"/>
--			<arg line="${featureArchivePrefix}/org.eclipse.pde.source_3.4.0.r20070724-7N7O8YDUUEF6F_H76HbDC"/>
--			<arg line="${featureArchivePrefix}/org.eclipse.sdk_3.4.0.v20070807-7M7P_7BAjmAez0HWcz-J2wiyYCz-"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.platform_3.4.0.v20070824-9y9gFHpEzbtbi1AQz0CvanWg9lKm"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.rcp.source_3.4.0.v20070824-9197Eb4EdkWMz0HkJlJ8LOMHr"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.platform.source_3.4.0.v20070824-9y9gFHpEzbtbi1AQz0CvanWg9lKm"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.cvs_1.0.100.v20070824-7C79Do9EI99h9oCU"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.cvs.source_1.0.100.v20070824-7C79Do9EI99h9oCU"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.jdt_3.4.0.v20070917-1800-7o7qEDfEFpPqeWZiroElwgO"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.jdt.source_3.4.0.v20070917-1800-7o7qEDfEFpPqeWZiroElwgO"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.pde_3.4.0.r20070724-7N7O8YDUUEF6FHKz-6GwCC"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.pde.source_3.4.0.r20070724-7N7O8YDUUEF6FHKz-6GwCC"/>
+-			<arg line="${featureArchivePrefix}/org.eclipse.sdk_3.4.0.v20070824-7M7Q_7BEjmHf7jcYz-J4L27XyAUz"/>
 -		</exec>
 -		<exec executable="zip" dir="${eclipse.base}/solaris.gtk.x86">
 -			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos; . "/>
@@ -330,9 +325,9 @@ diff -PNur eclipse.orig/assemble.org.eclipse.sdk.solaris.gtk.x86.xml eclipse/ass
 +		<gzip src="${assemblyTempDir}/${collectingFolder}/tmp.tar" zipfile="${archiveFullPath}"/>
 +	</target>
  </project>
-diff -PNur eclipse.orig/build.xml eclipse/build.xml
---- eclipse.orig/build.xml	2007-08-09 23:39:02.000000000 +0700
-+++ eclipse/build.xml	2007-09-07 21:23:50.337930437 +0700
+diff -PNur eclipse-3.4M2.orig/build.xml eclipse-3.4M2/build.xml
+--- eclipse-3.4M2.orig/build.xml	2007-09-21 21:13:09.000000000 +0700
++++ eclipse-3.4M2/build.xml	2007-10-01 17:23:09.661898929 +0700
 @@ -21,6 +21,16 @@
  		<mkdir dir="${linux.motif.rootfiles}" />
  		<copy tofile="${linux.motif.rootfiles}/about.html" file="${buildDirectory}/plugins/org.eclipse.swt.motif.linux.x86/about.html" />
@@ -401,9 +396,9 @@ diff -PNur eclipse.orig/build.xml eclipse/build.xml
  		<property name="archive.format" value="zip" />
  	</target>
  
-diff -PNur eclipse.orig/features/org.eclipse.equinox.executable/bin/gtk/solaris/x86/icon.xpm eclipse/features/org.eclipse.equinox.executable/bin/gtk/solaris/x86/icon.xpm
---- eclipse.orig/features/org.eclipse.equinox.executable/bin/gtk/solaris/x86/icon.xpm	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/features/org.eclipse.equinox.executable/bin/gtk/solaris/x86/icon.xpm	2007-09-07 21:23:50.397742801 +0700
+diff -PNur eclipse-3.4M2.orig/features/org.eclipse.equinox.executable/bin/gtk/solaris/x86/icon.xpm eclipse-3.4M2/features/org.eclipse.equinox.executable/bin/gtk/solaris/x86/icon.xpm
+--- eclipse-3.4M2.orig/features/org.eclipse.equinox.executable/bin/gtk/solaris/x86/icon.xpm	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/features/org.eclipse.equinox.executable/bin/gtk/solaris/x86/icon.xpm	2007-10-01 17:23:09.678985198 +0700
 @@ -0,0 +1,311 @@
 +/* XPM */
 +static char *ProductIcon48[] = {
@@ -716,9 +711,9 @@ diff -PNur eclipse.orig/features/org.eclipse.equinox.executable/bin/gtk/solaris/
 +"X C C C C C C C C m C A m A m f V f f B d d d n n n a a a a s s s s s u b u u u u v t t r t t o ",
 +"YXo o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o YX"
 +};
-diff -PNur eclipse.orig/features/org.eclipse.equinox.executable/library/eclipseJNI.c eclipse/features/org.eclipse.equinox.executable/library/eclipseJNI.c
---- eclipse.orig/features/org.eclipse.equinox.executable/library/eclipseJNI.c	2007-08-09 23:39:00.000000000 +0700
-+++ eclipse/features/org.eclipse.equinox.executable/library/eclipseJNI.c	2007-09-07 21:23:37.487500547 +0700
+diff -PNur eclipse-3.4M2.orig/features/org.eclipse.equinox.executable/library/eclipseJNI.c eclipse-3.4M2/features/org.eclipse.equinox.executable/library/eclipseJNI.c
+--- eclipse-3.4M2.orig/features/org.eclipse.equinox.executable/library/eclipseJNI.c	2007-09-21 21:11:49.000000000 +0700
++++ eclipse-3.4M2/features/org.eclipse.equinox.executable/library/eclipseJNI.c	2007-10-01 17:23:09.687845957 +0700
 @@ -217,7 +217,7 @@
  #else
  	jbyteArray bytes = (*env)->NewByteArray(env, length);
@@ -728,9 +723,9 @@ diff -PNur eclipse.orig/features/org.eclipse.equinox.executable/library/eclipseJ
  		if (!(*env)->ExceptionOccurred(env)) {
  			jclass stringClass = (*env)->FindClass(env, "java/lang/String");
  			if(stringClass != NULL) {
-diff -PNur eclipse.orig/features/org.eclipse.equinox.executable/library/gtk/build.sh eclipse/features/org.eclipse.equinox.executable/library/gtk/build.sh
---- eclipse.orig/features/org.eclipse.equinox.executable/library/gtk/build.sh	2007-08-09 23:36:29.000000000 +0700
-+++ eclipse/features/org.eclipse.equinox.executable/library/gtk/build.sh	2007-09-07 21:23:37.488916398 +0700
+diff -PNur eclipse-3.4M2.orig/features/org.eclipse.equinox.executable/library/gtk/build.sh eclipse-3.4M2/features/org.eclipse.equinox.executable/library/gtk/build.sh
+--- eclipse-3.4M2.orig/features/org.eclipse.equinox.executable/library/gtk/build.sh	2007-09-21 21:11:48.000000000 +0700
++++ eclipse-3.4M2/features/org.eclipse.equinox.executable/library/gtk/build.sh	2007-10-01 17:23:09.690664343 +0700
 @@ -36,7 +36,7 @@
  defaultOSArch=""
  defaultWS="gtk"
@@ -740,9 +735,9 @@ diff -PNur eclipse.orig/features/org.eclipse.equinox.executable/library/gtk/buil
  makefile=""
  if [ "$OS" = "" ];  then
      OS=`uname -s`
-diff -PNur eclipse.orig/features/org.eclipse.platform/about_files/solaris.gtk.sparc/about.html eclipse/features/org.eclipse.platform/about_files/solaris.gtk.sparc/about.html
---- eclipse.orig/features/org.eclipse.platform/about_files/solaris.gtk.sparc/about.html	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/features/org.eclipse.platform/about_files/solaris.gtk.sparc/about.html	2007-09-07 21:23:37.498024435 +0700
+diff -PNur eclipse-3.4M2.orig/features/org.eclipse.platform/about_files/solaris.gtk.sparc/about.html eclipse-3.4M2/features/org.eclipse.platform/about_files/solaris.gtk.sparc/about.html
+--- eclipse-3.4M2.orig/features/org.eclipse.platform/about_files/solaris.gtk.sparc/about.html	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/features/org.eclipse.platform/about_files/solaris.gtk.sparc/about.html	2007-10-01 17:23:09.701486745 +0700
 @@ -0,0 +1,237 @@
 +<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 +    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -981,9 +976,9 @@ diff -PNur eclipse.orig/features/org.eclipse.platform/about_files/solaris.gtk.sp
 +
 +</body>
 +</html>
-diff -PNur eclipse.orig/features/org.eclipse.platform/about_files/solaris.gtk.x86/about.html eclipse/features/org.eclipse.platform/about_files/solaris.gtk.x86/about.html
---- eclipse.orig/features/org.eclipse.platform/about_files/solaris.gtk.x86/about.html	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/features/org.eclipse.platform/about_files/solaris.gtk.x86/about.html	2007-09-07 21:23:37.498776760 +0700
+diff -PNur eclipse-3.4M2.orig/features/org.eclipse.platform/about_files/solaris.gtk.x86/about.html eclipse-3.4M2/features/org.eclipse.platform/about_files/solaris.gtk.x86/about.html
+--- eclipse-3.4M2.orig/features/org.eclipse.platform/about_files/solaris.gtk.x86/about.html	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/features/org.eclipse.platform/about_files/solaris.gtk.x86/about.html	2007-10-01 17:23:09.702316995 +0700
 @@ -0,0 +1,237 @@
 +<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 +    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -1222,9 +1217,9 @@ diff -PNur eclipse.orig/features/org.eclipse.platform/about_files/solaris.gtk.x8
 +
 +</body>
 +</html>
-diff -PNur eclipse.orig/features/org.eclipse.platform/build.properties eclipse/features/org.eclipse.platform/build.properties
---- eclipse.orig/features/org.eclipse.platform/build.properties	2007-08-09 23:35:23.000000000 +0700
-+++ eclipse/features/org.eclipse.platform/build.properties	2007-09-07 21:23:50.400897746 +0700
+diff -PNur eclipse-3.4M2.orig/features/org.eclipse.platform/build.properties eclipse-3.4M2/features/org.eclipse.platform/build.properties
+--- eclipse-3.4M2.orig/features/org.eclipse.platform/build.properties	2007-09-21 21:12:50.000000000 +0700
++++ eclipse-3.4M2/features/org.eclipse.platform/build.properties	2007-10-01 17:23:09.740046023 +0700
 @@ -30,7 +30,7 @@
  
  root.solaris.gtk.sparc=../../features/org.eclipse.equinox.executable/bin/gtk/solaris/sparc,gtk
@@ -1234,9 +1229,9 @@ diff -PNur eclipse.orig/features/org.eclipse.platform/build.properties eclipse/f
  
  
  root.linux.gtk.x86=about_files/linux.gtk.x86,../../features/org.eclipse.equinox.executable/bin/gtk/linux/x86,gtk
-diff -PNur eclipse.orig/features/org.eclipse.platform/build.xml eclipse/features/org.eclipse.platform/build.xml
---- eclipse.orig/features/org.eclipse.platform/build.xml	2007-08-09 23:14:08.000000000 +0700
-+++ eclipse/features/org.eclipse.platform/build.xml	2007-09-07 21:23:50.402410581 +0700
+diff -PNur eclipse-3.4M2.orig/features/org.eclipse.platform/build.xml eclipse-3.4M2/features/org.eclipse.platform/build.xml
+--- eclipse-3.4M2.orig/features/org.eclipse.platform/build.xml	2007-09-21 20:52:31.000000000 +0700
++++ eclipse-3.4M2/features/org.eclipse.platform/build.xml	2007-10-01 17:23:09.741846375 +0700
 @@ -682,7 +682,10 @@
  	<target name="rootFilessolaris_gtk_x86">
  		<mkdir dir="${feature.base}/solaris.gtk.x86/${collectingFolder}/"/>
@@ -1257,9 +1252,9 @@ diff -PNur eclipse.orig/features/org.eclipse.platform/build.xml eclipse/features
  	</target>
  	<target name="rootFilessolaris_motif_sparc">
  		<mkdir dir="${feature.base}/solaris.motif.sparc/${collectingFolder}/"/>
-diff -PNur eclipse.orig/package.org.eclipse.sdk.solaris.gtk.x86.xml eclipse/package.org.eclipse.sdk.solaris.gtk.x86.xml
---- eclipse.orig/package.org.eclipse.sdk.solaris.gtk.x86.xml	2007-08-09 23:15:37.000000000 +0700
-+++ eclipse/package.org.eclipse.sdk.solaris.gtk.x86.xml	2007-09-07 21:24:37.150369564 +0700
+diff -PNur eclipse-3.4M2.orig/package.org.eclipse.sdk.solaris.gtk.x86.xml eclipse-3.4M2/package.org.eclipse.sdk.solaris.gtk.x86.xml
+--- eclipse-3.4M2.orig/package.org.eclipse.sdk.solaris.gtk.x86.xml	2007-09-21 20:52:32.000000000 +0700
++++ eclipse-3.4M2/package.org.eclipse.sdk.solaris.gtk.x86.xml	2007-10-01 18:40:22.778230564 +0700
 @@ -1,6 +1,6 @@
  <?xml version="1.0" encoding="UTF-8"?>
  <project name="Assemble org.eclipse.sdk" default="main">
@@ -1269,41 +1264,41 @@ diff -PNur eclipse.orig/package.org.eclipse.sdk.solaris.gtk.x86.xml eclipse/pack
  	<property name="ws" value="gtk"/>
  	<property name="arch" value="x86"/>
 @@ -179,37 +179,18 @@
- 			<param name="elementName" value="org.mortbay.jetty_5.1.11.v200706111724"/>
+ 			<param name="elementName" value="javax.servlet.jsp_2.0.0.v200706191603"/>
  		</antcall>
  		<eclipse.brand root="${eclipse.base}/solaris.gtk.x86/${collectingFolder}" icons="${launcherIcons}" name="${launcherName}" os="${os}"		/>
 -		<exec executable="zip" dir="${assemblyTempDir}">
 -			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
--			<arg line="${pluginArchivePrefix}/org.apache.commons.el.source_1.0.0.v200706111724"/>
-+		<exec executable="gtar" dir="${assemblyTempDir}">
+-			<arg line="${pluginArchivePrefix}/com.jcraft.jsch_0.1.31.jar"/>
++		<exec executable="tar" dir="${assemblyTempDir}">
 +			<arg line="${tarargs}-rvf &apos;${archiveFullPath}&apos; ${archivePrefix} "/>
  		</exec>
 -		<exec executable="zip" dir="${assemblyTempDir}">
 -			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
--			<arg line="${pluginArchivePrefix}/com.jcraft.jsch_0.1.31.jar"/>
--			<arg line="${pluginArchivePrefix}/org.mortbay.jetty.source_5.1.11.v200706111724"/>
--			<arg line="${pluginArchivePrefix}/org.apache.commons.logging_1.0.4.v200706111724.jar"/>
--			<arg line="${pluginArchivePrefix}/com.ibm.icu_3.6.1.v20070417.jar"/>
--			<arg line="${pluginArchivePrefix}/org.apache.commons.el_1.0.0.v200706111724.jar"/>
--			<arg line="${pluginArchivePrefix}/javax.servlet.source_2.4.0.v200706111738"/>
--			<arg line="${pluginArchivePrefix}/javax.servlet_2.4.0.v200706111738.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.jasper_5.5.17.v200706111724.jar"/>
 -			<arg line="${pluginArchivePrefix}/org.apache.lucene_1.9.1.v200706111724.jar"/>
--			<arg line="${pluginArchivePrefix}/org.apache.commons.logging.source_1.0.4.v200706111724"/>
--			<arg line="${pluginArchivePrefix}/org.junit.source_3.8.2.v200706111738"/>
--			<arg line="${pluginArchivePrefix}/org.apache.lucene.analysis_1.9.1.v200706181610.jar"/>
--			<arg line="${pluginArchivePrefix}/javax.servlet.jsp.source_2.0.0.v200706191603"/>
--			<arg line="${pluginArchivePrefix}/org.apache.lucene.source_1.9.1.v200706111724"/>
--			<arg line="${pluginArchivePrefix}/javax.servlet.jsp_2.0.0.v200706191603.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.ant_1.7.0.v200706080842"/>
 -			<arg line="${pluginArchivePrefix}/org.junit_3.8.2.v200706111738"/>
+-			<arg line="${pluginArchivePrefix}/com.ibm.icu_3.6.1.v20070906.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.mortbay.jetty.source_5.1.11.v200706111724"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.commons.el_1.0.0.v200706111724.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.lucene.analysis_1.9.1.v200706181610.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.commons.logging_1.0.4.v200706111724.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.mortbay.jetty_5.1.11.v200706111724.jar"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.ant.source_1.7.0.v200706080842"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.jasper.source_5.5.17.v200706111724"/>
+-			<arg line="${pluginArchivePrefix}/javax.servlet.source_2.4.0.v200706111738"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.commons.el.source_1.0.0.v200706111724"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.commons.logging.source_1.0.4.v200706111724"/>
 -		</exec>
 -		<exec executable="zip" dir="${assemblyTempDir}">
 -			<arg line="-r -q ${zipargs} &apos;${archiveFullPath}&apos;"/>
--			<arg line="${pluginArchivePrefix}/org.apache.jasper.source_5.5.17.v200706111724"/>
+-			<arg line="${pluginArchivePrefix}/javax.servlet_2.4.0.v200706111738.jar"/>
+-			<arg line="${pluginArchivePrefix}/javax.servlet.jsp_2.0.0.v200706191603.jar"/>
 -			<arg line="${pluginArchivePrefix}/org.apache.lucene.analysis.source_1.9.1.v200706181610"/>
--			<arg line="${pluginArchivePrefix}/org.apache.jasper_5.5.17.v200706111724.jar"/>
--			<arg line="${pluginArchivePrefix}/org.mortbay.jetty_5.1.11.v200706111724.jar"/>
--			<arg line="${pluginArchivePrefix}/org.apache.ant_1.7.0.v200706080842"/>
--			<arg line="${pluginArchivePrefix}/org.apache.ant.source_1.7.0.v200706080842"/>
+-			<arg line="${pluginArchivePrefix}/javax.servlet.jsp.source_2.0.0.v200706191603"/>
+-			<arg line="${pluginArchivePrefix}/org.junit.source_3.8.2.v200706111738"/>
+-			<arg line="${pluginArchivePrefix}/org.apache.lucene.source_1.9.1.v200706111724"/>
 +		<antcall target="gzipResults"/>
 +		<exec executable="rm">
 +			<arg line="-rf"/>
@@ -1316,9 +1311,9 @@ diff -PNur eclipse.orig/package.org.eclipse.sdk.solaris.gtk.x86.xml eclipse/pack
 +		<gzip src="${assemblyTempDir}/${collectingFolder}/tmp.tar" zipfile="${archiveFullPath}"/>
 +	</target>
  </project>
-diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem/natives/unix/solaris/Makefile eclipse/plugins/org.eclipse.core.filesystem/natives/unix/solaris/Makefile
---- eclipse.orig/plugins/org.eclipse.core.filesystem/natives/unix/solaris/Makefile	2007-08-09 23:35:01.000000000 +0700
-+++ eclipse/plugins/org.eclipse.core.filesystem/natives/unix/solaris/Makefile	2007-09-07 21:23:37.540103309 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.core.filesystem/natives/unix/solaris/Makefile eclipse-3.4M2/plugins/org.eclipse.core.filesystem/natives/unix/solaris/Makefile
+--- eclipse-3.4M2.orig/plugins/org.eclipse.core.filesystem/natives/unix/solaris/Makefile	2007-09-21 21:11:55.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.core.filesystem/natives/unix/solaris/Makefile	2007-10-01 17:23:09.763375126 +0700
 @@ -21,7 +21,7 @@
  OS_TYPE = solaris
  
@@ -1337,9 +1332,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem/natives/unix/solaris
  #OPT_FLAGS=-g
  
  $(LIB_NAME_FULL) : $(CORE.C)
-diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/.project eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/.project
---- eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/.project	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/.project	2007-09-07 21:23:50.402989577 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.core.filesystem.solaris.x86/.project eclipse-3.4M2/plugins/org.eclipse.core.filesystem.solaris.x86/.project
+--- eclipse-3.4M2.orig/plugins/org.eclipse.core.filesystem.solaris.x86/.project	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.core.filesystem.solaris.x86/.project	2007-10-01 17:23:09.772511996 +0700
 @@ -0,0 +1,22 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<projectDescription>
@@ -1363,9 +1358,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/.project
 +		<nature>org.eclipse.pde.PluginNature</nature>
 +	</natures>
 +</projectDescription>
-diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/META-INF/MANIFEST.MF eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/META-INF/MANIFEST.MF
---- eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/META-INF/MANIFEST.MF	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/META-INF/MANIFEST.MF	2007-09-07 21:23:50.403381479 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.core.filesystem.solaris.x86/META-INF/MANIFEST.MF eclipse-3.4M2/plugins/org.eclipse.core.filesystem.solaris.x86/META-INF/MANIFEST.MF
+--- eclipse-3.4M2.orig/plugins/org.eclipse.core.filesystem.solaris.x86/META-INF/MANIFEST.MF	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.core.filesystem.solaris.x86/META-INF/MANIFEST.MF	2007-10-01 17:23:09.772986987 +0700
 @@ -0,0 +1,9 @@
 +Manifest-Version: 1.0
 +Bundle-ManifestVersion: 2
@@ -1376,9 +1371,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/META-INF
 +Fragment-Host: org.eclipse.core.filesystem;bundle-version="[1.1.0,2.0.0)"
 +Bundle-Localization: fragment
 +Eclipse-PlatformFilter: (& (osgi.os=solaris) (osgi.arch=x86))
-diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/about.html eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/about.html
---- eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/about.html	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/about.html	2007-09-07 21:23:50.403789119 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.core.filesystem.solaris.x86/about.html eclipse-3.4M2/plugins/org.eclipse.core.filesystem.solaris.x86/about.html
+--- eclipse-3.4M2.orig/plugins/org.eclipse.core.filesystem.solaris.x86/about.html	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.core.filesystem.solaris.x86/about.html	2007-10-01 17:23:09.773311016 +0700
 @@ -0,0 +1,28 @@
 +<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 +    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -1409,18 +1404,18 @@ diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/about.ht
 +</body>
 +</html>
 \ No newline at end of file
-diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/build.properties eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/build.properties
---- eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/build.properties	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/build.properties	2007-09-07 21:23:50.404152273 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.core.filesystem.solaris.x86/build.properties eclipse-3.4M2/plugins/org.eclipse.core.filesystem.solaris.x86/build.properties
+--- eclipse-3.4M2.orig/plugins/org.eclipse.core.filesystem.solaris.x86/build.properties	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.core.filesystem.solaris.x86/build.properties	2007-10-01 17:23:09.773634133 +0700
 @@ -0,0 +1,5 @@
 +bin.includes = META-INF/,\
 +               os/,\
 +               fragment.properties,\
 +               about.html
 +src.includes = about.html
-diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/build.xml eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/build.xml
---- eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/build.xml	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/build.xml	2007-09-07 21:23:50.404570865 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.core.filesystem.solaris.x86/build.xml eclipse-3.4M2/plugins/org.eclipse.core.filesystem.solaris.x86/build.xml
+--- eclipse-3.4M2.orig/plugins/org.eclipse.core.filesystem.solaris.x86/build.xml	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.core.filesystem.solaris.x86/build.xml	2007-10-01 17:23:09.774059221 +0700
 @@ -0,0 +1,126 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<project name="org.eclipse.core.filesystem.solaris.x86" default="build.jars" basedir=".">
@@ -1548,9 +1543,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/build.xm
 +	</target>
 +
 +</project>
-diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/fragment.properties eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/fragment.properties
---- eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/fragment.properties	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.core.filesystem.solaris.x86/fragment.properties	2007-09-07 21:23:50.404879153 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.core.filesystem.solaris.x86/fragment.properties eclipse-3.4M2/plugins/org.eclipse.core.filesystem.solaris.x86/fragment.properties
+--- eclipse-3.4M2.orig/plugins/org.eclipse.core.filesystem.solaris.x86/fragment.properties	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.core.filesystem.solaris.x86/fragment.properties	2007-10-01 17:23:09.774380934 +0700
 @@ -0,0 +1,12 @@
 +###############################################################################
 +# Copyright (c) 2005 IBM Corporation and others.
@@ -1564,9 +1559,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.core.filesystem.solaris.x86/fragment
 +###############################################################################
 +fragmentName = Core File System for Solaris
 +providerName = Eclipse.org
-diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/.project eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/.project
---- eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/.project	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/.project	2007-09-07 21:23:50.405261450 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/.project eclipse-3.4M2/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/.project
+--- eclipse-3.4M2.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/.project	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/.project	2007-10-01 17:23:09.774904782 +0700
 @@ -0,0 +1,22 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<projectDescription>
@@ -1590,9 +1585,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/.pr
 +		<nature>org.eclipse.pde.PluginNature</nature>
 +	</natures>
 +</projectDescription>
-diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/META-INF/MANIFEST.MF eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/META-INF/MANIFEST.MF
---- eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/META-INF/MANIFEST.MF	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/META-INF/MANIFEST.MF	2007-09-07 21:23:50.405616004 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/META-INF/MANIFEST.MF eclipse-3.4M2/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/META-INF/MANIFEST.MF
+--- eclipse-3.4M2.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/META-INF/MANIFEST.MF	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/META-INF/MANIFEST.MF	2007-10-01 17:23:09.775273739 +0700
 @@ -0,0 +1,9 @@
 +Manifest-Version: 1.0
 +Bundle-ManifestVersion: 2
@@ -1603,9 +1598,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/MET
 +Fragment-Host: org.eclipse.equinox.launcher;bundle-version="[1.0.0,1.1.0)"
 +Eclipse-PlatformFilter: (& (osgi.ws=gtk) (osgi.os=linux) (osgi.arch=x86))
 +Bundle-Localization: launcher.gtk.linux.x86
-diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/about.html eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/about.html
---- eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/about.html	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/about.html	2007-09-07 21:23:50.405910129 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/about.html eclipse-3.4M2/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/about.html
+--- eclipse-3.4M2.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/about.html	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/about.html	2007-10-01 17:23:09.775567494 +0700
 @@ -0,0 +1,28 @@
 +<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 +    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -1636,9 +1631,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/abo
 +</body>
 +</html>
 \ No newline at end of file
-diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.properties eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.properties
---- eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.properties	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.properties	2007-09-07 21:23:50.406187721 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.properties eclipse-3.4M2/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.properties
+--- eclipse-3.4M2.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.properties	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.properties	2007-10-01 17:23:09.775860032 +0700
 @@ -0,0 +1,6 @@
 +bin.includes = META-INF/,\
 +               eclipse_*.so,\
@@ -1646,9 +1641,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/bui
 +               about.html
 +               
 +customBuildCallbacks=customBuildCallbacks.xml
-diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.xml eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.xml
---- eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.xml	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.xml	2007-09-07 21:23:50.406647914 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.xml eclipse-3.4M2/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.xml
+--- eclipse-3.4M2.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.xml	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/build.xml	2007-10-01 17:23:09.776392643 +0700
 @@ -0,0 +1,165 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<project name="org.eclipse.equinox.launcher.gtk.solaris.x86" default="build.jars" basedir=".">
@@ -1815,9 +1810,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/bui
 +	</target>
 +
 +</project>
-diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/customBuildCallbacks.xml eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/customBuildCallbacks.xml
---- eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/customBuildCallbacks.xml	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/customBuildCallbacks.xml	2007-09-07 21:23:50.407287522 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/customBuildCallbacks.xml eclipse-3.4M2/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/customBuildCallbacks.xml
+--- eclipse-3.4M2.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/customBuildCallbacks.xml	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/customBuildCallbacks.xml	2007-10-01 17:23:09.776819754 +0700
 @@ -0,0 +1,109 @@
 +<!-- ===================================================================== -->
 +<!-- Custom targets called from a project's generated build.xml            -->
@@ -1928,9 +1923,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/cus
 +	<target name="post.clean">             
 +	</target>
 +</project>
-diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/launcher.gtk.solaris.x86.properties eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/launcher.gtk.solaris.x86.properties
---- eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/launcher.gtk.solaris.x86.properties	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/launcher.gtk.solaris.x86.properties	2007-09-07 21:23:50.407567884 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/launcher.gtk.solaris.x86.properties eclipse-3.4M2/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/launcher.gtk.solaris.x86.properties
+--- eclipse-3.4M2.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/launcher.gtk.solaris.x86.properties	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/launcher.gtk.solaris.x86.properties	2007-10-01 17:23:09.777122978 +0700
 @@ -0,0 +1,12 @@
 +###############################################################################
 +# Copyright (c) 2007 IBM Corporation and others.
@@ -1944,9 +1939,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.equinox.launcher.gtk.solaris.x86/lau
 +###############################################################################
 +pluginName = Equinox Launcher Solaris X86 Fragment
 +providerName = Eclipse.org
-diff -PNur eclipse.orig/plugins/org.eclipse.platform.source.solaris.gtk.x86/build.xml eclipse/plugins/org.eclipse.platform.source.solaris.gtk.x86/build.xml
---- eclipse.orig/plugins/org.eclipse.platform.source.solaris.gtk.x86/build.xml	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.platform.source.solaris.gtk.x86/build.xml	2007-09-07 21:23:50.436798540 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.platform.source.solaris.gtk.x86/build.xml eclipse-3.4M2/plugins/org.eclipse.platform.source.solaris.gtk.x86/build.xml
+--- eclipse-3.4M2.orig/plugins/org.eclipse.platform.source.solaris.gtk.x86/build.xml	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.platform.source.solaris.gtk.x86/build.xml	2007-10-01 17:23:09.784090807 +0700
 @@ -0,0 +1,127 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<project name="org.eclipse.platform.source.solaris.gtk.x86" default="build.jars" basedir=".">
@@ -2075,9 +2070,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.platform.source.solaris.gtk.x86/buil
 +	</target>
 +
 +</project>
-diff -PNur eclipse.orig/plugins/org.eclipse.swt.gtk.solaris.sparc/build.xml eclipse/plugins/org.eclipse.swt.gtk.solaris.sparc/build.xml
---- eclipse.orig/plugins/org.eclipse.swt.gtk.solaris.sparc/build.xml	2007-08-09 23:14:27.000000000 +0700
-+++ eclipse/plugins/org.eclipse.swt.gtk.solaris.sparc/build.xml	2007-09-07 21:23:37.552127600 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.swt.gtk.solaris.sparc/build.xml eclipse-3.4M2/plugins/org.eclipse.swt.gtk.solaris.sparc/build.xml
+--- eclipse-3.4M2.orig/plugins/org.eclipse.swt.gtk.solaris.sparc/build.xml	2007-09-21 20:52:30.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.swt.gtk.solaris.sparc/build.xml	2007-10-01 17:23:09.790017800 +0700
 @@ -74,6 +74,9 @@
  			<src path="${plugindir}/Eclipse SWT Custom Widgets/common/"/>
  			<src path="${plugindir}/Eclipse SWT Drag and Drop/common/"/>
@@ -2176,18 +2171,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.swt.gtk.solaris.sparc/build.xml ecli
  		<delete dir="${temp.folder}"/>
  		<delete dir="${build.result.folder}/@dot"/>   <!-- ensure entry into @dot target -->
  		<mkdir dir="${temp.folder}/swtdownload/"/>
-diff -PNur eclipse.orig/plugins/org.eclipse.swt.gtk.solaris.x86/build.xml eclipse/plugins/org.eclipse.swt.gtk.solaris.x86/build.xml
---- eclipse.orig/plugins/org.eclipse.swt.gtk.solaris.x86/build.xml	2007-08-09 23:15:30.000000000 +0700
-+++ eclipse/plugins/org.eclipse.swt.gtk.solaris.x86/build.xml	2007-09-07 21:23:37.563021089 +0700
-@@ -7,7 +7,7 @@
- 		<property name="os" value="solaris"/>
- 		<property name="arch" value="x86"/>
- 		<property name="fragment" value="org.eclipse.swt.gtk.solaris.x86"/>
--		<property name="version.suffix" value="3.3.0.HEAD"/>
-+		<property name="version.suffix" value="3.3.0.v3406"/>
- 		<property name="full.name" value="${fragment}_${version.suffix}"/>
- 		<property name="temp.folder" value="${basedir}/temp.folder"/>
- 		<property name="plugin.destination" value="${basedir}"/>
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.swt.gtk.solaris.x86/build.xml eclipse-3.4M2/plugins/org.eclipse.swt.gtk.solaris.x86/build.xml
+--- eclipse-3.4M2.orig/plugins/org.eclipse.swt.gtk.solaris.x86/build.xml	2007-09-21 20:52:31.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.swt.gtk.solaris.x86/build.xml	2007-10-01 17:23:09.794316109 +0700
 @@ -74,6 +74,9 @@
  			<src path="${plugindir}/Eclipse SWT Custom Widgets/common/"/>
  			<src path="${plugindir}/Eclipse SWT Drag and Drop/common/"/>
@@ -2296,9 +2282,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.swt.gtk.solaris.x86/build.xml eclips
  		<zip zipfile="${destination}/swt-${buildid}-${ws}-${os}-${arch}.zip">
  			<zipfileset dir="${temp.folder}/swtdownload/"/>
  		</zip>
-diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/.classpath eclipse/plugins/org.eclipse.update.core.solaris/.classpath
---- eclipse.orig/plugins/org.eclipse.update.core.solaris/.classpath	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.update.core.solaris/.classpath	2007-09-07 21:23:37.563465483 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/.classpath eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/.classpath
+--- eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/.classpath	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/.classpath	2007-10-01 17:23:09.794972013 +0700
 @@ -0,0 +1,7 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<classpath>
@@ -2307,9 +2293,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/.classpath eclip
 +	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 +	<classpathentry kind="output" path="bin"/>
 +</classpath>
-diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/.project eclipse/plugins/org.eclipse.update.core.solaris/.project
---- eclipse.orig/plugins/org.eclipse.update.core.solaris/.project	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.update.core.solaris/.project	2007-09-07 21:23:37.563781907 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/.project eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/.project
+--- eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/.project	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/.project	2007-10-01 17:23:09.795282486 +0700
 @@ -0,0 +1,33 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<projectDescription>
@@ -2344,9 +2330,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/.project eclipse
 +		<nature>org.eclipse.pde.PluginNature</nature>
 +	</natures>
 +</projectDescription>
-diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/META-INF/MANIFEST.MF eclipse/plugins/org.eclipse.update.core.solaris/META-INF/MANIFEST.MF
---- eclipse.orig/plugins/org.eclipse.update.core.solaris/META-INF/MANIFEST.MF	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.update.core.solaris/META-INF/MANIFEST.MF	2007-09-07 21:23:37.564161127 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/META-INF/MANIFEST.MF eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/META-INF/MANIFEST.MF
+--- eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/META-INF/MANIFEST.MF	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/META-INF/MANIFEST.MF	2007-10-01 17:23:09.795606711 +0700
 @@ -0,0 +1,9 @@
 +Manifest-Version: 1.0
 +Bundle-ManifestVersion: 2
@@ -2357,9 +2343,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/META-INF/MANIFES
 +Fragment-Host: org.eclipse.update.core;bundle-version="[3.0.0,4.0.0)"
 +Bundle-Localization: plugin
 +Eclipse-PlatformFilter: (osgi.os=solaris)
-diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/about.html eclipse/plugins/org.eclipse.update.core.solaris/about.html
---- eclipse.orig/plugins/org.eclipse.update.core.solaris/about.html	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.update.core.solaris/about.html	2007-09-07 21:23:37.564453423 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/about.html eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/about.html
+--- eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/about.html	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/about.html	2007-10-01 17:23:09.795894353 +0700
 @@ -0,0 +1,28 @@
 +<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 +    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -2390,9 +2376,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/about.html eclip
 +</body>
 +</html>
 \ No newline at end of file
-diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/build.properties eclipse/plugins/org.eclipse.update.core.solaris/build.properties
---- eclipse.orig/plugins/org.eclipse.update.core.solaris/build.properties	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.update.core.solaris/build.properties	2007-09-07 21:23:37.564729762 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/build.properties eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/build.properties
+--- eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/build.properties	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/build.properties	2007-10-01 17:23:09.796171657 +0700
 @@ -0,0 +1,16 @@
 +###############################################################################
 +# Copyright (c) 2000, 2005 IBM Corporation and others.
@@ -2410,9 +2396,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/build.properties
 +               META-INF/
 +src.includes = src/,\
 +               about.html
-diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/build.xml eclipse/plugins/org.eclipse.update.core.solaris/build.xml
---- eclipse.orig/plugins/org.eclipse.update.core.solaris/build.xml	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.update.core.solaris/build.xml	2007-09-07 21:23:37.565188166 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/build.xml eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/build.xml
+--- eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/build.xml	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/build.xml	2007-10-01 17:23:09.796546719 +0700
 @@ -0,0 +1,127 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<project name="org.eclipse.update.core.solaris" default="build.jars" basedir=".">
@@ -2541,9 +2527,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/build.xml eclips
 +	</target>
 +
 +</project>
-diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/src/build.xml eclipse/plugins/org.eclipse.update.core.solaris/src/build.xml
---- eclipse.orig/plugins/org.eclipse.update.core.solaris/src/build.xml	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.update.core.solaris/src/build.xml	2007-09-07 21:23:37.565599247 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/src/build.xml eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/src/build.xml
+--- eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/src/build.xml	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/src/build.xml	2007-10-01 17:23:09.796913941 +0700
 @@ -0,0 +1,69 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<project name="buildlibrary" default="run" basedir="."> 
@@ -2614,9 +2600,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/src/build.xml ec
 +  
 +  
 +</project>
-diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/src/update.c eclipse/plugins/org.eclipse.update.core.solaris/src/update.c
---- eclipse.orig/plugins/org.eclipse.update.core.solaris/src/update.c	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.update.core.solaris/src/update.c	2007-09-07 21:23:37.566005483 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/src/update.c eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/src/update.c
+--- eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/src/update.c	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/src/update.c	2007-10-01 17:23:09.797317818 +0700
 @@ -0,0 +1,164 @@
 +/**********************************************************************
 + * Copyright (c) 2000, 2005 IBM Corporation and others.
@@ -2782,9 +2768,9 @@ diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/src/update.c ecl
 +
 +	return returnArray;
 +}
-diff -PNur eclipse.orig/plugins/org.eclipse.update.core.solaris/src/update.h eclipse/plugins/org.eclipse.update.core.solaris/src/update.h
---- eclipse.orig/plugins/org.eclipse.update.core.solaris/src/update.h	1970-01-01 07:00:00.000000000 +0700
-+++ eclipse/plugins/org.eclipse.update.core.solaris/src/update.h	2007-09-07 21:23:37.566320409 +0700
+diff -PNur eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/src/update.h eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/src/update.h
+--- eclipse-3.4M2.orig/plugins/org.eclipse.update.core.solaris/src/update.h	1970-01-01 07:00:00.000000000 +0700
++++ eclipse-3.4M2/plugins/org.eclipse.update.core.solaris/src/update.h	2007-10-01 17:23:09.797643529 +0700
 @@ -0,0 +1,76 @@
 +/* DO NOT EDIT THIS FILE - it is machine generated */
 +

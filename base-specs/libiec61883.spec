@@ -16,12 +16,14 @@ Source1:	byteswap-compat.h
 Source2:	endian-compat.h
 Patch1:		libiec61883-01-function.diff
 Patch2:		libiec61883-02-struct.diff
+Patch3:		libiec61883-03-warning.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
 %prep
 %setup -q -n %{src_name}-%{version}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 cp %SOURCE1 src/byteswap.h
 cp %SOURCE2 src/endian.h
 cp %SOURCE2 examples/endian.h
@@ -61,5 +63,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Oct  3 2007 - Doug Scott
+- Updates from cvsdude
 * Tue Sep  4 2007 - dougs@truemail.co.th
 - Initial base spec file

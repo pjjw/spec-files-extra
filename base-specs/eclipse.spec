@@ -4,9 +4,9 @@
 # includes module(s): eclipse
 #
 
-%define src_ver 3.4M1
+%define src_ver 3.4M2
 %define src_name eclipse
-%define src_url http://www.solaris1394.org/dl
+%define src_url http://eclipse.cdpa.nsysu.edu.tw/downloads/drops/S-3.4M2-200709210919
 
 %ifarch i386 
 %define	_eclipse_arch x86
@@ -17,7 +17,8 @@
 Name:		eclipse
 Summary:	Eclipse IDE
 Version:	%{src_ver}
-Source:		eclipse-sourceBuild-srcIncluded-3.4M1.zip
+Source:		%{src_url}/%{src_name}-sourceBuild-srcIncluded-%{version}.zip
+
 Source1:	%{name}.desktop
 URL:		http://www.eclipse.org
 Patch1:		eclipse-01-make.diff
@@ -95,6 +96,9 @@ install -D features/org.eclipse.equinox.executable/bin/gtk/solaris/x86/icon.xpm 
 chmod 755 $RPM_BUILD_ROOT%{_libdir}/eclipse/eclipse
 
 %changelog
+* Wed Oct  3 2007 - Doug Scott
+- Added src_url
+- bump to eclipse-3.4M2
 * Sat Sep  8 2007 - dougs@truemail.co.th
 - Added swt.jar
 * Sat Sep  8 2007 - dougs@truemail.co.th

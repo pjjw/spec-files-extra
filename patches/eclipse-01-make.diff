@@ -49,7 +49,7 @@
  
 -GLXCFLAGS = 
 -GLXLIBS = -G -K PIC -L/usr/X11R6/lib -lGL -lGLU -lm
-+GLXCFLAGS = ${OPTFLAGS}
++GLXCFLAGS = ${OPTFLAGS} -I/usr/X11/include
 +GLXLIBS = -Wl,-G -KPIC -L/usr/X11R6/lib -lGL -lGLU -lm
  
  # Uncomment for Native Stats tool
@@ -82,7 +82,7 @@
 -	-L$(MOZILLA_SDK)/nspr/bin -lnspr4 -lplds4 -lplc4
 -
 +	-I$(JAVA_HOME)/include \
-+	-I$(JAVA_HOME)/include/solaris \
++	-I$(JAVA_HOME)/include/solaris -I/usr/include/mps \
 +	${SWT_PTR_CFLAGS}
 +MOZILLALIBS = -G -Bsymbolic
 +MOZILLAEXCLUDES = -DNO_XPCOMGlueShutdown -DNO_XPCOMGlueStartup

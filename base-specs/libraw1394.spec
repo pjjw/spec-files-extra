@@ -14,21 +14,12 @@ Version:	%{src_ver}
 Source:		%{src_url}/%{src_name}-%{version}.tar.gz
 Source1:	byteswap-compat.h
 Source2:	endian-compat.h
-Patch1:		libraw1394-01-configure.diff
-Patch2:		libraw1394-02-u_int.diff
-# Solaris raw1394 driver not yet written
-Patch3:		libraw1394-03-kernel.diff
-Patch4:		libraw1394-04-eremoteio.diff
+Patch1:		libraw1394-01-solaris.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
 %prep
 %setup -q -n %{src_name}-%{version}
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-cp %SOURCE1 src/byteswap.h
-cp %SOURCE2 src/endian.h
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -66,5 +57,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libraw1394/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Oct  3 2007 - Doug Scott
+- Updates from cvsdude
+* Wed Oct  3 2007 - Doug Scott
+- Updates from cvsdude
 * Tue Sep  4 2007 - dougs@truemail.co.th
 - Initial base spec file
