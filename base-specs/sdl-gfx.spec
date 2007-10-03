@@ -5,12 +5,11 @@
 #
 
 %define src_name	SDL_gfx
-%define src_url		http://www.ferzkopp.net/Software/%{src_name}-2.0
 
 Name:			SFEsdl-gfx
 Summary: 		Graphics library for SDL
 Version:		2.0.16
-Source: 		%{src_name}-%{version}.tar.gz
+Source: 		http://www.ferzkopp.net/Software/%{src_name}-2.0/%{src_name}-%{version}.tar.gz
 BuildRoot:		%{_tmppath}/%{name}-%{version}-build
 
 %prep
@@ -39,6 +38,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Oct  3 2007 - daymobrew@users.sourceforge.net
+- Move src_url into Source so that the --download option works.
 * Tue Jun  5 2007 - Doug Scott
 - Change to isabuild
 * Tue May  8 2007 - Doug Scott

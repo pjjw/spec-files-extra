@@ -1,3 +1,8 @@
+2007-10-03  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* base-specs/sdl-gfx.spec: Move src_url into Source so that the
+	  --download option works.
+
 2007-10-03  Doug Scott  <dougs@truemail.co.th>
 
 	* base-specs/tun.spec: base spec for SFEtun.spec
