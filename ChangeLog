@@ -1,5 +1,9 @@
 2007-10-03  Doug Scott  <dougs@truemail.co.th>
 
+	* base-specs/tun.spec: base spec for SFEtun.spec
+
+2007-10-03  Doug Scott  <dougs@truemail.co.th>
+
 	* SFEtun.spec: Build with tap from latest source
 	* SFEwine.spec: bump to 0.9.46
 	* SFEopenvpn.spec: Added modified tun.c
