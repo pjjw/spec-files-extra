@@ -1,0 +1,16 @@
+diff -r 9d95a9192deb configure.in
+--- a/configure.in	Sun Sep 30 12:28:12 2007 +0530
++++ b/configure.in	Sun Sep 30 12:35:34 2007 +0530
+@@ -285,9 +285,9 @@ AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],["$
+ 
+ if test "A$enable_debug" = "A"; then
+ 	enable_debug=no
+-	CFLAGS="-Wall"
+-else
+-	CFLAGS="-Wall -g"
++	CFLAGS=""
++else
++	CFLAGS="-g"
+ fi
+ 
+ dnl Ecriture des fichiers

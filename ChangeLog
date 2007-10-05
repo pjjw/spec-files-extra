@@ -1,3 +1,10 @@
+2007-10-06 Ananth Shrinivas <ananth@sun.com>
+    * SFEgraveman.spec: *NEW* A graphical front end to create or copy CDs and DVDs
+    * SFExdg-utils.spec: *NEW* The Portland Project's desktop integration tools
+    * SFEpython-crypto.spec: *NEW* Cryptographic library for the Python Programming Language
+    * patches/graveman-01-wall.diff: Patch for sunstudio compatibility
+    * patches/xdg-utils-01-bash.diff: Patch to change the interpreter to bash
+
 2007-10-02  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEzfs-auto-backup: shortend summary, doc correction
 
