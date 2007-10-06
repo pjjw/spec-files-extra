@@ -4,7 +4,7 @@
 # includes module(s): pigment
 #
 %define name pigment
-%define version 0.3.1
+%define version 0.3.2
 %define pythonver 2.4
 
 %include Solaris.inc
@@ -101,12 +101,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
-#%dir %attr (0755, root, sys) %{_datadir}
-#%dir %attr (0755, root, bin) %{_datadir}/gtk-doc
-#%dir %attr (0755, root, bin) %{_datadir}/gtk-doc/html
-#%{_datadir}/gtk-doc/html/*
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, bin) %{_datadir}/gtk-doc
+%dir %attr (0755, root, bin) %{_datadir}/gtk-doc/html
+%{_datadir}/gtk-doc/html/*
 
 %changelog
+* Fri Oct 05 2007 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.3.2
 * Sun Aug 05 2007 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.3.1
 * Tue Jul 10 2007 Brian Cameron  <brian.cameron@sun.com>

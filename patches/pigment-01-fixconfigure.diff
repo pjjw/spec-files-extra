@@ -1,5 +1,5 @@
---- pigment-0.3.1/libs/pypgm/pgm/Makefile.am-orig	2007-08-06 14:33:12.657874000 -0500
-+++ pigment-0.3.1/libs/pypgm/pgm/Makefile.am	2007-08-06 14:33:24.639346000 -0500
+--- pigment-0.3.2/libs/pypgm/pgm/Makefile.am-orig	2007-10-05 15:09:06.269633000 -0500
++++ pigment-0.3.2/libs/pypgm/pgm/Makefile.am	2007-10-05 15:09:32.749681000 -0500
 @@ -18,7 +18,7 @@ pgm.c: pgm.defs $(overrides)
  _pgmmodule_la_LDFLAGS = \
  	@PY_PGM_LDFLAGS@ \

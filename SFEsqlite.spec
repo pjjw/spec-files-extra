@@ -6,9 +6,8 @@
 %include Solaris.inc
 Name:                    SFEsqlite
 Summary:                 SQLite - a small C library implementation of a SQL database engine
-Version:                 3.4.2
+Version:                 3.5.1
 Source:                  http://www.sqlite.org/sqlite-%{version}.tar.gz
-Patch1:                  sqlite-01-thread-lock-test.diff
 URL:                     http://www.sqlite.org/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -22,7 +21,6 @@ Requires: %name
 
 %prep
 %setup -q -n sqlite-%version
-%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -79,6 +77,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Oct 05 2007 - brian.cameron@sun.com
+- Bump to 3.5.1
 * Mon Sep 17 2007 - nonsea@users.sourceforge.net
 - Add -DSQLITE_ENABLE_REDEF_IO to CFLAGS for firefox3.
 * Thu Sep 06 2007 - nonsea@users.sourceforge.net

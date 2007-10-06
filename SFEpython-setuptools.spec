@@ -5,7 +5,7 @@
 #
 %define oname setuptools
 %define name python-%oname
-%define version 0.6c6
+%define version 0.6c7
 
 %include Solaris.inc
 
@@ -63,6 +63,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{pythonver}/vendor-packages/site.py
 
 %changelog
-* Tue Jul 10 2007 Brian Cameron <brian.cameron@sun.com>
+* Fri Oct 05 2007 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.6c7
+* Tue Jul 10 2007 Brian Cameron  <brian.cameron@sun.com>
 - New spec
 

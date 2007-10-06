@@ -16,7 +16,7 @@
 # application/ogg ogg
 #
 %define name elisa
-%define version 0.3.1
+%define version 0.3.2
 
 %include Solaris.inc
 
@@ -29,7 +29,7 @@ SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
 BuildRequires:     SUNWPython-devel
 BuildRequires:     SFEgnome-python-extras
-BuildRequires:     SFEimagemagick
+BuildRequires:     SUNWimagick
 BuildRequires:     SFEpigment-devel
 BuildRequires:     SFEpython-imaging
 BuildRequires:     SFEpython-setuptools
@@ -38,7 +38,7 @@ BuildRequires:     SFEpysqlite
 Requires:          SUNWgnome-media
 Requires:          SUNWdbus-bindings
 Requires:          SFEgnome-python-extras
-Requires:          SFEimagemagick
+Requires:          SUNWimagick
 Requires:          SFEpigment
 Requires:          SFEpython-imaging
 Requires:          SFEpython-setuptools
@@ -105,8 +105,11 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/python%{pythonver}/vendor-packages/elisa
 %{_libdir}/python%{pythonver}/vendor-packages/elisa-%{version}-py%{pythonver}.egg-info
+%{_libdir}/python%{pythonver}/vendor-packages/external_plugins
 
 %changelog
+* Fri Oct 05 2007 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.3.2
 * Sun Aug 05 2007 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.3.1
 * Tue Jul 10 2007 Brian Cameron  <brian.cameron@sun.com>
