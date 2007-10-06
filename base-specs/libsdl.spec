@@ -70,6 +70,7 @@ export LDFLAGS="%_ldflags"
 	--sysconfdir=%{_sysconfdir}	\
         --with-esd-prefix=%{_prefix}	\
 	--disable-alsa			\
+        --enable-joystick               \
 	%nasm_option
 
 %if %arch_sse2
