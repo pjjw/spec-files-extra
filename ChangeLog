@@ -1,3 +1,8 @@
+2007-10-07 Ananth Shrinivas <ananth@sun.com>
+
+	* SFEmurrine-engine.spec: *NEW* A GTK2 engine with a modern glassy look
+	* SFEpython-pyro.spec: *NEW* An advanced distributed object libary
+
 2007-10-06  Petr Sobotka  <sobotkap@centrum.cz>
 
 	* SFEextremetuxracer.spec: Initial commit.
