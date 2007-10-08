@@ -69,6 +69,7 @@ export CPPFLAGS="-I/usr/sfw/include"
 export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib"
 export MSGFMT="/usr/bin/msgfmt"
 
+intltoolize --force --copy --automake
 aclocal $ACLOCAL_FLAGS -I m4
 automake -a -c -f
 autoconf
@@ -82,13 +83,10 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %if %build_l10n
 %else
 # REMOVE l10n FILES
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
-rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/*/[a-z]*
-rm -rf $RPM_BUILD_ROOT%{_datadir}/omf/*/*-[a-z]*.omf
+rm -r $RPM_BUILD_ROOT%{_datadir}/locale
+#rm -r $RPM_BUILD_ROOT%{_datadir}/gnome/help/gnome-commander/[a-z]*
+#rm -r $RPM_BUILD_ROOT%{_datadir}/omf/gnome-commander/*-[a-z]*.omf
 %endif
-
-# Delete unneeded scrollkeeper files.
-rm -r $RPM_BUILD_ROOT/var
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -120,6 +118,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Oct 08 2007 - damien.carbery@sun.com
+- Add intltoolize call and remove some non-l10n rm calls.
+
 * Tue Jun 12 2007 - damien.carbery@sun.com
 - Add patches, 08-warnx and 09-other, to fix a few more build issues.
 - Update %files and %install now that build is working.

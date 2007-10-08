@@ -1,3 +1,8 @@
+2007-10-08  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEgnome-commander.spec: Add intltoolize call and remove some
+	  non-l10n rm calls.
+
 2007-10-07 Ananth Shrinivas <ananth@sun.com>
 
 	* SFEmurrine-engine.spec: *NEW* A GTK2 engine with a modern glassy look
