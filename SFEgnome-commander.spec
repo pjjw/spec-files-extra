@@ -88,6 +88,10 @@ rm -r $RPM_BUILD_ROOT%{_datadir}/locale
 #rm -r $RPM_BUILD_ROOT%{_datadir}/omf/gnome-commander/*-[a-z]*.omf
 %endif
 
+# Delete unneeded scrollkeeper files. These are not installed when
+# rarian (replacement for scrollkeeper in GNOME 2.20).
+rm -rf $RPM_BUILD_ROOT/var
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -118,6 +122,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Oct 08 2007 - damien.carbery@sun.com
+- Add deletion of /var files back for building on pre-GNOME 2.20 systems where
+  scrollkeeper is used. The /var files are not installed when rarian is used.
+
 * Mon Oct 08 2007 - damien.carbery@sun.com
 - Add intltoolize call and remove some non-l10n rm calls.
 

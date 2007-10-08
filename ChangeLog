@@ -1,5 +1,11 @@
 2007-10-08  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* SFEgnome-commander.spec: Add deletion of /var files back for building
+	  on pre-GNOME 2.20 systems where scrollkeeper is used. The /var files
+	  are not installed when rarian is used.
+
+2007-10-08  Damien Carbery <daymobrew@users.sourceforge.net>
+
 	* SFEgnome-commander.spec: Add intltoolize call and remove some
 	  non-l10n rm calls.
 
