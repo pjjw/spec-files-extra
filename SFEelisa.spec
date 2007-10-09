@@ -25,6 +25,7 @@ Summary:           Media center written in Python
 URL:               http://elisa.fluendo.com/
 Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-%{version}.tar.gz
+Patch1:            elisa-01-fixps.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
 BuildRequires:     SUNWPython-devel
@@ -60,6 +61,7 @@ systems.
 
 %prep
 %setup -q -n elisa-%version
+%patch1 -p1
 
 %build
 

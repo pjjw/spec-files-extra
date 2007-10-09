@@ -1,3 +1,15 @@
+2007-10-09 Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEsqlite: Revert back to 3.4.2.  There are some crashing problems
+	  I notice running the example code in pysqlite, but this older 
+	  version seems to work better for now.
+	* patches/sqlite-01-thread-lock-test.diff:  Add back patch.
+	* SFEpysqlite.spec: Move module from site-packages to vendor-packages.
+	* SFEelisa.spec, patches/elisa-01-fixps.diff: elisa wants to call
+	  "ps aux" which only works if you use /usr/ucb/ps, so now specify
+	  this version of ps to use.  The use of "ps" by elisa is a hack
+	  that should go away in the next release of elisa.
+
 2007-10-08  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEalpine.spec: *NEW* University of Washington Alpine mail user agent
