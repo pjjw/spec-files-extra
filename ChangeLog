@@ -1,3 +1,11 @@
+2007-10-08  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEalpine.spec: *NEW* University of Washington Alpine mail user agent
+	* SFEavahi-sharp.spec: *NEW* Avahi - mono .NET bindings
+	* SFEavahi.spec: Moved to base-specs
+	* base-specs/avahi.spec: *NEW* avahi base-spec
+	* patches/alpine-01-sunldap.diff: Patch for Sun LDAP library support
+
 2007-10-08  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEgnome-commander.spec: Add deletion of /var files back for building

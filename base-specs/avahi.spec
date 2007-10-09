@@ -72,7 +72,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export PATH=/usr/mono/bin:$PATH
-export CFLAGS="-I/usr/sfw/include -L/usr/sfw/lib"
+export CFLAGS="%{optflags} -I/usr/sfw/include -L/usr/sfw/lib"
 export CFLAGS="$CFLAGS -D_XOPEN_SOURCE=500 -D__EXTENSIONS__"
 
 export LDFLAGS="%{_ldflags} -lsocket -lnsl -L/usr/sfw/lib -R/usr/sfw/lib"
@@ -89,7 +89,7 @@ autoconf
             --disable-gdbm \
             --enable-dbm \
             --disable-autoipd \
-            --enable-mono\
+            --enable-mono \
             --with-distro=none \
             --disable-static
 
@@ -119,7 +119,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libavahi*
 %{_libdir}/python2.4/*
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
-%{_libdir}/pkgconfig/*
+%{_libdir}/pkgconfig/avahi-client.pc
+%{_libdir}/pkgconfig/avahi-core.pc
+%{_libdir}/pkgconfig/avahi-glib.pc
+%{_libdir}/pkgconfig/avahi-ui.pc
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/avahi/*
 %dir %attr (0755, root, other) %{_datadir}/applications
@@ -146,10 +149,13 @@ rm -rf $RPM_BUILD_ROOT
 %files sharp
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
-%dir %attr (0755, root, bin) %{_libdir}/monodoc
-%{_libdir}/monodoc/*
 %dir %attr (0755, root, bin) %{_libdir}/mono
 %{_libdir}/mono/*
+%dir %attr (0755, root, bin) %{_libdir}/monodoc
+%{_libdir}/monodoc/*
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/avahi-sharp.pc
+%{_libdir}/pkgconfig/avahi-ui-sharp.pc
 
 
 #TODO# better error handling for (user|group)(add|del)
@@ -171,6 +177,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Oct 08 2007 - trisk@acm.jhu.edu
+- Turn into base-spec
 * Sat Sep 01 2007 - trisk@acm.jhu.edu
 - Add SFEavahi-sharp (seperate later)
 * Fri Aug 17 2007 - trisk@acm.jhu.edu
