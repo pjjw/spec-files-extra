@@ -1,0 +1,12 @@
+diff -r c5e15fc3040f setup.py
+--- a/setup.py	Thu Oct 11 00:50:38 2007 +0530
++++ b/setup.py	Thu Oct 11 00:51:09 2007 +0530
+@@ -73,7 +73,7 @@ def modules_check():
+         ('gnome', 'python-gnome2', 0),
+         ('gtkhtml2', "python-gnome2-extras", 0),
+         ('gconf', "python-gnome2", 1),
+-        ('bsddb.db', 'python-bsddb', 0),
++        ('bsddb3.db', 'python-bsddb', 0),
+         ('dbus', 'python-dbus', 0)]
+ 
+     for m, w, x in mod_list:

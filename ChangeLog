@@ -1,3 +1,10 @@
+2007-10-11 Ananth Shrinivas <ananth@sun.com>
+
+	* SFEpython-bsddb.spec: *NEW* Berkeley DB wrappers for python
+	* SFEstraw.spec: *NEW* Feed Reader for GNOME
+	* SFEgraveman.spec: Fixed attributes in the files section
+	* patches/straw-01-setup.diff: Patch for a minor setup.py bug
+
 2007-10-09 Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEsqlite: Revert back to 3.4.2.  There are some crashing problems

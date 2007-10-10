@@ -84,9 +84,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
-# %defattr (-, root, other)
+%defattr (-, root, other)
 %{_datadir}/locale
 
 %changelog
+* Thu Oct 11 2007 - ananth@sun.com
+- Fixed attributes in the files section
 * Sat Oct 06 2007 - ananth@sun.com
 - Initial spec
