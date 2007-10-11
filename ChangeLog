@@ -1,5 +1,10 @@
 2007-10-11 Ananth Shrinivas <ananth@sun.com>
 
+	* SFEpython-adns.spec: *NEW* Python interface to GNU ADNS
+	* SFEpython-paramiko.spec: *NEW* Python SSH library
+
+2007-10-11 Ananth Shrinivas <ananth@sun.com>
+
 	* SFEpython-bsddb.spec: *NEW* Berkeley DB wrappers for python
 	* SFEstraw.spec: *NEW* Feed Reader for GNOME
 	* SFEgraveman.spec: Fixed attributes in the files section
