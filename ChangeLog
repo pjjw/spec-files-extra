@@ -1,3 +1,7 @@
+2007-10-13  Thomas Wagner <tom68@users.sourceforge.net>
+
+        * SFEdtracetoolkit: Bredan's DTraceToolkit, relocatable
+
 2007-10-13  Lin Ma  <Lin.Ma@Sun.COM>
 
 	* SFEtracker.spec: depend on SUNWgamin
