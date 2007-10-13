@@ -1730,7 +1730,7 @@ Index: gamin/server/gam_fen.c
 ===================================================================
 --- gamin/server/gam_fen.c	(revision 0)
 +++ gamin/server/gam_fen.c	(revision 0)
-@@ -0,0 +1,667 @@
+@@ -0,0 +1,670 @@
 +/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 +/* vim:set expandtab ts=4 shiftwidth=4: */
 +/*
@@ -2239,6 +2239,8 @@ Index: gamin/server/gam_fen.c
 +		return FALSE;
 +	}
 +
++    if (!g_thread_supported ()) g_thread_init (NULL);
++
 +	if (!fn_hash_init ()) {
 +		GAM_DEBUG(DEBUG_INFO, "FEN : initializing failed - fn_hash_init.\n");
 +		return FALSE;
@@ -2251,12 +2253,13 @@ Index: gamin/server/gam_fen.c
 +	}
 +
 +#ifdef GAMIN_DEBUG
++#if 0
 +    if (thread_pool_run (thread_pool, 
 +                         (thp_run_cb) fn_hash_safe_debug, 
 +                         NULL) != 0) {
 +        g_assert_not_reached ();
 +    }
-+    if (!g_thread_supported ()) g_thread_init (NULL);
++#endif
 +#endif
 +	
 +	gam_server_install_kernel_hooks (GAMIN_K_FEN, 
