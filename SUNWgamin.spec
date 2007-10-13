@@ -16,7 +16,7 @@
 # comes from JDS.  If not, this package will require OSOLlibnotify
 %define libnotify_installed %(test -f /usr/lib/libnotify.so && echo 1 || echo 0)
 
-Name:			OSOLgamin
+Name:			SUNWgamin
 Summary:		%{gamin.summary}
 Version:		%{gamin.version}
 SUNW_BaseDir:		%{_basedir}
@@ -71,5 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sat Oct 13 2007 - lin.ma@sun.com
+- Initial FEN backend
 * Sun Apr 15 2007 - dougs@truemail.co.th
 - Initial version

@@ -7,24 +7,14 @@
 Name:		gamin
 Summary:	Library providing the FAM File Alteration Monitor API
 URL:		http://www.gnome.org/~veillard/gamin/
-Version:	0.1.8
+Version:	0.1.9
 Source0:	http://www.gnome.org/~veillard/gamin/sources/%{name}-%{version}.tar.gz
-Patch1:		gamin-01-lib-version.diff
-Patch2:		gamin-02-configure.diff
-Patch3:		gamin-03-famdebug.diff
-Patch4:		gamin-04-mnttab.diff
-Patch5:		gamin-05-getpeerucred.diff
-Patch6:		gamin-06-basic-poll.diff
+Patch1:		gamin-01-all.diff
 License:	LGPL
 
 %prep
 %setup -q -n %{name}-%{version}
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -47,7 +37,6 @@ $config	--prefix=%{_prefix}		\
 	--datadir=%{_datadir}		\
 	--mandir=%{_mandir}		\
 	--sysconfdir=%{_sysconfdir}	\
-	--disable-kernel		\
 	--disable-static
 make -j $CPUS
 
@@ -61,5 +50,7 @@ rm $RPM_BUILD_ROOT%{_libdir}/*.la
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Sat Oct 13 2007 - lin.ma@sun.com
+- Initial FEN backend
 * Sun Apr 14 2007 - dougs@truemail.co.th
 - Initial version
