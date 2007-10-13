@@ -1,0 +1,12 @@
+diff -r 565bfe1adb0b c/psyco.h
+--- a/c/psyco.h	Sat Oct 13 22:33:36 2007 +0530
++++ b/c/psyco.h	Sat Oct 13 22:34:34 2007 +0530
+@@ -201,7 +201,7 @@ EXTERNFN void psyco_trace_execution_noer
+ 
+ 
+ #if INLINE_COMMON_FUNCTIONS
+-# define PSY_INLINE	__inline static
++# define PSY_INLINE	inline static
+ #else
+ # define PSY_INLINE	static
+ #endif

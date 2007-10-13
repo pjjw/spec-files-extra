@@ -1,3 +1,9 @@
+2007-10-11 Ananth Shrinivas <ananth@sun.com>
+
+	* SFEpython-psyco.spec: *NEW* A extension module which can massively
+	  speed up the execution of any Python code
+	* patches/psyco-01-inline.diff: Patch for sunstudio compatibility
+
 2007-10-13  Lin Ma  <Lin.Ma@Sun.COM>
 
 	* patches/gamin-01-all.diff: introduce gthread-2.0 dependency.
