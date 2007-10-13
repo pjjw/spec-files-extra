@@ -1,3 +1,7 @@
+2007-10-13  Lin Ma  <Lin.Ma@Sun.COM>
+
+	* patches/gamin-01-all.diff: introduce gthread-2.0 dependency.
+
 2007-10-13  Thomas Wagner <tom68@users.sourceforge.net>
 
         * SFEdtracetoolkit: Bredan's DTraceToolkit, relocatable
