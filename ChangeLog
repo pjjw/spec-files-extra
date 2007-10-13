@@ -1,5 +1,9 @@
 2007-10-13  Lin Ma  <Lin.Ma@Sun.COM>
 
+	* SFEtracker.spec: depend on SUNWgamin
+
+2007-10-13  Lin Ma  <Lin.Ma@Sun.COM>
+
 	* SUNWgamin.spec: Bump to 0.19, change the pkgname to SUNWgamin
 	* base-specs/gamin.spec:
 	* patches/gamin-01-all.diff: The new patch for FEN.

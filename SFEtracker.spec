@@ -22,12 +22,12 @@ Requires:       SUNWdbus
 Requires:       SUNWzlib
 Requires:       SFEsqlite
 Requires:       SFEgmime
-Requires:       OSOLgamin
+Requires:       SUNWgamin
 BuildRequires:  SUNWgnome-base-libs-devel
 BuildRequires:  SUNWdbus-devel
 BuildRequires:  SFEgmime-devel
 BuildRequires:  SFEsqlite-devel
-BUildRequires:  OSOLgamin-devel
+BUildRequires:  SUNWgamin-devel
 #Additional recommended packages
 Requires:       SUNWgnome-media
 Requires:       SUNWpng
