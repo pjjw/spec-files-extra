@@ -1,3 +1,9 @@
+2007-10-13  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEBillardGL.spec: add missing deps
+	* SFEMaelstrom.spec: add missing deps
+	* SFEafio.spec: fix _datadir permissions
+
 2007-10-11 Ananth Shrinivas <ananth@sun.com>
 
 	* SFEpython-psyco.spec: *NEW* A extension module which can massively

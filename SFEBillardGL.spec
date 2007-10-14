@@ -19,6 +19,9 @@ Patch2:		Billards-02-sqrt.diff
 Patch3:		Billards-03-std.diff
 SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
+%include default-depend.inc
+Requires: SFEfreeglut
+BuildRequires: SFEfreeglut-devel
 
 %description
 3D billard simulation using OpenGL.
@@ -67,5 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_docdir}/*
 
 %changelog
+* Sat Oct 13 2007 - laca@sun.com
+- add missing deps
 * Wed Aug 15 2007 - dougs@truemail.co.th
 - Initial spec

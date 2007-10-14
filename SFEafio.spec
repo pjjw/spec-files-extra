@@ -51,10 +51,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755,root,bin) %{_bindir}
 %{_bindir}/*
 
+%dir %attr(0755,root,sys) %{_datadir}
 %dir %attr(0755,root,bin) %{_mandir}
 %{_mandir}/man1/*
 
 %changelog
+* Sat Oct 13 2007 - laca@sun.com
+- fix _datadir permissions
 * Sat Aug 11 2007 - ananth@sun.com
 - Initial version
 

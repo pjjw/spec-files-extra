@@ -13,6 +13,7 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
+Requires: SFEsdl-net
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -53,5 +54,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_localstatedir}/games
 
 %changelog
+* Sat Oct 13 2007 - laca@sun.com
+- add missing deps
 * Wed Aug 15 2007 - dougs@truemail.co.th
 - Initial version
