@@ -1,0 +1,22 @@
+--- binutils-2.18-orig/bfd/bfd-in.h	2007-08-06 19:59:14.000000000 +0000
++++ binutils-2.18/bfd/bfd-in.h	2007-10-14 09:49:53.043842758 +0000
+@@ -48,7 +48,7 @@
+    comma and then the length of the string.  Doing this by hand
+    is error prone, so using this macro is safer.  The macro will
+    also safely handle the case where a NULL is passed as the arg.  */
+-#define STRING_COMMA_LEN(STR) (STR), ((STR) ? sizeof (STR) - 1 : 0)
++#define STRING_COMMA_LEN(STR) (STR), ((sizeof(STR) > 0) ? sizeof (STR) - 1 : 0)
+ /* Unfortunately it is not possible to use the STRING_COMMA_LEN macro
+    to create the arguments to another macro, since the preprocessor
+    will mis-count the number of arguments to the outer macro (by not
+--- binutils-2.18-orig/bfd/bfd-in2.h	2007-08-06 19:59:15.000000000 +0000
++++ binutils-2.18/bfd/bfd-in2.h	2007-10-14 09:49:26.509636374 +0000
+@@ -55,7 +55,7 @@
+    comma and then the length of the string.  Doing this by hand
+    is error prone, so using this macro is safer.  The macro will
+    also safely handle the case where a NULL is passed as the arg.  */
+-#define STRING_COMMA_LEN(STR) (STR), ((STR) ? sizeof (STR) - 1 : 0)
++#define STRING_COMMA_LEN(STR) (STR), ((sizeof(STR) > 0) ? sizeof (STR) - 1 : 0)
+ /* Unfortunately it is not possible to use the STRING_COMMA_LEN macro
+    to create the arguments to another macro, since the preprocessor
+    will mis-count the number of arguments to the outer macro (by not

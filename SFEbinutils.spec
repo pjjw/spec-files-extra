@@ -8,11 +8,13 @@
 
 Name:                SFEbinutils
 Summary:             GNU binutils
-Version:             2.17
+Version:             2.18
 Source:              http://ftp.gnu.org/gnu/binutils/binutils-%{version}.tar.bz2
 Patch1:              binutils-01-bug-2495.diff
-Patch2:              binutils-02-ld-m-elf_i386.diff
+#Patch2:              binutils-02-ld-m-elf_i386.diff
 Patch3:              binutils-03-lib-amd64-ld-so-1.diff
+Patch4:              binutils-04-non-constant_initializer_op.diff
+Patch5:              binutils-05-lm.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -34,14 +36,16 @@ Requires:                %{name}
 
 %prep
 %setup -q -c -n %name-%version
-%ifarch amd64
 cd binutils-%{version}
+%ifarch amd64
 %patch1 -p1 -b .patch01
-cd ..
 %endif
+%patch4 -p1 -b .patch04
+%patch5 -p1 -b .patch05
+cd ..
 %ifarch i386 amd64
 cd binutils-%{version}
-%patch2 -p1 -b .patch02
+#%patch2 -p1 -b .patch02
 %patch3 -p1 -b .patch03
 cd ..
 %endif
@@ -65,6 +69,7 @@ export CFLAGS32="%optflags"
 export CFLAGS64="%optflags64"
 export LDFLAGS32="%_ldflags"
 export LDFLAGS64="%_ldflags"
+export CPP="cc -E -Xs"
 
 %ifarch amd64 sparcv9
 export CC=${CC64:-$CC}
@@ -192,6 +197,11 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Oct 14 2007 - Mark Wright <markwright@internode.on.net>
+- Bump to 2.18.  Comment patch2, as already applied to 2.18.
+- Add patch4 to avoid avoid sun cc error:
+ "elf.c", line 854: non-constant initializer: op "?"
+- Add patch5 to add -lm to gprof link.  Add export CPP="cc -E -Xs".
 * Wed Aug 15 2007 - Mark Wright <markwright@internode.on.net>
 - Add patch1 http://sourceware.org/bugzilla/show_bug.cgi?id=2495
 - Add patch2 http://www.cygwin.com/ml/binutils/2006-06/msg00299.html

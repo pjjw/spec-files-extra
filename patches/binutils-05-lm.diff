@@ -1,0 +1,22 @@
+--- binutils-2.18-orig/gprof/Makefile.am	2007-08-13 01:51:51.000000000 +0000
++++ binutils-2.18/gprof/Makefile.am	2007-10-14 10:07:26.951320958 +0000
+@@ -30,7 +30,7 @@
+ 	i386.c alpha.c vax.c tahoe.c sparc.c mips.c
+ gprof_SOURCES = $(sources) flat_bl.c bsd_callg_bl.c fsf_callg_bl.c
+ gprof_DEPENDENCIES = ../bfd/libbfd.la ../libiberty/libiberty.a $(LIBINTL_DEP)
+-gprof_LDADD = ../bfd/libbfd.la ../libiberty/libiberty.a $(LIBINTL)
++gprof_LDADD = ../bfd/libbfd.la ../libiberty/libiberty.a $(LIBINTL) -lm
+ 
+ noinst_HEADERS = \
+ 	basic_blocks.h call_graph.h cg_arcs.h cg_dfn.h cg_print.h \
+--- binutils-2.18-orig/gprof/Makefile.in	2007-08-13 01:51:51.000000000 +0000
++++ binutils-2.18/gprof/Makefile.in	2007-10-14 10:15:56.431079587 +0000
+@@ -257,7 +257,7 @@
+ 
+ gprof_SOURCES = $(sources) flat_bl.c bsd_callg_bl.c fsf_callg_bl.c
+ gprof_DEPENDENCIES = ../bfd/libbfd.la ../libiberty/libiberty.a $(LIBINTL_DEP)
+-gprof_LDADD = ../bfd/libbfd.la ../libiberty/libiberty.a $(LIBINTL)
++gprof_LDADD = ../bfd/libbfd.la ../libiberty/libiberty.a $(LIBINTL) -lm
+ noinst_HEADERS = \
+ 	basic_blocks.h call_graph.h cg_arcs.h cg_dfn.h cg_print.h \
+ 	corefile.h gmon.h gmon_io.h gmon_out.h gprof.h hertz.h hist.h \

@@ -9,7 +9,7 @@
 
 Name:                SFEgcc
 Summary:             GNU gcc
-Version:             4.2.1
+Version:             4.2.2
 Source:              ftp://ftp.gnu.org/pub/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.bz2
 Patch1:              gcc-01-bug-32787.diff
 SUNW_BaseDir:        %{_basedir}
@@ -185,6 +185,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Oct 14 2007 - Mark Wright <markwright@internode.on.net>
+- Bump to 4.2.2.
 * Wed Aug 15 2007 - Mark Wright <markwright@internode.on.net>
 - Change from /usr/ccs/bin/ld to /usr/gnu/bin/ld, this change
   requires SFEbinutils built with binutils-01-bug-2495.diff,

@@ -1,3 +1,13 @@
+2007-10-14  Mark Wright <markwright@internode.on.net>
+
+	* SFEgcc.spec: Bump to 4.2.2.
+	* SFEbinutils.spec: Bump to 2.18.  Comment patch2, as already applied
+	  to 2.18.  Add patch4 and patch5.  Add export CPP="cc -E -Xs".
+	* patches/binutils-04-non-constant_initializer_op.diff: (new) patch to
+	  avoid: "elf.c", line 854: non-constant initializer: op "?"
+	* patches/spec-files-extra/patches/binutils-05-lm.diff: (new) patch to
+	  add -lm to gprof link
+	
 2007-10-11 Ananth Shrinivas <ananth@sun.com>
 	* SFEpython-cherrypy.spec: *NEW* Kid is a simple template language for
 	  XML based vocabularies written in Python
