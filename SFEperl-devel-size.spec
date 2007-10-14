@@ -6,7 +6,7 @@
 
 %include Solaris.inc
 
-%define devel_size_version 0.67
+%define devel_size_version 0.69
 %define perl_version 5.8.4
 
 Name:                    SFEperl-devel-size
@@ -69,5 +69,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sat Oct 13 2007 - laca@sun.com
+- bump to 0.69
 * Thu May  3 2007 - laca@sun.com
 - Initial spec file

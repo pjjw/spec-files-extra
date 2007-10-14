@@ -1,7 +1,8 @@
 2007-10-13  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEperl-devel-size.spec: bump to 0.69
 	* SFEfltk.spec: update source url
-	* SFEalpine.spec: add patch CC.diff
+	* SFEalpine.spec: add patch CC.diff; add SFEgawk dependency
 	* patches/alpine-02-CC.diff: (new) patch for using $CC instead of
 	  /opt/SUNWspro/bin/cc
 

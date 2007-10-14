@@ -22,6 +22,7 @@ Requires: SUNWopenssl-libraries
 BuildRequires: SUNWhea
 Requires: SUNWcsl
 #BuildRequires: SUNWTcl
+BuildRequires: SFEgawk
 
 %prep
 %setup -q -n alpine-%{version}
