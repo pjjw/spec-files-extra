@@ -4,12 +4,11 @@
 # package are under the same license as the package itself.
 
 %include Solaris.inc
-%define tarball_version 1.1.7-source
 
 Name:                SFEfltk
 Summary:             A C++ user interface toolkit
 Version:             1.1.7
-Source:              ftp://ftp3.easysw.com/pub/fltk/1.1.7/fltk-%{tarball_version}.tar.gz
+Source:              http://ftp.easysw.com/pub/fltk/%{version}/fltk-%{version}-source.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

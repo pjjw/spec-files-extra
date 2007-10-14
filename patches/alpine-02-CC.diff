@@ -1,0 +1,11 @@
+--- alpine-0.9999/imap/src/osdep/unix/Makefile.orig	2007-10-13 22:45:30.380182000 -0400
++++ alpine-0.9999/imap/src/osdep/unix/Makefile	2007-10-13 22:46:26.638792000 -0400
+@@ -713,7 +713,7 @@
+ 	 RSHPATH=/usr/bin/rsh \
+ 	 BASECFLAGS="-g -O -w" \
+ 	 BASELDFLAGS="-lsocket -lnsl -lgen" \
+-	 RANLIB=true CC=/opt/SUNWspro/bin/cc
++	 RANLIB=true CC=${CC}
+ 
+ 
+ # Note: It is a long and disgusting story about why cc is set to ucbcc.  You

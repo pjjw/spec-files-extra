@@ -1,5 +1,12 @@
 2007-10-13  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEfltk.spec: update source url
+	* SFEalpine.spec: add patch CC.diff
+	* patches/alpine-02-CC.diff: (new) patch for using $CC instead of
+	  /opt/SUNWspro/bin/cc
+
+2007-10-13  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEfltk.spec: add FOX build support
 	* SFEallegro.spec: add FOX build support
 	* SFEfreeglut.spec: add /usr/X11/include to CFLAGS to be

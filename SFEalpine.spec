@@ -12,6 +12,7 @@ Summary:             University of Washington Alpine mail user agent
 Version:             0.9999
 Source:              ftp://ftp.cac.washington.edu/alpine/alpine-%{version}.tar.bz2
 Patch1:              alpine-01-sunldap.diff
+Patch2:              alpine-02-CC.diff
 URL:                 http://www.washington.edu/alpine/
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -25,6 +26,7 @@ Requires: SUNWcsl
 %prep
 %setup -q -n alpine-%{version}
 %patch1 -p1
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -81,5 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Sat Oct 13 2007 - laca@sun.com
+- add patch for using $CC instead of /opt/SUNWspro/bin/cc
 * Mon Oct 08 2007 - trisk@acm.jhu.edu
 - Initial spec, should be friendly with SFEpine
