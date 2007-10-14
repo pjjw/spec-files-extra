@@ -38,7 +38,7 @@ chmod 755 ./configure
 #export CFLAGS="-O3 -fno-omit-frame-pointer -I/usr/X11/include"
 #export CXXFLAGS="-O3 -fno-omit-frame-pointer"
 export CFLAGS="%optflags -I/usr/X11/include"
-export LDFLAGS="%_ldflags -lX11"
+export LDFLAGS="%_ldflags -lX11 -L/usr/X11/lib -R/usr/X11/lib"
 export LD_OPTIONS="-i"
 
 ./configure --prefix=%{_prefix}			\
@@ -72,7 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Sat Oct 13 2007 - laca@sun.com
-- add /usr/X11/include to CFLAGS to be able to build with FOX
+- add /usr/X11 to CFLAGS and LDFLAGS to be able to build with FOX
 * Tue Jun  5 2007 - dougs@truemail.co.th
 - Added SFEjam as a build requirement
 * Sun May  6 2007 - dougs@truemail.co.th
