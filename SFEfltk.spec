@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006 Sun Microsystems, Inc.
+# Copyright 2007 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 
@@ -13,8 +13,13 @@ Source:              ftp://ftp3.easysw.com/pub/fltk/1.1.7/fltk-%{tarball_version
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires: SUNWxwplt
+%if %(pkginfo -q FSWxwrtl && echo 1 || echo 0)
+# using FOX
+Requires: FSWxwrtl
+%else
 Requires: SUNWxwplt
+BuildRequires: SUNWxwplt
+%endif
 
 %package devel
 Summary:		 %{summary} - development files
@@ -80,6 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sat Oct 13 2007 - laca@sun.com
+- add FOX build support
 * Wed Oct 11 2006 - laca@sun.com
 - create devel subpkg
 - fix doc dir attributes

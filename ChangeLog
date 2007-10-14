@@ -1,5 +1,7 @@
 2007-10-13  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEfltk.spec: add FOX build support
+	* SFEallegro.spec: add FOX build support
 	* SFEfreeglut.spec: add /usr/X11/include to CFLAGS to be
 	  able to build with FOX
 	* SFEBillardGL.spec: add missing deps

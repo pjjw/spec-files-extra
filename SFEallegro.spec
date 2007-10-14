@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006 Sun Microsystems, Inc.
+# Copyright 2007 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 
@@ -18,7 +18,12 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 Requires: SUNWgnome-audio
+%if %(pkginfo -q FSWxwrtl && echo 1 || echo 0)
+# using FOX
+Requires: FSWxwrtl
+%else
 Requires: SUNWxwplt
+%endif
 Requires: SUNWgccruntime
 BuildRequires: SUNWxorg-headers
 BuildRequires: SUNWbash
@@ -122,6 +127,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sat Oct 13 2007 - laca@sun.com
+- add FOX build support
 * Tue Mar 20 2007 - daymobrew@users.sourceforge.net
 - Use single thread make so as not to break build.
 * Mon Mar 19 2007 - dougs@truemail.co.th
