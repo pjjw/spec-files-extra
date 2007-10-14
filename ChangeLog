@@ -1,3 +1,14 @@
+2007-10-11 Ananth Shrinivas <ananth@sun.com>
+	* SFEpython-cherrypy.spec: *NEW* Kid is a simple template language for
+	  XML based vocabularies written in Python
+	* SFEpython-cheetah.spec: *NEW* Template engine and code generation tool
+	  written in Python
+	* SFEpython-mako.spec: *NEW* Mako is a template library written in Python
+	* SFEpython-genshi.spec: *NEW* Python library that provides components
+	  for parsing, generating, and processing HTML, XML or Text
+	* SFEpython-kid.spec: *NEW* Kid is a simple template language for XML
+	  based vocabularies written in Python
+
 2007-10-13  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEperl-devel-size.spec: bump to 0.69
