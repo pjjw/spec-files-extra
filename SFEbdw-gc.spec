@@ -7,8 +7,8 @@
 
 Name:                    SFEbdw-gc
 Summary:                 Boehm-Demers-Weiser garbage collector for C/C++
-Version:                 6.6
-Source:                  http://www.hpl.hp.com/personal/Hans_Boehm/gc/gc_source/gc%{version}.tar.gz
+Version:                 7.0
+Source:                  http://www.hpl.hp.com/personal/Hans_Boehm/gc/gc_source/gc-%{version}.tar.gz
 URL:                     http://www.hpl.hp.com/personal/Hans_Boehm/gc/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -36,7 +36,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
-cd gc%{version}
+cd gc-%{version}
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
@@ -46,7 +46,7 @@ make -j$CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd gc%{version}
+cd gc-%{version}
 make install DESTDIR=$RPM_BUILD_ROOT
 cd ..
 
@@ -62,12 +62,19 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/gc
 
 %changelog
+* Mon Oct 15 2007 - nonsea@users.sourceforge.net
+- Bump to 7.0
+- s/gc%{version}/gc-%{version}/g
+- Add *.pc to %files devel
 * Thu Jul  6 2006 - laca@sun.com
 - rename to SFEhp-gc
 - delete -share subpkg

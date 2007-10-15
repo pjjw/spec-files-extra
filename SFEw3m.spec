@@ -22,6 +22,7 @@ Requires:            SFEbdw-gc
 Requires:            SUNWopenssl-libraries
 BuildRequires:       SUNWgnome-base-libs-devel
 BuildRequires:       SUNWopenssl-include
+BuildRequires:       SFEbdw-gc-devel
 
 %prep
 %setup -q -n w3m-%version

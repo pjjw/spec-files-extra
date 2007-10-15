@@ -1,3 +1,9 @@
+2007-10-15  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEbdw-gc.spec: Bump to 7.0, s/gc%{version}/gc-%{version}/g
+	  Add *.pc to %files devel
+	* SFEw3m.spec: Add SFEbdw-gc-devel to BuildRequires.
+
 2007-10-14  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* include/prod.inc: define sf_mirror: the preferred sourceforge.net
