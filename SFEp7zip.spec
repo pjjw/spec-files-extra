@@ -8,7 +8,7 @@
 Name:                    SFEp7zip
 Summary:                 7-Zip file archiver with a high compression ratio
 Version:                 4.51
-Source:			 http://umn.dl.sourceforge.net/sourceforge/p7zip/p7zip_4.51_src_all.tar.bz2
+Source:			 http://%{sf_mirror}/sourceforge/p7zip/p7zip_4.51_src_all.tar.bz2
 Patch1:                  p7zip-01-makefile.diff
 URL:                     http://www.7-zip.org/download.html
 SUNW_BaseDir:            %{_basedir}

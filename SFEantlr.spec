@@ -10,7 +10,7 @@
 
 Name:                   SFEantlr
 Summary:                ANother Tool for Language Recognition
-Version:                2.7.7
+Version:                3.0.1
 Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
 Patch1:			antlr-01-destdir.diff
 SUNW_BaseDir:           %{_basedir}
@@ -73,5 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Sun Oct 14 2007 - laca@sun.com
+- bump to 3.0.1
 * Sun May 13 2007 - dougs@truemail.co.th
 - Initial version

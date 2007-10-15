@@ -20,14 +20,13 @@
 # =========================================================================== 
 #                    SVR4 required definitions
 # =========================================================================== 
-SUNW_Pkg: SFE%{src_name}-%{base_arch}
 SUNW_ProdVers:	%{src_version}
 SUNW_BaseDir:	/
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Tag definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-Name:         	%{src_name}
+Name:         	SFE%{src_name}
 Summary:      	Asterisk : Complete IP PBX in software
 Version:      	%{src_version}
 Release:      	%{pkg_release}
@@ -88,14 +87,19 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,bin)
 
+%dir %attr (0755, root, sys) %{_optdir}
+%dir %attr (0755, root, sys) %{_localstatedir}
+%dir %attr (0755, root, sys) %{_varoptdir}
 %dir %attr (0755, root, sys) %{_varoptdir}/%{src_name}
 %{_varoptdir}/%{src_name}/*
 
 %dir %attr (0755, root, sys) %{_varetcdir}/%{src_name}
 
+%dir %attr (0755, root, sys) %{_varlogdir}
 %dir %attr (0755, root, sys) %{_varlogdir}/%{src_name}
 %{_varlogdir}/%{src_name}/*
 
+%dir %attr (0755, root, sys) %{_varrundir}
 %dir %attr (0755, root, sys) %{_varrundir}/%{src_name}
 
 %dir %attr (0755, root, sys) %{_varspooldir}/%{src_name}
@@ -117,5 +121,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* 2007.Aug.11 - <shivakumar dot gn at gmail dot com>
+* Sun Oct 14 2007 - laca@sun.com
+- fix some directory attributes
+* Sat Aug 11 2007 - <shivakumar dot gn at gmail dot com>
 - Initial spec.

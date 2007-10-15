@@ -17,6 +17,7 @@ SUNW_ProdVers:             1.0
 
 Vendor:			   http://pkgbuild.sf.net/spec-files-extra
 %define                    pkg_prefix SFE
+%{?sf_mirror:#}%define sf_mirror easynews.dl.sourceforge.net
 
 # ChangeLog:
 # 2007-03-16  Laszlo (Laca) Peter  <laca@sun.com>

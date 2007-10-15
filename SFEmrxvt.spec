@@ -16,7 +16,7 @@ SUNW_BaseDir:	/
 Name:                    SFEmrxvt
 Summary:                 Mrxvt - A light weight terminal emulator
 Version:                 %{src_version}
-Source:                  http://umn.dl.sourceforge.net/sourceforge/materm/%{src_name}-%{version}.tar.gz
+Source:                  http://%{sf_mirror}/sourceforge/materm/%{src_name}-%{version}.tar.gz
 URL:                     http://materm.sourceforge.net/wiki/Main/HomePage
 #SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build

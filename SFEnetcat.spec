@@ -8,7 +8,7 @@
 Name:                SFEnetcat
 Summary:             Read and write data across network connections
 Version:             0.7.1
-Source:              http://umn.dl.sourceforge.net/sourceforge/netcat/netcat-%{version}.tar.gz
+Source:              http://%{sf_mirror}/sourceforge/netcat/netcat-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

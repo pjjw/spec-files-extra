@@ -10,7 +10,6 @@
 %define src_version	2.1
 %define pkg_release	1
 
-SUNW_Pkg: SFE%{src_name}-%{base_arch}
 SUNW_ProdVers:	%{src_version}
 SUNW_BaseDir:	%{_basedir}
 
@@ -49,10 +48,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755,root,bin) %{_bindir}
 %{_bindir}/*
 
+%dir %attr(0755,root,sys) %{_datadir}
 %dir %attr(0755,root,bin) %{_mandir}
 %{_mandir}/*
 
 %changelog
+* Sun Oct 14 2007 - laca@sun.com
+- fix _datadir permissions
 * Sat Aug 11 2007 - ananth@sun.com
 - Initial version
 

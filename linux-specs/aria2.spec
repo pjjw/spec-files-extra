@@ -17,7 +17,7 @@ Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://aria2.sourceforge.net/
 Summary:        Download utility with BitTorrent and Metalink support
-Source:         http://umn.dl.sourceforge.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
+Source:         http://%{sf_mirror}/sourceforge/%{name}/%{name}-%{version}.tar.bz2
 Patch1:         %{name}-01-wall.diff
 Patch2:         %{name}-02-main.diff
 Patch3:         %{name}-03-include-order.diff

@@ -5,7 +5,7 @@
 #
 %include Solaris.inc
 
-Name:                    SFEhp-gc
+Name:                    SFEbdw-gc
 Summary:                 Boehm-Demers-Weiser garbage collector for C/C++
 Version:                 6.6
 Source:                  http://www.hpl.hp.com/personal/Hans_Boehm/gc/gc_source/gc%{version}.tar.gz
@@ -16,12 +16,15 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWPython
 Requires: SUNWgnome-libs
+Obsoletes: SFEgc
+Obsoletes: SFEhp-gc
 
 %package devel
 Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
+Obsoletes: SFEhp-gc-devel
 
 %prep
 %setup -q            -c -n %name-%version

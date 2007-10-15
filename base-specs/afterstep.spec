@@ -40,8 +40,7 @@ export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 cppflags="-I/usr/gnu/include -I/usr/X11/include"
 export CFLAGS="-g -O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer $cppflags"
 export LD_OPTIONS="$GNULIB $X11LIB"
-export LDFLAGS="%{_ldflags} $GNULIB $X11LIB"
-export CC=gcc
+export LDFLAGS="$GNULIB $X11LIB"
 
 ./configure --prefix=%{_prefix}			\
 	    --bindir=%{_bindir}			\

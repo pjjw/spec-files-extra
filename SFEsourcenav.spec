@@ -46,6 +46,9 @@ echo 'mydir=`dirname $0`' > snavigator
 echo 'exec ${mydir}/../sourcenav/bin/snavigator "${@}"' >> snavigator
 chmod 755 snavigator
 
+rm $RPM_BUILD_ROOT %{_mandir}/man1/tclsh.1
+rm $RPM_BUILD_ROOT %{_mandir}/man1/wish.1
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 

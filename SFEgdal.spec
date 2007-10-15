@@ -17,7 +17,6 @@
 # =========================================================================== 
 #                    SVR4 required definitions
 # =========================================================================== 
-SUNW_Pkg: SFE%{src_name}-%{base_arch}
 SUNW_ProdVers:	%{src_version}
 SUNW_BaseDir:	%{_basedir}
 
@@ -31,7 +30,6 @@ Release:      	%{pkg_release}
 License:      	X/MIT
 Group:          Library
 Source:         http://download.osgeo.org/gdal/%{src_name}-%{version}.tar.gz
-#Patch:        	yourpatch-name
 Vendor:       	http://www.gdal.org
 URL:            http://www.gdal.org
 Packager:     	Shivakumar GN
@@ -50,9 +48,9 @@ GDAL - Geospatial Data Abstraction Library
 %setup -q -n %{src_name}-%{version}
 CC=gcc
 CXX=g++
-./configure --prefix=%{_prefix}
-
-#%patch0 -p 1
+./configure \
+    --prefix=%{_prefix} \
+    --mandir=%{_mandir}
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Build-Section 
@@ -79,17 +77,17 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 
-%dir %attr (0755, root, sys) %{_includedir}
+%dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 
-%dir %attr (0755, root, sys) %{_libdir}
+%dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/gdal
 
-%dir %attr (0755, root, sys) %{_prefix}/man
-%{_prefix}/man/*
+%dir %attr (0755, root, bin) %{_mandir}
+%{_mandir}/*
 
 #%dir %attr (0755, root, bin) %{_libdir}/python2.4
 #%{_libdir}/python2.4/site-packages/*

@@ -19,7 +19,7 @@
 
 Name:                    SFEmonkey-bubble
 Summary:                 Monkey Bubble arcade game
-Version:                 0.3.2
+Version:                 0.4.0
 Source:                  http://home.gna.org/monkeybubble/downloads/monkey-bubble-%{version}.tar.gz
 URL:                     http://home.gna.org/monkeybubble/
 Patch1:                  monkey-bubble-01-build.diff
@@ -73,9 +73,11 @@ autoconf
 	    --mandir=%{_mandir}			\
             --libdir=%{_libdir}			\
             --libexecdir=%{_libexecdir}		\
-            --sysconfdir=%{_sysconfdir}
+            --sysconfdir=%{_sysconfdir}         \
+            --disable-scrollkeeper
 
-make -j$CPUS 
+# FIXME: too lazy to fix all broken l10n omf stuff
+make -j$CPUS || make || make || make
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -141,6 +143,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Oct 14 2007 - laca@sun.com
+- bump to 0.4.0
 * Tue Jul 25 2006 - laca@sun.com
 - rename to SFEmonkey-bubble.spec
 - update file attribs

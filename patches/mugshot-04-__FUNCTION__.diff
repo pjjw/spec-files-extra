@@ -1,0 +1,22 @@
+--- mugshot-1.1.56/src/hippo-dbus-helper.c.orig	2007-10-14 22:08:26.174300000 -0400
++++ mugshot-1.1.56/src/hippo-dbus-helper.c	2007-10-14 22:08:39.789071000 -0400
+@@ -1460,7 +1460,7 @@
+     HippoDBusConnection *closure;
+     
+     if (bus_type != DBUS_BUS_SESSION) {
+-        g_warning ("Only the session bus is supported in %s for now", __FUNCTION__);
++        g_warning ("Only the session bus is supported in %s for now", G_GNUC_FUNCTION);
+         return;
+     }
+ 
+--- mugshot-1.1.56/common-dist/ddm/hippo-dbus-helper.c.orig	2007-10-14 22:07:58.469781000 -0400
++++ mugshot-1.1.56/common-dist/ddm/hippo-dbus-helper.c	2007-10-14 22:08:07.052920000 -0400
+@@ -1444,7 +1444,7 @@
+     HippoDBusConnection *closure;
+     
+     if (bus_type != DBUS_BUS_SESSION) {
+-        g_warning ("Only the session bus is supported in %s for now", __FUNCTION__);
++        g_warning ("Only the session bus is supported in %s for now", G_GNUC_FUNCTION);
+         return;
+     }
+ 

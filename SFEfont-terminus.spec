@@ -9,15 +9,9 @@ URL:                     http://www.is-vn.bg/hamster
 Version:                 4.20
 Source:                  http://www.is-vn.bg/hamster/terminus-font-%{version}.tar.gz
 Patch1:                  terminus-font-01-x11dir.diff
-
-
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
-
-
 %include default-depend.inc
-
-
 
 %prep
 %setup -q -n terminus-font-%version
@@ -27,7 +21,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 # CXXFLAGS='-library=stlport4')
 
-PATH=$PATH:/usr/openwin/bin
+PATH=$PATH:/usr/openwin/bin:/usr/X11/bin
 
 ./configure --prefix=%{_prefix}  \
             --x11dir=%{_prefix}/openwin/lib/X11/fonts/pcf
@@ -71,5 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sat May 12 2007  - Thomas Wagner
+* Sun Oct 14 2007 - laca@sun.com
+- add /usr/X11/bin to PATH for FOX build
+* Sat May 12 2007 - Thomas Wagner
 - Initial spec

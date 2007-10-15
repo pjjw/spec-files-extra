@@ -33,6 +33,7 @@ mkdir %name-%version/%{base_arch}
 %afterstep.prep -d %name-%version/%{base_arch}
 
 %build
+export CC=/usr/sfw/bin/gcc
 %afterstep.build -d %name-%version/%{base_arch}
 
 %install

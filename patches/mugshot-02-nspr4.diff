@@ -1,0 +1,13 @@
+--- mugshot-1.1.42/configure.ac.orig	2007-04-28 23:44:43.938040000 -0400
++++ mugshot-1.1.42/configure.ac	2007-04-28 23:48:58.093890000 -0400
+@@ -535,6 +535,10 @@
+ 
+ if $sdk_includes_nspr ; then
+     NSPR_LIBS="-L $with_gecko_sdk/lib -lnspr4"
++elif test -f /usr/include/mps/nspr.h && test -f /usr/lib/mps/libnspr4.so; then
++    # Solaris JES nspr4
++    NSPR_LIBS="-L/usr/lib/mps -R/usr/lib/mps -lnspr4"
++    GECKO_INCLEDEDIR="$GECKO_INCLUDEDIR -I /usr/include/mps"
+ else
+     for pkg in firefox-nspr xulrunnner-nspr nspr ; do
+         if test "x$NSPR_PACKAGES" = x ; then

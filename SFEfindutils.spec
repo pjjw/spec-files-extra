@@ -16,8 +16,16 @@ Source:              http://ftp.gnu.org/pub/gnu/findutils/findutils-%{version}.t
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
-
 %include default-depend.inc
+
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
+
 
 %prep
 %setup -q -n findutils-%version
@@ -43,8 +51,14 @@ make -j$CPUS
 rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
-
 rmdir $RPM_BUILD_ROOT%{_prefix}%{_localstatedir}
+rm $RPM_BUILD_ROOT%{_datadir}/lib/charset.alias
+
+%if %build_l10n
+%else
+# REMOVE l10n FILES
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -56,9 +70,19 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/*
+%{_datadir}/info
+%{_mandir}
+
+%if %build_l10n
+%files l10n
+%defattr (-, root, bin)
+%dir %attr (0755, root, sys) %{_datadir}
+%attr (-, root, other) %{_datadir}/locale
+%endif
 
 %changelog
+* Sun Oct 14 2007 - laca@sun.com
+- fix l10n installation
 * Tue Sep 18 2007 - nonsea@users.sourceforge.net
 - Bump to 4.2.31
 * Sun Sep 24 2006 - Eric Boutilier

@@ -13,7 +13,7 @@ Version:        1.3
 Release:        1
 URL:            http://dev.zuckschwerdt.org/openobex
 Summary:        OpenOBEX - open source implementation of the Object Exchange protocol
-Source:         http://umn.dl.sourceforge.net/sourceforge/openobex/openobex-%{version}.tar.gz
+Source:         http://%{sf_mirror}/sourceforge/openobex/openobex-%{version}.tar.gz
 Patch1:         openobex-01-sun-studio.diff
 Patch2:         openobex-02-libusb.diff
 Patch3:         openobex-03-PACKED.diff

@@ -1,3 +1,61 @@
+2007-10-14  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* include/prod.inc: define sf_mirror: the preferred sourceforge.net
+	  mirror.  You can define a different one using
+	    pkgtool --define 'sf_mirror foo.dl.sf.net'
+	  or
+	    echo '%sf_mirror foo.dl.sf.net' >> ~/.pkgbuildmacros
+	* SFEafterstep.spec: define CC as /usr/sfw/bin/gcc -- doesn't build
+	  with /usr/gnu/bin/gcc because it uses gnu ld
+	* SFEantlr.spec: bump to 3.0.1
+	* SFEarj.spec: fix packaging
+	* SFEasterisk.spec: fix some dir attributes
+	* SFEavfs.spec: use sf_mirror macro for sourceforge download site
+	* SFEbogofilter.spec: use sf_mirror macro for sourceforge download site
+	* SFEcpio.spec: add l10n subpkg
+	* SFEddclient.spec: use sf_mirror macro for sourceforge download site
+	* SFEdenyhosts.spec: use sf_mirror macro for sourceforge download site
+	* SFEfindutils.spec: fix l10n install
+	* SFEfont-terminus.spec: add /usr/X11/bin to PATH for FOX build
+	* SFEgc.spec: delete; same as SFEhp-gc, now SFEbdw-gc
+	* SFEgdal.spec: fix packaging
+	* SFEgtkglext.spec: fix packaging
+	* SFEhp-gc.spec: rename to SFEbdw-gc
+	* SFEinkscape.spec: s/hp-gc/bdw-gc/
+	* SFElibid3tag-gnu.spec: use sf_mirror macro for sourceforge d/l site
+	* SFElibid3tag.spec: use sf_mirror macro for sourceforge download site
+	* SFElibmng.spec: use sf_mirror macro for sourceforge download site
+	* SFElibstatgab.spec: rename to follow conventions
+	* SFElibuninum.spec: fix _datadir permissions
+	* SFEloudmouth.spec: bump to 1.2.2
+	* SFEmedit.spec: fix packaging
+	* SFEmoin.spec: use sf_mirror macro for sourceforge download site
+	* SFEmonkey-bubble.spec: bump to 0.4.0
+	* SFEmrxvt.spec: use sf_mirror macro for sourceforge download site
+	* SFEmugshot.spec: bump to 1.1.56; add patches
+	* SFEnasm.spec: use sf_mirror macro for sourceforge download site
+	* SFEneon.spec: bump to 0.26.2
+	* SFEnetcat.spec: use sf_mirror macro for sourceforge download site
+	* SFEp7zip.spec: use sf_mirror macro for sourceforge download site
+	* SFEproj4.spec: fix packaging
+	* SFEruby.spec: bump to 1.8.6-p111; delete upstream patch
+	* SFEsourcenav.spec: delete clashing man pages
+	* SFEsubversion.spec: bump to 1.4.4
+	* SFEtre.spec: fix for directory attributes
+	* SFEw3m.spec: s/gc/bdw-gc
+	* SFExchat.spec: delete MSGFMT env var so it builds on indiana
+	* SFExtail.spec: fix _datadir permissions
+	* base-specs/afterstep.spec: move CC definition to SFEafterstep.spec
+	* base-specs/electric-fence.spec: update tarball name
+	* linux-specs/aria2.spec: use sf_mirror macro for sf d/l site
+	* linux-specs/openobex.spec: use sf_mirror macro for sf d/l site
+	* patches/monkey-bubble-01-build.diff: update for 0.4.0
+	* patches/mugshot-01-xscreensaver.diff: fix XScreenSaver flags
+	* patches/mugshot-02-nspr4.diff: find nspr in /usr/lib/mps
+	* patches/mugshot-03-Ispace.diff: delete spaces before -I CFLAGS
+	* patches/mugshot-04-__FUNCTION__.diff: s/__FUNCTION__/G_GNUC_FUNCTION/
+	* patches/ruby-01-isinf.diff: delete, upstream
+
 2007-10-14  Mark Wright <markwright@internode.on.net>
 
 	* SFEgcc.spec: Bump to 4.2.2.

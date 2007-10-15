@@ -5,7 +5,7 @@
 Name:                SFEdenyhosts
 Summary:             Helps thwart ssh server attacks
 Version:             2.6
-Source:              http://umn.dl.sourceforge.net/sourceforge/denyhosts/DenyHosts-%{version}.tar.gz
+Source:              http://%{sf_mirror}/sourceforge/denyhosts/DenyHosts-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

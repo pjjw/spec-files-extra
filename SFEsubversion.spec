@@ -8,7 +8,7 @@
 Name:			SFEsubversion
 License:		Apache,LGPL,BSD
 Group:			system/dscm
-Version:		1.4.3
+Version:		1.4.4
 Release:		1
 Summary:		Subversion SCM
 Source:			http://subversion.tigris.org/downloads/subversion-%{version}.tar.bz2
@@ -24,7 +24,7 @@ Requires: SUNWzlib
 Requires: SUNWpostrun
 Requires: SUNWopenssl-libraries
 Requires: SUNWlexpt
-Requires: SUNWneon
+Requires: SFEneon
 BuildRequires: SUNWopenssl-include
 BuildRequires: SFEgdbm-devel
 BuildConflicts: CBEsvn

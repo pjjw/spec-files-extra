@@ -5,13 +5,14 @@
 #
 
 %define	src_ver 2.1.13
+%define tarball_version %{src_ver}-0.1
 %define	src_name electric-fence
 %define	src_url	http://perens.com/FreeSoftware/ElectricFence
 
 Name:		electric-fence
 Summary:	A debugger which detects memory allocation violations
 Version:	%{src_ver}
-Source:		%{src_url}/%{src_name}_%{version}.tar.gz
+Source:		%{src_url}/%{src_name}_%{tarball_version}.tar.gz
 Patch1:		electric-fence-01-solaris.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 

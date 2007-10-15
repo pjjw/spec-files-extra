@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006 Sun Microsystems, Inc.
+# Copyright 2007 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 
@@ -8,7 +8,7 @@
 Name:                SFEavfs
 Summary:             Library for accessing virtual files (compressed, archived, remote, etc)
 Version:             0.9.7
-Source:              http://umn.dl.sourceforge.net/sourceforge/avf/avfs-%{version}.tar.bz2
+Source:              http://%{sf_mirror}/sourceforge/avf/avfs-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

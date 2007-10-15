@@ -9,8 +9,8 @@ Name:			SFEneon
 License:		LGPL
 Group:			system/dscm
 # Be careful not to update this to a newer version without checking
-# if subversion will like it.  1.4.3 requires 0.25.5
-Version:		0.25.5
+# if subversion will like it.
+Version:		0.26.2
 Release:		1
 Summary:		neon http and webdav client library
 Source:			http://www.webdav.org/neon/neon-%{version}.tar.gz

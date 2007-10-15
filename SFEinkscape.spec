@@ -14,7 +14,7 @@ Patch1:                  inkscape-01-no-ver-check.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires:      SFEhp-gc
+Requires:      SFEbdw-gc
 Requires:      SUNWgnome-libs
 Requires:      SFEgtkmm
 Requires:      SFEglibmm
@@ -23,7 +23,7 @@ Requires:      SFElcms
 BuildRequires: SFEgtkmm-devel
 BuildRequires: SFEglibmm-devel
 BuildRequires: SFEsigcpp-devel
-BuildRequires: SFEhp-gc-devel
+BuildRequires: SFEbdw-gc-devel
 BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWPython
 BuildRequires: SFElcms-devel

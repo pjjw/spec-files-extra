@@ -1,0 +1,20 @@
+--- mugshot-1.1.42/configure.ac.orig	2007-04-28 23:19:46.205453000 -0400
++++ mugshot-1.1.42/configure.ac	2007-04-28 23:20:47.001921000 -0400
+@@ -334,7 +334,7 @@
+ 
+     have_xscreensaver=true
+     AC_CHECK_HEADERS([X11/extensions/scrnsaver.h], :, [have_xscreensaver=false])
+-    AC_CHECK_LIB(Xss, XScreenSaverQueryExtension, :, [have_xscreensaver=false], -lXext -lX11 $X_EXTRA_LIBS)
++    AC_CHECK_LIB(Xext, XScreenSaverQueryExtension, :, [have_xscreensaver=false], -lX11 $X_EXTRA_LIBS)
+ 
+     CFLAGS="$hippo_save_CFLAGS"
+     LIBS="$hippo_save_LIBS"
+@@ -342,7 +342,7 @@
+     if ! $have_xscreensaver ; then
+         AC_MSG_ERROR([XScreenSaver extension is required - X11/extensions/scnsaver.h, libXss.so])
+     fi
+-    XSCREENSAVER_LIBS="-lXss -lXext -lX11 $X_EXTRA_LIBS"
++    XSCREENSAVER_LIBS="-lXext -lX11 $X_EXTRA_LIBS"
+     XSCREENSAVER_CFLAGS="$X_CFLAGS"
+ fi
+ 

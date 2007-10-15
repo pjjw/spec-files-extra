@@ -9,8 +9,8 @@ Name:         SFEruby
 Summary:      ruby - object oriented scripting language
 URL:          http://www.ruby-lang.org/en/
 Version:      1.8.6
-Source:	      ftp://ftp.ruby-lang.org/pub/ruby/ruby-%{version}.tar.gz
-Patch1:	      ruby-01-isinf.diff
+%define tarball_version %{version}-p111
+Source:	      ftp://ftp.ruby-lang.org/pub/ruby/ruby-%{tarball_version}.tar.gz
 URL:          http://www.ruby-lang.org
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
@@ -20,8 +20,7 @@ Requires:     SUNWopenssl-libraries
 Requires:     SUNWzlib
 
 %prep
-%setup -q -n ruby-%version
-%patch1 -p1
+%setup -q -n ruby-%{tarball_version}
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -57,6 +56,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*
 
 %changelog
+* Sun Oct 14 2007 - laca@sun.com
+- bump to 1.8.6-p111; delete upstream patch
 * Sun Sep 09 2007 - Ananth Shrinivas <ananth@sun.com>
 - YAML files required for ruby RDoc documentation need to be installed
 * Sat Apr 21 2007 - dougs@truemail.co.th

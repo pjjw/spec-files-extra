@@ -10,7 +10,6 @@
 %define src_version	0.15
 %define pkg_release	1
 
-SUNW_Pkg: SFE%{src_name}-%{base_arch}
 SUNW_ProdVers:	%{src_version}
 SUNW_BaseDir:	%{_basedir}
 

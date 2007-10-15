@@ -15,14 +15,13 @@
 # =========================================================================== 
 #                    SVR4 required definitions
 # =========================================================================== 
-SUNW_Pkg: SFE%{src_name}-%{base_arch}
 SUNW_ProdVers:	%{src_version}
 SUNW_BaseDir:	%{_basedir}
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Tag definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-Name:         	%{src_name}
+Name:         	SFE%{src_name}
 Summary:      	PROJ.4 - Cartographic Projections Library
 Version:      	%{src_version}
 Release:      	%{pkg_release}
@@ -43,9 +42,9 @@ PROJ.4 is a Cartographic Projections Library. It is in use by many mapping & GIS
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %prep 
 %setup -q -n %{deploy_name}-%{version}
-./configure --prefix=%{_prefix}
-
-#%patch0 -p 1
+./configure \
+    --prefix=%{_prefix} \
+    --mandir=%{_mandir}
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Build-Section 
@@ -72,10 +71,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 
-%dir %attr (0755, root, sys) %{_includedir}
+%dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 
-%dir %attr (0755, root, sys) %{_libdir}
+%dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 
 %dir %attr (0755, root, sys) %{_datadir}

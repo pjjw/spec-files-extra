@@ -18,7 +18,7 @@ Requires:            SUNWlibmsr
 Requires:            SUNWperl584core
 Requires:            SUNWxwrtl
 Requires:            SUNWzlib
-Requires:            SFEgc
+Requires:            SFEbdw-gc
 Requires:            SUNWopenssl-libraries
 BuildRequires:       SUNWgnome-base-libs-devel
 BuildRequires:       SUNWopenssl-include

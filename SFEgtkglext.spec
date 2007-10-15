@@ -17,21 +17,19 @@
 # =========================================================================== 
 #                    SVR4 required definitions
 # =========================================================================== 
-SUNW_Pkg: SFE%{src_name}-%{base_arch}
 SUNW_ProdVers:	%{src_version}
 SUNW_BaseDir:	%{_basedir}
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Tag definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-Name:         	%{src_name}
+Name:         	SFE%{src_name}
 Summary:      	GtkGLExt is an OpenGL extension to GTK+ 2.0 or later
 Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	LGPL
 #Group:          
-Source:         http://nchc.dl.sourceforge.net/sourceforge/gtkglext/%{src_name}-%{version}.tar.bz2
-#Patch:        	yourpatch-name
+Source:         http://%{sf_mirror}/sourceforge/gtkglext/%{src_name}-%{version}.tar.bz2
 Vendor:       	http://gtkglext.sourceforge.net
 URL:            http://gtkglext.sourceforge.net
 Packager:     	Shivakumar GN
@@ -50,7 +48,6 @@ GtkGLExt is an OpenGL extension to GTK+ 2.0 or later
 %setup -q -n %{src_name}-%{version}
 ./configure --prefix=%{_prefix}
 
-#%patch0 -p 1
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Build-Section 
@@ -63,7 +60,10 @@ make
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
 %install
+rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
+rm $RPM_BUILD_ROOT%{_libdir}/lib*.a
+rm $RPM_BUILD_ROOT%{_libdir}/lib*.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -75,16 +75,24 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %files
 %defattr(-,root,bin)
-%dir %attr (0755, root, sys) %{_includedir}
+%dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 
-%dir %attr (0755, root, sys) %{_libdir}
-%{_libdir}/*
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
+%{_libdir}/lib*.so*
+%{_libdir}/gtkglext-1.0/include
 
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/*
+%dir %attr (0755, root, other) %{_datadir}/aclocal
+%{_datadir}/aclocal/*
+%{_datadir}/gtk-doc/html/gtkglext
 
 
 %changelog
-* 2007.Aug.11 - <shivakumar dot gn at gmail dot com>
+* Sun Oct 14 2007 - laca@sun.com
+- rename to SFEgtkglext
+- fix packaging
+* Sat Aug 11 2007 - <shivakumar dot gn at gmail dot com>
 - Initial spec.

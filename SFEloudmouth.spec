@@ -7,9 +7,9 @@
 
 Name:                    SFEloudmouth
 Summary:                 Loudmouth - C library for the Jabber protocol
-Version:                 1.0.3
+Version:                 1.2.2
 Source:                  http://ftp.imendio.com/pub/imendio/loudmouth/src/loudmouth-%{version}.tar.gz
-URL:                     http://developer.imendio.com/wiki/Loudmouth
+URL:                     http://www.loudmouth-project.org/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -66,8 +66,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
+%dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/gtk-doc/html/loudmouth
 
 %changelog
+* Sun Oct 14 2007 - laca@sun.com
+- bump to 1.2.2
 * Wed Jul  5 2006 - laca@sun.com
 - rename to SFEloudmouth
 - add -devel subpkg
