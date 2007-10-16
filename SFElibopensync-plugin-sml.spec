@@ -1,31 +1,30 @@
 #
-# spec file for package SFElibopensync-plugin-gcal
+# spec file for package SFElibopensync-plugin-sml
 #
-# includes module(s): libopensync-plugin-gcal
+# includes module(s): libopensync-plugin-syncml
 #
-# Copyright (c) 2004 Sun Microsystems, Inc.
+# Copyright (c) 2007 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-# owner jerryyu
+# owner: halton
 #
 
 %include Solaris.inc
+%use syncml = libopensync-plugin-syncml.spec
 
-%use gcal = libopensync-plugin-gcal.spec
-
-Name:               SFElibopensync-plugin-gcal
-Summary:            %{gcal}.summary
+Name:               SFElibopensync-plugin-sml
+Summary:            %{syncml}.summary
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 Requires: SUNWgnome-base-libs
-Requires: SUNWlxml
 Requires: SFElibopensync
-Requires: SFEpylibs-httplib2
+Requires: SFElibsyncml
 BuildRequires:      SFElibopensync-devel
+BuildRequires:      SFElibsyncml-devel
 
 %package devel
 Summary:       %{summary} - development files
@@ -36,18 +35,18 @@ Requires:      %{name}
 %prep
 rm -rf %name-%version
 mkdir -p %name-%version
-%gcal.prep -d %name-%version
+%syncml.prep -d %name-%version
 
 %build
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CFLAGS="-I%{_includedir} %optflags"
 export LDFLAGS="-L%{_libdir} -R%{_libdir}"
 export RPM_OPT_FLAGS="$CFLAGS"
-%gcal.build -d %name-%version
+%syncml.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%gcal.install -d %name-%version
+%syncml.install -d %name-%version
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -56,10 +55,13 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
-%dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/opensync
+
+%files devel
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
 
 %changelog
-* Tue Aug 07 2007 - jijun.yu@sun.com
-- Splitted from SFElibopensync-plugin.spec.
-- initial version created.
+* Tue Oct 16 2007 - nonsea@users.sourceforge.net
+- Initial version.
+

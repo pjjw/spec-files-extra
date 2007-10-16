@@ -8,16 +8,16 @@
 # owner jerryyu
 #
 
-Name:		msynctool
-License:	GPL
-Group:		Applications
-Version:        0.32
+Name:           msynctool
+License:        GPL
+Group:          Applications
+Version:        0.33
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
-URL:		http://www.opensync.org/
-Summary:	OpenSync data synchronization command line programs
-Source:	        %{name}-%{version}.tar.bz2
+URL:            http://www.opensync.org/
+Summary:        OpenSync data synchronization command line programs
+Source:	        http://www.opensync.org/download/releases/%{version}/%{name}-%{version}.tar.bz2
 Patch1:         %{name}-01-forte-wall.diff
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -68,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1*
 
 %changelog
+* Tue Oct 16 2007 - nonsea@users.sourceforge.net
+- Bump to 0.33, change Source to full URL.
+
 * Mon Aug 06 2007 - jijun.yu@sun.com
 - Bump to 0.32.
 

@@ -10,16 +10,16 @@
 
 %define real_name libopensync-plugin-google-calendar
 
-Name: 	 	libopensync-plugin-gcal
-License:	GPL
-Group:		Office
-Version:        0.32
+Name:           libopensync-plugin-gcal
+License:        GPL
+Group:          System/Libraries
+Version:        0.33
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
-Summary: 	Google calendar plugin for opensync synchronization tool
-Source:		%{real_name}-%{version}.tar.bz2
+Summary:        Google calendar plugin for opensync synchronization tool
+Source:         http://www.opensync.org/download/releases/%{version}/%{real_name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires:	libopensync-devel >= 0.20
@@ -51,7 +51,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 libtoolize --force
-aclocal $ACLOCAL_FLAGS -I .
+aclocal $ACLOCAL_FLAGS -I.
 autoheader
 automake -a -c -f
 autoconf
@@ -79,6 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/opensync/defaults/*
 
 %changelog
+* Tue Oct 16 2007 - nonsea@users.sourceforge.net
+- Bump to 0.33, change Source to full URL.
+
 * Tue Aug 07 2007 - jijun.yu@sun.com
 - Bump to 0.32.
 

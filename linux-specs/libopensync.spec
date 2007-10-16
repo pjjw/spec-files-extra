@@ -9,15 +9,15 @@
 #
 
 Name:           libopensync
-License:        LGPL
+License:        GPL
 Group:          System/Libraries
-Version:        0.32
+Version:        0.33
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
 Summary:        Data synchronization framework
-Source:         %{name}-%{version}.tar.bz2
+Source:         http://www.opensync.org/download/releases/%{version}/%{name}-%{version}.tar.bz2
 Patch1:         %{name}-01-add-glib.diff
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -107,9 +107,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Oct 16 2007 - nonsea@users.sourceforge.net
+- Bump to 0.33, change Source to full URL.
 * Mon Aug 06 2007 - jijun.yu@sun.com
 - Bump to 0.32
-
 * Mon Jul 09 2007 - nonsea@users.sourceforge.net
 - Bump to 0.31.
 * Tue Jun 05 2007 - jijun.yu@sun.com

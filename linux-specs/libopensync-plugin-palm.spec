@@ -8,15 +8,16 @@
 
 Name:           libopensync-plugin-palm
 License:        GPL
-Group:          Office
-Version:        0.32
+Group:          System/Libraries
+Version:        0.33
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
 Summary:        Palm plugin for OpenSync
-Source:         %{name}-%{version}.tar.bz2
-Patch1:         %{name}-01-forte-wall.diff
+Source:         http://www.opensync.org/download/releases/%{version}/%{name}-%{version}.tar.bz2
+Patch1:         %{name}-01-detect-plink.diff
+Patch2:         %{name}-02-nouse-headers.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
 Requires:       libpilot-link
@@ -41,6 +42,7 @@ you will need to install %name-devel.
 %prep
 %setup -q
 %patch1 -p1
+%patch2 -p1
 
 %build
 %ifos linux
@@ -56,7 +58,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 libtoolize --force
-aclocal $ACLOCAL_FLAGS -I .
+aclocal $ACLOCAL_FLAGS -I.
 autoheader
 automake -a -c -f
 autoconf
@@ -88,6 +90,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Oct 16 2007 - nonsea@users.sourceforge.net
+- Bump to 0.33, change Source to full URL.
+- Remove patch forte-wall.diff
+- Add patch detect-plink.diff and nouse-headers.diff
+
 * Mon Aug 06 2007 - jijun.yu@sun.com
 - Bump to 0.32.
 

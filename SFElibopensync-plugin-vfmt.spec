@@ -14,22 +14,15 @@
 %use vformat = libopensync-plugin-vfmt.spec
 
 Name:               SFElibopensync-plugin-vfmt
-Summary:            OpenSync - A data synchronization framework plugins
+Summary:            %{vformat}.summary
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 Requires: SUNWgnome-base-libs
-Requires: SFEswig
 Requires: SFElibopensync
 BuildRequires:      SFElibopensync-devel
-
-%package devel
-Summary:       %{summary} - development files
-SUNW_BaseDir:            %{_basedir}
-%include default-depend.inc
-Requires:      %{name}
 
 %prep
 rm -rf %name-%version
@@ -58,6 +51,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Tue Oct 16 2007 - nonsea@users.sourceforge.net
+- Remove -devel pkg
 * Mon Aug 06 2007 - jijun.yu@sun.com
 - Initial version.
 

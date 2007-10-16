@@ -8,16 +8,16 @@
 
 %define real_name libopensync-plugin-vformat
 
-Name: 	 	libopensync-plugin-vfmt
-License:	GPL
-Group:		Office
-Version:        0.32
+Name:           libopensync-plugin-vfmt
+License:        GPL
+Group:          System/Libraries
+Version:        0.33
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
-Summary: 	vformat plugin for opensync synchronization tool
-Source:		%{real_name}-%{version}.tar.bz2
+Summary:        vformat plugin for opensync synchronization tool
+Source:         http://www.opensync.org/download/releases/%{version}/%{real_name}-%{version}.tar.bz2
 Patch1:         %{real_name}-01-add-glib.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
@@ -69,6 +69,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/opensync/defaults/*
 
 %changelog
+* Tue Oct 16 2007 - nonsea@users.sourceforge.net
+- Bump to 0.33, change Source to full URL.
+
 * Mon Aug 06 2007 - jijun.yu@sun.com
 - Initial version
 

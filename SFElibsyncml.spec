@@ -21,7 +21,9 @@ SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:      SFEopenobex
+Requires:      SFEwbxml
 BuildRequires: SFEopenobex-devel
+BuildRequires: SFEwbxml-devel
 
 %package devel
 Summary:       %{summary} - development files
@@ -89,6 +91,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Oct 16 2007 - nonsea@users.sourceforge.net
+- Add SFEwbxml to Requires, add SFEwbxml-devel to BuildRequires
 * Fri Sept 21 2007 - jijun.yu@sun.com
 - add debug flags.
 * Tue Apr  3 2007 - laca@sun.com

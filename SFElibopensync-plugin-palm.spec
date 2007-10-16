@@ -11,28 +11,20 @@
 # 
 
 %include Solaris.inc
-%define with_pilot_link %(pkginfo -q SUNWhal && echo 1 || echo 0)
-
-%if %with_pilot_link
 %use palm = libopensync-plugin-palm.spec
-  %define plink_prefix /usr
-%endif
 
 Name:               SFElibopensync-plugin-palm
-Summary:            OpenSync - A data synchronization framework plugins
+Summary:            %{palm}.summary
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 Requires: SUNWgnome-base-libs
-Requires: SFEswig
+Requires: SUNWpilot-link
 Requires: SFElibopensync
-%if %with_pilot_link
-  Requires:         SUNWpilot-link
-  BuildRequires:    SUNWpilot-link-devel
-%endif
-BuildRequires:      SFElibopensync-devel
+BuildRequires:    SUNWpilot-link-devel
+BuildRequires:    SFElibopensync-devel
 
 %package devel
 Summary:       %{summary} - development files
@@ -43,29 +35,18 @@ Requires:      %{name}
 %prep
 rm -rf %name-%version
 mkdir -p %name-%version
-%if %with_pilot_link
-  %palm.prep -d %name-%version
-%endif
+%palm.prep -d %name-%version
 
 %build
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-%if %with_pilot_link
-  export CFLAGS="-I%{_includedir} %optflags -I%{plink_prefix}/include/libpisock"
-  export LDFLAGS="-L%{_libdir} -R%{_libdir} -L%{plink_prefix}/lib -R%{plink_prefix}/lib"
-%else
-  export CFLAGS="-I%{_includedir} %optflags"
-  export LDFLAGS="-L%{_libdir} -R%{_libdir}"
-%endif
+export CFLAGS="-I%{_includedir} %optflags -I%{_includedir}/libpisock"
+export LDFLAGS="-L%{_libdir} -R%{_libdir}"
 export RPM_OPT_FLAGS="$CFLAGS"
-%if %with_pilot_link
-  %palm.build -d %name-%version
-%endif
+%palm.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%if %with_pilot_link
-  %palm.install -d %name-%version
-%endif
+%palm.install -d %name-%version
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -83,6 +64,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Tue Oct 16 2007 - nonsea@users.sourceforge.net
+- Remove useless with_pilot_link logic
 * Mon Aug 06 2007 - jijun.yu@sun.com
 - Splitted from SFElibopensync-plugin.spec.
 - Bump to 0.32.

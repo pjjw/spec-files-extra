@@ -14,14 +14,13 @@
 %use file = libopensync-plugin-file.spec
 
 Name:               SFElibopensync-plugin-file
-Summary:            OpenSync - A data synchronization framework plugins
+Summary:            %{file}.summary
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 Requires: SUNWgnome-base-libs
-Requires: SFEswig
 Requires: SFElibopensync
 BuildRequires:      SFElibopensync-devel
 

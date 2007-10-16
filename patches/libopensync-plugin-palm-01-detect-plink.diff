@@ -1,0 +1,14 @@
+Index: palm/acinclude.m4
+===================================================================
+--- palm/acinclude.m4	(revision 2591)
++++ palm/acinclude.m4	(working copy)
+@@ -16,8 +16,7 @@
+       PILOT_CFLAGS="-I$with_pilot_link/include"
+       PILOT_LIBS="-L$with_pilot_link/lib -Wl,-R$with_pilot_link/lib -lpisock"
+     else
+-      PILOT_CFLAGS=""
+-      PILOT_LIBS="-lpisock"
++      PKG_CHECK_MODULES(PILOT, ["pilot-link"])
+     fi
+ 
+ 	ac_save_CFLAGS="$CFLAGS"

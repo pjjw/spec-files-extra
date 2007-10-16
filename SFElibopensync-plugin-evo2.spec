@@ -14,7 +14,7 @@
 %use evo2 = libopensync-plugin-evo2.spec
 
 Name:               SFElibopensync-plugin-evo2
-Summary:            OpenSync - A data synchronization framework plugins
+Summary:            %{evo2}.summary
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
@@ -22,15 +22,8 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 
 Requires: SUNWevolution-data-server
 Requires: SUNWgnome-base-libs
-Requires: SFEswig
 Requires: SFElibopensync
 BuildRequires:      SFElibopensync-devel
-
-%package devel
-Summary:       %{summary} - development files
-SUNW_BaseDir:            %{_basedir}
-%include default-depend.inc
-Requires:      %{name}
 
 %prep
 rm -rf %name-%version
@@ -58,12 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/opensync
 
-%files devel
-%defattr (-, root, bin)
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
-
 %changelog
+* Tue Oct 16 2007 - nonsea@users.sourceforge.net
+- Remove -devel package since there is no header files.
 * Mon Aug 06 2007 - jijun.yu@sun.com
 - Splitted from SFElibopensync-plugin.spec
 - Bump to 0.32

@@ -1,11 +1,41 @@
---- libopensync-plugin-evolution2-0.20/src/Makefile.am.orig     2006-11-14 16:47:44.363499000 +0800
-+++ libopensync-plugin-evolution2-0.20/src/Makefile.am  2006-11-14 16:48:23.601326000 +0800
-@@ -5,7 +5,7 @@
+Index: evolution2/configure.in
+===================================================================
+--- evolution2/configure.in	(revision 2591)
++++ evolution2/configure.in	(working copy)
+@@ -15,6 +15,22 @@
+ 
+ PKG_CHECK_MODULES(PACKAGE, [$pkg_modules], , AC_MSG_ERROR(GLib >= 2.0 and opensync >= 1.0 required))
+ 
++AC_ARG_ENABLE(warnings,
++              AC_HELP_STRING([--disable-warnings], [disable GCC warnings]),,
++              [enable_warnings=yes])
++
++dnl Only use -Wall if we have gcc
++dnl Please remove '-Wno-return-type' when Evo fixes the warning in their headers.
++if test "x$GCC" = "xyes"; then
++  if test "x$enable_warnings" = "xyes"; then
++     PACKAGE_CFLAGS ="\
++     -Wall \
++     -Werror \
++     -Wno-return-type \
++     $CFLAGS"
++  fi
++fi
++
+ AC_SUBST(PACKAGE_CFLAGS)
+ AC_SUBST(PACKAGE_LIBS)
+ 
+Index: evolution2/src/Makefile.am
+===================================================================
+--- evolution2/src/Makefile.am	(revision 2591)
++++ evolution2/src/Makefile.am	(working copy)
+@@ -4,9 +4,6 @@
+ 
  INCLUDES = @PACKAGE_CFLAGS@ @EPACKAGE_CFLAGS@
-
- # Please remove '-Wno-return-type' when Evo fixes the warning in their headers.
+ 
+-# Please remove '-Wno-return-type' when Evo fixes the warning in their headers.
 -AM_CFLAGS = -Wall -Werror -Wno-return-type
-+AM_CFLAGS =
-
+-
  config_DATA = evo2-sync
-
+ 
+ plugin_LTLIBRARIES = evo2_sync.la

@@ -1,3 +1,30 @@
+2007-10-16  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFElibopensync-plugin-evo2.spec,
+	  SFElibopensync-plugin-file.spec,
+	  SFElibopensync-plugin-gcal.spec,
+	  SFElibopensync-plugin-vfmt.spec,
+	  SFElibsyncml.spec:
+	  Remove SFEswig depend, use base.summary as Summary
+	* SFElibopensync-plugin-palm.spec:
+	  remove useless with_pilot_link logic, use base.summary as Summary
+	* SFElibopensync-plugin-sml.spec: (new) for syncml plugin
+	* linux-specs/libopensync-plugin-evo2.spec,
+	  linux-specs/libopensync-plugin-file.spec,
+	  linux-specs/libopensync-plugin-gcal.spec,
+	  linux-specs/libopensync-plugin-palm.spec,
+	  linux-specs/libopensync-plugin-syncml.spec,
+	  linux-specs/libopensync-plugin-vfmt.spec,
+	  linux-specs/libopensync.spec,
+	  linux-specs/msynctool.spec:
+	  Bump to 0.33, change Source to full URL.
+	* patches/libopensync-plugin-evolution2-01-forte-wall.diff: (rework)
+	* patches/libopensync-plugin-palm-01-detect-plink.diff: (added)
+	* patches/libopensync-plugin-palm-01-forte-wall.diff: (removed)
+	* patches/libopensync-plugin-palm-02-nouse-headers.diff: (added)
+	* patches/libopensync-plugin-syncml-01-forte-wall.diff: (removed)
+	* patches/msynctool-01-forte-wall.diff: (new)
+
 2007-10-15  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEbdw-gc.spec: Bump to 7.0, s/gc%{version}/gc-%{version}/g
