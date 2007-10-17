@@ -68,8 +68,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CPPFLAGS="-I/usr/sfw/include"
-export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags"
+export CFLAGS="%optflags -I/usr/X11/include"
+export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib"
 %if %tcl_8_3
 TCL_OPTS="--with-tclsh=/usr/sfw/bin/tclsh8.3 \
           --with-wish=/usr/sfw/bin/wish8.3"
@@ -144,6 +144,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Wed Oct 17 2007 - laca@sun.com
+- add /usr/X11 to search paths for FOX
 - allow building with either SUNWlexpt or SFEexpat
 * Mon Sep 24 2007 - trisk@acm.jhu.edu
 - Allow building with Tcl 8.4 (newer SUNWTcl)

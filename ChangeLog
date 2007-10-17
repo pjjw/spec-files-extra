@@ -1,5 +1,6 @@
 2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEgraphviz.spec: add /usr/X11 to search paths for FOX
 	* SFEanjuta.spec: make SUNW deps the default instead of SFE ones
 	* SFEgnome-sharp.spec: fix src url
 	* SFElibmusicbrainz3.spec: make it work with either SUNWneon or SFEneon
