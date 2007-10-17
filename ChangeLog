@@ -1,3 +1,19 @@
+2007-10-17  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFElibopensync-plugin-sml.spec: Remove -devel pkg, change %files
+	* SFElibsyncml.spec: Add SUNWevolution-libs to Requires,
+	  add SUNWevolution-libs-devel to BuildRequires,
+	  because libsyncml using libsoup
+	* linux-specs/libsyncml.spec: Bump to 0.4.5, remove upstreamed
+	  patch 01-Makefile.diff, 02-define-func.diff
+	  03-fail-null.diff and 04-cfmakeraw.diff, reorder.
+	* patches/libsyncml-01-Makefile.diff: (removed)
+	* patches/libsyncml-02-define-func.diff: (removed)
+	* patches/libsyncml-03-fail-null.diff: (removed)
+	* patches/libsyncml-04-cfmakeraw.diff: (removed)
+	* patches/libsyncml-05-printf-null.diff: (reorderd)
+	* patches/libsyncml-01-printf-null.diff: (reworkded)
+
 2007-10-16  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFElibopensync-plugin-evo2.spec,

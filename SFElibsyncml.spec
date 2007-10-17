@@ -20,8 +20,10 @@ Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+Requires:      SUNWevolution-libs
 Requires:      SFEopenobex
 Requires:      SFEwbxml
+BuildRequires: SUNWevolution-libs-devel
 BuildRequires: SFEopenobex-devel
 BuildRequires: SFEwbxml-devel
 
@@ -91,6 +93,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Oct 17 2007 - nonsea@users.sourceforge.net
+- Add SUNWevolution-libs to Requires, add SUNWevolution-libs-devel
+  to BuildRequires, because libsyncml using libsoup
 * Tue Oct 16 2007 - nonsea@users.sourceforge.net
 - Add SFEwbxml to Requires, add SFEwbxml-devel to BuildRequires
 * Fri Sept 21 2007 - jijun.yu@sun.com

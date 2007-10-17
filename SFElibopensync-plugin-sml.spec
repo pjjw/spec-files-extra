@@ -26,12 +26,6 @@ Requires: SFElibsyncml
 BuildRequires:      SFElibopensync-devel
 BuildRequires:      SFElibsyncml-devel
 
-%package devel
-Summary:       %{summary} - development files
-SUNW_BaseDir:            %{_basedir}
-%include default-depend.inc
-Requires:      %{name}
-
 %prep
 rm -rf %name-%version
 mkdir -p %name-%version
@@ -55,13 +49,16 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
-
-%files devel
-%defattr (-, root, bin)
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, bin) %{_datadir}/opensync
+%dir %attr (0755, root, bin) %{_datadir}/opensync/defaults
+%{_datadir}/opensync/defaults/syncml-http-server
+%{_datadir}/opensync/defaults/syncml-obex-client
 
 %changelog
+* Wed Oct 17 2007 - nonsea@users.sourceforge.net
+- Remove -devel pkg.
+- Change %files
 * Tue Oct 16 2007 - nonsea@users.sourceforge.net
 - Initial version.
 

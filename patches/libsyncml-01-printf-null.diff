@@ -1,0 +1,1730 @@
+Index: libsyncml-trunk/libsyncml/sml_base64.c
+===================================================================
+--- libsyncml-trunk/libsyncml/sml_base64.c	(revision 253)
++++ libsyncml-trunk/libsyncml/sml_base64.c	(working copy)
+@@ -91,7 +91,7 @@
+ 		return TRUE;
+ 	}
+ 	
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -157,7 +157,7 @@
+ error:
+ 	*output = NULL;
+ 	*outsize = 0;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -179,7 +179,7 @@
+ 		return TRUE;
+ 	}
+ 	
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+  
+@@ -229,7 +229,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+Index: libsyncml-trunk/libsyncml/objects/sml_devinf_obj.c
+===================================================================
+--- libsyncml-trunk/libsyncml/objects/sml_devinf_obj.c	(revision 253)
++++ libsyncml-trunk/libsyncml/objects/sml_devinf_obj.c	(working copy)
+@@ -65,7 +65,7 @@
+ 
+ error:
+ 	smlSessionDispatchEvent(session, SML_SESSION_EVENT_ERROR, NULL, NULL, NULL, error);
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error)?smlErrorPrint(&error):"NULL");
+ 	smlErrorDeref(&error);
+ }
+ 
+@@ -158,7 +158,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 	
+@@ -192,7 +192,7 @@
+ 	return;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error)?smlErrorPrint(&error):"NULL");
+ 	smlErrorDeref(&error);
+ }
+ 
+@@ -209,7 +209,7 @@
+ 	return;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error)?smlErrorPrint(&error):"NULL");
+ }
+ 
+ SmlDevInfAgent *smlDevInfAgentNew(SmlDevInf *devinf, SmlError **error)
+@@ -228,7 +228,7 @@
+ 	return agent;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -263,7 +263,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -298,7 +298,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -336,7 +336,7 @@
+ 	if (devinf11)
+ 		smlLocationUnref(devinf11);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -354,7 +354,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+Index: libsyncml-trunk/libsyncml/objects/sml_ds_server.c
+===================================================================
+--- libsyncml-trunk/libsyncml/objects/sml_ds_server.c	(revision 253)
++++ libsyncml-trunk/libsyncml/objects/sml_ds_server.c	(working copy)
+@@ -37,7 +37,7 @@
+ 
+ static SmlWriteContext *_write_context_find(SmlDsSession *dsession, const char *uid, SmlChangeType type)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%p, %s, %i)", __func__, dsession, uid, type);
++	smlTrace(TRACE_ENTRY, "%s(%p, %s, %i)", __func__, dsession, uid?uid:"NULL", type);
+ 	
+ 	GList *c = NULL;
+ 	for (c = dsession->pendingMaps; c; c = c->next) {
+@@ -79,7 +79,7 @@
+ 		return;
+ 	}
+ 	
+-	smlTrace(TRACE_INTERNAL, "Dispatching: uid %s, Type %i, newuid %s, result %i", ctx->uid, ctx->type, ctx->newuid, smlStatusGetCode(ctx->status));
++	smlTrace(TRACE_INTERNAL, "Dispatching: uid %s, Type %i, newuid %s, result %i", ctx->uid?ctx->uid:"NULL", ctx->type, ctx->newuid?ctx->newuid:"NULL", smlStatusGetCode(ctx->status));
+ 	
+ 	if (((ctx->type != SML_CHANGE_ADD || smlStatusGetClass(ctx->status) != SML_ERRORCLASS_SUCCESS) && !ctx->newuid) || dsession->server->servertype == SML_DS_CLIENT) {
+ 		ctx->callback(dsession, ctx->status, NULL, ctx->userdata);
+@@ -172,7 +172,7 @@
+ 
+ SmlDsServer *smlDsServerNew(const char *type, SmlLocation *location, SmlError **error)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%s, %p, %p)", __func__, type, location, error);
++	smlTrace(TRACE_ENTRY, "%s(%s, %p, %p)", __func__, type?type:"NULL", location, error);
+ 	smlAssert(location);
+ 	
+ 	SmlDsServer *server = smlTryMalloc0(sizeof(SmlDsServer), error);
+@@ -188,14 +188,14 @@
+ 	smlTrace(TRACE_EXIT, "%s: %p", __func__, server);
+ 	return server;
+ 
+-error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++error: 
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+ SmlDsServer *smlDsClientNew(const char *type, SmlLocation *location, SmlLocation *target, SmlError **error)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%s, %p, %p, %p)", __func__, type, location, target, error);
++	smlTrace(TRACE_ENTRY, "%s(%s, %p, %p, %p)", __func__, type?type:"NULL", location, target, error);
+ 	smlAssert(location);
+ 	smlAssert(target);
+ 	
+@@ -216,7 +216,7 @@
+ 	return server;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -299,7 +299,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -323,14 +323,14 @@
+ 	return dsession;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error)?smlErrorPrint(&error):"NULL");
+ 	smlErrorDeref(&error);
+ 	return NULL;
+ }
+ 
+ SmlDsSession *smlDsServerSendAlert(SmlDsServer *server, SmlSession *session, SmlAlertType type, const char *last, const char *next, SmlStatusReplyCb callback, void *userdata, SmlError **error)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%p, %p, %i, %s, %s, %p)", __func__, server, session, type, last, next, error);
++	smlTrace(TRACE_ENTRY, "%s(%p, %p, %i, %s, %s, %p)", __func__, server, session, type, last?last:"NULL", next?next:"NULL", error);
+ 	smlAssert(server);
+ 	smlAssert(session);
+ 	
+@@ -358,7 +358,7 @@
+ error_free_dsession:
+ 	g_free(dsession);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -389,7 +389,7 @@
+ 	return dsession;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -588,7 +588,7 @@
+ 	if (reply)
+ 		smlStatusUnref(reply);
+ 	g_mutex_unlock(dsession->lock);
+-	smlTrace(TRACE_EXIT_ERROR, "%s: Unable to dispatch: %s", __func__, smlErrorPrint(&error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: Unable to dispatch: %s", __func__, smlErrorPrint(&error)?smlErrorPrint(&error):"NULL");
+ 	smlErrorDeref(&error);
+ }
+ 
+@@ -658,7 +658,7 @@
+ 
+ error:
+ 	g_mutex_unlock(dsession->lock);
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error)?smlErrorPrint(&error):"NULL");
+ 	smlErrorDeref(&error);
+ 	return;
+ }
+@@ -692,7 +692,7 @@
+ 	
+ error:
+ 	g_mutex_unlock(dsession->lock);
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error)?smlErrorPrint(&error):"NULL");
+ 	smlErrorDeref(&error);
+ }
+ 
+@@ -743,7 +743,7 @@
+ 	
+ error:
+ 	g_mutex_unlock(dsession->lock);
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error)?smlErrorPrint(&error):"NULL");
+ 	smlErrorDeref(&error);
+ }
+ 
+@@ -787,7 +787,7 @@
+  */
+ SmlBool smlDsSessionSendAlert(SmlDsSession *dsession, SmlAlertType type, const char *last, const char *next, SmlStatusReplyCb callback, void *userdata, SmlError **error)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%p, %i, %s, %s, %p)", __func__, dsession, type, last, next, error);
++	smlTrace(TRACE_ENTRY, "%s(%p, %i, %s, %s, %p)", __func__, dsession, type, last?last:"NULL", next?next:"NULL", error);
+ 	smlAssert(dsession);
+ 	
+ 	SmlCommand *alert = smlCommandNewAlert(type, dsession->target, dsession->location, next, last, NULL, error);
+@@ -806,7 +806,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -902,14 +902,14 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+ //Send a change to the remote side
+ SmlBool smlDsSessionQueueChange(SmlDsSession *dsession, SmlChangeType type, const char *uid, const char *data, unsigned int size, const char *contenttype, SmlDsSessionWriteCb callback, void *userdata, SmlError **error)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%p, %i, %s, %p, %i, %s, %p, %p, %p)", __func__, dsession, type, uid, data, size, contenttype, callback, userdata, error);
++	smlTrace(TRACE_ENTRY, "%s(%p, %i, %s, %p, %i, %s, %p, %p, %p)", __func__, dsession, type, uid?uid:"NULL", data, size, contenttype?contenttype:"NULL", callback, userdata, error);
+ 	smlAssert(dsession);
+ 	
+ 	if (!dsession->syncCommand) {
+@@ -946,8 +946,8 @@
+ 	g_free(ctx);
+ error_free_cmd:
+ 	smlCommandUnref(cmd);
+-error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++error: 
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -977,13 +977,13 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+ SmlBool smlDsSessionQueueMap(SmlDsSession *dsession, const char *uid, const char *newuid, SmlError **error)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%p, %s, %s, %p)", __func__, dsession, uid, newuid, error);
++	smlTrace(TRACE_ENTRY, "%s(%p, %s, %s, %p)", __func__, dsession, uid?uid:"NULL", newuid?newuid:"NULL", error);
+ 	smlAssert(dsession);
+ 	
+ 	SmlMapItem *item = smlMapItemNew(uid, newuid, error);
+@@ -995,8 +995,8 @@
+ 	smlTrace(TRACE_EXIT, "%s", __func__);
+ 	return TRUE;
+ 
+-error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++error: 
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1043,7 +1043,7 @@
+ error_free_cmd:
+ 	smlCommandUnref(cmd);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1087,7 +1087,7 @@
+ error_free_dsession:
+ 	g_free(dsession);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error)?smlErrorPrint(&error):"NULL");
+ 	if (error)
+ 		smlErrorDeref(&error);
+ }
+@@ -1126,7 +1126,7 @@
+ 	return;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error)?smlErrorPrint(&error):"NULL");
+ 	if (error)
+ 		smlErrorDeref(&error);
+ }
+@@ -1149,7 +1149,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+Index: libsyncml-trunk/libsyncml/objects/sml_auth.c
+===================================================================
+--- libsyncml-trunk/libsyncml/objects/sml_auth.c	(revision 253)
++++ libsyncml-trunk/libsyncml/objects/sml_auth.c	(working copy)
+@@ -68,7 +68,7 @@
+ 		smlTrace(TRACE_INTERNAL, "Auth is already accepted %i", auth->enabled);
+ 		auth->state = SML_AUTH_ACCEPTED;
+ 	} else {
+-		smlTrace(TRACE_INTERNAL, "Input is \"%s\"", cred->data);
++		smlTrace(TRACE_INTERNAL, "Input is \"%s\"", cred->data?cred->data:"NULL");
+ 		
+ 		switch (cred->type) {
+ 			case SML_AUTH_TYPE_BASIC:
+@@ -76,12 +76,12 @@
+ 				if (!smlBase64Decode(cred->data, &buffer, &buffersize, &error))
+ 					goto error;
+ 				
+-				smlTrace(TRACE_INTERNAL, "After decode is \"%s\"", buffer);
++				smlTrace(TRACE_INTERNAL, "After decode is \"%s\"", buffer?buffer:"NULL");
+ 				
+ 				char **arr = g_strsplit(buffer, ":", 2);
+ 				g_free(buffer);
+ 				
+-				smlTrace(TRACE_INTERNAL, "Username \"%s\", Password \"%s\"", arr[0], arr[1]);
++				smlTrace(TRACE_INTERNAL, "Username \"%s\", Password \"%s\"", arr[0]?arr[0]:"NULL", arr[1]?arr[1]:"NULL");
+ 				
+ 				if (auth->verifyCallback) {
+ 					auth->verifyCallback(auth, arr[0], arr[1], auth->verifyCallbackUserdata, &auth->state);
+@@ -128,7 +128,7 @@
+ 
+ error:
+ 	smlSessionDispatchEvent(session, SML_SESSION_EVENT_ERROR, NULL, NULL, NULL, error);
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error)?smlErrorPrint(&error):"NULL");
+ 	smlErrorDeref(&error);
+ 	return;
+ }
+@@ -157,7 +157,7 @@
+ 	return auth;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -217,7 +217,7 @@
+ error_free_reply:
+ 	smlStatusUnref(reply);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+Index: libsyncml-trunk/libsyncml/sml_parse.c
+===================================================================
+--- libsyncml-trunk/libsyncml/sml_parse.c	(revision 253)
++++ libsyncml-trunk/libsyncml/sml_parse.c	(working copy)
+@@ -80,7 +80,7 @@
+ error_free_parser:
+ 	g_free(parser);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -133,7 +133,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -167,7 +167,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -200,7 +200,7 @@
+ 	return result;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return SML_PARSER_RESULT_ERROR;
+ }
+ 
+@@ -232,7 +232,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -262,7 +262,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -326,7 +326,7 @@
+ error_free_assm:
+ 	g_free(assm);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -375,7 +375,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -403,7 +403,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -430,7 +430,7 @@
+ 	return size;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return 0;
+ }
+ 
+@@ -530,7 +530,7 @@
+ 	if (noCmdID)
+ 		cmd->cmdID = 0;
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -595,7 +595,7 @@
+ 	return SML_ASSEMBLER_RESULT_OK;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return SML_ASSEMBLER_RESULT_ERROR;
+ }
+ 
+@@ -635,7 +635,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -675,7 +675,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -706,7 +706,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -763,7 +763,7 @@
+ 	return SML_ASSEMBLER_RESULT_OK;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return SML_ASSEMBLER_RESULT_ERROR;
+ }
+ 
+@@ -781,7 +781,7 @@
+  */
+ void smlAssemblerSetOption(SmlAssembler *assm, const char *optionname, const char *value)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%p, %s, %s)", __func__, assm, optionname, value);
++	smlTrace(TRACE_ENTRY, "%s(%p, %s, %s)", __func__, assm, optionname?optionname:"NULL", value?value:"NULL");
+ 	smlAssert(assm);
+ 	smlAssert(optionname);
+ 	
+@@ -799,13 +799,13 @@
+  */
+ const char *smlAssemblerGetOption(SmlAssembler *assm, const char *optionname)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%p, %s)", __func__, assm, optionname);
++	smlTrace(TRACE_ENTRY, "%s(%p, %s)", __func__, assm, optionname?optionname:"NULL");
+ 	smlAssert(assm);
+ 	smlAssert(optionname);
+ 	
+ 	const char *ret = g_hash_table_lookup(assm->options, optionname);
+ 	
+-	smlTrace(TRACE_EXIT, "%s: %s", __func__, ret);
++	smlTrace(TRACE_EXIT, "%s: %s", __func__, ret?ret:"NULL");
+ 	return ret;
+ }
+ 
+Index: libsyncml-trunk/libsyncml/sml_devinf.c
+===================================================================
+--- libsyncml-trunk/libsyncml/sml_devinf.c	(revision 253)
++++ libsyncml-trunk/libsyncml/sml_devinf.c	(working copy)
+@@ -96,7 +96,7 @@
+ SmlDevInf *smlDevInfNew(const char *devid, SmlDevInfDevTyp devtyp, SmlError **error)
+ {
+ 	smlAssert(devid);
+-	smlTrace(TRACE_ENTRY, "%s(%s, %i, %p)", __func__, devid, devtyp, error);
++	smlTrace(TRACE_ENTRY, "%s(%s, %i, %p)", __func__, devid?devid:"NULL", devtyp, error);
+ 	
+ 	SmlDevInf *devinf = smlTryMalloc0(sizeof(SmlDevInf), error);
+ 	if (!devinf)
+@@ -110,7 +110,7 @@
+ 	return devinf;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;	
+ }
+ 
+@@ -326,7 +326,7 @@
+ 	return datastore;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;	
+ }
+ 
+@@ -576,7 +576,7 @@
+ error_free_data:
+ 	g_free(data);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -619,7 +619,7 @@
+ error_free_source:
+ 	smlLocationUnref(source);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -648,7 +648,7 @@
+ error_free_target:
+ 	smlLocationUnref(target);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -666,7 +666,7 @@
+ 	return devinf;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -699,7 +699,7 @@
+ 	return devinf;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+Index: libsyncml-trunk/libsyncml/sml_elements.c
+===================================================================
+--- libsyncml-trunk/libsyncml/sml_elements.c	(revision 253)
++++ libsyncml-trunk/libsyncml/sml_elements.c	(working copy)
+@@ -45,7 +45,7 @@
+ 
+ SmlLocation *smlLocationNew(const char *locURI, const char *locName, SmlError **error)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%s, %s, %p)", __func__, locURI, locName, error);
++	smlTrace(TRACE_ENTRY, "%s(%s, %s, %p)", __func__, locURI?locURI:"NULL", locName?locName:"NULL", error);
+ 	
+ 	if (!locURI) {
+ 		smlErrorSet(error, SML_ERROR_GENERIC, "No locURI was given");
+Index: libsyncml-trunk/libsyncml/sml_command.c
+===================================================================
+--- libsyncml-trunk/libsyncml/sml_command.c	(revision 253)
++++ libsyncml-trunk/libsyncml/sml_command.c	(working copy)
+@@ -462,7 +462,7 @@
+ 
+ SmlCommand *smlCommandNewAlert(SmlAlertType type, SmlLocation *target, SmlLocation *source, const char *next, const char *last, const char *contenttype, SmlError **error)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%i, %p, %p, %s, %s, %s, %p)", __func__, type, target, source, next, last, contenttype, error);
++	smlTrace(TRACE_ENTRY, "%s(%i, %p, %p, %s, %s, %s, %p)", __func__, type, target, source, next?next:"NULL", last?last:"NULL", contenttype?contenttype:"NULL", error);
+ 	
+ 	SmlCommand *cmd = smlCommandNew(SML_COMMAND_TYPE_ALERT, error);
+ 	if (!cmd)
+Index: libsyncml-trunk/libsyncml/sml_session.c
+===================================================================
+--- libsyncml-trunk/libsyncml/sml_session.c	(revision 253)
++++ libsyncml-trunk/libsyncml/sml_session.c	(working copy)
+@@ -145,7 +145,7 @@
+ error_free_data:
+ 	g_free(data);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -175,7 +175,7 @@
+ 	
+ /*error:
+ 	smlSessionDispatchEvent(session, SML_SESSION_EVENT_ERROR, NULL, NULL, NULL, error);
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(&error)?smlErrorPrint(&error):"NULL");
+ 	smlErrorDeref(&error);
+ 	return;*/
+ }
+@@ -249,7 +249,7 @@
+ error_free_cmd:
+ 	smlCommandUnref(frag_cmd);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -435,7 +435,7 @@
+ 	return SML_ASSEMBLER_RESULT_OK;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return SML_ASSEMBLER_RESULT_ERROR;
+ }
+ 
+@@ -453,7 +453,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -588,7 +588,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -628,7 +628,7 @@
+ 	}
+ 	
+ 	smlErrorSet(error, SML_ERROR_GENERIC, "Received unwanted status reply");
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ 	
+ out:
+@@ -836,7 +836,7 @@
+ 						smlTrace(TRACE_INTERNAL, "New Buffer started. Buffer size: %i. Required: %i", xmlBufferLength(session->incomingBuffer->buffer), session->incomingBuffer->size);
+ 						
+ 						char *bin = smlPrintBinary((char *) xmlBufferContent(session->incomingBuffer->buffer), xmlBufferLength(session->incomingBuffer->buffer));
+-						smlTrace(TRACE_INTERNAL, "Content so far: %s\n", bin);
++						smlTrace(TRACE_INTERNAL, "Content so far: %s\n", bin?bin:"NULL");
+ 						g_free(bin);
+ 					}
+ 					
+@@ -995,7 +995,7 @@
+ 	if (status)
+ 		smlStatusUnref(status);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1150,7 +1150,7 @@
+ error_free_session:
+ 	smlSessionUnref(session);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -1249,7 +1249,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1291,7 +1291,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1479,7 +1479,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1522,7 +1522,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1556,7 +1556,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1594,7 +1594,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+Index: libsyncml-trunk/libsyncml/sml_queue.c
+===================================================================
+--- libsyncml-trunk/libsyncml/sml_queue.c	(revision 253)
++++ libsyncml-trunk/libsyncml/sml_queue.c	(working copy)
+@@ -247,14 +247,14 @@
+ 	for (m = queue->head; m; m = m->next) {
+ 		g_string_append_printf(info, ", %p (list %p)", m->data, m);
+ 	}
+-	smlTrace(TRACE_INTERNAL, "%s", info->str);
++	smlTrace(TRACE_INTERNAL, "%s", info->str?info->str:"NULL");
+ 	g_string_free(info, TRUE);
+ 	
+ 	info = g_string_new("Contents of prio queue:");
+ 	for (m = queue->prio; m; m = m->next) {
+ 		g_string_append_printf(info, ", %p (list %p)", m->data, m);
+ 	}
+-	smlTrace(TRACE_INTERNAL, "%s", info->str);
++	smlTrace(TRACE_INTERNAL, "%s", info->str?info->str:"NULL");
+ 	g_string_free(info, TRUE);
+ 	smlTrace(TRACE_INTERNAL, "Tail of queue: %p (list %p)", queue->tail ? queue->tail->data : NULL, queue->tail);
+ 	
+Index: libsyncml-trunk/libsyncml/sml_notification.c
+===================================================================
+--- libsyncml-trunk/libsyncml/sml_notification.c	(revision 253)
++++ libsyncml-trunk/libsyncml/sml_notification.c	(working copy)
+@@ -52,7 +52,7 @@
+ 
+ SmlNotification *smlNotificationNew(SmlNotificationVersion version, SmlNotificationUIMode mode, SmlNotificationInitiator init, unsigned int sessionID, const char *identifier, const char *target, SmlMimeType type, SmlError **error)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%i, %i, %i, %i, %s, %s, %i, %p)", __func__, version, mode, init, sessionID, identifier, target, type, error);
++	smlTrace(TRACE_ENTRY, "%s(%i, %i, %i, %i, %s, %s, %i, %p)", __func__, version, mode, init, sessionID, identifier?identifier:"NULL", target?target:"NULL", type, error);
+ 
+ 	SmlNotification *san = smlTryMalloc0(sizeof(SmlNotification), error);
+ 	if (!san)
+@@ -75,7 +75,7 @@
+ error_free_san:
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -118,7 +118,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -264,7 +264,7 @@
+ 	g_free(san->identifier);
+ 	g_free(san);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -355,7 +355,7 @@
+ error:
+ 	*data = NULL;
+ 	*size = 0;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -446,7 +446,7 @@
+ error:
+ 	*data = NULL;
+ 	*size = 0;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -501,7 +501,7 @@
+ error_free_data:
+ 	g_free(data);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+Index: libsyncml-trunk/libsyncml/sml_transport.c
+===================================================================
+--- libsyncml-trunk/libsyncml/sml_transport.c	(revision 253)
++++ libsyncml-trunk/libsyncml/sml_transport.c	(working copy)
+@@ -74,7 +74,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -168,7 +168,7 @@
+ 		tsp->context = NULL;
+ 	}
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -209,7 +209,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -235,7 +235,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -265,7 +265,7 @@
+ 	return cmd;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -348,7 +348,7 @@
+ error_free_link:
+ 	smlLinkDeref(link);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -475,7 +475,7 @@
+ error_free_tsp:
+ 	smlTransportFree(tsp);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -539,7 +539,7 @@
+ error_detach:
+ 	smlQueueDetach(tsp->command_queue);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -575,7 +575,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+Index: libsyncml-trunk/libsyncml/parser/sml_xml_assm.c
+===================================================================
+--- libsyncml-trunk/libsyncml/parser/sml_xml_assm.c	(revision 253)
++++ libsyncml-trunk/libsyncml/parser/sml_xml_assm.c	(working copy)
+@@ -41,7 +41,7 @@
+ 
+ static SmlBool _smlXmlAssemblerStartNodeNS(SmlXmlAssembler *assm, const char *name, const char *uri, SmlError **error)
+ {
+-	smlTrace(TRACE_INTERNAL, "%s: Starting \"%s\"", __func__, name);
++	smlTrace(TRACE_INTERNAL, "%s: Starting \"%s\"", __func__, name?name:"NULL");
+ 	int rc = xmlTextWriterStartElementNS(assm->writer, NULL, (xmlChar *)name, (xmlChar *)uri);
+ 	if (rc < 0) {
+         smlErrorSet(error, SML_ERROR_GENERIC, "Unable to start node");
+@@ -124,7 +124,7 @@
+ 
+ SmlBool smlLocationAssemble(SmlLocation *location, SmlXmlAssembler *assm, const char *name, SmlError **error)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%p, %p, %s, %p)", __func__, location, assm, name, error);
++	smlTrace(TRACE_ENTRY, "%s(%p, %p, %s, %p)", __func__, location, assm, name?name:"NULL", error);
+ 	smlAssert(assm);
+ 	smlAssert(location);
+ 	
+@@ -155,7 +155,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -193,7 +193,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -250,7 +250,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -302,7 +302,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -340,7 +340,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -401,7 +401,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -460,7 +460,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -491,7 +491,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -528,7 +528,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -589,7 +589,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -632,7 +632,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -765,7 +765,7 @@
+ 	xmlBufferFree(assm->header_buffer);
+ 	assm->header_buffer = NULL;
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -959,7 +959,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -994,7 +994,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1022,7 +1022,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1204,7 +1204,7 @@
+ error_free_buffer:
+ 	xmlBufferFree(res->buffer);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1332,7 +1332,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1358,7 +1358,7 @@
+ 					if (!cmdname)
+ 						goto error;
+ 				}
+-				smlTrace(TRACE_INTERNAL, "opening node %s", cmdname);
++				smlTrace(TRACE_INTERNAL, "opening node %s", cmdname?cmdname:"NULL");
+ 				
+ 				if (!_smlXmlAssemblerStartNode(assm, cmdname, error))
+ 					goto error;
+@@ -1385,7 +1385,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1537,7 +1537,7 @@
+ 	
+ 	//FIXME ADD debug ifs
+ 	char *debugstr = smlPrintBinary(*data, *size);
+-	smlTrace(TRACE_INTERNAL, "Message Assembled: %s", debugstr);
++	smlTrace(TRACE_INTERNAL, "Message Assembled: %s", debugstr?debugstr:"NULL");
+ 	g_free(debugstr);
+ 	
+ 	smlTrace(TRACE_EXIT, "%s", __func__);
+@@ -1549,7 +1549,7 @@
+ error_free_buffer:
+ 	xmlBufferFree(buffer);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1665,13 +1665,13 @@
+ 	return assm;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+ static SmlBool _smlXmlDevInfDataStoreAssembleRxTx(SmlXmlAssembler *assm, const char *element, const char *cttype, const char *version, SmlError **error)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%p, %s, %s, %s, %p)", __func__, assm, element, cttype, version, error);
++	smlTrace(TRACE_ENTRY, "%s(%p, %s, %s, %s, %p)", __func__, assm, element?element:"NULL", cttype?cttype:"NULL", version?version:"NULL", error);
+ 	smlAssert(assm);
+ 	smlAssert(element);
+ 	smlAssert(cttype);
+@@ -1692,7 +1692,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1837,7 +1837,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1997,7 +1997,7 @@
+ 	
+ 	g_free(assm);
+ 	
+-	smlTrace(TRACE_INTERNAL, "Message Assembled: %s", *data);
++	smlTrace(TRACE_INTERNAL, "Message Assembled: %s", *data?*data:"NULL");
+ 	
+ 	smlTrace(TRACE_EXIT, "%s", __func__);
+ 	return TRUE;
+@@ -2010,7 +2010,7 @@
+ error_free_assm:
+ 	g_free(assm);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+Index: libsyncml-trunk/libsyncml/parser/sml_wbxml.c
+===================================================================
+--- libsyncml-trunk/libsyncml/parser/sml_wbxml.c	(revision 253)
++++ libsyncml-trunk/libsyncml/parser/sml_wbxml.c	(working copy)
+@@ -48,7 +48,7 @@
+ 
+ error:
+ 	smlErrorSet(error, SML_ERROR_GENERIC, (char *)wbxml_errors_string(wberror));
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -67,7 +67,7 @@
+ 	
+ error:
+ 	smlErrorSet(error, SML_ERROR_GENERIC, (char *)wbxml_errors_string(wberror));
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -79,7 +79,7 @@
+ 	smlAssert(size);
+ 	
+ 	char *bin = smlPrintBinary(data, size);
+-	smlTrace(TRACE_INTERNAL, "Wbxml input: %s", bin);
++	smlTrace(TRACE_INTERNAL, "Wbxml input: %s", bin?bin:"NULL");
+ 	g_free(bin);
+ 	smlLog("received-%i.wbxml", data, size);
+ 	
+@@ -96,7 +96,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -115,7 +115,7 @@
+ 	return parser;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -139,7 +139,7 @@
+ 		goto error;
+ 	
+ 	char *hex = smlPrintHex(*data, *size);
+-	smlTrace(TRACE_INTERNAL, "Wbxml assembled: %s", hex);
++	smlTrace(TRACE_INTERNAL, "Wbxml assembled: %s", hex?hex:"NULL");
+ 	g_free(hex);
+ 
+ 	smlLog("sent-%i.wbxml", *data, *size);
+@@ -148,7 +148,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -180,7 +180,7 @@
+ error_free_buffer:
+ 	g_free(buffer);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return 0;
+ }
+ 
+@@ -206,7 +206,7 @@
+ 	return assm;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+Index: libsyncml-trunk/libsyncml/parser/sml_xml_parse.c
+===================================================================
+--- libsyncml-trunk/libsyncml/parser/sml_xml_parse.c	(revision 253)
++++ libsyncml-trunk/libsyncml/parser/sml_xml_parse.c	(working copy)
+@@ -279,7 +279,7 @@
+ 	
+ 	if (*version) {
+ 		smlErrorSet(error, SML_ERROR_GENERIC, "dtd already set");
+-		smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++		smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 		return FALSE;
+ 	}
+ 	
+@@ -305,7 +305,7 @@
+ 
+ error:
+ 	*version = SML_VERSION_UNKNOWN;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -317,7 +317,7 @@
+ 	
+ 	if (*type) {
+ 		smlErrorSet(error, SML_ERROR_GENERIC, "protocol already set");
+-		smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++		smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 		return FALSE;
+ 	}
+ 	
+@@ -339,7 +339,7 @@
+ 
+ error:
+ 	*type = SML_PROTOCOL_UNKNOWN;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -352,7 +352,7 @@
+ 	
+ 	if (*location) {
+ 		smlErrorSet(error, SML_ERROR_GENERIC, "Location already set");
+-		smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++		smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 		return FALSE;
+ 	}
+ 	
+@@ -402,7 +402,7 @@
+ 	smlLocationUnref(*location);
+ error:
+ 	*location = NULL;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -414,7 +414,7 @@
+ 	
+ 	if (*anchor) {
+ 		smlErrorSet(error, SML_ERROR_GENERIC, "anchor already set");
+-		smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++		smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 		return FALSE;
+ 	}
+ 	
+@@ -460,7 +460,7 @@
+ 	smlAnchorFree(*anchor);
+ error:
+ 	*anchor = NULL;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -509,7 +509,7 @@
+ 	if (type)
+ 		*type = NULL;
+ 
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -588,7 +588,7 @@
+ 		*anchor = NULL;
+ 	if (type)
+ 		*type = NULL;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -731,7 +731,7 @@
+ error_free_item:
+ 	smlItemUnref(item);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -808,7 +808,7 @@
+ 		g_free(format);
+ 	if (type)
+ 		g_free(type);
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -877,13 +877,13 @@
+ 		g_free(format);
+ 	if (type)
+ 		g_free(type);
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+ static SmlBool _smlChangeParse(SmlXmlParser *parser, SmlCommand **cmd, SmlCommandType type, const char *name, SmlError **error)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%p, %i, %s, %p)", __func__, parser, type, name, error);
++	smlTrace(TRACE_ENTRY, "%s(%p, %i, %s, %p)", __func__, parser, type, name?name:"NULL", error);
+ 	smlAssert(parser);
+ 	smlAssert(name);
+ 	char *contenttype = NULL;
+@@ -986,7 +986,7 @@
+ 	if (contenttype)
+ 		g_free(contenttype);
+ 	*cmd = NULL;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1039,7 +1039,7 @@
+ error:
+ 	*maxmsgsize = 0;
+ 	*maxobjsize = 0;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1110,7 +1110,7 @@
+ 	smlCommandUnref(*cmd);
+ error:
+ 	*cmd = NULL;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1176,7 +1176,7 @@
+ 	smlCommandUnref(*cmd);
+ error:
+ 	*cmd = NULL;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1222,7 +1222,7 @@
+ error_free_item:
+ 	smlMapItemUnref(item);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -1284,7 +1284,7 @@
+ 	smlCommandUnref(*cmd);
+ error:
+ 	*cmd = NULL;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1368,7 +1368,7 @@
+ 	*cmd = NULL;
+ 	if (contenttype)
+ 		g_free(contenttype);
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1488,7 +1488,7 @@
+ 	*cmd = NULL;
+ 	if (contenttype)
+ 		g_free(contenttype);
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1506,7 +1506,7 @@
+ 	
+ 	//Fixme debug if
+ 	char *debugstr = smlPrintBinary(data, size);
+-	smlTrace(TRACE_INTERNAL, "Xml input: %s", debugstr);
++	smlTrace(TRACE_INTERNAL, "Xml input: %s", debugstr?debugstr:"NULL");
+ 	smlLog("received-%i.xml", data, size);
+ 	g_free(debugstr);
+ 	
+@@ -1535,7 +1535,7 @@
+ 	xmlFreeTextReader(parser->reader);
+ error:
+ 	parser->reader = NULL;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1592,7 +1592,7 @@
+ 	return TRUE;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1728,7 +1728,7 @@
+ 	if (*cred)
+ 		smlCredFree(*cred);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1869,7 +1869,7 @@
+ 		goto error_free_status;
+ 	}
+ 	
+-	smlTrace(TRACE_INTERNAL, "Got status %p with: cmdRef %i, msgRef %i, type %i, data %s", *status, (*status)->cmdRef, (*status)->msgRef, (*status)->type, (*status)->data);
++	smlTrace(TRACE_INTERNAL, "Got status %p with: cmdRef %i, msgRef %i, type %i, data %s", *status, (*status)->cmdRef, (*status)->msgRef, (*status)->type, (*status)->data?(*status)->data:"NULL");
+ 	
+ 	smlTrace(TRACE_EXIT, "%s", __func__);
+ 	return TRUE;
+@@ -1878,7 +1878,7 @@
+ 	smlStatusUnref(*status);
+ error:
+ 	*status = NULL;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -1981,7 +1981,7 @@
+ 	smlCommandUnref(*cmd);
+ error:
+ 	*cmd = NULL;
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return SML_PARSER_RESULT_ERROR;
+ }
+ 
+@@ -2005,7 +2005,7 @@
+ 	return parser;
+ 
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
+@@ -2060,7 +2060,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -2101,13 +2101,13 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+ static SmlBool _smlXmlDevInfDataStoreParseRxTx(SmlXmlParser *parser, const char *element, char **cttype, char **version, SmlError **error)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%p, %s, %p, %p, %p)", __func__, parser, element, cttype, version, error);
++	smlTrace(TRACE_ENTRY, "%s(%p, %s, %p, %p, %p)", __func__, parser, element?element:"NULL", cttype, version, error);
+ 	smlAssert(parser);
+ 	smlAssert(element);
+ 	smlAssert(cttype);
+@@ -2164,7 +2164,7 @@
+ 	return TRUE;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -2240,7 +2240,7 @@
+ error_free_datastore:
+ 	smlDevInfDataStoreUnref(datastore);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+@@ -2252,7 +2252,7 @@
+ 	
+ 	//Fixme debug if
+ 	char *debugstr = smlPrintBinary(data, size);
+-	smlTrace(TRACE_INTERNAL, "Xml devinf input: %s", debugstr);
++	smlTrace(TRACE_INTERNAL, "Xml devinf input: %s", debugstr?debugstr:"NULL");
+ 	g_free(debugstr);
+ 	
+ 	SmlXmlParser *parser = smlTryMalloc0(sizeof(SmlXmlParser), error);
+@@ -2467,7 +2467,7 @@
+ 	parser->reader = NULL;
+ 	g_free(parser);
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return FALSE;
+ }
+ 
+Index: libsyncml-trunk/libsyncml/sml_manager.c
+===================================================================
+--- libsyncml-trunk/libsyncml/sml_manager.c	(revision 253)
++++ libsyncml-trunk/libsyncml/sml_manager.c	(working copy)
+@@ -610,7 +610,7 @@
+  */
+ SmlBool smlManagerObjectRegister(SmlManager *manager, SmlCommandType type, SmlSession *session, SmlLocation *location, SmlLocation *source, const char *contentType, SmlCommandCb callback, SmlCommandCb childCallback, void *userdata, SmlError **error)
+ {
+-	smlTrace(TRACE_ENTRY, "%s(%p, %i, %p, %p, %p, %s, %p, %p, %p, %p)", __func__, manager, type, session, location, source, contentType, callback, childCallback, userdata, error);
++	smlTrace(TRACE_ENTRY, "%s(%p, %i, %p, %p, %p, %s, %p, %p, %p, %p)", __func__, manager, type, session, location, source, contentType?contentType:"NULL", callback, childCallback, userdata, error);
+ 	smlAssert(manager);
+ 	smlAssert(callback);
+ 	
+Index: libsyncml-trunk/libsyncml/sml_support.c
+===================================================================
+--- libsyncml-trunk/libsyncml/sml_support.c	(revision 253)
++++ libsyncml-trunk/libsyncml/sml_support.c	(working copy)
+@@ -325,7 +325,7 @@
+ 	return thread;
+ 	
+ error:
+-	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error));
++	smlTrace(TRACE_EXIT_ERROR, "%s: %s", __func__, smlErrorPrint(error)?smlErrorPrint(error):"NULL");
+ 	return NULL;
+ }
+ 
