@@ -1,5 +1,11 @@
 2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEgnome-commander.spec: add /usr/gnu to search paths
+	* SFEgnome-device-manager.spec: and again
+	* SFEgnome-power-manager.spec: and again
+
+2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
+
         * linux-specs/*.spec: move to base-specs/
 	* SFEazureus.spec: use %{sf_mirror}
 	* SFEclutter.spec: add /usr/X11 to search paths

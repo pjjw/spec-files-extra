@@ -62,12 +62,9 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 export PYTHON="/usr/bin/python"
-export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP"
-export RPM_OPT_FLAGS="$CFLAGS"
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
+export CFLAGS="%optflags -I/usr/sfw/include -I/usr/gnu/include -DANSICPP"
 export CPPFLAGS="-I/usr/sfw/include"
-export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib"
-export MSGFMT="/usr/bin/msgfmt"
+export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib -L/usr/gnu/lib -R/usr/gnu/lib"
 
 intltoolize --force --copy --automake
 aclocal $ACLOCAL_FLAGS -I m4
@@ -122,16 +119,15 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- add /usr/gnu to search paths for the indiana build
 * Mon Oct 08 2007 - damien.carbery@sun.com
 - Add deletion of /var files back for building on pre-GNOME 2.20 systems where
   scrollkeeper is used. The /var files are not installed when rarian is used.
-
 * Mon Oct 08 2007 - damien.carbery@sun.com
 - Add intltoolize call and remove some non-l10n rm calls.
-
 * Tue Jun 12 2007 - damien.carbery@sun.com
 - Add patches, 08-warnx and 09-other, to fix a few more build issues.
 - Update %files and %install now that build is working.
-
 * Mon Jun 11 2007 - damien.carbery@sun.com
 - Initial version

@@ -53,7 +53,8 @@ mkdir %name-%version
 cd %{_builddir}/%name-%version
 
 %build
-export LDFLAGS="%_ldflags -lX11 -lkstat"
+export LDFLAGS="%_ldflags -lX11 -lkstat -L/usr/gnu/lib -R/usr/gnu/lib"
+export CFLAGS="%optflags -I/usr/gnu/include"
 %gpm.build -d %name-%version
 
 %install
@@ -187,6 +188,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- add /usr/gnu to search paths
 * Wed Sep 19 2007 - trisk@acm.jhu.edu
 - Fix %post/%preun typos
 * Thu Aug 30 2007 - trisk@acm.jhu.edu

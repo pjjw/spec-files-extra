@@ -44,7 +44,8 @@ mkdir %name-%version
 cd %{_builddir}/%name-%version
 
 %build
-export LDFLAGS="%{_ldflags} -ldbus-glib-1"
+export LDFLAGS="%{_ldflags} -ldbus-glib-1 -L/usr/gnu/lib -R/usr/gnu/lib"
+export CFLAGS="%optflags -I/usr/gnu/include"
 %gdm.build -d %name-%version
 
 %install
@@ -108,10 +109,11 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- add /usr/gnu to search paths
 * Fri Aug 31 2007 - simon.zheng@sun.com
 - Gnome-device-manager is orignated from hal-device-manager,
   but it is written in C and able to manage device and driver.
-
 * Wed Jun 06 2007 - nonsea@users.sourceforge.net
 - Bump to 0.5.9.
 - Remove patch hal-01-configure.diff.
