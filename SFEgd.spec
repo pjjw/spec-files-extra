@@ -14,10 +14,15 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
+%if %(pkginfo -q FSWxorg-clientlibs && echo 1 || echo 0)
+#FOX
+Requires: FSWxorg-clientlibs
+%else
 BuildRequires: SUNWxwplt
+Requires: SUNWxwplt
+%endif
 BuildRequires: SUNWpng
 BuildRequires: SUNWjpg
-Requires: SUNWxwplt
 Requires: SUNWpng
 Requires: SUNWjpg
 

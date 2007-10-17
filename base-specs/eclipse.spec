@@ -33,9 +33,9 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 %patch2 -p1
 
 %build
-
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
+export OPTFLAGS="$CFLAGS"
 
 export JAVA_HOME=/usr/java
 export CDE_HOME=/usr/dt
@@ -46,10 +46,6 @@ make -C plugins/org.eclipse.core.filesystem/natives/unix/solaris
 ( cd plugins/org.eclipse.update.core.solaris/src && ant )
 
 %install
-
-export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags"
-
 export JAVA_HOME=/usr/java
 export CDE_HOME=/usr/dt
 %define _desktopdir %{_datadir}/applications

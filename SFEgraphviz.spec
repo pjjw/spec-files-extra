@@ -18,10 +18,13 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-Requires: SUNWxwplt
 Requires: SFElibtool
 Requires: SFEgd
+%if (test -f /usr/lib/libexpat.so.1.5.0 && pkginfo -q SUNWlexpt)
+Requires: SUNWlexpt
+%else
 Requires: SFEexpat
+%endif
 Requires: SUNWfontconfig
 %if %SFEfreetype
 Requires: SFEfreetype
@@ -140,6 +143,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/graphviz/*
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- allow building with either SUNWlexpt or SFEexpat
 * Mon Sep 24 2007 - trisk@acm.jhu.edu
 - Allow building with Tcl 8.4 (newer SUNWTcl)
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net

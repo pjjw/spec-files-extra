@@ -1,3 +1,10 @@
+2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEastyle.spec: use the sf_mirror macro
+	* SFEgd.spec: make deps FOX-compatible
+	* SFEgraphviz.spec: allow building with either SUNWlexpt or SFEexpat
+	* base-specs/eclipse.spec: set OPTFLAGS to $CFLAGS
+
 2007-10-16  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* base-specs/libsndfile.spec: disable use of sqlite for now -- no

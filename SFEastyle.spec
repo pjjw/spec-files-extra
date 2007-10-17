@@ -27,7 +27,7 @@ Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	GPLv2
 Group:          Development/Tools
-Source:         http://jaist.dl.sourceforge.net/sourceforge/astyle/%{src_tarball}
+Source:         http://%{sf_mirror}/sourceforge/astyle/%{src_tarball}
 URL:            http://astyle.sourceforge.net
 Packager:     	Shivakumar GN
 BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
