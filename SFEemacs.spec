@@ -14,9 +14,6 @@ URL:                     http://www.gnu.org/software/emacs/emacs.html
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires: SUNWxwrtl
-Requires: SUNWxwplt
-Requires: SUNWxwice
 Requires: SUNWTiff
 Requires: SUNWpng
 Requires: SUNWjpg
@@ -26,6 +23,15 @@ Requires: SUNWperl584core
 Requires: SUNWtexi
 Requires: SUNWpostrun
 Requires: %{name}-root
+%if %{?with_gtk:1}%{?!with_gtk}
+%define toolkit gtk
+Requires: SUNWgnome-base-libs
+%else
+%define toolkit motif
+Requires: SUNWxwrtl
+Requires: SUNWxwplt
+Requires: SUNWxwice
+%endif
 
 %package root
 Summary:                 %{summary} - root
@@ -50,7 +56,7 @@ export PERL=/usr/perl5/bin/perl
             --infodir=%{_infodir}            \
             --sysconfdir=%{_sysconfdir} \
             --localstatedir=%{_localstatedir}   \
-            --with-gcc=no --with-x-toolkit=motif --enable-python
+            --with-gcc=no --with-x-toolkit=%toolkit --enable-python
 
 make -j$CPUS 
 
@@ -116,6 +122,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_localstatedir}/games/emacs/*
 
 %changelog
+* Tue Oct 16 2007 - laca@sun.com
+- enable building with gtk if the --with-gtk build option is used (default
+  remains motif)
 * Wed Jul 24 2007 - markwright@internode.on.net
 - Bump to 22.1, change CPP="cc -E -Xs", add --with-gcc=no --with-x-toolkit=motif, add %{_localstatedir}/games/emacs.
 * Mon Jun 12 2006 - laca@sun.com

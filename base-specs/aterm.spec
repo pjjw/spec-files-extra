@@ -30,7 +30,6 @@ cppflags="-I/usr/sfw/include/freetype2 -I/usr/gnu/include -I/usr/sfw/include -I/
 export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer $cppflags"
 export LDFLAGS="%{_ldflags} $GNULIB $SFWLIB $X11LIB"
 export LD_OPTIONS="$GNULIB $SFWLIB $X11LIB"
-export CC=gcc
 
 ./configure --prefix=%{_prefix}			\
 	    --bindir=%{_bindir}			\

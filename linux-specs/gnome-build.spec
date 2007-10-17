@@ -40,6 +40,7 @@ in your own programs.
 
 %prep
 %setup -q
+perl -pi -e 's/^AC_PROG_INTLTOOL$/IT_PROG_INTLTOOL/' configure.in
 
 %build
 %ifos linux
@@ -101,6 +102,8 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Oct 16 2007 - laca@sun.com
+- use IT_PROG_INTLTOOL instead of AC_PROG_INTLTOOL in configure.in
 * Mon Sep 10 2007 - nonsea@users.sourceforge.net
 - Bump to 0.2.0
 * Sun May 13 2007 - nonsea@users.sourceforge.net

@@ -22,6 +22,7 @@ BuildRequires: SUNWgnome-base-libs-devel
 %if %with_mono
   Requires: SFEmono
   BuildRequires: SFEmono-devel
+  Requires: SFEgtk-sharp
 %endif
 
 %package devel

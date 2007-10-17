@@ -34,12 +34,9 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP"
-export RPM_OPT_FLAGS="$CFLAGS"
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
+export CFLAGS="%optflags -I/usr/gnu/include -I/usr/sfw/include -DANSICPP"
 export CPPFLAGS="-I/usr/sfw/include"
-export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib"
-export MSGFMT="/usr/bin/msgfmt"
+export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib -L/usr/gnu/lib -R/usr/gnu/lib"
 
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --libdir=%{_libdir}              \
@@ -80,6 +77,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Oct 16 2007 - laca@sun.com
+- add /usr/gnu to search paths for the indiana build
 * Thu Mar 29 2007 - daymobrew@users.sourceforge.net
 - Change Requires of SUNWaspell to SUNWgnome-spell. Former has been obsoleted.
 * Wed Jan 24 2007 - daymobrew@users.sourceforge.net

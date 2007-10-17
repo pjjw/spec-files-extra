@@ -41,12 +41,20 @@ Requires: SUNWlxsl
 Requires: SUNWperl584core
 Requires: SUNWpcre
 Requires: SUNWapch2u
+%if %(pkginfo -q SFEneon && echo 1 || echo 0)
+Requires: SFEneon
+%else
 Requires: SUNWneon
+%endif
 Requires: SFEgdl
 Requires: SFEgnome-build
 Requires: SFEgraphviz
 Requires: SFEautogen
+%if %(pkginfo -q SFEsubversion && echo 1 || echo 0)
+Requires: SFEsubversion
+%else
 Requires: SUNWsvn
+%endif
 BuildRequires: SUNWpcre-devel
 BuildRequires: SFEgdl-devel
 BuildRequires: SFEgnome-build-devel

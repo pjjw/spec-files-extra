@@ -1,3 +1,20 @@
+2007-10-16  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEaalib.spec: add FOX build support
+	* SFEanjuta.spec: make dependencies smarter: SFEneon or SUNWneon, etc.
+	* SFEaterm.spec: use /usr/sfw/bin/gcc
+	* SFEbluefish.spec: add /usr/gnu to search paths
+	* SFEcompiz.spec: fix building with FOX libs
+	* SFEeclipse.spec: add /usr/gnu to search paths
+	* SFEemacs.spec: enable building with gtk if the --with-gtk build
+	  option is used (default remains motif)
+	* SFEgtk-sharp.spec: disable parallel build of gtk#-2
+	* SFEwxwidgets.spec: add /usr/gnu to search paths for the indiana build
+	* base-specs/aterm.spec: set CC in SFEaterm.spec instead
+	* base-specs/libsndfile.spec: disable alsa support for now
+	* linux-specs/gnome-build.spec: use IT_PROG_INTLTOOL instead
+	  of AC_PROG_INTLTOOL
+
 2007-10-17  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFElibopensync-plugin-sml.spec: Remove -devel pkg, change %files

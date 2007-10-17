@@ -26,6 +26,7 @@ mkdir %name-%version/%{base_arch}
 %aterm.prep -d %name-%version/%{base_arch}
 
 %build
+export CC=/usr/sfw/bin/gcc
 %aterm.build -d %name-%version/%{base_arch}
 
 %install

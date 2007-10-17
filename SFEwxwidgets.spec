@@ -47,14 +47,14 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-export CFLAGS="%optflags"
+export CFLAGS="%optflags -I/usr/gnu/include"
 export LD=/usr/ccs/bin/ld
-export LDFLAGS="-lCrun -lCstd"
+export LDFLAGS="-lCrun -lCstd -L/usr/gnu/lib -R/usr/gnu/lib"
 %if %cc_is_gcc
 %else
 export CXX="${CXX} -norunpath"
 %endif
-export CXXFLAGS="%cxx_optflags -xlibmil -xlibmopt -features=tmplife"
+export CXXFLAGS="%cxx_optflags -xlibmil -xlibmopt -features=tmplife -I/usr/gnu/include"
 ./configure --prefix=%{_prefix}				\
 			--bindir=%{_bindir}				\
 			--includedir=%{_includedir}		\
@@ -126,6 +126,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Oct 16 2007 - laca@sun.com
+- add /usr/gnu to search paths for the indiana build
 * Tue Sep 18 2007 - brian.cameron@sun.com
 - Bump to 2.8.5.  Remove upstream patch wxwidgets-02-sqrt.diff.
 * Tue Aug 07 2007 - nonsea@users.sourceforge.net

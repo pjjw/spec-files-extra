@@ -40,6 +40,7 @@ export CXX="${CXX} -norunpath"
             --libdir=%{_libdir}		\
             --libexecdir=%{_libexecdir}	\
             --sysconfdir=%{_sysconfdir}	\
+            --disable-alsa              \
             --enable-shared		\
 	    --disable-static
 
@@ -53,6 +54,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Oct 16 2007 - laca@sun.com
+- disable alsa support for now -- breaks the build
 * Sun Aug 12 2007 - dougs@truemail.co.th
 - Changed to build 64bit
 * Mon Apr 30 2007 - laca@sun.com

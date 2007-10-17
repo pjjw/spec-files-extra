@@ -29,6 +29,8 @@ mkdir %name-%version/%{base_arch}
 %eclipse.prep -d %name-%version/%{base_arch}
 
 %build
+export EXTRA_CFLAGS="-I/usr/X11/include"
+export EXTRA_LDFLAGS="-L/usr/X11/lib -R/usr/X11/lib"
 %eclipse.build -d %name-%version/%{base_arch}
 
 %install

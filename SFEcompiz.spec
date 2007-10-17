@@ -4,7 +4,13 @@
 
 %include Solaris.inc
 
+%if %(pkgchk -q FSWxorg-clientlibs && echo 1 || echo 0)
+# FOX
+%define old_x11 0
+%else
+# Nevada X
 %define old_x11     %(pkgchk -l SUNWxwinc 2>/dev/null | grep compositeproto >/dev/null && echo 0 || echo 1)
+%endif
 
 %define gnome_2_20  %(pkg-config --atleast-version=2.19.0 libgnome-2.0 && echo 1 || echo 0)
 
@@ -281,6 +287,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Oct 16 2007 - laca@sun.com
+- add FOX build support
 * Fri Sep 21 2007 - Albert Lee <trisk@acm.jhu.edu>
 - Add optional patch for "black windows" workaround
 - Fix install in GNOME 2.19/2.20

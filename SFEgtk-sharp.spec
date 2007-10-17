@@ -60,7 +60,7 @@ cd gtk-sharp-%{version}
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
             --sysconfdir=%{_sysconfdir}
-make -j $CPUS CFLAGS="$CFLAGS"
+make CFLAGS="$CFLAGS"
 
 %install
 cd gtk-sharp-%{gtk_sharp_1_version}
@@ -95,6 +95,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gapi
 
 %changelog
+* Tue Oct 16 2007 - laca@sun.com
+- disable parallel build of gtk#-2 -- breaks the build of the docs
 * Sun Sep 02 2007 - trisk@acm.jhu.edu
 - Bump to 2.10.2
 * Wed Sep  7 2006 - jedy.wang@sun.com
