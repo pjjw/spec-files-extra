@@ -1,5 +1,6 @@
 2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEmcrypt.spec: add %defattr
 	* SFEgnome-commander.spec: add /usr/gnu to search paths
 	* SFEgnome-device-manager.spec: and again
 	* SFEgnome-power-manager.spec: and again

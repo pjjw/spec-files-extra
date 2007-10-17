@@ -74,7 +74,8 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %clean 
 rm -rf $RPM_BUILD_ROOT
 
-%files 
+%files
+%defattr (0755, root, bin) 
 %dir %attr(755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
@@ -84,5 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- add defattr
 * Sun Mar 31 2007 - Thomas Wagner
 - Initial spec
