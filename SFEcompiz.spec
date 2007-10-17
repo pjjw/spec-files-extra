@@ -90,8 +90,8 @@ PROTO_PKG=$RPM_BUILD_DIR/%{name}/usr/X11/lib/pkgconfig
 
 export PKG_CONFIG_PATH="$PROTO_PKG"
 
-export CFLAGS="%optflags -I$PROTO_INC -I/usr/include/startup-notification-1.0" 
-export LDFLAGS="-L$PROTO_LIB -R/usr/X11/lib"
+export CFLAGS="%optflags -I$PROTO_INC -I/usr/include/startup-notification-1.0 -I/usr/X11/include" 
+export LDFLAGS="-L$PROTO_LIB -L/usr/X11/lib -R/usr/X11/lib"
 
 mkdir -p $PROTO_INC/X11/extensions
 mkdir -p $PROTO_PKG
