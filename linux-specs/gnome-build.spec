@@ -55,6 +55,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 libtoolize --force
+intltoolize --force
 aclocal $ACLOCAL_FLAGS -I .
 autoheader
 automake -a -c -f
