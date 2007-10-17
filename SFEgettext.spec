@@ -14,6 +14,7 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWpostrun
+BuildConflicts:      SUNWgnu-gettext
 
 %package devel
 Summary:                 %{summary} - developer files
