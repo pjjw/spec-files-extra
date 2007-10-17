@@ -22,7 +22,7 @@ Requires: SFEfreeglut
 %prep
 %setup -q -n %{src_name}-%{version}
 find . -type f -exec dos2unix {} {} \;
-ex - configure.ac << EOM
+/bin/ex - configure.ac << EOM
 /_AC_SRCPATHS/d
 w
 q!
@@ -58,7 +58,7 @@ jam
 %install
 rm -rf $RPM_BUILD_ROOT
 
-ex - Jamconfig << EOM
+/bin/ex - Jamconfig << EOM
 /^prefix
 s:%{_prefix}:$RPM_BUILD_ROOT%{_prefix}:
 /^bindir
