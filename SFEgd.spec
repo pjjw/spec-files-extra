@@ -43,8 +43,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags"
-export LDFLAGS="%{_ldflags}"
+export CFLAGS="%optflags -I/usr/gnu/include"
+export LDFLAGS="%{_ldflags} -L/usr/gnu/lib -R/usr/gnu/lib"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
@@ -76,15 +76,14 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- add /usr/gnu to CFLAGS/LDFLAGS
 * Sat Aug 18 2007 - trisk@acm.jhu.edu
 - Bump to 2.0.35
-*
 * Tue Mar 22 2007 - Thomas Wagner
 - split into SFEgd SFEgd-devel
-*
 * Tue Mar 20 2007 - Thomas Wagner
 - bump up version to 2.0.34
 - new Url / Source
-* 
 * Fri Sep 29 2006 - Eric Boutilier
 - Initial spec

@@ -1,5 +1,6 @@
 2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEgd.spec: add /usr/gnu to CFLAGS/LDFLAGS
 	* SFEastyle.spec: use the sf_mirror macro
 	* SFEgd.spec: make deps FOX-compatible
 	* SFEgraphviz.spec: allow building with either SUNWlexpt or SFEexpat
