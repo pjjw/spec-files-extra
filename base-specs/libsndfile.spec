@@ -41,6 +41,7 @@ export CXX="${CXX} -norunpath"
             --libexecdir=%{_libexecdir}	\
             --sysconfdir=%{_sysconfdir}	\
             --disable-alsa              \
+            --disable-sqlite
             --enable-shared		\
 	    --disable-static
 
@@ -55,6 +56,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Tue Oct 16 2007 - laca@sun.com
+- disable use of sqlite for now -- no 64-bit version
 - disable alsa support for now -- breaks the build
 * Sun Aug 12 2007 - dougs@truemail.co.th
 - Changed to build 64bit

@@ -1,5 +1,10 @@
 2007-10-16  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* base-specs/libsndfile.spec: disable use of sqlite for now -- no
+	  64-bit version
+
+2007-10-16  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEaalib.spec: add FOX build support
 	* SFEanjuta.spec: make dependencies smarter: SFEneon or SUNWneon, etc.
 	* SFEaterm.spec: use /usr/sfw/bin/gcc
