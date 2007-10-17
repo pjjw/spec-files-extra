@@ -23,7 +23,7 @@ Requires: SUNWperl584core
 Requires: SUNWtexi
 Requires: SUNWpostrun
 Requires: %{name}-root
-%if %{?with_gtk:1}%{?!with_gtk}
+%if %{?_with_gtk:1}%{?!_with_gtk}
 %define toolkit gtk
 Requires: SUNWgnome-base-libs
 %else
