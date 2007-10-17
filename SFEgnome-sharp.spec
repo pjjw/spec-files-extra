@@ -10,7 +10,7 @@ License:      Other
 Group:        System/Libraries
 Version:      2.16.0
 Summary:      gtk# - .NET bindings for the GNOME platform libraries
-Source:       http://go-mono.com/sources/gnome-sharp/gnome-sharp-%{version}.tar.gz
+Source:       http://go-mono.com/sources/gnome-sharp2/gnome-sharp-%{version}.tar.gz
 Patch1:       gnome-sharp-01-Wall.diff
 Patch2:       gnome-sharp-02-gtkhtml3.14.diff
 URL:          http://www.mono-project.org/

@@ -18,7 +18,11 @@ Patch1:		libmusicbrainz3-01-cppunit.diff
 SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 BuildRequires: SFEcmake
+%if %(pkginfo -q SUNWneon && echo 1 || echo 0)
 Requires: SUNWneon
+%else
+Requires: SFEneon
+%endif
 BuildRequires: SFElibdiscid-devel
 Requires: SFElibdiscid
 BuildRequires: SFEcppunit-devel

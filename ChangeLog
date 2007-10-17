@@ -1,5 +1,11 @@
 2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEanjuta.spec: make SUNW deps the default instead of SFE ones
+	* SFEgnome-sharp.spec: fix src url
+	* SFElibmusicbrainz3.spec: make it work with either SUNWneon or SFEneon
+
+2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEemacs.spec: change /var/games owner to root:bin to match Maelstrom
 	* SFEautoconf.spec: add support for building with either SFEm4
 	  or SUNWgm4
