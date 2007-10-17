@@ -1,8 +1,9 @@
 2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
 
-	* SUNWautoconf.spec: add support for building with either SFEm4
+	* SFEemacs.spec: change /var/games owner to root:bin to match Maelstrom
+	* SFEautoconf.spec: add support for building with either SFEm4
 	  or SUNWgm4
-	* SUNWautomake.spec: add support for building with either SFEm4
+	* SFEautomake.spec: add support for building with either SFEm4
 	  or SUNWgm4
 	* SFEbluefish.spec: define l10n subpkg
 	* SFEdbus-sharp.spec: add /usr/gnu to search paths

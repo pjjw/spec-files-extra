@@ -118,11 +118,13 @@ rm -rf $RPM_BUILD_ROOT
 %files root
 %defattr (-, root, sys)
 %dir %attr (0755, root, sys) %{_localstatedir}
-%dir %attr (0755, root, sys) %{_localstatedir}/games
+%dir %attr (0755, root, bin) %{_localstatedir}/games
 %dir %attr (0755, root, sys) %{_localstatedir}/games/emacs
 %{_localstatedir}/games/emacs/*
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- change /var/games owner to root:bin to match Maelstrom
 * Tue Oct 16 2007 - laca@sun.com
 - enable building with gtk if the --with-gtk build option is used (default
   remains motif)
