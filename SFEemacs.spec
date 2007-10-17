@@ -54,7 +54,8 @@ export PERL=/usr/perl5/bin/perl
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
             --infodir=%{_infodir}            \
-            --sysconfdir=%{_sysconfdir} \
+            --sysconfdir=%{_sysconfdir}      \
+            --without-sound                  \
             --localstatedir=%{_localstatedir}   \
             --with-gcc=no --with-x-toolkit=%toolkit --enable-python
 
@@ -125,6 +126,7 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Oct 16 2007 - laca@sun.com
 - enable building with gtk if the --with-gtk build option is used (default
   remains motif)
+- disable sound support (alsa breaks the build currently)
 * Wed Jul 24 2007 - markwright@internode.on.net
 - Bump to 22.1, change CPP="cc -E -Xs", add --with-gcc=no --with-x-toolkit=motif, add %{_localstatedir}/games/emacs.
 * Mon Jun 12 2006 - laca@sun.com

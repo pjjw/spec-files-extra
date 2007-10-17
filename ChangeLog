@@ -1,3 +1,10 @@
+2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEemacs.spec: disable sound support -- ALSA breaks the build
+	  currently
+	* SFEqemu.spec: fix post/preun scripts
+	* base-specs/kqemu.spec: fix source url
+
 2007-10-17  Petr Sobotka  <sobotkap@centrum.cz>
 
 	* SFEjunit.spec: Fixed bug - suspected gnu find instead of solaris ones

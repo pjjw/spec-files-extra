@@ -4,7 +4,7 @@
 # includes module(s): kqemu
 #
 
-%define src_url http://www.opensolaris.org/os/project/kqemu/downloads
+%define src_url http://www.opensolaris.org/os/project/qemu/downloads
 
 Name:		kqemu
 Summary:	QEMU CPU Emulator Kernel module

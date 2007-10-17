@@ -20,6 +20,7 @@ Version:	%{qemu.version}
 SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+Requires:       SUNWpostrun
 
 %prep
 rm -rf %name-%version
@@ -57,20 +58,19 @@ rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 
 %post
-( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
-	
-	perl -ni -e 'print unless /name=kqemu/' /etc/devlink.tab
-	printf "type=ddi_pseudo;name=kqemu\t\\D\n" >> /etc/devlink.tab
-	add_drv kqemu
-)
+( echo "PATH=/usr/bin:/usr/sbin:/usr/sfw/bin:/usr/gnu/bin; export PATH" ;
+  echo "perl -ni -e 'print unless /name=kqemu/' /etc/devlink.tab" ;
+  echo "printf "type=ddi_pseudo;name=kqemu\t\\D\n" >> /etc/devlink.tab" ;
+  echo "add_drv kqemu"
+) | $PKG_INSTALL_ROOT/usr/lib/postrun -c SFE
 
-%postun
-( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
-	
-	rem_drv kqemu
-	perl -ni -e 'print unless /name=kqemu/' /etc/devlink.tab
-	rm /dev/kqemu
-)
+%preun
+test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 1
+( echo "PATH=/usr/bin:/usr/sbin; export PATH" ;
+  echo "rem_drv kqemu"
+  echo "perl -ni -e 'print unless /name=kqemu/' /etc/devlink.tab"
+  echo "rm /dev/kqemu"
+) | $PKG_INSTALL_ROOT/usr/lib/postrun -c SFE
 
 %files
 %defattr (-, root, bin)
@@ -93,5 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- fix the postinstall/preun scripts
 * Tue Sep  4 2007 - dougs@truemail.co.th
 - Initial version
