@@ -46,7 +46,7 @@ cd %{name}-%{version}
 export JAVA_HOME=/usr/java
 javac -classpath hamcrest-all-1.1.jar:. $(find . -name '*.java')
 jar cvf %{src_name}-%{version}.jar $(find . -type f '!' -name '*.java')
-javadoc -d javadoc $(find -name '*.java') || :
+javadoc -d javadoc $(find ./ -name '*.java') || :
 
 %install
 cd %{name}-%{version}
@@ -74,5 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_javadocdir}
 
 %changelog
+* Wed Oct 17 2007 - sobotkap@centrum.cz
+- Modified arguments to works with solaris's find
 * Sat Sep  8 2007 - dougs@truemail.co.th
 - Initial version

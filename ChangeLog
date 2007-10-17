@@ -1,3 +1,7 @@
+2007-10-17  Petr Sobotka  <sobotkap@centrum.cz>
+
+	* SFEjunit.spec: Fixed bug - suspected gnu find instead of solaris ones
+
 2007-10-17  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEqemu.spec: *NEW* QEMU CPU Emulator
