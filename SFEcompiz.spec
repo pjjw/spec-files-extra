@@ -188,6 +188,14 @@ cp compiz-autostart.sh run-compiz stop-compiz $RPM_BUILD_ROOT%{_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/pixmaps
 cp compiz.png $RPM_BUILD_ROOT%{_datadir}/pixmaps
 
+%if %(pkginfo -q FSWxorg-clientlibs && echo 1 || echo 0)
+# FOX
+cd $RPM_BUILD_ROOT%{_libdir}/pkgconfig
+for pc in ice.pc sm.pc x11.pc xext.pc; do
+    test -f /usr/lib/pkgconfig/$pc && rm $pc
+done
+%endif
+
 %if %build_l10n
 %else
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
