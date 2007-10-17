@@ -20,7 +20,7 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 Requires: SFElibtool
 Requires: SFEgd
-%if (test -f /usr/lib/libexpat.so.1.5.0 && pkginfo -q SUNWlexpt)
+%if %(test -f /usr/lib/libexpat.so.1.5.0 && pkginfo -q SUNWlexpt)
 Requires: SUNWlexpt
 %else
 Requires: SFEexpat

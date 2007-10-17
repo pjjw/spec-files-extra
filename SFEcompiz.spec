@@ -4,7 +4,7 @@
 
 %include Solaris.inc
 
-%if %(pkgchk -q FSWxorg-clientlibs && echo 1 || echo 0)
+%if %(pkginfo -q FSWxorg-clientlibs && echo 1 || echo 0)
 # FOX
 %define old_x11 0
 %else
