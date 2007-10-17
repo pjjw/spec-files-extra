@@ -23,6 +23,14 @@ Requires: SUNWgnome-libs
 BuildRequires: SUNWgnome-libs-devel
 Requires: SUNWlibC
 
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
+
 %prep
 %setup -q -n bluefish-%version
 %patch1 -p1
@@ -47,6 +55,12 @@ make -j$CPUS
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
+
+%if %build_l10n
+%else
+# REMOVE l10n FILES
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -75,8 +89,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*
 
+%if %build_l10n
+%files l10n
+%defattr (-, root, bin)
+%dir %attr (0755, root, sys) %{_datadir}
+%attr (-, root, other) %{_datadir}/locale
+%endif
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- define l10n subpkg
 * Tue Oct 16 2007 - laca@sun.com
 - add /usr/gnu to search paths for the indiana build
 * Thu Mar 29 2007 - daymobrew@users.sourceforge.net

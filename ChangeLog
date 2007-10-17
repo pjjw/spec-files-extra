@@ -1,5 +1,14 @@
 2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SUNWautoconf.spec: add support for building with either SFEm4
+	  or SUNWgm4
+	* SUNWautomake.spec: add support for building with either SFEm4
+	  or SUNWgm4
+	* SFEbluefish.spec: define l10n subpkg
+	* SFEdbus-sharp.spec: add /usr/gnu to search paths
+
+2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEemacs.spec: disable sound support -- ALSA breaks the build
 	  currently
 	* SFEqemu.spec: fix post/preun scripts

@@ -15,7 +15,11 @@ SUNW_BaseDir:		%{_basedir}
 BuildRoot:		%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:               SUNWperl584core
-Requires:               SUNWgm4
+%if %(pkginfo -q SUNWgm4 && echo 1 || echo 0)
+Requires: SUNWgm4
+%else
+Requires: SFEm4
+%endif
 Requires:               SUNWpostrun
 
 %prep
@@ -87,6 +91,8 @@ rm -rf $RPM_BUILD_ROOT
 # %{_datadir}/aclocal/*
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- add support for building with either SFEm4 or SUNWgm4
 * Wed Jul 24 2007 - markwright@internode.on.net
 - Bump to 1.10
 * Sat Apr 21 2007 - dougs@truemail.co.th

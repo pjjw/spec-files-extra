@@ -12,7 +12,11 @@ Source:			 http://ftp.gnu.org/gnu/autoconf/autoconf-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+%if %(pkginfo -q SUNWgm4 && echo 1 || echo 0)
 Requires: SUNWgm4
+%else
+Requires: SFEm4
+%endif
 Requires: SUNWpostrun
 Requires: SUNWtexi
 Requires: SFEemacs
@@ -77,6 +81,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- add support for building with either SFEm4 or SUNWgm4
 * Sat Apr 21 2007 - dougs@truemail.co.th
 - Add Requires: SFEemacs
 * Mon Mar 18 2007 - dougs@truemail.co.th

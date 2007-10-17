@@ -25,9 +25,9 @@ mkdir %name-%version
 %dbus.prep -d %name-%version
 
 %build
-export CFLAGS="%optflags -I/usr/sfw/include"
+export CFLAGS="%optflags -I/usr/sfw/include -I/usr/gnu/include"
 export RPM_OPT_FLAGS=$CFLAGS
-export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib -lexpat"
+export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib -lexpat -L/usr/gnu/lib -R/usr/gnu/lib"
 # put /usr/ccs/lib first in the PATH so that cpp is picked up from there
 # note: I didn't put /usr/lib in the PATH because there's too much other
 # stuff in there
@@ -63,6 +63,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- add /usr/gnu to search paths
 * Fri Jul 21 2006 - laca@sun.com
 - created, based on SUNWdbus.spec but with mono enabled and python disabled
 
