@@ -41,7 +41,7 @@ export CXX="${CXX} -norunpath"
             --libexecdir=%{_libexecdir}	\
             --sysconfdir=%{_sysconfdir}	\
             --disable-alsa              \
-            --disable-sqlite
+            --disable-sqlite            \
             --enable-shared		\
 	    --disable-static
 
