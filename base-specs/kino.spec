@@ -6,7 +6,7 @@
 
 %define src_ver 1.1.1
 %define src_name kino
-%define src_url http://dl.sourceforge.net/sourceforge/kino
+%define src_url http://%{sf_mirror}/sourceforge/kino
 
 Name:		kino
 Summary:	DV editing utility

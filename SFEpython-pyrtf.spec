@@ -4,7 +4,7 @@
 # includes module(s): PyRTF
 #
 %define src_name PyRTF
-%define src_url  http://dl.sourceforge.net/sourceforge/pyrtf
+%define src_url  http://%{sf_mirror}/sourceforge/pyrtf
 
 %define python_version 2.4
 

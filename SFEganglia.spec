@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006 Sun Microsystems, Inc.
+# Copyright 2007 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 
@@ -8,7 +8,7 @@
 Name:                SFEganglia
 Summary:             Ganglia cluster monitor, monitoring daemon
 Version:             3.0.3
-Source:              http://umn.dl.sourceforge.net/sourceforge/ganglia/ganglia-%{version}.tar.gz
+Source:              http://%{sf_mirror}/sourceforge/ganglia/ganglia-%{version}.tar.gz
 Patch1:              ganglia-01-solaris.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

@@ -5,7 +5,7 @@
 #
 
 %define src_name	SDL_Pango
-%define src_url		http://dl.sourceforge.net/sdlpango
+%define src_url		http://%{sf_mirror}/sdlpango
 
 Name:			sdl-Pango
 Summary: 		Simple DirectMedia Layer - Pango Link Library

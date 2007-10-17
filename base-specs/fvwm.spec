@@ -22,9 +22,10 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 X11LIB="-L/usr/X11/lib -R/usr/X11/lib"
+GNULIB="-L/usr/gnu/lib -R/usr/gnu/lib"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CPPFLAGS="-I/usr/gnu/lib -I/usr/X11/include"
-export CFLAGS="%{optflags} -I/usr/X11/include"
+export CFLAGS="%{optflags} -I/usr/X11/include -I/usr/gnu/include"
 export LDFLAGS="%{_ldflags} $GNULIB $X11LIB"
 
 libtoolize --copy --force

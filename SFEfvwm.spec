@@ -17,6 +17,7 @@ BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires: SFEreadline-devel
 Requires: SFEreadline
+Requires: SFElibstroke
 
 %prep
 rm -rf %name-%version

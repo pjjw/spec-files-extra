@@ -80,6 +80,7 @@ export LDFLAGS="%_ldflags"
 libtoolize --copy --force
 aclocal
 autoconf -f
+automake -a -c -f
 ./configure --prefix=%{_prefix}		\
             --bindir=%{_bindir}		\
             --libdir=%{_libdir}		\

@@ -9,7 +9,7 @@ Name:                    SFEgourmet
 Summary:                 Gourmet - Recipe management for GNOME
 URL:                     http://grecipe-manager.sourceforge.net/
 Version:                 0.13.4
-Source:                  http://dl.sourceforge.net/grecipe-manager/gourmet-%{version}-2.tar.gz
+Source:                  http://%{sf_mirror}/grecipe-manager/gourmet-%{version}-2.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:                SUNWPython

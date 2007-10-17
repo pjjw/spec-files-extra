@@ -7,7 +7,7 @@
 
 %define src_name junit
 %define src_ver 4.4
-%define src_url http://dl.sourceforge.net/%{src_name}
+%define src_url http://%{sf_mirror}/%{src_name}
 %define src_ver1 1.1
 %define src_url1 http://hamcrest.googlecode.com/files
 

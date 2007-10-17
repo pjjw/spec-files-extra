@@ -8,7 +8,7 @@
 %define SUNWlibsdl      %(/usr/bin/pkginfo -q SUNWlibsdl && echo 1 || echo 0)
 
 %define src_name        tremulous
-%define src_url         http://dl.sourceforge.net/sourceforge/tremulous/
+%define src_url         http://%{sf_mirror}/sourceforge/tremulous/
 %define src_version     1.1.0
 
 Name:                   SFEtremulous

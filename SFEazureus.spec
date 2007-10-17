@@ -9,7 +9,7 @@
 
 %define src_name Azureus
 %define src_ver 3.0.2.2
-%define src_url http://dl.sourceforge.net/azureus
+%define src_url http://%{sf_mirror}/azureus
 
 Name:		SFEazureus
 Summary:	Azureus - Java BitTorrent client

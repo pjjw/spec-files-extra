@@ -54,7 +54,7 @@ cmake	-DCMAKE_INSTALL_PREFIX:PATH=%{_prefix}				\
 	-DCMAKE_BUILD_TYPE=Release					\
 	-DCMAKE_C_COMPILER:FILEPATH=$(CC)				\
 	-DCMAKE_C_FLAGS:STRING="%optflags"				\
-	-DCMAKE_CXX_COMPILER:FILEPATH=g++				\
+	-DCMAKE_CXX_COMPILER:FILEPATH=/usr/sfw/bin/g++			\
 	-DCMAKE_CXX_FLAGS_RELEASE:STRING="-O4 -fno-omit-frame-pointer"	\
 	-DCMAKE_VERBOSE_MAKEFILE=1
 make
@@ -80,5 +80,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- use /usr/sfw/bin/g++ because /usr/gnu/bin/g++ uses gld and ldflags
+  are incompatible
 * Mon Jul 30 2007 - dougs@truemail.co.th
 - Initial spec

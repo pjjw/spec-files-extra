@@ -6,7 +6,7 @@
 
 %define src_ver 3.0
 %define src_name dvgrab
-%define src_url http://dl.sourceforge.net/sourceforge/kino
+%define src_url http://%{sf_mirror}/sourceforge/kino
 
 Name:		dvgrab
 Summary:	DV grabbing utility

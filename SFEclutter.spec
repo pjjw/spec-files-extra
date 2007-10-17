@@ -34,8 +34,8 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags"
+export CFLAGS="%optflags -I/usr/X11/include"
+export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib"
 ./configure --prefix=%{_prefix}              \
             --libexecdir=%{_libexecdir}      \
             --sysconfdir=%{_sysconfdir}      \

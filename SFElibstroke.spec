@@ -16,6 +16,7 @@ Source:		%{src_url}/%{src_name}-%{version}.tar.gz
 Patch1:		libstroke-01-am15.diff
 Patch2:		libstroke-02-am18.diff
 Patch3:		libstroke-03-link.diff
+Patch4:		libstroke-04-no-gtk1.diff
 SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
@@ -35,6 +36,7 @@ used extensively in CAD programs.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -51,6 +53,7 @@ export LD_LIBRARY_PATH="-L/usr/sfw/lib -R/usr/sfw/lib -L/usr/X11/lib -RL/usr/X11
 libtoolize --copy --force
 aclocal -I /usr/sfw/share/aclocal
 autoconf -f
+automake -a -c -f
 ./configure --prefix=%{_prefix}		\
             --bindir=%{_bindir}		\
             --libdir=%{_libdir}		\
@@ -83,5 +86,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- add patch no-gtk1.diff that disables gtk-1.x support
 * Sun Jul 29 2007 - dougs@truemail.co.th
 - Initial spec

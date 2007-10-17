@@ -141,7 +141,7 @@ autoheader
 automake -a -c -f
 autoconf
  
-export CFLAGS="%optflags -I$PROTO_INC -I/usr/include/startup-notification-1.0" 
+export CFLAGS="%optflags -I$PROTO_INC -I/usr/include/startup-notification-1.0 -I/usr/X11/include" 
 export LDFLAGS="-L$PROTO_LIB -L/usr/X11/lib -L/usr/openwin/lib -R/usr/X11/lib -R/usr/openwin/lib -lX11 -lXext"
 
 ./configure --prefix=%{_prefix}		\

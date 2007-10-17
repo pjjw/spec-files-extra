@@ -1,5 +1,38 @@
 2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
 
+        * linux-specs/*.spec: move to base-specs/
+	* SFEazureus.spec: use %{sf_mirror}
+	* SFEclutter.spec: add /usr/X11 to search paths
+	* SFEcompiz.spec: add /usr/X11 to more CFLAGS
+	* SFEfvwm-themes.spec: depend on SFEfvwm
+	* SFEfvwm.spec: depend on SFElibstroke
+	* SFEganglia.spec: use %{sf_mirror}
+	* SFEgourmet.spec: use %{sf_mirror}
+	* SFEindent.spec: call automake
+	* SFEjunit.spec: use %{sf_mirror}
+	* SFElibmusicbrainz3.spec: use /usr/sfw/bin/g++
+	* SFElibstroke.spec: add patch no-gtk1.diff that disables gtk 1.x use
+	* SFEpython-pyrtf.spec: use %{sf_mirror}
+	* SFEtremulous.spec: use %{sf_mirror}
+	* base-specs/dvgrab.spec: use %{sf_mirror}
+	* base-specs/fvwm.spec: add /usr/gnu to search paths
+	* base-specs/giflib.spec: use %{sf_mirror}
+	* base-specs/kino.spec: use %{sf_mirror}
+	* base-specs/sdl-pango.spec: use %{sf_mirror}
+	* patches/libstroke-04-no-gtk1.diff: (new) patch that disables gtk 1
+	  shamelessly stolen from Pardus
+
+2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEclutter.spec:
+	* SFEcompiz.spec:
+	* SFEfvwm-themes.spec:
+	* SFEganglia.spec:
+	* SFElibmusicbrainz3.spec:
+	* base-specs/fvwm.spec:
+
+2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEcompiz.spec: add /usr/X11 to search paths for FOX
 	* SFEgraphviz.spec: add /usr/X11 to search paths for FOX
 	* SFEanjuta.spec: make SUNW deps the default instead of SFE ones

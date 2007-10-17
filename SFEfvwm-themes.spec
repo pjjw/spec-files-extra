@@ -14,8 +14,7 @@ Version:                %{themes.version}
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-
-Requires: SFEfvwm-themes
+Requires: SFEfvwm
 
 %prep
 rm -rf %name-%version
