@@ -33,15 +33,14 @@ Requires: SUNWgnome-vfs
 BuildRequires: SFEaalib-devel
 Requires: SFEaalib
 BuildRequires: SUNWxorg-headers
-BuildRequires: SUNWxwinc
 Requires: SUNWxorg-clientlibs
 BuildRequires: SUNWogg-vorbis-devel
 Requires: SUNWogg-vorbis
 BuildRequires: SUNWlibtheora-devel
 Requires: SUNWlibtheora
 Requires: SUNWsmbau
-BuildRequires: SUNWlibcdio-devel
-Requires: SUNWlibcdio
+BuildRequires: SFElibcdio-devel
+Requires: SFElibcdio
 BuildRequires: SFElibmng-devel
 Requires: SFElibmng
 BuildRequires: SFElibdvdnav-devel
