@@ -52,7 +52,7 @@ libtoolize --force
 aclocal-1.9 $ACLOCAL_FLAGS -I .
 automake-1.9 -a -c -f
 autoconf
-  ./configure \
+./configure \
 	--prefix=%{_prefix} \
 	--sysconfdir=%{_sysconfdir} \
 	--mandir=%{_mandir} \

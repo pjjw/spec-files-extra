@@ -1,5 +1,6 @@
 2007-10-18  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFElibcdio.spec: use gcc specific compiler/linker flags
 	* SFExine-lib.spec: s/SUNWlibcdio/SFElibcdio/
 	* base-specs/libcdio.spec: force using automake 1.9
 

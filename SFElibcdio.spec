@@ -60,17 +60,13 @@ cd %{_builddir}/%name-%version/libcdio-%{libcdio.version}
 # if this issue is resolved with the Forte compiler.
 #
 %build
-export PKG_CONFIG_PATH=%{_pkg_config_path}
-export MSGFMT="/usr/bin/msgfmt"
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export PERL5LIB=%{_prefix}/perl5/site_perl/5.6.1/sun4-solaris-64int
-export RPM_OPT_FLAGS="$CFLAGS"
-%if %with_hal
-export LDFLAGS="%_ldflags -lhal -ldbus-1"
-%else
-export LDFLAGS="%_ldflags"
-%endif
+export CFLAGS="%gcc_optflags"
 export CC=gcc
+%if %with_hal
+export LDFLAGS="%gcc_ldflags -lhal -ldbus-1"
+%else
+export LDFLAGS="%gcc_ldflags"
+%endif
 
 %libcdio.build -d %name-%version
 
@@ -102,5 +98,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/cdio
 
 %changelog
+* Thu Oct 18 2007 - laca@sun.com
+- use gcc specific compiler/linker flags
 * Mon Jun 23 - irene.huang@sun.com
 - created.
