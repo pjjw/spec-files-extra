@@ -15,7 +15,7 @@
 %use gcal = libopensync-plugin-gcal.spec
 
 Name:               SFElibopensync-plugin-gcal
-Summary:            %{gcal}.summary
+Summary:            %gcal.summary
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build

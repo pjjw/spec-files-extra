@@ -14,7 +14,7 @@
 %use palm = libopensync-plugin-palm.spec
 
 Name:               SFElibopensync-plugin-palm
-Summary:            %{palm}.summary
+Summary:            %palm.summary
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build

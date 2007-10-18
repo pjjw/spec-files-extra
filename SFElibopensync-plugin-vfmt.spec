@@ -14,7 +14,7 @@
 %use vformat = libopensync-plugin-vfmt.spec
 
 Name:               SFElibopensync-plugin-vfmt
-Summary:            %{vformat}.summary
+Summary:            %vformat.summary
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build

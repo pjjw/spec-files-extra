@@ -14,7 +14,7 @@
 %use evo2 = libopensync-plugin-evo2.spec
 
 Name:               SFElibopensync-plugin-evo2
-Summary:            %{evo2}.summary
+Summary:            %evo2.summary
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build

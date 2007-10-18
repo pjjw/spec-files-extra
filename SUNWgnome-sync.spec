@@ -15,8 +15,8 @@
 Name:           SUNWgnome-sync
 Summary:        %gsync.summary
 Version:        %{default_pkg_version}
-SUNW_BaseDir:        %{_basedir}
-BuildRoot:           %{_tmppath}/%{name}-%{version}-build
+SUNW_BaseDir:   %{_basedir}
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
 Requires: SUNWgnome-libs
@@ -29,7 +29,6 @@ Requires: SFElibopensync-plugin-vfmt
 BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SFElibopensync-devel
-BuildRequires: SFElibopensync-plugin-evo2-devel
 
 %description
 %gsync.description
@@ -41,6 +40,12 @@ SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires:                %{name}
 %endif
+
+%package plugins
+Summary:                 %{summary} - plugins
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -132,6 +137,13 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
 
+%files plugins
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, bin) %{_libdir}/gnome-sync
+%dir %attr (0755, root, bin) %{_libdir}/gnome-sync/plugins
+%{_libdir}/gnome-sync/plugins/*
+
 %if %build_l10n
 %files l10n
 %defattr (-, root, bin)
@@ -145,5 +157,7 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %{_sysconfdir}/gconf/schemas/gnome-sync.schemas
 
 %changelog
+* Thu Oct 18 2007 - nonsea@users.sourceforge.net
+- Add pkg -plugins
 * Fri Jul 27 2007 - halton.huo@sun.com
 - Initial spec file

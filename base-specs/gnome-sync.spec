@@ -9,7 +9,7 @@
 Summary:	Gnome Synchronization GUI tool
 Name:		gnome-sync
 License:    GPL
-Version:	0.1.0
+Version:	0.2.0
 Release:	1
 Group:		System/GUI/GNOME
 URL:		http://gnome-sync.org/
@@ -108,5 +108,7 @@ gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/gnome-sync.sche
 %config %{_sysconfdir}/gconf/schemas/*
 
 %changelog
+* Thu Oct 18 2007 - halton.huo@sun.com
+- Bump to 0.2.0
 * Fri Jul 27 2007 - halton.huo@sun.com
 - Initial spec file

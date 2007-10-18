@@ -14,7 +14,7 @@
 %use file = libopensync-plugin-file.spec
 
 Name:               SFElibopensync-plugin-file
-Summary:            %{file}.summary
+Summary:            %file.summary
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build

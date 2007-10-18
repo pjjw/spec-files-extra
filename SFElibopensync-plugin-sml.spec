@@ -14,7 +14,7 @@
 %use syncml = libopensync-plugin-syncml.spec
 
 Name:               SFElibopensync-plugin-sml
-Summary:            %{syncml}.summary
+Summary:            %syncml.summary
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
