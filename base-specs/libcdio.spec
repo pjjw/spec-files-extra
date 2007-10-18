@@ -49,8 +49,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 libtoolize --force
-aclocal $ACLOCAL_FLAGS -I .
-automake -a -c -f
+aclocal-1.9 $ACLOCAL_FLAGS -I .
+automake-1.9 -a -c -f
 autoconf
   ./configure \
 	--prefix=%{_prefix} \
@@ -81,8 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*.so
 
 %changelog
+* Thu Oct 18 2007 - laca@sun.com
+- force using automake-1.9
 * Wed Nov 01 2006 - damien.carbery@sun.com
 - Bump to 0.78.2. Remove upstream patch, 01-noc++lib.
-
 * Tue Mar 22 2006 - Brian.Cameron@sun.com
 - Initial spec file checkin

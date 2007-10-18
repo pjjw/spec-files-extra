@@ -1,3 +1,8 @@
+2007-10-18  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFExine-lib.spec: s/SUNWlibcdio/SFElibcdio/
+	* base-specs/libcdio.spec: force using automake 1.9
+
 2007-10-18  Brian Cameron  <brian.cameron@sun.com>
 
 	* README, encumbered/README, encumbered/*spec:  Move spec files which
