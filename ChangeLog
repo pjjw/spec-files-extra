@@ -1,3 +1,11 @@
+2007-10-18  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEgnome-media-extras.spec: *NEW* GNOME streaming media framework - extra
+	  plugins
+	* SFEmtools.spec: *NEW* mtools - utilities to access MS-DOS disks from Unix
+	* base-specs/gst-plugins-bad.spec: *NEW* base-spec for gst-plugins-bad
+	* base-specs/gst-plugins-ugly.spec: *NEW* base-spec for gst-plugins-ugly
+
 2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* include/Solaris.inc: define gcc_ldflags such that they don't
