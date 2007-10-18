@@ -61,7 +61,7 @@ cd %{_builddir}/%name-%version/libcdio-%{libcdio.version}
 #
 %build
 export CFLAGS="%gcc_optflags"
-export CC=gcc
+export CC=/usr/sfw/bin/gcc
 %if %with_hal
 export LDFLAGS="%gcc_ldflags -lhal -ldbus-1"
 %else
