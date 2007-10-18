@@ -1,0 +1,26 @@
+
+===================================
+spec-files-extra encumbered modules
+===================================
+
+The modules in this directory build source code that may be legally encumbered,
+or have a dependency on modules that may have encumbrance.
+
+Those who build, use, distribute, etc. code based on these spec files need to
+ensure that laws are not violated by doing so.  Those who build modules based on
+these spec files take full responsibility for ensuring that laws are properly
+followed.  Those people who provide these spec files are providing them only
+for those people who intend to use them with legal intent.
+
+Intellectual property laws very from country to country.  It is recommended that
+you consult a lawyer if you have any questions, to ensure that your idea of
+"appropriate use" is valid, or to determine how laws affect you.
+
+---
+
+Please notify the maintainer of this module if you notice issues like:
+
+- A module which has no encumbrance has been placed in this directory by
+  accident.
+- A module should be in this directory, but is not.
+

@@ -3,3 +3,6 @@ packages for different software components. If you have contributions to
 make to this, please email <desktop-discuss@opensolaris.org>.
 
 Note: Some of these components require a Sun Studio 11 tools to build.
+
+Note: Components which build code that may have encumbrance issues are placed
+      in the encumbered subdirectory.

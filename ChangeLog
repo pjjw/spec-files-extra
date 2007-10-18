@@ -1,3 +1,10 @@
+2007-10-18  Brian Cameron  <brian.cameron@sun.com>
+
+	* README, encumbered/README, encumbered/*spec:  Move spec files which
+	  may have encumbrance issues to the encumbered subdirectory.  Add 
+	  information to README so that people are informed about the issues
+	  relating to using such code.
+
 2007-10-18  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFElibopensync-plugin-evo2.spec,
