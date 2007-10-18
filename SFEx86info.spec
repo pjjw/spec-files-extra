@@ -6,7 +6,7 @@ Name:                    SFEx86info
 Summary:                 x86info - tool for reading cpu cpabilities
 URL:                     http://www.codemonkey.org.uk/projects/x86info
 Version:                 %(date +%Y.%m.%d)
-Source:                  http://www.codemonkey.org.uk/projects/x86info/x86info-%git-snapshot.tar.gz
+Source:                  http://www.codemonkey.org.uk/projects/x86info/x86info-git-snapshot.tar.gz
 
 
 SUNW_BaseDir:            %{_basedir}
