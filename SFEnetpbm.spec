@@ -4,11 +4,19 @@
 # includes module(s): SFEnetpbm
 #
 %include Solaris.inc
+# use the --with-svn-code option to use svn co instead of the stable tarball
 %define svn_url https://netpbm.svn.sourceforge.net/svnroot/netpbm/advanced
 
 Name:                    SFEnetpbm
 Summary:                 netpbm - network portable bitmap tools
+%if %{?_with_svn_code:0}%{?!_with_svn_code:1}
+# stable tarball build
+Version:                 10.26.46
+Source:                  http://%{sf_mirror}/sourceforge/netpbm/netpbm-%{version}.tgz
+%else
+# svn code
 Version:                 10.35
+%endif
 Patch1:			 netpbm-01-strings.diff
 Patch2:			 netpbm-Makefile.conf
 # Patch3:			 netpbm-02-stdlib.diff
@@ -25,6 +33,11 @@ SUNW_BaseDir:            %{_basedir}
 Requires: %name
 
 %prep
+%if %{?_with_svn_code:0}%{?!_with_svn_code:1}
+# stable tarball build
+%setup -q -n netpbm-%version
+%else
+# svn checkout
 rm -rf netpbm-%version
 mkdir netpbm-%version
 cd netpbm-%version
@@ -38,6 +51,7 @@ cd netpbm
 %patch1 -p1
 # %patch3 -p1
 %patch4 -p1
+%endif
 cat Makefile.config.in %{PATCH2} > Makefile.config
 touch Makefile.depend
 
@@ -48,14 +62,19 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 export CFLAGS="%optflags"
 
+%if %{?_with_svn_code:1}%{?!_with_svn_code:0}
+# svn code
 cd netpbm-%version
 cd netpbm
+%endif
 make # -j$CPUS 
 
 %install
+rm -rf $RPM_BUILD_ROOT
+%if %{?_with_svn_code:1}%{?!_with_svn_code:0}
 cd netpbm-%version
 cd netpbm
-rm -rf $RPM_BUILD_ROOT
+%endif
 mkdir $RPM_BUILD_ROOT
 make package PKGDIR=$RPM_BUILD_ROOT/package
 cd $RPM_BUILD_ROOT/package/lib
@@ -69,7 +88,6 @@ mv man $RPM_BUILD_ROOT/usr/share
 mv misc $RPM_BUILD_ROOT/usr/share/netpbm
 cd $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT/package
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -89,6 +107,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- use stable tarball by default, use svn checkout with --with-svn-code
 * Tue Sep 18 2007 - markwright@internode.on.net
 - Add netpbm. to svn_url
 - Comment netpbm-02-stdlib.diff, as stdlib.h now included in generator/ppmrough.c

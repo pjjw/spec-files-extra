@@ -8,7 +8,7 @@
 Name:                SFErdesktop
 Summary:             RDP, Microsoft Terminal Services client
 Version:             1.5.0
-Source:              http://umn.dl.sourceforge.net/sourceforge/rdesktop/rdesktop-%{version}.tar.gz
+Source:              http://%{sf_mirror}/sourceforge/rdesktop/rdesktop-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

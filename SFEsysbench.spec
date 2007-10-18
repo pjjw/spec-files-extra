@@ -7,7 +7,7 @@
 Name:                SFEsysbench
 Summary:             System evaluation benchmark
 Version:             0.4.7
-Source:              http://umn.dl.sourceforge.net/sourceforge/sysbench/sysbench-%{version}.tar.gz
+Source:              http://%{sf_mirror}/sourceforge/sysbench/sysbench-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

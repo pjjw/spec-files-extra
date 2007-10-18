@@ -6,7 +6,7 @@
 
 %include Solaris.inc
 
-%define yaml_version 0.58
+%define yaml_version 0.66
 %define perl_version 5.8.4
 
 Name:                    SFEperl-yaml
@@ -75,6 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- bump to 0.66
 * Sun Jan 28 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
 - Updated how version is defined.
 * Tue Jul  4 2006 - laca@sun.com

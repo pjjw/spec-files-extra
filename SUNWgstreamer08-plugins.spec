@@ -57,10 +57,8 @@ Requires: SUNWlibms
 Requires: SUNWlxml
 Requires: SUNWperl584core
 Requires: SUNWpng
-Requires: SUNWxorg-clientlibs
-Requires: SUNWxwrtl
 Requires: SUNWzlib
-Requires: SUNWlibcdio
+Requires: SFElibcdio
 Requires: %{name}-root
 Requires: SUNWpostrun
 Requires: SUNWgstreamer08

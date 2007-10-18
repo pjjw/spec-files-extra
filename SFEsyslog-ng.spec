@@ -12,8 +12,8 @@
 
 Name:                SFEsyslog-ng
 Summary:             Syslog-ng tries to fill the gaps original syslogd's were lacking
-Version:             1.6.11
-Source:              http://www.balabit.com/downloads/syslog-ng/1.6/src/syslog-ng-%{version}.tar.gz
+Version:             2.0.5
+Source:              http://www.balabit.com/downloads/files/syslog-ng/sources/stable/src/syslog-ng-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -63,6 +63,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/syslog-ng.8
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- bump to 2.0.5
 * Mon Mar 19 2007 - dougs@truemail.co.th
 - Fixed -fno-omit-frame-pointer flag
 * Sun Nov 05 2006 - Eric Boutilier

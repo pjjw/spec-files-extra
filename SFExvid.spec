@@ -43,7 +43,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags"
+export LDFLAGS="%gnu_ldflags"
 export CC=gcc
 export CFLAGS="-O4"
 

@@ -41,7 +41,6 @@ Requires: SUNWgnome-vfs
 Requires: SUNWlibms
 Requires: SUNWperl584core
 Requires: SUNWxorg-clientlibs
-Requires: SUNWxwrtl
 Requires: SUNWzlib
 Requires: %{name}-root
 

@@ -8,7 +8,7 @@
 Name:                SFEimlib2
 Summary:             general Image loading and rendering library
 Version:             1.3.0
-Source:              http://umn.dl.sourceforge.net/sourceforge/enlightenment/imlib2-%{version}.tar.gz
+Source:              http://%{sf_mirror}/sourceforge/enlightenment/imlib2-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

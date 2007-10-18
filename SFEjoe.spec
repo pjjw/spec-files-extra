@@ -8,7 +8,7 @@
 Name:                SFEjoe
 Summary:             Full feature editor reminiscent of WordStar and Turbo-C
 Version:             3.5
-Source:              http://umn.dl.sourceforge.net/sourceforge/joe-editor/joe-%{version}.tar.gz
+Source:              http://%{sf_mirror}/sourceforge/joe-editor/joe-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

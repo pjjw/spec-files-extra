@@ -43,6 +43,9 @@ make
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
+rm $RPM_BUILD_ROOT%{_libdir}/lib*.a
+rm $RPM_BUILD_ROOT%{_libdir}/lib*.la
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -53,8 +56,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 
 %dir %attr(0755,root,bin) %{_libdir}
-%{_libdir}/*
+%{_libdir}/lib*.so
+%dir %attr(0755,root,other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 
+%dir %attr(0755,root,sys) %{_datadir}
 %dir %attr(0755,root,bin) %{_mandir}
 %{_mandir}/*
 
@@ -62,6 +68,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- fix packaging; delete lib*.la lib*.a
 * Sat Aug 11 2007 - ananth@sun.com
 - Initial version
 

@@ -72,7 +72,7 @@ export LD=/usr/ccs/bin/ld
             --enable-shared		\
 	    --disable-static		
 
-make -j$CPUS 
+make -j$CPUS || make
 
 %install
 rm -rf $RPM_BUILD_ROOT

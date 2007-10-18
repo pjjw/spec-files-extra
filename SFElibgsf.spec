@@ -54,12 +54,9 @@ mkdir %name-%version
 %libgsf.prep -d %name-%version
 
 %build
-export MSGFMT="/usr/bin/msgfmt"
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export PERL5LIB=%{_prefix}/perl5/site_perl/5.6.1/sun4-solaris-64int
-export CFLAGS="%optflags -I%{_includedir}"
+export CFLAGS="%optflags -I/usr/gnu/include"
 export RPM_OPT_FLAGS="$CFLAGS"
-export LDFLAGS="%_ldflags"
+export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib"
 
 %libgsf.build -d %name-%version
 
@@ -144,5 +141,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- add /usr/gnu to CFLAGS/LDFLAGS
 * Thu May 03 2007 - nonsea@users.sourceforge.net
 - Created.

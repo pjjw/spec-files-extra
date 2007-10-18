@@ -81,5 +81,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*.so
 
 %changelog
-* Mon Jun 23 2007 - irene.huang@sun.com
-- created.
+* Wed Nov 01 2006 - damien.carbery@sun.com
+- Bump to 0.78.2. Remove upstream patch, 01-noc++lib.
+
+* Tue Mar 22 2006 - Brian.Cameron@sun.com
+- Initial spec file checkin

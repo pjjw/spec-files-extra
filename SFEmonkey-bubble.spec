@@ -60,12 +60,14 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 export CXXFLAGS="%cxx_optflags -library=stlport4 -staticlib=stlport4"
-export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP"
-export RPM_OPT_FLAGS="$CFLAGS"
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export MSGFMT="/usr/bin/msgfmt"
-
+export CFLAGS="%optflags -I/usr/sfw/include -I/usr/gnu/include -DANSICPP"
+export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib"
+%if %cc_is_gcc
+%else
+export CXX="${CXX} -norunpath"
+%endif
 libtoolize --force
+intltoolize --force
 aclocal $ACLOCAL_FLAGS
 automake -a -c -f
 autoconf
@@ -143,6 +145,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- add /usr/gnu to search paths; intltoolize
 * Sun Oct 14 2007 - laca@sun.com
 - bump to 0.4.0
 * Tue Jul 25 2006 - laca@sun.com

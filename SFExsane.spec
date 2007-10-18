@@ -34,8 +34,8 @@ cd %{_builddir}/%name-%version
 
 %build
 # /usr/sfw needed for libusb
-export CFLAGS="%optflags -I/usr/sfw/include"
-export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib"
+export CFLAGS="%optflags -I/usr/sfw/include -I/usr/gnu/include"
+export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib -L/usr/gnu/lib -R/usr/gnu/lib"
 %xsane.build -d %name-%version
 	    		
 %install
@@ -85,17 +85,16 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- add /usr/gnu to CFLAGS/LDFLAGS
 * Mon Apr 02 2007 - daymobrew@users.sourceforge.net
 - Rename zh dir to zh_CN in %install as zh a symlink to zh_CN and causing
   installation problems as a dir.
-
 * Tue Mar 20 2007 - simon.zheng@sun.com
 - Split into 2 files, SFExsane.spec and 
   linux-specs/xsane.spec.
-
 * Wed Mar  7 2007 - simon.zheng@sun.com
 - Bump to version 0.994
 - Modify %file to enable gimp-plugin
-
 * Sun Nov  5 2006 - laca@sun.com
 - Create

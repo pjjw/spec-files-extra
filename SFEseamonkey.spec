@@ -8,7 +8,7 @@
 
 Name:          SFEseamonkey
 Summary:       seamonkey - all-in-one internet application suite
-Version:       1.1
+Version:       1.1.4
 Source:        http://releases.mozilla.org/pub/mozilla.org/seamonkey/releases/%{version}/seamonkey-%{version}.source.tar.bz2
 URL:           http://www.mozilla.org/projects/seamonkey/
 SUNW_BaseDir:  %{_basedir}
@@ -51,8 +51,8 @@ fi
 export CXX="${CXX} -norunpath"
 %endif
 
-export LDFLAGS="-z ignore -L%{_libdir} -L/usr/sfw/lib -R'\$\$ORIGIN:\$\$ORIGIN/..' -R%{_libdir}/mps"
-export CFLAGS="-xlibmil"
+export LDFLAGS="-z ignore -L%{_libdir} -L/usr/sfw/lib -R'\$\$ORIGIN:\$\$ORIGIN/..' -R%{_libdir}/mps -L/usr/X11/lib -L/usr/gnu/lib -R/usr/X11/lib -R/usr/gnu/lib"
+export CFLAGS="-xlibmil -I/usr/X11/include -I/usr/gnu/include"
 export CXXFLAGS="-norunpath -xlibmil -xlibmopt -features=tmplife -lCrun -lCstd"
 %ifarch sparc
 export CFLAGS="$CFLAGS -xO5"
@@ -135,6 +135,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- bump to 1.1.4
+- add /usr/gnu and /usr/X11 to search paths
 * Sun Jan 21 2007 - laca@sun.com
 - bump to 1.1; remove --enable-calendar option as it's not longer supported
 * Wed Jan  3 2007 - laca@sun.com

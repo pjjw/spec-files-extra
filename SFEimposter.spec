@@ -8,7 +8,7 @@
 Name:                SFEimposter
 Summary:             Standalone OpenOffice presentations viewer using GTK2
 Version:             0.3
-Source:              http://umn.dl.sourceforge.net/sourceforge/imposter/imposter-%{version}.tar.gz
+Source:              http://%{sf_mirror}/sourceforge/imposter/imposter-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

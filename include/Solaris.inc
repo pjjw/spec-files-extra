@@ -66,6 +66,7 @@ SUNW_Copyright:            default-copyright.txt
 %define _ldflags           %arch_ldadd %ldadd ${EXTRA_LDFLAGS}
 %else
 %define _ldflags           %arch_ldadd %ldadd -Wl,-zignore -Wl,-zcombreloc -Wl,-Bdirect ${EXTRA_LDFLAGS}
+%define gnu_ldflags        %arch_ldadd %ldadd ${EXTRA_LDFLAGS}
 %endif
 
 %define gcc_picflags -fPIC -DPIC
@@ -92,6 +93,9 @@ SUNW_Copyright:            default-copyright.txt
 %define _pkg_config_path   %{_libdir}/pkgconfig
 
 # ChangeLog:
+# 2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
+# - define gcc_ldflags such that they don't include solaris ld specific
+#   flags like -Bdirect
 # 2007-04-05  Laszlo (Laca) Peter  <laca@sun.com>
 # - fix _ldflags so that it includes the architecture specific flags
 # 2007-03-15  Laszlo (Laca) Peter  <laca@sun.com>

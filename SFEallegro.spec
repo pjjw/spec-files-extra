@@ -11,7 +11,7 @@
 Name:                SFEallegro
 Summary:             Game programming library
 Version:             4.2.1
-Source:              http://umn.dl.sourceforge.net/sourceforge/alleg/allegro-%{version}.tar.gz
+Source:              http://%{sf_mirror}/sourceforge/alleg/allegro-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

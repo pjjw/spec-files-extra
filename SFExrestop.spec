@@ -13,8 +13,12 @@ URL:                     http://www.freedesktop.org/wiki/Software_2fxrestop
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+%if %(pkginfo -q FSWxorg-clientlibs)
+Requires: FSWxorg-clientlibs
+%else
 Requires: SUNWxwplt
 Requires: SUNWxwrtl
+%endif
 
 %prep
 %setup -q -n xrestop-%version

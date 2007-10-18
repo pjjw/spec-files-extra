@@ -68,8 +68,9 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export PATH=/usr/mono/bin:$PATH
+export CC=gcc
 export CFLAGS="%optflags -mt `pkg-config --cflags gtk+-2.0` `pkg-config --cflags dbus-1` `pkg-config --cflags gnome-vfs-2.0` `pkg-config --cflags libmusicbrainz3` `pkg-config --cflags libnautilus-burn` `pkg-config --cflags gstreamer-0.10` `pkg-config --cflags mono` `pkg-config --cflags sqlite3`"
-export LDFLAGS="%{_ldflags} -mt -lpthread"
+export LDFLAGS="%{gcc_ldflags} -mt -lpthread"
 
 ./configure --prefix=%{_prefix} \
 	    --mandir=%{_mandir} \

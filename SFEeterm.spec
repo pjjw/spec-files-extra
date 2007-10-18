@@ -8,7 +8,7 @@
 Name:                SFEeterm
 Summary:             Terminal emulator intended as a replacement for xterm
 Version:             0.9.4
-Source:              http://umn.dl.sourceforge.net/sourceforge/eterm/Eterm-%{version}.tar.gz
+Source:              http://%{sf_mirror}/sourceforge/eterm/Eterm-%{version}.tar.gz
 Source2:			 http://www.eterm.org/download/Eterm-bg-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

@@ -57,11 +57,9 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP"
-export RPM_OPT_FLAGS="$CFLAGS"
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
+export CFLAGS="%optflags -I/usr/sfw/include -I/usr/gnu/include -DANSICPP"
 export CPPFLAGS="-I/usr/sfw/include"
-export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib"
+export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib -L/usr/gnu/lib -R/usr/gnu/lib"
 
 glib-gettextize -f
 libtoolize --copy --force
@@ -154,8 +152,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- add /usr/gnu to CFLAGS/LDFLAGS
 * Thu Aug 02 2007 - Brian Cameron <brian.cameron@sun.com>
-* Bump to 2.8.4.
+- Bump to 2.8.4.
 * Tue May 29 2007 - Thomas Wagner
 - bump to 2.8.2
 - /usr/bin/msgfmt errors, use /opt/sfw/bin/msgfmt

@@ -1,5 +1,47 @@
 2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* include/Solaris.inc: define gcc_ldflags such that they don't
+	  include solaris ld specific flags like -Bdirect
+	* SFEettercap.spec, SFEmpg321.spec, SFEsysbench.spec, SFEimlib2.spec,
+	  SFErdesktop.spec, SFEjoe.spec, SFEeterm.spec, SFEautogen.spec,
+	  SFEallegro.spec, SFEngrep.spec, SFEimposter.spec, SFEntop.spec:
+	  use %sf_mirror.
+	* SFEbanshee.spec: use %gcc_ldflags
+	* SFEdbus-sharp.spec: delete.  Unmaintained upstream
+	* SFElibgsf.spec: add /usr/gnu to CFLAGS/LDFLAGS
+	* SFElibstatgab.spec: fix packaging; delete lib*.la lib*.a
+	* SFEmonkey-bubble.spec: add /usr/gnu to search paths; intltoolize
+	* SFEnetpbm.spec: use stable tarball by default, use svn checkout
+	  with --with-svn-code
+	* SFEperl-yaml.spec: bump to 0.66
+	* SFEseamonkey.spec: bump to 1.1.4; add /usr/gnu and /usr/X11
+	  to search paths
+	* SFEsyslog-ng.spec: bump to 2.0.5
+	* SFEtin.spec: delete man pages that conflict with SFEmutt
+	* SFEufraw.spec: bump to 0.12.1
+	* SFEwebcpp.spec: fix package name and _datadir permissions
+	* SFEwine.spec: attempt linear build if parallel build fails
+	* SFEx86info.spec: fix issues with snapshot date
+	* SFExchat.spec: add /usr/gnu to CFLAGS/LDFLAGS
+	* SFExrestop.spec: dep changes for FOX build
+	* SFExsane.spec: add /usr/gnu to CFLAGS/LDFLAGS
+	* SFExvid.spec: use %gnu_ldflags
+	* SUNWgnome-img-organizer.spec:
+	* SUNWgstreamer08-plugins.spec: delete nevada X deps
+	* SUNWgstreamer08.spec: delete unneeded nevada X deps
+	* base-specs/dbus.spec: delete. (was used in SFEdbus-sharp)
+	* base-specs/gthumb.spec: delete.  This is in JDS again.
+	* base-specs/libopensync-plugin-gcal.spec: disable parallel build
+	* patches/dbus-01-glib_cflags.diff: delete. 
+	* patches/dbus-02-python.diff: delete.
+	* patches/dbus-03-dbus-launch.diff: delete.
+	* patches/dbus-04-libexec.diff: delete.
+	* patches/gthumb-01-menu-entry.diff: delete.
+	* patches/gthumb-02-fix-makefile.diff: delete.
+	* patches/gthumb-03-search.diff: delete.
+
+2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEmcrypt.spec: add %defattr
 	* SFEgnome-commander.spec: add /usr/gnu to search paths
 	* SFEgnome-device-manager.spec: and again

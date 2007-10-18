@@ -1,7 +1,7 @@
 #
 # spec file for package libopensync-plugin-gcal
 #
-# Copyright (c) 2005 Sun Microsystems, Inc.
+# Copyright 2007 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -60,7 +60,7 @@ autoconf
             --sysconfdir=%{_sysconfdir}         \
             --mandir=%{_mandir}                 \
 
-make -j $CPUS
+make
 
 %install
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
@@ -79,15 +79,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/opensync/defaults/*
 
 %changelog
+* Wed Oct 17 2007 - laca@sun.com
+- disable parallel build
 * Tue Oct 16 2007 - nonsea@users.sourceforge.net
 - Bump to 0.33, change Source to full URL.
-
 * Tue Aug 07 2007 - jijun.yu@sun.com
 - Bump to 0.32.
-
 * Fri Mar 30 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.22. Change source tarball to bz2.
-
 * Tue Nov 14 2006 - halton.huo@sun.com
 - Initial version
 
