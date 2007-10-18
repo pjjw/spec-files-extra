@@ -66,7 +66,7 @@ SUNW_Copyright:            default-copyright.txt
 %define _ldflags           %arch_ldadd %ldadd ${EXTRA_LDFLAGS}
 %else
 %define _ldflags           %arch_ldadd %ldadd -Wl,-zignore -Wl,-zcombreloc -Wl,-Bdirect ${EXTRA_LDFLAGS}
-%define gnu_ldflags        %arch_ldadd %ldadd ${EXTRA_LDFLAGS}
+%define gcc_ldflags        %arch_ldadd %ldadd ${EXTRA_LDFLAGS}
 %endif
 
 %define gcc_picflags -fPIC -DPIC
