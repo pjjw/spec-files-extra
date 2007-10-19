@@ -1,3 +1,10 @@
+2007-10-19 Jerry Yu <jijun.yu@sun.com>
+
+	* SFElibsyncml.spec : remove the optimum cflag.
+	* SFEopenobex.spec : remove the optimum cflag.
+	* base-specs/openobex.spec: enable debug option and add the 4th patch.
+	* patches/openobex-04-func.diff: added.
+ 
 2007-10-19  Halton Huo <nonsea@users.sourceforge.net>
 
 	* base-specs/gnome-sync.spec: Change Source URL to a usable one.

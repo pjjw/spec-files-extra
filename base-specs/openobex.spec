@@ -17,6 +17,7 @@ Source:         http://%{sf_mirror}/sourceforge/openobex/openobex-%{version}.tar
 Patch1:         openobex-01-sun-studio.diff
 Patch2:         openobex-02-libusb.diff
 Patch3:         openobex-03-PACKED.diff
+Patch4:         openobex-04-func.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Docdir:         %{_defaultdocdir}/doc
 
@@ -30,6 +31,7 @@ Requires:		%{name} = %{version}
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %ifos linux
@@ -54,6 +56,7 @@ autoconf
 	    --mandir=%{_mandir}			\
             --enable-usb                        \
 	    --disable-static			\
+	    --enable-debug
 
 make -j $CPUS
 
@@ -67,6 +70,8 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri. Oct. 19 - jijun.yu@sun.com
+- Enable debug option and add the patch openobex-04-func.diff
 * Thu July 07 2007 - jijun.yu@sun.com
 - Modify the URL
 * Thu July 07 2007 - jijun.yu@sun.com

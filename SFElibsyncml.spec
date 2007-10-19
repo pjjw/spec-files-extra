@@ -48,7 +48,9 @@ mkdir -p %name-%version
 
 %build
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export CFLAGS="%optflags -g"
+export CFLAGS="-g"
+#export CFLAGS="%optflags -g"
+#export LD_LIBRARY_PATH="-L /usr/sfw/lib -R /usr/sfw/lib"
 export CXXFLAGS="-lsocket  -lnsl"
 export RPM_OPT_FLAGS="$CFLAGS"
 %libsyncml.build -d %name-%version
@@ -93,6 +95,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Oct 19 2007 - jijun.yu@sun.com
+- Remove the optimum cflags.
+
 * Wed Oct 17 2007 - nonsea@users.sourceforge.net
 - Add SUNWevolution-libs to Requires, add SUNWevolution-libs-devel
   to BuildRequires, because libsyncml using libsoup

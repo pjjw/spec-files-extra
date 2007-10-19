@@ -32,7 +32,7 @@ mkdir -p %name-%version
 %openobex.prep -d %name-%version
 
 %build
-export CFLAGS="-I/usr/sfw/include %optflags -g"
+export CFLAGS="-I/usr/sfw/include -g"
 export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib"
 export RPM_OPT_FLAGS="$CFLAGS"
 export PKG_CONFIG_PATH=%{_builddir}/%name-%version/openobex-%{openobex.version}
@@ -63,6 +63,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Fri. Otc 19 2007 - jijun.yu@sun.com
+- Remove the optimum cflag.
+
 * Fri Sept 21 2007 - jijun.yu@sun.com
 - add debug flags.
 * Mon Apr  2 2007 - laca@sun.com
