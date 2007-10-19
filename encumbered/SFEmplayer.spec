@@ -21,7 +21,7 @@ Source4:                 http://www.mplayerhq.hu/MPlayer/skins/Abyss-1.6.tar.bz2
 Source5:                 http://www.mplayerhq.hu/MPlayer/skins/neutron-1.5.tar.bz2
 Source6:                 http://www.mplayerhq.hu/MPlayer/skins/proton-1.2.tar.bz2
 Source7:                 http://www.3gpp.org/ftp/Specs/latest/Rel-6/26_series/26104-610.zip
-Source8:                 http://www.3gpp.org/ftp/Specs/latest/Rel-6/26_series/26204-600.zip
+Source8:                 http://www.3gpp.org/ftp/Specs/latest/Rel-6/26_series/26204-610.zip
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{tarball_version}-build
 %include default-depend.inc
@@ -86,7 +86,7 @@ unzip %SOURCE7
 unzip 26104-610_ANSI_C_source_code.zip
 mv c-code libavcodec/amr_float
 unzip %SOURCE8
-unzip 26204-600_ANSI-C_source_code.zip
+unzip 26204-610_ANSI-C_source_code.zip
 mv c-code libavcodec/amrwb_float
 
 perl -pi -e 's/-O2/-O1/' configure
@@ -170,6 +170,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Fri Oct 19 2007 - dougs@truemail.co.th
+- Fixed 3gpp urls
 * Tue Aug 28 2007 - dougs@truemail.co.th
 - Added debug option
 * Tue Jul 31 2007 - dougs@truemail.co.th

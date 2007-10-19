@@ -1,3 +1,9 @@
+2007-10-17  Doug Scott  <dougs@truemail.co.th>
+
+	* SFEwine.spec: bump to 0.9.47
+	* patches/wine-01-nameconfict.diff: update for 0.9.47
+	* encumbered/SFEmplayer.spec: fixed 3gpp urls
+
 2007-10-18  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFElibcdio.spec: use gcc specific compiler/linker flags

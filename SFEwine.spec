@@ -10,7 +10,7 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                0.9.46
+Version:                0.9.47
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
 Patch2:			wine-02-configure.diff
@@ -121,6 +121,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Fri Oct 19 2007 - Doug Scott <dougs@truemail.co.th>
+- bump to 0.9.47
 * Wed Oct  3 2007 - Doug Scott <dougs@truemail.co.th>
 - bump to 0.9.46
 * Tue Aug 28 2007 - dougs@truemail.co.th
