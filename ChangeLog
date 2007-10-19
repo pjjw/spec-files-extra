@@ -1,3 +1,7 @@
+2007-10-19  Halton Huo <nonsea@users.sourceforge.net>
+
+	* base-specs/gnome-sync.spec: Change Source URL to a usable one.
+
 2007-10-17  Doug Scott  <dougs@truemail.co.th>
 
 	* SFEwine.spec: bump to 0.9.47

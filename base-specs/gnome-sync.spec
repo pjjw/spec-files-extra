@@ -14,7 +14,7 @@ Release:	1
 Group:		System/GUI/GNOME
 URL:		http://gnome-sync.org/
 Vendor:		Sun Microsystems, Inc.
-Source:		http://umn.dl.sourceforge.net/sourceforge/gnome-sync-tool/%{name}-%{version}.tar.bz2
+Source:		http://superb-east.dl.sourceforge.net/sourceforge/gnome-sync-tool/%{name}-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 Docdir:		%{_defaultdocdir}/doc
 
@@ -108,6 +108,8 @@ gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/gnome-sync.sche
 %config %{_sysconfdir}/gconf/schemas/*
 
 %changelog
+* Fri Oct 19 2007 - halton.huo@sun.com
+- Change Source URL to a usable one.
 * Thu Oct 18 2007 - halton.huo@sun.com
 - Bump to 0.2.0
 * Fri Jul 27 2007 - halton.huo@sun.com
