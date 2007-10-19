@@ -1,0 +1,19 @@
+--- openobex-1.3/lib/obex_main.h.orig	2007-10-18 18:02:00.168283000 +0800
++++ openobex-1.3/lib/obex_main.h	2007-10-18 17:56:18.320557000 +0800
+@@ -72,11 +72,15 @@
+ 
+ /* use 0 for production, 1 for verification, >2 for debug */
+ #ifndef OBEX_DEBUG
+-#define OBEX_DEBUG 0
++#define OBEX_DEBUG 4
+ #endif
+ 
+ #ifndef _WIN32
+ 
++#ifdef __SUNPRO_C
++#define __FUNCTION__ __func__
++#endif
++
+ #  if OBEX_DEBUG
+ extern int obex_debug;
+ #    ifdef OBEX_SYSLOG
