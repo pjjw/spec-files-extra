@@ -10,9 +10,11 @@
 #%define _mandir %{_datadir}/man
 #%define _libdir %{_basedir}/lib
 
+%define _docdir %{_basedir}/share/doc
+
 Name:                    	SFEwesnoth
 Summary:                 	Battle for Wesnoth is a fantasy turn-based strategy game
-Version:                 	1.3.8
+Version:                 	1.3.9
 Source:                  	http://kent.dl.sourceforge.net/sourceforge/wesnoth/wesnoth-%{version}.tar.bz2
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -48,6 +50,7 @@ export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib -lsocket -lnsl"
             --datadir=%{_datadir}			\
             --mandir=%{_mandir}				\
             --libdir=%{_libdir}				\
+            --htmldir=%{_docdir}			\
             --with-localedir=%{_localedir}		\
             --enable-dummy-locales			\
             --enable-shared				\
@@ -79,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/icons
 %{_datadir}/icons/*
+%dir %attr (0755, root, other) %{_docdir}
+%dir %attr (0755, root, other) %{_docdir}/wesnoth
+%{_docdir}/wesnoth/*
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, bin) %{_libdir}/python2.4
 %dir %attr (0755, root, bin) %{_libdir}/python2.4/site-packages
@@ -87,6 +93,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Oct 19 2007 Petr Sobotka <sobotkap@centrum.cz>
+- bump to 1.3.9
+- add html documentation
 * Wed Sep 19 2007 Petr Sobotka <sobotkap@centrum.cz>
 - bump to 1.3.8
 * Thu Sep 6 2007 Petr Sobotka <sobotkap@centrum.cz>
