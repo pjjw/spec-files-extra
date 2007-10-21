@@ -1,5 +1,9 @@
 2007-10-21  Petr Sobotka  <sobotkap@centrum.cz>
 
+	* SFEsarg.spec: Deleted dependency SFEsquid
+
+2007-10-21  Petr Sobotka  <sobotkap@centrum.cz>
+
 	* SFEsarg.spec: Initial commit
 
 2007-10-19  Brian Cameron  <brian.cameron@sun.com>

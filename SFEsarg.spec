@@ -19,7 +19,6 @@ URL:                     http://sarg.sourceforge.net/sarg.php
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{source_name}-%{version}-build
 %include default-depend.inc
-Requires:                SFEsquid 
 
 %prep
 %setup -q -n %{source_name}-%{version}
@@ -76,5 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 %{html_dir}/www/sarg/*
 
 %changelog
+* Sun Oct 21 2007 - Petr Sobotka sobotkap@centrum.cz
+- Deleted dependency on SFEsquid as it's not require to have squid installed
+-   all you need is to have logs from squid
 * Sun Oct 21 2007 - Petr Sobotka sobotkap@centrum.cz
 - Initial commit
