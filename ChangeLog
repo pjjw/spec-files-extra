@@ -5,6 +5,8 @@
 	* SFElibfribidi.spec: Spilit into fribidi.spec
 	* base-specs/abiword.spec:
 	  (new) A lean and fast full-featured word processor
+	* SFEabiword.spec: 
+	  (new) A lean and fast full-featured word processor
 	* base-specs/fribidi.spec:
 	  (new) Library implementing the Unicode Bidirectional Algorithm
 	* patches/abiword-01-const-cast.diff: (added)
