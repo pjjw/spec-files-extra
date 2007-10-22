@@ -1,5 +1,9 @@
 2007-10-22  Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEpython-numpy.spec: Bump to 1.0.3.1.
+
+2007-10-22  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFExchat.spec, patches/xchat-03-dbus-LDADD.diff:  Remove patch
 	  that is no longer needed to build xchat.
 

@@ -5,14 +5,13 @@
 #
 %include Solaris.inc
 
-%define  version_long   1.0.3
-%define  patch_level    2
+%define  version_long   1.0.3.1
 
 Name:                    SFEpython-numpy
 Summary:                 Numerical processing extensions to the python programming language
 URL:                     http://numpy.scipy.org/
 Version:                 %{version_long}
-Source:                  http://nchc.dl.sourceforge.net/sourceforge/numpy/numpy-%{version_long}-%{patch_level}.tar.gz
+Source:                  http://nchc.dl.sourceforge.net/sourceforge/numpy/numpy-%{version_long}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -51,5 +50,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{python_version}/vendor-packages/
 
 %changelog
+* Mon Oct 22 2007 - Brian Cameron  <brian.cameron@sun.com>
+- Bump to 1.0.3.1
+
 * Sun Sep 02 2007 - Ananth Shrinivas <ananth@sun.com>
 - Initial Version
