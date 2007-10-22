@@ -1,0 +1,17 @@
+Index: abiword-trunk/src/af/util/xp/ut_xml.h
+===================================================================
+--- abiword-trunk/src/af/util/xp/ut_xml.h	(revision 22159)
++++ abiword-trunk/src/af/util/xp/ut_xml.h	(working copy)
+@@ -186,10 +186,10 @@
+    * 
+    * or vice versa... ?
+    */
+-  void startElement (const gchar * name, const gchar ** atts);
++  void startElement (const char * name, const char ** atts);
+   void endElement (const gchar * name);
+   void charData (const gchar * buffer, int length);
+-  void processingInstruction (const gchar * target, const gchar * data);
++  void processingInstruction (const char * target, const char * data);
+   void comment (const gchar * data);
+   void cdataSection (bool start);
+   void defaultData (const gchar * buffer, int length);

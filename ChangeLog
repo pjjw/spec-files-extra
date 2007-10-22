@@ -1,3 +1,20 @@
+2007-10-22  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEcmake.spec: Bump to 2.4.7
+	* SFEdante.spec: Add URL 
+	* SFElibfribidi.spec: Spilit into fribidi.spec
+	* base-specs/abiword.spec:
+	  (new) A lean and fast full-featured word processor
+	* base-specs/fribidi.spec:
+	  (new) Library implementing the Unicode Bidirectional Algorithm
+	* patches/abiword-01-const-cast.diff: (added)
+	* patches/abiword-02-reinterpret-cast.diff: (added)
+	* patches/abiword-03-namespace-std.diff: (added)
+	* patches/abiword-04-suncc-map.diff: (added)
+	* patches/abiword-05-ut-xml-define.diff: (added)
+	* patches/abiword-06-define-func.diff: (added)
+	* patches/abiword-07-unistd.diff: (added)
+
 2007-10-21  Petr Sobotka  <sobotkap@centrum.cz>
 
 	* SFEsarg.spec: Deleted dependency SFEsquid

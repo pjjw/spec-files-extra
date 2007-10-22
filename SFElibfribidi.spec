@@ -3,15 +3,19 @@
 #
 # includes module(s): libfribidi
 #
+# Copyright (c) 2007 Sun Microsystems, Inc.
+# This file and all modifications and additions to the pristine
+# package are under the same license as the package itself.
+#
+
 %include Solaris.inc
 
-%define src_name	fribidi
-%define src_url		http://ftp.debian.org/debian/pool/main/f/fribidi
+%use fribidi = fribidi.spec
 
 Name:                   SFElibfribidi
-Summary:                Unicode Bidirectional Algorithm (bidi)
-Version:                0.10.7
-Source:                 %{src_url}/%{src_name}_%{version}.orig.tar.gz
+Summary:                %fribidi.summary
+Version:                0.10.9
+Source:                 http://fribidi.org/download/fribidi-%{version}.tar.gz
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -22,32 +26,19 @@ SUNW_BaseDir:            %{_prefix}
 %include default-depend.inc
 
 %prep
-%setup -q -n %{src_name}-%{version}
+rm -rf %name-%version
+mkdir -p %name-%version
+%fribidi.prep -d %name-%version
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-    CPUS=1
-fi
-
-
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags"
-./configure --prefix=%{_prefix}		\
-	    --bindir=%{_bindir}		\
-	    --mandir=%{_mandir}		\
-            --libdir=%{_libdir}		\
-            --datadir=%{_datadir}	\
-            --libexecdir=%{_libexecdir} \
-            --sysconfdir=%{_sysconfdir} \
-            --enable-shared		\
-	    --disable-static
-make -j$CPUS 
+export RPM_OPT_FLAGS="$CFLAGS"
+%fribidi.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-rm $RPM_BUILD_ROOT%{_libdir}/*.*a
+%fribidi.install -d %name-%version
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -66,5 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Oct 22 2007 - nonsea@users.sourceforge.net
+- Spilit into fribidi.spec
 * Tue Jun  5 2007 - dougs@truemail.co.th
 - Initial version

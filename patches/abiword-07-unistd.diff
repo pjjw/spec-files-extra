@@ -1,0 +1,12 @@
+Index: abiword-trunk/src/wp/ap/xp/ap_EditMethods.cpp
+===================================================================
+--- abiword-trunk/src/wp/ap/xp/ap_EditMethods.cpp	(revision 22159)
++++ abiword-trunk/src/wp/ap/xp/ap_EditMethods.cpp	(working copy)
+@@ -33,6 +33,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <time.h>
++#include <unistd.h>
+ 
+ #include "xap_Features.h"
+ #include "ap_Features.h"

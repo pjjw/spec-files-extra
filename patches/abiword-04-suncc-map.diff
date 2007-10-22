@@ -1,0 +1,16 @@
+Index: abiword-trunk/src/af/xap/xp/xap_DialogFactory.cpp
+===================================================================
+--- abiword-trunk/src/af/xap/xp/xap_DialogFactory.cpp	(revision 22159)
++++ abiword-trunk/src/af/xap/xp/xap_DialogFactory.cpp	(working copy)
+@@ -28,7 +28,11 @@
+ #include "xap_Dialog_Id.h"
+ 
+ // save some typing
++#if !defined(__SUNPRO_CC)
+ typedef std::multimap<XAP_Dialog_Id, const XAP_NotebookDialog::Page*> NotebookPages;
++#else
++typedef std::map<XAP_Dialog_Id, const XAP_NotebookDialog::Page*> NotebookPages;
++#endif
+ typedef NotebookPages::iterator NotebookPagesIter;
+ 
+ static NotebookPages s_mapNotebookPages;

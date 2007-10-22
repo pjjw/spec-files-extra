@@ -10,6 +10,7 @@ Name:                    SFEdante
 Summary:                 Tool connecting to external networks via SOCKS.
 Version:                 1.1.19
 License:                 BSD/Carnegie Mellon University
+URL:                     http://www.inet.no/dante/
 Source:                  ftp://ftp.inet.no/pub/socks/dante-%{version}.tar.gz
 Source1:                 ftp://ftp.inet.no/pub/socks/extracted/example/socks.conf
 SUNW_BaseDir:            %{_basedir}
