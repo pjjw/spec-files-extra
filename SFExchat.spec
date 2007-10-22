@@ -14,7 +14,6 @@ Version:                 2.8.4
 Source:                  http://www.xchat.org/files/source/2.8/xchat-%{version}.tar.bz2
 Patch1:                  xchat-01-gettext.diff
 Patch2:                  xchat-02-zero-index.diff
-Patch3:                  xchat-03-dbus-LDADD.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -49,7 +48,6 @@ Requires:                %{name}
 %setup -q -n xchat-%version
 %patch1 -p1 -b .patch01
 %patch2 -p1 -b .patch02
-%patch3 -p1 -b .patch03
 touch NEWS
 
 %build
@@ -152,6 +150,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Oct 22 2007 - brian.cameron@sun.com
+- Remove patch xchat-03-dbus-LDADD.diff since it is not longer needed.
 * Wed Oct 17 2007 - laca@sun.com
 - add /usr/gnu to CFLAGS/LDFLAGS
 * Thu Aug 02 2007 - Brian Cameron <brian.cameron@sun.com>
