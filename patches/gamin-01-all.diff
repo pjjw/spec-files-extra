@@ -2,13 +2,7 @@ Index: gamin/MAINTAINERS
 ===================================================================
 --- gamin/MAINTAINERS	(revision 0)
 +++ gamin/MAINTAINERS	(revision 328)
-@@ -0,0 +1,12 @@
-+Please see http://www.gnome.org/~veillard/gamin/contacts.html for 
-+contact informations on this project:
-+
-+Daniel Veillard
-+E-mail: veillard@redhat.com
-+Userid: veillard
+@@ -0,0 +1,6 @@
 +Please see http://www.gnome.org/~veillard/gamin/contacts.html for 
 +contact informations on this project:
 +
@@ -419,6 +413,43 @@ Index: gamin/configure.in
                                                                                  
  	backends:                 ${backends}
  	build documentation:      ${build_docs}
+Index: gamin/tests/testing.c
+===================================================================
+--- gamin/tests/testing.c	(revision 328)
++++ gamin/tests/testing.c	(working copy)
+@@ -1,3 +1,4 @@
++#include "config.h"
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <unistd.h>
+@@ -31,6 +32,11 @@
+ 
+ #define IS_BLANK(p) ((*(p) == ' ') || (*(p) == '\t') ||		\
+                      (*(p) == '\n') || (*(p) == '\r'))
++#ifdef ENABLE_FEN
++#define KILLCMD	"pkill"
++#else
++#define KILLCMD	"killall"
++#endif
+ 
+ static int
+ scanCommand(char *line, char **command, char **arg, char **arg2)
+@@ -268,13 +274,13 @@
+          * okay, it's heavy but that's the simplest way since we do not have
+          * the pid(s) of the servers running.
+          */
+-        ret = system("killall gam_server");
++        ret = system(KILLCMD" gam_server");
+         if (ret < 0) {
+             fprintf(stderr, "kill line %d: failed to killall gam_server\n",
+                     no);
+             return (-1);
+         }
+-        printf("killall gam_server\n");
++        printf(KILLCMD" gam_server\n");
+     } else if (!strcmp(command, "disconnect")) {
+         if (testState.connected == 0) {
+             fprintf(stderr, "disconnect line %d: not connected\n", no);
 Index: gamin/server/gam_server.h
 ===================================================================
 --- gamin/server/gam_server.h	(revision 328)
@@ -437,7 +468,7 @@ Index: gamin/server/gam_fen.h
 ===================================================================
 --- gamin/server/gam_fen.h	(revision 0)
 +++ gamin/server/gam_fen.h	(revision 0)
-@@ -0,0 +1,17 @@
+@@ -0,0 +1,20 @@
 +/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 +/* vim:set expandtab ts=4 shiftwidth=4: */
 +
@@ -449,7 +480,10 @@ Index: gamin/server/gam_fen.h
 +
 +G_BEGIN_DECLS
 +
-+gboolean   gam_fen_init                  (void);
++gboolean gam_fen_init (void);
++gboolean gam_fen_add_subscription (GamSubscription *sub);
++gboolean gam_fen_remove_subscription (GamSubscription *sub);
++gboolean gam_fen_remove_all_for (GamListener *listener);
 +
 +G_END_DECLS
 +
@@ -481,11 +515,11 @@ Index: gamin/server/fen-thread-pool.c
 +	pthread_cond_t q_cond;
 +	th_data_t *q_head;		/* queue of data */
 +	th_data_t *q_tail;
-+	int q_len;
++	long q_len;
 +
 +	// pthread_mutex_t mutex;	 protect the following
-+	int max_t;
-+	int max_q;
++	long max_t;
++	long max_q;
 +};
 +
 +struct thread_data {
@@ -669,7 +703,7 @@ Index: gamin/server/fen-thread-pool.c
 +
 +	if ((ret = pthread_cond_broadcast(&tp->q_cond)) != 0) {
 +		perror ("thread_pool_run_full - pthread_cond_wait");
-+		exit (1);
++		abort ();
 +	}
 +
 +    MUTEX_UNLOCK (tp->q_mutex);
@@ -801,14 +835,18 @@ Index: gamin/server/gam_fs.c
  
  			if (words == NULL)
  				continue;
-@@ -178,17 +189,20 @@
+@@ -176,19 +187,23 @@
+ 		gam_fs_set ("ext2", GFS_MT_DEFAULT, 0);
+ 		gam_fs_set ("reiser4", GFS_MT_DEFAULT, 0);
  		gam_fs_set ("reiserfs", GFS_MT_DEFAULT, 0);
++		gam_fs_set ("nfs", GFS_MT_DEFAULT, 0);
++		gam_fs_set ("ufs", GFS_MT_DEFAULT, 0);
++		gam_fs_set ("vxfs", GFS_MT_DEFAULT, 0);
++		gam_fs_set ("zfs", GFS_MT_DEFAULT, 0);
  		gam_fs_set ("novfs", GFS_MT_POLL, 30);
- 		gam_fs_set ("nfs", GFS_MT_POLL, 5);
+-		gam_fs_set ("nfs", GFS_MT_POLL, 5);
 -		if (stat("/etc/mtab", &mtab_sbuf) != 0)
-+		gam_fs_set ("ufs", GFS_MT_DEFAULT, 5);
-+		gam_fs_set ("vxfs", GFS_MT_DEFAULT, 5);
-+		gam_fs_set ("zfs", GFS_MT_DEFAULT, 5);
++
 +		if (stat(MTAB, &mtab_sbuf) != 0)
  		{
 -			GAM_DEBUG(DEBUG_INFO, "Could not stat /etc/mtab\n");
@@ -842,18 +880,18 @@ Index: gamin/server/fen-data.c
 ===================================================================
 --- gamin/server/fen-data.c	(revision 0)
 +++ gamin/server/fen-data.c	(revision 0)
-@@ -0,0 +1,248 @@
+@@ -0,0 +1,327 @@
 +/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 +/* vim:set expandtab ts=4 shiftwidth=4: */
 +
 +#include "config.h"
++#include <sys/types.h>
 +#include <strings.h>
 +#include <fcntl.h>
 +#include <unistd.h>
 +#include <pthread.h>
 +#include <sys/param.h>
 +#include <sys/time.h>
-+#include <sys/types.h>
 +#include <sys/stat.h>
 +#include <errno.h>
 +#include <stdio.h>
@@ -862,6 +900,7 @@ Index: gamin/server/fen-data.c
 +#include "fen-data.h"
 +#include "fen-kernel.h"
 +
++//#define FEN_DEBUG_ALL
 +static GHashTable *fnode_hash = NULL;
 +static pthread_mutex_t fnode_hash_mutex = PTHREAD_MUTEX_INITIALIZER;
 +
@@ -871,6 +910,7 @@ Index: gamin/server/fen-data.c
 +		g_assert_not_reached (); \
 +	} \
 +} while (0)
++
 +#define MUTEX_UNLOCK(lock) \
 +do { \
 +	if (pthread_mutex_unlock(&lock) != 0) { \
@@ -878,41 +918,146 @@ Index: gamin/server/fen-data.c
 +	} \
 +} while (0)
 +
-+static fnode_t *
-+fn_new (const gchar *path)
++int
++fnode_trylock (pthread_mutex_t *mutex)
++{
++    int ret;
++    if ((ret = pthread_mutex_trylock (mutex)) == 0) {
++        return 0;
++    } else if (ret != EBUSY) {
++        perror ("fnode_trylock");
++        abort ();
++    }
++    return 1;
++}
++
++fnode_t *
++fnode_new (const gchar *path, port_emit_events_cb emit_events)
 +{
 +	fnode_t *fn = NULL;
-+    struct stat sbuf;
 +
-+	if ((fn = malloc (sizeof (fnode_t))) != NULL) {
-+		bzero ((void *)fn, sizeof (fnode_t));
-+		if (pthread_mutex_init (&fn->fn_lock, NULL) != 0) {
-+			perror ("fn_new - pthread_mutex_init");
++    g_assert (path && path[0]);
++	if ((fn = calloc (1, sizeof (fnode_t))) != NULL) {
++		if (pthread_mutex_init (&fn->ref_lock, NULL) != 0) {
++			perror ("fnode_new - pthread_mutex_init");
 +			free (fn);
 +			return NULL;
 +		}
-+		if (stat(path, &sbuf) == 0) {
-+			fn->is_dir = (sbuf.st_mode & S_IFDIR) != 0 ? TRUE : FALSE;
++		if (pthread_mutex_init (&fn->fn_lock, NULL) != 0) {
++			perror ("fnode_new - pthread_mutex_init");
++			free (fn);
++			return NULL;
 +		}
-+		FN_PATH(fn) = g_strdup (path);
++		if (pthread_mutex_init (&fn->prop_lock, NULL) != 0) {
++			perror ("fnode_new - pthread_mutex_init");
++			free (fn);
++			return NULL;
++		}
++		FN_PATH(fn) = strdup (path);
++        fn->emit_events = emit_events;
++        fn->ref = 1;
 +	}
 +	return fn;
 +}
 +
-+static void
-+fn_delete (fnode_t *fn)
++void
++fnode_delete (fnode_t *fn)
 +{
++    g_assert (fn->ref == 0);
 +    g_assert (fn->subs == NULL);
-+    g_assert (fn->mdsubs == NULL);
-+    if (fileinfo_valid (FN_PATH(fn)) == 0) {
-+        pnode_monitor_remove (FN_PATH(fn));
++    GAM_DEBUG(DEBUG_INFO, "FENDATA : FNODE_DELETE 0x%p %s\n", fn, FN_PATH(fn));
++    if (pthread_mutex_destroy (&fn->prop_lock) != 0) {
++        g_assert_not_reached ();
 +    }
 +    if (pthread_mutex_destroy (&fn->fn_lock) != 0) {
 +        g_assert_not_reached ();
 +    }
-+    GAM_DEBUG (DEBUG_INFO, "Removed fn 0x%p: %s\n", fn, FN_PATH(fn));
-+    g_free ((gpointer) FN_PATH(fn));
++    if (pthread_mutex_destroy (&fn->ref_lock) != 0) {
++        g_assert_not_reached ();
++    }
++    free (FN_PATH(fn));
 +    free (fn);
++}
++
++int
++fnode_stat (fnode_t *f)
++{
++	file_obj_t *fobj = &f->fobj;
++    struct stat sbuf;
++    int retval;
++
++    MUTEX_LOCK (f->prop_lock);
++    if ((retval = stat(fobj->fo_name, &sbuf)) == 0) {
++		fobj->fo_atime = sbuf.st_atim;
++		fobj->fo_mtime = sbuf.st_mtim;
++		fobj->fo_ctime = sbuf.st_ctim;
++        f->is_dir = (sbuf.st_mode & S_IFDIR) != 0 ? TRUE : FALSE;
++    }
++    MUTEX_UNLOCK (f->prop_lock);
++    return retval == 0 ? 0 : errno;
++}
++
++int
++fnode_mdcount (fnode_t *f)
++{
++    int count;
++    MUTEX_LOCK (f->prop_lock);
++    g_assert (f->md_ref >= 0);
++    count = f->md_ref;
++    MUTEX_UNLOCK (f->prop_lock);
++    return count;
++}
++
++void
++fnode_mdref (fnode_t *f)
++{
++    MUTEX_LOCK (f->prop_lock);
++    f->md_ref ++;
++    g_assert (f->md_ref > 0);
++    MUTEX_UNLOCK (f->prop_lock);
++}
++
++void
++fnode_mdunref (fnode_t *f)
++{
++    MUTEX_LOCK (f->prop_lock);
++    g_assert (f->md_ref > 0);
++    f->md_ref --;
++    MUTEX_UNLOCK (f->prop_lock);
++}
++
++void
++fnode_ref (fnode_t *f)
++{
++    MUTEX_LOCK (f->ref_lock);
++    f->ref ++;
++    MUTEX_UNLOCK (f->ref_lock);
++}
++
++void
++fnode_unref (fnode_t *f)
++{
++    MUTEX_LOCK (f->ref_lock);
++    f->ref --;
++    MUTEX_UNLOCK (f->ref_lock);
++}
++
++gboolean
++fnode_is_dir (fnode_t *f)
++{
++    gboolean retval;
++
++    MUTEX_LOCK (f->prop_lock);
++    retval = f->is_dir;
++    MUTEX_UNLOCK (f->prop_lock);
++    return retval;
++}
++
++void
++fnode_emit_events (fnode_t *f, int events)
++{
++    g_assert (f->emit_events);
++    f->emit_events (f, events);
 +}
 +
 +gboolean
@@ -921,96 +1066,37 @@ Index: gamin/server/fen-data.c
 +	fnode_hash = g_hash_table_new(g_str_hash, g_str_equal);
 +}
 +
-+/**
-+ * If found the fnode by filename, then increase the ref count and return
-+ * the fnode pointer to protect it is removed by other thread. Else
-+ * return NULL.
-+ */
-+
 +fnode_t *
-+fn_hash_safe_node_ref (const gchar *file_name, gboolean create_on_missing)
++fn_hash_safe_lookup (const gchar *file_name)
 +{
 +	fnode_t *fn;
 +
 +    MUTEX_LOCK (fnode_hash_mutex);
 +	fn = (fnode_t *) g_hash_table_lookup (fnode_hash, file_name);
-+	if (fn) {
-+		g_assert (fn->ref < G_MAXULONG);
-+		fn->ref++;
-+	} else if (create_on_missing) {
++    MUTEX_UNLOCK (fnode_hash_mutex);
++    return fn;
++}
++
++fnode_t *
++fn_hash_safe_node_new (const gchar *file_name,
++                       port_emit_events_cb emit_events)
++{
++	fnode_t *fn;
++
++    MUTEX_LOCK (fnode_hash_mutex);
++	fn = (fnode_t *) g_hash_table_lookup (fnode_hash, file_name);
++	if (fn == NULL) {
 +		/* there is no lock now */
-+		fn = fn_new (file_name);
++		fn = fnode_new (file_name, emit_events);
 +		if (fn != NULL) {
-+			/* ref=1 before add to hash to emulate fn_hash_safe_node_ref */
-+            GAM_DEBUG(DEBUG_INFO, "FENDATA : created fnode 0x%p\n", fn);
-+			fn->ref++;
++            GAM_DEBUG(DEBUG_INFO, "FENDATA : FNODE_NEW 0x%p %s\n", fn, FN_PATH(fn));
 +            g_hash_table_insert (fnode_hash, (gpointer) FN_PATH(fn), fn);
 +		}
-+	}
-+    MUTEX_UNLOCK (fnode_hash_mutex);
-+	return fn;
-+}
-+
-+/**
-+ * If found the fnode by filename, then decrease the ref count and return
-+ * the fnode pointer to protect it is removed by other thread. Else
-+ * return NULL.
-+ */
-+
-+fnode_t *
-+fn_hash_safe_node_unref (const gchar *file_name)
-+{
-+	fnode_t *fn;
-+    MUTEX_LOCK (fnode_hash_mutex);
-+	fn = (fnode_t *) g_hash_table_lookup (fnode_hash, file_name);
-+	if (fn) {
-+		g_assert (fn->ref > 0);
-+		fn->ref--;
-+	}
-+    MUTEX_UNLOCK (fnode_hash_mutex);
-+	return fn;
-+}
-+
-+/**
-+ * If found the fnode by filename, remove it if the ref count equals to 0
-+ * and sub list is NULL.
-+ * Returns 0 if remove is OK, 1 if remove failed because ref is not zero and
-+ * should retry.
-+ * -1 if can't find it, -2 if someone sub it again.
-+ */
-+
-+gint
-+fn_hash_safe_node_remove (const gchar *file_name)
-+{
-+	gint ret = -1;
-+	fnode_t *fn;
-+	MUTEX_LOCK (fnode_hash_mutex);
-+	fn = (fnode_t *) g_hash_table_lookup (fnode_hash, file_name);
-+	if (fn) {
-+		if (fn->ref == 0) {
-+            MUTEX_LOCK (fn->fn_lock);
-+			if (fn->subs == NULL && fn->mdsubs == NULL) {
-+				/* delete fnode_t */
-+				g_hash_table_remove (fnode_hash, FN_PATH(fn));
-+				ret = 0;
-+			} else {
-+				ret = -2;
-+			}
-+            MUTEX_UNLOCK (fn->fn_lock);
-+		} else {
-+			ret = 1;
-+		}
 +	} else {
-+		ret = -1;
++        fnode_ref (fn);
 +	}
-+	MUTEX_UNLOCK (fnode_hash_mutex);
-+
-+	/* Now we can safely free the fnode */
-+	if (ret == 0) {
-+        fn_delete (fn);
-+	}
-+
-+	return ret;
++    MUTEX_UNLOCK (fnode_hash_mutex);
++	return fn;
 +}
 +
 +void
@@ -1029,6 +1115,37 @@ Index: gamin/server/fen-data.c
 +	MUTEX_UNLOCK (fnode_hash_mutex);
 +}
 +
++void
++fn_hash_foreach_remove (GHRFunc func, gpointer user_data)
++{
++	g_hash_table_foreach_remove (fnode_hash, func, user_data);
++}
++
++void
++fn_hash_lock ()
++{
++	MUTEX_LOCK (fnode_hash_mutex);
++}
++
++int
++fn_hash_trylock ()
++{
++    int ret;
++    if ((ret = pthread_mutex_trylock (&fnode_hash_mutex)) == 0) {
++        return 0;
++    } else if (ret != EBUSY) {
++        perror ("fn_hash_trylock");
++        abort ();
++    }
++    return 1;
++}
++
++void
++fn_hash_unlock ()
++{
++	MUTEX_UNLOCK (fnode_hash_mutex);
++}
++
 +static void
 +fn_hash_foreach_report_fnode (gpointer key,
 +                              gpointer value,
@@ -1038,17 +1155,13 @@ Index: gamin/server/fen-data.c
 +    GList *idx;
 +
 +    g_assert (key == FN_PATH (fn));
-+    if (fn->ref > 0) {
-+        GAM_DEBUG(DEBUG_INFO, "FENDATA : fnode 0x%p LOCKED BY others\n", fn);
-+        return;
-+    } else {
-+        GAM_DEBUG(DEBUG_INFO, "FENDATA : fnode 0x%p\n", fn);
-+    }
++    GAM_DEBUG(DEBUG_INFO, "FENDATA : fnode 0x%p\n", fn);
 +
 +    GAM_DEBUG(DEBUG_INFO, "FENDATA : {\n");
 +    MUTEX_LOCK (fn->fn_lock);
 +    GAM_DEBUG(DEBUG_INFO, "FENDATA :   %-14s = %s\n", "path", (gchar*)key);
 +    GAM_DEBUG(DEBUG_INFO, "FENDATA :   %-14s = %d\n", "ref", fn->ref);
++    GAM_DEBUG(DEBUG_INFO, "FENDATA     %-14s = 0x%p\n", "parent", fn->parent);
 +    GAM_DEBUG(DEBUG_INFO, "FENDATA :   %-14s = 0x%p\n", "subs", fn->subs);
 +
 +    for (idx = fn->subs; idx; idx = idx->next) {
@@ -1058,16 +1171,7 @@ Index: gamin/server/fen-data.c
 +        GAM_DEBUG(DEBUG_INFO, "FENDATA :     }\n");
 +    }
 +
-+    GAM_DEBUG(DEBUG_INFO, "FENDATA :   %-14s = 0x%p\n", "mdsubs", fn->mdsubs);
-+
-+    for (idx = fn->mdsubs; idx; idx = idx->next) {
-+        GAM_DEBUG(DEBUG_INFO, "FENDATA :     {\n");
-+        GAM_DEBUG(DEBUG_INFO, "FENDATA :       %-4s = 0x%p\n", "p", idx->data);
-+        GAM_DEBUG(DEBUG_INFO, "FENDATA :       %-4s = %s\n", "s", gam_subscription_get_path(idx->data));
-+        GAM_DEBUG(DEBUG_INFO, "FENDATA :     }\n");
-+    }
-+
-+    GAM_DEBUG(DEBUG_INFO, "FENDATA     %-14s = %d\n", "mdflag_ref", fn->mdflag_ref);
++    GAM_DEBUG(DEBUG_INFO, "FENDATA     %-14s = 0x%p\n", "pnode", fn->pn);
 +    MUTEX_UNLOCK (fn->fn_lock);
 +    GAM_DEBUG(DEBUG_INFO, "FENDATA : }\n");
 +}
@@ -1079,15 +1183,28 @@ Index: gamin/server/fen-data.c
 +        guint size;
 +        GList *keys, *idx;
 +
-+        MUTEX_LOCK (fnode_hash_mutex);
-+        size = g_hash_table_size (fnode_hash);
++        if (fn_hash_trylock () == 0) {
++            size = g_hash_table_size (fnode_hash);
++#ifdef FEN_DEBUG_ALL
++            if (size > 0) {
++                g_hash_table_foreach (fnode_hash,
++                                      fn_hash_foreach_report_fnode,
++                                      NULL);
++            }
++#else
++            if (size > 0 && size <= 2) {
++                g_hash_table_foreach (fnode_hash,
++                                      fn_hash_foreach_report_fnode,
++                                      NULL);
++            }
++#endif
++            MUTEX_UNLOCK (fnode_hash_mutex);
++        }
++#ifdef FEN_DEBUG_ALL
 +        if (size > 0) {
 +            GAM_DEBUG(DEBUG_INFO, "FENDATA : HASH HAS [ %6d ] NODES\n", size);
-+            g_hash_table_foreach (fnode_hash,
-+                                  fn_hash_foreach_report_fnode,
-+                                  NULL);
 +        }
-+        MUTEX_UNLOCK (fnode_hash_mutex);
++#endif
 +        sleep (10);
 +    }
 +}
@@ -1095,27 +1212,38 @@ Index: gamin/server/fen-data.h
 ===================================================================
 --- gamin/server/fen-data.h	(revision 0)
 +++ gamin/server/fen-data.h	(revision 0)
-@@ -0,0 +1,47 @@
+@@ -0,0 +1,73 @@
 +/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 +/* vim:set expandtab ts=4 shiftwidth=4: */
 +
++#include <port.h>
 +#include <glib.h>
 +
 +#ifndef _FEN_DATA_H_
 +#define _FEN_DATA_H_
 +
-+#define FN_PATH(fp)	(((fnode_t *)(fp))->path)
++#define FN_PATH(fp)	(((fnode_t *)(fp))->fobj.fo_name)
 +
-+typedef struct fnode
++typedef struct fnode fnode_t;
++typedef void (*port_emit_events_cb) (fnode_t *f, int events);
++
++struct fnode
 +{
-+	const char *path;
++	/* must be the first member */
++	file_obj_t fobj;
 +	
 +	/* to identify if the path is dir */
 +	gboolean is_dir;
 +
-+	/* ref is protected by fnode_hash_mutex,
-+       zero means nobody uses it (locks fn_lock). */
-+	gulong ref;
++    /* the number of mondir subs this fnode has */
++    int md_ref;
++
++    /* protect above all */
++	pthread_mutex_t prop_lock;
++
++    /* state */
++	pthread_mutex_t ref_lock;
++    int ref;
 +
 +	/* lock/unlock by fn_hash, protect the following members  */
 +	pthread_mutex_t fn_lock;
@@ -1123,19 +1251,34 @@ Index: gamin/server/fen-data.h
 +	/* List of subscriptions monitoring this fnode/path */
 +	GList *subs;
 +
-+	/* List of subscriptions monitoring the directory of this fnode/path */
-+	GList *mdsubs;
++	/* the parent fnode monitoring the directory of this fnode/path */
++    fnode_t *parent;
 +
-+	/* If anyone mondir, mdflag_ref ++ */
-+	gulong mdflag_ref;
++/* private data */
 +
-+} fnode_t;
++    /* call backs */
++    port_emit_events_cb emit_events;
++
++    /* fen-kernel private */
++    void *pn;
++    gboolean is_poll;
++};
++
++/* fnode functions */
++fnode_t *fnode_new (const gchar *path, port_emit_events_cb emit_events);
++void fnode_delete (fnode_t *fn);
++int fnode_stat (fnode_t *f);
++gboolean fnode_is_dir (fnode_t *f);
++void fnode_emit_events (fnode_t *f, int events);
 +
 +/* path <-> fnode_t hash */
 +gboolean fn_hash_init ();
-+fnode_t *fn_hash_safe_node_ref (const gchar *file_name, gboolean create_on_missing);
-+fnode_t *fn_hash_safe_node_unref (const gchar *file_name);
-+gint fn_hash_safe_node_remove (const gchar *file_name);
++fnode_t *fn_hash_safe_node_new (const gchar *file_name,
++                                 port_emit_events_cb emit_events);
++fnode_t *fn_hash_safe_node_ref (fnode_t *f);
++fnode_t *fn_hash_safe_node_unref (fnode_t *f);
++fnode_t *fn_hash_safe_lookup (const gchar *file_name);
++gint fn_hash_safe_node_remove (fnode_t *f);
 +void fn_hash_safe_foreach (GHFunc func, gpointer user_data);
 +void fn_hash_safe_foreach_remove (GHRFunc func, gpointer user_data);
 +void fn_hash_safe_debug ();
@@ -1147,7 +1290,7 @@ Index: gamin/server/fen-kernel.c
 ===================================================================
 --- gamin/server/fen-kernel.c	(revision 0)
 +++ gamin/server/fen-kernel.c	(revision 0)
-@@ -0,0 +1,476 @@
+@@ -0,0 +1,351 @@
 +/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 +/* vim:set expandtab ts=4 shiftwidth=4: */
 +
@@ -1165,21 +1308,15 @@ Index: gamin/server/fen-kernel.c
 +#include "fen-kernel.h"
 +#include "gam_error.h"
 +
-+typedef struct fileinfo fileinfo_t;
-+
 +#define PE_ALLOC	128
-+#define PNP_FD(pp)	((pp)->port)
-+#define FI_PATH(f)	(((file_obj_t *)(f))->fo_name)
++#define PNP_FD(pp)	(((pnode_t *)(pp))->port)
 +#define MON_EVENTS	(/* FILE_ACCESS | */ FILE_MODIFIED | FILE_ATTRIB)
-+#define PORT_INTERVAL 0	/* scan port every PORT_INTERVAL microsecond */
 +
 +static ulong max_port_evnets = 512;
 +static ulong max_port_events = 256;
 +static GList *pn_vq;	/* the queue of ports which don't have the max objs */
 +static GList *pn_fq;	/* the queue of ports which have the max objs */
 +static pthread_mutex_t pn_queues_lock = PTHREAD_MUTEX_INITIALIZER;
-+static GHashTable *f_ht;	/* record the valid fileinfo_t objs */
-+static pthread_mutex_t func_entry_lock = PTHREAD_MUTEX_INITIALIZER;
 +
 +#define MUTEX_LOCK(lock) \
 +do { \
@@ -1194,16 +1331,10 @@ Index: gamin/server/fen-kernel.c
 +	} \
 +} while (0)
 +
-+static void fen_global_resources_init ();
-+static fileinfo_t *fileinfo_new (const char *file_path,
-+				 publish_events_callback pe_cb,
-+				 void *udata);
-+static void fileinfo_delete (fileinfo_t *f);
 +static void pnode_list_walker_cb (gpointer data, gpointer udata);
-+static int watchfile (fileinfo_t *f);
-+static void *pnode_fetch_event_cb (void *arg);
++static void *port_fetch_event_cb (void *arg);
 +static pnode_t *pnode_new ();
-+static void pnode_unref (pnode_t *pn);
++static void pnode_delete (pnode_t *pn);
 +
 +struct pnode
 +{
@@ -1211,24 +1342,6 @@ Index: gamin/server/fen-kernel.c
 +	pthread_mutex_t m_ref;	/* protect ref */
 +	pthread_t tid;
 +	int port;
-+};
-+
-+struct fileinfo {
-+	/* must be the first member */
-+	file_obj_t fobj;
-+
-+	/*
-+	 * publish_event is invoked w/ a thread context,
-+	 * be sure not to pending on this function
-+	 */
-+	publish_events_callback publish_events;
-+
-+	/* users should touch */
-+	void *udata;
-+
-+	/* private */
-+	pnode_t *pn;
-+
 +};
 +
 +enum {
@@ -1268,32 +1381,8 @@ Index: gamin/server/fen-kernel.c
 +        GAM_DEBUG(DEBUG_INFO, "\n");
 +}
 +
-+/**
-+ * Get Solaris resouce values.
-+ *
-+ */
-+static void
-+fen_global_resources_init ()
-+{
-+	rctlblk_t *rblk;
-+
-+	if ((rblk = malloc (rctlblk_size ())) == NULL) {
-+		perror ("rblk malloc");
-+		exit (1);
-+	}
-+	if (getrctl ("process.max-port-events", NULL, rblk, RCTL_FIRST) == -1) {
-+		perror ("getrctl");
-+		exit (1);
-+	} else {
-+		if (max_port_evnets > rctlblk_get_value(rblk))
-+			max_port_evnets = rctlblk_get_value(rblk);
-+		GAM_DEBUG(DEBUG_INFO, "FENKERNEL : max event of a port: %u\n", max_port_evnets);
-+	}
-+	free (rblk);
-+}
-+
 +static void *
-+pnode_fetch_event_cb (void *arg)
++port_fetch_event_cb (void *arg)
 +{
 +	pnode_t *pn = (pnode_t *)arg;
 +	uint_t nget;
@@ -1316,13 +1405,17 @@ Index: gamin/server/fen-kernel.c
 +		if (port_getn (PNP_FD(pn), pe, PE_ALLOC, &nget, NULL) == 0) {
 +			int i;
 +			for (i = 0; i < nget; i++) {
-+				fileinfo_t *f;
-+				f = (fileinfo_t *)pe[i].portev_user;
-+				g_assert (f->publish_events);
++				fnode_t *f;
++				f = (fnode_t *)pe[i].portev_user;
 +				/* handle event */
-+				printevent(pe[i].portev_events, FI_PATH(f));
-+				f->publish_events (FI_PATH(f), pe[i].portev_events, f->udata);
-+				watchfile (f);
++				printevent(pe[i].portev_events, FN_PATH(f));
++                MUTEX_LOCK (f->ref_lock);
++                g_assert (f->ref > 0);
++                pnode_delete (f->pn);
++                f->pn = NULL;
++                f->ref --;
++                MUTEX_UNLOCK (f->ref_lock);
++                fnode_emit_events (f, pe[i].portev_events);
 +			}
 +		} else {
 +			break;
@@ -1336,7 +1429,7 @@ Index: gamin/server/fen-kernel.c
 + * ref - 1 if remove a watching file succeeded.
 + */
 +static void
-+pnode_unref (pnode_t *pn)
++pnode_delete (pnode_t *pn)
 +{
 +    MUTEX_LOCK (pn->m_ref);
 +    MUTEX_LOCK (pn_queues_lock);
@@ -1350,7 +1443,7 @@ Index: gamin/server/fen-kernel.c
 +		// pthread_join (pn->tid, NULL);
 +		// pn->tid = 0;
 +	}
-+	GAM_DEBUG(DEBUG_INFO, "FENKERNEL : pnode_unref: [pn] 0x%p [ref] %d\n", pn, pn->ref);
++	GAM_DEBUG(DEBUG_INFO, "FENKERNEL : pnode_delete: [pn] 0x%p [ref] %d\n", pn, pn->ref);
 +    MUTEX_UNLOCK (pn_queues_lock);
 +    MUTEX_UNLOCK (pn->m_ref);
 +}
@@ -1384,8 +1477,8 @@ Index: gamin/server/fen-kernel.c
 +                free (pn);
 +                pn = NULL;
 +            } else if (pthread_create (&pn->tid, NULL,
-+                                        pnode_fetch_event_cb,
-+                                        (void *)pn) != 0) {
++                                       port_fetch_event_cb,
++                                       (void *)pn) != 0) {
 +                perror ("pthread_create");
 +				free (pn);
 +				pn = NULL;
@@ -1396,8 +1489,7 @@ Index: gamin/server/fen-kernel.c
 +		}
 +	}
 +	if (pn) {
-+		GAM_DEBUG(DEBUG_INFO,
-+			  "FENKERNEL : pnode_new: [pn] 0x%p [ref] %d\n", pn, pn->ref);
++		GAM_DEBUG(DEBUG_INFO, "FENKERNEL : pnode_new: [pn] 0x%p [ref] %d\n", pn, pn->ref);
 +        pn->ref++;
 +        if (pn->ref == max_port_evnets) {
 +            GAM_DEBUG(DEBUG_INFO, "FENKERNEL : move to full queue - [pn] 0x%p [ref] %d\n", pn, pn->ref);
@@ -1414,120 +1506,76 @@ Index: gamin/server/fen-kernel.c
 + * There is no guarantee that one fobj must be associated to one port fd.
 + * And no guarantee that the same file will be added only once.
 + * So it's up level duty to make sure only add a fobj one time.
-+ * Return 0 if succeeded, >0 if failed.
++ *
++ * Should call fnode_ref before call this function to protect the data.
++ * And call fnode_unref if receive FILE_EXCEPTION events.
++ *
++ * Returns 0 if succeeded, -1 already added.
 + */
 +extern int
-+pnode_monitor_add (const char *file_path,
-+		   publish_events_callback pe_cb,
-+		   void *udata)
++port_monitor_add (fnode_t *f)
 +{
-+	fileinfo_t *f;
-+	pnode_t *pn;
++    int ret;
 +
-+	g_assert (pe_cb);
-+	MUTEX_LOCK (func_entry_lock);
-+	f = g_hash_table_lookup (f_ht, (gpointer)file_path);
-+	if (f) {
-+		GAM_DEBUG(DEBUG_INFO, "FENKERNEL : pnode_monitor_add found fileinfo 0x%p\n", f);
-+		MUTEX_UNLOCK (func_entry_lock);
-+		return 0;
-+	} else {
-+		if ((f = fileinfo_new (file_path,
-+				       (publish_events_callback) pe_cb,
-+				       udata)) == NULL) {
-+			MUTEX_UNLOCK (func_entry_lock);
-+			return 1;
-+		}
-+	}
-+
-+	/* must finish initializing f, before do port jobs */
-+	pn = pnode_new ();
-+	if (pn == NULL) {
-+		fileinfo_delete (f);
-+		MUTEX_UNLOCK (func_entry_lock);
-+		return 1;
-+	}
-+
-+	f->pn = pn;
-+	MUTEX_UNLOCK (func_entry_lock);
-+	switch (watchfile(f)) {
-+	case 0: /* porting */
-+	{
-+		break;
-+	}
-+	case -1:
-+	{
-+		perror ("watchfile");
-+		f = NULL;
-+		break;
-+	}
-+	default:
-+		g_assert_not_reached ();
-+	}
-+	GAM_DEBUG(DEBUG_INFO, "FENKERNEL : pnode_monitor_add fileinfo 0x%p\n", f);
-+	return f != NULL ? 0 : 1;
++    MUTEX_LOCK (f->ref_lock);
++    if (f->pn == NULL) {
++        if ((f->pn = pnode_new ()) != NULL) {
++            if ((ret = port_associate (PNP_FD(f->pn),
++                                       PORT_SOURCE_FILE,
++                                       (uintptr_t)&f->fobj,
++                                       MON_EVENTS,
++                                       (void *)f)) == 0) {
++                f->ref ++;
++                GAM_DEBUG(DEBUG_INFO, "FENKERNEL : associated file %s\n",
++                          FN_PATH(f));
++            } else {
++                perror ("FENKERNEL - port_associate");
++                pnode_delete (f->pn);
++                f->pn = NULL;
++                ret = errno;
++            }
++        } else {
++            ret = ENOMEM;
++        }
++    } else {
++        ret = -1;
++    }
++    MUTEX_UNLOCK (f->ref_lock);
++    return ret;
 +}
 +
 +/**
-+ * Return 0 if succeededn, >0 if failed.
++ * Should call fnode_unref if call this function successfully
++ *
++ * Return 0 if succeeded, -1 already removed.
 + */
 +extern int
-+pnode_monitor_remove (const char *path)
++port_monitor_remove (fnode_t *f)
 +{
 +	int ret;
-+	fileinfo_t *f;
 +
-+	MUTEX_LOCK (func_entry_lock);
-+	f = g_hash_table_lookup (f_ht, path);
-+	GAM_DEBUG(DEBUG_INFO, "FENKERNEL : pnode_monitor_remove fileinfo 0x%p\n", f);
-+
-+	if (f) {
-+		if (port_dissociate (PNP_FD(f->pn), PORT_SOURCE_FILE,
-+				     (uintptr_t)&f->fobj) == 0) {
-+			GAM_DEBUG(DEBUG_INFO, "FENKERNEL : dissociated file %s\n", FI_PATH(f));
-+			pnode_unref (f->pn);
-+			fileinfo_delete (f);
-+			ret = 0;
-+		} else {
-+			perror ("port_dissociate");
-+			ret = 1;
-+		}
-+	} else {
-+		ret = 1;
-+	}
-+	MUTEX_UNLOCK (func_entry_lock);
++    MUTEX_LOCK (f->ref_lock);
++    if (f->pn) {
++        if ((ret = port_dissociate (PNP_FD(f->pn), PORT_SOURCE_FILE,
++                                    (uintptr_t)&f->fobj)) == 0) {
++            GAM_DEBUG(DEBUG_INFO, "FENKERNEL : dissociated file %s\n",
++                      FN_PATH(f));
++            pnode_delete (f->pn);
++            f->pn = NULL;
++            f->ref --;
++        } else {
++            ret = errno;
++            perror ("FENKERNEL - port_dissociate");
++        }
++    } else {
++        ret = -1;
++    }
++    MUTEX_UNLOCK (f->ref_lock);
 +	return ret;
 +}
 +
-+static int
-+watchfile (fileinfo_t *f)
-+{
-+	file_obj_t *fobj = &f->fobj;
-+        struct stat sbuf;
-+
-+        if (stat(fobj->fo_name, &sbuf) == 0) {
-+		fobj->fo_atime = sbuf.st_atim;
-+		fobj->fo_mtime = sbuf.st_mtim;
-+		fobj->fo_ctime = sbuf.st_ctim;
-+
-+        usleep (PORT_INTERVAL);
-+
-+		if (port_associate (PNP_FD(f->pn), PORT_SOURCE_FILE,
-+				    (uintptr_t)&f->fobj,
-+				    MON_EVENTS, (void *)f) == 0) {
-+				GAM_DEBUG(DEBUG_INFO, "FENKERNEL : associated file %s\n", FI_PATH(f));
-+				return 0;
-+        }
-+	}
-+	MUTEX_LOCK (func_entry_lock);
-+    pnode_unref (f->pn);
-+	fileinfo_delete (f);
-+	MUTEX_UNLOCK (func_entry_lock);
-+	return -1;
-+}
-+
 +static void
-+pnode_list_walker_cb (gpointer data, gpointer udata)
++port_list_walker_cb (gpointer data, gpointer udata)
 +{
 +	pnode_t *pn = (pnode_t *)data;
 +	switch (GPOINTER_TO_INT (udata)) {
@@ -1556,72 +1604,42 @@ Index: gamin/server/fen-kernel.c
 +{
 +	pnode_t *pn;
 +
-+	MUTEX_LOCK (func_entry_lock);
 +	/* close ports */
 +    MUTEX_LOCK (pn_queues_lock);
-+	g_list_foreach (pn_vq, pnode_list_walker_cb, (gpointer)CTL_CLOSE_PORT);
-+	g_list_foreach (pn_fq, pnode_list_walker_cb, (gpointer)CTL_CLOSE_PORT);
++	g_list_foreach (pn_vq, port_list_walker_cb, (gpointer)CTL_CLOSE_PORT);
++	g_list_foreach (pn_fq, port_list_walker_cb, (gpointer)CTL_CLOSE_PORT);
 +	/* wait for threads */
-+	g_list_foreach (pn_vq, pnode_list_walker_cb, (gpointer)CTL_JOIN_THREAD);
-+	g_list_foreach (pn_fq, pnode_list_walker_cb, (gpointer)CTL_JOIN_THREAD);
++	g_list_foreach (pn_vq, port_list_walker_cb, (gpointer)CTL_JOIN_THREAD);
++	g_list_foreach (pn_fq, port_list_walker_cb, (gpointer)CTL_JOIN_THREAD);
 +	/* free pnodes */
-+	g_list_foreach (pn_vq, pnode_list_walker_cb, (gpointer)CTL_FREE_PNODE);
-+	g_list_foreach (pn_fq, pnode_list_walker_cb, (gpointer)CTL_FREE_PNODE);
++	g_list_foreach (pn_vq, port_list_walker_cb, (gpointer)CTL_FREE_PNODE);
++	g_list_foreach (pn_fq, port_list_walker_cb, (gpointer)CTL_FREE_PNODE);
 +    MUTEX_UNLOCK (pn_queues_lock);
-+	MUTEX_UNLOCK (func_entry_lock);
-+}
-+
-+static fileinfo_t *
-+fileinfo_new (const char *file_path,
-+	      publish_events_callback pe_cb,
-+	      void *udata)
-+{
-+	fileinfo_t *f = NULL;
-+	g_assert (pe_cb);
-+
-+	if ((f = malloc (sizeof(fileinfo_t))) != NULL) {
-+		bzero (f, sizeof(fileinfo_t));
-+		f->publish_events = pe_cb;
-+		f->udata = udata;
-+		if ((f->fobj.fo_name = strdup (file_path)) != NULL) {
-+			g_hash_table_insert (f_ht, f->fobj.fo_name, (gpointer)f);
-+		} else {
-+			free (f);
-+			f = NULL;
-+		}
-+	}
-+	return f;
-+}
-+
-+static void
-+fileinfo_delete (fileinfo_t *f)
-+{
-+	g_hash_table_remove (f_ht, f->fobj.fo_name);
-+	GAM_DEBUG(DEBUG_INFO, "FENKERNEL : fileinfo_delete 0x%p\n", f);
-+	free (f->fobj.fo_name);
-+	free (f);
 +}
 +
 +/**
-+ * Returns 0 if f is valid.
++ * Get Solaris resouce values.
++ *
 + */
-+
-+extern int
-+fileinfo_valid (const char *path)
-+{
-+	fileinfo_t *f1;
-+	MUTEX_LOCK (func_entry_lock);
-+	f1 = g_hash_table_lookup (f_ht, path);
-+	MUTEX_UNLOCK (func_entry_lock);
-+	return f1 != NULL ? 0 : 1;
-+}
 +
 +extern int
 +fen_kernel_init ()
 +{
-+	fen_global_resources_init();
-+	f_ht = g_hash_table_new (g_str_hash, g_str_equal);
-+	g_assert (f_ht);
++	rctlblk_t *rblk;
++
++	if ((rblk = malloc (rctlblk_size ())) == NULL) {
++		perror ("rblk malloc");
++		exit (1);
++	}
++	if (getrctl ("process.max-port-events", NULL, rblk, RCTL_FIRST) == -1) {
++		perror ("getrctl");
++		exit (1);
++	} else {
++		if (max_port_evnets > rctlblk_get_value(rblk))
++			max_port_evnets = rctlblk_get_value(rblk);
++		GAM_DEBUG(DEBUG_INFO, "FENKERNEL : max event of a port: %u\n", max_port_evnets);
++	}
++	free (rblk);
 +	return 0;
 +}
 Index: gamin/server/Makefile.am
@@ -1682,7 +1700,7 @@ Index: gamin/server/gam_server.c
  #include "gam_excludes.h"
  #include "gam_fs.h"
  #include "gam_conf.h" 
-@@ -162,9 +165,15 @@
+@@ -162,6 +165,12 @@
  			return(TRUE);
  		}
  #endif	
@@ -1694,43 +1712,34 @@ Index: gamin/server/gam_server.c
 +#endif
  	}
  
--	if (gam_poll_basic_init()) {
-+	if (gam_poll_generic_init()) {
- 		GAM_DEBUG(DEBUG_INFO, "Using poll as backend\n");
- 		return(TRUE);
- 	}
+ 	if (gam_poll_basic_init()) {
 Index: gamin/server/fen-kernel.h
 ===================================================================
 --- gamin/server/fen-kernel.h	(revision 0)
 +++ gamin/server/fen-kernel.h	(revision 0)
-@@ -0,0 +1,22 @@
+@@ -0,0 +1,17 @@
 +/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 +/* vim:set expandtab ts=4 shiftwidth=4: */
 +
 +#include <port.h>
++#include <fen-data.h>
 +
 +#ifndef _FEN_KERNEL_H_
 +#define _FEN_KERNEL_H_
 +
 +typedef struct pnode pnode_t;
 +
-+typedef void (*publish_events_callback) (const char *pathname, int events, void *udata);
-+
 +extern int fen_kernel_init ();
-+extern int pnode_monitor_add (const char *file_path,
-+			      publish_events_callback pe_cb,
-+			      void *udata);
-+extern int pnode_monitor_remove (const char *path);
-+extern void pnode_monitor_remove_all ();
-+
-+extern int fileinfo_valid (const char *path);
++extern int port_monitor_add (fnode_t *f);
++extern int port_monitor_remove (fnode_t *f);
++extern void port_monitor_remove_all ();
 +
 +#endif /* _FEN_KERNEL_H_ */
 Index: gamin/server/gam_fen.c
 ===================================================================
 --- gamin/server/gam_fen.c	(revision 0)
 +++ gamin/server/gam_fen.c	(revision 0)
-@@ -0,0 +1,670 @@
+@@ -0,0 +1,804 @@
 +/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 +/* vim:set expandtab ts=4 shiftwidth=4: */
 +/*
@@ -1755,6 +1764,7 @@ Index: gamin/server/gam_fen.c
 +#include <sys/time.h>
 +#include <sys/types.h>
 +#include <stdlib.h>
++#include <errno.h>
 +#include "gam_error.h"
 +#include "gam_fen.h"
 +#include "gam_event.h"
@@ -1765,19 +1775,20 @@ Index: gamin/server/gam_fen.c
 +#include "fen-data.h"
 +#include <glib.h>
 +
-+#define POLL_INTERVAL 1000	/* poll once every 1 second */
-+#define FREE_FN_INTERVAL 8000	/* GC run every FREE_FN_INTERVAL microsecond */
-+#define MAX_EVENT_THREADS 20
++//#define FEN_DEBUG
++#define GC_INTERVAL 15000	/* once every 15 second */
++#define POLL_INTERVAL 1500	/* poll once every 1.5 second */
++#define MAX_EVENT_THREADS 25
 +#define MAX_EVENT_QUEUE_LEN G_MAXINT
 +
-+static thp_t *thread_pool = NULL;
-+
++#define MSLEEP(ms)	(usleep ((ms)*1000))
 +#define MUTEX_LOCK(lock) \
 +do { \
 +	if (pthread_mutex_lock(&lock) != 0) { \
 +		g_assert_not_reached (); \
 +	} \
 +} while (0)
++
 +#define MUTEX_UNLOCK(lock) \
 +do { \
 +	if (pthread_mutex_unlock(&lock) != 0) { \
@@ -1787,35 +1798,121 @@ Index: gamin/server/gam_fen.c
 +
 +typedef struct event_pair
 +{
-+	gchar *path;
 +	int events;
-+	fnode_t *fn;
++	fnode_t *f;
 +} event_pair_t;
-+
-+/* run by thread pool */
-+static void events_process_task (event_pair_t *ep);
-+static void fnode_remove_task (event_pair_t *ep);
-+static void poll_file_task (const char *path);
-+static void events_unsafe_emit (fnode_t *fn,
-+			      GaminEventType event,
-+			      const gchar *path);
-+static void find_new_file_in_dir (fnode_t *fn);
-+static void port_publish_events (const char *path, int events, fnode_t *fn);
-+static void send_fnode_remove_task (const char *path);
-+
-+/* others */
-+static void create_fn_for_mdsub (const char *fullname,
-+                                     GamSubscription *sub);
-+
-+static gboolean gam_fen_add_subscription (GamSubscription *sub);
-+static gboolean gam_fen_remove_subscription (GamSubscription *sub);
-+static gboolean gam_fen_remove_all_for (GamListener *listener);
 +
 +static void
 +ep_free (event_pair_t *ep)
 +{
-+	g_free (ep->path);
 +	g_free (ep);
++}
++
++static GList *delete_pending_list = NULL;
++static thp_t *thread_pool = NULL;
++
++/* run by thread pool */
++static void events_process_task (event_pair_t *ep);
++static void poll_file_task (fnode_t *f);
++static void events_unsafe_emit (fnode_t *f,
++                                GaminEventType event,
++                                const gchar *path);
++static void find_new_file_in_dir (fnode_t *parent);
++
++/* others */
++static GaminEventType fen_to_gamin_event (int events);
++static void create_children_initially (const char *fullname,
++                                       fnode_t *parent);
++static gboolean fen_monitor_add (fnode_t *f);
++static gboolean poll_monitor_add (fnode_t *f);
++
++static void
++publish_gam_events (fnode_t *f, int events)
++{
++	event_pair_t *ep;
++
++    fnode_ref (f);
++	ep = g_new (event_pair_t, 1);
++    ep->f = f;
++	ep->events = events;
++
++	if (thread_pool_run_full (thread_pool,
++                              (thp_run_cb) events_process_task,
++                              (gpointer) ep,
++                              (GDestroyNotify) ep_free) != 0) {
++        GAM_DEBUG(DEBUG_INFO, "FEN : LOSING EVENTS ON %s\n", FN_PATH (f));
++        fnode_unref (f);
++        ep_free (ep);
++    }
++}
++
++static void
++publish_fen_events (fnode_t *f, int events)
++{
++    publish_gam_events (f, fen_to_gamin_event (events));
++}
++
++static gboolean
++fn_hash_foreach_free_fnode (gpointer key,
++                            gpointer value,
++                            gpointer user_data)
++{
++    fnode_t *f = (fnode_t *) value;
++    if (fnode_trylock (&f->fn_lock) == 0) {
++        if (fnode_trylock (&f->ref_lock) != 0) {
++            MUTEX_UNLOCK (f->fn_lock);
++            return FALSE;
++        }
++        if (f->ref != 0 ) {
++            MUTEX_UNLOCK (f->ref_lock);
++            MUTEX_UNLOCK (f->fn_lock);
++            return FALSE;
++        }
++        /* ref_lock and fn_lock are locked now */
++        if (f->parent == NULL && f->subs == NULL) {
++            gboolean ret;
++            if (f->pn || f->is_poll) {
++                MUTEX_UNLOCK (f->ref_lock);
++                port_monitor_remove (f->pn);
++                ret = FALSE;
++                MUTEX_UNLOCK (f->fn_lock);
++            } else {
++                /* we can free this f now */
++                delete_pending_list = g_list_prepend (delete_pending_list, f);
++                ret = TRUE;
++                MUTEX_UNLOCK (f->ref_lock);
++                MUTEX_UNLOCK (f->fn_lock);
++            }
++            return ret;
++        }
++        MUTEX_UNLOCK (f->ref_lock);
++        MUTEX_UNLOCK (f->fn_lock);
++    }
++    return FALSE;
++}
++
++/* occupy a thread */
++void
++gc_thread ()
++{
++    while (1) {
++        guint size;
++        GList *keys, *idx;
++
++        if (fn_hash_trylock () == 0) {
++            fn_hash_foreach_remove (fn_hash_foreach_free_fnode,
++                                    NULL);
++            fn_hash_unlock ();
++        }
++        if (delete_pending_list) {
++            g_list_foreach (delete_pending_list,
++                            (GFunc) fnode_delete,
++                            NULL);
++            g_list_free (delete_pending_list);
++            delete_pending_list = NULL;
++        }
++        MSLEEP (GC_INTERVAL);
++    }
 +}
 +
 +static GaminEventType
@@ -1843,113 +1940,126 @@ Index: gamin/server/gam_fen.c
 +}
 +
 +static void
-+events_unsafe_emit (fnode_t *fn, GaminEventType events, const gchar *path)
++events_unsafe_emit (fnode_t *f, GaminEventType events, const gchar *path)
 +{
 +	gboolean file_is_dir;
 +	if (path == NULL) {
-+		path = FN_PATH(fn);
-+		file_is_dir = fn->is_dir;
++		path = FN_PATH(f);
++		file_is_dir = fnode_is_dir (f);
 +	} else {
 +		struct stat fsb;
-+		memset(&fsb, 0, sizeof (struct stat));
-+		lstat(path, &fsb);
++		memset (&fsb, 0, sizeof (struct stat));
++		stat (path, &fsb);
 +		file_is_dir = (fsb.st_mode & S_IFDIR) != 0 ? TRUE : FALSE;
 +	}
 +
 +	if (events & GAMIN_EVENT_CREATED) {
 +		gam_server_emit_event(path, file_is_dir,
-+				      GAMIN_EVENT_CREATED, fn->subs, 1);
-+		gam_server_emit_event(path, file_is_dir,
-+				      GAMIN_EVENT_CREATED, fn->mdsubs, 1);
++				      GAMIN_EVENT_CREATED, f->subs, 1);
 +	}
 +	if (events & GAMIN_EVENT_CHANGED) {
 +		GList *idx;
-+		for (idx = fn->subs; idx; idx = idx->next) {
++		for (idx = f->subs; idx; idx = idx->next) {
 +			GamSubscription *sub = (GamSubscription *)idx->data;
 +            if (!gam_subscription_is_dir (sub)) {
 +                gam_server_emit_one_event (path, file_is_dir, GAMIN_EVENT_CHANGED, sub, 1);
 +			}
 +		}
-+		gam_server_emit_event(path, file_is_dir,
-+				      GAMIN_EVENT_CHANGED, fn->mdsubs, 1);
++        if (f->parent) {
++            MUTEX_LOCK (f->parent->fn_lock);
++            gam_server_emit_event(path, file_is_dir,
++                                  GAMIN_EVENT_CHANGED, f->parent->subs, 1);
++            MUTEX_UNLOCK (f->parent->fn_lock);
++        }
 +	}
 +	if (events & GAMIN_EVENT_DELETED) {
 +		gam_server_emit_event(path, file_is_dir,
-+				      GAMIN_EVENT_DELETED, fn->subs, 1);
-+		gam_server_emit_event(path, file_is_dir,
-+				      GAMIN_EVENT_DELETED, fn->mdsubs, 1);
++				      GAMIN_EVENT_DELETED, f->subs, 1);
++        if (f->parent) {
++            MUTEX_LOCK (f->parent->fn_lock);
++            gam_server_emit_event(path, file_is_dir,
++                                  GAMIN_EVENT_DELETED, f->parent->subs, 1);
++            MUTEX_UNLOCK (f->parent->fn_lock);
++        }
 +	}
 +	if (events & GAMIN_EVENT_MOVED) {
 +		gam_server_emit_event(path, file_is_dir,
-+				      GAMIN_EVENT_MOVED, fn->subs, 1);
-+		gam_server_emit_event(path, file_is_dir,
-+				      GAMIN_EVENT_MOVED, fn->mdsubs, 1);
++				      GAMIN_EVENT_MOVED, f->subs, 1);
++        if (f->parent) {
++            MUTEX_LOCK (f->parent->fn_lock);
++            gam_server_emit_event(path, file_is_dir,
++                                  GAMIN_EVENT_MOVED, f->parent->subs, 1);
++            MUTEX_UNLOCK (f->parent->fn_lock);
++        }
 +	}
 +}
 +
 +/**
 + * When got events from PORT, process them here.
++ * fnode of event_pair is refed before it's called, so should unref before
++ * it returns.
 + */
 +
 +static void
 +events_process_task (event_pair_t *ep)
 +{
-+	GList *idx;
-+	fnode_t *fn;
-+	GaminEventType events;
++    int ret;
++	fnode_t *f = ep->f;
++	GaminEventType events = ep->events;
 +
-+	GAM_DEBUG(DEBUG_INFO, "FEN : events_process_task %s\n", ep->path);
-+	if ((fn = fn_hash_safe_node_ref (ep->path, FALSE)) != NULL) {
-+		events = fen_to_gamin_event (ep->events);
-+        MUTEX_LOCK (fn->fn_lock);
-+		events_unsafe_emit (fn, events, NULL);
-+        MUTEX_UNLOCK (fn->fn_lock);
-+		if (fn->is_dir && (events & GAMIN_EVENT_CHANGED || 
-+                           ep->events & MOUNTEDOVER)) {
-+            /* scan for new created files if somebody mondir */
-+            MUTEX_LOCK (fn->fn_lock);
-+            if (fn->mdflag_ref > 0) {
-+                find_new_file_in_dir (fn);
++    g_assert (f);
++    MUTEX_LOCK (f->ref_lock);
++    g_assert (f->ref > 0);
++    MUTEX_UNLOCK (f->ref_lock);
++
++	GAM_DEBUG(DEBUG_INFO, "FEN : events_process_task 0x%p %s\n", f, FN_PATH(f));
++
++    MUTEX_LOCK (f->fn_lock);
++    events_unsafe_emit (f, events, NULL);
++    if (f->parent == NULL && f->subs == NULL) {
++        fnode_unref (f);
++        MUTEX_UNLOCK (f->fn_lock);
++        return;
++    }
++    MUTEX_UNLOCK (f->fn_lock);
++
++    if (events & GAMIN_EVENT_CHANGED || events & GAMIN_EVENT_CREATED) {
++        if ((ret = fnode_stat (f)) == 0) {
++            switch (port_monitor_add (f)) {
++            case 0:
++            case -1:
++                /* scan for new created files if somebody mondir */
++                if (fnode_is_dir (f) && fnode_mdcount (f) > 0) {
++                    find_new_file_in_dir (f);
++                }
++                break;
++            case ENOENT:
++                goto l_deleted;
++            default:
++                if (!poll_monitor_add(f)) {
++                    g_assert_not_reached ();
++                }
++                break;
 +            }
-+            MUTEX_UNLOCK (fn->fn_lock);
-+		} else if (events & GAMIN_EVENT_DELETED || events == -1) {
-+            gchar *dirname;
-+            GList *idx;
-+
-+            /* if the parent dir is mondir,
-+               unsub the parent's subs from mine. */
-+            dirname = g_path_get_dirname (ep->path);
-+            MUTEX_LOCK (fn->fn_lock);
-+            g_list_free (fn->mdsubs);
-+            fn->mdsubs = NULL;
-+
-+            if (fn->subs != NULL) {
-+                int ret;
-+                /* turn to polling */
-+                ret = thread_pool_run_full (thread_pool,
-+                                            (thp_run_cb) poll_file_task,
-+                                            (void *)g_strdup(FN_PATH(fn)),
-+                                            g_free);
-+                g_assert (ret == 0);
-+                GAM_DEBUG(DEBUG_INFO, "FEN : events_process_task [ polling ] %s\n", FN_PATH(fn));
-+            } else {
-+                /* schedule and free the fn */
-+                send_fnode_remove_task (FN_PATH(fn));
++        } else {
++        l_deleted:
++            publish_gam_events (f, GAMIN_EVENT_DELETED);
++        }
++    } else if (events & GAMIN_EVENT_DELETED || events == -1) {
++        /* if the parent dir is mondir,
++           unsub the parent's subs from mine. */
++        MUTEX_LOCK (f->fn_lock);
++        f->parent = NULL;
++        if (f->subs != NULL) {
++            /* turn to polling */
++            if (!poll_monitor_add(f)) {
++                g_assert_not_reached ();
 +            }
-+            MUTEX_UNLOCK (fn->fn_lock);
-+            g_free (dirname);
-+		}
-+		fn_hash_safe_node_unref (ep->path);
-+	}
-+}
-+
-+static void
-+fnode_remove_task (event_pair_t *ep)
-+{
-+	GAM_DEBUG (DEBUG_INFO, "Removing fn: %s\n", ep->path);
-+	while (fn_hash_safe_node_remove (ep->path) == 1) {
-+		usleep (FREE_FN_INTERVAL);
-+	}
++        }
++        MUTEX_UNLOCK (f->fn_lock);
++    }
++    fnode_unref (f);
++	GAM_DEBUG(DEBUG_INFO, "FEN : events_process_task 0x%p\n", f);
 +}
 +
 +/**
@@ -1959,63 +2069,72 @@ Index: gamin/server/gam_fen.c
 + */
 +
 +static void
-+poll_file_task (const char *path)
++poll_file_task (fnode_t *f)
 +{
-+    struct stat sbuf;
-+	fnode_t *fn;
++    int ret;
++    //GAM_DEBUG(DEBUG_INFO, "FEN : poll_file_task %s\n", FN_PATH(f));
 +
-+	GAM_DEBUG(DEBUG_INFO, "FEN : poll_file_task %s\n", path);
-+	while ((fn = fn_hash_safe_node_ref (path, FALSE)) != NULL) {
-+        GAM_DEBUG(DEBUG_INFO, "FEN : polling %s\n", path);
-+		if (stat(FN_PATH(fn), &sbuf) != 0) {
-+			fn_hash_safe_node_unref (path);
-+			usleep (POLL_INTERVAL);
-+			continue;
-+		}
-+        MUTEX_LOCK (fn->fn_lock);
-+		fn->is_dir = (sbuf.st_mode & S_IFDIR) != 0 ? TRUE : FALSE;
-+		events_unsafe_emit (fn, GAMIN_EVENT_CREATED, NULL);
-+		if (pnode_monitor_add (fn->path,
-+                               (publish_events_callback) port_publish_events,
-+                               (gpointer) fn) == 0) {
-+            MUTEX_UNLOCK (fn->fn_lock);
-+			fn_hash_safe_node_unref (path);
-+			return;
-+		}
-+        GAM_DEBUG(DEBUG_INFO, "FEN : [ polling --> watching ] failed on %s\n", FN_PATH(fn));
-+        MUTEX_UNLOCK (fn->fn_lock);
-+		fn_hash_safe_node_unref (path);
-+	}
++    MUTEX_LOCK (f->fn_lock);
++    MUTEX_LOCK (f->ref_lock);
++    if (f->parent == NULL && f->subs == NULL) {
++        f->is_poll = FALSE;
++        f->ref --;
++        MUTEX_UNLOCK (f->ref_lock);
++        MUTEX_UNLOCK (f->fn_lock);
++        return;
++    }
++    MUTEX_UNLOCK (f->ref_lock);
++    MUTEX_UNLOCK (f->fn_lock);
++
++    if ((ret = fnode_stat (f)) == 0) {
++        switch (port_monitor_add (f)) {
++        case 0:
++        case -1:
++            MUTEX_LOCK (f->ref_lock);
++            f->is_poll = FALSE;
++            MUTEX_UNLOCK (f->ref_lock);
++            publish_gam_events (f, GAMIN_EVENT_CREATED);
++            /* scan for new created files if somebody mondir */
++            if (fnode_is_dir (f) && fnode_mdcount (f) > 0) {
++                find_new_file_in_dir (f);
++            }
++            break;
++        case ENOENT:
++            publish_gam_events (f, GAMIN_EVENT_DELETED);
++        default:
++            goto l_poll;
++        }
++    } else {
++    l_poll:
++        MSLEEP (POLL_INTERVAL);
++        MUTEX_LOCK (f->ref_lock);
++        f->is_poll = FALSE;
++        MUTEX_UNLOCK (f->ref_lock);
++        if (!poll_monitor_add(f)) {
++            g_assert_not_reached ();
++        }
++    }
++    fnode_unref (f);
++    return;
 +}
 +
-+static void
-+send_fnode_remove_task (const char *path)
++static gboolean
++poll_monitor_add (fnode_t *f)
 +{
-+    event_pair_t *ep;
-+
-+    ep = g_new(event_pair_t, 1);
-+    ep->path = g_strdup (path);
-+
-+    thread_pool_run_full (thread_pool,
-+                          (thp_run_cb) fnode_remove_task,
-+                          (gpointer) ep,
-+                          (GDestroyNotify) ep_free);
-+}
-+
-+/* invoked by fen-kernel thread */
-+static void
-+port_publish_events (const char *path, int events, fnode_t *fn)
-+{
-+	event_pair_t *ep;
-+
-+	ep = g_new(event_pair_t, 1);
-+	ep->path = g_strdup (path);
-+	ep->events = events;
-+
-+	thread_pool_run_full (thread_pool,
-+			      (thp_run_cb) events_process_task,
-+			      (gpointer) ep,
-+			      (GDestroyNotify) ep_free);
++    MUTEX_LOCK (f->ref_lock);
++    if (!f->is_poll) {
++        if (thread_pool_run (thread_pool,
++                             (thp_run_cb) poll_file_task, f) == 0) {
++            //GAM_DEBUG(DEBUG_INFO, "FEN : [ polling ] %s\n", FN_PATH(f));
++            f->ref ++;
++            f->is_poll = TRUE;
++        } else {
++            MUTEX_UNLOCK (f->ref_lock);
++            return FALSE;
++        }
++    }
++    MUTEX_UNLOCK (f->ref_lock);
++    return TRUE;
 +}
 +
 +/**
@@ -2026,21 +2145,22 @@ Index: gamin/server/gam_fen.c
 + */
 +
 +static void
-+find_new_file_in_dir (fnode_t *fn)
++find_new_file_in_dir (fnode_t *parent)
 +{
 +	GDir *dir;
 +	GError *err = NULL;
 +
-+	dir = g_dir_open (FN_PATH(fn), 0, &err);
++	GAM_DEBUG(DEBUG_INFO, "FEN : find_new_file_in_dir 0x%p %s\n",
++              parent, FN_PATH(parent));
++	dir = g_dir_open (FN_PATH(parent), 0, &err);
 +	if (dir) {
 +		const char *filename;
 +
 +		while ((filename = g_dir_read_name (dir)))
 +		{
-+            gboolean is_new = FALSE;
-+            fnode_t *tmpfn;
++            fnode_t *tmpf;
 +			GList *idx;
-+			gchar *fullname = g_build_filename (FN_PATH(fn),
++			gchar *fullname = g_build_filename (FN_PATH(parent),
 +							    filename,
 +							    NULL);
 +			/* If can't found the fullname from the global hash, 
@@ -2048,178 +2168,192 @@ Index: gamin/server/gam_fen.c
 +               Else if foreach mondir subs, if can't find in fn subs of
 +               fullname, emit event on that sub.
 +            */
-+            if ((tmpfn = fn_hash_safe_node_ref (fullname, TRUE)) == NULL) {
++            //GAM_DEBUG(DEBUG_INFO, "FEN : found %s\n", fullname);
++            if ((tmpf = fn_hash_safe_node_new (fullname,
++                                               publish_fen_events)) == NULL) {
 +                GAM_DEBUG(DEBUG_INFO, "FEN : create fn failed: %s\n", fullname);
 +                goto l_continue;
 +            }
 +
-+            MUTEX_LOCK (tmpfn->fn_lock);
-+            if (tmpfn->subs == NULL && tmpfn->mdsubs == NULL) {
-+                is_new = TRUE;
-+            }
-+
-+            for (idx = fn->subs; idx; idx = idx->next) {
-+                GamSubscription *sub = idx->data;
-+                if (gam_subscription_is_dir (sub)) {
-+                    if (g_list_find (tmpfn->mdsubs, sub) == NULL) {
-+                        tmpfn->mdsubs = g_list_prepend (tmpfn->mdsubs, sub);
-+                        gam_server_emit_one_event (fullname, TRUE, GAMIN_EVENT_CREATED, sub, 1);
-+                    }
++            if (fnode_stat (tmpf) == 0) {
++                switch (port_monitor_add (tmpf)) {
++                case 0:
++                case -1:
++                    break;
++                case ENOENT:
++                default:
++                    goto l_skip;
 +                }
 +            }
 +
-+            if (is_new && tmpfn->mdsubs) {
-+                if (pnode_monitor_add (fullname,
-+                                       (publish_events_callback) port_publish_events,
-+                                       (gpointer) fn) == 0) {
-+                    GAM_DEBUG(DEBUG_INFO, "FEN : find_new_file_in_dir [ watching ] %s\n", fullname);
-+                } else {
-+                    gam_server_emit_event(fullname, tmpfn->is_dir,
-+                                          GAMIN_EVENT_DELETED, tmpfn->mdsubs, 1);
-+                    /* seems fn doesn't exist anymore, so remove it */
-+                    g_list_free (tmpfn->mdsubs);
-+                    tmpfn->mdsubs = NULL;
-+                    send_fnode_remove_task (FN_PATH(tmpfn));
-+                }
++            /* set parent iff the parent has subscriptions or is mondired */
++            MUTEX_LOCK (tmpf->fn_lock);
++            MUTEX_LOCK (parent->fn_lock);
++            if ((parent->parent || parent->subs) && tmpf->parent == NULL) {
++                tmpf->parent = parent;
++                gam_server_emit_event (fullname, fnode_is_dir(tmpf), GAMIN_EVENT_CREATED, parent->subs, 1);
 +            }
-+            MUTEX_UNLOCK (tmpfn->fn_lock);
-+            fn_hash_safe_node_unref (fullname);
++            MUTEX_UNLOCK (parent->fn_lock);
++            MUTEX_UNLOCK (tmpf->fn_lock);
++
++        l_skip:
++            fnode_unref (tmpf);
 +        l_continue:
 +            g_free (fullname);
 +        }
 +		g_dir_close (dir);
 +	} else {
-+		GAM_DEBUG (DEBUG_INFO, "unable to open directory %s: %s\n", FN_PATH(fn), err->message);
++		GAM_DEBUG (DEBUG_INFO, "unable to open directory %s: %s\n", FN_PATH(parent), err->message);
 +		g_error_free (err);
 +	}
 +}
 +
 +static void
-+foreach_hash_remove_mdsub (gpointer key,
-+                           gpointer value,
-+                           gpointer user_data)
++foreach_hash_remove_parent (gpointer key,
++                            gpointer value,
++                            gpointer user_data)
 +{
-+    GamSubscription *sub = (GamSubscription *) user_data;
-+    const gchar *path = gam_subscription_get_path(sub);
++    /* hash is locked outside, note 
++       do not lock hash here or the invorked functions */
++    fnode_t *parent = (fnode_t *) user_data;
++    const gchar *path = FN_PATH(parent);
 +    gchar *dirname = g_path_get_dirname (key);
 +
-+    if (strcmp (path, dirname) == 0) {
-+        fnode_t *fn = (fnode_t *) value;
++    /* skip root "/" */
++    if (parent != value &&
++        strcmp (path, dirname) == 0) {
++        fnode_t *f = (fnode_t *) value;
 +
-+        MUTEX_LOCK (fn->fn_lock);
-+        fn->mdsubs = g_list_remove (fn->mdsubs, sub);
-+        g_assert (g_list_find (fn->mdsubs, sub) == NULL);
-+        if (fn->subs == NULL && fn->mdsubs == NULL) {
-+            /* schedule and free the fn */
-+            send_fnode_remove_task (FN_PATH(fn));
++        MUTEX_LOCK (f->fn_lock);
++        f->parent = NULL;
++        if (f->subs == NULL) {
++            port_monitor_remove (f);
 +        }
-+        MUTEX_UNLOCK (fn->fn_lock);
++        MUTEX_UNLOCK (f->fn_lock);
 +    }
 +    g_free (dirname);
 +}
 +
++/*
++ * We do it because we know the parent has some mondir subscriptions.
++ * Parent is refed.
++ * Fullname is known to be existing, but skip it if it's removed when
++ * add it to port.
++ */
++
 +static void
-+create_fn_for_mdsub (const char *fullname,
-+                     GamSubscription *sub)
++create_children_initially (const char *fullname,
++                           fnode_t *parent)
 +
 +{
-+	fnode_t *fn;
-+	gboolean is_new = FALSE;
++	fnode_t *f;
 +
-+	if ((fn = fn_hash_safe_node_ref (fullname, TRUE)) == NULL) {
-+		GAM_DEBUG(DEBUG_INFO, "FEN : create_fn_for_mdsub - failed to create fn\n");
++	if ((f = fn_hash_safe_node_new (fullname, publish_fen_events)) == NULL) {
++		GAM_DEBUG(DEBUG_INFO, "FEN : create_children_initially - failed to create fn\n");
 +		return;
 +	}
 +
-+	MUTEX_LOCK (fn->fn_lock);
-+	if (fn->subs == NULL && fn->mdsubs == NULL) {
-+		is_new = TRUE;
-+	}
-+    /* append the mondir subs */
-+    g_assert (g_list_find (fn->mdsubs, sub) == NULL);
-+	fn->mdsubs = g_list_prepend (fn->mdsubs, sub);
-+
-+	if (is_new && fn->mdsubs) {
-+		if (pnode_monitor_add (fullname,
-+                               (publish_events_callback) port_publish_events,
-+                               (gpointer) fn) == 0) {
-+            GAM_DEBUG(DEBUG_INFO, "FEN : create_fn_for_mdsub [ watching ] %s\n", fullname);
-+		} else {
-+            gam_server_emit_event(fullname, fn->is_dir,
-+                                  GAMIN_EVENT_DELETED, fn->mdsubs, 1);
-+            /* seems fn doesn't exist anymore, so remove it */
-+            g_list_free (fn->mdsubs);
-+            fn->mdsubs = NULL;
-+            send_fnode_remove_task (FN_PATH(fn));
++	MUTEX_LOCK (f->fn_lock);
++	MUTEX_LOCK (parent->fn_lock);
++    if (fnode_stat (f) == 0) {
++        switch (port_monitor_add (f)) {
++        case 0:
++        case -1:
++        case ENOENT:
++            break;
++        default:
++            /* skip any other unsopport error */
++            goto l_skip;
 +        }
-+	}
-+    MUTEX_UNLOCK (fn->fn_lock);
-+    fn_hash_safe_node_unref (fullname);
++    } else {
++        goto l_skip;
++    }
++    /* append the mondir subs */
++    f->parent = parent;
++
++ l_skip:
++    fnode_unref (f);
++	MUTEX_UNLOCK (parent->fn_lock);
++    MUTEX_UNLOCK (f->fn_lock);
 +}
 +
 +/**
 + * First time scan the subscription file or directory. Only invoked in
-+ * gam_fen_add_subscription.
-+ *
++ * gam_fen_add_subscription. Here f is refed.
++ * Returns TRUE, if pathname exists.
 + */
 +
-+static void
++static gboolean
 +gam_fen_send_initial_events (const char *pathname,
-+			     fnode_t *fn,
++			     fnode_t *f,
 +			     GamSubscription *sub)
 +{
++    int retval;
 +	gboolean is_dir;
 +	GaminEventType gevent;
 +	int req = 1;
 +
 +	GAM_DEBUG (DEBUG_INFO, "gam_fen_send_initial_events on %s\n", pathname);
-+	if ((is_dir = gam_subscription_is_dir (sub)) == TRUE) {
-+		fn->mdflag_ref++;
-+    }
++    is_dir = gam_subscription_is_dir (sub);
 +
-+	if (g_file_test (pathname, G_FILE_TEST_EXISTS)) {
++    switch (fnode_stat (f)) {
++	case 0:
 +		gevent = GAMIN_EVENT_EXISTS;
-+	} else {
++        retval = TRUE;
++        break;
++	case ENOENT:
 +		gevent = GAMIN_EVENT_DELETED;
++        retval = FALSE;
 +		is_dir = FALSE;
++        break;
++    default:
++        perror ("gam_fen_send_initial_events");
 +	}
 +
 +	if (req != 0 || gevent == GAMIN_EVENT_DELETED)
 +		gam_server_emit_one_event (pathname, is_dir, gevent, sub, 1);
 +
 +	if (req == 0)
-+		return;
++		return retval;
 +
 +	/* NOTE: If the sub is mondiring, we need create the new fnode
-+	   for each child files/dirs and mark the fn->is_md_child. */
-+	if (is_dir && fn->is_dir) {
++	   for each child files/dirs and mark the f->is_md_child. */
++	if (is_dir && fnode_is_dir (f)) {
 +        GDir *dir;
 +        GError *err = NULL;
 +
-+        dir = g_dir_open (FN_PATH(fn), 0, &err);
++        dir = g_dir_open (FN_PATH(f), 0, &err);
 +        if (dir) {
 +            const char *filename;
 +            while ((filename = g_dir_read_name (dir)))
 +            {
 +                gboolean file_is_dir = FALSE;
-+                gchar *fullname = g_build_filename (FN_PATH(fn),
++                gchar *fullname = g_build_filename (FN_PATH(f),
 +                                                    filename,
 +                                                    NULL);
 +                if (g_file_test (fullname, G_FILE_TEST_IS_DIR)) {
 +                    file_is_dir = TRUE;
 +                }
++                MUTEX_LOCK (f->fn_lock);
 +                gam_server_emit_one_event (fullname, file_is_dir, GAMIN_EVENT_EXISTS, sub, 1);
-+                create_fn_for_mdsub (fullname, sub);
++                MUTEX_UNLOCK (f->fn_lock);
++
++                /* if I'm a mondir */
++                if (fnode_mdcount (f) > 0) {
++                    create_children_initially (fullname, f);
++                }
++
 +                g_free (fullname);
 +            }
 +            g_dir_close (dir);
 +        } else {
-+            GAM_DEBUG (DEBUG_INFO, "unable to open directory %s: %s\n", FN_PATH(fn), err->message);
++            GAM_DEBUG (DEBUG_INFO, "unable to open directory %s: %s\n", FN_PATH(f), err->message);
 +            g_error_free (err);
 +        }
 +	}
 +
 +	gam_server_emit_one_event (pathname, is_dir, GAMIN_EVENT_ENDEXISTS, sub, 1);
++    return retval;
 +}
 +
 +/**
@@ -2253,7 +2387,7 @@ Index: gamin/server/gam_fen.c
 +	}
 +
 +#ifdef GAMIN_DEBUG
-+#if 0
++#ifdef FEN_DEBUG
 +    if (thread_pool_run (thread_pool, 
 +                         (thp_run_cb) fn_hash_safe_debug, 
 +                         NULL) != 0) {
@@ -2261,6 +2395,11 @@ Index: gamin/server/gam_fen.c
 +    }
 +#endif
 +#endif
++    if (thread_pool_run (thread_pool, 
++                         (thp_run_cb) gc_thread, 
++                         NULL) != 0) {
++        g_assert_not_reached ();
++    }
 +	
 +	gam_server_install_kernel_hooks (GAMIN_K_FEN, 
 +					 gam_fen_add_subscription,
@@ -2279,51 +2418,56 @@ Index: gamin/server/gam_fen.c
 + * @returns TRUE if adding the subscription succeeded, FALSE otherwise
 + */
 +
-+static gboolean
++gboolean
 +gam_fen_add_subscription (GamSubscription *sub)
 +{
-+	fnode_t *fn;	
-+	gboolean is_new = FALSE;
++    int ret;
++	fnode_t *f;	
++    gboolean is_existing;
++    const gchar *filename;
 +	
 +	GAM_DEBUG(DEBUG_INFO, "FEN : gam_fen_add_subscription\n");
-+	gam_listener_add_subscription(gam_subscription_get_listener(sub), sub);
++    filename = gam_subscription_get_path (sub);
++	gam_listener_add_subscription (gam_subscription_get_listener (sub), sub);
 +
-+	if ((fn = fn_hash_safe_node_ref (gam_subscription_get_path(sub), TRUE)) == NULL) {
-+		GAM_DEBUG(DEBUG_INFO, "%s: new sub failed\n",
-+                  gam_subscription_get_path(sub));
++	if ((f = fn_hash_safe_node_new (filename,
++                                    publish_fen_events)) == NULL) {
++		GAM_DEBUG(DEBUG_INFO, "%s: new sub failed\n", filename);
 +		return FALSE;
 +	}
 +
-+	MUTEX_LOCK (fn->fn_lock);
-+
-+	gam_fen_send_initial_events (gam_subscription_get_path (sub), fn, sub);
-+
-+	if (fn->subs == NULL && fn->mdsubs == NULL) {
-+		is_new = TRUE;
-+	}
-+    g_assert (g_list_find (fn->subs, sub) == NULL);
-+	fn->subs = g_list_prepend (fn->subs, sub);
-+
-+	if (is_new) {
-+		if (pnode_monitor_add (FN_PATH (fn),
-+                               (publish_events_callback) port_publish_events,
-+                               (gpointer) fn) == 0) {
-+            GAM_DEBUG(DEBUG_INFO, "FEN : gam_fen_add_subscription [ watching ] %s\n", FN_PATH(fn));
-+        } else if (thread_pool_run_full (thread_pool,
-+                                         (thp_run_cb) poll_file_task,
-+                                         (gpointer)g_strdup (FN_PATH(fn)),
-+                                         g_free) == 0) {
-+			GAM_DEBUG(DEBUG_INFO, "FEN : gam_fen_add_subscription [ polling ] %s\n", FN_PATH(fn));
-+        } else {
-+            g_assert_not_reached ();
-+        }
++    if (gam_subscription_is_dir (sub)) {
++        fnode_mdref (f);
 +    }
 +
-+	MUTEX_UNLOCK (fn->fn_lock);
-+	fn_hash_safe_node_unref (gam_subscription_get_path(sub));
-+	return TRUE;
++	is_existing = gam_fen_send_initial_events (filename, f, sub);
++
++	MUTEX_LOCK (f->fn_lock);
++    if ((ret = fnode_stat (f)) == 0) {
++        switch (port_monitor_add (f)) {
++        case 0:
++        case -1:
++            ret = TRUE;
++            break;
++        case ENOENT:
++            goto l_poll;
++        }
++    } else {
++    l_poll:
++        if (!poll_monitor_add (f)) {
++            g_assert_not_reached ();
++        }
++        ret = TRUE;
++    }
++    g_assert (g_list_find (f->subs, sub) == NULL);
++	f->subs = g_list_prepend (f->subs, sub);
++
++    fnode_unref (f);
++	MUTEX_UNLOCK (f->fn_lock);
++
++	return ret;
 +}
-+		          	
++
 +/**
 + * Removes a subscription which was being monitored.
 + *
@@ -2331,38 +2475,37 @@ Index: gamin/server/gam_fen.c
 + * @returns TRUE if removing the subscription succeeded, FALSE otherwise
 + */
 +
-+static gboolean
++gboolean
 +gam_fen_remove_subscription (GamSubscription *sub)
 +{
-+	fnode_t *fn;
++	fnode_t *f;
 +	GList *targ;
 +	
 +	GAM_DEBUG(DEBUG_INFO, "FEN : gam_fen_remove_subscription\n");
-+	if ((fn = fn_hash_safe_node_ref (gam_subscription_get_path(sub), FALSE)) == NULL) {
-+		GAM_DEBUG(DEBUG_INFO, "%s: can't find, nobody subcripts this path!\n",
-+                  gam_subscription_get_path(sub));
-+		return FALSE;
++
++	if ((f = fn_hash_safe_lookup (gam_subscription_get_path(sub))) == NULL) {
++        GAM_DEBUG(DEBUG_INFO, "FEN : can't find %s\n",
++                  FN_PATH(gam_subscription_get_path(sub)));
++		return TRUE;
 +	}
 +
-+	MUTEX_LOCK (fn->fn_lock);
++	MUTEX_LOCK (f->fn_lock);
 +
-+	/* remove sub from each subs of the childen if I'm a mondir fnode */
-+	if (gam_subscription_is_dir (sub)) {
-+		fn->mdflag_ref--;
-+        fn_hash_safe_foreach (foreach_hash_remove_mdsub, sub);
-+	}
-+	g_assert (fn->mdflag_ref >= 0);
-+
-+	/* If no one monitor this fn, remove the sub from fn->subs */
++	/* If no one monitor this f, remove the sub from f->subs */
 +	/* the removal of the fn will be pending in thread_pool */
-+    fn->subs = g_list_remove (fn->subs, sub);
-+    g_assert (g_list_find (fn->subs, sub) == NULL);
-+	if (fn->subs == NULL && fn->mdsubs == NULL) {
-+        send_fnode_remove_task (FN_PATH(fn));
-+	}
++    f->subs = g_list_remove (f->subs, sub);
 +
-+	MUTEX_UNLOCK (fn->fn_lock);
-+	fn_hash_safe_node_unref (gam_subscription_get_path(sub));
++    if (f->parent == NULL && f->subs == NULL) {
++        /* remove the childen's parent if I'm the parent */
++        fn_hash_safe_foreach (foreach_hash_remove_parent, f);
++        port_monitor_remove (f);
++    }
++	MUTEX_UNLOCK (f->fn_lock);
++
++    if (gam_subscription_is_dir (sub)) {
++        fnode_mdunref (f);
++    }
++
 +	/* free subscription */
 +	gam_subscription_free(sub);
 +	return TRUE;
@@ -2375,7 +2518,7 @@ Index: gamin/server/gam_fen.c
 + * @returns TRUE if removing the subscriptions succeeded, FALSE otherwise
 + */
 +
-+static gboolean
++gboolean
 +gam_fen_remove_all_for (GamListener *listener)
 +{
 +	GList *subs;

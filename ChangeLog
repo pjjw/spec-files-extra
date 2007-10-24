@@ -1,3 +1,9 @@
+2007-10-24  Lin Ma  <Lin.Ma@Sun.COM>
+
+        * SUNWgamin.spec:
+        * base-specs/gamin.spec: Removed some wrong comments.
+        * patches/gamin-01-all.diff: Fixed 6618402 and 6618464.
+
 2007-10-22  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEpython-numpy.spec: Bump to 1.0.3.1.

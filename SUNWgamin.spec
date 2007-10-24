@@ -1,4 +1,3 @@
-#
 # Copyright 2007 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
@@ -7,14 +6,6 @@
 
 %include base.inc
 %use gamin = gamin.spec
-
-# The the following is quite a bit hacky.  It is due to historic reasons.
-# libnotify was first introduced in SFE as SFElibnotify but it was later
-# moved to Xfce as OSOLlibnotify, then even later it became part of JDS
-# and included in SUNWgnome-panel.
-# If /usr/lib/libnotify.so is found on the system, it is assumed that it
-# comes from JDS.  If not, this package will require OSOLlibnotify
-%define libnotify_installed %(test -f /usr/lib/libnotify.so && echo 1 || echo 0)
 
 Name:			SUNWgamin
 Summary:		%{gamin.summary}
