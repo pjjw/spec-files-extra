@@ -880,7 +880,7 @@ Index: gamin/server/fen-data.c
 ===================================================================
 --- gamin/server/fen-data.c	(revision 0)
 +++ gamin/server/fen-data.c	(revision 0)
-@@ -0,0 +1,327 @@
+@@ -0,0 +1,322 @@
 +/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 +/* vim:set expandtab ts=4 shiftwidth=4: */
 +
@@ -979,22 +979,17 @@ Index: gamin/server/fen-data.c
 +    free (fn);
 +}
 +
-+int
-+fnode_stat (fnode_t *f)
++void
++fnode_set_stat (fnode_t *f, struct stat *sbuf)
 +{
 +	file_obj_t *fobj = &f->fobj;
-+    struct stat sbuf;
-+    int retval;
 +
 +    MUTEX_LOCK (f->prop_lock);
-+    if ((retval = stat(fobj->fo_name, &sbuf)) == 0) {
-+		fobj->fo_atime = sbuf.st_atim;
-+		fobj->fo_mtime = sbuf.st_mtim;
-+		fobj->fo_ctime = sbuf.st_ctim;
-+        f->is_dir = (sbuf.st_mode & S_IFDIR) != 0 ? TRUE : FALSE;
-+    }
++    fobj->fo_atime = sbuf->st_atim;
++    fobj->fo_mtime = sbuf->st_mtim;
++    fobj->fo_ctime = sbuf->st_ctim;
++    f->is_dir = (sbuf->st_mode & S_IFDIR) != 0 ? TRUE : FALSE;
 +    MUTEX_UNLOCK (f->prop_lock);
-+    return retval == 0 ? 0 : errno;
 +}
 +
 +int
@@ -1267,7 +1262,7 @@ Index: gamin/server/fen-data.h
 +/* fnode functions */
 +fnode_t *fnode_new (const gchar *path, port_emit_events_cb emit_events);
 +void fnode_delete (fnode_t *fn);
-+int fnode_stat (fnode_t *f);
++void fnode_set_stat (fnode_t *f, struct stat *sbuf);
 +gboolean fnode_is_dir (fnode_t *f);
 +void fnode_emit_events (fnode_t *f, int events);
 +
@@ -1290,7 +1285,7 @@ Index: gamin/server/fen-kernel.c
 ===================================================================
 --- gamin/server/fen-kernel.c	(revision 0)
 +++ gamin/server/fen-kernel.c	(revision 0)
-@@ -0,0 +1,351 @@
+@@ -0,0 +1,364 @@
 +/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 +/* vim:set expandtab ts=4 shiftwidth=4: */
 +
@@ -1310,7 +1305,7 @@ Index: gamin/server/fen-kernel.c
 +
 +#define PE_ALLOC	128
 +#define PNP_FD(pp)	(((pnode_t *)(pp))->port)
-+#define MON_EVENTS	(/* FILE_ACCESS | */ FILE_MODIFIED | FILE_ATTRIB)
++#define MON_EVENTS	(/* FILE_ACCESS | */ FILE_MODIFIED | FILE_ATTRIB | FILE_NOFOLLOW)
 +
 +static ulong max_port_evnets = 512;
 +static ulong max_port_events = 256;
@@ -1513,13 +1508,26 @@ Index: gamin/server/fen-kernel.c
 + * Returns 0 if succeeded, -1 already added.
 + */
 +extern int
-+port_monitor_add (fnode_t *f)
++port_monitor_add (fnode_t *f, struct stat * st)
 +{
 +    int ret;
++    struct stat buf;
 +
 +    MUTEX_LOCK (f->ref_lock);
 +    if (f->pn == NULL) {
++        if (st == NULL) {
++            st = &buf;
++            if ((ret = lstat (FN_PATH(f), st)) != 0) {
++                ret = errno;
++                perror ("FENKERNEL - lstat");
++                MUTEX_UNLOCK (f->ref_lock);
++                return ret;
++            }
++        }
++        fnode_set_stat (f, st);
++
 +        if ((f->pn = pnode_new ()) != NULL) {
++
 +            if ((ret = port_associate (PNP_FD(f->pn),
 +                                       PORT_SOURCE_FILE,
 +                                       (uintptr_t)&f->fobj,
@@ -1717,12 +1725,13 @@ Index: gamin/server/fen-kernel.h
 ===================================================================
 --- gamin/server/fen-kernel.h	(revision 0)
 +++ gamin/server/fen-kernel.h	(revision 0)
-@@ -0,0 +1,17 @@
+@@ -0,0 +1,18 @@
 +/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 +/* vim:set expandtab ts=4 shiftwidth=4: */
 +
 +#include <port.h>
 +#include <fen-data.h>
++#include <sys/stat.h>
 +
 +#ifndef _FEN_KERNEL_H_
 +#define _FEN_KERNEL_H_
@@ -1730,7 +1739,7 @@ Index: gamin/server/fen-kernel.h
 +typedef struct pnode pnode_t;
 +
 +extern int fen_kernel_init ();
-+extern int port_monitor_add (fnode_t *f);
++extern int port_monitor_add (fnode_t *f, struct stat * st);
 +extern int port_monitor_remove (fnode_t *f);
 +extern void port_monitor_remove_all ();
 +
@@ -1739,7 +1748,7 @@ Index: gamin/server/gam_fen.c
 ===================================================================
 --- gamin/server/gam_fen.c	(revision 0)
 +++ gamin/server/gam_fen.c	(revision 0)
-@@ -0,0 +1,804 @@
+@@ -0,0 +1,801 @@
 +/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 +/* vim:set expandtab ts=4 shiftwidth=4: */
 +/*
@@ -1825,6 +1834,17 @@ Index: gamin/server/gam_fen.c
 +                                       fnode_t *parent);
 +static gboolean fen_monitor_add (fnode_t *f);
 +static gboolean poll_monitor_add (fnode_t *f);
++
++static int
++get_lstat (const char *path, struct stat *sbuf)
++{
++    int retval;
++    if ((retval = lstat (path, sbuf)) != 0) {
++        perror ("get_lstat");
++        retval = errno;
++    }
++    return retval;
++}
 +
 +static void
 +publish_gam_events (fnode_t *f, int events)
@@ -1919,22 +1939,18 @@ Index: gamin/server/gam_fen.c
 +fen_to_gamin_event (int events)
 +{
 +	GaminEventType et = 0;
-+	/* ignore FILE_NOFOLLOW */
++
 +    if (events & FILE_MODIFIED ||
 +	    events & FILE_ATTRIB ||
-+	    events & FILE_ACCESS) {
++	    events & FILE_ACCESS ||
++        events & FILE_RENAME_TO ||
++        events & MOUNTEDOVER ||
++	    events & UNMOUNTED) {
 +                et |= GAMIN_EVENT_CHANGED;
 +	}
 +	if (events & FILE_DELETE ||
 +	    events & FILE_RENAME_FROM) {
 +                et |= GAMIN_EVENT_DELETED;
-+	}
-+	if (events & FILE_RENAME_TO) {
-+                et |= GAMIN_EVENT_CREATED;
-+	}
-+	if (events & MOUNTEDOVER ||
-+	    events & UNMOUNTED) {
-+                return -1;
 +	}
 +	return et;
 +}
@@ -1949,7 +1965,7 @@ Index: gamin/server/gam_fen.c
 +	} else {
 +		struct stat fsb;
 +		memset (&fsb, 0, sizeof (struct stat));
-+		stat (path, &fsb);
++		lstat (path, &fsb);
 +		file_is_dir = (fsb.st_mode & S_IFDIR) != 0 ? TRUE : FALSE;
 +	}
 +
@@ -2024,26 +2040,21 @@ Index: gamin/server/gam_fen.c
 +    MUTEX_UNLOCK (f->fn_lock);
 +
 +    if (events & GAMIN_EVENT_CHANGED || events & GAMIN_EVENT_CREATED) {
-+        if ((ret = fnode_stat (f)) == 0) {
-+            switch (port_monitor_add (f)) {
-+            case 0:
-+            case -1:
-+                /* scan for new created files if somebody mondir */
-+                if (fnode_is_dir (f) && fnode_mdcount (f) > 0) {
-+                    find_new_file_in_dir (f);
-+                }
-+                break;
-+            case ENOENT:
-+                goto l_deleted;
-+            default:
-+                if (!poll_monitor_add(f)) {
-+                    g_assert_not_reached ();
-+                }
-+                break;
++        switch (port_monitor_add (f, NULL)) {
++        case 0:
++        case -1:
++            /* scan for new created files if somebody mondir */
++            if (fnode_is_dir (f) && fnode_mdcount (f) > 0) {
++                find_new_file_in_dir (f);
 +            }
-+        } else {
-+        l_deleted:
++            break;
++        case ENOENT:
 +            publish_gam_events (f, GAMIN_EVENT_DELETED);
++            break;
++        default:
++            if (!poll_monitor_add(f)) {
++                g_assert_not_reached ();
++            }
 +        }
 +    } else if (events & GAMIN_EVENT_DELETED || events == -1) {
 +        /* if the parent dir is mondir,
@@ -2072,6 +2083,8 @@ Index: gamin/server/gam_fen.c
 +poll_file_task (fnode_t *f)
 +{
 +    int ret;
++    struct stat buf;
++
 +    //GAM_DEBUG(DEBUG_INFO, "FEN : poll_file_task %s\n", FN_PATH(f));
 +
 +    MUTEX_LOCK (f->fn_lock);
@@ -2086,8 +2099,8 @@ Index: gamin/server/gam_fen.c
 +    MUTEX_UNLOCK (f->ref_lock);
 +    MUTEX_UNLOCK (f->fn_lock);
 +
-+    if ((ret = fnode_stat (f)) == 0) {
-+        switch (port_monitor_add (f)) {
++    if ((ret = get_lstat (FN_PATH(f), &buf)) == 0) {
++        switch (port_monitor_add (f, &buf)) {
 +        case 0:
 +        case -1:
 +            MUTEX_LOCK (f->ref_lock);
@@ -2175,15 +2188,13 @@ Index: gamin/server/gam_fen.c
 +                goto l_continue;
 +            }
 +
-+            if (fnode_stat (tmpf) == 0) {
-+                switch (port_monitor_add (tmpf)) {
-+                case 0:
-+                case -1:
-+                    break;
-+                case ENOENT:
-+                default:
-+                    goto l_skip;
-+                }
++            switch (port_monitor_add (tmpf, NULL)) {
++            case 0:
++            case -1:
++                break;
++            case ENOENT:
++            default:
++                goto l_skip;
 +            }
 +
 +            /* set parent iff the parent has subscriptions or is mondired */
@@ -2255,17 +2266,13 @@ Index: gamin/server/gam_fen.c
 +
 +	MUTEX_LOCK (f->fn_lock);
 +	MUTEX_LOCK (parent->fn_lock);
-+    if (fnode_stat (f) == 0) {
-+        switch (port_monitor_add (f)) {
-+        case 0:
-+        case -1:
-+        case ENOENT:
-+            break;
-+        default:
-+            /* skip any other unsopport error */
-+            goto l_skip;
-+        }
-+    } else {
++    switch (port_monitor_add (f, NULL)) {
++    case 0:
++    case -1:
++    case ENOENT:
++        break;
++    default:
++        /* skip any other unsopport error */
 +        goto l_skip;
 +    }
 +    /* append the mondir subs */
@@ -2292,12 +2299,14 @@ Index: gamin/server/gam_fen.c
 +	gboolean is_dir;
 +	GaminEventType gevent;
 +	int req = 1;
++    struct stat buf;
 +
 +	GAM_DEBUG (DEBUG_INFO, "gam_fen_send_initial_events on %s\n", pathname);
 +    is_dir = gam_subscription_is_dir (sub);
 +
-+    switch (fnode_stat (f)) {
++    switch (get_lstat (FN_PATH(f), &buf)) {
 +	case 0:
++        fnode_set_stat (f, &buf);
 +		gevent = GAMIN_EVENT_EXISTS;
 +        retval = TRUE;
 +        break;
@@ -2443,21 +2452,18 @@ Index: gamin/server/gam_fen.c
 +	is_existing = gam_fen_send_initial_events (filename, f, sub);
 +
 +	MUTEX_LOCK (f->fn_lock);
-+    if ((ret = fnode_stat (f)) == 0) {
-+        switch (port_monitor_add (f)) {
-+        case 0:
-+        case -1:
-+            ret = TRUE;
-+            break;
-+        case ENOENT:
-+            goto l_poll;
-+        }
-+    } else {
-+    l_poll:
++    switch (port_monitor_add (f, NULL)) {
++    case 0:
++    case -1:
++        ret = TRUE;
++        break;
++    case ENOENT:
++    default:
 +        if (!poll_monitor_add (f)) {
 +            g_assert_not_reached ();
 +        }
 +        ret = TRUE;
++        break;
 +    }
 +    g_assert (g_list_find (f->subs, sub) == NULL);
 +	f->subs = g_list_prepend (f->subs, sub);
