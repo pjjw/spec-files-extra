@@ -1,3 +1,15 @@
+2007-10-26  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEgtk-vnc.spec: (new) A GTK widget for VNC clients
+	* base-specs/gtk-vnc.spec: (new) A GTK widget for VNC clients
+	* patches/gtk-vnc-01-makefile.diff: (added)
+	  Add -last to LIBADD, remove --version-script which cause ld fail.
+	* patches/gtk-vnc-02-macro.diff: (added)
+	  Fix problem: suncc will generate "uint8 _t" insteat of "unit8_t"
+	* patches/gtk-vnc-03-yield.diff: (added)
+	  Rebame yield to gvnc_yield to avoid confict with /usr/include/unistd.h
+	* patches/gtk-vnc-04-coroutine.diff: (added) upstream patch from trunk.
+
 2007-10-25  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEgraphviz.spec: Add configure option --disale-perl,

@@ -1,0 +1,11 @@
+diff -r d6f1a50dbb0b src/blt.h
+--- a/src/blt.h	Sun Oct 21 17:11:07 2007 -0300
++++ b/src/blt.h	Thu Oct 25 22:33:04 2007 +0800
+@@ -1,5 +1,5 @@
+-#define src_pixel_t SPLICE(uint, SPLICE(SRC, _t))
+-#define dst_pixel_t SPLICE(uint, SPLICE(DST, _t))
++#define src_pixel_t SPLICE(SPLICE(uint, SRC), _t)
++#define dst_pixel_t SPLICE(SPLICE(uint, DST), _t)
+ #define SUFFIX() SPLICE(SRC,SPLICE(x,DST))
+ #define BLIT SPLICE(gvnc_blt_, SUFFIX())
+ #define FILL SPLICE(gvnc_fill_, SUFFIX())
