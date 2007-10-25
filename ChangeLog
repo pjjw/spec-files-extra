@@ -1,3 +1,7 @@
+2007-10-26  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEstrongwind.spec: Add new spec file.
+
 2007-10-26  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEgtk-vnc.spec: (new) A GTK widget for VNC clients
