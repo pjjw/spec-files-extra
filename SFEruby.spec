@@ -7,11 +7,10 @@
 
 Name:         SFEruby
 Summary:      ruby - object oriented scripting language
-URL:          http://www.ruby-lang.org/en/
+URL:          http://www.ruby-lang.org/
 Version:      1.8.6
 %define tarball_version %{version}-p111
-Source:	      ftp://ftp.ruby-lang.org/pub/ruby/ruby-%{tarball_version}.tar.gz
-URL:          http://www.ruby-lang.org
+Source:	      http://ftp.ruby-lang.org/pub/ruby/ruby-%{tarball_version}.tar.gz
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

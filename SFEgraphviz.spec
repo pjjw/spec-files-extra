@@ -13,18 +13,15 @@ Summary:             Graph drawing tools and libraries
 Version:             2.14.1
 Source:              http://www.graphviz.org/pub/graphviz/ARCHIVE/graphviz-%{version}.tar.gz
 Patch1:              graphviz-01-arith-h.diff
+Patch2:              graphviz-02-gd-ldflags.diff
 URL:                 http://www.graphviz.org
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 Requires: SFElibtool
-Requires: SFEgd
-%if %(test -f /usr/lib/libexpat.so.1.5.0 && pkginfo -q SUNWlexpt)
+Requires: SUNWgd2
 Requires: SUNWlexpt
-%else
-Requires: SFEexpat
-%endif
 Requires: SUNWfontconfig
 %if %SFEfreetype
 Requires: SFEfreetype
@@ -43,7 +40,6 @@ BuildRequires: SUNWfreetype2
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWsfwhea
 BuildRequires: SFElibtool
-BuildRequires: SFEgd-devel
 BuildRequires: SUNWPython
 BuildRequires: SUNWTcl
 BuildRequires: SUNWperl584core
@@ -59,6 +55,7 @@ Requires: %name
 %prep
 %setup -q -n graphviz-%version
 %patch1 -p1
+%patch2 -p0
 
 %build
 
@@ -68,7 +65,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CPPFLAGS="-I/usr/sfw/include"
-export CFLAGS="%optflags -I/usr/X11/include"
+export CFLAGS="%optflags -I/usr/X11/include -I/usr/include/gd2"
 export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib"
 %if %tcl_8_3
 TCL_OPTS="--with-tclsh=/usr/sfw/bin/tclsh8.3 \
@@ -94,6 +91,7 @@ autoconf
             --disable-lua \
             --disable-ocaml \
             --disable-php \
+            --disable-perl \
             $TCL_OPTS
 
 make -j$CPUS
@@ -143,6 +141,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/graphviz/*
 
 %changelog
+* Thu Oct 25 2007 - nonsea@users.sourceforge.net
+- Add configure option --disale-perl 
+- Add patch gd-ldflags.diff
+- Add /usr/include/gd2 to CFLAGS
 * Wed Oct 17 2007 - laca@sun.com
 - add /usr/X11 to search paths for FOX
 - allow building with either SUNWlexpt or SFEexpat

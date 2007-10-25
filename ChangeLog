@@ -1,3 +1,12 @@
+2007-10-25  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEgraphviz.spec: Add configure option --disale-perl,
+	  Add patch gd-ldflags.diff, add /usr/include/gd2 to CFLAGS
+	* SFEguile.spec: Bump to 1.8.3, Add patch define-function.diff
+	* SFEruby.spec: Remove dup URL
+	* patches/graphviz-02-gd-ldflags.diff: (added)
+	* patches/guile-03-define-function.diff: (added)
+
 2007-10-25  Lin Ma  <Lin.Ma@Sun.COM>
 
 	* patches/gamin-01-all.diff: Fixed 6618464.
@@ -9,9 +18,9 @@
 
 2007-10-24  Lin Ma  <Lin.Ma@Sun.COM>
 
-        * SUNWgamin.spec:
-        * base-specs/gamin.spec: Removed some wrong comments.
-        * patches/gamin-01-all.diff: Fixed 6618402 and 6618464.
+	* SUNWgamin.spec:
+	* base-specs/gamin.spec: Removed some wrong comments.
+	* patches/gamin-01-all.diff: Fixed 6618402 and 6618464.
 
 2007-10-22  Brian Cameron  <brian.cameron@sun.com>
 

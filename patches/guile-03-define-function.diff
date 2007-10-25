@@ -1,0 +1,13 @@
+--- guile-1.8.3/libguile/read.c.orig	2007-10-25 17:24:23.900200000 +0800
++++ guile-1.8.3/libguile/read.c	2007-10-25 17:24:33.553901000 +0800
+@@ -50,6 +50,10 @@
+ 
+ #include "libguile/read.h"
+ 
++#if !defined(__FUNCTION__)
++#define __FUNCTION__ __func__
++#endif
++
+ 
+ 
+ SCM_GLOBAL_SYMBOL (scm_sym_dot, ".");

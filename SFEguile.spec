@@ -8,10 +8,11 @@
 Name:                SFEguile
 URL:                 http://www.gnu.org/software/guile/
 Summary:             Embeddable Scheme implementation written in C
-Version:             1.8.2
+Version:             1.8.3
 Source:              http://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
 Patch1:              guile-01-suncc-inline.diff
 Patch2:              guile-02-var-imaginary.diff
+Patch3:              guile-03-define-function.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -32,6 +33,7 @@ Requires:      %{name}
 %setup -q -n guile-%version
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -103,6 +105,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Thu Oct 25 2007 - nonsea@users.sourceforge.net
+- Bump to 1.8.3 
+- Add patch define-function.diff
 * Fri Aug 17 2007 - trisk@acm.jhu.edu
 - Bump to 1.8.2
 - Use default automake and aclocal

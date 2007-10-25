@@ -1,0 +1,16 @@
+Index: plugin/gd/Makefile.am
+===================================================================
+RCS file: /home/cvsroot/graphviz2/plugin/gd/Makefile.am,v
+retrieving revision 1.8
+diff -u -r1.8 Makefile.am
+--- plugin/gd/Makefile.am	11 Oct 2007 18:14:10 -0000	1.8
++++ plugin/gd/Makefile.am	25 Oct 2007 10:38:47 -0000
+@@ -29,7 +29,7 @@
+ 	$(top_builddir)/lib/gd/libgvgd_C.la \
+ 	@ICONV_LIBS@ @FONTCONFIG_LIBS@ @FREETYPE2_LIBS@ @JPEG_LIBS@ @PNG_LIBS@ @EXPAT_LIBS@ @Z_LIBS@ @MATH_LIBS@
+ else
+-libgvplugin_gd_la_LIBADD = @GD_LIBS@ @MATH_LIBS@
++libgvplugin_gd_la_LIBADD = @GD_LIBS@ @GD_LDFLAGS@ @MATH_LIBS@
+ endif
+ 
+ EXTRA_DIST = Makefile.old
