@@ -169,8 +169,6 @@ test -x $BASEDIR/lib/postrun || exit 0
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/48x48/
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/48x48/apps/
 %{_datadir}/icons/hicolor/48x48/apps/*
-%dir %attr (0755, root, other) %{_datadir}/doc
-%{_datadir}/doc/*
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/man1
 
@@ -188,6 +186,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Thu Oct 25 2007 - simon.zheng@sun.com
+- Delete installation files under /usr/share/docs.
 * Wed Oct 17 2007 - laca@sun.com
 - add /usr/gnu to search paths
 * Wed Sep 19 2007 - trisk@acm.jhu.edu

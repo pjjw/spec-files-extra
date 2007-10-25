@@ -1,3 +1,8 @@
+2007-10-25  simon.zheng  <simon.zheng@sun.com>
+
+	* SFEgnome-power-manager.spec:
+	  Delete NULL installation files /usr/share/docs.
+
 2007-10-24  Lin Ma  <Lin.Ma@Sun.COM>
 
         * SUNWgamin.spec:
