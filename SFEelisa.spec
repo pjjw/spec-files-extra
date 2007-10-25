@@ -29,17 +29,20 @@ Patch1:            elisa-01-fixps.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
 BuildRequires:     SUNWPython-devel
-BuildRequires:     SFEgnome-python-extras
+BuildRequires:     SUNWPython-extra
 BuildRequires:     SUNWimagick
+BuildRequires:     SFEgnome-python-extras
 BuildRequires:     SFEpigment-devel
 BuildRequires:     SFEpython-imaging
 BuildRequires:     SFEpython-setuptools
 BuildRequires:     SFEpython-twisted
 BuildRequires:     SFEpysqlite
+Requires:          SUNWPython
+Requires:          SUNWPython-extra
 Requires:          SUNWgnome-media
 Requires:          SUNWdbus-bindings
-Requires:          SFEgnome-python-extras
 Requires:          SUNWimagick
+Requires:          SFEgnome-python-extras
 Requires:          SFEpigment
 Requires:          SFEpython-imaging
 Requires:          SFEpython-setuptools
@@ -110,6 +113,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/external_plugins
 
 %changelog
+* Thu Oct 25 2007 Brian Cameron  <brian.cameron@sun.com>
+- Add SUNWPython-extra dependency since it depends on elementtree.
 * Fri Oct 05 2007 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.3.2
 * Sun Aug 05 2007 Brian Cameron  <brian.cameron@sun.com>
