@@ -45,7 +45,7 @@
  #pragma pack(1)
  #endif /* _WIN32 */
  struct obex_ubyte_hdr {
-@@ -87,13 +87,13 @@
+@@ -87,7 +87,7 @@
  	uint8_t hv;
  } PACKED;
  
@@ -54,10 +54,3 @@
  #pragma pack(1)
  #endif /* _WIN32 */
  struct obex_unicode_hdr {
- 	uint8_t  hi;
- 	uint16_t hl;
--	uint8_t  hv[0];
-+	uint8_t  hv[1];
- } PACKED;
- 
- #define obex_byte_stream_hdr obex_unicode_hdr

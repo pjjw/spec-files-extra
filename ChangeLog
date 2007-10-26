@@ -1,3 +1,9 @@
+2007-10-26  Jerry Yu Cameron  <jijun.yu@sun.com>
+	
+	* base-specs/openobex.spec: add a patch.
+	* patches/openobex-01-sun-studio.diff: Modified.
+	* patches/openobex-05-zero-array.diff: Added for fixing a problem about zero array.
+
 2007-10-26  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEstrongwind.spec: Add new spec file.

@@ -18,6 +18,7 @@ Patch1:         openobex-01-sun-studio.diff
 Patch2:         openobex-02-libusb.diff
 Patch3:         openobex-03-PACKED.diff
 Patch4:         openobex-04-func.diff
+Patch5:         openobex-05-zero-array.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Docdir:         %{_defaultdocdir}/doc
 
@@ -32,6 +33,7 @@ Requires:		%{name} = %{version}
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 %ifos linux
@@ -70,6 +72,8 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri. Oct. 26 - jijun.yu@sun.com
+- Add the patch openobex-05-zero-array.diff
 * Fri. Oct. 19 - jijun.yu@sun.com
 - Enable debug option and add the patch openobex-04-func.diff
 * Thu July 07 2007 - jijun.yu@sun.com
