@@ -988,7 +988,7 @@ Index: gamin/server/fen-data.c
 +    fobj->fo_atime = sbuf->st_atim;
 +    fobj->fo_mtime = sbuf->st_mtim;
 +    fobj->fo_ctime = sbuf->st_ctim;
-+    f->is_dir = (sbuf->st_mode & S_IFDIR) != 0 ? TRUE : FALSE;
++    f->is_dir = S_ISDIR (sbuf->st_mode) ? TRUE : FALSE;
 +    MUTEX_UNLOCK (f->prop_lock);
 +}
 +
@@ -1966,7 +1966,7 @@ Index: gamin/server/gam_fen.c
 +		struct stat fsb;
 +		memset (&fsb, 0, sizeof (struct stat));
 +		lstat (path, &fsb);
-+		file_is_dir = (fsb.st_mode & S_IFDIR) != 0 ? TRUE : FALSE;
++		file_is_dir = S_ISDIR (fsb.st_mode) ? TRUE : FALSE;
 +	}
 +
 +	if (events & GAMIN_EVENT_CREATED) {
@@ -2340,8 +2340,8 @@ Index: gamin/server/gam_fen.c
 +                gchar *fullname = g_build_filename (FN_PATH(f),
 +                                                    filename,
 +                                                    NULL);
-+                if (g_file_test (fullname, G_FILE_TEST_IS_DIR)) {
-+                    file_is_dir = TRUE;
++                if (lstat (fullname, &buf) == 0) {
++                    file_is_dir = S_ISDIR (buf.st_mode) ? TRUE : FALSE;
 +                }
 +                MUTEX_LOCK (f->fn_lock);
 +                gam_server_emit_one_event (fullname, file_is_dir, GAMIN_EVENT_EXISTS, sub, 1);

@@ -1,3 +1,7 @@
+2007-10-29  Lin Ma  <Lin.Ma@Sun.COM>
+
+	* patches/gamin-01-all.diff: Replace g_file_test by lstat.
+
 2007-10-26  Jerry Yu Cameron  <jijun.yu@sun.com>
 	
 	* base-specs/openobex.spec: add a patch.
