@@ -70,7 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/python%{pythonver}/vendor-packages/*
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, bin) %{_datadir}/pygtk
+%dir %attr (0755, root, sys) %{_datadir}/pygtk
 %{_datadir}/pygtk/*
 
 %changelog

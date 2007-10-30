@@ -1,3 +1,7 @@
+2007-10-30 Erwann Chenede - <erwann.chenede@sun.com>
+
+	* SFEsexy-python.spec : fixed wrong directory attributes.
+
 2007-10-30  Halton Huo <nonsea@users.sourceforge.net>
 
 	* base-specs/gtk-vnc.spec: Add debug option.
