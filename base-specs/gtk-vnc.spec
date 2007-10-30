@@ -19,8 +19,8 @@ Summary:        A GTK widget for VNC clients
 Source:         http://superb-east.dl.sourceforge.net/sourceforge/%{name}/%{name}-%{version}.tar.gz
 Patch1:        %{name}-01-makefile.diff
 Patch2:        %{name}-02-macro.diff
-Patch3:        %{name}-03-yield.diff
-Patch4:        %{name}-04-coroutine.diff
+Patch3:        %{name}-03-coroutine.diff
+Patch4:        %{name}-04-namespace.diff
 BuildRoot:     %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires: gtk2-devel pygtk2-devel python-devel
@@ -61,8 +61,6 @@ A module allowing use of the GTK-VNC widget from python
 %patch4 -p1
 
 %build
-
-%build
 %ifos linux
 if [ -x /usr/bin/getconf ]; then
   CPUS=`getconf _NPROCESSORS_ONLN`
@@ -81,10 +79,16 @@ automake -a -c -f
 autoconf
 
 ./configure --prefix=%{_prefix} \
-    --bindir=%{_bindir} --mandir=%{_mandir} \
-    --localstatedir=%{_localstatedir} --libdir=%{_libdir} \
-    --datadir=%{_datadir} --includedir=%{_includedir} \
-    --sysconfdir=%{_sysconfdir}
+			--bindir=%{_bindir} \
+			--mandir=%{_mandir} \
+			--libdir=%{_libdir} \
+			--datadir=%{_datadir} \
+			--includedir=%{_includedir} \
+			--sysconfdir=%{_sysconfdir} \
+%if %debug_build
+			--enable-debug=yes \
+%endif
+	
 
 make -j $CPUS
 
@@ -125,5 +129,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python*/site-packages/gtkvnc.so
 
 %changelog
+* Tue Oct 30 2007 - nonsea@users.sourceforge.net
+- Add debug option.
 * Thu Oct 25 2007 - nonsea@users.sourceforge.net
 - Initial version
