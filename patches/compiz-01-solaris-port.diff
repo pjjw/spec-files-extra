@@ -1,26 +1,36 @@
-diff -rup compiz-0.5.2/configure.ac ../compiz-0.5.2/configure.ac
---- compiz-0.5.2/configure.ac	2007-08-03 22:00:55.000000000 +0200
-+++ ../compiz-0.5.2/configure.ac	2007-08-30 17:12:05.898401000 +0200
-@@ -102,6 +102,16 @@ if test "x$GCC" = "xyes"; then
-   esac
- fi
- 
-+compiling_on_solaris=no
-+case "$host" in
-+        *-*-solaris*)
-+	  AC_MSG_CHECKING(if compiling on Solaris)
-+	  compiling_on_solaris=yes
-+	  AC_MSG_RESULT($compiling_on_solaris)
-+	  AC_DEFINE(SOLARIS, 1, [Compiling on Solaris])
-+	;;
-+esac
-+
- AC_C_BIGENDIAN
- 
- plugindir=$libdir/compiz
-diff -rup compiz-0.5.2/metadata/annotate.xml.in ../compiz-0.5.2/metadata/annotate.xml.in
---- compiz-0.5.2/metadata/annotate.xml.in	2007-05-21 16:33:36.000000000 +0200
-+++ ../compiz-0.5.2/metadata/annotate.xml.in	2007-08-30 17:13:51.177995000 +0200
+diff -urN compiz-0.6.0.orig/metadata/annotate.xml compiz-0.6.0/metadata/annotate.xml
+--- compiz-0.6.0.orig/metadata/annotate.xml	2007-10-01 13:43:27.000000000 -0400
++++ compiz-0.6.0/metadata/annotate.xml	2007-10-31 00:52:10.047172630 -0400
+@@ -34,7 +34,7 @@
+ 		<long xml:lang="pl">Rozpocznij rysowanie</long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;&lt;Alt&gt;Button1</button>
++		    <button>&lt;Mod4&gt;&lt;Alt&gt;Button1</button>
+ 		</default>
+ 	    </option>
+ 	    <option type="action" name="draw">
+@@ -58,7 +58,7 @@
+ 		<long xml:lang="sv">Initiera radering av anteckning</long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;&lt;Alt&gt;Button3</button>
++		    <button>&lt;Mod4&gt;&lt;Alt&gt;Button3</button>
+ 		</default>
+ 	    </option>
+ 	    <option type="action" name="clear">
+@@ -76,7 +76,7 @@
+ 		<long xml:lang="sv">Töm</long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <key>&lt;Super&gt;&lt;Alt&gt;k</key>
++		    <key>&lt;Mod4&gt;&lt;Alt&gt;k</key>
+ 		</default>
+ 	    </option>
+ 	    <option type="color" name="fill_color">
+diff -urN compiz-0.6.0.orig/metadata/annotate.xml.in compiz-0.6.0/metadata/annotate.xml.in
+--- compiz-0.6.0.orig/metadata/annotate.xml.in	2007-08-23 06:06:48.000000000 -0400
++++ compiz-0.6.0/metadata/annotate.xml.in	2007-10-31 00:52:10.050263204 -0400
 @@ -8,7 +8,7 @@
  		<_long>Initiate annotate drawing</_long>
  		<allowed key="true" button="true"/>
@@ -48,9 +58,21 @@ diff -rup compiz-0.5.2/metadata/annotate.xml.in ../compiz-0.5.2/metadata/annotat
  		</default>
  	    </option>
  	    <option name="fill_color" type="color">
-diff -rup compiz-0.5.2/metadata/clone.xml.in ../compiz-0.5.2/metadata/clone.xml.in
---- compiz-0.5.2/metadata/clone.xml.in	2007-04-27 20:36:57.000000000 +0200
-+++ ../compiz-0.5.2/metadata/clone.xml.in	2007-08-30 17:13:51.178044000 +0200
+diff -urN compiz-0.6.0.orig/metadata/clone.xml compiz-0.6.0/metadata/clone.xml
+--- compiz-0.6.0.orig/metadata/clone.xml	2007-10-01 13:43:27.000000000 -0400
++++ compiz-0.6.0/metadata/clone.xml	2007-10-31 00:52:10.050053819 -0400
+@@ -33,7 +33,7 @@
+ 		<long xml:lang="pl">Rozpocznij klonowanie zaznaczenia</long>
+ 		<allowed button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;&lt;Shift&gt;Button1</button>
++		    <button>&lt;Mod4&gt;&lt;Shift&gt;Button1</button>
+ 		</default>
+ 	    </option>
+ 	</display>
+diff -urN compiz-0.6.0.orig/metadata/clone.xml.in compiz-0.6.0/metadata/clone.xml.in
+--- compiz-0.6.0.orig/metadata/clone.xml.in	2007-08-23 06:06:48.000000000 -0400
++++ compiz-0.6.0/metadata/clone.xml.in	2007-10-31 00:52:10.049274921 -0400
 @@ -8,7 +8,7 @@
  		<_long>Initiate clone selection</_long>
  		<allowed button="true"/>
@@ -60,9 +82,114 @@ diff -rup compiz-0.5.2/metadata/clone.xml.in ../compiz-0.5.2/metadata/clone.xml.
  		</default>
  	    </option>
  	</display>
-diff -rup compiz-0.5.2/metadata/core.xml.in ../compiz-0.5.2/metadata/core.xml.in
---- compiz-0.5.2/metadata/core.xml.in	2007-05-21 21:10:20.000000000 +0200
-+++ ../compiz-0.5.2/metadata/core.xml.in	2007-08-30 17:13:51.178385000 +0200
+diff -urN compiz-0.6.0.orig/metadata/compiz-annotate.schemas compiz-0.6.0/metadata/compiz-annotate.schemas
+--- compiz-0.6.0.orig/metadata/compiz-annotate.schemas	2007-10-01 13:43:31.000000000 -0400
++++ compiz-0.6.0/metadata/compiz-annotate.schemas	2007-10-31 00:52:10.049867257 -0400
+@@ -85,7 +85,7 @@
+       <applyto>/apps/compiz/plugins/annotate/allscreens/options/initiate_button</applyto>
+       <owner>compiz</owner>
+       <type>string</type>
+-      <default>&lt;Super&gt;&lt;Alt&gt;Button1</default>
++      <default>&lt;Mod4&gt;&lt;Alt&gt;Button1</default>
+       <locale name="C">
+         <short>Initiate</short>
+         <long>Initiate annotate drawing</long>
+@@ -187,7 +187,7 @@
+       <applyto>/apps/compiz/plugins/annotate/allscreens/options/erase_button</applyto>
+       <owner>compiz</owner>
+       <type>string</type>
+-      <default>&lt;Super&gt;&lt;Alt&gt;Button3</default>
++      <default>&lt;Mod4&gt;&lt;Alt&gt;Button3</default>
+       <locale name="C">
+         <short>Initiate erase</short>
+         <long>Initiate annotate erasing</long>
+@@ -210,7 +210,7 @@
+       <applyto>/apps/compiz/plugins/annotate/allscreens/options/clear_key</applyto>
+       <owner>compiz</owner>
+       <type>string</type>
+-      <default>&lt;Super&gt;&lt;Alt&gt;k</default>
++      <default>&lt;Mod4&gt;&lt;Alt&gt;k</default>
+       <locale name="C">
+         <short>Clear</short>
+         <long>Clear</long>
+diff -urN compiz-0.6.0.orig/metadata/compiz-clone.schemas compiz-0.6.0/metadata/compiz-clone.schemas
+--- compiz-0.6.0.orig/metadata/compiz-clone.schemas	2007-10-01 13:43:31.000000000 -0400
++++ compiz-0.6.0/metadata/compiz-clone.schemas	2007-10-31 00:52:10.050508599 -0400
+@@ -6,7 +6,7 @@
+       <applyto>/apps/compiz/plugins/clone/allscreens/options/initiate_button</applyto>
+       <owner>compiz</owner>
+       <type>string</type>
+-      <default>&lt;Super&gt;&lt;Shift&gt;Button1</default>
++      <default>&lt;Mod4&gt;&lt;Shift&gt;Button1</default>
+       <locale name="C">
+         <short>Initiate</short>
+         <long>Initiate clone selection</long>
+diff -urN compiz-0.6.0.orig/metadata/compiz-screenshot.schemas compiz-0.6.0/metadata/compiz-screenshot.schemas
+--- compiz-0.6.0.orig/metadata/compiz-screenshot.schemas	2007-10-01 13:43:31.000000000 -0400
++++ compiz-0.6.0/metadata/compiz-screenshot.schemas	2007-10-31 00:52:10.049115442 -0400
+@@ -6,7 +6,7 @@
+       <applyto>/apps/compiz/plugins/screenshot/allscreens/options/initiate_button</applyto>
+       <owner>compiz</owner>
+       <type>string</type>
+-      <default>&lt;Super&gt;Button1</default>
++      <default>&lt;Mod4&gt;Button1</default>
+       <locale name="C">
+         <short>Initiate</short>
+         <long>Initiate rectangle screenshot</long>
+diff -urN compiz-0.6.0.orig/metadata/compiz-water.schemas compiz-0.6.0/metadata/compiz-water.schemas
+--- compiz-0.6.0.orig/metadata/compiz-water.schemas	2007-10-01 13:43:31.000000000 -0400
++++ compiz-0.6.0/metadata/compiz-water.schemas	2007-10-31 00:52:10.048613191 -0400
+@@ -6,7 +6,7 @@
+       <applyto>/apps/compiz/plugins/water/allscreens/options/initiate_key</applyto>
+       <owner>compiz</owner>
+       <type>string</type>
+-      <default>&lt;Control&gt;&lt;Super&gt;</default>
++      <default>&lt;Control&gt;&lt;Mod4&gt;</default>
+       <locale name="C">
+         <short>Initiate</short>
+         <long>Enable pointer water effects</long>
+diff -urN compiz-0.6.0.orig/metadata/compiz-zoom.schemas compiz-0.6.0/metadata/compiz-zoom.schemas
+--- compiz-0.6.0.orig/metadata/compiz-zoom.schemas	2007-10-01 13:43:31.000000000 -0400
++++ compiz-0.6.0/metadata/compiz-zoom.schemas	2007-10-31 00:52:10.046611690 -0400
+@@ -85,7 +85,7 @@
+       <applyto>/apps/compiz/plugins/zoom/allscreens/options/initiate_button</applyto>
+       <owner>compiz</owner>
+       <type>string</type>
+-      <default>&lt;Super&gt;Button3</default>
++      <default>&lt;Mod4&gt;Button3</default>
+       <locale name="C">
+         <short>Initiate</short>
+         <long>Zoom In</long>
+@@ -243,7 +243,7 @@
+       <applyto>/apps/compiz/plugins/zoom/allscreens/options/zoom_in_button</applyto>
+       <owner>compiz</owner>
+       <type>string</type>
+-      <default>&lt;Super&gt;Button4</default>
++      <default>&lt;Mod4&gt;Button4</default>
+       <locale name="C">
+         <short>Zoom In</short>
+         <long>Zoom In</long>
+@@ -401,7 +401,7 @@
+       <applyto>/apps/compiz/plugins/zoom/allscreens/options/zoom_out_button</applyto>
+       <owner>compiz</owner>
+       <type>string</type>
+-      <default>&lt;Super&gt;Button5</default>
++      <default>&lt;Mod4&gt;Button5</default>
+       <locale name="C">
+         <short>Zoom Out</short>
+         <long>Zoom Out</long>
+@@ -491,7 +491,7 @@
+       <applyto>/apps/compiz/plugins/zoom/allscreens/options/zoom_pan_button</applyto>
+       <owner>compiz</owner>
+       <type>string</type>
+-      <default>&lt;Super&gt;Button2</default>
++      <default>&lt;Mod4&gt;Button2</default>
+       <locale name="C">
+         <short>Zoom Pan</short>
+         <long>Zoom pan</long>
+diff -urN compiz-0.6.0.orig/metadata/core.xml.in compiz-0.6.0/metadata/core.xml.in
+--- compiz-0.6.0.orig/metadata/core.xml.in	2007-09-17 12:48:31.000000000 -0400
++++ compiz-0.6.0/metadata/core.xml.in	2007-10-31 00:51:19.222758679 -0400
 @@ -7,6 +7,33 @@
  		<_short>Active Plugins</_short>
  		<_long>List of currently active plugins</_long>
@@ -97,9 +224,9 @@ diff -rup compiz-0.5.2/metadata/core.xml.in ../compiz-0.5.2/metadata/core.xml.in
  	    </option>
  	    <option name="texture_filter" type="int">
  		<_short>Texture Filter</_short>
-diff -rup compiz-0.5.2/metadata/cube.xml.in ../compiz-0.5.2/metadata/cube.xml.in
---- compiz-0.5.2/metadata/cube.xml.in	2007-08-02 23:33:10.000000000 +0200
-+++ ../compiz-0.5.2/metadata/cube.xml.in	2007-08-30 18:08:08.071979000 +0200
+diff -urN compiz-0.6.0.orig/metadata/cube.xml.in compiz-0.6.0/metadata/cube.xml.in
+--- compiz-0.6.0.orig/metadata/cube.xml.in	2007-08-23 06:06:48.000000000 -0400
++++ compiz-0.6.0/metadata/cube.xml.in	2007-10-31 00:51:19.223248342 -0400
 @@ -42,9 +42,9 @@
  		<_short>Cube Color</_short>
  		<_long>Color of top and bottom sides of the cube</_long>
@@ -138,9 +265,21 @@ diff -rup compiz-0.5.2/metadata/cube.xml.in ../compiz-0.5.2/metadata/cube.xml.in
  		<min>0.0</min>
  		<max>100.0</max>
  		<precision>1.0</precision>
-diff -rup compiz-0.5.2/metadata/screenshot.xml.in ../compiz-0.5.2/metadata/screenshot.xml.in
---- compiz-0.5.2/metadata/screenshot.xml.in	2007-05-03 17:51:54.000000000 +0200
-+++ ../compiz-0.5.2/metadata/screenshot.xml.in	2007-08-30 17:13:51.179498000 +0200
+diff -urN compiz-0.6.0.orig/metadata/screenshot.xml compiz-0.6.0/metadata/screenshot.xml
+--- compiz-0.6.0.orig/metadata/screenshot.xml	2007-10-01 13:43:30.000000000 -0400
++++ compiz-0.6.0/metadata/screenshot.xml	2007-10-31 00:52:10.048829146 -0400
+@@ -34,7 +34,7 @@
+ 		<long xml:lang="pl">Rozpocznik prostokątny zrzut ekranu</long>
+ 		<allowed button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;Button1</button>
++		    <button>&lt;Mod4&gt;Button1</button>
+ 		</default>
+ 	    </option>
+ 	    <option type="string" name="directory">
+diff -urN compiz-0.6.0.orig/metadata/screenshot.xml.in compiz-0.6.0/metadata/screenshot.xml.in
+--- compiz-0.6.0.orig/metadata/screenshot.xml.in	2007-08-23 06:06:48.000000000 -0400
++++ compiz-0.6.0/metadata/screenshot.xml.in	2007-10-31 00:52:10.051214817 -0400
 @@ -8,7 +8,7 @@
  		<_long>Initiate rectangle screenshot</_long>
  		<allowed button="true"/>
@@ -150,9 +289,21 @@ diff -rup compiz-0.5.2/metadata/screenshot.xml.in ../compiz-0.5.2/metadata/scree
  		</default>
  	    </option>
  	    <option name="directory" type="string">
-diff -rup compiz-0.5.2/metadata/water.xml.in ../compiz-0.5.2/metadata/water.xml.in
---- compiz-0.5.2/metadata/water.xml.in	2007-07-13 01:30:57.000000000 +0200
-+++ ../compiz-0.5.2/metadata/water.xml.in	2007-08-30 17:13:51.179531000 +0200
+diff -urN compiz-0.6.0.orig/metadata/water.xml compiz-0.6.0/metadata/water.xml
+--- compiz-0.6.0.orig/metadata/water.xml	2007-10-01 13:43:30.000000000 -0400
++++ compiz-0.6.0/metadata/water.xml	2007-10-31 00:52:10.051078107 -0400
+@@ -83,7 +83,7 @@
+ 		<long xml:lang="zh_TW">啟用指標水波特效</long>
+ 		<allowed key="true"/>
+ 		<default>
+-		    <key>&lt;Control&gt;&lt;Super&gt;</key>
++		    <key>&lt;Control&gt;&lt;Mod4&gt;</key>
+ 		</default>
+ 	    </option>
+ 	    <option type="action" name="toggle_rain">
+diff -urN compiz-0.6.0.orig/metadata/water.xml.in compiz-0.6.0/metadata/water.xml.in
+--- compiz-0.6.0.orig/metadata/water.xml.in	2007-08-23 06:06:48.000000000 -0400
++++ compiz-0.6.0/metadata/water.xml.in	2007-10-31 00:52:10.047945174 -0400
 @@ -14,7 +14,7 @@
  		<_long>Enable pointer water effects</_long>
  		<allowed key="true"/>
@@ -162,9 +313,48 @@ diff -rup compiz-0.5.2/metadata/water.xml.in ../compiz-0.5.2/metadata/water.xml.
  		</default>
  	    </option>
  	    <option name="toggle_rain" type="action">
-diff -rup compiz-0.5.2/metadata/zoom.xml.in ../compiz-0.5.2/metadata/zoom.xml.in
---- compiz-0.5.2/metadata/zoom.xml.in	2007-05-30 00:00:46.000000000 +0200
-+++ ../compiz-0.5.2/metadata/zoom.xml.in	2007-08-30 17:13:51.179948000 +0200
+diff -urN compiz-0.6.0.orig/metadata/zoom.xml compiz-0.6.0/metadata/zoom.xml
+--- compiz-0.6.0.orig/metadata/zoom.xml	2007-10-01 13:43:31.000000000 -0400
++++ compiz-0.6.0/metadata/zoom.xml	2007-10-31 00:52:10.047716734 -0400
+@@ -77,7 +77,7 @@
+ 		<long xml:lang="zh_TW">放大</long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;Button3</button>
++		    <button>&lt;Mod4&gt;Button3</button>
+ 		</default>
+ 	    </option>
+ 	    <option type="action" name="zoom_in">
+@@ -119,7 +119,7 @@
+ 		<long xml:lang="zh_TW">放大</long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;Button4</button>
++		    <button>&lt;Mod4&gt;Button4</button>
+ 		</default>
+ 	    </option>
+ 	    <option type="action" name="zoom_out">
+@@ -161,7 +161,7 @@
+ 		<long xml:lang="zh_TW">縮小</long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;Button5</button>
++		    <button>&lt;Mod4&gt;Button5</button>
+ 		</default>
+ 	    </option>
+ 	    <option type="action" name="zoom_pan">
+@@ -169,7 +169,7 @@
+ 		<long>Zoom pan</long>
+ 		<allowed key="true" button="true"/>
+ 		<default>
+-		    <button>&lt;Super&gt;Button2</button>
++		    <button>&lt;Mod4&gt;Button2</button>
+ 		</default>
+ 	    </option>
+ 	</display>
+diff -urN compiz-0.6.0.orig/metadata/zoom.xml.in compiz-0.6.0/metadata/zoom.xml.in
+--- compiz-0.6.0.orig/metadata/zoom.xml.in	2007-08-23 06:06:48.000000000 -0400
++++ compiz-0.6.0/metadata/zoom.xml.in	2007-10-31 00:52:10.046852442 -0400
 @@ -8,7 +8,7 @@
  		<_long>Zoom In</_long>
  		<allowed key="true" button="true"/>
@@ -201,92 +391,3 @@ diff -rup compiz-0.5.2/metadata/zoom.xml.in ../compiz-0.5.2/metadata/zoom.xml.in
  		</default>
  	    </option>
  	</display>
-diff -rup compiz-0.5.2/plugins/decoration.c ../compiz-0.5.2/plugins/decoration.c
---- compiz-0.5.2/plugins/decoration.c	2007-07-30 20:54:20.000000000 +0200
-+++ ../compiz-0.5.2/plugins/decoration.c	2007-08-30 17:12:05.899488000 +0200
-@@ -33,12 +33,12 @@
- #include <math.h>
- #include <unistd.h>
- 
--#include <X11/Xatom.h>
--#include <X11/extensions/shape.h>
--
- #include <compiz.h>
- #include <decoration.h>
- 
-+#include <X11/Xatom.h>
-+#include <X11/extensions/shape.h>
-+
- static CompMetadata decorMetadata;
- 
- typedef struct _Vector {
-diff -rup compiz-0.5.2/plugins/video.c ../compiz-0.5.2/plugins/video.c
---- compiz-0.5.2/plugins/video.c	2007-07-13 04:08:27.000000000 +0200
-+++ ../compiz-0.5.2/plugins/video.c	2007-08-30 17:12:05.900921000 +0200
-@@ -29,12 +29,12 @@
- #include <math.h>
- #include <unistd.h>
- 
--#include <X11/Xatom.h>
--#include <X11/extensions/shape.h>
--
- #include <compiz.h>
- #include <decoration.h>
- 
-+#include <X11/Xatom.h>
-+#include <X11/extensions/shape.h>
-+
- /*
-  * compiz composited video
-  *
-diff -rup compiz-0.5.2/src/option.c ../compiz-0.5.2/src/option.c
---- compiz-0.5.2/src/option.c	2007-06-12 18:46:05.000000000 +0200
-+++ ../compiz-0.5.2/src/option.c	2007-08-30 17:12:05.901379000 +0200
-@@ -25,6 +25,10 @@
- 
- #define _GNU_SOURCE
- 
-+#ifdef HAVE_CONFIG_H
-+#include <config.h>
-+#endif
-+
- #include <stdlib.h>
- #include <string.h>
- #include <strings.h>
-@@ -32,6 +36,9 @@
- #include <math.h>
- 
- #include <compiz.h>
-+#ifdef SOLARIS
-+#include <ctype.h>
-+#endif
- 
- struct _Modifier {
-     char *name;
-@@ -64,6 +71,26 @@ static char *edgeName[] = {
-     "BottomRight"
- };
- 
-+#ifdef SOLARIS
-+char* strcasestr (char *haystack, char *needle)
-+{
-+	char *p, *startn = 0, *np = 0;
-+	for (p = haystack; *p; p++) {
-+		if (np) {
-+			if (toupper(*p) == toupper(*np)) {
-+				if (!*++np)
-+					return startn;
-+			} else
-+				np = 0;
-+		} else if (toupper(*p) == toupper(*needle)) {
-+			np = needle + 1;
-+			startn = p;
-+		}
-+	}
-+	return 0;
-+}
-+#endif
-+
- static void
- finiOptionValue (CompOptionValue *v,
- 		 CompOptionType  type)

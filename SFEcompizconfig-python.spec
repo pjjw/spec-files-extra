@@ -15,7 +15,7 @@
 
 Name:                    SFEcompizconfig-python
 Summary:                 compizconfig libraries - is an alternative configuration system for compiz
-Version:                 0.5.2
+Version:                 0.6.0.1
 Source:			 http://releases.compiz-fusion.org/%{version}/%{src_name}-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -106,6 +106,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Oct 29 2007 - trisk@acm.jhu.edu
+- Bump to 0.6.0.1
 * Fri Sep 07 2007 - trisk@acm.jhu.edu
 - Update rules, fix Python library location
 * Fri Aug  14 2007 - erwann@sun.com

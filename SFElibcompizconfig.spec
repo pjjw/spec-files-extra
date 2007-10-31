@@ -15,7 +15,7 @@
 
 Name:                    SFElibcompizconfig
 Summary:                 compizconfig libraries - is an alternative configuration system for compiz
-Version:                 0.5.2
+Version:                 0.6.0
 Source:			 http://releases.compiz-fusion.org/%{version}/%{src_name}-%{version}.tar.bz2
 Patch1:			 libcompizconfig-01-solaris-port.diff
 SUNW_BaseDir:            %{_basedir}
@@ -122,6 +122,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Oct 29 2007 - trisk@acm.jhu.edu
+- Bump to 0.6.0
 * Sat Sep 15 2007 - trisk@acm.jhu.edu
 - Fix patch rule
 * Sat Sep 08 2007 - trisk@acm.jhu.edu

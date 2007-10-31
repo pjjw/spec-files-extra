@@ -16,7 +16,7 @@
 
 Name:           SFEcompiz
 Summary:        compiz
-Version:        0.5.2
+Version:        0.6.2
 Source:		http://xorg.freedesktop.org/archive/individual/app/compiz-%{version}.tar.gz
 Source1:	http://www.gnome.org/~erwannc/compiz/missing-stuff.tar.bz2
 %if %old_x11
@@ -27,7 +27,7 @@ Source5:	http://ftp.x.org/pub/individual/proto/renderproto-0.9.2.tar.bz2
 Source6:	http://ftp.x.org/pub/individual/proto/xproto-7.0.10.tar.bz2
 Source7:	http://ftp.x.org/pub/individual/lib/libXcomposite-0.3.1.tar.bz2
 %endif
-Source8:	http://www.gnome.org/~erwannc/compiz/gnome-integration-%{version}.tar.bz2
+Source8:	http://trisk.acm.jhu.edu/compiz/gnome-integration-%{version}.tar.bz2
 Patch1:		compiz-01-solaris-port.diff
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -182,9 +182,8 @@ find $RPM_BUILD_ROOT%{_libdir} -type f -name "*.la" -exec rm -f {} ';'
 rm -f $RPM_BUILD_ROOT/usr/X11/lib/*.la
 rm -rf $RPM_BUILD_ROOT%{_basedir}/etc
 
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/xdg/autostart
-cp compiz-autostart.desktop $RPM_BUILD_ROOT%{_sysconfdir}/xdg/autostart
-cp compiz-autostart.sh run-compiz stop-compiz $RPM_BUILD_ROOT%{_bindir}
+cp start-compiz stop-compiz $RPM_BUILD_ROOT%{_bindir}
+ln -s start-compiz $RPM_BUILD_ROOT%{_bindir}/run-compiz
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/pixmaps
 cp compiz.png $RPM_BUILD_ROOT%{_datadir}/pixmaps
 
@@ -273,7 +272,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (0755, root, sys)
 %attr (0755, root, sys) %dir %{_sysconfdir}
 %{_sysconfdir}/gconf/schemas/*
-%{_sysconfdir}/xdg/*
 
 %files devel
 %defattr (-, root, bin)
@@ -295,6 +293,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Oct 29 2007 - trisk@acm.jhu.edu
+- Bump to 0.6.2
+- Don't create icons in gnome-integration (use fusion-icon)
 * Tue Oct 16 2007 - laca@sun.com
 - add FOX build support
 * Fri Sep 21 2007 - Albert Lee <trisk@acm.jhu.edu>

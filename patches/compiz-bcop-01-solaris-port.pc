@@ -16,7 +16,7 @@ diff -ru compiz-bcop-0.5.2.orig/configure.ac compiz-bcop-0.5.2/configure.ac
  AC_PREREQ(2.57)
  
 -AC_INIT([compiz-bcop],esyscmd(. ./VERSION;echo -n $VERSION), [onestone@beryl-project.org])
-+AC_INIT([compiz-bcop],0.5.2, [onestone@beryl-project.org])
++AC_INIT([compiz-bcop],esyscmd(. ./VERSION;echo $VERSION | tr -d "\n"), [onestone@beryl-project.org])
  
  AC_DEFINE_UNQUOTED(VERSION,"$VERSION",[Version])
  
@@ -34,19 +34,6 @@ diff -ru compiz-bcop-0.5.2.orig/configure.ac compiz-bcop-0.5.2/configure.ac
  xsltdir=$datadir/bcop
  AC_SUBST(xsltdir)
  
-共同的次目錄: compiz-bcop-0.5.2.orig/src 和 compiz-bcop-0.5.2/src
-只有在 compiz-bcop-0.5.2/src : .bcop.xslt.swp
-diff -ru compiz-bcop-0.5.2.orig/src/Makefile.in compiz-bcop-0.5.2/src/Makefile.in
---- compiz-bcop-0.5.2.orig/src/Makefile.in	2007年  9月  8日 六 09:02:56
-+++ compiz-bcop-0.5.2/src/Makefile.in	2007年  9月  8日 六 09:02:27
-@@ -80,6 +80,7 @@
- ECHO_T = @ECHO_T@
- EGREP = @EGREP@
- EXEEXT = @EXEEXT@
-+GETOPT = @GETOPT@
- GREP = @GREP@
- INSTALL_DATA = @INSTALL_DATA@
- INSTALL_PROGRAM = @INSTALL_PROGRAM@
 diff -ru compiz-bcop-0.5.2.orig/src/bcop.in compiz-bcop-0.5.2/src/bcop.in
 --- compiz-bcop-0.5.2.orig/src/bcop.in	2007年  9月  8日 六 09:02:56
 +++ compiz-bcop-0.5.2/src/bcop.in	2007年  9月  8日 六 09:02:27

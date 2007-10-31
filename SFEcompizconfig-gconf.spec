@@ -16,7 +16,7 @@
 
 Name:                    SFEcompizconfig-gconf
 Summary:                 cgconf backend for CompizConfig
-Version:                 0.5.2
+Version:                 0.6.0
 Source:			 http://releases.compiz-fusion.org/%{version}/%{src_name}-%{version}.tar.bz2
 Patch1:			 compizconfig-backend-gconf-01-solaris-port.diff
 SUNW_BaseDir:            %{_basedir}
@@ -34,7 +34,7 @@ Requires:	SFElibcompizconfig
 
 %prep
 %setup -q -n %{src_name}-%version
-%patch1 -p2
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -43,6 +43,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 aclocal
+autoheader
 automake -a -c -f
 autoconf
 
@@ -97,6 +98,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Oct 29 2007 - trisk@acm.jhu.edu
+- Bump to 0.6.0
 * Fri Sep 07 2007 - trisk@acm.jhu.edu
 - Update rules
 * Fri Aug  14 2007 - erwann@sun.com

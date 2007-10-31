@@ -1,3 +1,35 @@
+2007-10-31  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEccsm.spec: Bump to 0.6.0
+	* SFEcompiz-bcop.spec: Bump to 0.6.0
+	* SFEcompiz-fusion-extra.spec: Bump to 0.6.0
+	* SFEcompiz-fusion-main.spec: Bump to 0.6.0
+	* SFEcompiz-fusion-unsup.spec: Bump to 0.6.0
+	* SFEcompiz.spec: Bump to 0.6.2
+	* SFEcompizconfig-gconf.spec: Bump to 0.6.0
+	* SFEcompizconfig-python.spec: Bump to 0.6.0.1
+	* SFEfusion-icon.spec: *NEW* fusion-icon - simple tray icon for Compiz
+	  Fusion
+	* SFElibcompizconfig.spec: Bump to 0.6.0
+	* SFExpilot-ng.spec: *NEW* XPilot - multi-player tactical manoeuvring
+	  game for X
+	* patches/compiz-01-solaris-port.diff: Update for 0.6.0
+	* patches/compiz-bcop-01-solaris-port.pc: Update for 0.6.0
+	* patches/compiz-fusion-extra-01-solaris-port.diff: Update for 0.6.0,
+	  remove need for support code
+	* patches/compiz-fusion-main-01-solaris-port.diff: Replace dodgy support
+	  code with MIT-licenced code
+	* patches/compiz-fusion-unsupported-01-solaris-port.diff: Update for
+	  0.6.0
+	* patches/compizconfig-backend-gconf-01-solaris-port.diff: Replace dodgy
+	  support code with MIT-licenced code
+	* patches/gst-plugins-bad-01-sunpro.diff: Patch for Studio compatibility
+	* patches/gst-plugins-bad-02-vmnc.diff: Fix argument order in vmnc
+	* patches/gst-plugins010-01-gettext.diff: Patch for gettext support
+	* patches/libcompizconfig-01-solaris-port.diff: Replace dodgy support
+	  code with MIT-licenced code
+	* patches/xpilot-ng-01-freealut.diff: Patch to build with freealut
+
 2007-10-30 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* SFEsexy-python.spec : fixed wrong directory attributes.

@@ -1,7 +1,7 @@
 #
-# spec file for package SFEccsm
+# spec file for package SFEfusion-icon
 ####################################################################
-# compizconfig-settings-manager(ccsm): A fully featured Python/GTK 
+# compizconfig-settings-manager(fusion-icon): A fully featured Python/GTK 
 # based settings manager for the CompizConfig system.
 ####################################################################
 #
@@ -12,12 +12,13 @@
 
 %include Solaris.inc
 
-%define src_name ccsm
+%define src_name fusion-icon
+%define src_version 18f68d35f1a9157743faf834a0b87b978d851cdc
 
-Name:                    SFEccsm
-Summary:                 ccsm settings manager for the CompizConfig system
-Version:                 0.6.0
-Source:			 http://releases.compiz-fusion.org/%{version}/%{src_name}-%{version}.tar.bz2	 
+Name:                    SFEfusion-icon
+Summary:                 fusion-icon - simple tray icon for Compiz Fusion
+Version:                 0.1-20071003
+Source:			 http://cgit.compiz-fusion.org/~crdlb/fusion-icon/snapshot/%{src_name}-%{src_version}.tar.bz2	 
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -25,20 +26,18 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 BuildRequires:	SUNWgnome-base-libs-devel
 BuildRequires:	SUNWgnome-python-libs-devel
 BuildRequires:	SUNWPython
-BuildRequires:  SFEcompizconfig-python
 Requires:	SUNWgnome-base-libs
 Requires:	SUNWgnome-python-libs
 Requires:	SUNWPython
-Requires:	SFEcompizconfig-python
 %include default-depend.inc
 
 %define pythonver 2.4
 
 %prep
-%setup -q -n %{src_name}-%version
+%setup -q -n %{src_name}
 
 %build
-python setup.py build --prefix=%{_prefix}
+python setup.py build
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -49,18 +48,6 @@ mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages
 mv $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/* \
    $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages/
 rmdir $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages
-
-#
-# when not building -l10n packages, remove anything l10n related from
-# $RPM_BUILD_ROOT
-#
-%if %build_l10n
-%else
-# REMOVE l10n FILES
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
-rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/*/[a-z]*
-rm -rf $RPM_BUILD_ROOT%{_datadir}/omf/*/*-[a-z]*.omf
-%endif
 
 %post
 ( echo 'test -x /usr/bin/update-desktop-database || exit 0';
@@ -92,35 +79,25 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/python%{pythonver}/vendor-packages/ccm
+%{_libdir}/python%{pythonver}/vendor-packages/FusionIcon
 %dir %attr(0755, root, sys) %{_datadir}
-%dir %attr (0755, root, other) %{_datadir}/ccsm
-%{_datadir}/ccsm/*
 %dir %attr (0755, root, other) %{_datadir}/applications
-%{_datadir}/applications/ccsm.desktop
+%{_datadir}/applications/fusion-icon.desktop
 %dir %attr (0755, root, other) %{_datadir}/icons
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/scalable/
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/scalable/apps/
 %{_datadir}/icons/hicolor/scalable/apps/*
-%dir %attr (0755, root, other) %{_datadir}/pixmaps
-%{_datadir}/pixmaps/*
-#
-# The files included here should match the ones removed in %install
-#
-%if %build_l10n
-%files l10n
-%defattr (-, root, other)
-%dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/locale
-%{_datadir}/gnome/help/*/[a-z]*
-%{_datadir}/omf/*/*-[a-z]*.omf
-%endif
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/22x22/
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/22x22/apps/
+%{_datadir}/icons/hicolor/22x22/apps/*
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/24x24/
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/24x24/apps/
+%{_datadir}/icons/hicolor/24x24/apps/*
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/48x48/
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/48x48/apps/
+%{_datadir}/icons/hicolor/48x48/apps/*
 
 %changelog
-* Mon Oct 29 2007 - trisk@acm.jhu.edu
-- Bump to 0.6.0
-* Sat Sep 08 2007 - trisk@acm.jhu.edu
-- Correct rules, remove -root, fix Python library location
-* Fri Aug  14 2007 - erwann@sun.com
+* Tue Oct 30 2007 - trisk@acm.jhu.edu
 - Initial spec

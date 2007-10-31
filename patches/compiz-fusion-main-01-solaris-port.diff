@@ -1,34 +1,17 @@
-diff -rup compiz-fusion-plugins-main-0.5.2/configure.ac ../compiz-fusion-plugins-main-0.5.2/configure.ac
---- compiz-fusion-plugins-main-0.5.2/configure.ac	2007-08-12 22:00:33.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/configure.ac	2007-08-30 18:38:34.662339000 +0200
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/configure.ac compiz-fusion-plugins-main-0.6.0/configure.ac
+--- compiz-fusion-plugins-main-0.6.0.orig/configure.ac	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/configure.ac	2007-10-31 15:36:32.633908593 -0400
 @@ -1,6 +1,6 @@
  AC_PREREQ(2.57)
  
 -AC_INIT([compiz-fusion-plugins-main],esyscmd(. ./VERSION;echo -n $VERSION), [maniac@opencompositing.org])
-+AC_INIT([compiz-fusion-plugins-main],0.5.2, [maniac@opencompositing.org])
++AC_INIT([compiz-fusion-plugins-main],esyscmd(. ./VERSION;echo $VERSION | tr -d "\n"), [maniac@opencompositing.org])
  
  AC_DEFINE_UNQUOTED(VERSION,"$VERSION",[Version])
  
-@@ -177,6 +177,16 @@ fi
- 
- AM_GCONF_SOURCE_2
- 
-+compiling_on_solaris=no
-+case "$host" in
-+        *-*-solaris*)
-+	  AC_MSG_CHECKING(if compiling on Solaris)
-+	  compiling_on_solaris=yes
-+	  AC_MSG_RESULT($compiling_on_solaris)
-+	  AC_DEFINE(SOLARIS, 1, [Compiling on Solaris])
-+	;;
-+esac
-+
- 
- AM_CONDITIONAL(USE_SCHEMAS, test "x$use_schemas" = "xyes")
- if test "$use_schemas" = yes; then
-diff -rup compiz-fusion-plugins-main-0.5.2/metadata/animation.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/animation.xml.in
---- compiz-fusion-plugins-main-0.5.2/metadata/animation.xml.in	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/metadata/animation.xml.in	2007-08-30 18:40:10.254918000 +0200
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/metadata/animation.xml.in compiz-fusion-plugins-main-0.6.0/metadata/animation.xml.in
+--- compiz-fusion-plugins-main-0.6.0.orig/metadata/animation.xml.in	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/metadata/animation.xml.in	2007-10-31 15:36:32.634932985 -0400
 @@ -856,7 +856,7 @@
  	    <min>0</min>
  	    <max>3</max>
@@ -38,10 +21,10 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/animation.xml.in ../compiz-f
  	    </default>
  	    <desc>
  	      <value>0</value>
-diff -rup compiz-fusion-plugins-main-0.5.2/metadata/colorfilter.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/colorfilter.xml.in
---- compiz-fusion-plugins-main-0.5.2/metadata/colorfilter.xml.in	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/metadata/colorfilter.xml.in	2007-08-30 18:38:34.662950000 +0200
-@@ -10,7 +10,7 @@
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/metadata/colorfilter.xml.in compiz-fusion-plugins-main-0.6.0/metadata/colorfilter.xml.in
+--- compiz-fusion-plugins-main-0.6.0.orig/metadata/colorfilter.xml.in	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/metadata/colorfilter.xml.in	2007-10-31 15:36:32.635930289 -0400
+@@ -15,7 +15,7 @@
          <_long>Toggle filtering for currently focused window.</_long>
          <allowed key="true"/>
          <default>
@@ -50,7 +33,7 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/colorfilter.xml.in ../compiz
          </default>
        </option>
        <option name="toggle_screen" type="action">
-@@ -18,7 +18,7 @@
+@@ -23,7 +23,7 @@
          <_long>Toggle filtering for every window on the screen.</_long>
          <allowed key="true"/>
          <default>
@@ -59,7 +42,7 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/colorfilter.xml.in ../compiz
          </default>
        </option>
        <option name="switch_filter" type="action">
-@@ -26,7 +26,7 @@
+@@ -31,7 +31,7 @@
          <_long>Select filter to use from filters list : either apply all filters or only one specific filter (triggering this action switches filters one by one and eventually comes back to the "all filters" mode).</_long>
          <allowed key="true"/>
          <default>
@@ -68,10 +51,10 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/colorfilter.xml.in ../compiz
          </default>
        </option>
      </display>
-diff -rup compiz-fusion-plugins-main-0.5.2/metadata/expo.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/expo.xml.in
---- compiz-fusion-plugins-main-0.5.2/metadata/expo.xml.in	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/metadata/expo.xml.in	2007-08-30 18:38:34.663481000 +0200
-@@ -18,7 +18,7 @@
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/metadata/expo.xml.in compiz-fusion-plugins-main-0.6.0/metadata/expo.xml.in
+--- compiz-fusion-plugins-main-0.6.0.orig/metadata/expo.xml.in	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/metadata/expo.xml.in	2007-10-31 15:36:32.636857460 -0400
+@@ -19,7 +19,7 @@
  					<_long>Engage wall expo mode</_long>
  					<allowed key="true" edge="true"/>
  					<default>
@@ -80,9 +63,9 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/expo.xml.in ../compiz-fusion
  						<edges top_left="true"/>
  					</default>
  				</option>
-diff -rup compiz-fusion-plugins-main-0.5.2/metadata/ezoom.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/ezoom.xml.in
---- compiz-fusion-plugins-main-0.5.2/metadata/ezoom.xml.in	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/metadata/ezoom.xml.in	2007-08-30 18:38:34.663870000 +0200
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/metadata/ezoom.xml.in compiz-fusion-plugins-main-0.6.0/metadata/ezoom.xml.in
+--- compiz-fusion-plugins-main-0.6.0.orig/metadata/ezoom.xml.in	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/metadata/ezoom.xml.in	2007-10-31 15:36:32.638991185 -0400
 @@ -17,7 +17,7 @@
  		    <_long>Zoom In</_long>
  		    <allowed key="true" button="true"/>
@@ -173,10 +156,10 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/ezoom.xml.in ../compiz-fusio
  		    </default>
  		</option>
  	    </group>
-diff -rup compiz-fusion-plugins-main-0.5.2/metadata/neg.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/neg.xml.in
---- compiz-fusion-plugins-main-0.5.2/metadata/neg.xml.in	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/metadata/neg.xml.in	2007-08-30 18:38:34.664133000 +0200
-@@ -10,7 +10,7 @@
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/metadata/neg.xml.in compiz-fusion-plugins-main-0.6.0/metadata/neg.xml.in
+--- compiz-fusion-plugins-main-0.6.0.orig/metadata/neg.xml.in	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/metadata/neg.xml.in	2007-10-31 15:36:32.639769460 -0400
+@@ -15,7 +15,7 @@
  				<_long>Toggle active window negative</_long>
  				<allowed key="true"/>
  				<default>
@@ -185,7 +168,7 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/neg.xml.in ../compiz-fusion-
  				</default>
  			</option>
  			<option name="screen_toggle" type="action">
-@@ -18,7 +18,7 @@
+@@ -23,7 +23,7 @@
  				<_long>Toggle screen negative</_long>
  				<allowed key="true"/>
  				<default>
@@ -194,9 +177,9 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/neg.xml.in ../compiz-fusion-
  				</default>
  			</option>
  		</display>
-diff -rup compiz-fusion-plugins-main-0.5.2/metadata/opacify.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/opacify.xml.in
---- compiz-fusion-plugins-main-0.5.2/metadata/opacify.xml.in	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/metadata/opacify.xml.in	2007-08-30 18:38:34.664592000 +0200
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/metadata/opacify.xml.in compiz-fusion-plugins-main-0.6.0/metadata/opacify.xml.in
+--- compiz-fusion-plugins-main-0.6.0.orig/metadata/opacify.xml.in	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/metadata/opacify.xml.in	2007-10-31 15:36:32.640695654 -0400
 @@ -17,7 +17,7 @@
            <_long>Use this to enable/disable Opacify on the fly. Previously opacified windows will not be reset once you disable it like this.</_long>
            <allowed key="true"/>
@@ -206,9 +189,9 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/opacify.xml.in ../compiz-fus
            </default>
          </option>
        </group>
-diff -rup compiz-fusion-plugins-main-0.5.2/metadata/put.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/put.xml.in
---- compiz-fusion-plugins-main-0.5.2/metadata/put.xml.in	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/metadata/put.xml.in	2007-08-30 18:38:34.664995000 +0200
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/metadata/put.xml.in compiz-fusion-plugins-main-0.6.0/metadata/put.xml.in
+--- compiz-fusion-plugins-main-0.6.0.orig/metadata/put.xml.in	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/metadata/put.xml.in	2007-10-31 15:36:32.643160998 -0400
 @@ -154,7 +154,7 @@
  						<_long>Move window to the center</_long>
  						<allowed key="true" button="true"/>
@@ -308,9 +291,9 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/put.xml.in ../compiz-fusion-
  					</default>
  				</option>
  				<option name="put_exact" type="action">
-diff -rup compiz-fusion-plugins-main-0.5.2/metadata/ring.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/ring.xml.in
---- compiz-fusion-plugins-main-0.5.2/metadata/ring.xml.in	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/metadata/ring.xml.in	2007-08-30 18:38:34.665276000 +0200
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/metadata/ring.xml.in compiz-fusion-plugins-main-0.6.0/metadata/ring.xml.in
+--- compiz-fusion-plugins-main-0.6.0.orig/metadata/ring.xml.in	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/metadata/ring.xml.in	2007-10-31 15:36:32.644609018 -0400
 @@ -12,7 +12,7 @@
  					<_long>Show switcher if not visible and select next window.</_long>
  					<allowed key="true" button="true"/>
@@ -347,10 +330,10 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/ring.xml.in ../compiz-fusion
  					</default>
  				</option>
  				<option name="next_group" type="action">
-diff -rup compiz-fusion-plugins-main-0.5.2/metadata/shift.xml.in ../compiz-fusion-plugins-main-0.5.2/metadata/shift.xml.in
---- compiz-fusion-plugins-main-0.5.2/metadata/shift.xml.in	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/metadata/shift.xml.in	2007-08-30 18:38:34.665582000 +0200
-@@ -12,7 +12,7 @@
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/metadata/shift.xml.in compiz-fusion-plugins-main-0.6.0/metadata/shift.xml.in
+--- compiz-fusion-plugins-main-0.6.0.orig/metadata/shift.xml.in	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/metadata/shift.xml.in	2007-10-31 15:36:32.646239930 -0400
+@@ -17,7 +17,7 @@
  					<_long>Initiate switcher.</_long>
  					<allowed key="true" button="true" edge="true"/>
  					<default>
@@ -359,7 +342,7 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/shift.xml.in ../compiz-fusio
  					</default>
  				</option>
  				<option name="initiate_all" type="action">
-@@ -26,7 +26,7 @@
+@@ -31,7 +31,7 @@
  					<_long>Show switcher if not visible and select next window.</_long>
  					<allowed key="true" button="true"/>
  					<default>
@@ -368,7 +351,7 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/shift.xml.in ../compiz-fusio
  					</default>
  				</option>
  				<option name="prev" type="action">
-@@ -34,7 +34,7 @@
+@@ -39,7 +39,7 @@
  					<_long>Show switcher if not visible and select previous window.</_long>
  					<allowed key="true" button="true"/>
  					<default>
@@ -377,7 +360,7 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/shift.xml.in ../compiz-fusio
  					</default>
  				</option>
  				<option name="next_all" type="action">
-@@ -42,7 +42,7 @@
+@@ -47,7 +47,7 @@
  					<_long>Show switcher if not visible and select next window out of all windows.</_long>
  					<allowed key="true" button="true"/>
  					<default>
@@ -386,7 +369,7 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/shift.xml.in ../compiz-fusio
  					</default>
  				</option>
  				<option name="prev_all" type="action">
-@@ -50,7 +50,7 @@
+@@ -55,7 +55,7 @@
  					<_long>Show switcher if not visible and select previous window out of all windows.</_long>
  					<allowed key="true" button="true"/>
  					<default>
@@ -395,10 +378,19 @@ diff -rup compiz-fusion-plugins-main-0.5.2/metadata/shift.xml.in ../compiz-fusio
  					</default>
  				</option>
  				<option name="next_group" type="action">
-diff -rup compiz-fusion-plugins-main-0.5.2/src/animation/animation-internal.h ../compiz-fusion-plugins-main-0.5.2/src/animation/animation-internal.h
---- compiz-fusion-plugins-main-0.5.2/src/animation/animation-internal.h	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/src/animation/animation-internal.h	2007-08-30 18:38:34.666492000 +0200
-@@ -1027,27 +1027,27 @@ animGetOptVal(AnimScreen *as,
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/src/animation/animation-internal.h compiz-fusion-plugins-main-0.6.0/src/animation/animation-internal.h
+--- compiz-fusion-plugins-main-0.6.0.orig/src/animation/animation-internal.h	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/src/animation/animation-internal.h	2007-10-31 15:36:32.646954871 -0400
+@@ -848,7 +848,7 @@
+ 		  CompTransform *resultTransform,
+ 		  CompTransform *transform);
+ 
+-inline void
++void
+ resetToIdentity (CompTransform *transform);
+ 
+ /* airplane3d.c */
+@@ -1095,27 +1095,27 @@
  	      AnimWindow *aw,
  	      int optionId);
  
@@ -431,10 +423,22 @@ diff -rup compiz-fusion-plugins-main-0.5.2/src/animation/animation-internal.h ..
  animGetC(AnimScreen *as,
  	 AnimWindow *aw,
  	 int optionId);
-diff -rup compiz-fusion-plugins-main-0.5.2/src/animation/options.c ../compiz-fusion-plugins-main-0.5.2/src/animation/options.c
---- compiz-fusion-plugins-main-0.5.2/src/animation/options.c	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/src/animation/options.c	2007-08-30 18:38:34.666869000 +0200
-@@ -45,7 +45,7 @@ animGetOptVal(AnimScreen *as,
+diff -ur compiz-fusion-plugins-main-0.6.0.orig/src/animation/animation.c compiz-fusion-plugins-main-0.6.0/src/animation/animation.c
+--- compiz-fusion-plugins-main-0.6.0.orig/src/animation/animation.c	Mon Oct 15 13:43:43 2007
++++ compiz-fusion-plugins-main-0.6.0/src/animation/animation.c	Wed Oct 31 18:26:42 2007
+@@ -747,7 +747,7 @@
+     expandBoxWithBox (&aw->BB, &screenBox);
+ }
+ 
+-inline void
++void
+ resetToIdentity (CompTransform *transform)
+ {
+     memcpy (transform->m, identity, 16 * sizeof(float));
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/src/animation/options.c compiz-fusion-plugins-main-0.6.0/src/animation/options.c
+--- compiz-fusion-plugins-main-0.6.0.orig/src/animation/options.c	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/src/animation/options.c	2007-10-31 15:36:32.647428573 -0400
+@@ -45,7 +45,7 @@
      return &as->opt[optionId].value;
  }
  
@@ -443,7 +447,7 @@ diff -rup compiz-fusion-plugins-main-0.5.2/src/animation/options.c ../compiz-fus
  animGetB(AnimScreen *as,
  	 AnimWindow *aw,
  	 int optionId)
-@@ -53,7 +53,7 @@ animGetB(AnimScreen *as,
+@@ -53,7 +53,7 @@
      return animGetOptVal(as, aw, optionId)->b;
  }
  
@@ -452,7 +456,7 @@ diff -rup compiz-fusion-plugins-main-0.5.2/src/animation/options.c ../compiz-fus
  animGetI(AnimScreen *as,
  	 AnimWindow *aw,
  	 int optionId)
-@@ -61,7 +61,7 @@ animGetI(AnimScreen *as,
+@@ -61,7 +61,7 @@
      return animGetOptVal(as, aw, optionId)->i;
  }
  
@@ -461,7 +465,7 @@ diff -rup compiz-fusion-plugins-main-0.5.2/src/animation/options.c ../compiz-fus
  animGetF(AnimScreen *as,
  	 AnimWindow *aw,
  	 int optionId)
-@@ -69,7 +69,7 @@ animGetF(AnimScreen *as,
+@@ -69,7 +69,7 @@
      return animGetOptVal(as, aw, optionId)->f;
  }
  
@@ -470,7 +474,7 @@ diff -rup compiz-fusion-plugins-main-0.5.2/src/animation/options.c ../compiz-fus
  animGetS(AnimScreen *as,
  	 AnimWindow *aw,
  	 int optionId)
-@@ -77,7 +77,7 @@ animGetS(AnimScreen *as,
+@@ -77,7 +77,7 @@
      return animGetOptVal(as, aw, optionId)->s;
  }
  
@@ -479,273 +483,136 @@ diff -rup compiz-fusion-plugins-main-0.5.2/src/animation/options.c ../compiz-fus
  animGetC(AnimScreen *as,
  	 AnimWindow *aw,
  	 int optionId)
-diff -rup compiz-fusion-plugins-main-0.5.2/src/colorfilter/parser.c ../compiz-fusion-plugins-main-0.5.2/src/colorfilter/parser.c
---- compiz-fusion-plugins-main-0.5.2/src/colorfilter/parser.c	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/src/colorfilter/parser.c	2007-08-30 18:38:34.667206000 +0200
-@@ -29,6 +29,63 @@
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/src/colorfilter/parser.c compiz-fusion-plugins-main-0.6.0/src/colorfilter/parser.c
+--- compiz-fusion-plugins-main-0.6.0.orig/src/colorfilter/parser.c	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/src/colorfilter/parser.c	2007-10-31 15:36:32.647980919 -0400
+@@ -26,6 +26,10 @@
+ #include <string.h>
+ #include <stdio.h>
+ #include <ctype.h>
++#include <limits.h>
++#ifndef PATH_MAX
++#define PATH_MAX MAXPATHLEN
++#endif 
  
  #include <compiz.h>
  #include "parser.h"
-+#include "config.h"
-+
-+#ifdef SOLARIS
-+
-+#include <stdlib.h>
-+int asprintf(char **out, const char *fmt, ...)
-+{
-+    va_list ap;
-+    int ret_status = EOF;
-+    char dir_name[2001];
-+    char file_name[2000];
-+    FILE *fp = NULL;
-+    char *work = NULL;
-+
-+    va_start(ap, fmt);
-+
-+    /* Warning: tmpfile() does not work well on Windows (MinGW)
-+     *          if user does not have write access on the drive where 
-+     *          working dir is? */
-+#ifdef __MINGW32__
-+    /* file_name = G_tempfile(); */
-+    GetTempPath ( 2000, dir_name );
-+    GetTempFileName ( dir_name, "asprintf", 0, file_name );
-+    fp = fopen ( file_name, "w+" );
-+#else
-+    fp = tmpfile(); 
-+#endif /* __MINGW32__ */
-+
-+    if ( fp ) {
-+        int count;
-+
-+        count = vfprintf(fp, fmt, ap);
-+        if (count >= 0) {
-+            work = calloc(count + 1, sizeof(char));
-+            if (work != NULL) {
-+                rewind(fp);
-+                ret_status = fread(work, sizeof(char), count, fp);
-+                if (ret_status != count) {
-+                    ret_status = EOF;
-+                    free(work);
-+                    work = NULL;
-+                }
-+            }
-+        }
-+        fclose(fp);
-+#ifdef __MINGW32__
-+        unlink ( file_name );
-+#endif /* __MINGW32__ */
-+    }
-+    va_end(ap);
-+    *out = work;
-+
-+    return ret_status;
-+}
-+
-+
-+#endif
+@@ -119,18 +123,19 @@
+     fp = fopen (fname, "r");
  
- /* Internal prototypes ------------------------------------------------------ */
- 
-diff -rup compiz-fusion-plugins-main-0.5.2/src/jpeg/imgjpeg.c ../compiz-fusion-plugins-main-0.5.2/src/jpeg/imgjpeg.c
---- compiz-fusion-plugins-main-0.5.2/src/jpeg/imgjpeg.c	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/src/jpeg/imgjpeg.c	2007-08-30 18:38:34.667565000 +0200
-@@ -28,6 +28,7 @@
- #include <compiz.h>
- #include <jpeglib.h>
- #include "imgjpeg_options.h"
-+#include "config.h"
- 
- static int displayPrivateIndex;
- 
-@@ -213,6 +214,60 @@ writeJPEG (CompDisplay *d,
-     return TRUE;
- }
- 
-+#ifdef SOLARIS
-+
-+int asprintf(char **out, const char *fmt, ...)
-+{
-+    va_list ap;
-+    int ret_status = EOF;
-+    char dir_name[2001];
-+    char file_name[2000];
-+    FILE *fp = NULL;
-+    char *work = NULL;
-+
-+    va_start(ap, fmt);
-+
-+    /* Warning: tmpfile() does not work well on Windows (MinGW)
-+     *          if user does not have write access on the drive where 
-+     *          working dir is? */
-+#ifdef __MINGW32__
-+    /* file_name = G_tempfile(); */
-+    GetTempPath ( 2000, dir_name );
-+    GetTempFileName ( dir_name, "asprintf", 0, file_name );
-+    fp = fopen ( file_name, "w+" );
-+#else
-+    fp = tmpfile(); 
-+#endif /* __MINGW32__ */
-+
-+    if ( fp ) {
-+        int count;
-+
-+        count = vfprintf(fp, fmt, ap);
-+        if (count >= 0) {
-+            work = calloc(count + 1, sizeof(char));
-+            if (work != NULL) {
-+                rewind(fp);
-+                ret_status = fread(work, sizeof(char), count, fp);
-+                if (ret_status != count) {
-+                    ret_status = EOF;
-+                    free(work);
-+                    work = NULL;
-+                }
-+            }
-+        }
-+        fclose(fp);
-+#ifdef __MINGW32__
-+        unlink ( file_name );
-+#endif /* __MINGW32__ */
-+    }
-+    va_end(ap);
-+    *out = work;
-+
-+    return ret_status;
-+}
-+#endif
-+
-+
- /* Turns the path & name into a real, absolute path
-    No extensions jiggery-pokery here, as JPEGs can be
-    .jpg or .jpeg - or, indeed, whatever.
-diff -rup compiz-fusion-plugins-main-0.5.2/src/resizeinfo/resizeinfo.c ../compiz-fusion-plugins-main-0.5.2/src/resizeinfo/resizeinfo.c
---- compiz-fusion-plugins-main-0.5.2/src/resizeinfo/resizeinfo.c	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/src/resizeinfo/resizeinfo.c	2007-08-30 18:38:34.668154000 +0200
-@@ -15,6 +15,7 @@
- #include <pango/pangocairo.h>
- 
- #include "resizeinfo_options.h"
-+#include "config.h"
- 
- #define PI 3.1415926
- 
-@@ -113,6 +114,60 @@ setupCairoLayer (CompScreen *s,
- 	return;
+     /* If failed, try as user filter file (in ~/.compiz/filters) */
+-    if (!fp && home && strlen (home))
++    if (!fp && home && strlen (home) &&
++	(path = malloc (sizeof (char) * PATH_MAX)))
+     {
+-	asprintf (&path, "%s/.compiz/data/filters/%s", home, fname);
++	snprintf (path, PATH_MAX, "%s/.compiz/data/filters/%s", home, fname);
+ 	fp = fopen (path, "r");
+ 	free (path);
      }
+ 
+     /* If failed again, try as system wide data file 
+      * (in PREFIX/share/compiz/filters) */
+-    if (!fp)
++    if (!fp && (path = malloc (sizeof (char) * PATH_MAX)))
+     {
+-	asprintf (&path, "%s/filters/%s", DATADIR, fname);
++	snprintf (path, PATH_MAX, "%s/filters/%s", DATADIR, fname);
+ 	fp = fopen (path, "r");
+ 	free (path);
+     }
+@@ -426,7 +431,9 @@
+ 	{
+ 	    /* Data op : just copy paste the whole instruction plus a ";" */
+ 	    case DataOp:
+-		asprintf (&arg1, "%s;", current);
++		length = strlen (current);
++		arg1 = malloc (sizeof (char) * (length + 2));
++		snprintf (arg1, length + 2, "%s;", current);
+ 		addDataOpToFunctionData (data, arg1);
+ 		free (arg1);
+ 		break;
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/src/jpeg/imgjpeg.c compiz-fusion-plugins-main-0.6.0/src/jpeg/imgjpeg.c
+--- compiz-fusion-plugins-main-0.6.0.orig/src/jpeg/imgjpeg.c	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/src/jpeg/imgjpeg.c	2007-10-31 15:36:32.648433586 -0400
+@@ -25,6 +25,10 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <setjmp.h>
++#include <limits.h>
++#ifndef PATH_MAX
++#define PATH_MAX MAXPATHLEN
++#endif 
+ 
+ #include <compiz.h>
+ 
+@@ -267,14 +271,17 @@
+ createFilename (const char *path,
+ 		const char *name)
+ {
+-    char *filename = NULL;
++    char *filename = malloc (sizeof (char) * PATH_MAX);
++
++    if (!filename)
++	return NULL;
+ 
+     if (path && !name)
+-	asprintf (&filename, "%s", path);
++	snprintf (filename, PATH_MAX, "%s", path);
+     else if (!path && name)
+-	asprintf (&filename, "%s", name);
++	snprintf (filename, PATH_MAX, "%s", name);
+     else
+-	asprintf (&filename, "%s/%s", path, name);
++	snprintf (filename, PATH_MAX, "%s/%s", path, name);
+ 
+     return filename;
  }
-+#ifdef SOLARIS
-+
-+int asprintf(char **out, const char *fmt, ...)
-+{
-+    va_list ap;
-+    int ret_status = EOF;
-+    char dir_name[2001];
-+    char file_name[2000];
-+    FILE *fp = NULL;
-+    char *work = NULL;
-+
-+    va_start(ap, fmt);
-+
-+    /* Warning: tmpfile() does not work well on Windows (MinGW)
-+     *          if user does not have write access on the drive where 
-+     *          working dir is? */
-+#ifdef __MINGW32__
-+    /* file_name = G_tempfile(); */
-+    GetTempPath ( 2000, dir_name );
-+    GetTempFileName ( dir_name, "asprintf", 0, file_name );
-+    fp = fopen ( file_name, "w+" );
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/src/resizeinfo/resizeinfo.c compiz-fusion-plugins-main-0.6.0/src/resizeinfo/resizeinfo.c
+--- compiz-fusion-plugins-main-0.6.0.orig/src/resizeinfo/resizeinfo.c	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/src/resizeinfo/resizeinfo.c	2007-10-31 15:36:32.648955940 -0400
+@@ -125,7 +125,7 @@
+     int                  widthInc, heightInc;
+     int                  width, height, xv, yv;
+     unsigned short       *color;
+-    char                 *info;
++    char                 info[256];
+     cairo_t              *cr;
+     PangoLayout          *layout;
+     PangoFontDescription *font;
+@@ -157,7 +157,7 @@
+     cairo_restore (cr);
+     cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+ 
+-    asprintf (&info, "%d x %d", xv, yv);
++    snprintf (info, 256, "%d x %d", xv, yv);
+  
+     font = pango_font_description_new ();
+     layout = pango_cairo_create_layout (is->textLayer.cr);
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/src/snap/snap.c compiz-fusion-plugins-main-0.6.0/src/snap/snap.c
+--- compiz-fusion-plugins-main-0.6.0.orig/src/snap/snap.c	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/src/snap/snap.c	2007-10-31 15:36:32.649582546 -0400
+@@ -304,7 +304,11 @@
+  * snapping to screen edges, it's considered a snap-window.
+  */
+ 
++#ifdef _GNUC__
+ #define UNLIKELY(x) __builtin_expect(!!(x),0)
 +#else
-+    fp = tmpfile(); 
-+#endif /* __MINGW32__ */
-+
-+    if ( fp ) {
-+        int count;
-+
-+        count = vfprintf(fp, fmt, ap);
-+        if (count >= 0) {
-+            work = calloc(count + 1, sizeof(char));
-+            if (work != NULL) {
-+                rewind(fp);
-+                ret_status = fread(work, sizeof(char), count, fp);
-+                if (ret_status != count) {
-+                    ret_status = EOF;
-+                    free(work);
-+                    work = NULL;
-+                }
-+            }
-+        }
-+        fclose(fp);
-+#ifdef __MINGW32__
-+        unlink ( file_name );
-+#endif /* __MINGW32__ */
-+    }
-+    va_end(ap);
-+    *out = work;
-+
-+    return ret_status;
-+}
-+
-+
++#define UNLIKELY(x) (x)
 +#endif
  
- /* Draw the window "size" derived from the window hints.
-    We calculate width or height - base_width or base_height and divide
-diff -rup compiz-fusion-plugins-main-0.5.2/src/snap/snap.c ../compiz-fusion-plugins-main-0.5.2/src/snap/snap.c
---- compiz-fusion-plugins-main-0.5.2/src/snap/snap.c	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/src/snap/snap.c	2007-08-30 18:38:34.668960000 +0200
-@@ -35,6 +35,7 @@
- #include <compiz.h>
- 
- #include "snap_options.h"
-+#include "config.h"
- 
- /*
-  * The neat window coordinates macros
-@@ -310,7 +311,11 @@ static inline Bool isSnapWindow(CompWind
+ static inline Bool isSnapWindow(CompWindow * w)
  {
- 	//SNAP_SCREEN(w->screen);
- 	
-+#ifdef SOLARIS
-+	if (!w)
-+#else
- 	if (UNLIKELY(!w))
-+#endif	  
- 		return FALSE;
- 	if (w->invisible || w->hidden || w->minimized)
- 		return FALSE;
-diff -rup compiz-fusion-plugins-main-0.5.2/src/text/text.c ../compiz-fusion-plugins-main-0.5.2/src/text/text.c
---- compiz-fusion-plugins-main-0.5.2/src/text/text.c	2007-08-12 21:51:59.000000000 +0200
-+++ ../compiz-fusion-plugins-main-0.5.2/src/text/text.c	2007-08-30 18:38:34.669314000 +0200
-@@ -32,6 +32,7 @@
+diff -urN compiz-fusion-plugins-main-0.6.0.orig/src/vpswitch/vpswitch.c compiz-fusion-plugins-main-0.6.0/src/vpswitch/vpswitch.c
+--- compiz-fusion-plugins-main-0.6.0.orig/src/vpswitch/vpswitch.c	2007-10-15 13:43:43.000000000 -0400
++++ compiz-fusion-plugins-main-0.6.0/src/vpswitch/vpswitch.c	2007-10-31 15:37:28.949386675 -0400
+@@ -28,7 +28,7 @@
  
  #include <compiz.h>
- #include "text.h"
-+#include "config.h"
+ #include <string.h>
+-#include <X11/keysymdef.h>
++#include <X11/keysym.h>
+ #include "vpswitch_options.h"
  
  static int displayPrivateIndex;
- 
-@@ -48,6 +49,24 @@ typedef struct _TextDisplay
- #define TEXT_DISPLAY(d)			 \
-     TextDisplay *td = GET_TEXT_DISPLAY (d)
- 
-+#ifdef SOLARIS
-+#include <string.h>
-+#include <stdlib.h>
-+
-+char *
-+strndup (char const *s, size_t n)
-+{
-+  size_t len = strnlen (s, n);
-+  char *new = malloc (len + 1);
-+
-+  if (new == NULL)
-+    return NULL;
-+
-+  new[len] = '\0';
-+  return memcpy (new, s, len);
-+}
-+#endif
-+
- static char*
- textGetUtf8Property (CompDisplay *d,
- 		     Window      id,

@@ -15,7 +15,7 @@
 
 Name:                    SFEcompiz-bcop
 Summary:                 beryl compiz XML option parser
-Version:                 0.5.2
+Version:                 0.6.0
 Source:			 http://releases.compiz-fusion.org/%{version}/%{src_name}-%{version}.tar.bz2
 Patch1:			 compiz-bcop-01-solaris-port.pc
 SUNW_BaseDir:            %{_basedir}
@@ -72,6 +72,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
+* Mon Oct 29 2007 - trisk@acm.jhu.edu
+- Bump to 0.6.0
 * Sat Sep 08 2007 - trisk@acm.jhu.edu
 - Change XSLT for plugins
 * Fri Aug 31 2007 - trisk@acm.jhu.edu

@@ -1,151 +1,224 @@
-diff -rup compizconfig-backend-gconf-0.5.2/configure.ac ../compizconfig-backend-gconf-0.5.2/configure.ac
---- compizconfig-backend-gconf-0.5.2/configure.ac	2007-08-14 11:16:55.000000000 +0200
-+++ ../compizconfig-backend-gconf-0.5.2/configure.ac	2007-08-24 17:47:48.571463000 +0200
+Binary files compizconfig-backend-gconf-0.6.0.orig/.configure.ac.swp and compizconfig-backend-gconf-0.6.0/.configure.ac.swp differ
+diff -ruN compizconfig-backend-gconf-0.6.0.orig/configure.ac compizconfig-backend-gconf-0.6.0/configure.ac
+--- compizconfig-backend-gconf-0.6.0.orig/configure.ac	2007-10-15 13:09:51.000000000 -0400
++++ compizconfig-backend-gconf-0.6.0/configure.ac	2007-10-31 00:31:23.181190767 -0400
 @@ -1,6 +1,6 @@
  AC_PREREQ(2.57)
  
 -AC_INIT([compizconfig-backend-gconf],esyscmd(. ./VERSION;echo -n $VERSION), [maniac@opencompositing.org])
-+AC_INIT([compizconfig-backend-gconf],0.5.2, [maniac@opencompositing.org])
++AC_INIT([compizconfig-backend-gconf],esyscmd(. ./VERSION;echo $VERSION | tr -d "\n"), [maniac@opencompositing.org])
  
  AC_DEFINE_UNQUOTED(VERSION,"$VERSION",[Version])
  
-@@ -67,6 +67,18 @@ if test "x$GCC" = "xyes"; then
-   fi
- fi
+@@ -8,7 +8,7 @@
  
-+compiling_on_solaris=no
-+case "$host" in
-+        *-*-solaris*)
-+	  AC_MSG_CHECKING(if compiling on Solaris)
-+	  compiling_on_solaris=yes
-+	  AC_MSG_RESULT($compiling_on_solaris)
-+	  AC_DEFINE(SOLARIS, 1, [Compiling on Solaris])
-+	;;
-+esac
-+
-+
-+
- AC_C_BIGENDIAN
+ AM_INIT_AUTOMAKE([1.9 dist-bzip2])
  
- #LIBBERYLDECORATION_REQUIRES="xrender >= 0.8.4"
-diff -rup compizconfig-backend-gconf-0.5.2/settings-backend/gconf.c ../compizconfig-backend-gconf-0.5.2/settings-backend/gconf.c
---- compizconfig-backend-gconf-0.5.2/settings-backend/gconf.c	2007-08-14 11:26:13.000000000 +0200
-+++ ../compizconfig-backend-gconf-0.5.2/settings-backend/gconf.c	2007-08-24 17:56:27.978748000 +0200
-@@ -324,6 +324,117 @@ struct _SpecialOption {
+-#AC_CONFIG_HEADER([config.h])
++AC_CONFIG_HEADER([config.h])
+ AM_MAINTAINER_MODE
  
- #define N_SOPTIONS (sizeof (specialOptions) / sizeof (struct _SpecialOption))
+ AC_ISC_POSIX
+@@ -17,6 +17,7 @@
+ AC_PROG_LIBTOOL
+ AC_HEADER_STDC
+ AC_CHECK_HEADERS([stdlib.h sys/time.h unistd.h])
++AC_CHECK_FUNCS(va_copy __va_copy vasprintf asprintf strsep)
  
-+
-+#ifdef SOLARIS
-+#include <ctype.h>
-+#include <stdlib.h>
-+#include <string.h>
-+char *
-+strndup (s, n)
-+     const char *s;
-+     size_t n;
-+{
-+  size_t len = strnlen (s, n);
-+  char *new = malloc (len + 1);
-+
-+  if (new == NULL)
-+    return NULL;
-+
-+  new[len] = '\0';
-+  return memcpy (new, s, len);
-+}
-+int asprintf(char **out, const char *fmt, ...)
-+{
-+    va_list ap;
-+    int ret_status = EOF;
-+    char dir_name[2001];
-+    char file_name[2000];
-+    FILE *fp = NULL;
-+    char *work = NULL;
-+
-+    va_start(ap, fmt);
-+
-+    /* Warning: tmpfile() does not work well on Windows (MinGW)
-+     *          if user does not have write access on the drive where 
-+     *          working dir is? */
-+#ifdef __MINGW32__
-+    /* file_name = G_tempfile(); */
-+    GetTempPath ( 2000, dir_name );
-+    GetTempFileName ( dir_name, "asprintf", 0, file_name );
-+    fp = fopen ( file_name, "w+" );
-+#else
-+    fp = tmpfile(); 
-+#endif /* __MINGW32__ */
-+
-+    if ( fp ) {
-+        int count;
-+
-+        count = vfprintf(fp, fmt, ap);
-+        if (count >= 0) {
-+            work = calloc(count + 1, sizeof(char));
-+            if (work != NULL) {
-+                rewind(fp);
-+                ret_status = fread(work, sizeof(char), count, fp);
-+                if (ret_status != count) {
-+                    ret_status = EOF;
-+                    free(work);
-+                    work = NULL;
-+                }
-+            }
-+        }
-+        fclose(fp);
-+#ifdef __MINGW32__
-+        unlink ( file_name );
-+#endif /* __MINGW32__ */
-+    }
-+    va_end(ap);
-+    *out = work;
-+
-+    return ret_status;
-+}
-+
+ if test "x$GCC" = "xyes"; then
+   case " $CFLAGS " in
+diff -ruN compizconfig-backend-gconf-0.6.0.orig/settings-backend/compat.c compizconfig-backend-gconf-0.6.0/settings-backend/compat.c
+--- compizconfig-backend-gconf-0.6.0.orig/settings-backend/compat.c	1969-12-31 19:00:00.000000000 -0500
++++ compizconfig-backend-gconf-0.6.0/settings-backend/compat.c	2007-10-31 00:31:11.308340551 -0400
+@@ -0,0 +1,131 @@
 +/*
-+ * Get next token from string *stringp, where tokens are possibly-empty
-+ * strings separated by characters from delim.
++ * Copyright (c) 2007 Albert Lee <trisk@acm.jhu.edu>.
++ * 
++ * Copyright (c) 2004 Darren Tucker.
 + *
-+ * Writes NULs into the string at *stringp to end tokens.
-+ * delim need not remain constant from call to call.
-+ * On return, *stringp points past the last NUL written (if there might
-+ * be further tokens), or is NULL (if there are definitely no more tokens).
++ * Based originally on asprintf.c from OpenBSD:
++ * Copyright (c) 1997 Todd C. Miller <Todd.Miller@courtesan.com>
 + *
-+ * If *stringp is NULL, strsep returns NULL.
++ * Permission to use, copy, modify, and distribute this software for any
++ * purpose with or without fee is hereby granted, provided that the above
++ * copyright notice and this permission notice appear in all copies.
++ * 
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
++ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
++ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
++ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
 + */
-+char *
-+strsep(char ** stringp, const char *delim)
-+{
-+        char *s;
-+        const char *spanp;
-+        int c, sc;
-+        char *tok;
 +
-+        if ((s = *stringp) == NULL)
-+                return (NULL);
-+        for (tok = s;;) {
-+                c = *s++;
-+                spanp = delim;
-+                do {
-+                        if ((sc = *spanp++) == c) {
-+                                if (c == 0)
-+                                        s = NULL;
-+                                else
-+                                        s[-1] = 0;
-+                                *stringp = s;
-+                                return (tok);
-+                        }
-+                } while (sc != 0);
-+        }
-+        /* NOTREACHED */
-+}
++#include "config.h"
++#include "compat.h"
 +
++#ifndef HAVE_VASPRINTF
++#include <errno.h>
++#include <stdio.h>
++#include <stdarg.h>
++#include <stdlib.h>
++#include <limits.h>
 +
-+
++#ifndef VA_COPY
++# ifdef HAVE_VA_COPY
++#  define VA_COPY(dest, src) va_copy(dest, src)
++# else
++#  ifdef HAVE___VA_COPY
++#   define VA_COPY(dest, src) __va_copy(dest, src)
++#  else
++#   define VA_COPY(dest, src) (dest) = (src)
++#  endif
++# endif
 +#endif
 +
- static CCSSetting *
- findDisplaySettingForPlugin (CCSContext *context,
- 			     char       *plugin,
++#define INIT_SZ	128
++
++static int vasprintf(char **str, const char *fmt, va_list ap);
++
++static int vasprintf(char **str, const char *fmt, va_list ap)
++{
++	int ret = -1;
++	va_list ap2;
++	char *string, *newstr;
++	size_t len;
++
++	VA_COPY(ap2, ap);
++	if ((string = malloc(INIT_SZ)) == NULL)
++		goto fail;
++
++	ret = vsnprintf(string, INIT_SZ, fmt, ap2);
++	if (ret >= 0 && ret < INIT_SZ) { /* succeeded with initial alloc */
++		*str = string;
++	} else if (ret == INT_MAX) { /* shouldn't happen */
++		goto fail;
++	} else {	/* bigger than initial, realloc allowing for nul */
++		len = (size_t)ret + 1;
++		if ((newstr = realloc(string, len)) == NULL) {
++			free(string);
++			goto fail;
++		} else {
++			va_end(ap2);
++			VA_COPY(ap2, ap);
++			ret = vsnprintf(newstr, len, fmt, ap2);
++			if (ret >= 0 && (size_t)ret < len) {
++				*str = newstr;
++			} else { /* failed with realloc'ed string, give up */
++				free(newstr);
++				goto fail;
++			}
++		}
++	}
++	va_end(ap2);
++	return (ret);
++
++fail:
++	*str = NULL;
++	errno = ENOMEM;
++	va_end(ap2);
++	return (-1);
++}
++#endif
++
++#ifndef HAVE_ASPRINTF
++#include <stdio.h>
++#include <stdarg.h>
++#include <stdlib.h>
++
++int asprintf(char **str, const char *fmt, ...)
++{
++	va_list ap;
++	int ret;
++	
++	*str = NULL;
++	va_start(ap, fmt);
++	ret = vasprintf(str, fmt, ap);
++	va_end(ap);
++
++	return ret;
++}
++#endif
++
++#ifndef HAVE_STRSEP
++#include <string.h>
++    	
++char *strsep(char **stringp, const char *delim)
++{
++	char *s = *stringp;
++	char *e;
++
++	if (!s)
++		return NULL;
++
++	e = strpbrk(s, delim);
++	if (e)
++		*e++ = '\0';
++
++	*stringp = e;
++	return s;
++}
++#endif
++
+diff -ruN compizconfig-backend-gconf-0.6.0.orig/settings-backend/compat.h compizconfig-backend-gconf-0.6.0/settings-backend/compat.h
+--- compizconfig-backend-gconf-0.6.0.orig/settings-backend/compat.h	1969-12-31 19:00:00.000000000 -0500
++++ compizconfig-backend-gconf-0.6.0/settings-backend/compat.h	2007-10-31 00:31:11.308589690 -0400
+@@ -0,0 +1,31 @@
++/*
++ * Copyright (c) 2007 Albert Lee <trisk@acm.jhu.edu>.
++ * 
++ * Copyright (c) 2004 Darren Tucker.
++ *
++ * Based originally on asprintf.c from OpenBSD:
++ * Copyright (c) 1997 Todd C. Miller <Todd.Miller@courtesan.com>
++ *
++ * Permission to use, copy, modify, and distribute this software for any
++ * purpose with or without fee is hereby granted, provided that the above
++ * copyright notice and this permission notice appear in all copies.
++ * 
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
++ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
++ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
++ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
++ */
++
++#include "config.h"
++
++#ifndef HAVE_ASPRINTF
++int asprintf(char **str, const char *fmt, ...);
++#endif
++
++#ifndef HAVE_STRSEP
++char *strsep(char **stringp, const char *delim);
++#endif
+diff -ruN compizconfig-backend-gconf-0.6.0.orig/settings-backend/gconf.c compizconfig-backend-gconf-0.6.0/settings-backend/gconf.c
+--- compizconfig-backend-gconf-0.6.0.orig/settings-backend/gconf.c	2007-10-15 13:09:51.000000000 -0400
++++ compizconfig-backend-gconf-0.6.0/settings-backend/gconf.c	2007-10-31 00:32:02.819559463 -0400
+@@ -24,6 +24,9 @@
+  *
+  **/
+ 
++#include "config.h"
++#include "compat.h"
++
+ #define _GNU_SOURCE
+ #include <stdio.h>
+ #include <stdlib.h>
+diff -ruN compizconfig-backend-gconf-0.6.0.orig/settings-backend/Makefile.am compizconfig-backend-gconf-0.6.0/settings-backend/Makefile.am
+--- compizconfig-backend-gconf-0.6.0.orig/settings-backend/Makefile.am	2007-10-15 13:09:51.000000000 -0400
++++ compizconfig-backend-gconf-0.6.0/settings-backend/Makefile.am	2007-10-31 00:31:11.307980777 -0400
+@@ -6,7 +6,7 @@
+ 
+ libgconf_la_LDFLAGS = -module -avoid-version -no-undefined $(all_libraries)
+ libgconf_la_LIBADD = @CCS_LIBS@ @GCONF_LIBS@ @GLIB_LIBS@
+-libgconf_la_SOURCES = gconf.c
++libgconf_la_SOURCES = gconf.c compat.c
+ backenddir = $(libdir)/compizconfig/backends
+ 
+ METASOURCES = AUTO
