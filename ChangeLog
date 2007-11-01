@@ -1,3 +1,10 @@
+2007-11-01  Lin Ma  <Lin.Ma@Sun.COM>
+
+	* SUNWgamin.spec:
+	* base-specs/gamin.spec:
+	* patches/gamin-01-all.diff:
+	Moved the Gamin stuff to Vermillion trunk.
+
 2007-10-31  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEccsm.spec: Bump to 0.6.0
