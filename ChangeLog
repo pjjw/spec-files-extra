@@ -1,3 +1,11 @@
+2007-11-01  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEmugshot.spec: Add SUNWpcre Requires and BuildRequires.
+	* SFEcurl.spec: Bump to 2.17.1.
+	* SFEpcre.spec: Bump to 7.4 and fix source so you can download the
+	  code.  I know SUNWpcre is now in Nevada, but this might be useful
+	  for people using older versions of Solaris.
+
 2007-11-01  Lin Ma  <Lin.Ma@Sun.COM>
 
 	* SUNWgamin.spec:

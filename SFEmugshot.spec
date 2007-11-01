@@ -22,12 +22,14 @@ BuildRequires: SFEcurl-devel
 BuildRequires: SUNWdbus-devel
 BuildRequires: SUNWPython-devel
 BuildRequires: SUNWgnutls-devel
+BuildRequires: SUNWpcre
 Requires: SUNWPython
 Requires: SUNWgnutls
 Requires: SUNWgnome-libs
 Requires: SFEloudmouth
 Requires: SUNWdbus
 Requires: SFEcurl
+Requires: SUNWpcre
 
 %description
 Mugshot is an open project to create a live social experience around
@@ -146,6 +148,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/gconf/schemas/mugshot-uri-handler.schemas
 
 %changelog
+* Mon Oct 29 2007 - brian.cameron@sun.com
+- Add SFEpcre dependency.
 * Sun Oct 14 2007 - laca@sun.com
 - bump to 1.1.56
 - add patches for various build issues

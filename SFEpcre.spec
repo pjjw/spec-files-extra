@@ -7,7 +7,7 @@
 # Software specific variable definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %define src_name	pcre
-%define src_version	7.2
+%define src_version	7.4
 %define pkg_release	1
 
 # =========================================================================== 
@@ -25,7 +25,7 @@ Summary:      	PCRE - Perl Compatible Regular Expressions
 Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	BSD
-Source:         %{src_name}-%{version}.tar.gz
+Source:         http://easynews.dl.sourceforge.net/sourceforge/pcre/%{src_name}-%{version}.tar.gz
 Packager:     	Shivakumar GN
 BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
 
@@ -86,5 +86,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Oct 29 2007 - brian.cameron@sun.com
+- Bump to 7.4 and fix Source URL.
+
 * 2007.Aug.11 - <shivakumar dot gn at gmail dot com>
 - Initial spec.
