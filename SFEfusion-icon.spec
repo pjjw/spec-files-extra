@@ -50,26 +50,8 @@ mv $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/* \
 rmdir $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages
 
 %post
-( echo 'test -x /usr/bin/update-desktop-database || exit 0';
-  echo '/usr/bin/update-desktop-database'
-) | $BASEDIR/lib/postrun -b -u -c JDS_wait
-( echo 'test -x %{_bindir}/update-mime-database || exit 0';
-  echo '%{_bindir}/update-mime-database %{_datadir}/mime'
-) | $BASEDIR/lib/postrun -b -u -c JDS_wait
-( echo 'test -x /usr/bin/scrollkeeper-update || exit 0';
-  echo '/usr/bin/scrollkeeper-update'
-) | $BASEDIR/lib/postrun -b -u -c JDS
-
-%postun
-( echo 'test -x /usr/bin/update-desktop-database || exit 0';
-  echo '/usr/bin/update-desktop-database'
-) | $BASEDIR/lib/postrun -b -u -c JDS_wait
-( echo 'test -x %{_bindir}/update-mime-database || exit 0';
-  echo '%{_bindir}/update-mime-database %{_datadir}/mime'
-) | $BASEDIR/lib/postrun -b -u -c JDS_wait
-( echo 'test -x /usr/bin/scrollkeeper-update || exit 0';
-  echo '/usr/bin/scrollkeeper-update'
-) | $BASEDIR/lib/postrun -b -u -c JDS
+rm -f %{_datadir}/icons/hicolor/icon-theme.cache
+/usr/bin/gtk-update-icon-cache  %{_datadir}/icons/hicolor/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -99,5 +81,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/icons/hicolor/48x48/apps/*
 
 %changelog
+* Fru Nov 02 2007 - erwann@sun.com
+- clean up post install and added icon-cache update
 * Tue Oct 30 2007 - trisk@acm.jhu.edu
 - Initial spec

@@ -1,3 +1,9 @@
+2007-11-02 Erwann Chenede - <erwann.chenede@sun.com>
+
+	* SFEfusion-icon.spec: clean up and update hicolor icon-cache 
+	* patches/compiz-01-solaris-port.diff: clean up remove generated files
+	* SFEsexy-python.spec: fixed dir attributes
+
 2007-11-02  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEtracker.spec: Remove useless gnu staff from CFLAGS and LDFLAGS.
