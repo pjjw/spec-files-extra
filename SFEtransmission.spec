@@ -5,20 +5,18 @@
 %define source_name transmission
 
 Name:                    SFEtransmission
-Summary:                 Transmission - BitTorrent client
-Version:                 0.82
-Source:                  http://download.m0k.org/transmission/files/transmission-%{version}.tar.gz
+Summary:                 Transmission - GTK and console BitTorrent client
+Version:                 0.91
+Source:                  http://download.m0k.org/transmission/files/transmission-%{version}.tar.bz2
 URL:                     http://transmission.m0k.org/
-Patch1:                  transmission-01-solaris.diff
+Patch1:                  transmission-01-sunpro.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{source_name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SUNWgnome-base-libs
 BuildRequires: SUNWopenssl-include
-BuildRequires: SFElibevent
 Requires: SUNWgnome-base-libs
 Requires: SUNWopenssl-libraries
-Requires: SFElibevent
 
 %if %build_l10n
 %package l10n
@@ -29,9 +27,9 @@ Requires:        %{name}
 %endif
 
 %prep
-#%setup -q -n %{source_name}-%{version}
+%setup -q -n %{source_name}-%{version}
 # temporary workaround for missing parent dir in 0.82
-%setup -q -c -n %{name}
+#%setup -q -c -n %{name}
 %patch1 -p1
 
 %build
@@ -42,7 +40,7 @@ fi
 
 export CFLAGS="%optflags -mt -I/usr/sfw/include"
 export CXXFLAGS="%cxx_optflags -mt -I/usr/sfw/include"
-export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib -lm -lsocket -lnsl"
+export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib"
 
 ./configure --prefix=%{_prefix}   \
             --datadir=%{_datadir} \
@@ -55,12 +53,10 @@ make -j$CPUS
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 mkdir -p $RPM_BUILD_ROOT%{_mandir}
-mv $RPM_BUILD_ROOT%{_prefix}/man/* $RPM_BUILD_ROOT%{_mandir}
-rm -rf $RPM_BUILD_ROOT%{_prefix}/man
 
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/sfw/share/zsh
-mv $RPM_BUILD_ROOT%{_datadir}/zsh/* $RPM_BUILD_ROOT%{_prefix}/sfw/share/zsh 
-rm -rf $RPM_BUILD_ROOT%{_datadir}/zsh
+#mkdir -p $RPM_BUILD_ROOT%{_prefix}/sfw/share/zsh
+#mv $RPM_BUILD_ROOT%{_datadir}/zsh/* $RPM_BUILD_ROOT%{_prefix}/sfw/share/zsh 
+#rm -rf $RPM_BUILD_ROOT%{_datadir}/zsh
 
 %if %build_l10n
 %else
@@ -82,9 +78,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
-%dir %attr (0755, root, bin) %{_prefix}/sfw
-%dir %attr (0755, root, bin) %{_prefix}/sfw/share
-%{_prefix}/sfw/share/zsh
+#%dir %attr (0755, root, bin) %{_prefix}/sfw
+#%dir %attr (0755, root, bin) %{_prefix}/sfw/share
+#%{_prefix}/sfw/share/zsh
+#%{_prefix}/share/zsh
 
 %if %build_l10n
 %files l10n
@@ -95,6 +92,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Nov 01 2007 - trisk@acm.jhu.edu
+- Bump to 0.91, replace patch1
 * Mon Sep 10 2007 - trisk@acm.jhu.edu
 - Bump to 0.82
 * Thu Sep 6 2007 - Petr Sobotka sobotkap@centum.cz

@@ -1,3 +1,14 @@
+2007-11-01  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEemerald-themes.spec: Fix permissions
+	* SFEemerald.spec: Fix file contents, remove -root
+	* SFEtransmission.spec: Bump to 0.91, replace patch1
+	* patches/compiz-extra-01-solaris-port.diff: Drop unused patch
+	* patches/emerald-01-solaris-port.diff: Update support code
+	* patches/libcompizconfig-01-solaris-port.diff: Minor update
+	* patches/transmission-01-solaris.diff: Drop unused patch
+	* patches/transmission-01-sunpro.diff: Studio compatibility
+
 2007-11-01  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEmugshot.spec: Add SUNWpcre Requires and BuildRequires.

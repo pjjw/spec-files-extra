@@ -1,37 +1,26 @@
-diff -rup tmp/emerald-0.5.2/configure.ac emerald-0.5.2/configure.ac
---- tmp/emerald-0.5.2/configure.ac	2007-08-12 23:00:01.000000000 +0200
-+++ emerald-0.5.2/configure.ac	2007-09-06 11:43:04.894494000 +0200
+diff -urN emerald-0.5.2.orig/configure.ac emerald-0.5.2/configure.ac
+--- emerald-0.5.2.orig/configure.ac	2007-08-12 17:00:01.000000000 -0400
++++ emerald-0.5.2/configure.ac	2007-11-01 20:58:11.397594288 -0400
 @@ -1,6 +1,6 @@
  AC_PREREQ(2.57)
  
 -AC_INIT([emerald],esyscmd(. ./VERSION;echo -n $VERSION), [livinglatexkali@gmail.com])
-+AC_INIT([emerald],0.5.2, [livinglatexkali@gmail.com])
++AC_INIT([emerald],esyscmd(. ./VERSION;echo $VERSION | tr -d "\n"), [livinglatexkali@gmail.com])
  
  AC_DEFINE_UNQUOTED(VERSION,"$VERSION",[Version])
  
-@@ -76,6 +76,18 @@ AC_PATH_PROG(UPDATE_MIME_DATABASE, updat
- AC_PATH_PROG(UPDATE_DESKTOP_DATABASE, update-desktop-database)
- AC_PATH_PROG(UPDATE_ICON_CACHE, gtk-update-icon-cache)
+@@ -19,6 +19,7 @@
+ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package.])
+ AC_SUBST(GETTEXT_PACKAGE)
+ AC_CHECK_HEADERS([stdlib.h sys/time.h unistd.h])
++AC_CHECK_FUNCS(strverscmp)
  
-+compiling_on_solaris=no
-+case "$host" in
-+        *-*-solaris*)
-+	  AC_MSG_CHECKING(if compiling on Solaris)
-+	  compiling_on_solaris=yes
-+	  AC_MSG_RESULT($compiling_on_solaris)
-+	  AC_DEFINE(SOLARIS, 1, [Compiling on Solaris])
-+	;;
-+esac
-+
-+
-+
- AC_OUTPUT([
- libengine/emeraldengine.pc
- Makefile
-diff -rup tmp/emerald-0.5.2/engines/line.c emerald-0.5.2/engines/line.c
---- tmp/emerald-0.5.2/engines/line.c	2007-08-12 23:00:01.000000000 +0200
-+++ emerald-0.5.2/engines/line.c	2007-09-06 11:18:14.235338000 +0200
-@@ -45,6 +45,7 @@ typedef struct _private_fs
+ enginesdir=$libdir/emerald/engines
+ AC_SUBST(enginesdir)
+diff -urN emerald-0.5.2.orig/engines/line.c emerald-0.5.2/engines/line.c
+--- emerald-0.5.2.orig/engines/line.c	2007-08-12 17:00:01.000000000 -0400
++++ emerald-0.5.2/engines/line.c	2007-11-01 20:44:46.895838033 -0400
+@@ -45,6 +45,7 @@
   */
  typedef struct _private_ws
  {
@@ -39,102 +28,139 @@ diff -rup tmp/emerald-0.5.2/engines/line.c emerald-0.5.2/engines/line.c
  } private_ws;
  
  void get_meta_info (EngineMetaInfo * emi)
-diff -rup tmp/emerald-0.5.2/themer/main.c emerald-0.5.2/themer/main.c
---- tmp/emerald-0.5.2/themer/main.c	2007-08-12 23:00:01.000000000 +0200
-+++ emerald-0.5.2/themer/main.c	2007-09-06 11:44:31.791672000 +0200
-@@ -38,6 +38,94 @@ GtkWidget * ExportButton;
+diff -urN emerald-0.5.2.orig/themer/compat.c emerald-0.5.2/themer/compat.c
+--- emerald-0.5.2.orig/themer/compat.c	1969-12-31 19:00:00.000000000 -0500
++++ emerald-0.5.2/themer/compat.c	2007-11-01 20:56:51.991921457 -0400
+@@ -0,0 +1,74 @@
++/* Copyright (c) 2007 Albert Lee <trisk@acm.jhu.edu>.
++ * Copyright (c) 2006 Ulrich Spoerlein <q@galgenberg.net>.
++ * 
++ * Permission is hereby granted, free of charge, to any person
++ * obtaining a copy of this software and associated documentation
++ * files (the "Software"), to deal in the Software without
++ * restriction, including without limitation the rights to use,
++ * copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following
++ * conditions:
++ * 
++ * The above copyright notice and this permission notice shall be
++ * included in all copies or substantial portions of the Software.
++ * 
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
++ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
++ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
++ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
++ */
++
++#include "config.h"
++#include "compat.h"
++
++#ifndef HAVE_STRVERSCMP
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++
++int strverscmp(const char *s1, const char *s2)
++{
++	static const char *digits = "0123456789";
++	char *t1, *t2;
++	int ret;
++	long n1, n2;
++	size_t p1, p2;
++
++	p1 = strcspn(s1, digits);
++	p2 = strcspn(s2, digits);
++	while (p1 == p2 && s1[p1] != '\0' && s2[p2] != '\0') {
++		/* Different prefix */
++		if ((ret = strncmp(s1, s2, p1)) != 0)
++			return ret;
++
++		s1 += p1;
++		s2 += p2;
++		n1 = strtol(s1, &t1, 10);
++		n2 = strtol(s2, &t2, 10);
++
++		if (n1 < n2)
++			return -1;
++		else if (n1 > n2)
++			return 1;
++
++		/* One number is "shorter", e.g., "07" vs "007" */
++		if (t1-s1 < t2-s2)
++			return 1;
++		else if (t1-s1 > t2-s2)
++			return -1;
++
++		/* Numbers are equal or not present, try with next ones. */
++		s1 = t1;
++		s2 = t2;
++		p1 = strcspn(s1, digits);
++		p2 = strcspn(s2, digits);
++	}
++
++	return strcmp(s1, s2);
++}
++#endif
+diff -urN emerald-0.5.2.orig/themer/compat.h emerald-0.5.2/themer/compat.h
+--- emerald-0.5.2.orig/themer/compat.h	1969-12-31 19:00:00.000000000 -0500
++++ emerald-0.5.2/themer/compat.h	2007-11-01 20:57:01.548400361 -0400
+@@ -0,0 +1,33 @@
++/* Copyright (c) 2007 Albert Lee <trisk@acm.jhu.edu>.
++ * Copyright (c) 2006 Ulrich Spoerlein <q@galgenberg.net>.
++ * 
++ * Permission is hereby granted, free of charge, to any person
++ * obtaining a copy of this software and associated documentation
++ * files (the "Software"), to deal in the Software without
++ * restriction, including without limitation the rights to use,
++ * copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following
++ * conditions:
++ * 
++ * The above copyright notice and this permission notice shall be
++ * included in all copies or substantial portions of the Software.
++ * 
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
++ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
++ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
++ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
++ */
++
++#ifndef _COMPAT_H
++#include "config.h"
++
++#ifndef HAVE_STRVERSCMP
++int strverscmp(const char *s1, const char *s2);
++#endif
++
++#endif /* _COMPAT_H */
+diff -urN emerald-0.5.2.orig/themer/main.c emerald-0.5.2/themer/main.c
+--- emerald-0.5.2.orig/themer/main.c	2007-08-12 17:00:01.000000000 -0400
++++ emerald-0.5.2/themer/main.c	2007-11-01 20:44:46.897672231 -0400
+@@ -38,6 +38,7 @@
  GtkWidget * QuitButton;
  gchar * svnpath;
  gchar * themecache;
-+#ifdef SOLARIS
-+#include <ctype.h>
-+/* states: S_N: normal, S_I: comparing integral part, S_F: comparing
-+           fractional parts, S_Z: idem but with leading Zeroes only */
-+#define  S_N    0x0
-+#define  S_I    0x4
-+#define  S_F    0x8
-+#define  S_Z    0xC
-+
-+/* result_type: CMP: return diff; LEN: compare using len_diff/diff */
-+#define  CMP    2
-+#define  LEN    3
-+
-+
-+/* Compare S1 and S2 as strings holding indices/version numbers,
-+   returning less than, equal to or greater than zero if S1 is less than,
-+   equal to or greater than S2 (for more info, see the Glibc texinfo doc).  */
-+
-+int
-+strverscmp (const char *s1, const char *s2)
-+{
-+  const unsigned char *p1 = (const unsigned char *) s1;
-+  const unsigned char *p2 = (const unsigned char *) s2;
-+  unsigned char c1, c2;
-+  int state;
-+  int diff;
-+
-+  /* Symbol(s)    0       [1-9]   others  (padding)
-+     Transition   (10) 0  (01) d  (00) x  (11) -   */
-+  static const unsigned int next_state[] =
-+    {
-+      /* state    x    d    0    - */
-+      /* S_N */  S_N, S_I, S_Z, S_N,
-+      /* S_I */  S_N, S_I, S_I, S_I,
-+      /* S_F */  S_N, S_F, S_F, S_F,
-+      /* S_Z */  S_N, S_F, S_Z, S_Z
-+    };
-+
-+  static const int result_type[] =
-+    {
-+      /* state   x/x  x/d  x/0  x/-  d/x  d/d  d/0  d/-
-+                 0/x  0/d  0/0  0/-  -/x  -/d  -/0  -/- */
-+
-+      /* S_N */  CMP, CMP, CMP, CMP, CMP, LEN, CMP, CMP,
-+                 CMP, CMP, CMP, CMP, CMP, CMP, CMP, CMP,
-+      /* S_I */  CMP, -1,  -1,  CMP, +1,  LEN, LEN, CMP,
-+                 +1,  LEN, LEN, CMP, CMP, CMP, CMP, CMP,
-+      /* S_F */  CMP, CMP, CMP, CMP, CMP, LEN, CMP, CMP,
-+                 CMP, CMP, CMP, CMP, CMP, CMP, CMP, CMP,
-+      /* S_Z */  CMP, +1,  +1,  CMP, -1,  CMP, CMP, CMP,
-+                 -1,  CMP, CMP, CMP
-+    };
-+
-+  if (p1 == p2)
-+    return 0;
-+
-+  c1 = *p1++;
-+  c2 = *p2++;
-+  /* Hint: '0' is a digit too.  */
-+  state = S_N | ((c1 == '0') + (isdigit (c1) != 0));
-+
-+  while ((diff = c1 - c2) == 0 && c1 != '\0')
-+    {
-+      state = next_state[state];
-+      c1 = *p1++;
-+      c2 = *p2++;
-+      state |= (c1 == '0') + (isdigit (c1) != 0);
-+    }
-+
-+  state = result_type[state << 2 | (((c2 == '0') + (isdigit (c2) != 0)))];
-+
-+  switch (state)
-+    {
-+    case CMP:
-+      return diff;
-+      
-+    case LEN:
-+      while (isdigit (*p1++))
-+	if (!isdigit (*p2++))
-+	  return 1;
-+      
-+      return isdigit (*p2) ? -1 : diff;
-+      
-+    default:
-+      return state;
-+    }
-+}
-+#endif
++#include "compat.h"
  
  static void theme_list_append(gchar * value,gchar * dir, gchar * fil)
  {
-
+diff -urN emerald-0.5.2.orig/themer/Makefile.am emerald-0.5.2/themer/Makefile.am
+--- emerald-0.5.2.orig/themer/Makefile.am	2007-08-12 17:00:01.000000000 -0400
++++ emerald-0.5.2/themer/Makefile.am	2007-11-01 20:44:46.896398910 -0400
+@@ -1,5 +1,5 @@
+ ## Process this file with automake to produce Makefile.in
+-emerald_theme_manager_SOURCES = main.c
++emerald_theme_manager_SOURCES = main.c compat.c
+ emerald_theme_manager_LDADD = $(EMERALD_LIBS) ../libengine/libemeraldengine.la
+ 
+ bin_PROGRAMS = emerald-theme-manager

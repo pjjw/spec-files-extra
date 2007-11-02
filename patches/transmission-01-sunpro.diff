@@ -1,0 +1,16 @@
+--- transmission-0.91/libtransmission/torrent.c.orig	Sun Oct 28 19:57:10 2007
++++ transmission-0.91/libtransmission/torrent.c	Thu Nov  1 19:47:11 2007
+@@ -890,9 +890,10 @@
+ 
+ void tr_torrentAvailability( const tr_torrent * tor, int8_t * tab, int size )
+ {
+-    return tr_peerMgrTorrentAvailability( tor->handle->peerMgr,
+-                                          tor->info.hash,
+-                                          tab, size );
++    tr_peerMgrTorrentAvailability( tor->handle->peerMgr,
++                                   tor->info.hash,
++                                   tab, size );
++    return;
+ }
+ 
+ void tr_torrentAmountFinished( const tr_torrent * tor, float * tab, int size )

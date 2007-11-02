@@ -8,10 +8,12 @@
 
 %include Solaris.inc
 
+%define src_name emerald-themes
+
 Name:                    SFEemerald-themes
 Summary:                 themes for the emerald compiz window decorator 
 Version:                 0.5.2
-Source:			 http://releases.compiz-fusion.org/0.5.2/emerald-themes-%{version}.tar.bz2	 
+Source:			 http://releases.compiz-fusion.org/%{version}/%{src_name}-%{version}.tar.bz2	 
 Patch1:			 emerald-themes-01-solaris-port.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -19,11 +21,10 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 # add build and runtime dependencies here:
 
 %prep
-%setup -q -c -n %name-%version
+%setup -q -n %{src_name}-%{version}
 %patch1 -p1
 
 %build
-cd emerald-themes-%version
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
@@ -42,7 +43,6 @@ export MSGFMT="/usr/bin/msgfmt"
 make -j$CPUS
 
 %install
-cd emerald-themes-%{version}
 make install DESTDIR=$RPM_BUILD_ROOT
 
 %clean
@@ -51,9 +51,12 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (0755, root, sys)
 %dir %attr(0755, root, sys) %{_datadir}
-%{_datadir}/*
+%dir %attr(0755, root, other) %{_datadir}/emerald
+%{_datadir}/emerald/*
 
 
 %changelog
+* Thu Nov 01 2007 - trisk@acm.jhu.edu
+- Fix permissions
 * Fri Sep 11 2007 - erwann@sun.com
 - Initial spec

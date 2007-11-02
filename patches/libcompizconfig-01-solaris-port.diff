@@ -275,7 +275,7 @@ diff -ruN libcompizconfig-0.6.0.orig/src/compat.c libcompizconfig-0.6.0/src/comp
 diff -ruN libcompizconfig-0.6.0.orig/src/compat.h libcompizconfig-0.6.0/src/compat.h
 --- libcompizconfig-0.6.0.orig/src/compat.h	1969-12-31 19:00:00.000000000 -0500
 +++ libcompizconfig-0.6.0/src/compat.h	2007-10-30 23:12:55.926225079 -0400
-@@ -0,0 +1,35 @@
+@@ -0,0 +1,37 @@
 +/*
 + * Copyright (c) 2007 Albert Lee <trisk@acm.jhu.edu>.
 + * 
@@ -298,6 +298,7 @@ diff -ruN libcompizconfig-0.6.0.orig/src/compat.h libcompizconfig-0.6.0/src/comp
 + * OTHER DEALINGS IN THE SOFTWARE.
 + */
 +
++#ifndef _COMPAT_H
 +#include "config.h"
 +
 +#ifndef HAVE_ASPRINTF
@@ -311,6 +312,7 @@ diff -ruN libcompizconfig-0.6.0.orig/src/compat.h libcompizconfig-0.6.0/src/comp
 +#ifndef HAVE_STRSEP
 +char *strsep(char **stringp, const char *delim);
 +#endif
++#endif /* _COMPAT_H */
 diff -ruN libcompizconfig-0.6.0.orig/src/compiz.c libcompizconfig-0.6.0/src/compiz.c
 --- libcompizconfig-0.6.0.orig/src/compiz.c	2007-10-15 12:51:01.000000000 -0400
 +++ libcompizconfig-0.6.0/src/compiz.c	2007-10-30 23:15:03.372232998 -0400
