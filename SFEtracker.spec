@@ -4,18 +4,16 @@
 # package are under the same license as the package itself.
 
 %include Solaris.inc
-%define gnome_2_20  %(pkg-config --atleast-version=2.19.0 libgnome-2.0 && echo 1 || echo 0)
+
+%use tracker = tracker.spec
 
 Name:           SFEtracker
-License:        GPL
-Summary:        Desktop search tool
-Version:        0.6.3
-URL:            http://www.tracker-project.org
-Source:         http://www.gnome.org/~jamiemcc/tracker/tracker-%{version}.tar.bz2
-Patch1:         tracker-01-w3m-crash.diff
-Patch2:         tracker-02-thunderbird.diff
+Summary:        tracker.summary
+Version:        %{default_pkg_version}
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+Source1:        tracker-firefox-history-xesam.xpi
+Source2:        tracker-thunderbird.xpi
 %include default-depend.inc
 Requires:       SUNWgnome-base-libs
 Requires:       SUNWdbus
@@ -53,6 +51,12 @@ SUNW_BaseDir:   %{_basedir}
 %include default-depend.inc
 Requires: %name
 
+%package extension 
+Summary:        %{summary} - extension files
+SUNW_BaseDir:   %{_basedir}
+%include default-depend.inc
+Requires: %name
+
 %package root
 Summary:                 %{summary} - / filesystem
 SUNW_BaseDir:            /
@@ -67,35 +71,35 @@ Requires:                %{name}
 %endif
 
 %prep
-%setup -q -n tracker-%version
-%patch1 -p1
-%patch2 -p1
+rm -rf %name-%version
+mkdir -p %name-%version
+%tracker.prep -d %name-%version
 
 %build
-
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-     CPUS=1
-fi
-
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CFLAGS="%optflags -I/usr/gnu/include"
 export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib"
-
-intltoolize --force --automake
-./configure --prefix=%{_prefix} 		\
-			--sysconfdir=%{_sysconfdir}	\
-			--disable-warnings			\
-			--enable-external-sqlite
-
-make -j$CPUS
+export RPM_OPT_FLAGS="$CFLAGS"
+%tracker.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
+%tracker.install -d %name-%version
+cd %{_builddir}/%name-%version
 
-make install DESTDIR=$RPM_BUILD_ROOT
+# Install firefox extension
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/firefox/extensions
+cd $RPM_BUILD_ROOT%{_libdir}/firefox/extensions
+mkdir \{fda00e13-8c62-4f63-9d19-d168115b11ca\}
+cd \{fda00e13-8c62-4f63-9d19-d168115b11ca\}
+unzip %SOURCE1
 
-find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
-find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
+# Install firefox extension
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/thunderbird/extensions
+cd $RPM_BUILD_ROOT%{_libdir}/thunderbird/extensions
+mkdir \{b656ef18-fd76-45e6-95cc-8043f26361e7\}
+cd \{b656ef18-fd76-45e6-95cc-8043f26361e7\}
+unzip %SOURCE2
 
 %if %build_l10n
 %else
@@ -114,14 +118,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*.so*
 %{_libdir}/tracker
 %dir %attr (0755, root, bin) %{_libdir}/deskbar-applet
-%if %gnome_2_20
 %dir %attr (0755, root, bin) %{_libdir}/deskbar-applet/modules-2.20-compatible
 %{_libdir}/deskbar-applet/modules-2.20-compatible/tracker-module.py
-%else
-%dir %attr (0755, root, bin) %{_libdir}/deskbar-applet/handlers
-%{_libdir}/deskbar-applet/handlers/tracker-handler.py
-%{_libdir}/deskbar-applet/handlers/tracker-handler-static.py
-%endif
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/tracker
 %dir %attr (0755, root, other) %{_datadir}/applications
@@ -143,6 +141,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 
+%files extension
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/firefox
+%{_libdir}/thunderbird
+
 %files root
 %defattr (-, root, sys)
 %dir %attr (0755, root, sys) %{_sysconfdir}
@@ -156,6 +160,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Nov 02 2007 - nonsea@users.sourceforge.net
+- Spilit into base/tracker.spec
+- Remove GNOMOE 2.19/2.20 install compatible part.
+- Add package -extension to install firefox/thunderbird extensions.
 * Fri Sep 28 2007 - nonsea@users.sourceforge.net
 - Add patch thunderbird.diff to enable thunderbird index.
 * Wed Sep 26 2007 - nonsea@users.sourceforge.net

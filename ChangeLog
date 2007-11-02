@@ -1,5 +1,17 @@
 2007-11-02  Halton Huo <nonsea@users.sourceforge.net>
 
+	* .pkgtoolrc: Change sourcedirs to ${MYDIR}/ext-sources
+	* SFEtracker.spec: Remove GNOMOE 2.19/2.20 install compatible part,
+	  add package -extension to install firefox/thunderbird extensions.
+	* base-specs/tracker.spec: Spilit from SFEtracker.spec
+	* patches/tracker-02-thunderbird.diff: (rework)
+	* patches/tracker-03-firefox-history.diff: (added)
+	* ext-sources: new folder to contain some extra sources.
+	* ext-sources/tracker-thunderbird.xpi: (added)
+	* ext-sources/tracker-firefox-history-xesam.xpi: (added)
+
+2007-11-02  Halton Huo <nonsea@users.sourceforge.net>
+
 	* SFEanjuta.spec: Bump to 2.3.0, remove SUNWpcre-devel from BuildRequires.
 
 2007-11-01  Albert Lee  <trisk@acm.jhu.edu>

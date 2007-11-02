@@ -11,4 +11,4 @@ patchdirs:	${MYDIR}/patches
 specdirs:	${MYDIR}:${MYDIR}/linux-specs:${MYDIR}/base-specs:${MYDIR}/include:${MYDIR}/encumbered
 
 # sourcedirs [string]: colon (:) separated list of directories where extra sources (not tarballs) are searched for
-sourcedirs:	${MYDIR}/include
+sourcedirs:	${MYDIR}/ext-sources
