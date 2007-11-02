@@ -1,3 +1,7 @@
+2007-11-02  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEanjuta.spec: Bump to 2.3.0, remove SUNWpcre-devel from BuildRequires.
+
 2007-11-01  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEemerald-themes.spec: Fix permissions

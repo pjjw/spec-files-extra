@@ -10,7 +10,7 @@
 # or, depend on package SUNWevolution-bdb-devel, which is in jds spec-files/closed
 # now, use second way.
 Name:           SFEanjuta
-Version:        2.2.1
+Version:        2.3.0
 Summary:        GNOME IDE for C and C++
 Group:          Development/Tools
 License:        GPL
@@ -55,7 +55,6 @@ Requires: SUNWsvn
 %else
 Requires: SFEsubversion
 %endif
-BuildRequires: SUNWpcre-devel
 BuildRequires: SFEgdl-devel
 BuildRequires: SFEgnome-build-devel
 BuildRequires: SFEgraphviz-devel
@@ -232,6 +231,9 @@ test -x $BASEDIR/lib/postrun || exit 0
 %{_datadir}/gtk-doc
 
 %changelog
+* Fri Nov 02 2007 - nonsea@users.sourceforge.net
+- Bump to 2.3.0
+- Remove SUNWpcre-devel from BuildRequires
 * Tue Sep 11 2007 - nonsea@users.sourceforge.net
 - Bump to 2.2.1
 * Sat Jun 30 2007 - nonsea@users.sourceforge.net
