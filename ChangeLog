@@ -1,5 +1,10 @@
 2007-11-02  Halton Huo <nonsea@users.sourceforge.net>
 
+	* SFEtracker.spec: Remove useless gnu staff from CFLAGS and LDFLAGS.
+	* ext-sources/tracker-thunderbird.xpi: rework.
+
+2007-11-02  Halton Huo <nonsea@users.sourceforge.net>
+
 	* .pkgtoolrc: Change sourcedirs to ${MYDIR}/ext-sources
 	* SFEtracker.spec: Remove GNOMOE 2.19/2.20 install compatible part,
 	  add package -extension to install firefox/thunderbird extensions.

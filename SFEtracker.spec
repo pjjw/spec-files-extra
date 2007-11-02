@@ -77,8 +77,6 @@ mkdir -p %name-%version
 
 %build
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export CFLAGS="%optflags -I/usr/gnu/include"
-export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib"
 export RPM_OPT_FLAGS="$CFLAGS"
 %tracker.build -d %name-%version
 
@@ -160,6 +158,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Nov 02 2007 - nonsea@users.sourceforge.net
+- Remove useless gnu staff from CFLAGS and LDFLAGS.
 * Fri Nov 02 2007 - nonsea@users.sourceforge.net
 - Spilit into base/tracker.spec
 - Remove GNOMOE 2.19/2.20 install compatible part.
