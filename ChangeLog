@@ -1,3 +1,7 @@
+2007-11-02  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEgst-pulse.spec: *NEW* GNOME streaming media framework - PulseAudio plugin
+
 2007-11-02 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* SFEfusion-icon.spec: clean up and update hicolor icon-cache 
