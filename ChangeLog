@@ -49,7 +49,7 @@
 	* SUNWgamin.spec:
 	* base-specs/gamin.spec:
 	* patches/gamin-01-all.diff:
-	Moved the Gamin stuff to Vermillion trunk.
+	  Moved the Gamin stuff to Vermillion trunk.
 
 2007-10-31  Albert Lee  <trisk@acm.jhu.edu>
 
@@ -95,11 +95,12 @@
 
 	* patches/gamin-01-all.diff: Replace g_file_test by lstat.
 
-2007-10-26  Jerry Yu Cameron  <jijun.yu@sun.com>
+2007-10-26  Jerry Yu <jijun.yu@sun.com>
 	
 	* base-specs/openobex.spec: add a patch.
 	* patches/openobex-01-sun-studio.diff: Modified.
-	* patches/openobex-05-zero-array.diff: Added for fixing a problem about zero array.
+	* patches/openobex-05-zero-array.diff: Added for fixing a problem about
+	  zero array.
 
 2007-10-26  Brian Cameron  <brian.cameron@sun.com>
 
@@ -230,9 +231,10 @@
 
 2007-10-18  Albert Lee  <trisk@acm.jhu.edu>
 
-	* SFEgnome-media-extras.spec: *NEW* GNOME streaming media framework - extra
-	  plugins
-	* SFEmtools.spec: *NEW* mtools - utilities to access MS-DOS disks from Unix
+	* SFEgnome-media-extras.spec: *NEW* GNOME streaming media framework -
+	  extra plugins
+	* SFEmtools.spec: *NEW* mtools - utilities to access MS-DOS disks from
+	  Unix
 	* base-specs/gst-plugins-bad.spec: *NEW* base-spec for gst-plugins-bad
 	* base-specs/gst-plugins-ugly.spec: *NEW* base-spec for gst-plugins-ugly
 
@@ -505,7 +507,8 @@
 	  XML based vocabularies written in Python
 	* SFEpython-cheetah.spec: *NEW* Template engine and code generation tool
 	  written in Python
-	* SFEpython-mako.spec: *NEW* Mako is a template library written in Python
+	* SFEpython-mako.spec: *NEW* Mako is a template library written in
+	  Python
 	* SFEpython-genshi.spec: *NEW* Python library that provides components
 	  for parsing, generating, and processing HTML, XML or Text
 	* SFEpython-kid.spec: *NEW* Kid is a simple template language for XML
