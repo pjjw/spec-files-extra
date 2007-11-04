@@ -1,3 +1,12 @@
+2007-11-04  Ananth Shrinivas <ananth@sun.com>
+
+	* SFEgsl.spec: *NEW* The GNU Scientific Library for numerical processing
+	* SFEpython-gsl.spec: *NEW* Python bindings for the GNU Scientific Library
+	* SFEpython-parallel.spec: *NEW* Python module for parallel processing
+	* SFEpython-sqlalchemy.spec: *NEW* A python SQL toolkit and ORM
+	* patches/gsl-01-math.diff: Patch to use in-built gsl_finite implementation
+	* patches/pygsl-01-macro.diff: Patch for sunstudio compatibility
+
 2007-11-02  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEgst-pulse.spec: *NEW* GNOME streaming media framework - PulseAudio plugin
