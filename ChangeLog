@@ -1,3 +1,8 @@
+2007-11-04 Erwann Chenede - <erwann.chenede@sun.com>
+
+	* SFEcompiz.spec: remove unneeded X bits, lighter version of 
+	  missing-stuff, ship missing X header
+
 2007-11-04  Ananth Shrinivas <ananth@sun.com>
 
 	* SFEgsl.spec: *NEW* The GNU Scientific Library for numerical processing
