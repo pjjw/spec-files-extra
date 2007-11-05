@@ -18,7 +18,6 @@ Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
 Summary:        Data synchronization framework
 Source:         http://www.opensync.org/download/releases/%{version}/%{name}-%{version}.tar.bz2
-Patch1:         %{name}-01-prefix.diff
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Docdir:         %{_defaultdocdir}/doc
@@ -58,7 +57,6 @@ you will need to install %{name}-devel.
 
 %prep
 %setup -q
-%patch1 -p0
 
 %build
 %ifos linux
@@ -72,7 +70,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-cmake .
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr
 
 make
 
@@ -109,6 +107,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Nov 05 2007 - jijun.yu@sun.com
+- Add the corret prefix option and remove Patch 1.
 * Mon Nov 05 2007 - jijun.yu@sun.com
 - Bump to 0.34
 - Remove libopensync-01-add-glib.diff patch

@@ -1,4 +1,11 @@
 2007-11-05 Jijun Yu <jijun.yu@sun.com>
+	
+	* SFElibopensync.spec: Change to correct configure option.
+	* patches/libopensync-01-prefix.diff: Removed.
+	* base-specs/msynctool.spec: Bump to 0.34 and change to cmake build tool.
+	* patches/msynctool-01-forte-wall.diff: Removed.
+
+2007-11-05 Jijun Yu <jijun.yu@sun.com>
 
 	* SFElibopensync.spec: add some files into the package.
 	* base-specs/libopensync.spec: bump to 0.34.
