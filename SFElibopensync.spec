@@ -28,7 +28,7 @@ Requires: SUNWlxml
 Requires: SUNWzlib
 Requires: SFEsqlite
 Requires: SFEswig
-BuildRequires: SFEscons
+BuildRequires: SFEcmake
 BuildRequires: SFEcheck
 
 %package devel
@@ -64,6 +64,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/opensync
 %{_libdir}/*.so*
+%dir %attr (0755, root, bin) %{_libdir}/python2.4
+%dir %attr (0755, root, bin) %{_libdir}/python2.4/site-packages
+%{_libdir}/python2.4/site-packages/*
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/opensync
 
@@ -76,6 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Nov 05 2007 - jijun.yu@sun.com
+- Add some files into the package.
+
 * Wed Jun 06 2007 - nonsea@users.sourceforge.net
 - Add BuildRequires SFEscons and SFEcheck
 - Change %{_datadir} attr to root:sys

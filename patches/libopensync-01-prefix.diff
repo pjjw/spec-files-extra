@@ -1,0 +1,10 @@
+--- cmake/OpenSyncPlatforms.cmake.orig	2007-11-05 16:50:53.865960000 +0800
++++ cmake/OpenSyncPlatforms.cmake	2007-11-05 16:51:22.728217000 +0800
+@@ -5,6 +5,7 @@
+ SET( LIB_SUFFIX "" CACHE STRING "The library directory suffix. 32bit empty string, 64 for 64bit." )
+ 
+ IF (NOT WIN32)
++	SET( CMAKE_INSTALL_PREFIX "/usr" )
+ 	SET( LIB_INSTALL_DIR  "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}" )
+ 	SET( LIBEXEC_INSTALL_DIR  "${CMAKE_INSTALL_PREFIX}/libexec" )
+ 	SET( BIN_INSTALL_DIR  "${CMAKE_INSTALL_PREFIX}/bin" )
