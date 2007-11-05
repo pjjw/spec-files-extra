@@ -1,0 +1,18 @@
+--- libcdio-0.79-orig/include/cdio/types.h	2006-06-02 23:38:48.000000000 +0000
++++ libcdio-0.79/include/cdio/types.h	2007-11-03 05:54:44.168557377 +0000
+@@ -60,7 +60,14 @@
+   /* warning ISO/IEC 9899:1999 <stdint.h> was missing and even <inttypes.h> */
+   /* fixme */
+ #endif /* HAVE_STDINT_H */
+-  
++
++#if (defined(sun) && defined(__SVR4))
++  typedef uint8_t u_int8_t;
++  typedef uint16_t u_int16_t;
++  typedef uint32_t u_int32_t;
++  typedef uint64_t u_int64_t;
++#endif
++
+ typedef uint8_t ubyte;
+ 
+   /* default HP/UX macros are broken */

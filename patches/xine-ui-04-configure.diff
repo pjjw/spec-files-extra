@@ -1,0 +1,22 @@
+--- xine-ui-0.99.5-orig/configure.ac	2007-04-15 16:05:21.000000000 +0000
++++ xine-ui-0.99.5/configure.ac	2007-11-04 14:39:05.722915057 +0000
+@@ -341,6 +341,19 @@
+ AC_SUBST(NET_LIBS)
+ 
+ dnl
++dnl Solaris is missing INADDR_NONE, so define INADDR_NONE to -1 for Solaris.
++dnl
++AC_CHECK_DECL(
++  INADDR_NONE,
++  [],
++  [AC_DEFINE(INADDR_NONE,-1,[This is the value, which is returned from inet_addr(), in case of an error])],
++  [
++  #include <sys/types.h>
++  #include <sys/socket.h>
++  #include <netinet/in.h>]
++)
++
++dnl
+ dnl check for ascii-art library
+ dnl
+ AC_ARG_WITH([aalib],

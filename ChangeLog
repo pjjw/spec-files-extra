@@ -1,3 +1,41 @@
+2007-11-5  Mark Wright <markwright@internode.on.net>
+
+	* SFEgawk.spec: Bump to 3.1.6.
+	* SFElibcdio.spec: Bump to 0.79. Add libcdio-02-stdint.diff.
+	* base-specs/libcdio.spec: Bump to 0.79.
+	* patches/libcdio-02-stdint.diff. Integer typedefs.
+	* SFElibmng.spec: Bump to 1.1.10
+	* SFEliveMedia.spec: Bump to 2007.11.01. Add patch2 to use
+	  /usr/gnu/bin/ld.
+	* patches/liveMedia-02-config.diff: Use /usr/gnu/bin/ld and build
+	  shared libraries instead of static.
+	* SFElsof.spec: Bump to 4.78.
+	* SFEncurses.spec: Bump to 5.6. Set LDFLAGS=-m64 for 64 bit build.
+	* base-specs/ncurses.spec: ditto
+	* SFExine-ui.spec: Bump to 0.99.5. Use SFEgcc.
+	  Commented patch1, patch2 and patch3. Add patch4 for INADDR_NONE.
+	* patches/xine-ui-04-configure.diff: INADDR_NONE.
+	* encumbered/SFEfaad2.spec: Bump to 2.6.1. Bump patch2 and
+	  patch4. Comment patch1, patch3 and patch5.
+	* patches/faad-02-inline.diff: Bump.
+	* patches/faad-04-wall.diff: Bump.
+	* encumbered/SFElibmpcdec.spec: Bump to 1.2.6.
+	* encumbered/SFEmplayer-codecs.spec: Bump to 20071007.
+	* encumbered/SFEmplayer.spec: Bump to 1.0rc2.
+	  Change SUNWlibcdio to SFElibcdio. Remove SFElibfame.
+	  Comment mplayer-02-makefile-libfame-dep.diff (libfame removed).
+	  Bump patch1. Comment patch3 (already applied). Add BuildRequires:
+	  SFEgawk.
+	* patches/mplayer-01-cddb.diff: Bump.
+	* patches/mplayer-05-configure.diff: SFEgcc 4.2.2 does not support
+	  -rdynamic.
+	* encumbered/SFEtwolame.spec: Bump to 0.3.10. Bump patch1 and patch2.
+	* patches/twolame-01-configure.diff: Bump.
+	* patches/twolame-02-crossfile_inline.diff: Bump.
+	* encumbered/SFExine-lib.spec: Bump to 1.1.8. SUNWhal conditional
+	  dependency for Solaris 10. Comment patch1, patch5 and patch6
+	  (already applied). Requires SFEgcc 4.2.2
+	
 2007-11-04 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* SFEcompiz.spec: remove unneeded X bits, lighter version of 

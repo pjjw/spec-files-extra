@@ -16,7 +16,7 @@
 
 Name:                SFEncurses
 Summary:             Emulation of SVR4 curses
-Version:             5.5
+Version:             5.6
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -41,9 +41,11 @@ mkdir %name-%version/%{base_arch}
 
 %build
 %ifarch amd64 sparcv9
+export LDFLAGS=-m64
 %ncurses_64.build -d %name-%version/%_arch64
 %endif
 
+export LDFLAGS=
 %ncurses.build -d %name-%version/%{base_arch}
 
 %install
@@ -87,6 +89,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sun Nov 4 2007 - markwright@internode.on.net
+- Bump to 5.6.  Set LDFLAGS=-m64 for 64 bit build.
 * Tue Mar 20 2007 - dougs@truemail.co.th
 - Move build to a base spec. Added 64bit build
 * Wed Nov 08 2006 - Eric Boutilier

@@ -8,14 +8,14 @@
 Name:                    SFEfaad2
 Summary:                 faad2 - a high-quality MPEG audio decoder
 Group:                   libraries/multimedia
-Version:                 2.0
+Version:                 2.6.1
 Source:                  http://easynews.dl.sourceforge.net/sourceforge/faac/faad2-%{version}.tar.gz
 URL:                     http://www.audiocoding.com/
-Patch1:                  faad-01-makefile.diff
+#Patch1:                  faad-01-makefile.diff
 Patch2:                  faad-02-inline.diff
-Patch3:                  faad-03-largefiles.diff
+#Patch3:                  faad-03-largefiles.diff
 Patch4:                  faad-04-wall.diff
-Patch5:                  faad-05-strchr.diff
+#Patch5:                  faad-05-strchr.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -30,11 +30,11 @@ Requires: %name
 
 %prep
 %setup -q -n faad2
-%patch1 -p1
+#%patch1 -p1
 %patch2 -p1
-%patch3 -p1
+#%patch3 -p1
 %patch4 -p1
-%patch5 -p1
+#%patch5 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -87,6 +87,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Mon Nov 5 2007 - markwright@internode.on.net
+- Bump to 2.6.1.  Bump patch2 and patch4.  Comment patch1, patch3 and patch5.
 * Fri Jun 23 2005 - laca@sun.com
 - rename to SFEfaad2
 - update file attributes

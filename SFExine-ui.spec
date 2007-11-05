@@ -9,12 +9,13 @@
 Name:         SFExine-ui
 License:      GPL
 Group:        System/Libraries
-Version:      0.99.4
+Version:      0.99.5
 Summary:      xine-ui - Xlib based skinned front end for the xine video player
 Source:       http://prdownloads.sourceforge.net/xine/xine-ui-%{version}.tar.gz
-Patch1:       xine-ui-01-gettext.diff
-Patch2:       xine-ui-02-glib-gettext-Makefile.diff
-Patch3:       xine-ui-03-glibc-compat.diff
+#Patch1:       xine-ui-01-gettext.diff
+#Patch2:       xine-ui-02-glib-gettext-Makefile.diff
+#Patch3:       xine-ui-03-glibc-compat.diff
+Patch4:       xine-ui-04-configure.diff
 URL:          http://xinehq.de/index.php/home
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
@@ -33,8 +34,9 @@ Requires:                %{name}
 
 %prep
 %setup -q -n xine-ui-%version
-%patch1 -p1 -b .patch01
-%patch3 -p1 -b .patch03
+#%patch1 -p1 -b .patch01
+#%patch3 -p1 -b .patch03
+%patch4 -p1 -b .patch04
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -43,15 +45,18 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 glib-gettextize --force
-( cd po; gpatch -p1 < %{P:2} )
-cp po/Makefile.in.in src/xitk/xine-toolkit/po
+#( cd po; gpatch -p1 < %{P:2} )
+#cp po/Makefile.in.in src/xitk/xine-toolkit/po
+export CXX=/usr/gnu/bin/gcc
+export CC=/usr/gnu/bin/gcc
+export LD=/usr/gnu/bin/ld
 libtoolize --copy --force
 aclocal $ACLOCAL_FLAGS -I m4
 autoheader
 automake -a -c -f 
 autoconf
-export CFLAGS="%{optflags} -I/usr/X11/include -I/usr/sfw/include"
-export LDFLAGS="%{_ldflags} -L/usr/X11/lib -R/usr/X11/lib -L/usr/sfw/lib -R/usr/sfw/lib"
+export CFLAGS="-O4 -fPIC -DPIC -I/usr/X11/include -I/usr/openwin/include -D_LARGEFILE64_SOURCE -I/usr/gnu/include -mcpu=pentiumpro -mtune=pentiumpro -msse2 -mfpmath=sse "
+export LDFLAGS="%{gcc_ldflags} -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/lib"
 ./configure --prefix=%{_prefix} \
 	    --libdir=%{_libdir}
 
@@ -91,6 +96,20 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xine/visuals
 %{_datadir}/xine/skins
 %{_datadir}/xine/oxine
+%dir %attr (-, root, other) %{_datadir}/icons
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/16x16
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/16x16/apps
+%{_datadir}/icons/hicolor/16x16/apps/*.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/22x22
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/22x22/apps
+%{_datadir}/icons/hicolor/22x22/apps/*.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/32x32
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/32x32/apps
+%{_datadir}/icons/hicolor/32x32/apps/*.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/48x48
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/48x48/apps
+%{_datadir}/icons/hicolor/48x48/apps/*.png
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
 
@@ -103,5 +122,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Nov 5 2007 - markwright@internode.on.net
+- Bump to 0.99.5. Change to use SFEgcc 4.2.2 as now used for SFExine-lib.
+- Commented patch1, patch2 and patch3.  Add patch4 for INADDR_NONE.
 * Sun Jan  7 2007 - laca@sun.com
 - create

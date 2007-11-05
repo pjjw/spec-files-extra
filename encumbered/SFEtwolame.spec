@@ -7,10 +7,10 @@
 
 Name:                    SFEtwolame
 Summary:                 twolame - MP3 Encoder
-Version:                 0.3.7
+Version:                 0.3.10
 Source:                  http://www.ecs.soton.ac.uk/~njh/twolame/twolame-%{version}.tar.gz
 Patch1:			 twolame-01-configure.diff
-Patch2:			 twolame-02-crossfile_inline.diff
+Patch2: 		 twolame-02-crossfile_inline.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -75,6 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Nov 4 2007 - markwright@internode.on.net
+- Bump to 0.3.10.  Bump patch1 and patch2.
 * Fri Jun 23 2006 - laca@sun.com
 - rename to SFEtwolame
 - delete -share subpkg

@@ -1,0 +1,25 @@
+--- live-orig/config.solaris	2007-11-01 02:29:35.000000000 +0000
++++ live/config.solaris	2007-11-03 11:54:36.210784799 +0000
+@@ -1,4 +1,4 @@
+-COMPILE_OPTS =		$(INCLUDES) -I. -O -DSOLARIS -DSOCKLEN_T=socklen_t
++COMPILE_OPTS =		$(INCLUDES) -I. -O -DSOLARIS -DSOCKLEN_T=socklen_t -fPIC -DPIC
+ C =			c
+ C_COMPILER =		cc
+ C_FLAGS =		$(COMPILE_OPTS)
+@@ -7,11 +7,12 @@
+ CPLUSPLUS_FLAGS =	$(COMPILE_OPTS) -Wall
+ OBJ =			o
+ LINK =			c++ -o
+-LINK_OPTS =		-L.
++LINK_OPTS =		-shared -shared-libgcc $(CPLUSPLUS_FLAGS) -Wl,-zignore -Wl,-zcombreloc -L. -L/usr/gnu/lib -R/usr/gnu/lib -R/usr/lib/live/BasicUsageEnvironment -R/usr/lib/live/UsageEnvironment -R/usr/lib/live/groupsock -R/usr/lib/live/liveMedia
+ CONSOLE_LINK_OPTS =	$(LINK_OPTS)
+-LIBRARY_LINK =		ld -o
+-LIBRARY_LINK_OPTS =	$(LINK_OPTS) -r -dn
+-LIB_SUFFIX =			a
++LIBRARY_LINK =		g++ -o
++LIBRARY_LINK_OPTS =	$(LINK_OPTS)
++LIB_SUFFIX =			so
+ LIBS_FOR_CONSOLE_APPLICATION = -lsocket -lnsl
+ LIBS_FOR_GUI_APPLICATION = $(LIBS_FOR_CONSOLE_APPLICATION)
+ EXE =
++

@@ -1,22 +1,20 @@
---- MPlayer-1.0rc1/stream/stream_cddb.c.orig	2007-01-03 13:34:17.708540000 -0500
-+++ MPlayer-1.0rc1/stream/stream_cddb.c	2007-01-03 13:35:36.578649000 -0500
+--- MPlayer-1.0rc2-orig/stream/stream_cddb.c	2007-10-07 19:49:26.000000000 +0000
++++ MPlayer-1.0rc2/stream/stream_cddb.c	2007-11-03 06:25:48.868519517 +0000
 @@ -41,7 +41,7 @@
  
  #if defined(__linux__)
  	#include <linux/cdrom.h>
--#elif defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
-+#elif defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__) || (defined(__sun) && defined(__SVR4))
+-#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
++#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__) || (defined(__sun) && defined(__SVR4))
  	#include <sys/cdio.h>
  #elif defined(WIN32)
          #include <ddk/ntddcdrm.h>
-@@ -62,7 +62,7 @@
- static cd_toc_t cdtoc[100];
- static int cdtoc_last_track;
- 
+@@ -95,7 +95,7 @@
+ 		return drive;
+ 	}
+ 	
 -#if defined(__linux__) || defined(__bsdi__)
 +#if defined(__linux__) || defined(__bsdi__) || (defined (__sun) && defined (__SVR4))
- int 
- read_toc(const char *dev) {
- 	int drive;
- 
- 
+ 	{
+ 	struct cdrom_tochdr tochdr;
+ 	ioctl(drive, CDROMREADTOCHDR, &tochdr);

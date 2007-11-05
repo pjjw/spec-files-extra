@@ -7,7 +7,7 @@
 
 Name:                ncurses
 Summary:             Emulation of SVR4 curses
-Version:             5.5
+Version:             5.6
 Source:              http://ftp.gnu.org/pub/gnu/%{name}/%{name}-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -24,7 +24,7 @@ fi
 
 export CFLAGS="%optflags"
 export CXXFLAGS="%cxx_optflags"
-export LDFLAGS="%{_ldflags} -L%{_libdir} -R%{_libdir}"
+export LDFLAGS="%{_ldflags} -L%{_libdir} -R%{_libdir} $LDFLAGS"
 
 ./configure --prefix=%{_prefix}	\
 	    --bindir=%{_bindir}	\
@@ -52,6 +52,8 @@ rm -f ${RPM_BUILD_ROOT}%{_libdir}/*.a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Sat Nov 3 2007 - markwright@internode.on.net
+- Bump to 5.6.  Set LDFLAGS=-m64 for 64 bit build.
 * Tue Mar 20 2007 - dougs@truemail.co.th
 - Changed to be a base spec
 * Wed Nov 08 2006 - Eric Boutilier

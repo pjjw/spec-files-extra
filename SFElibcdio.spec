@@ -23,6 +23,7 @@ Name:                    SFElibcdio
 Summary:                 GNU libcdio
 Version:                 %{libcdio.version}
 Patch1:                  libcdio-01-usehal.diff
+Patch2:                  libcdio-02-stdint.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -50,10 +51,11 @@ rm -rf %name-%version
 mkdir %name-%version
 %libcdio.prep -d %name-%version
 
-%if %with_hal
 cd %{_builddir}/%name-%version/libcdio-%{libcdio.version}
+%if %with_hal
 %patch1 -p1
 %endif
+%patch2 -p1
 
 # Note, we have to build this with gcc, because Forte cannot handle
 # the flexible arrays used in libcdio.  We should move to using Forte
@@ -98,6 +100,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/cdio
 
 %changelog
+* Sun Nov 4 2007 - markwright@internode.on.net
+- Bump to 0.79.  Add libcdio-02-stdint.diff.
 * Thu Oct 18 2007 - laca@sun.com
 - use gcc specific compiler/linker flags
 * Mon Jun 23 - irene.huang@sun.com

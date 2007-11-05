@@ -11,7 +11,7 @@
 
 Name:                SFElsof
 Summary:             List open files
-Version:             4.77
+Version:             4.78
 Source:              ftp://ftp.cerias.purdue.edu/pub/tools/unix/sysutils/lsof/lsof_%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -30,8 +30,8 @@ fi
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
 
-tar -xf lsof_4.77_src.tar
-cd lsof_4.77_src
+tar -xf lsof_4.78_src.tar
+cd lsof_4.78_src
 export LSOF_VSTR=5.10
 ./Configure -n solariscc
 
@@ -39,7 +39,7 @@ make -j$CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd lsof_4.77_src
+cd lsof_4.78_src
 install -D lsof $RPM_BUILD_ROOT%{_bindir}/lsof
 install -D lsof.8   $RPM_BUILD_ROOT%{_mandir}/man8/lsof.8
 
@@ -56,6 +56,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/lsof.8
 
 %changelog
-* 
+* Mon Nov 5 2007 - markwright@internode.on.net
+- Bump to 4.78.
 * Sun Mar 18 2007 - Eric Boutilier
 - Initial spec

@@ -10,12 +10,13 @@
 Name:                    SFEmplayer
 Summary:                 mplayer - The Movie Player
 Version:                 1.0
-%define tarball_version 1.0rc1
+%define tarball_version 1.0rc2
 Source:                  http://www.mplayerhq.hu/MPlayer/releases/MPlayer-%{tarball_version}.tar.bz2
 Patch1:                  mplayer-01-cddb.diff
-Patch2:                  mplayer-02-makefile-libfame-dep.diff
-Patch3:                  mplayer-03-asmrules_20061231.diff
+#Patch2:                 mplayer-02-makefile-libfame-dep.diff
+#Patch3:                 mplayer-03-asmrules_20061231.diff
 Patch4:                  mplayer-04-cabac-asm.diff
+Patch5:                  mplayer-05-configure.diff
 Source3:                 http://www.mplayerhq.hu/MPlayer/skins/Blue-1.7.tar.bz2
 Source4:                 http://www.mplayerhq.hu/MPlayer/skins/Abyss-1.6.tar.bz2
 Source5:                 http://www.mplayerhq.hu/MPlayer/skins/neutron-1.5.tar.bz2
@@ -26,7 +27,6 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{tarball_version}-build
 %include default-depend.inc
 Requires: SFElibsndfile
-Requires: SFElibfame
 Requires: SFElibdvdplay
 Requires: SFElibmad
 Requires: SFEliba52
@@ -47,7 +47,7 @@ Requires: SUNWpng
 Requires: SUNWogg-vorbis
 Requires: SUNWlibtheora
 Requires: SUNWgccruntime
-Requires: SUNWlibcdio
+Requires: SFElibcdio
 Requires: SUNWgnome-base-libs
 Requires: SUNWsmbau
 Requires: SFElibfribidi
@@ -58,7 +58,6 @@ BuildRequires: SFEladspa-devel
 Requires: SFEopenal
 BuildRequires: SFEopenal-devel
 BuildRequires: SFElibsndfile-devel
-BuildRequires: SFElibfame-devel
 BuildRequires: SFElibdvdplay-devel
 BuildRequires: SFElibmad-devel
 BuildRequires: SFEliba52-devel
@@ -68,6 +67,7 @@ BuildRequires: SFEtwolame-devel
 BuildRequires: SFEfaad2-devel
 BuildRequires: SFElibmpcdec-devel
 #BuildRequires: SFEsdl-devel
+BuildRequires: SFEgawk
 BuildRequires: SUNWgnome-audio-devel
 
 %define x11	/usr/openwin
@@ -78,9 +78,10 @@ BuildRequires: SUNWgnome-audio-devel
 %prep
 %setup -q -n MPlayer-%tarball_version
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
+#%patch2 -p1
+#%patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 unzip %SOURCE7
 unzip 26104-610_ANSI_C_source_code.zip
@@ -107,6 +108,10 @@ export CFLAGS="-O2 -D__hidden=\"\""
 
 export LDFLAGS="-L%{x11}/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib" 
 export CC=gcc
+rm -rf ./grep
+ln -s /usr/sfw/bin/ggrep ./grep
+PATH="`pwd`:$PATH"
+echo "`type grep`"
 
 bash ./configure				\
 	    --prefix=%{_prefix}			\
@@ -115,15 +120,13 @@ bash ./configure				\
             --confdir=%{_sysconfdir}		\
             --enable-gui			\
             --enable-menu			\
-            --with-extraincdir=%{x11}/include	\
-            --with-x11libdir=%{x11}/lib		\
-            --with-extraincdir=/usr/sfw/include	\
-            --with-extralibdir=/usr/sfw/lib	\
-            --with-codecsdir=%{codecdir}	\
-            --enable-libfame			\
+            --with-extraincdir=/usr/lib/live/liveMedia/include:/usr/lib/live/groupsock/include:/usr/lib/live/UsageEnvironment/include:/usr/lib/live/BasicUsageEnvironment/include:%{x11}/include:/usr/sfw/include \
+            --with-extralibdir=/usr/lib/live/liveMedia:/usr/lib/live/groupsock:/usr/lib/live/UsageEnvironment:/usr/lib/live/BasicUsageEnvironment:%{x11}/lib:/usr/sfw/lib \
+            --extra-libs='-lBasicUsageEnvironment -lUsageEnvironment -lgroupsock -lliveMedia' \
+            --codecsdir=%{codecdir}		\
             --enable-faad-external		\
             --enable-live			\
-            --with-livelibdir=/usr/lib/live	\
+            --enable-network			\
 	    --enable-rpath			\
             --enable-largefiles			\
 	    --enable-crash-debug		\
@@ -170,6 +173,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Mon Nov 5 2007 - markwright@internode.on.net
+- Bump to 1.0rc2.  Change SUNWlibcdio to SFElibcdio.  Remove SFElibfame.
+- Comment mplayer-02-makefile-libfame-dep.diff (libfame removed).  Bump patch1.
+- Comment patch3 (already applied). Add BuildRequires: SFEgawk.  Add patch5
+- as SFEgcc 4.2.2 does not understand -rdynamic.
 * Fri Oct 19 2007 - dougs@truemail.co.th
 - Fixed 3gpp urls
 * Tue Aug 28 2007 - dougs@truemail.co.th

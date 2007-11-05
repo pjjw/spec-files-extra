@@ -7,9 +7,10 @@
 
 Name:                    SFEliveMedia
 Summary:                 liveMedia - live555 Streaming Media
-Version:                 2007.08.03a
+Version:                 2007.11.01
 Source:                  http://www.live555.com/liveMedia/public/live.%{version}.tar.gz
 Patch1:                  liveMedia-01-SOLARIS-macro.diff
+Patch2:                  liveMedia-02-config.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -17,6 +18,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %prep
 %setup -q -n live
 %patch1 -p1
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -30,7 +32,7 @@ make -j$CPUS
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/usr/lib/live
-gtar fcp - liveMedia/include groupsock/include UsageEnvironment/include BasicUsageEnvironment/include liveMedia/libliveMedia.a groupsock/libgroupsock.a UsageEnvironment/libUsageEnvironment.a BasicUsageEnvironment/libBasicUsageEnvironment.a  | gtar -x -v -C $RPM_BUILD_ROOT/usr/lib/live -f -
+gtar fcp - liveMedia/include groupsock/include UsageEnvironment/include BasicUsageEnvironment/include liveMedia/libliveMedia.so groupsock/libgroupsock.so UsageEnvironment/libUsageEnvironment.so BasicUsageEnvironment/libBasicUsageEnvironment.so  | gtar -x -v -C $RPM_BUILD_ROOT/usr/lib/live -f -
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -41,6 +43,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Mon Nov 5 2007 - markwright@internode.on.net
+- Bump to 2007.11.01.  Add patch2 to use /usr/gnu/bin/ld and build
+- shared libraries instead of static.
 * Tue Sep 04 2007 - ananth@sun.com
 - Bump to 2007.08.03a
 * Wed Jul 25 2007 - daymobrew@users.sourceforge.net

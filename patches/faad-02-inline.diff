@@ -1,13 +1,19 @@
-diff -ur faad2-orig/libfaad/common.h faad2/libfaad/common.h
---- faad2-orig/libfaad/common.h	2004-02-06 19:55:24.000000000 +0700
-+++ faad2/libfaad/common.h	2006-05-08 23:31:21.782089394 +0700
-@@ -32,7 +32,8 @@
- extern "C" {
+--- faad2-orig/libfaad/common.h	2007-11-01 12:33:30.000000000 +0000
++++ faad2/libfaad/common.h	2007-11-03 04:45:18.044003192 +0000
+@@ -39,11 +39,15 @@
+ #  include "../config.h"
  #endif
  
--#define INLINE __inline
-+
+-#if 1
++#if (defined(sun) && defined(__SVR4))
 +#define INLINE
- #if defined(_WIN32) && !defined(_WIN32_WCE)
- #define ALIGN __declspec(align(16))
++#else
++#if 0
+ #define INLINE __inline
  #else
+ #define INLINE inline
+ #endif
++#endif
+ 
+ #if 0 //defined(_WIN32) && !defined(_WIN32_WCE)
+ #define ALIGN __declspec(align(16))

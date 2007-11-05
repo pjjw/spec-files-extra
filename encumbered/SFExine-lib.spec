@@ -5,20 +5,23 @@
 #
 
 %include Solaris.inc
+
+%define with_hal %(pkginfo -q SUNWhal && echo 1 || echo 0)
+
 %use mplayer = SFEmplayer.spec
 
 Name:         SFExine-lib
 License:      GPL
 Group:        System/Libraries
-Version:      1.1.4
+Version:      1.1.8
 Summary:      xine-lib - the core engine of the xine video player
-Source:       http://easynews.dl.sourceforge.net/sourceforge/xine/xine-lib-%{version}.tar.gz
-Patch1:       xine-lib-01-sysi86.diff
+Source:       http://easynews.dl.sourceforge.net/sourceforge/xine/xine-lib-%{version}.tar.bz2
+#Patch1:       xine-lib-01-sysi86.diff
 Patch2:       xine-lib-02-asm-pic.diff
 Patch3:       xine-lib-03-gettext.diff
 Patch4:       xine-lib-04-hal-support.diff
-Patch5:       xine-lib-05-buildfix.diff
-Patch6:       xine-lib-06-oss.diff	
+#Patch5:       xine-lib-05-buildfix.diff
+#Patch6:       xine-lib-06-oss.diff
 URL:          http://xinehq.de/index.php/home
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
@@ -47,7 +50,11 @@ BuildRequires: SFElibdvdnav-devel
 Requires: SFElibdvdnav
 BuildRequires: SFElibmad-devel
 Requires: SFElibmad
+BuildRequires: SFEgcc-devel
+Requires: SFEgcc
+%if %with_hal
 Requires: SUNWhal
+%endif
 
 %package devel
 Summary:       %{summary} - development files
@@ -65,12 +72,14 @@ Requires:                %{name}
 
 %prep
 %setup -q -n xine-lib-%version
-%patch1 -p1
+#%patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%if %with_hal
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
+%endif
+#%patch5 -p1
+#%patch6 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -79,15 +88,16 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 glib-gettextize --force
+export CXX=/usr/gnu/bin/gcc
+export CC=/usr/gnu/bin/gcc
+export LD=/usr/gnu/bin/ld
 libtoolize --copy --force
 aclocal $ACLOCAL_FLAGS -I m4
 autoheader
 automake -a -c -f 
 autoconf
-export CXX=/usr/sfw/bin/gcc
-export CC=/usr/sfw/bin/gcc
-export CFLAGS="-O4 -fPIC -DPIC -I/usr/X11/include -I/usr/openwin/include -D_LARGEFILE64_SOURCE -I/usr/sfw/include -mcpu=pentiumpro -mtune=pentiumpro -msse2 -mfpmath=sse "
-export LDFLAGS="%{_ldflags} -L/usr/X11/lib -R/usr/X11/lib -L/usr/sfw/lib -R/usr/sfw/lib"
+export CFLAGS="-O4 -fPIC -DPIC -I/usr/X11/include -I/usr/openwin/include -D_LARGEFILE64_SOURCE -I/usr/gnu/include -mcpu=pentiumpro -mtune=pentiumpro -msse2 -mfpmath=sse "
+export LDFLAGS="%{gcc_ldflags} -Wl,-export-dynamic -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib"
 ./configure --prefix=%{_prefix} \
             --with-w32-path=%{mplayer.codecdir} \
             --with-external-libmad \
@@ -168,6 +178,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Nov 4 2007 - markwright@internode.on.net
+- Bump to 1.1.8.  SUNWhal conditional dependency for Solaris 10.
+- Comment patch1, patch5 and patch6 (already applied). Requires SFEgcc 4.2.2
+- http://sourceforge.net/tracker/index.php?func=detail&aid=1812753&group_id=9655&atid=109655
 * Mon Feb 26 2007 - markgraf@med.ovgu.de
 - fix xine-lib-04-hal-support
   xineplug_inp_dvd.so needs to link LIBHAL_LIBS

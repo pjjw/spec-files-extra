@@ -13,9 +13,9 @@
 
 Name:                    SFEmplayer-codecs
 Summary:                 binary codecs for the mplayer movie player
-%define year  2006
+%define year  2007
 %define month 10
-%define day   22
+%define day   07
 Version:                 %{year}.%{month}.%{day}
 Source:                  http://www1.mplayerhq.hu/MPlayer/releases/codecs/essential-%{year}%{month}%{day}.tar.bz2
 URL:                     http://www.mplayerhq.hu/design7/dload.html
@@ -41,5 +41,7 @@ rm -rf $RPM_BUILD_ROOT
 %{mplayer.codecdir}
 
 %changelog
+* Sun Nov 4 2007 - markwright@internode.on.net
+- Bump to 20071007
 * Sun Jan  7 2007 - laca@sun.com
 - separate from the rest of mplayer

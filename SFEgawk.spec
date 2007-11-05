@@ -7,7 +7,7 @@
 
 Name:                    SFEgawk
 Summary:                 GNU awk - pattern scanning and processing filter
-Version:                 3.1.5
+Version:                 3.1.6
 Source:			 http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -89,6 +89,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Sun Nov 4 2007 - markwright@internode.on.net
+- Bump to 3.1.6.
 * Wed Oct 11 2006 - laca@sun.com
 - add postrun scripts for updating the info dir file
 * Sun Jan 18 2006 - laca@sun.com
