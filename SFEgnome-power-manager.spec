@@ -78,8 +78,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 ( echo 'test -x /usr/bin/gtk-update-icon-cache || exit 0';
-  echo '/usr/bin/gtk-update-icon-cache --force %{_datadir}/icons/hicolor'
-) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u -t 5
+  echo 'rm -f %{_datadir}/icons/*/icon-theme.cache';
+  echo 'ls -d %{_datadir}/icons/* | xargs -l1 /usr/bin/gtk-update-icon-cache'
+) | $BASEDIR/lib/postrun -b -u -t 5 -c JDS
 ( echo 'test -x /usr/bin/update-desktop-database || exit 0';
   echo '/usr/bin/update-desktop-database'
 ) | $BASEDIR/lib/postrun -b -u -c JDS_wait
@@ -186,6 +187,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Wed Nov 7 2007 - simon.zheng@sun.com
+- Fix %post icon-cache.
 * Thu Oct 25 2007 - simon.zheng@sun.com
 - Delete installation files under /usr/share/docs.
 * Wed Oct 17 2007 - laca@sun.com

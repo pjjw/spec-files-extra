@@ -1,3 +1,9 @@
+2007-11-07  simon.zheng  <simon.zheng@sun.com>
+
+	* SFEgnome-power-manager.spec: Fix %post icon-cache.
+	* patches/gnome-power-manager-01-build.diff:
+	  Update it to show debugging info on Solaris.
+
 2007-11-07  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEgio.spec: (new)

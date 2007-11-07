@@ -43,15 +43,16 @@ diff -Nur gnome-power-manager-2.19.1/src/gpm-array-float.h gnome-power-manager-2
  							 guint		 i,
  							 gfloat		 value);
  
-diff -Nur gnome-power-manager-2.19.1/src/gpm-debug.h gnome-power-manager-2.19.1-new/src/gpm-debug.h
---- gnome-power-manager-2.19.1/src/gpm-debug.h	2007-04-25 18:51:51.000000000 +0800
-+++ gnome-power-manager-2.19.1-new/src/gpm-debug.h	2007-05-08 18:13:24.787614000 +0800
-@@ -40,7 +40,7 @@
- #define gpm_assert_run_once(x) static guint (x) = 0; if ((x)++ != 0) gpm_error ("%s, run multi!", __FUNCTION__); gpm_warning ("%s, run multi!", __FUNCTION__);
- #else
- #define gpm_debug
--#define gpm_warning
-+#define gpm_warning(...) gpm_warning_real ("", __FILE__, __LINE__, __VA_ARGS__)
- #define gpm_error
- #define gpm_assert_run_once(x)
- #endif
+diff -Nur gnome-power-manager-2.20.0/src/gpm-debug.h gnome-power-manager-2.20.0-new/src/gpm-debug.h
+--- gnome-power-manager-2.20.0/src/gpm-debug.h  2007-11-07 18:18:00.161023000 +0800
++++ gnome-power-manager-2.20.0-new/src/gpm-debug.h      2007-11-07 18:14:36.170143000 +0800
+@@ -28,7 +28,7 @@
+ 
+ G_BEGIN_DECLS
+ 
+-#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
++#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199409L
+ #define gpm_debug(...) gpm_debug_real (__func__, __FILE__, __LINE__, __VA_ARGS__)
+ #define gpm_warning(...) gpm_warning_real (__func__, __FILE__, __LINE__, __VA_ARGS__)
+ #define gpm_error(...) gpm_error_real (__func__, __FILE__, __LINE__, __VA_ARGS__)
+
