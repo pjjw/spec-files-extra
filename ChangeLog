@@ -1,3 +1,12 @@
+2007-11-07  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEgio.spec: (new)
+	* base-specs/gio.spec: (new) a set of daemons handling access
+	  to various file resources
+	* patches/gio-01-void-return.diff: (added)
+	* patches/gio-02-solaris-statfs.diff: (added)
+	* patches/gio-03-pretty-func.diff: (added)
+
 2007-11-05 Jijun Yu <jijun.yu@sun.com>
 	
 	* SFElibopensync.spec: Change to correct configure option.

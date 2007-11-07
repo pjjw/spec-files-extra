@@ -1,0 +1,35 @@
+Index: trunk/gio/glocalfile.c
+===================================================================
+--- trunk/gio/glocalfile.c	(revision 722)
++++ trunk/gio/glocalfile.c	(working copy)
+@@ -30,6 +30,9 @@
+ #include <sys/types.h>
+ #include <unistd.h>
+ 
++#if HAVE_STATFS
++#include <sys/statfs.h>
++#endif
+ #if HAVE_SYS_STATVFS_H
+ #include <sys/statvfs.h>
+ #endif
+@@ -768,13 +771,20 @@
+   
+   if (g_file_attribute_matcher_matches (attribute_matcher,
+ 					G_FILE_ATTRIBUTE_FS_FREE))
++#if defined(sun) && defined(__SVR4)
++#else
+     g_file_info_set_attribute_uint64 (info, G_FILE_ATTRIBUTE_FS_FREE, block_size * statfs_buffer.f_bavail);
++#endif
+   if (g_file_attribute_matcher_matches (attribute_matcher,
+ 					G_FILE_ATTRIBUTE_FS_SIZE))
+     g_file_info_set_attribute_uint64 (info, G_FILE_ATTRIBUTE_FS_SIZE, block_size * statfs_buffer.f_blocks);
+ 
+ #if HAVE_STATFS
++#if defined(sun) && defined(__SVR4)
++  fstype = get_fs_type (statfs_buffer.f_fstyp);
++#else
+   fstype = get_fs_type (statfs_buffer.f_type);
++#endif
+   if (fstype &&
+       g_file_attribute_matcher_matches (attribute_matcher,
+ 					G_FILE_ATTRIBUTE_FS_TYPE))

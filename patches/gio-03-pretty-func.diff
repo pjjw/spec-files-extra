@@ -1,0 +1,13 @@
+Index: trunk/gio/test-streams.c
+===================================================================
+--- trunk/gio/test-streams.c	(revision 722)
++++ trunk/gio/test-streams.c	(working copy)
+@@ -38,7 +38,7 @@
+      if G_LIKELY(expr) { } else 			      	        \
+         test_assert_warning (__FILE__,    	          \
+                              __LINE__,	              \
+-                             __PRETTY_FUNCTION__,	    \
++                             G_GNUC_PRETTY_FUNCTION,	    \
+ 	                           #expr);		  }G_STMT_END
+ 
+ static void
