@@ -1,3 +1,9 @@
+2007-11-08  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* base-specs/gvfs.spec, patches/gvfs-01-solaris.diff,
+	  SFEgnome-gvfs.spec: Added for the new gvfs module.
+	* SFEgio.spec: Remove l10n package as no l10n files are installed.
+
 2007-11-07  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEgnome-power-manager.spec: Fix %post icon-cache.

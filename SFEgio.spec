@@ -26,14 +26,6 @@ SUNW_BaseDir:   %{_basedir}
 %include default-depend.inc
 Requires: %name
 
-%if %build_l10n
-%package l10n
-Summary:                 %{summary} - l10n files
-SUNW_BaseDir:            %{_basedir}
-%include default-depend.inc
-Requires:                %{name}
-%endif
-
 %prep
 rm -rf %name-%version
 mkdir -p %name-%version
@@ -49,12 +41,6 @@ export RPM_OPT_FLAGS="$CFLAGS"
 %install
 rm -rf $RPM_BUILD_ROOT
 %gio.install -d %name-%version
-
-%if %build_l10n
-%else
-# REMOVE l10n FILES
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
-%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -79,13 +65,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_datadir}/gtk-doc/html
 %{_datadir}/gtk-doc/html/gio
 
-%if %build_l10n
-%files l10n
-%defattr (-, root, bin)
-%dir %attr (0755, root, sys) %{_datadir}
-%attr (-, root, other) %{_datadir}/locale
-%endif
 
 %changelog
+* Thu Nov 08 2007 - daymobrew@users.sourceforge.net
+- Remove l10n package as no l10n files are installed.
+
 * Wed Nov 07 2007 - nonsea@users.sourceforge.net
 - Initial spec
