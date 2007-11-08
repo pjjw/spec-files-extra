@@ -19,6 +19,7 @@ Name:                    SFEfusion-icon
 Summary:                 fusion-icon - simple tray icon for Compiz Fusion
 Version:                 0.1-20071003
 Source:			 http://cgit.compiz-fusion.org/~crdlb/fusion-icon/snapshot/%{src_name}-%{src_version}.tar.bz2	 
+Patch1:			 fusion-icon-01-solaris-port.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -35,6 +36,7 @@ Requires:	SUNWPython
 
 %prep
 %setup -q -n %{src_name}
+%patch1 -p1
 
 %build
 python setup.py build
@@ -81,7 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/icons/hicolor/48x48/apps/*
 
 %changelog
-* Fru Nov 02 2007 - erwann@sun.com
+* Thu Nov 08 2007 - erwann@sun.com
+- added solaris port patch
+* Fri Nov 02 2007 - erwann@sun.com
 - clean up post install and added icon-cache update
 * Tue Oct 30 2007 - trisk@acm.jhu.edu
 - Initial spec

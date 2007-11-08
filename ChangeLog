@@ -1,3 +1,9 @@
+2007-11-08 Erwann Chenede - <erwann.chenede@sun.com>
+
+	* SFEfusion-icon.spec: Added solaris port patch
+	* patches/fusion-icon-01-solaris-port.diff: initial solaris 
+	  port
+
 2007-11-08  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* base-specs/gvfs.spec, patches/gvfs-01-solaris.diff,

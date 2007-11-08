@@ -1,0 +1,70 @@
+diff -rup fusion-icon/FusionIcon/environment.py fusion-icon-ported/FusionIcon/environment.py
+--- fusion-icon/FusionIcon/environment.py	1970-01-01 01:00:00.000000000 +0100
++++ fusion-icon-ported/FusionIcon/environment.py	2007-11-08 22:41:49.751541000 +0100
+@@ -46,6 +46,8 @@ glx_vendor: 'client glx vendor:' usually
+ tfp: 'direct' if texture_from_pixmap is present with direct rendering (implying presence with indirect as well), 'indirect' if only present with indirect context, False if not present at all
+ 
+ Xgl: True in Xgl'''
++		if os.environ["PATH"].find ("/usr/bin/X11") == -1:
++			os.environ["PATH"] = os.environ["PATH"] + ":/usr/bin/X11"
+ 
+ 		# Check gnome- and kde-specific vars, then try generic 'DESKTOP_SESSION'
+ 		if GDSID in os.environ:
+diff -rup fusion-icon/FusionIcon/util.py fusion-icon-ported/FusionIcon/util.py
+--- fusion-icon/FusionIcon/util.py	1970-01-01 01:00:00.000000000 +0100
++++ fusion-icon-ported/FusionIcon/util.py	2007-11-08 22:42:32.494737000 +0100
+@@ -155,7 +155,7 @@ class WindowManagers(dict):
+ 			time.sleep(1)
+ 
+ 		if self.active and self.old and 'noreplace' in self[self.active].flags:
+-			run(['killall', self[self.old].base], 'call')
++			run(['pkill ', self[self.old].base], 'call')
+ 			time.sleep(1)
+ 
+ 		if self.active == 'compiz':
+@@ -165,10 +165,8 @@ class WindowManagers(dict):
+ 				if options[option].enabled:
+ 					compiz_command.append(options[option].switch)	
+ 
+-			kill_list = ['killall']
+ 			for decorator in decorators:
+-				kill_list.append(decorators[decorator].base)
+-			run(kill_list, 'call')
++			    subprocess.Popen(["/usr/bin/pkill", decorators[decorator].base[0:14]])
+ 			
+ 			time.sleep(0.5)
+ 
+@@ -204,10 +202,8 @@ class CompizDecorator(object):
+ 		self.desktop = installed.decorators[name][3]
+ 
+ 	def kill_others(self):
+-		killall = ['killall']
+ 		for decorator in [x for x in self.decorators if x != self.name]:
+-			killall.append(self.decorators[decorator].base)
+-		run(killall, 'call')
++			subprocess.Popen(["/usr/bin/pkill", self.decorators[decorator].base[0:14]])
+ 
+ class CompizDecorators(dict):
+ 		
+@@ -301,8 +297,8 @@ class Installed(object):
+ 		### Everything Else
+ 		self.wms = data.wms.copy()
+ 		for wm in data.wms:
+-			which = run(['which', data.wms[wm][0]], 'output')
+-			if which:
++			which = run(['which', data.wms[wm][0]], 'call')
++			if which == 0:
+ 				output += ' -- %s' %which
+ 			else:
+ 				del self.wms[wm]
+@@ -313,8 +309,8 @@ class Installed(object):
+ 
+ 		self.decorators = data.decorators.copy()
+ 		for decorator in data.decorators:
+-			which = run(['which', data.decorators[decorator][0]], 'output')
+-			if which:
++			which = run(['which', data.decorators[decorator][0]], 'call')
++			if which == 0:
+ 				output += ' -- %s' %which
+ 			else:
+ 				del self.decorators[decorator]
