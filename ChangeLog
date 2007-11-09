@@ -1,3 +1,8 @@
+2007-11-09  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEgnome-gvfs.spec: Add SFEgio to Requires,
+	  add SFEgio-devel to BuildRequires
+
 2007-11-08 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* SFEfusion-icon.spec: Added solaris port patch

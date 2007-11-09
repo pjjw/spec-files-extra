@@ -23,8 +23,10 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires: SUNWgnome-base-libs
 Requires: SUNWdbus
 Requires: SUNWlibmsr
+Requires: SFEgio
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWdbus-devel
+BuildRequires: SFEgio-devel
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -72,5 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Nov 09 2007 - nonsea@users.sourceforge.net
+- Add SFEgio to Requires, add SFEgio-devel to BuildRequires.
 * Thu Nov 07 2007 - damien.carbery@sun.com
 - Initial version.
