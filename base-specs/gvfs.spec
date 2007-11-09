@@ -17,6 +17,7 @@ Vendor:       Sun Microsystems, Inc.
 Summary:      Virtual File System Library for GNOME
 Source:       http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.0/%{name}-%{version}.tar.bz2
 Patch1:       gvfs-01-solaris.diff
+Patch2:       gvfs-02-solaris2.diff
 URL:          http://www.gnome.org/
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
@@ -25,6 +26,7 @@ Autoreqprov:  on
 %prep
 %setup -q
 %patch1 -p1
+%patch2 -p1
 
 %build
 %ifos linux
@@ -51,5 +53,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Nov 09 2007 - damien.carbery@sun.com
+- Add patch 02-solaris2 to include header files to fix 'implicit function
+  declaration' warnings.
+
 * Wed Nov 07 2007 - damien.carbery@sun.com
 - Initial version.

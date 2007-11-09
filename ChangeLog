@@ -1,3 +1,9 @@
+2007-11-09  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* base-specs/gvfs.spec: Add patch 02-solaris2 to include header files to
+	  fix 'implicit function declaration' warnings.
+	* patches/gvfs-02-solaris2.diff: Added.
+
 2007-11-09  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEgnome-gvfs.spec: Add SFEgio to Requires,
