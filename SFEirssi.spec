@@ -9,7 +9,7 @@
 
 Name:                SFEirssi
 Summary:             irssi - a terminal based IRC client
-Version:             0.8.11-rc1
+Version:             0.8.12
 Source:              http://www.irssi.org/files/irssi-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
@@ -103,6 +103,8 @@ rm -rf $RPM_BUILD_ROOT
 # package required (which in this case would contain one file)?
 
 %changelog
+* Fri Oct 09 2007 - Petr Sobotka sobotkap@centrum.cz
+- bump to 0.8.12
 * Sun Apr 08 2007 - Thomas Wagner
 - bump to 0.8.11-rc1, removed tarball_version (re-add if ever needed)
 * 

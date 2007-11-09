@@ -1,3 +1,7 @@
+2007-11-09  Petr Sobotka  <sobotkap@centrum.cz>
+
+	* SFEirssi.spec: Bump to 8.12
+
 2007-11-09  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEalpine.spec: Bump to 0.99999, replace patch1
