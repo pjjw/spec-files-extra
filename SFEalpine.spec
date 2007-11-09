@@ -9,9 +9,9 @@
 Name:                SFEalpine
 License:             Apache
 Summary:             University of Washington Alpine mail user agent
-Version:             0.9999
+Version:             0.99999
 Source:              ftp://ftp.cac.washington.edu/alpine/alpine-%{version}.tar.bz2
-Patch1:              alpine-01-sunldap.diff
+Patch1:              alpine-01-return-type.diff
 Patch2:              alpine-02-CC.diff
 URL:                 http://www.washington.edu/alpine/
 SUNW_BaseDir:        %{_basedir}
@@ -43,7 +43,8 @@ export LDFLAGS="%_ldflags -mt -L/usr/sfw/lib -R/usr/sfw/lib"
 #%else
 #TCL_OPTS="--with-tcl-lib=tcl%{tcl_version}"
 #%endif
-TCL_OPTS=
+# Disable Tcl until we figure out what to do with Web Alpine
+TCL_OPTS=--without-tcl
 
 autoconf
 
@@ -84,6 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Fri Nov 09 2007 - trisk@acm.jhu.edu
+- Bump to 0.99999, replace patch1
 * Sat Oct 13 2007 - laca@sun.com
 - add patch for using $CC instead of /opt/SUNWspro/bin/cc
 * Mon Oct 08 2007 - trisk@acm.jhu.edu

@@ -1,3 +1,16 @@
+2007-11-09  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEalpine.spec: Bump to 0.99999, replace patch1
+	* SFEgnome-power-manager.spec: Ensure doc dir is not installed
+	* SFEtaglib.spec: *NEW* TagLib - a library for reading and editing the
+	  meta-data of of several popular audio formats
+ta of several popular audio formats
+	* patches/alpine-01-return-type.diff: Fix return types in conditional
+	* patches/alpine-01-sunldap.diff: Drop upstreamed patch
+	* patches/taglib-01-map.diff: Fix for map key problem with Studio,
+	  thanks to River Tarnell (flyingparchment)
+	* ChangeLog: Re-wrap some long lines
+
 2007-11-09  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* base-specs/gvfs.spec: Add patch 02-solaris2 to include header files to
@@ -101,15 +114,18 @@
 2007-11-04  Ananth Shrinivas <ananth@sun.com>
 
 	* SFEgsl.spec: *NEW* The GNU Scientific Library for numerical processing
-	* SFEpython-gsl.spec: *NEW* Python bindings for the GNU Scientific Library
+	* SFEpython-gsl.spec: *NEW* Python bindings for the GNU Scientific
+	  Library
 	* SFEpython-parallel.spec: *NEW* Python module for parallel processing
 	* SFEpython-sqlalchemy.spec: *NEW* A python SQL toolkit and ORM
-	* patches/gsl-01-math.diff: Patch to use in-built gsl_finite implementation
+	* patches/gsl-01-math.diff: Patch to use in-built gsl_finite
+	  implementation
 	* patches/pygsl-01-macro.diff: Patch for sunstudio compatibility
 
 2007-11-02  Albert Lee  <trisk@acm.jhu.edu>
 
-	* SFEgst-pulse.spec: *NEW* GNOME streaming media framework - PulseAudio plugin
+	* SFEgst-pulse.spec: *NEW* GNOME streaming media framework - PulseAudio
+	  plugin
 
 2007-11-02 Erwann Chenede - <erwann.chenede@sun.com>
 
@@ -136,7 +152,8 @@
 
 2007-11-02  Halton Huo <nonsea@users.sourceforge.net>
 
-	* SFEanjuta.spec: Bump to 2.3.0, remove SUNWpcre-devel from BuildRequires.
+	* SFEanjuta.spec: Bump to 2.3.0, remove SUNWpcre-devel from
+	  BuildRequires.
 
 2007-11-01  Albert Lee  <trisk@acm.jhu.edu>
 
@@ -893,7 +910,8 @@
 
 2007-09-20  Albert Lee  <trisk@acm.jhu.edu>
 
-	* SFEtremulous.spec: *NEW* Team-based first-person shooter game with RTS elements
+	* SFEtremulous.spec: *NEW* Team-based first-person shooter game with RTS
+	  elements
 	* patches/tremulous-01-solaris.diff: Build changes and fixes for Solaris
 
 2007-09-19  Albert Lee  <trisk@acm.jhu.edu>

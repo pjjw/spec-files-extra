@@ -67,6 +67,9 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 rm -rf $RPM_BUILD_ROOT/var
 
 
+# Delete doc dir
+rm -rf $RPM_BUILD_ROOT%{_datadir}/doc
+
 %if %build_l10n
 %else
 # REMOVE l10n FILES
@@ -187,6 +190,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Thu Nov 08 2007 - trisk@acm.jhu.edu
+- Ensure doc dir is not installed
 * Wed Nov 7 2007 - simon.zheng@sun.com
 - Fix %post icon-cache.
 * Thu Oct 25 2007 - simon.zheng@sun.com

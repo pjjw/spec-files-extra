@@ -1,0 +1,33 @@
+diff -ru taglib-1.4.orig/taglib/ape/apetag.cpp taglib-1.4/taglib/ape/apetag.cpp
+--- taglib-1.4.orig/taglib/ape/apetag.cpp	Tue May 17 16:17:28 2005
++++ taglib-1.4/taglib/ape/apetag.cpp	Sun Nov  4 15:15:22 2007
+@@ -175,7 +175,7 @@
+ 
+ void APE::Tag::removeItem(const String &key)
+ {
+-  Map<const String, Item>::Iterator it = d->itemListMap.find(key.upper());
++  Map<String, Item>::Iterator it = d->itemListMap.find(key.upper());
+   if(it != d->itemListMap.end())
+     d->itemListMap.erase(it);
+ }
+@@ -223,7 +223,7 @@
+   uint itemCount = 0;
+ 
+   {
+-    for(Map<const String, Item>::ConstIterator it = d->itemListMap.begin();
++    for(Map<String, Item>::ConstIterator it = d->itemListMap.begin();
+         it != d->itemListMap.end(); ++it)
+     {
+       data.append(it->second.render());
+diff -ru taglib-1.4.orig/taglib/ape/apetag.h taglib-1.4/taglib/ape/apetag.h
+--- taglib-1.4.orig/taglib/ape/apetag.h	Tue May 17 16:17:28 2005
++++ taglib-1.4/taglib/ape/apetag.h	Sun Nov  4 15:14:05 2007
+@@ -44,7 +44,7 @@
+      *
+      * \see APE::Tag::itemListMap()
+      */
+-    typedef Map<const String, Item> ItemListMap;
++    typedef Map<String, Item> ItemListMap;
+ 
+ 
+     //! An APE tag implementation
