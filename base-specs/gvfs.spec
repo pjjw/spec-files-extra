@@ -53,9 +53,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Fri Nov 09 2007 - damien.carbery@sun.com
+* Fri Nov 09 2007 - daymobrew@users.sourceforge.net
 - Add patch 02-solaris2 to include header files to fix 'implicit function
   declaration' warnings.
 
-* Wed Nov 07 2007 - damien.carbery@sun.com
+* Wed Nov 07 2007 - daymobrew@users.sourceforge.net
 - Initial version.
