@@ -14,7 +14,7 @@
 
 Name:                    	SFEwesnoth
 Summary:                 	Battle for Wesnoth is a fantasy turn-based strategy game
-Version:                 	1.3.9
+Version:                 	1.3.10
 Source:                  	http://kent.dl.sourceforge.net/sourceforge/wesnoth/wesnoth-%{version}.tar.bz2
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -93,6 +93,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Nov 11 2007 Petr Sobotka <sobotkap@centrum.cz>
+- bump to 1.3.10
 * Fri Oct 19 2007 Petr Sobotka <sobotkap@centrum.cz>
 - bump to 1.3.9
 - add html documentation
