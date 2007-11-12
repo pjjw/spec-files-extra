@@ -1,3 +1,7 @@
+2007-11-12  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEcairomm.spec: Bump to 1.4.6.
+
 2007-11-12  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEsqlite.spec: Split into base/sqlite.spec.
