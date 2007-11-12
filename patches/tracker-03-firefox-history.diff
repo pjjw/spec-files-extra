@@ -1,7 +1,7 @@
-Index: src/trackerd/tracker-utils.h
+Index: tracker-trunk/src/trackerd/tracker-utils.h
 ===================================================================
---- src/trackerd/tracker-utils.h	(revision 961)
-+++ src/trackerd/tracker-utils.h	(working copy)
+--- tracker-trunk/src/trackerd/tracker-utils.h	(revision 1012)
++++ tracker-trunk/src/trackerd/tracker-utils.h	(working copy)
 @@ -124,6 +124,7 @@
  	INDEX_CONFIG,
  	INDEX_APPLICATIONS,
@@ -10,11 +10,11 @@ Index: src/trackerd/tracker-utils.h
  	INDEX_CRAWL_FILES,
  	INDEX_CONVERSATIONS,	
  	INDEX_EXTERNAL,	
-Index: src/trackerd/trackerd.c
+Index: tracker-trunk/src/trackerd/trackerd.c
 ===================================================================
---- src/trackerd/trackerd.c	(revision 961)
-+++ src/trackerd/trackerd.c	(working copy)
-@@ -933,6 +933,9 @@
+--- tracker-trunk/src/trackerd/trackerd.c	(revision 1012)
++++ tracker-trunk/src/trackerd/trackerd.c	(working copy)
+@@ -900,6 +900,9 @@
  	} else if (strcmp (service_info, "Files") == 0) {
  		tracker_db_index_file (db_con, info, NULL, NULL);
  
@@ -24,7 +24,7 @@ Index: src/trackerd/trackerd.c
  	} else if (g_str_has_suffix (service_info, "Conversations")) {
  		tracker_db_index_conversation (db_con, info);
  
-@@ -1257,7 +1260,22 @@
+@@ -1224,7 +1227,22 @@
  							break;
  
  
@@ -48,13 +48,11 @@ Index: src/trackerd/trackerd.c
  						case INDEX_EXTERNAL:
  							break;
  
- 
- 
-Index: src/trackerd/tracker-db.c
+Index: tracker-trunk/src/trackerd/tracker-db.c
 ===================================================================
---- src/trackerd/tracker-db.c	(revision 961)
-+++ src/trackerd/tracker-db.c	(working copy)
-@@ -927,9 +927,9 @@
+--- tracker-trunk/src/trackerd/tracker-db.c	(revision 1012)
++++ tracker-trunk/src/trackerd/tracker-db.c	(working copy)
+@@ -918,9 +918,9 @@
  void
  tracker_db_index_file (DBConnection *db_con, FileInfo *info, const char *attachment_uri, const char *attachment_service)
  {
@@ -67,7 +65,7 @@ Index: src/trackerd/tracker-db.c
  
  	GHashTable	*meta_table;
  	const char	*ext;
-@@ -962,7 +962,7 @@
+@@ -953,7 +953,7 @@
  
  		tracker_info ("mime is %s for %s", info->mime, info->uri);
  
@@ -76,7 +74,7 @@ Index: src/trackerd/tracker-db.c
  
  	}
  
-@@ -1002,6 +1002,37 @@
+@@ -993,6 +993,37 @@
  		tracker_add_metadata_to_table  (meta_table, g_strdup ("File:Modified"), tracker_date_to_str (info->mtime));
  		tracker_add_metadata_to_table  (meta_table, g_strdup ("File:Accessed"), tracker_date_to_str (info->atime));
  
@@ -114,10 +112,10 @@ Index: src/trackerd/tracker-db.c
  		is_external_service = g_str_has_prefix (info->mime, "service/");
  		is_file_indexable = (!info->is_directory && (strcmp (info->mime, "unknown") != 0) && (strcmp (info->mime, "symlink") != 0) && tracker_file_is_indexable (info->uri));
  
-Index: src/libtracker/tracker.h
+Index: tracker-trunk/src/libtracker/tracker.h
 ===================================================================
---- src/libtracker/tracker.h	(revision 961)
-+++ src/libtracker/tracker.h	(working copy)
+--- tracker-trunk/src/libtracker/tracker.h	(revision 1012)
++++ tracker-trunk/src/libtracker/tracker.h	(working copy)
 @@ -69,7 +69,7 @@
          SERVICE_APPOINTMENTS,
          SERVICE_TASKS,
@@ -127,10 +125,10 @@ Index: src/libtracker/tracker.h
          SERVICE_PROJECTS
  } ServiceType;
  
-Index: src/libtracker/tracker.c
+Index: tracker-trunk/src/libtracker/tracker.c
 ===================================================================
---- src/libtracker/tracker.c	(revision 961)
-+++ src/libtracker/tracker.c	(working copy)
+--- tracker-trunk/src/libtracker/tracker.c	(revision 1012)
++++ tracker-trunk/src/libtracker/tracker.c	(working copy)
 @@ -95,7 +95,7 @@
  "Appointments",
  "Tasks",
@@ -140,30 +138,10 @@ Index: src/libtracker/tracker.c
  "Projects",
  NULL
  };
-Index: src/tracker-extract/tracker-extract-html.c
+Index: tracker-trunk/src/libtracker-gtk/tracker-metadata-tile.c
 ===================================================================
---- src/tracker-extract/tracker-extract-html.c	(revision 961)
-+++ src/tracker-extract/tracker-extract-html.c	(working copy)
-@@ -113,6 +113,15 @@
- 				                     g_strdup( (char*)desc ));
- 			}
- 		}
-+
-+            if ( has_attribute(atts, "name", "KEYWORDS") || has_attribute(atts, "name", "keywords") ) {
-+									
-+			const xmlChar *keywords = lookup_attribute(atts, "content");
-+			if ( keywords ) {
-+				g_hash_table_insert (((HTMLParseInfo *)info)->metadata, g_strdup ("Doc:Keywords"),
-+							   g_strdup((char*) keywords));			
-+			}					
-+		}
- 	}
- }
- 
-Index: src/libtracker-gtk/tracker-metadata-tile.c
-===================================================================
---- src/libtracker-gtk/tracker-metadata-tile.c	(revision 961)
-+++ src/libtracker-gtk/tracker-metadata-tile.c	(working copy)
+--- tracker-trunk/src/libtracker-gtk/tracker-metadata-tile.c	(revision 1012)
++++ tracker-trunk/src/libtracker-gtk/tracker-metadata-tile.c	(working copy)
 @@ -299,7 +299,26 @@
  	EMAIL_N_KEYS
  };
@@ -247,10 +225,10 @@ Index: src/libtracker-gtk/tracker-metadata-tile.c
          case SERVICE_IMAGES:
  
  		tracker_metadata_get_async (priv->client, SERVICE_IMAGES, 
-Index: src/tracker-search-tool/tracker-search-tool.c
+Index: tracker-trunk/src/tracker-search-tool/tracker-search-tool.c
 ===================================================================
---- src/tracker-search-tool/tracker-search-tool.c	(revision 961)
-+++ src/tracker-search-tool/tracker-search-tool.c	(working copy)
+--- tracker-trunk/src/tracker-search-tool/tracker-search-tool.c	(revision 1012)
++++ tracker-trunk/src/tracker-search-tool/tracker-search-tool.c	(working copy)
 @@ -126,12 +126,12 @@
  "Appointments",
  "Tasks",
@@ -274,7 +252,7 @@ Index: src/tracker-search-tool/tracker-search-tool.c
          { NULL,            NULL,               NULL,                       NULL, -1,                        NULL, FALSE, 0, 0},
  };
  
-@@ -1543,7 +1544,7 @@
+@@ -1540,7 +1541,7 @@
  
  		if (type != -1) {
  			for (service = services; service->service; ++service) {
@@ -283,7 +261,7 @@ Index: src/tracker-search-tool/tracker-search-tool.c
  					service->hit_count = atoi (meta[1]);
  					break;
  				}
-@@ -1914,6 +1915,7 @@
+@@ -1911,6 +1912,7 @@
  	g_hash_table_insert (gsearch->category_table, g_strdup ("Development"), &services[8]);
  	g_hash_table_insert (gsearch->category_table, g_strdup ("Conversations"), &services[9]);
  	g_hash_table_insert (gsearch->category_table, g_strdup ("Applications"), &services[10]);
@@ -291,10 +269,10 @@ Index: src/tracker-search-tool/tracker-search-tool.c
  	//g_hash_table_insert (gsearch->category_table, g_strdup ("EmailAttachments"), &services[11]);
  	
  	gsearch->category_store = gtk_list_store_new (NUM_CATEGORY_COLUMNS, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
-Index: data/services/default.service
+Index: tracker-trunk/data/services/default.service
 ===================================================================
---- data/services/default.service	(revision 961)
-+++ data/services/default.service	(working copy)
+--- tracker-trunk/data/services/default.service	(revision 1012)
++++ tracker-trunk/data/services/default.service	(working copy)
 @@ -34,6 +34,23 @@
  ShowServiceFiles=true
  ShowServiceDirectories=true
@@ -319,10 +297,10 @@ Index: data/services/default.service
  [Images]
  DisplayName=Images
  Description=Image based files
-Index: data/services/document.metadata
+Index: tracker-trunk/data/services/document.metadata
 ===================================================================
---- data/services/document.metadata	(revision 961)
-+++ data/services/document.metadata	(working copy)
+--- tracker-trunk/data/services/document.metadata	(revision 1012)
++++ tracker-trunk/data/services/document.metadata	(working copy)
 @@ -53,3 +53,11 @@
  Description=Date document was created
  DataType=DateTime

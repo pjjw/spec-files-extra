@@ -1,3 +1,12 @@
+2007-11-12  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEsqlite.spec: Split into base/sqlite.spec.
+	* base-specs/sqlite.spec: Bump to 3.5.2.
+	* base-specs/tracker.spec: Use -p1 for firefox-history.diff
+	* patches/sqlite-01-thread-lock-test.diff: (removed) upstreamed patch.
+	* patches/tracker-02-thunderbird.diff: (rework)
+	* patches/tracker-03-firefox-history.diff: (rework)
+
 2007-11-11  Petr Sobotka  <sobotkap@centrum.cz>
 
 	* SFEwesnoth.spec: Bump to 1.3.10

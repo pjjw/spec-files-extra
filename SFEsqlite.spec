@@ -4,14 +4,14 @@
 # includes module(s): 
 #
 %include Solaris.inc
-Name:                    SFEsqlite
-Summary:                 SQLite - a small C library implementation of a SQL database engine
-Version:                 3.4.2
-Source:                  http://www.sqlite.org/sqlite-%{version}.tar.gz
-Patch1:                  sqlite-01-thread-lock-test.diff
-URL:                     http://www.sqlite.org/
-SUNW_BaseDir:            %{_basedir}
-BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+
+%use sqlite = sqlite.spec
+
+Name:           SFEsqlite
+Summary:        sqlite.summary
+Version:        %{default_pkg_version}
+SUNW_BaseDir:   %{_basedir}
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 %package devel
@@ -21,43 +21,21 @@ SUNW_BaseDir:   %{_basedir}
 Requires: %name
 
 %prep
-%setup -q -n sqlite-%version
-%patch1 -p1
+rm -rf %name-%version
+mkdir -p %name-%version
+%sqlite.prep -d %name-%version
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-    CPUS=1
-fi
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CFLAGS="%optflags -mt -DSOLARIS -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS -D_FILE_OFFSET_BITS=64 -D_XOPEN_SOURCE=500 -D__EXTENSIONS__ -DSQLITE_ENABLE_REDEF_IO"
 export LDFLAGS="%{_ldflags}"
-
-./configure --prefix=%{_prefix}					\
-			--enable-static=no					\
-			--enable-releasemode				\
-			--enable-threadsafe 				\
-			--disable-tcl						\
-			--disable-cross-thread-connections	\
-			--enable-tempstore					\
-			--enable-threads-override-locks		\
-			--disable-debug						\
-			--mandir=%{_mandir}					\
-			--bindir=%{_bindir}					\
-			--libdir=%{_libdir}					\
-			--includedir=%{_includedir}
-
-make -j$CPUS
+export RPM_OPT_FLAGS="$CFLAGS"
+%sqlite.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make BASENAME=${RPM_BUILD_ROOT}%{_prefix}	\
-     MANDIR=${RPM_BUILD_ROOT}%{_mandir} DESTDIR=$RPM_BUILD_ROOT install
-strip ${RPM_BUILD_ROOT}%{_bindir}/*
-
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.la
-
-cd ${RPM_BUILD_ROOT}%{_libdir}
-ln -s libsqlite3.so libsqlite3.so.0
+%sqlite.install -d %name-%version
+cd %{_builddir}/%name-%version
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -79,6 +57,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov 12 2007 - nonsea@users.sourceforge.net
+- Spilit into sqlite.spec
 - Tue Oct 09 2007 - brian.cameron@sun.com
 - Revert back to 3.4.2.  Found crashing problems running the examples
   in pysqlite with the 3.5.1 version.
@@ -91,7 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 - Uncomment patch1.
 * Wed Sep 05 2007 - nonsea@users.sourceforge.net
 - Bump to 3.5.0
-- Comment patch1, seems no crash when run tracker and opensync,
+- Comment patch1, seems no crash when run sqlite and opensync,
   will contact patch owner laca.
 * Mon Jul 30 2007 - markwright@internode.on.net
 - Bump to 3.4.1
