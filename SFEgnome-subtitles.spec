@@ -7,7 +7,7 @@
 
 Name:                SFEgnome-subtitles
 Summary:             Video subtitling for the Gnome Desktop
-Version:             0.4
+Version:             0.6
 Source:              http://downloads.sourceforge.net/gnome-subtitles/gnome-subtitles-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -23,6 +23,15 @@ Requires: SFEgnome-sharp
 Summary:                 %{summary} - / filesystem
 SUNW_BaseDir:            /
 %include default-depend.inc
+
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
+
 
 %prep
 %setup -q -n gnome-subtitles-%version
@@ -51,6 +60,14 @@ make -j$CPUS
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
+%if %build_l10n
+%else
+# REMOVE l10n FILES
+rm -r $RPM_BUILD_ROOT%{_datadir}/locale
+rm -r $RPM_BUILD_ROOT%{_datadir}/gnome/help/*/[a-z]*
+rm -r $RPM_BUILD_ROOT%{_datadir}/omf/*/*-[a-z][a-z].omf
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -74,12 +91,30 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/applications
 %{_datadir}/pixmaps
+%dir %attr (0755, root, other) %{_datadir}/gnome
+%dir %attr (0755, root, bin) %{_datadir}/gnome/help
+%{_datadir}/gnome/help/gnome-subtitles/C
+%{_datadir}/omf/gnome-subtitles/gnome-subtitles-C.omf
 
 %files root
 %defattr (-, root, sys)
 %{_sysconfdir}
 
+%if %build_l10n
+%files l10n
+%defattr (-, root, bin)
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/gnome
+%{_datadir}/gnome/help/gnome-subtitles/[a-z]*
+%attr (-, root, other) %{_datadir}/locale
+%{_datadir}/omf/gnome-subtitles/gnome-subtitles-[a-z][a-z].omf
+%endif
+
+
 %changelog
+* Mon Nov 12 2007 - Damien Carbery <daymobrew@users.sourceforge.net>
+- Bump to 0.6. Add l10n package.
+
 * Sun Apr 22 2007 - Damien Carbery <daymobrew@users.sourceforge.net>
 - Add Build/Requires SFEmono-devel, SFEgtk-sharp, SFEgnome-sharp in order to
   get it to build.

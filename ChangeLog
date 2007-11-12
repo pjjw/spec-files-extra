@@ -1,5 +1,9 @@
 2007-11-12  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* SFEgnome-subtitles.spec: Bump to 0.6. Add l10n package.
+
+2007-11-12  Damien Carbery <daymobrew@users.sourceforge.net>
+
 	* SFEcairomm.spec: Bump to 1.4.6.
 
 2007-11-12  Halton Huo <nonsea@users.sourceforge.net>
@@ -24,8 +28,7 @@
 	* SFEalpine.spec: Bump to 0.99999, replace patch1
 	* SFEgnome-power-manager.spec: Ensure doc dir is not installed
 	* SFEtaglib.spec: *NEW* TagLib - a library for reading and editing the
-	  meta-data of of several popular audio formats
-ta of several popular audio formats
+	  meta-data of several popular audio formats.
 	* patches/alpine-01-return-type.diff: Fix return types in conditional
 	* patches/alpine-01-sunldap.diff: Drop upstreamed patch
 	* patches/taglib-01-map.diff: Fix for map key problem with Studio,
