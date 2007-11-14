@@ -1,5 +1,6 @@
 2007-11-14  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* base-specs/gnome-device-manager.spec: Remove %files sections.
 	* SFEcompizconfig-gconf.spec, SFEgobby.spec, SFElibcompizconfig.spec,
 	  SFEemerald.spec, SFEdisksearch.spec, SFEjokosher.spec, SFEccsm.spec,
 	  SFEgtodo2.spec SFEcompizconfig-python.spec: Add l10n package.

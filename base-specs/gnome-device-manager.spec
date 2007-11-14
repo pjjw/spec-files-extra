@@ -82,22 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 %clean 
 rm -rf $RPM_BUILD_ROOT
 
-%files 
-%defattr(-, root, root)
-%{_bindir}/gnome-device-manager
-%{_datadir}/applications/*
-%{_datadir}/gnome/*
-%{_datadir}/icons/hicolor/48x48/apps/*.png
-%{_datadir}/omf/*
-
-%if %build_l10n
-%files l10n
-%defattr (-, root, other)
-%dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/locale
-%endif
-
 %changelog
+* Wed Nov 14 2007 - daymobrew@users.sourceforge.net
+- Remove %files sections.
 * Mon Sep 17 2007 - trisk@acm.jhu.edu
 - Add intltoolize to fix build
 * Fri Aug 31 2007 - simon.zheng@sun.com
