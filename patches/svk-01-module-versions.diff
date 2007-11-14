@@ -1,0 +1,19 @@
+--- SVK-v2.0.2/Makefile.PL.orig	Mon Mar 26 13:17:42 2007
++++ SVK-v2.0.2/Makefile.PL	Wed Nov 14 00:59:41 2007
+@@ -84,12 +84,12 @@
+     'UNIVERSAL::require'       => '0',
+     'Term::ReadKey'            => '0',
+     'Time::HiRes'              => '0',       # in core since 5.7.3
+-    'File::Temp'               => '0.17',
+-    'Encode'                   => '2.10',    # in core since 5.8.7
+-    'Getopt::Long'             => '2.35',    # in core since 5.8.8
++    'File::Temp'               => '0.14',
++    'Encode'                   => '1.99',    # in core since 5.8.7
++    'Getopt::Long'             => '2.34',    # in core since 5.8.8
+     'Pod::Escapes'             => '0',       # in core since 5.9.3
+     'Pod::Simple'              => '0',       # in core since 5.9.3
+-    'File::Spec'               => '3.19',    # in core since 5.9.3
++    'File::Spec'               => '0.87',    # in core since 5.9.3
+ );
+ requires(
+     'Date::Format'             => '',

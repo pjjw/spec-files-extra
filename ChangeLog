@@ -1,3 +1,36 @@
+2007-11-14  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEsvk.spec: *NEW* svk decentralized version control system
+	* SFEperl-algorithm-annotate.spec: *NEW* Algorithm-Annotate PERL module
+	* SFEperl-app-cli.spec: *NEW* App-CLI PERL module
+	* SFEperl-class-accessor.spec: *NEW* Class-Accessor PERL module
+	* SFEperl-class-autouse.spec: *NEW* Class-Autouse PERL module
+	* SFEperl-class-data-inherit.spec: *NEW* Class-Data-Inheritance PERL
+	  module
+	* SFEperl-compress-raw-zlib.spec: *NEW* Compress-Raw-Zlib PERL module
+	* SFEperl-compress-zlib.spec: *NEW* Compress-Zlib PERL module
+	* SFEperl-data-hierarchy.spec: Bump to 0.34
+	* SFEperl-file-chdir.spec: *NEW* File-chdir PERL module
+	* SFEperl-freezethaw.spec: *NEW* Freezethaw PERL module
+	* SFEperl-io-compress-base.spec: *NEW* IO-Compress-Base PERL module
+	* SFEperl-io-compress-zlib.spec: *NEW* IO-Compress-Zlib PERL module
+	* SFEperl-io-pager.spec: *NEW* IO-Pager PERL module
+	* SFEperl-list-moreutils.spec: *NEW* List-MoreUtils PERL module
+	* SFEperl-locale-mt-lexicon.spec: *NEW* Locale-Maketext-Lexicon PERL
+	  module
+	* SFEperl-locale-mt-simple.spec: *NEW* Locale-Maketext-Simple PERL
+	  module
+	* SFEperl-log-log4perl.spec: *NEW* Log-Log4perl PERL module
+	* SFEperl-path-class.spec: *NEW* Path-Class PERL module
+	* SFEperl-svn-mirror.spec: *NEW* SVN-Mirror PERL module
+	* SFEperl-svn-simple.spec: *NEW* SVN-Simple PERL module
+	* SFEperl-term-readkey.spec: *NEW* Term-ReadKey PERL module
+	* SFEperl-universal-require.spec: *NEW* UNIVERSAL-require PERL module
+	* SFEperl-version.spec: *NEW* version PERL module
+	* SFEperl-yaml-syck.spec: *NEW* YAML-Syck PERL module
+	* patches/svk-01-module-versions.diff: Patch for leeway on module
+	  version requirements
+
 2007-11-14  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* base-specs/gnome-device-manager.spec: Remove %files sections.

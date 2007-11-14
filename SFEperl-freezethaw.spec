@@ -1,22 +1,19 @@
 #
-# spec file for package SFEperl-data-hierarchy
+# spec file for package SFEperl-freezethaw
 #
-# includes module(s): Data-Hierarchy
+# includes module(s): FreezeThaw
 #
-# Copyright (c) 2004 Sun Microsystems, Inc.
-# This file and all modifications and additions to the pristine
-# package are under the same license as the package itself.
-#
+
 
 %include Solaris.inc
 
-%define data_hierarchy_version 0.34
+%define freeze_thaw_version 0.43
 %define perl_version 5.8.4
 
-Name:                    SFEperl-data-hierarchy
-Summary:                 Data-Hierarchy-%{data_hierarchy_version} PERL module
-Version:                 %{perl_version}.%{data_hierarchy_version}
-Source:                  http://www.cpan.org/modules/by-module/Data/Data-Hierarchy-%{data_hierarchy_version}.tar.gz
+Name:                    SFEperl-freezethaw
+Summary:                 FreezeThaw-%{freeze_thaw_version} PERL module
+Version:                 %{perl_version}.%{freeze_thaw_version}
+Source:                  http://www.cpan.org/modules/by-module/FreezeThaw/FreezeThaw-%{freeze_thaw_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:                SUNWperl584core
@@ -34,7 +31,7 @@ BuildRequires:           SUNWsfwhea
 %setup -q            -c -n %name-%version
 
 %build
-cd Data-Hierarchy-%{data_hierarchy_version}
+cd FreezeThaw-%{freeze_thaw_version}
 perl Makefile.PL \
     PREFIX=$RPM_BUILD_ROOT%{_prefix} \
     INSTALLSITELIB=$RPM_BUILD_ROOT%{_prefix}/perl5/vendor_perl/%{perl_version} \
@@ -47,7 +44,7 @@ make CC=$CC CCCDLFLAGS="%picflags" OPTIMIZE="%optflags" LD=$CC
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd Data-Hierarchy-%{data_hierarchy_version}
+cd FreezeThaw-%{freeze_thaw_version}
 make install
 
 rm -rf $RPM_BUILD_ROOT%{_prefix}/lib
@@ -62,8 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755, root, bin) %{_prefix}/perl5
 %dir %attr(0755, root, bin) %{_prefix}/perl5/vendor_perl
 %dir %attr(0755, root, bin) %{_prefix}/perl5/vendor_perl/%{perl_version}
-%dir %attr(0755, root, bin) %{_prefix}/perl5/vendor_perl/%{perl_version}/Data
-%{_prefix}/perl5/vendor_perl/%{perl_version}/Data/*
+%{_prefix}/perl5/vendor_perl/%{perl_version}/*.pm
 %dir %attr(0755, root, bin) %{_prefix}/perl5/vendor_perl/%{perl_version}/%{perl_dir}/auto
 %{_prefix}/perl5/vendor_perl/%{perl_version}/%{perl_dir}/auto/*
 %dir %attr(0755, root, sys) %{_datadir}
@@ -73,13 +69,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Tue Nov 13 2007 - trisk@acm.jhu.edu
-- Bump to 0.34
-* Sun Jan 28 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
-- Updated how version is defined.
-* Sun Jul  2 2006 - laca@Sun.com
-- rename to SFEperl-data-hierarchy
-- delete -devel-share subpkg
-* Thu May 11 2006 - damien.carbery@sun.com
-- Change owner of 'auto' dir to root:bin to match SUNWperl-xml-parser.
-* Mon Jan 02 2006 - glynn.foster@sun.com
-- Initial spec file
+- Initial spec
