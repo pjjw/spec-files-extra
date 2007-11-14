@@ -1,3 +1,10 @@
+2007-11-14  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEcompizconfig-gconf.spec, SFEgobby.spec, SFElibcompizconfig.spec,
+	  SFEemerald.spec, SFEdisksearch.spec, SFEjokosher.spec, SFEccsm.spec,
+	  SFEgtodo2.spec SFEcompizconfig-python.spec: Add l10n package.
+	* SFEmedit.spec: Fix comment.
+
 2007-11-12  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEgnome-subtitles.spec: Bump to 0.6. Add l10n package.

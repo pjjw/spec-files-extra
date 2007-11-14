@@ -29,6 +29,14 @@ BuildRequires: SFEsigcpp-devel
 BuildRequires: SFElibxmlpp-devel
 BuildRequires: SFEnet6-devel
 
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
+
 %prep
 %setup -q -n gobby-%version
 %patch1 -p1
@@ -103,6 +111,10 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Wed Nov 14 2007 - daymobrew@users.sourceforge.net
+- Add l10n package.
+* Wed Nov 14 2007 - daymobrew@users.sourceforge.net
+- Add l10n package.
 * Mon Sep 17 2007 - trisk@acm.jhu.edu
 - Bump to 0.4.5
 * Fri Aug 17 2007 - trisk@acm.jhu.edu

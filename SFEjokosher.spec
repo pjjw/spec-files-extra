@@ -28,6 +28,14 @@ BuildRequires:	SFEgnonlin
 %description
 Jokosher is a simple yet powerful multi-track studio. 
 
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
+
 %prep
 %setup -q -n jokosher-%version
 
@@ -118,6 +126,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Wed Nov 14 2007 - daymobrew@users.sourceforge.net
+- Add l10n package.
 * Sat Sep 01 2007 - trisk@acm.jhu.edu
 - Fix help and l10n install rules
 * Wed Aug 15 2007 - trisk@acm.jhu.edu

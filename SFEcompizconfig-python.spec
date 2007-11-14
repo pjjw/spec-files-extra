@@ -34,6 +34,14 @@ Requires:                %{name} = %{version}
 
 %define pythonver 2.4
 
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
+
 %prep
 %setup -q -n %{src_name}-%version
 
@@ -106,6 +114,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Nov 14 2007 - daymobrew@users.sourceforge.net
+- Add l10n package.
 * Mon Oct 29 2007 - trisk@acm.jhu.edu
 - Bump to 0.6.0.1
 * Fri Sep 07 2007 - trisk@acm.jhu.edu

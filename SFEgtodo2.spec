@@ -10,13 +10,17 @@ URL:                     http://sarine.nl/gnome-task-list-manager
 Version:                 0.19.0
 #TODO#   remove -beta 
 Source:                  http://download.sarine.nl/gtodo2/gtodo2-%{version}-beta.tar.gz
-
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
-
-
 %include default-depend.inc
 
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
 
 %prep
 %setup -q -n gtodo2-%version
@@ -63,5 +67,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Nov 14 2007 - daymobrew@users.sourceforge.net
+- Add l10n package.
 * Wed May 30 2007  - Thomas Wagner
 - Initial spec
