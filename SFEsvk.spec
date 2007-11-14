@@ -88,7 +88,7 @@ rm -rf $RPM_BUILD_ROOT%{_prefix}/lib
 mv $RPM_BUILD_ROOT%{_bindir}/svk $RPM_BUILD_ROOT%{_bindir}/svk.real
 echo "#!/bin/sh" > $RPM_BUILD_ROOT%{_bindir}/svk
 echo "LD_PRELOAD=libneon.so; export LD_PRELOAD" >> $RPM_BUILD_ROOT%{_bindir}/svk
-echo "exec svk.real \"$$@\"" >> $RPM_BUILD_ROOT%{_bindir}/svk
+echo "exec svk.real \"\$@\"" >> $RPM_BUILD_ROOT%{_bindir}/svk
 chmod 0755 $RPM_BUILD_ROOT%{_bindir}/svk
 
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
@@ -116,5 +116,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Wed Nov 14 2007 - trisk@acm.jhu.edu
+- Fix typo in wrapper script
 * Tue Nov 13 2007 - trisk@acm.jhu.edu
 - Initial spec

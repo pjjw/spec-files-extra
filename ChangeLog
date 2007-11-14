@@ -1,5 +1,9 @@
 2007-11-14  Albert Lee  <trisk@acm.jhu.edu>
 
+	* SFEsvk.spec: Fix typo in wrapper script
+
+2007-11-14  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEsvk.spec: *NEW* svk decentralized version control system
 	* SFEperl-algorithm-annotate.spec: *NEW* Algorithm-Annotate PERL module
 	* SFEperl-app-cli.spec: *NEW* App-CLI PERL module
