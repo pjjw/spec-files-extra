@@ -5,6 +5,8 @@
 #
 %include Solaris.inc
 
+%define SUNWlibsdl      %(/usr/bin/pkginfo -q SUNWlibsdl && echo 1 || echo 0)
+
 Name:                    SFEfreeciv
 Summary:                 freeciv - a multiplayer strategy game
 Version:                 2.1.0-beta4
@@ -15,8 +17,13 @@ Patch3:                  freeciv-03-strlcpy.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires:	SFEsdl-devel
-Requires:	SFEsdl
+%if %SUNWlibsdl
+BuildRequires: SUNWlibsdl-devel
+Requires: SUNWlibsdl
+%else
+BuildRequires: SFEsdl-devel
+Requires: SFEsdl
+%endif
 BuildRequires:	SFEsdl-mixer-devel
 Requires:	SFEsdl-mixer
 
@@ -64,6 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Enable building with either SUNWlibsdl or SFEsdl.
 * Sun Apr 21 2006 - dougs@truemail.co.th
 - Added SFEsdl-mixer and enabled sound
 - A slight tidy up of spec file

@@ -17,7 +17,13 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 BuildRequires: SFEimlib2
 Requires: SFEimlib2
 Requires: SUNWfreetype2
+%if %option_with_fox
+Requires: FSWxorg-clientlibs
+Requires: FSWxwrtl
+BuildRequires: FSWxorg-headers
+%else
 Requires: SUNWxwplt
+%endif
 Requires: SUNWgccruntime
 
 %prep
@@ -34,6 +40,9 @@ fi
 export CC=/usr/sfw/bin/gcc
 # export CFLAGS="%optflags"
 export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
+%if %option_with_fox
+export CFLAGS="$CFLAGS -I/usr/X11/include"
+%endif
 
 export LDFLAGS="%_ldflags"
 
@@ -66,6 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Add support for Indiana builds.
 * Mon Mar 19 2007 - dougs@truemail.co.th
 - Fixed -fno-omit-frame-pointer flag
 * Tue Nov 07 2006 - Eric Boutilier

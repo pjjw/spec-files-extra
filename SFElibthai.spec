@@ -49,7 +49,8 @@ autoconf -f -I autoconf
 	    --disable-static		\
 	    --enable-shared
 
-printf "/^EXPORTS/d\nwq\n" | ex - src/libthai.def
+# Comment out as it breaks build with: dumb: Unknown terminal type
+##printf "/^EXPORTS/d\nwq\n" | ex -s src/libthai.def
 make -j$CPUS
 
 %install
@@ -74,7 +75,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Comment out printf call that was breaking build. Update %files.
 * Thu Jul 26 2007 - dougs@truemail.co.th
 - Initial spec

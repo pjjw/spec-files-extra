@@ -7,10 +7,11 @@
 
 %define src_name	dangerdeep
 %define src_url		http://jaist.dl.sourceforge.net/sourceforge/%{src_name}
+%define SUNWlibsdl      %(/usr/bin/pkginfo -q SUNWlibsdl && echo 1 || echo 0)
 
 Name:                   SFEdangerdeep
 Summary:                Danger from the Deep Game
-Version:                0.2.0
+Version:                0.3.0
 Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
 Source2:		%{src_url}/%{src_name}-data-%{version}.zip
 Patch1:			dangerdeep-01-sconstruct.diff
@@ -22,8 +23,13 @@ BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SFEscons
 BuildRequires: SFEgcc
+%if %SUNWlibsdl
+BuildRequires: SUNWlibsdl-devel
+Requires: SUNWlibsdl
+%else
 BuildRequires: SFEsdl-devel
 Requires: SFEsdl
+%endif
 BuildRequires: SFEsdl-mixer-devel
 Requires: SFEsdl-mixer
 BuildRequires: SFEsdl-net-devel
@@ -82,5 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dangerdeep
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Bump to 0.3.0. Enable building with SFElibsdl or SFEsdl.
 * Mon Apr 23 2006 - dougs@truemail.co.th
 - Initial version

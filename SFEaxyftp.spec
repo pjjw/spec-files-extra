@@ -16,8 +16,14 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 Requires: SUNWdtbas
 Requires: SUNWmfrun
+%if %option_with_fox
+Requires: FSWxorg-clientlibs
+Requires: FSWxwrtl
+BuildRequires: FSWxorg-headers
+%else
 Requires: SUNWxwice
 Requires: SUNWxwplt
+%endif
 
 %prep
 %setup -q -n axyftp-%version
@@ -49,6 +55,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Add support for Indiana builds.
 * Sat Oct 14 2006 - laca@sun.com
 - disable parallel build as it breaks on multicpu systems
 * Mon Sep 25 2006 - Eric Boutilier

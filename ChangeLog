@@ -1,5 +1,18 @@
 2007-11-15  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* SFEfindutils.spec: Correct path to charset.alias file.
+	* SFEaxyftp.spec, SFElibast.spec, SFEocaml.spec, SFEemacs-xft.spec,
+	  SFEgnome-commander.spec, SFEemerald.spec, SFEimlib2.spec: Add support
+	  for Indiana builds.
+	* SFEdangerdeep.spec: Bump to 0.3.0. Enable building with either
+	  SUNWlibsdl or SFEsdl.
+	* SFEfreeciv.spec: Enable building with either SUNWlibsdl or SFEsdl.
+	* SFElibthai.spec: Comment out printf call that was breaking build.
+	  Update %files.
+	* SFEfreedroidrpg.spec: Bump to 0.10.3.
+
+2007-11-15  Damien Carbery <daymobrew@users.sourceforge.net>
+
 	* SFEgmpc.spec: Add support for building on an Indiana system.
 	* SFEcheese.spec: Add patch and code to support building on an Indiana
 	  system.

@@ -35,6 +35,12 @@ BuildRequires: SUNWPython
 BuildRequires: SUNWgnome-python-libs-devel
 Requires: SUNWgnome-libs
 Requires: SUNWgnome-python-libs
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
+Requires: SUNWuiu8
+%endif
 
 %if %build_l10n
 %package l10n
@@ -63,6 +69,9 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 export PYTHON="/usr/bin/python"
 export CFLAGS="%optflags -I/usr/sfw/include -I/usr/gnu/include -DANSICPP"
+%if %option_with_gnu_iconv
+export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+%endif
 export CPPFLAGS="-I/usr/sfw/include"
 export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib -L/usr/gnu/lib -R/usr/gnu/lib"
 
@@ -119,6 +128,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Add support for Indiana builds.
 * Wed Oct 17 2007 - laca@sun.com
 - add /usr/gnu to search paths for the indiana build
 * Mon Oct 08 2007 - damien.carbery@sun.com

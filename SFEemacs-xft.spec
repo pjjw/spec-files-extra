@@ -14,9 +14,15 @@ URL:                     http://www.emacswiki.org/cgi-bin/wiki/XftGnuEmacs
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+%if %option_with_fox
+Requires: FSWxorg-clientlibs
+Requires: FSWxwrtl
+BuildRequires: FSWxorg-headers
+%else
 Requires: SUNWxwrtl
 Requires: SUNWxwplt
 Requires: SUNWxwice
+%endif
 Requires: SUNWTiff
 Requires: SUNWpng
 Requires: SUNWjpg
@@ -40,6 +46,9 @@ fi
 export CPP="/usr/sfw/bin/gcc -E"
 export CC=/usr/sfw/bin/gcc
 export CFLAGS="-O4"
+%if %option_with_fox
+export CFLAGS="$CFLAGS -I/usr/X11/include"
+%endif
 export LDFLAGS="-Xlinker -zignore -lX11 -L/usr/sfw/lib -R/usr/sfw/lib -lfreetype"
 export PERL=/usr/perl5/bin/perl
 
@@ -109,6 +118,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Enable building with either SUNWlibsdl or SFEsdl.
 * Sun Feb 25 2007 - laca@sun.com
 - update to new cvs snapshot tarball
 * Fri Feb 16 2007 - dougs@truemail.co.th

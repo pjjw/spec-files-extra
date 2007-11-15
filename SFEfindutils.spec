@@ -52,7 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
 rmdir $RPM_BUILD_ROOT%{_prefix}%{_localstatedir}
-rm $RPM_BUILD_ROOT%{_datadir}/lib/charset.alias
+rm $RPM_BUILD_ROOT%{_prefix}/lib/charset.alias
 
 %if %build_l10n
 %else
@@ -81,6 +81,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Correct path to charset.alias file.
 * Sun Oct 14 2007 - laca@sun.com
 - fix l10n installation
 * Tue Sep 18 2007 - nonsea@users.sourceforge.net

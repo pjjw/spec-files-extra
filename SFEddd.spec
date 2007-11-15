@@ -15,9 +15,15 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 # Guarantee X environment, concisely (hopefully)
+%if %option_with_fox
+Requires: FSWxorg-clientlibs
+Requires: FSWxwrtl
+BuildRequires: FSWxorg-headers
+%else
 BuildRequires: SUNWxwplt 
 Requires: SUNWxwplt 
 Requires: SUNWtexi
+%endif
 
 %prep
 %setup -q -n ddd-%version
@@ -29,10 +35,15 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CFLAGS="%optflags"
+%if %option_with_fox
+export CFLAGS="$CFLAGS -I/usr/X11/include"
+%endif
 export LDFLAGS="%_ldflags"
 
 ./configure --prefix=%{_prefix}  \
             --mandir=%{_mandir} \
+	    --with-motif-libraries=/usr/dt/lib \
+	    --with-motif-includes=/usr/dt/share/include \
             --infodir=%{_datadir}/info
 
 make -j$CPUS
@@ -80,6 +91,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Enable building with either SUNWlibsdl or SFEsdl.
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net
 - Add SUNWtexi dependency. Add %post/%preun to update the info dir file.
 * Tue Dec 19 2006 - Eric Boutilier

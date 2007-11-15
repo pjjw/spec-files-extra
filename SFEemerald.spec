@@ -23,6 +23,12 @@ BuildRequires:  SFEcompiz
 BuildRequires:  SFEcompiz-devel
 Requires:	SFEcompiz
 Requires:	SUNWgnome-base-libs
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
+Requires: SUNWuiu8
+%endif
 
 %package devel
 Summary:		 %{summary} - development files
@@ -54,8 +60,12 @@ automake -a -c -f
 autoconf
 
 export CFLAGS="%optflags"
+%if %option_with_gnu_iconv
+export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+%endif
 export RPM_OPT_FLAGS="$CFLAGS"
 export LDFLAGS="%{_ldflags} -L/usr/X11/lib -L/usr/openwin/lib -R/usr/X11/lib -R/usr/openwin/lib -lX11 -lXext"
+export LDFLAGS="$LDFLAGS -L/usr/gnu/lib -lintl"
 export MSGFMT="/usr/bin/msgfmt"
 
 ./configure --prefix=%{_prefix}			\
@@ -73,6 +83,12 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/emerald/engines/*.*a
 
 
 %if %build_l10n
+cd $RPM_BUILD_ROOT%{_datadir}/locale
+mv de_DE de
+mv hu_HU hu
+mv it_IT it
+mv sv_SE sv
+mv tr_TR tr
 %else
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 %endif
@@ -146,6 +162,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Add support for Indiana builds.
 * Wed Nov 14 2007 - daymobrew@users.sourceforge.net
 - Add l10n package.
 * Thu Nov 01 2007 - trisk@acm.jhu.edu

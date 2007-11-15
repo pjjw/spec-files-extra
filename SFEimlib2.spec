@@ -14,7 +14,13 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
+%if %option_with_fox
+Requires: FSWxorg-clientlibs
+Requires: FSWxwrtl
+BuildRequires: FSWxorg-headers
+%else
 Requires: SUNWxwplt
+%endif
 
 %prep
 %setup -q -n imlib2-%version
@@ -27,6 +33,9 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CFLAGS="%optflags"
+%if %option_with_fox
+export CFLAGS="$CFLAGS -I/usr/X11/include"
+%endif
 export LDFLAGS="%_ldflags"
 
 ./configure --prefix=%{_prefix}  \
@@ -63,6 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
-* 
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Add support for Indiana builds.
 * Tue Nov 07 2006 - Eric Boutilier
 - Initial spec

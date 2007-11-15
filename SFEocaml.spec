@@ -20,8 +20,14 @@ URL:          http://caml.inria.fr/
 SUNW_BaseDir: %{_basedir}
 %include default-depend.inc
 Requires:     SUNWlibms
+%if %option_with_fox
+Requires: FSWxorg-clientlibs
+Requires: FSWxwrtl
+BuildRequires: FSWxorg-headers
+%else
 Requires:     SUNWxwrtl
 Requires:     SUNWxwplt
+%endif
 Requires:     SUNWTcl
 Requires:     SUNWTk
 BuildRequires: SUNWsfwhea
@@ -62,6 +68,10 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CFLAGS="%optflags"
+%if %option_with_fox
+# for <X11/Xlib.h>
+export CFLAGS="$CFLAGS -I/usr/X11/include"
+%endif
 export LDFLAGS="%_ldflags"
 
 ./configure                     \
@@ -113,6 +123,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man[13]/*
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Enable building with either SUNWlibsdl or SFEsdl.
 * Thu Aug 24 2006 - halton.huo@sun.com
 - use %if for emacs depend
 * Thu Jul 27 2006 - halton.huo@sun.com
