@@ -14,7 +14,9 @@ Patch1:                  cheese-01-nongnu.diff
 Patch2:                  cheese-02-sunpro.diff
 Patch3:                  cheese-03-flags.diff
 Patch4:                  cheese-04-threads.diff
+%if %option_with_gnu_iconv
 Patch5:                  cheese-05-gnu-iconv.diff
+$endif
 URL:                     http://live.gnome.org/Cheese
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -52,7 +54,9 @@ Requires:                %{name}
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%if %option_with_gnu_iconv
 %patch5 -p1
+%endif
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -146,5 +150,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Add support for Indiana build via CFLAGS change and 05-gnu-iconv patch.
+
 * Thu Aug 30 2007 - trisk@acm.jhu.edu
 - Initial spec
