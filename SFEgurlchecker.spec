@@ -9,10 +9,11 @@
 %define	src_url	http://labs.libre-entreprise.org/frs/download.php/547
 
 Name:                SFEgurlchecker
-Summary:             Gnome URL Checker
+Summary:             Graphical Web Link Checker
 Version:             0.10.1
 Source:              %{src_url}/%{src_name}-%{version}.tar.gz
 Patch1:		     gurlchecker-01-wall.diff
+Patch2:              gurlchecker-02-doc-fixes.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -25,10 +26,17 @@ BuildRequires: SFEclamav-devel
 Requires: SFEclamav
 BuildRequires: SFEgnet-devel
 Requires: SFEgnet
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
+Requires: SUNWuiu8
+%endif
 
 %prep
 %setup -q -n %{src_name}-%version
 %patch1 -p1
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -38,10 +46,14 @@ fi
 
 export CPPFLAGS="-D__sun__"
 export CFLAGS="%optflags"
+%if %option_with_gnu_iconv
+export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+%endif
 export LDFLAGS="%_ldflags"
 
 aclocal
 libtoolize --copy --force 
+intltoolize --copy --force --automake
 automake -a -f
 autoconf -f 
 ./configure --prefix=%{_prefix}			\
@@ -94,5 +106,9 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_datadir}/locale
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Add patch, 02-doc-fixes, to fix doc building issues. Add support for building
+  on an Indiana system.
+
 * Fri Jul 27 2007 - dougs@truemail.co.th
 - Initial spec

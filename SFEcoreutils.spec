@@ -20,6 +20,13 @@ Requires: SUNWtexi
 Requires: SUNWpostrun
 BuildRequires: SFEautoconf
 BuildRequires: SFEautomake
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
+Requires: SUNWuiu8
+%endif
+
 
 %if %build_l10n
 %package l10n
@@ -41,6 +48,9 @@ fi
 
 # export PATH=/usr/bin:$PATH
 export CFLAGS="%optflags"
+%if %option_with_gnu_iconv
+export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+%endif
 export LDFLAGS="%_ldflags"
 
 glib-gettextize -f 

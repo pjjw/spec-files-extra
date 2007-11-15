@@ -1,0 +1,28 @@
+--- gurlchecker-0.10.1/man/make-doc.orig	2007-11-15 15:14:24.155393000 +0000
++++ gurlchecker-0.10.1/man/make-doc	2007-11-15 15:14:45.357135000 +0000
+@@ -1,12 +1,12 @@
+ #!/bin/bash
+ 
+-if [ `which docbook-to-man` ]
++if [ -f "`which docbook-to-man`" ]
+ then
+ 	docbook-to-man $1 > $2
+-elif [ `which db2man`  ]
++elif [ -f "`which db2man`"  ]
+ then
+ 	db2man $1 > $2
+-elif [ `which docbook2man` ]
++elif [ -f "`which docbook2man`" ]
+ then
+ 	docbook2man $1 > $2
+ fi
+--- gurlchecker-0.10.1/doc/gurlchecker-sections.txt.orig	2007-11-15 15:17:23.883574000 +0000
++++ gurlchecker-0.10.1/doc/gurlchecker-sections.txt	2007-11-15 15:17:34.170930000 +0000
+@@ -111,7 +111,6 @@
+ UC_TIMEOUTS_BLOCKED_DEFAULT
+ UC_USER_AGENT
+ UCStatusCode
+-UCSearchState
+ UCHTMLTag
+ UCLinkProperties
+ GHashNode

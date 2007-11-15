@@ -1,3 +1,11 @@
+2007-11-15  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEgurlchecker.spec: Add patch, 02-doc-fixes, to fix doc building
+	  issues. Add support for building on an Indiana system.
+	* patches/gurlchecker-02-doc-fixes.diff: Added.
+	* SFEatomix.spec, SFEconsolekit.spec, SFEcoreutils.spec: Add support
+	  for building on an Indiana system.
+
 2007-11-14  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEsvk.spec: Fix typo in wrapper script

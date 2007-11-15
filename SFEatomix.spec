@@ -19,6 +19,10 @@ Requires: SUNWgnome-base-libs
 Requires: SUNWgnome-component
 Requires: SUNWlibms
 Requires: SUNWlxml
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%endif
 BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWgnome-component-devel
@@ -34,6 +38,9 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP"
+%if %option_with_gnu_iconv
+export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+%endif
 export RPM_OPT_FLAGS="$CFLAGS"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export LDFLAGS="%_ldflags"
