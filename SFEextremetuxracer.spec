@@ -4,6 +4,7 @@
 %include Solaris.inc
 
 %define src_name extreme-tuxracer
+%define SUNWlibsdl      %(/usr/bin/pkginfo -q SUNWlibsdl && echo 1 || echo 0)
 
 Name:                    	SFEextremetuxracer
 Summary:                 	Fork from the original tux-racer
@@ -11,9 +12,14 @@ Version:                 	0.35
 Source:                  	http://downloads.sourceforge.net/extremetuxracer/extreme-tuxracer-%{version}.tar.gz
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires:			SFEsdl-devel
+%if %SUNWlibsdl
+BuildRequires: SUNWlibsdl-devel
+Requires: SUNWlibsdl
+%else
+BuildRequires: SFEsdl-devel
+Requires: SFEsdl
+%endif
 BuildRequires:			SFEsdl-mixer-devel
-Requires:			SFEsdl
 Requires:			SFEsdl-mixer
 Requires:			SUNWTcl
 
@@ -59,5 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/etracer/*
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Enable building with either SUNWlibsdl or SFEsdl.
 * Sat Oct 6 2007 Petr Sobotka <sobotkap@centrum.cz>
 - Initial version

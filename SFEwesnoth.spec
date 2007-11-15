@@ -12,18 +12,25 @@
 
 %define _docdir %{_basedir}/share/doc
 
+%define SUNWlibsdl      %(/usr/bin/pkginfo -q SUNWlibsdl && echo 1 || echo 0)
+
 Name:                    	SFEwesnoth
 Summary:                 	Battle for Wesnoth is a fantasy turn-based strategy game
 Version:                 	1.3.10
 Source:                  	http://kent.dl.sourceforge.net/sourceforge/wesnoth/wesnoth-%{version}.tar.bz2
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires:		SFEsdl-devel
+%if %SUNWlibsdl
+BuildRequires: SUNWlibsdl-devel
+Requires: SUNWlibsdl
+%else
+BuildRequires: SFEsdl-devel
+Requires: SFEsdl
+%endif
 BuildRequires:		SFEsdl-mixer-devel
 BuildRequires:		SFEsdl-ttf-devel
 BuildRequires:		SFEsdl-net-devel
 BuildRequires:		SFEsdl-image-devel
-Requires:		SFEsdl
 Requires:		SFEsdl-mixer
 Requires:		SFEsdl-ttf
 Requires:		SFEsdl-net
@@ -93,6 +100,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Enable building with either SUNWlibsdl or SFEsdl.
 * Sun Nov 11 2007 Petr Sobotka <sobotkap@centrum.cz>
 - bump to 1.3.10
 * Fri Oct 19 2007 Petr Sobotka <sobotkap@centrum.cz>

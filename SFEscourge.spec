@@ -5,6 +5,8 @@
 #
 %include Solaris.inc
 
+%define SUNWlibsdl      %(/usr/bin/pkginfo -q SUNWlibsdl && echo 1 || echo 0)
+
 Name:                    SFEscourge
 Summary:                 S.C.O.U.R.G.E Game
 Version:                 0.17
@@ -13,8 +15,13 @@ Source2:		 http://nchc.dl.sourceforge.net/sourceforge/scourge/scourge-%{version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+%if %SUNWlibsdl
+BuildRequires: SUNWlibsdl-devel
+Requires: SUNWlibsdl
+%else
 BuildRequires: SFEsdl-devel
 Requires: SFEsdl
+%endif
 BuildRequires: SFEsdl-mixer-devel
 Requires: SFEsdl-mixer
 BuildRequires: SFEsdl-net-devel
@@ -84,6 +91,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/scourge_data
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Enable building with either SUNWlibsdl or SFEsdl.
 * Mon Apr 23 2006 - dougs@truemail.co.th
 - Fixed Summary
 * Sun Apr 22 2006 - dougs@truemail.co.th

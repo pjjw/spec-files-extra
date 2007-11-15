@@ -39,6 +39,9 @@ mkdir -p %name-%version
 %build
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CFLAGS="%optflags"
+%if %option_with_fox
+export CFLAGS="$CFLAGS -I/usr/X11/include"
+%endif
 export RPM_OPT_FLAGS="$CFLAGS"
 %msyncgui.build -d %name-%version
 
@@ -81,6 +84,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 
 
 %changelog
+* Thu Nov 15 2007 - daymobrew@users.sourceforge.net
+- Add support for Indiana.
 * Tue Jun 05 2007 - jijun.yu@sun.com
 - Split into SFEmultisync.spec and SFEmsynctool.spec
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net

@@ -1,5 +1,11 @@
 2007-11-15  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* SFEmultisync.spec: Add support for Indiana.
+	* SFEwesnoth.spec, SFEextremetuxracer.spec, SFEscourge.spec: Enable
+	  building with either SUNWlibsdl or SFEsdl.
+
+2007-11-15  Damien Carbery <daymobrew@users.sourceforge.net>
+
 	* SFEfindutils.spec: Correct path to charset.alias file.
 	* SFEaxyftp.spec, SFElibast.spec, SFEocaml.spec, SFEemacs-xft.spec,
 	  SFEgnome-commander.spec, SFEemerald.spec, SFEimlib2.spec: Add support
