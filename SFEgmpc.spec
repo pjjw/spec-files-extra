@@ -9,17 +9,20 @@ Summary:                 gmpc - A gnome frontend for the mpd daemon
 URL:                     http://sarine.nl/gmpc/
 Version:                 0.15.1
 Source:                  http://download.sarine.nl/gmpc-%{version}/gmpc-%{version}.tar.gz
-
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
-
 BuildRequires:		 SFElibmpd-devel
 BuildRequires:		 SFEcurl-devel
 #test#BuildRequires:           SFEavahi-devel
 Requires:		 SFElibmpd
 Requires:		 SFEcurl
 #test#Requires:		       SFEavahi
-
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
+Requires: SUNWuiu8
+%endif
 %include default-depend.inc
 
 %package devel
@@ -45,9 +48,12 @@ export LDFLAGS="-lX11"
 
 export CC=/usr/sfw/bin/gcc
 export CXX=/usr/sfw/bin/g++
+%if %option_with_gnu_iconv
+export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+%endif
 
 #TODO: check --disable-sm 
-CC=/usr/sfw/bin/gcc CXX=/usr/sfw/bin/g++ ./configure --prefix=%{_prefix} \
+CC=$CC CXX=$CXX CFLAGS="$CFLAGS" ./configure --prefix=%{_prefix} \
             --disable-sm
 make
 

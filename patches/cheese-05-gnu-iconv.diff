@@ -1,0 +1,13 @@
+--- cheese-0.2.3/src/Makefile.orig	2007-11-15 16:51:39.728258000 +0000
++++ cheese-0.2.3/src/Makefile	2007-11-15 16:51:58.617741000 +0000
+@@ -44,8 +44,8 @@
+ LIBEBOOK_CFLAGS := $(LIBEBOK_1_2_CFLAGS)
+ LIBEBOOK_LIBS := $(LIBEBOK_1_2_LIBS)
+ 
+-CFLAGS := $(call toc2.call.remove-dupes,$(CFLAGS) $(_CFLAGS))
+-LDFLAGS := $(call toc2.call.remove-dupes,$(LDFLAGS) $(_LIBS))
++CFLAGS := $(call toc2.call.remove-dupes,$(CFLAGS) $(_CFLAGS)) -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl
++LDFLAGS := $(call toc2.call.remove-dupes,$(LDFLAGS) $(_LIBS)) -L/usr/gnu/lib -R/usr/gnu/lib -lintl
+ 
+ OBJS = $(SOURCES:%.c=%.o)
+ 
