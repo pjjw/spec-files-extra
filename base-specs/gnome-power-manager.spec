@@ -5,7 +5,7 @@
 Name:           gnome-power-manager
 License:        GPL
 Group:		X11/Applications
-Version:        2.20.0
+Version:        2.20.1
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -13,6 +13,7 @@ Summary:	GNOME Power Manager
 Source0:	http://ftp.gnome.org/pub/gnome/sources/gnome-power-manager/2.20/%{name}-%{version}.tar.bz2
 Patch1:         gnome-power-manager-01-build.diff
 Patch2:         gnome-power-manager-02-kstat.diff
+Patch3:		gnome-power-manager-03-brightness-get-stuck.diff
 URL:		http://www.gnome.org/projects/gnome-power-manager/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake
@@ -68,6 +69,7 @@ Uses of GNOME Power Manager infrastructure
 %setup -q
 %patch1 -p1
 %patch2 -p0
+%patch3 -p0
 
 %build
 %ifos linux
@@ -122,6 +124,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Nov 17 2007 - simon.zheng@sun.com
+- Bump to version 2.20.1
+- Add patch gnome-power-manager-03-brightness-get-stuck.diff.
+  to fix bugzilla bug #497298,
+
 * Wed Sep 19 2007 - trisk@acm.jhu.edu
 - Add intltoolize to fix build
 
