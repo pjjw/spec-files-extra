@@ -12,16 +12,13 @@
 Name:           gio
 License:        LGPL
 Group:          System/Libraries
-Version:        0.1.1
+Version:        0.1.2
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://mail.gnome.org/archives/gtk-devel-list/2007-February/msg00062.html
 Summary:        a set of daemons handling access to various file resources
 Source:         http://ftp.gnome.org/pub/GNOME/sources/%{real_name}/0.1/%{real_name}-%{version}.tar.bz2
-Patch1:         %{name}-01-void-return.diff
-Patch2:         %{name}-02-solaris-statfs.diff
-Patch3:         %{name}-03-pretty-func.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires: gamin-devel
@@ -44,9 +41,6 @@ developing with gio
 
 %prep
 %setup -q -n %{real_name}-%{version}
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 %build
 %ifos linux
@@ -110,5 +104,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Fri Nov 16 2007 - nonsea@users.sourceforge.net
+- Bump to 0.1.2.
+- Remove upstreamed patches void-return, solaris-statfs, pretty-func.
 * Wed Nov 07 2007 - nonsea@users.sourceforge.net
 - Initial version

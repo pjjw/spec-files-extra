@@ -8,7 +8,7 @@
 %use gio = gio.spec
 
 Name:           SFEgio
-Summary:        gio.summary
+Summary:        gio - a set of daemons handling access to various file resources
 Version:        %{default_pkg_version}
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
