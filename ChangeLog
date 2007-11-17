@@ -1,9 +1,22 @@
+2007-11-17  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEgxine.spec, SFEdcraw.spec, SFEkino.spec, SFEgftp.spec,
+	  SFElame.spec, SFEgnucash.spec, SFEgnumeric.spec, SFEgoffice.spec,
+	  SFEgqview.spec: Added.
+	* patches/lame-01-forte.diff, patches/gnumeric-01-solaris.diff: Added.
+	* SFEdbus-sharp.spec, base-specs/dbus.spec,
+	  patches/dbus-01-glib_cflags.diff, patches/dbus-02-python.diff,
+	  patches/dbus-03-dbus-launch.diff, patches/dbus-04-libexec.diff:
+	  Restored as SFEdbus-sharp is required by SFEbanshee, SFEf-spot and
+	  SFElast-exit.
+
 2007-11-17  Albert Lee <trisk@acm.jhu.edu>
 
 	* SFEperl-app-cli.spec, SFEperl-pod-simple.spec,
 	  SFEperl-svn-mirror.spec: Update dependencies
 
 2007-11-16  Simon Zheng <simon.zheng@sun.com>
+
 	* base-specs/gnome-power-manager.spec:
 	* patches/gnome-power-manager-03-brightness-get-stuck.diff:
 	  Bump to version 2.20.1,
