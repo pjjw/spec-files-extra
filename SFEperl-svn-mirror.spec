@@ -23,6 +23,9 @@ Requires:                SUNWperl584core
 Requires:                SUNWsvn-perl
 Requires:                SFEperl-time-date
 Requires:                SFEperl-file-chdir
+Requires:                SFEperl-svn-simple
+Requires:                SFEperl-term-readkey
+Requires:                SFEperl-uri
 BuildRequires:           SUNWperl584core
 BuildRequires:           SUNWsvn-perl
 BuildRequires:           SUNWneon
@@ -87,5 +90,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Fri Nov 16 2007 - trisk@acm.jhu.edu
+- Update dependencies
 * Tue Nov 13 2007 - trisk@acm.jhu.edu
 - Initial spec

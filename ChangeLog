@@ -1,3 +1,8 @@
+2007-11-17  Albert Lee <trisk@acm.jhu.edu>
+
+	* SFEperl-app-cli.spec, SFEperl-pod-simple.spec,
+	  SFEperl-svn-mirror.spec: Update dependencies
+
 2007-11-16  Simon Zheng <simon.zheng@sun.com>
 	* base-specs/gnome-power-manager.spec:
 	* patches/gnome-power-manager-03-brightness-get-stuck.diff:

@@ -16,6 +16,7 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:                SUNWperl584core
 Requires:                SFEperl-locale-mt-simple
+Requires:                SFEperl-pod-simple
 BuildRequires:           SUNWperl584core
 BuildRequires:           SUNWsfwhea
 
@@ -70,5 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Fri Nov 16 2007 - trisk@acm.jhu.edu
+- Update dependencies
 * Tue Nov 13 2007 - trisk@acm.jhu.edu
 - Initial spec

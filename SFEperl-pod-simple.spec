@@ -16,6 +16,7 @@ Source:                  http://www.cpan.org/modules/by-module/Pod/Pod-Simple-%{
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:                SUNWperl584core
+Requires:                SFEperl-pod-escapes
 BuildRequires:           SUNWperl584core
 BuildRequires:           SUNWsfwhea
 
@@ -69,6 +70,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Fri Nov 16 2007 - trisk@acm.jhu.edu
+- Update dependencies
 * Sun Jan 28 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
 - Updated how version is defined.
 * Tue Jul  4 2006 - laca@sun.com
