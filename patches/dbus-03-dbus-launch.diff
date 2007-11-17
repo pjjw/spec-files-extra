@@ -1,0 +1,22 @@
+--- dbus-0.62/tools/dbus-launch.c-orig	2006-07-14 15:21:50.455308000 -0500
++++ dbus-0.62/tools/dbus-launch.c	2006-07-14 15:23:12.869251000 -0500
+@@ -414,6 +414,11 @@ kill_bus_when_session_ends (void)
+         }
+ #endif
+ 
++#ifndef __sun
++/*
++ * read() sometimes returns 0 on Solaris in valid conditions, so this
++ * test causes dbus-launch to fail to start gnome-session
++ */
+       if (tty_fd >= 0)
+         {
+           if (FD_ISSET (tty_fd, &read_set))
+@@ -447,6 +452,7 @@ kill_bus_when_session_ends (void)
+               kill_bus_and_exit ();
+             }
+         }
++#endif
+     }
+ }
+ 

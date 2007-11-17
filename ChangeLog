@@ -1,5 +1,7 @@
 2007-11-17  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* patches/lame-01-brhist.diff, patches/lame-02-inline.diff: Removed, 
+	  not needed for building.
 	* SFEgxine.spec, SFEdcraw.spec, SFEkino.spec, SFEgftp.spec,
 	  SFElame.spec, SFEgnucash.spec, SFEgnumeric.spec, SFEgoffice.spec,
 	  SFEgqview.spec: Added.
