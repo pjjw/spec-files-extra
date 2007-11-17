@@ -19,7 +19,6 @@ Patch4:      %{name}-04-suncc-map.diff
 Patch5:      %{name}-05-ut-xml-define.diff
 Patch6:      %{name}-06-define-func.diff
 Patch7:      %{name}-07-unistd.diff
-Patch8:      %{name}-08-package-str.diff
 BuildRoot:   %{_tmppath}/%{name}-%{version}-root
 BuildRequires:	GConf-devel
 BuildRequires:	autoconf
@@ -120,5 +119,7 @@ rm -rf ${RPM_BUILD_ROOT}
 /usr/X11R6/bin/abiword
 
 %changelog
+* Sat Nov 17 2007 - daymobrew@users.sourceforge.net
+- Remove obsolete patch, 08-package-str.
 * Wed Sep 26 2007 - nonsea@users.sourceforge.net
 - Initial spec

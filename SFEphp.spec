@@ -5,9 +5,11 @@
 #
 %include Solaris.inc
 
+%define SUNWgnugettext      %(/usr/bin/pkginfo -q SUNWgnu-gettext && echo 1 || echo 0)
+
 Name:                    SFEphp
 Summary:                 php - Hypertext Preprocessor - general-purpose scripting language for Web development
-Version:                 5.2.2
+Version:                 5.2.5
 Source:                  http://www.php.net/distributions/php-%{version}.tar.bz2
 URL:                     http://www.php.net/
 SUNW_BaseDir:            %{_basedir}
@@ -15,8 +17,13 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 Requires: SUNWapch2u
-BuildRequires: SFEgettext
+%if %SUNWgnugettext
+BuildRequires: SUNWgnu-gettext-devel
+Requires: SUNWgnu-gettext
+%else
+BuildRequires: SFEgettext-devel
 Requires: SFEgettext
+%endif
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -125,6 +132,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/apache2
 
 %changelog
+* Sat Nov 17 2007 - daymobrew@users.sourceforge.net
+- Enable building with either SUNWgnu-gettext or SFEgettext.
 * Sat May 5 2007 - Thomas Wagner
 - Bump: to 5.2.2 (mainly security fixes)
 * Wed Mar 28 2007 - Eric Boutilier

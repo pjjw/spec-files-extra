@@ -2,16 +2,16 @@
 # spec file for package gnomescan
 #
 #
-Name:         gnomescan
+Name:         gnome-scan
 License:      GPL
 Group:        Applications/Multimedia
-Version:      0.4.0.4
+Version:      0.5.2
 Release:      1
 Distribution: Java Desktop System
 Vendor:       Sun Microsystems, Inc.
 Summary:      gnomescan - scanner client for the GNOME desktop
-Source:	      http://download.gna.org/gnomescan/gnomescan-%{version}.tar.gz
-URL:          http://home.gna.org/gnomescan/index
+Source:	      http://download.gna.org/gnomescan/gnome-scan-%{version}.tar.gz
+URL:          http://www.gnome.org/projects/gnome-scan/index
 # date:2007-02-25 owner:xz159989 type:feature
 Patch1:       gnomescan-01-build.diff
 
@@ -22,7 +22,7 @@ Requires:     %name
 
 %prep
 %setup -q
-%patch1 -p1
+#%patch1 -p1
 
 %build
 %ifos linux
@@ -71,5 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtk-doc
 
 %changelog
+* Sat Nov 17 2007 - daymobrew@users.sourceforge.net
+- Bump to 0.5.2. Correct module name (gnome-scan) and update url. Disable
+  obsolete patch, 01-build.
 * Tue Mar 20 2007 - simon.zheng@sun.com
 - initial version for pkgbuild

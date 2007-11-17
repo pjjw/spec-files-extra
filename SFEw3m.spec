@@ -16,7 +16,13 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 Requires:            SUNWgnome-base-libs
 Requires:            SUNWlibmsr
 Requires:            SUNWperl584core
-Requires:            SUNWxwrtl
+%if %option_with_fox
+Requires: FSWxorg-clientlibs
+Requires: FSWxwrtl
+BuildRequires: FSWxorg-headers
+%else
+Requires: SUNWxwrtl
+%endif
 Requires:            SUNWzlib
 Requires:            SFEbdw-gc
 Requires:            SUNWopenssl-libraries
@@ -35,6 +41,9 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CFLAGS="%optflags -I/usr/sfw/include"
+%if %option_with_fox
+export CFLAGS="$CFLAGS -I/usr/X11/include"
+%endif
 export LDFLAGS="%_ldflags -lX11 -L/usr/sfw/lib -R/usr/sfw/lib"
 
 ./configure --prefix=%{_prefix}  		\
@@ -68,6 +77,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man*/*
 
 %changelog
+* Sat Nov 17 2007 - daymobrew@users.sourceforge.net
+- Add support for building on Indiana system.
 * Tue Sep 18 2007 - nonsea@users.sourceforge.net
 - Add URL
 * Tue Sep 11 2007 - nonsea@users.sourceforge.net

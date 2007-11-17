@@ -10,7 +10,7 @@
 Name:           tracker
 License:        GPL
 Group:          Applications/System
-Version:        0.6.4
+Version:        0.6.3
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -18,7 +18,7 @@ URL:            http://www.tracker-project.org
 Summary:        Desktop search tool
 Source:         http://www.gnome.org/~jamiemcc/tracker/tracker-%{version}.tar.bz2
 Patch1:         %{name}-01-w3m-crash.diff
-Patch2:         %{name}-02-thunderbird.diff
+#Patch2:         %{name}-02-thunderbird.diff
 Patch3:         %{name}-03-firefox-history.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
@@ -58,7 +58,7 @@ developing with tracker
 %prep
 %setup -q
 %patch1 -p1
-%patch2 -p1
+#%patch2 -p1
 %patch3 -p1
 
 %build
@@ -128,5 +128,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sat Nov 17 2007 - daymobrew@users.sourceforge.net
+- Unbump to 0.6.3 and remove obsolete patch, 02-thunderbird.
 * Fri Nov 02 2007 - nonsea@users.sourceforge.net
 - Initial version, spilit from SFEtracker.spec

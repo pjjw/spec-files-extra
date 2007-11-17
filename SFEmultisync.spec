@@ -41,6 +41,7 @@ export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CFLAGS="%optflags"
 %if %option_with_fox
 export CFLAGS="$CFLAGS -I/usr/X11/include"
+export CXXFLAGS="$CXXFLAGS -I/usr/X11/include"
 %endif
 export RPM_OPT_FLAGS="$CFLAGS"
 %msyncgui.build -d %name-%version
@@ -84,6 +85,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 
 
 %changelog
+* Sat Nov 17 2007 - daymobrew@users.sourceforge.net
+- Add further support for Indiana.
 * Thu Nov 15 2007 - daymobrew@users.sourceforge.net
 - Add support for Indiana.
 * Tue Jun 05 2007 - jijun.yu@sun.com

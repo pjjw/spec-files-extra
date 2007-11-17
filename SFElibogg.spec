@@ -20,7 +20,7 @@ SUNW_BaseDir:	%{_basedir}
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Tag definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-Name:         	%{src_name}
+Name:         	SFE%{src_name}
 Summary:      	libogg - ogg vorbis library
 Version:      	%{src_version}
 Release:      	%{pkg_release}
@@ -61,6 +61,9 @@ make
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
 
+rm $RPM_BUILD_ROOT%{_libdir}/*.a
+rm $RPM_BUILD_ROOT%{_libdir}/*.la
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -70,18 +73,21 @@ rm -rf $RPM_BUILD_ROOT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %files
 %defattr(-,root,bin)
-
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
-
+%{_libdir}/libogg.*
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/aclocal
-%{_datadir}/doc
-
-%dir %attr (0755, root, sys) %{_prefix}/include
-%{_prefix}/include/ogg
+%dir %attr (0755, root, other) %{_datadir}/aclocal
+%{_datadir}/aclocal/*
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/ogg
 
 
 %changelog
+* Sat Nov 17 2007 - daymobrew@users.sourceforge.net
+- Fix build, deleting *.a, *.la and fixing %files.
 * 2007.Aug.11 - <shivakumar dot gn at gmail dot com>
 - Initial spec.

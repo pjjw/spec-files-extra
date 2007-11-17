@@ -1,5 +1,25 @@
 2007-11-17  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* SFEw3m.spec: Add support for building on Indiana systems.
+	* SFEeasytag.spec: Add support for Indiana, including l10n package
+	* SFEphp.spec: Enable building with either SUNWgnu-gettext or
+	  SFEgettext.
+	* SFElibogg.spec: Fix build, deleting *.a, *.la and fixing %files.
+	* SFEmultisync.spec: Add support for building on Indiana systems.
+	* base-specs/abiword.spec: Remove obsolete patch, 08-package-str.
+	* base-specs/tracker.spec: Unbump to 0.6.3 and remove obsolete patch,
+	  02-thunderbird.
+	* base-specs/gnomescan.spec: Bump to 0.5.2. Correct module name
+	  (gnome-scan) and update url. Disable obsolete patch, 01-build.
+	* base-specs/gvfs.spec: Bump to 0.0.2. Remove upstream patches,
+	  01-solaris and 02-solaris2.
+	* patches/gvfs-01-solaris.diff, patches/gvfs-02-solaris2.diff: Removed,
+	  upstream.
+	* patches/goffice-01-no-sunmath-lib.diff: Added.
+	* include/options.inc: Added, copied from spec-files repository.
+
+2007-11-17  Damien Carbery <daymobrew@users.sourceforge.net>
+
 	* patches/lame-01-brhist.diff, patches/lame-02-inline.diff: Removed, 
 	  not needed for building.
 	* SFEgxine.spec, SFEdcraw.spec, SFEkino.spec, SFEgftp.spec,
