@@ -1,5 +1,17 @@
 2007-11-18  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* SFEimagemagick.spec: Bump to 6.3.6-9.
+	* SFEbanshee.spec: Change LDFLAGS to work for gcc.
+	* SFEantlr.spec: Disable obsolete patch.
+	* SFEexpat.spec: Add BuildConflicts SUNWlexpt.
+	* SFEgit.spec: Change LDFLAGS to work for gcc.
+	* SFEscim-uim.spec: Enable building with either SUNWgnu-gettext or
+	  SFEgettext.
+	* SFEgimp-texturize.spec: Change LDFLAGS to work for gcc.
+	* SFEscim-kmfl.spec: Add SUNWxorg-headers dependency and set CXXFLAGS.
+
+2007-11-18  Damien Carbery <daymobrew@users.sourceforge.net>
+
 	* SFEdillo.spec: Remove SUNWGtku (gtk 1.x) dependency to get module
 	  to build.
 	* SFEabiword.spec: Enable building with either SUNWaspell or SFEaspell.

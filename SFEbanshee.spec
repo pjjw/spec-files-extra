@@ -70,7 +70,7 @@ fi
 export PATH=/usr/mono/bin:$PATH
 export CC=gcc
 export CFLAGS="%optflags -mt `pkg-config --cflags gtk+-2.0` `pkg-config --cflags dbus-1` `pkg-config --cflags gnome-vfs-2.0` `pkg-config --cflags libmusicbrainz3` `pkg-config --cflags libnautilus-burn` `pkg-config --cflags gstreamer-0.10` `pkg-config --cflags mono` `pkg-config --cflags sqlite3`"
-export LDFLAGS="%{gcc_ldflags} -mt -lpthread"
+export LDFLAGS="%arch_ldadd %ldadd ${EXTRA_LDFLAGS} -mt -lpthread"
 
 ./configure --prefix=%{_prefix} \
 	    --mandir=%{_mandir} \
@@ -198,5 +198,7 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Change LDFLAGS to work for gcc.
 * Sat Oct 01 2007 - trisk@acm.jhu.edu
 - Initial spec

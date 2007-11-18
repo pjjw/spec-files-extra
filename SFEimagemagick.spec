@@ -7,8 +7,8 @@
 
 %define src_name	ImageMagick
 %define src_url		ftp://ftp.imagemagick.org/pub/%src_name
-%define major		6.3.5
-%define minor		-0
+%define major		6.3.6
+%define minor		-9
 
 Name:                   SFEimagemagick
 Summary:                ImageMagick - Image Manipulation Utilities and Libraries
@@ -80,6 +80,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Bump to 6.3.6-9.
 * Tue Jul 10 2007 - brian.cameron@sun.com
 - Bump to 6.3.5.  Remove the -xc99=%none from CFLAGS since
   it is breaking the build.

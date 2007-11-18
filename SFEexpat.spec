@@ -21,6 +21,7 @@ Summary:       %{expat.summary}
 Version:       %{expat.version}
 # to match the SFW package:
 SUNW_BaseDir:  /
+BuildConflicts: SUNWlexpt
 Requires: SUNWlibms
 
 %prep
@@ -70,5 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Add BuildConflics SUNWlexpt.
 * Fri Mar 23 2007 - laca@sun.com
 - create

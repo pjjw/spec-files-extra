@@ -24,6 +24,7 @@ BuildRequires: SFEkmflcomp-devel
 Requires: SFEkmflcomp
 BuildRequires: SFElibkmfl-devel
 Requires: SFElibkmfl
+Requires: SUNWxorg-headers
 
 %package devel
 Summary:                 %{summary} - development files
@@ -43,7 +44,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags"
+export CFLAGS="%optflags -I/usr/X11/include"
+export CXXFLAGS="%cxx_optflags -I/usr/X11/include"
 export LDFLAGS="%_ldflags"
 
 libtoolize --copy --force
@@ -81,5 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_docdir}/*
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Add SUNWxorg-headers dependency and set CXXFLAGS.
 * Thu Jul 26 2007 - dougs@truemail.co.th
 - Initial spec

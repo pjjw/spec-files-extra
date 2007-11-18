@@ -35,7 +35,7 @@ fi
 export CC=gcc
 export CXX=g++
 export CFLAGS="-O4"
-export LDFLAGS="%_ldflags"
+export LDFLAGS="%arch_ldadd %ldadd ${EXTRA_LDFLAGS}"
 ./configure \
     --prefix=%{_prefix}
 make -j$CPUS
@@ -45,7 +45,7 @@ rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
 # FIXME
-mv $RPM_BUILD_ROOT%{_libdir}/locale $RPM_BUILD_ROOT%{_datadir}
+#mv $RPM_BUILD_ROOT%{_libdir}/locale $RPM_BUILD_ROOT%{_datadir}
 
 %if %build_l10n
 %else
@@ -71,5 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Change LDFLAGS to work for gcc.
 * Sun Feb 11 2007 - laca@sun.com
 - Initial spec

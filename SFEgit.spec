@@ -51,7 +51,7 @@ fi
 export CC=gcc
 export CXX=g++
 export CFLAGS="-O4"
-export LDFLAGS="%_ldflags"
+export LDFLAGS="%arch_ldadd %ldadd ${EXTRA_LDFLAGS}"
 make configure
 ./configure \
     --prefix=%{_prefix} \
@@ -121,6 +121,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/perl5/vendor_perl/%{perl_version}/*
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Change LDFLAGS to work for gcc.
 * Tue Sep 18 2007 - brian.cameron@sun.com
 - Bump to 1.5.3.
 * Thu Jul 05 2007 - alberto.ruiz@sun.com
