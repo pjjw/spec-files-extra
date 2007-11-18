@@ -29,3 +29,14 @@
      for ldfunc in fabsl logl log10l ceill floorl powl isnanl finitel; do
  	    AC_CHECK_FUNC($ldfunc,
  		  ,
+--- goffice-0.5.2/goffice/graph/gog-guru.c.orig	2007-11-18 13:54:29.346788000 +0000
++++ goffice-0.5.2/goffice/graph/gog-guru.c	2007-11-18 13:54:42.705268000 +0000
+@@ -1307,7 +1307,7 @@
+ 	g_object_set_data_full (G_OBJECT (state->dialog),
+ 		"state", state, (GDestroyNotify) graph_guru_state_destroy);
+ 
+-#warning for 0.5.0 remove this and have the callers set transient and handle show, then drop the toplevel arg
++/*#warning for 0.5.0 remove this and have the callers set transient and handle show, then drop the toplevel arg*/
+ 	go_gtk_nonmodal_dialog (toplevel, GTK_WINDOW (state->dialog));
+ 	gtk_widget_show (GTK_WIDGET (state->dialog));
+ 
