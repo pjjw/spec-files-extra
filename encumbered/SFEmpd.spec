@@ -39,7 +39,8 @@ BuildRequires: SUNWgnome-audio-devel
 BuildRequires: SUNWflac-devel
 BuildRequires: SFElibshout-devel
 #TODO# BuildRequires: SFElibpulse-devel
-BuildRequires: SFEavahi-devel
+#BuildRequires: SFEavahi-devel
+BuildRequires: SUNWavahi-bridge-dsd-devel
 Requires: SFElibao
 Requires: SFElibmpcdec
 Requires: SFElibmad
@@ -52,7 +53,8 @@ Requires: SUNWgnome-audio
 Requires: SUNWflac
 Requires: SFElibshout
 #TODO# Requires: SFElibpulse
-Requires: SFEavahi
+#Requires: SFEavahi
+Requires: SUNWavahi-bridge-dsd
 
 
 %description
@@ -127,6 +129,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Sun Nov 18 2007 Thomas Wagner
+- (Build)Requires: SUNWavahi-bridge-dsd(-devel)
+  since parts of avahi interface made it into Nevada :-)
 * Sun Nov 18 2007 Thomas Wagner
 - --disable-alsa (at the moment we use libao)
 - (Build)Requires SFElibsamplerate(-devel)

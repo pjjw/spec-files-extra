@@ -20,7 +20,8 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 
-BuildRequires: SFElibdaemon-devel
+#BuildRequires: SFElibdaemon-devel
+BuildRequires: SUNWlibdaemon-devel
 BuildRequires: SUNWdbus-devel
 BuildRequires: SUNWdbus-bindings-devel
 BuildRequires: SUNWgnome-base-libs-devel
@@ -29,7 +30,8 @@ BuildRequires: SUNWPython
 BuildRequires: SFEdoxygen
 BuildRequires: SFEgraphviz
 Requires: SUNWpostrun
-Requires: SFElibdaemon
+#Requires: SFElibdaemon
+Requires: SUNWlibdaemon
 Requires: SUNWdbus
 Requires: SUNWlexpt
 
@@ -177,6 +179,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Nov 18 2007 - Thomas Wagner
+- SUNWlibdaemon(-devel) made it into Nevada, comment SFE* for now
 * Mon Oct 08 2007 - trisk@acm.jhu.edu
 - Turn into base-spec
 * Sat Sep 01 2007 - trisk@acm.jhu.edu

@@ -1,5 +1,12 @@
 2007-11-18  Thomas Wagner <tom68@users.sourceforge.net>
 
+        * base-spec/avahi.spec: SUNWlibdaemon(-devel) made it into Nevada, comment SFE* for now
+        * encumbered/SFEmpd.spec: commend (Build)Requires SFEavahi(-devel)
+              and move to new (Build)Requires: SUNWavahi-bridge-dsd(-devel)
+              since parts of avahi interface made it into Nevada :-)
+
+2007-11-18  Thomas Wagner <tom68@users.sourceforge.net>
+
         * SFEdtracetoolkit: asked people, they wanted DTT to go into /opt/DTraceToolkit
                             still with relocatablility to where_ever_you_like
         * SFEmpd: --disable-alsa (at the moment we use libao)
