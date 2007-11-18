@@ -15,8 +15,6 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
 
-Requires: SUNWopenssl-commands
-
 %prep
 %setup -q -n rdesktop-%version
 
@@ -51,7 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
-*
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Remove SUNWopenssl-commands dependency to get module to build.
+
 * Mon Dec  4 2006 - Thomas Wagner
 - Upgrade from 1.4.1 to 1.5.0
 * 

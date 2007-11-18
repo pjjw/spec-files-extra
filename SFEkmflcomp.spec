@@ -34,6 +34,9 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CFLAGS="%optflags"
+%if %option_with_fox
+export CFLAGS="$CFLAGS -I/usr/X11/include"
+%endif
 export LDFLAGS="%_ldflags"
 
 libtoolize --copy --force
@@ -76,5 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Add support for building on Indiana systems.
 * Thu Jul 26 2007 - dougs@truemail.co.th
 - Initial spec

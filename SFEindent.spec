@@ -78,6 +78,8 @@ export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
 
 libtoolize --copy --force
+glib-gettextize --copy --force
+intltoolize --copy --force --automake
 aclocal
 autoconf -f
 automake -a -c -f

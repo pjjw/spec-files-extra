@@ -1,3 +1,39 @@
+2007-11-18  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEdillo.spec: Remove SUNWGtku (gtk 1.x) dependency to get module
+	  to build.
+	* SFEabiword.spec: Enable building with either SUNWaspell or SFEaspell.
+	  Also add support for building on Indiana systems.
+	* SFErdesktop.spec: Remove SUNWopenssl-commands dependency to get module
+	  to build.
+	* SFEtracker.spec: Add support for building on Indiana systems.
+	* SFEircii.spec: Fix %files.
+	* SFEgnome-power-manager.spec: Fix %files.
+	* SFElibgsf.spec: Add support for building on Indiana systems.
+	* SFEhpoj.spec: Change LDFLAGS to work for gcc.
+	* SFEgnome-gvfs.spec: Add support for building on Indiana systems. Add
+	  changes for gvfs 0.0.2.
+	* SFEcoreutils.spec: Add BuildConflicts SUNWgnu-coreutils, a package
+	  that is available on Indiana systems.
+	* SFElibatomic-ops.spec: Change LDFLAGS to work for gcc.
+	* SFEkmflcomp.spec: Add support for building on Indiana systems.
+	* SFEscim-tables.spec: Enable building with either SUNWgnu-gettext or
+	  SFEgettext.
+	* SFElibiconv.spec: Add l10n package.
+	* SFEliberea.spec: Add support for building on Indiana systems.
+	* SFEscim-hangul.spec: Enable building with either SUNWgnu-gettext or
+	  SFEgettext.
+	* SFEscim.spec: Add support for building on Indiana systems.
+	* SFEspeex.spec: Add BuildConflicts SUNWspeex.
+	* SFEgkrellm.spec: Enable building with either SUNWgnu-gettext or
+	  SFEgettext.
+	* SFEdangerdeep.spec: Add support for building on Indiana systems.
+	* SFEscim-anthy.spec: Enable building with either SUNWgnu-gettext or
+	  SFEgettext.
+	* include/Solaris.inc: Copy from spec-files repository, to include
+	  Indiana support.
+	* patches/dangerdeep-02-backtrace.diff: Rework.
+
 2007-11-17  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEw3m.spec: Add support for building on Indiana systems.

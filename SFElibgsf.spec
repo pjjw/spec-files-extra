@@ -27,6 +27,12 @@ Requires: SUNWpostrun
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWgnome-component-devel
 BuildRequires: SUNWgnome-vfs-devel 
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
+Requires: SUNWuiu8
+%endif
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -55,6 +61,9 @@ mkdir %name-%version
 
 %build
 export CFLAGS="%optflags -I/usr/gnu/include"
+%if %option_with_gnu_iconv
+export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+%endif
 export RPM_OPT_FLAGS="$CFLAGS"
 export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib"
 
@@ -124,9 +133,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 %dir %attr (0755, root, sys) %{_datadir}
-%if %{!?_without_gtk_doc:1}%{?_without_gtk_doc:0}
 %{_datadir}/gtk-doc
-%endif
 
 %files root
 %defattr (-, root, sys)
@@ -141,6 +148,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Add support for building on Indiana systems.
 * Wed Oct 17 2007 - laca@sun.com
 - add /usr/gnu to CFLAGS/LDFLAGS
 * Thu May 03 2007 - nonsea@users.sourceforge.net

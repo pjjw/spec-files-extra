@@ -5,6 +5,8 @@
 
 %include Solaris.inc
 
+%define SUNWgnugettext      %(/usr/bin/pkginfo -q SUNWgnu-gettext && echo 1 || echo 0)
+
 Name:                SFEgkrellm
 Summary:             Popular (ubiquitous) Gtk-based system monitor
 Version:             2.2.10
@@ -13,7 +15,13 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-BuildRequires: SFEgettext
+%if %SUNWgnugettext
+BuildRequires: SUNWgnu-gettext-devel
+Requires: SUNWgnu-gettext
+%else
+BuildRequires: SFEgettext-devel
+Requires: SFEgettext
+%endif
 
 # Guarantee X/GTK/freetype environment, concisely (hopefully)
 BuildRequires: SUNWGtku
@@ -106,6 +114,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/gkrellm.pc
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Enable building with either SUNWgnu-gettext or SFEgettext.
 * Fri Apr 20 2007 - dougs@truemail.co.th
 - Added SFW libs (LDFLAGS,LD_OPTIONS)
 * Mon Mar 19 2007 - dougs@truemail.co.th

@@ -36,7 +36,7 @@ export CC=gcc
 export CXX=g++
 export CFLAGS="%{gcc_optflags}"
 export CXXFLAGS="%{gcc_cxx_optflags}"
-export LDFLAGS="%{_ldflags}"
+export LDFLAGS="%arch_ldadd %ldadd ${EXTRA_LDFLAGS}"
 ./configure --prefix=%{_prefix}		\
 	    --bindir=%{_bindir}		\
 	    --mandir=%{_mandir}		\
@@ -85,5 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Change LDFLAGS to work for gcc.
 * Fri Jun  8 2007 - laca@sun.com
 - Initial version

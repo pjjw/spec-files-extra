@@ -36,7 +36,7 @@ fi
 
 export CC=gcc
 export CFLAGS="-O4 -fno-omit-frame-pointer"
-export LDFLAGS="%_ldflags"
+export LDFLAGS="%arch_ldadd %ldadd ${EXTRA_LDFLAGS}"
 
 libtoolize --copy --force
 aclocal
@@ -73,5 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Change LDFLAGS to work for gcc.
 * Sun Aug 12 2007 - dougs@truemail.co.th
 - Initial spec

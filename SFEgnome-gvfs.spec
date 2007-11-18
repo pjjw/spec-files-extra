@@ -27,6 +27,12 @@ Requires: SFEgio
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWdbus-devel
 BuildRequires: SFEgio-devel
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
+Requires: SUNWuiu8
+%endif
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -41,6 +47,9 @@ mkdir %name-%version
 %build
 # -D_XPG4_2 is to get CMSG_SPACE declaration in <sys/socket.h>.
 export CFLAGS="%optflags -D_XPG4_2 -D__EXTENSIONS__"
+%if %option_with_gnu_iconv
+export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+%endif
 export RPM_OPT_FLAGS="$CFLAGS"
 export LDFLAGS="%_ldflags"
 %gvfs.build -d %name-%version
@@ -48,9 +57,8 @@ export LDFLAGS="%_ldflags"
 %install
 rm -rf $RPM_BUILD_ROOT
 %gvfs.install -d %name-%version
-rm $RPM_BUILD_ROOT%{_libdir}/*.la
-rm $RPM_BUILD_ROOT%{_libdir}/gio/modules/*.la
-rm $RPM_BUILD_ROOT%{_libdir}/gvfs/modules/*.la
+rm $RPM_BUILD_ROOT%{_libdir}/libgvfscommon.la
+rm $RPM_BUILD_ROOT%{_libdir}/gio/modules/libgvfsdbus.la
 
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 
@@ -60,12 +68,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/gvfs-daemon*
+%{_libdir}/gvfsd*
 %{_libdir}/libgvfscommon.so*
 %{_libdir}/gio/modules/*.so*
-%{_libdir}/gvfs/modules/*.so*
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/dbus-1/services/gvfs-daemon.service
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
 
 %files root
 %defattr (-, root, sys)
@@ -74,6 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Add support for building on Indiana systems. Add changes for gvfs 0.0.2.
 * Fri Nov 09 2007 - nonsea@users.sourceforge.net
 - Add SFEgio to Requires, add SFEgio-devel to BuildRequires.
 * Thu Nov 07 2007 - damien.carbery@sun.com

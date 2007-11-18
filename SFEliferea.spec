@@ -22,6 +22,12 @@ Requires: SUNWfirefox
 Requires: SUNWpostrun
 Requires: %{name}-root
 Requires: SUNWbash
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
+Requires: SUNWuiu8
+%endif
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -46,6 +52,9 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 export CFLAGS="%optflags"
+%if %option_with_gnu_iconv
+export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+%endif
 export CXXFLAGS="%cxx_optflags"
 export RPM_OPT_FLAGS="$CFLAGS"
 export LDFLAGS="-R/usr/lib/firefox"
@@ -136,6 +145,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Add support for building on Indiana systems.
 * Thu Jun 22 2006 - laca@sun.com
 - bump to 1.0.15
 - rename to SFEliferea

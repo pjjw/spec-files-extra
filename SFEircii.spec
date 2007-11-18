@@ -60,8 +60,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %{_bindir}
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/ircii
+%{_datadir}/irc
+%dir %attr(0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/*
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Fix %files.
 * Fri Aug  3 2007 - dougs@truemail.co.th
 - Initial spec

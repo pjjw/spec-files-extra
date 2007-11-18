@@ -175,6 +175,7 @@ test -x $BASEDIR/lib/postrun || exit 0
 %{_datadir}/icons/hicolor/48x48/apps/*
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/*
 
 
 %files root
@@ -190,6 +191,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Fix %files.
 * Thu Nov 08 2007 - trisk@acm.jhu.edu
 - Ensure doc dir is not installed
 * Wed Nov 7 2007 - simon.zheng@sun.com

@@ -15,6 +15,7 @@ Patch1:                  coreutils-01-gettext.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+BuildConflicts: SUNWgnu-coreutils
 Requires: SUNWlibms
 Requires: SUNWtexi
 Requires: SUNWpostrun
@@ -153,6 +154,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Add BuildConflicts SUNWgnu-coreutils, a package that is available on Indiana
+  systems.
 * Fri Jul 13 2007 - dougs@truemail.co.th
 - Bump to 6.9
 * Sat Apr 21 2007 - dougs@truemail.co.th

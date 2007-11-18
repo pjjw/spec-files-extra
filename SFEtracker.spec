@@ -8,7 +8,7 @@
 %use tracker = tracker.spec
 
 Name:           SFEtracker
-Summary:        tracker.summary
+Summary:        %{tracker.summary}
 Version:        %{default_pkg_version}
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -25,7 +25,13 @@ BuildRequires:  SUNWgnome-base-libs-devel
 BuildRequires:  SUNWdbus-devel
 BuildRequires:  SFEgmime-devel
 BuildRequires:  SFEsqlite-devel
-BUildRequires:  SUNWgamin-devel
+BuildRequires:  SUNWgamin-devel
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
+Requires: SUNWuiu8
+%endif
 #Additional recommended packages
 Requires:       SUNWgnome-media
 Requires:       SUNWpng
@@ -78,6 +84,9 @@ mkdir -p %name-%version
 %build
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CFLAGS="%optflags -I/usr/gnu/include"
+%if %option_with_gnu_iconv
+export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+%endif
 export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib"
 export RPM_OPT_FLAGS="$CFLAGS"
 %tracker.build -d %name-%version
@@ -160,8 +169,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Add support for building on Indiana systems
 * Fri Nov 02 2007 - nonsea@users.sourceforge.net
-- Spilit into base/tracker.spec
+- Split into base/tracker.spec
 - Remove GNOMOE 2.19/2.20 install compatible part.
 - Add package -extension to install firefox/thunderbird extensions.
 * Fri Sep 28 2007 - nonsea@users.sourceforge.net

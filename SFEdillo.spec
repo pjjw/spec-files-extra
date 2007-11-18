@@ -16,7 +16,7 @@ SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-Requires:	SUNWGtku
+#Requires:	SUNWGtku
 
 %package root
 Summary:       %{summary} - / filesystem
@@ -68,5 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Remove SUNWGtku (gtk 1.x) dependency to get module to build.
 * Mon Apr 30 2007 - dougs@truemail.co.th
 - Initial version

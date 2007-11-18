@@ -10,6 +10,8 @@
 
 %include Solaris.inc
 
+%define SUNWaspell      %(/usr/bin/pkginfo -q SUNWaspell && echo 1 || echo 0)
+
 %use abiword = abiword.spec
 
 Name:               SFEabiword
@@ -25,7 +27,6 @@ Requires:           SUNWgnome-base-libs
 Requires:           SUNWpng
 Requires:           SUNWlxml
 Requires:           SUNWlibpopt
-Requires:           SUNWaspell
 Requires:           SUNWgnome-spell
 Requires:           SUNWfontconfig
 Requires:           SUNWperl584core
@@ -34,9 +35,22 @@ BuildRequires:      SUNWgnome-base-libs-devel
 BuildRequires:      SUNWpng-devel
 BuildRequires:      SUNWlxml-devel
 BuildRequires:      SUNWlibpopt-devel
-BuildRequires:      SUNWaspell-devel
 BuildRequires:      SUNWgnome-spell-devel
 BuildRequires:      SFElibfribidi-devel
+%if %SUNWaspell
+Requires:           SUNWaspell
+BuildRequires:      SUNWaspell-devel
+%else
+BuildRequires: SFEaspell-devel
+Requires: SFEaspell
+%endif
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
+Requires: SUNWuiu8
+%endif
+
 
 %package devel
 Summary:       %{summary} - development files
@@ -53,6 +67,10 @@ mkdir -p %name-%version
 %build
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CFLAGS="%optflags"
+%if %option_with_gnu_iconv
+export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+export CXXFLAGS="$CXXFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+%endif
 export RPM_OPT_FLAGS="$CFLAGS"
 %abiword.build -d %name-%version
 
@@ -88,5 +106,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Enable building with either SUNWaspell or SFEaspell. Also add support for
+  building on Indiana systems.
 * Wed Sep 26 2007 - nonsea@users.sourceforge.net
 - Initial spec

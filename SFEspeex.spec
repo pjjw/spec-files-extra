@@ -20,7 +20,7 @@ SUNW_BaseDir:	%{_basedir}
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Tag definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-Name:         	%{src_name}
+Name:         	SFE%{src_name}
 Summary:      	Speex: A Free Codec For Free Speech
 Version:      	%{src_version}
 Release:      	%{pkg_release}
@@ -33,6 +33,7 @@ BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
 
 #Requires:      
 #BuildRequires: 
+BuildConflict: SUNWspeex
 
 %description 
 Speex is an Open Source/Free Software  patent-free audio compression format designed for speech. The Speex Project aims to lower the barrier of entry for voice applications by providing a free alternative to expensive proprietary speech codecs. Moreover, Speex is well-adapted to Internet applications and provides useful features that are not present in most other codecs.
@@ -101,5 +102,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Add BuildConflicts SUNWspeex.
 * 2007.Aug.11 - <shivakumar dot gn at gmail dot com>
 - Initial spec.

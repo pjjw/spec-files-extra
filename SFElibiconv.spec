@@ -20,6 +20,14 @@ SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
 
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
+
 %prep
 %setup -q -n libiconv-%version
 
@@ -47,6 +55,14 @@ make install DESTDIR=$RPM_BUILD_ROOT
 rm ${RPM_BUILD_ROOT}%{_libdir}/lib*.la
 rm $RPM_BUILD_ROOT%{_libdir}/charset.alias
 
+%if %build_l10n
+%else
+# REMOVE l10n FILES
+rm -r $RPM_BUILD_ROOT%{_datadir}/locale
+#rm -r $RPM_BUILD_ROOT%{_datadir}/gnome/help/gnome-commander/[a-z]*
+#rm -r $RPM_BUILD_ROOT%{_datadir}/omf/gnome-commander/*-[a-z]*.omf
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -71,7 +87,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
 
+%if %build_l10n
+%files l10n
+%defattr (-, root, bin)
+%dir %attr (0755, root, sys) %{_datadir}
+%attr (-, root, other) %{_datadir}/locale
+%endif
+
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Add l10n package.
 * Sun Apr 21 2007 - Doug Scott
 - Added -L/usr/gnu/lib -R/usr/gnu/lib
 * Mon Mar 12 2007 - Eric Boutilier

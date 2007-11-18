@@ -24,6 +24,12 @@ Requires: SUNWgnome-base-libs
 Requires: SUNWgnome-panel
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWgnome-panel-devel
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
+Requires: SUNWuiu8
+%endif
 
 %package devel
 Summary:                 %{summary} - development files
@@ -42,6 +48,10 @@ fi
 
 %build
 export CFLAGS="%optflags"
+%if %option_with_gnu_iconv
+export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+export CXXFLAGS="$CXXFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+%endif
 export LDFLAGS="-lsocket"
 ./bootstrap
 ./configure --prefix=%{_prefix}                 \
@@ -94,5 +104,7 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_includedir}/*
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Add support for building on Indiana systems.
 * Thu Jul 26 2007 - dougs@truemail.co.th
 - Initial spec, borrowed from opensolaris input-method project

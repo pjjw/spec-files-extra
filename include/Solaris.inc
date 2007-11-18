@@ -5,30 +5,13 @@
 #
 
 %include prod.inc
+%include options.inc
 
 SUNW_Pkg_AllZones:         false
 SUNW_Pkg_Hollow:           false
 SUNW_Pkg_ThisZone:         false
 
 %define cc_is_gcc %(test "x`basename $CC`" = xgcc && echo 1 || echo 0)
-
-# Command line configurable build options:
-
-# use --with-build-l10n to build the SUNWfoo-l10n packages
-# default: no l10n packages
-%define build_l10n %{?_with_l10n:1}%{?!_with_l10n:0}
-
-# use --with-debug to build binaries with debug info (-g) and not to strip
-# them.
-# default: don't include debug info and strip the binaries (strip -x)
-%define debug_build %{?_with_debug:1}%{?!_with_debug:0}
-
-# use --without-gtk-doc to disable building gtk-docs (it takes quite
-# a while to build them)
-# default: build gtk-doc API docs
-%define gtk_doc_option %{?!_without_gtk_doc:--enable-gtk-doc}%{?_without_gtk_doc:--disable-gtk-doc}
-
-# end of command line configurable build options
 
 %define is_nevada %(test `uname -r` = 5.11 && echo 1 || echo 0)
 %define is_s10    %(test `uname -r` = 5.10 && echo 1 || echo 0)
@@ -59,14 +42,17 @@ SUNW_Copyright:            default-copyright.txt
 %define base_arch i386
 %endif
 
+%if %option_with_gnu_iconv
+%define arch_ldadd -Wl,-zignore -R/usr/gnu/lib -lgnuintl -lgnuiconv
+%else
 %define arch_ldadd
+%endif
 %define ldadd
 
 %if %debug_build
 %define _ldflags           %arch_ldadd %ldadd ${EXTRA_LDFLAGS}
 %else
 %define _ldflags           %arch_ldadd %ldadd -Wl,-zignore -Wl,-zcombreloc -Wl,-Bdirect ${EXTRA_LDFLAGS}
-%define gcc_ldflags        %arch_ldadd %ldadd ${EXTRA_LDFLAGS}
 %endif
 
 %define gcc_picflags -fPIC -DPIC
@@ -93,9 +79,11 @@ SUNW_Copyright:            default-copyright.txt
 %define _pkg_config_path   %{_libdir}/pkgconfig
 
 # ChangeLog:
-# 2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
-# - define gcc_ldflags such that they don't include solaris ld specific
-#   flags like -Bdirect
+# 2007-09-28  Laszlo (Laca) Peter  <laca@sun.com>
+# - copy arch_ldadd definition from base.inc
+# 2007-09-27  Laszlo (Laca) Peter  <laca@sun.com>
+# - move configurable build options to options.inc and include
+#   options.inc
 # 2007-04-05  Laszlo (Laca) Peter  <laca@sun.com>
 # - fix _ldflags so that it includes the architecture specific flags
 # 2007-03-15  Laszlo (Laca) Peter  <laca@sun.com>

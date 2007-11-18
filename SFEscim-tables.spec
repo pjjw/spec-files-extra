@@ -8,6 +8,8 @@
 %define	src_name scim-tables
 %define	src_url	http://nchc.dl.sourceforge.net/sourceforge/scim
 
+%define SUNWgnugettext      %(/usr/bin/pkginfo -q SUNWgnu-gettext && echo 1 || echo 0)
+
 Name:                SFEscim-tables
 Summary:             SCIM tables IMEngine
 Version:             0.5.7
@@ -19,8 +21,13 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 BuildRequires: SFEscim-devel
 Requires: SFEscim
 %if %build_l10n
+%if %SUNWgnugettext
+BuildRequires: SUNWgnu-gettext-devel
+Requires: SUNWgnu-gettext
+%else
 BuildRequires: SFEgettext-devel
 Requires: SFEgettext
+%endif
 %endif
 
 %package devel
@@ -102,5 +109,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Enable building with either SUNWgnu-gettext or SFEgettext.
 * Sat Jul 28 2007 - dougs@truemail.co.th
 - Initial spec

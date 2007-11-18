@@ -55,11 +55,17 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags"
+%if %option_with_fox
+export CFLAGS="$CFLAGS -I/usr/X11/include"
+%endif
+export LDFLAGS="%arch_ldadd %ldadd ${EXTRA_LDFLAGS}"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export MSGFMT="/usr/bin/msgfmt"
 export CXX=/usr/gnu/bin/g++
-export CXXFLAGS="-O3 -fno-omit-frame-pointer"
+export CXXFLAGS="%gcc_cxx_optflags"
+%if %option_with_fox
+export CXXFLAGS="$CXXFLAGS -I/usr/X11/include"
+%endif
 export LD_OPTIONS="-i -zdirect -L/usr/gnu/lib -R/usr/gnu/lib"
 
 rm -rf $RPM_BUILD_ROOT
@@ -88,6 +94,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dangerdeep
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Add support for building on Indiana systems.
 * Thu Nov 15 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.3.0. Enable building with SFElibsdl or SFEsdl.
 * Mon Apr 23 2006 - dougs@truemail.co.th

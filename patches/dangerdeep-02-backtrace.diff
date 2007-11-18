@@ -1,9 +1,9 @@
 diff -ur dangerdeep-0.2.0-orig/src/faulthandler.h dangerdeep-0.2.0/src/faulthandler.h
 --- dangerdeep-0.2.0-orig/src/faulthandler.h	2006-10-13 01:16:09.000000000 +0700
 +++ dangerdeep-0.2.0/src/faulthandler.h	2007-04-23 13:18:28.911356853 +0700
-@@ -25,7 +25,11 @@
+@@ -43,7 +43,11 @@
  
- #ifndef WIN32
+ #else	//non-WIN32-MacOSX
  
 +// backtrace support is yet to be added to Open Solaris
 +// *** FIXME *** need to check for support in SConstruct
@@ -13,7 +13,7 @@ diff -ur dangerdeep-0.2.0-orig/src/faulthandler.h dangerdeep-0.2.0/src/faulthand
  #include <stdio.h>
  #include <stdlib.h>
  #include <cxxabi.h>      // Needed for __cxa_demangle
-@@ -37,6 +41,7 @@
+@@ -57,6 +61,7 @@
  
  inline void print_stack_trace()
  {
