@@ -18,8 +18,8 @@ SUNW_BaseDir:           /
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-BuildRequires: SFEcurl-devel
-BuildRequires: SFWoggl
+#BuildRequires: SFEcurl-devel
+BuildRequires: SUNWcurl
 BuildRequires: SUNWlibtheora-devel
 BuildRequires: SUNWlxml-devel
 BuildRequires: SUNWlxsl-devel
@@ -27,8 +27,8 @@ BuildRequires: SUNWogg-vorbis-devel
 BuildRequires: SUNWopenssl-include
 BuildRequires: SUNWspeex-devel
 BuildRequires: SUNWzlib
-Requires: SFEcurl
-Requires: SFWoggl
+#Requires: SFEcurl
+Requires: SUNWcurl
 Requires: SUNWlibtheora
 Requires: SUNWlxml
 Requires: SUNWlxsl
@@ -48,6 +48,9 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 
+
+export CFLAGS="%optflags -xc99"
+export CXXFLAGS="%cxx_optflags -library=stlport4 -staticlib=stlport4"
 
 ./configure --prefix=/usr               \
             --bindir=/usr/bin           \
@@ -91,5 +94,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Nov 18 2007 - Thomas Wagner
+- switch depends to SUNWcurl, remove SFWoggl
+- add CFLAGS, CXXFLAGS to build with sunstudio (tested with: Sun C 5.8 Patch 121016-04)
 * Tue May 8 2007 - Thomas Wagner
 - Initial version

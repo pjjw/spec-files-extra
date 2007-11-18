@@ -33,6 +33,7 @@ BuildRequires: SFElibmpcdec-devel
 BuildRequires: SFElibmad-devel
 BuildRequires: SFEfaad2-devel
 BuildRequires: SFElibid3tag-devel
+BuildRequires: SFElibsamplerate-devel
 BuildRequires: SUNWogg-vorbis-devel
 BuildRequires: SUNWgnome-audio-devel
 BuildRequires: SUNWflac-devel
@@ -45,6 +46,7 @@ Requires: SFElibmad
 Requires: SFEfaad2
 Requires: SFElibid3tag
 Requires: SFEid3lib
+Requires: SFElibsamplerate
 Requires: SUNWogg-vorbis
 Requires: SUNWgnome-audio
 Requires: SUNWflac
@@ -89,6 +91,8 @@ export LDFLAGS="%{_ldflags}"
             --mandir=%{_mandir}  \
 	    --enable-ao          \
 	    --enable-shout       \
+            --disable-alsa       \
+            --disable-alsatest   \
 	    --enable-pulse
 
 make -j$CPUS
@@ -123,6 +127,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Sun Nov 18 2007 Thomas Wagner
+- --disable-alsa (at the moment we use libao)
+- (Build)Requires SFElibsamplerate(-devel)
 * Tue Sep 04 2007 Thomas Wagner
 - add description
 - add libao example to mpd.conf (sun|pulse)
