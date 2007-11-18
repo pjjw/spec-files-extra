@@ -16,7 +16,7 @@ Patch3:                  cheese-03-flags.diff
 Patch4:                  cheese-04-threads.diff
 %if %option_with_gnu_iconv
 Patch5:                  cheese-05-gnu-iconv.diff
-$endif
+%endif
 URL:                     http://live.gnome.org/Cheese
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
