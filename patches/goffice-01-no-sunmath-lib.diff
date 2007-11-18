@@ -1,0 +1,31 @@
+--- goffice-0.5.2/configure.orig	2007-11-16 18:35:43.014448000 +0000
++++ goffice-0.5.2/configure	2007-11-16 18:36:31.744429000 +0000
+@@ -26870,7 +26870,7 @@
+ if test $ac_cv_c_long_double = yes; then
+     have_mandatory_funcs=yes
+     need_sunmath=0
+-    sunmathlinkstuff='-L/opt/SUNWspro/lib -R/opt/SUNWspro/lib -lsunmath'
++    sunmathlinkstuff='-L/opt/SUNWspro/lib -R/opt/SUNWspro/lib'
+     for ldfunc in fabsl logl log10l ceill floorl powl isnanl finitel; do
+ 	    as_ac_var=`echo "ac_cv_func_$ldfunc" | $as_tr_sh`
+ { echo "$as_me:$LINENO: checking for $ldfunc" >&5
+@@ -27037,7 +27037,7 @@
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+ else
+   ac_check_lib_save_LIBS=$LIBS
+-LIBS="-lsunmath -L/opt/SUNWspro/lib $GOFFICE_LIBS $LIBS"
++LIBS="-L/opt/SUNWspro/lib $GOFFICE_LIBS $LIBS"
+ cat >conftest.$ac_ext <<_ACEOF
+ /* confdefs.h.  */
+ _ACEOF
+--- goffice-0.5.2/configure.in.orig	2007-11-16 18:35:50.467893000 +0000
++++ goffice-0.5.2/configure.in	2007-11-16 18:36:16.880534000 +0000
+@@ -425,7 +425,7 @@
+ if test $ac_cv_c_long_double = yes; then
+     have_mandatory_funcs=yes
+     need_sunmath=0
+-    sunmathlinkstuff='-L/opt/SUNWspro/lib -R/opt/SUNWspro/lib -lsunmath'
++    sunmathlinkstuff='-L/opt/SUNWspro/lib -R/opt/SUNWspro/lib'
+     for ldfunc in fabsl logl log10l ceill floorl powl isnanl finitel; do
+ 	    AC_CHECK_FUNC($ldfunc,
+ 		  ,
