@@ -16,7 +16,7 @@
 
 Name:                    	SFEwesnoth
 Summary:                 	Battle for Wesnoth is a fantasy turn-based strategy game
-Version:                 	1.3.10
+Version:                 	1.3.11
 Source:                  	http://kent.dl.sourceforge.net/sourceforge/wesnoth/wesnoth-%{version}.tar.bz2
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -63,7 +63,7 @@ export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib -lsocket -lnsl"
             --enable-shared				\
             --enable-editor                     	\
             --with-preferences-dir=".wesnoth-dev" 	\
-	    --disable-static
+    	    --disable-static
 
 make -j$CPUS 
 
@@ -100,6 +100,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov 19 2007 - Petr Sobotka <sobotkap@centrum.cz>
+- Bump to 1.3.11
 * Thu Nov 15 2007 - daymobrew@users.sourceforge.net
 - Enable building with either SUNWlibsdl or SFEsdl.
 * Sun Nov 11 2007 Petr Sobotka <sobotkap@centrum.cz>
