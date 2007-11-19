@@ -11,6 +11,7 @@ Name:                SFEgkrellm
 Summary:             Popular (ubiquitous) Gtk-based system monitor
 Version:             2.2.10
 Source:              http://members.dslextreme.com/users/billw/gkrellm/gkrellm-%{version}.tar.bz2
+Patch1:              gkrellm-01-ldflags.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -23,6 +24,12 @@ BuildRequires: SFEgettext-devel
 Requires: SFEgettext
 %endif
 
+%if %option_with_fox
+Requires: FSWxorg-clientlibs
+Requires: FSWxwrtl
+BuildRequires: FSWxorg-headers
+%else
+Requires: SUNWxorg-clientlibs
 # Guarantee X/GTK/freetype environment, concisely (hopefully)
 BuildRequires: SUNWGtku
 # The above causes many things to get pulled in
@@ -34,9 +41,12 @@ BuildRequires: SUNWxwxft
 Requires: SUNWGtku
 Requires: SUNWxwplt 
 Requires: SUNWxwxft 
+%endif
 Requires: SUNWlexpt
 Requires: SUNWmlib
 Requires: SUNWpng
+Requires: SUNWopenssl-libraries
+
 
 %package devel
 Summary:                 %{summary} - development files
@@ -46,6 +56,7 @@ Requires: %name
 
 %prep
 %setup -q -n gkrellm-%version
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -56,7 +67,10 @@ fi
 
 export CC=/usr/sfw/bin/gcc
 export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
-export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib"
+%if %option_with_fox
+export CFLAGS="$CFLAGS -I/usr/X11/include"
+%endif
+export LDFLAGS="%arch_ldadd %ldadd ${EXTRA_LDFLAGS} -L/usr/sfw/lib -R/usr/sfw/lib"
 export LD_OPTIONS="-L/usr/sfw/lib -R/usr/sfw/lib"
 
 # A couple patches follow. TODO: Transpose these into proper patches or
@@ -114,6 +128,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/gkrellm.pc
 
 %changelog
+* Sun Nov 18 2007 - daymobrew@users.sourceforge.net
+- Change LDFLAGS to work for gcc. Add patch, 01-ldflags, to get LDFLAGS into
+  the build.
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net
 - Enable building with either SUNWgnu-gettext or SFEgettext.
 * Fri Apr 20 2007 - dougs@truemail.co.th

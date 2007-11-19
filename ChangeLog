@@ -1,5 +1,13 @@
 2007-11-19  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* SFElibmad.spec: Added, libmad - High-quality MPEG audio decoder
+	* SFEgkrellm.spec: Change LDFLAGS to work for gcc. Add patch,
+	  01-ldflags, to get LDFLAGS into the build.
+	* patches/gkrellm-01-ldflags.diff: Added to get LDFLAGS value into
+	  build.
+
+2007-11-19  Damien Carbery <daymobrew@users.sourceforge.net>
+
 	* SFEepiphany.spec, base-specs/epiphany.spec,
 	  patches/epiphany-01-runpath.diff, patches/epiphany-02-grep-q.diff,
 	  patches/epiphany-03-solaris.diff, patches/epiphany-04-ns-headers.diff:

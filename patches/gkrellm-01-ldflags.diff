@@ -1,0 +1,25 @@
+--- gkrellm-2.2.10/Makefile.orig	2007-11-19 15:56:06.223823000 +0000
++++ gkrellm-2.2.10/Makefile	2007-11-19 16:03:22.240432000 +0000
+@@ -237,18 +237,18 @@
+ 	(cd src && ${MAKE} CC=gcc \
+ 		CFLAGS="-Wno-implicit-int" \
+ 		SYS_LIBS="-lkstat -lkvm -ldevinfo -lresolv -lsocket -lX11 -lintl" \
+-		LINK_FLAGS="" gkrellm )
++		LINK_FLAGS="${LDFLAGS}" gkrellm )
+ 	(cd server && ${MAKE} CC=gcc \
+ 		CFLAGS="-Wno-implicit-int -DSOLARIS_8" \
+ 		SYS_LIBS="-lkstat -lkvm -ldevinfo -lsocket -lnsl -lintl" \
+-		LINK_FLAGS="" gkrellmd )
++		LINK_FLAGS="${LDFLAGS}" gkrellmd )
+ else
+ 	(cd src && ${MAKE} CC=gcc \
+ 		CFLAGS="-Wno-implicit-int" \
+-		SYS_LIBS="-lkstat -lkvm -ldevinfo -lresolv -lsocket -lX11" LINK_FLAGS="" gkrellm )
++		SYS_LIBS="-lkstat -lkvm -ldevinfo -lresolv -lsocket -lX11" LINK_FLAGS="${LDFLAGS}" gkrellm )
+ 	(cd server && ${MAKE} CC=gcc \
+ 		CFLAGS="-Wno-implicit-int" \
+-		SYS_LIBS="-lkstat -lkvm -ldevinfo -lsocket -lnsl" LINK_FLAGS="" gkrellmd )
++		SYS_LIBS="-lkstat -lkvm -ldevinfo -lsocket -lnsl" LINK_FLAGS="${LDFLAGS}" gkrellmd )
+ endif
+ 
+ gnome-gtop: gkrellm.pc
