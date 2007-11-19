@@ -55,6 +55,13 @@ Requires: SFEgcc
 %if %with_hal
 Requires: SUNWhal
 %endif
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
+Requires: SUNWuiu8
+%endif
+
 
 %package devel
 Summary:       %{summary} - development files
@@ -97,7 +104,11 @@ autoheader
 automake -a -c -f 
 autoconf
 export CFLAGS="-O4 -fPIC -DPIC -I/usr/X11/include -I/usr/openwin/include -D_LARGEFILE64_SOURCE -I/usr/gnu/include -mcpu=pentiumpro -mtune=pentiumpro -msse2 -mfpmath=sse "
-export LDFLAGS="%{gcc_ldflags} -Wl,-export-dynamic -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib"
+export LDFLAGS="%arch_ldadd %ldadd ${EXTRA_LDFLAGS} -Wl,-export-dynamic -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib"
+%if %option_with_gnu_iconv
+export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl -liconv"
+export CXXFLAGS="$CXXFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl -liconv"
+%endif
 ./configure --prefix=%{_prefix} \
             --with-w32-path=%{mplayer.codecdir} \
             --with-external-libmad \
