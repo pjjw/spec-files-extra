@@ -1,0 +1,58 @@
+--- epiphany-2.20.1/embed/mozilla/EphyBrowser.h.orig	2007-11-19 13:42:22.429152000 +0000
++++ epiphany-2.20.1/embed/mozilla/EphyBrowser.h	2007-11-19 13:43:03.407623000 +0000
+@@ -187,7 +187,7 @@
+ 
+ 	nsresult LoadURI(const char *aURI, 
+ 			 PRUint32 aLoadFlags = nsIWebNavigation::LOAD_FLAGS_NONE, 
+-			 nsIURI *aURI = nsnull);
++			 nsIURI *bURI = nsnull);
+ 
+         EphyEmbedDocumentType GetDocumentType ();
+ 
+--- epiphany-2.20.1/embed/mozilla/mozilla-x509-cert.h.orig	2007-11-19 13:48:54.512875000 +0000
++++ epiphany-2.20.1/embed/mozilla/mozilla-x509-cert.h	2007-11-19 13:49:22.273045000 +0000
+@@ -56,7 +56,7 @@
+ 
+ MozillaX509Cert           *mozilla_x509_cert_new              (nsIX509Cert *aMozCert);
+ 
+-nsresult                   mozilla_x509_cert_get_mozilla_cert (MozillaX509Cert *cert, nsIX509Cert **cert);
++nsresult                   mozilla_x509_cert_get_mozilla_cert (MozillaX509Cert *cert, nsIX509Cert **certt);
+ 
+ G_END_DECLS
+ 
+--- epiphany-2.20.1/embed/ephy-embed.h.orig	2007-11-19 13:30:00.887093000 +0000
++++ epiphany-2.20.1/embed/ephy-embed.h	2007-11-19 13:31:31.214690000 +0000
+@@ -66,7 +66,7 @@
+ typedef enum
+ {
+ 	EPHY_EMBED_LOAD_FLAGS_NONE			= 1 << 0,
+-	EPHY_EMBED_LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP 	= 1 << 1,
++	EPHY_EMBED_LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP 	= 1 << 1
+ } EphyEmbedLoadFlags;
+ 
+ #define EPHY_EMBED_CHROME_ALL (EPHY_EMBED_CHROME_MENUBAR |	\
+--- epiphany-2.20.1/lib/ephy-debug.h.orig	2007-11-19 13:31:45.947504000 +0000
++++ epiphany-2.20.1/lib/ephy-debug.h	2007-11-19 13:34:08.228501000 +0000
+@@ -33,9 +33,9 @@
+ #if defined(G_HAVE_GNUC_VARARGS)
+ 
+ #ifdef DISABLE_LOGGING
+-#define LOG(msg, args...) G_STMT_START { } G_STMT_END
++#define LOG(...) G_STMT_START { } G_STMT_END
+ #else
+-#define LOG(msg, args...)			\
++#define LOG(...)			\
+ g_log (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,		\
+        "[ %s ] " msg,				\
+        __FILE__ , ## args)
+--- epiphany-2.20.1/lib/ephy-password-dialog.h.orig	2007-11-19 13:54:34.979147000 +0000
++++ epiphany-2.20.1/lib/ephy-password-dialog.h	2007-11-19 13:54:48.562365000 +0000
+@@ -59,7 +59,7 @@
+ 	EPHY_PASSWORD_DIALOG_FLAGS_SHOW_PASSWORD	= 1 << 4,
+ 	EPHY_PASSWORD_DIALOG_FLAGS_SHOW_NEW_PASSWORD	= 1 << 5,
+ 	EPHY_PASSWORD_DIALOG_FLAGS_SHOW_QUALITY_METER	= 1 << 6,
+-	EPHY_PASSWORD_DIALOG_FLAGS_SHOW_REMEMBER	= 1 << 7,
++	EPHY_PASSWORD_DIALOG_FLAGS_SHOW_REMEMBER	= 1 << 7
+ } EphyPasswordDialogFlags;
+ 
+ #define EPHY_PASSWORD_DIALOG_FLAGS_DEFAULT 0

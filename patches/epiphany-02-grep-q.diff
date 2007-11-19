@@ -1,0 +1,26 @@
+--- epiphany-2.20.1/configure.orig	2007-11-19 12:35:49.894833000 +0000
++++ epiphany-2.20.1/configure	2007-11-19 12:36:34.296620000 +0000
+@@ -27732,8 +27732,8 @@
+ if test "$have_iso_codes" = "yes"; then
+ 	{ echo "$as_me:$LINENO: checking whether iso-codes has iso-639 and iso-3166 domains" >&5
+ echo $ECHO_N "checking whether iso-codes has iso-639 and iso-3166 domains... $ECHO_C" >&6; }
+-	if $PKG_CONFIG --variable=domains iso-codes | grep -q 639 && \
+-	   $PKG_CONFIG --variable=domains iso-codes | grep -q 3166 ; then
++	if $PKG_CONFIG --variable=domains iso-codes | grep 639 && \
++	   $PKG_CONFIG --variable=domains iso-codes | grep 3166 ; then
+ 		result=yes
+ 	else
+ 		result=no
+--- epiphany-2.20.1/configure.ac.orig	2007-11-19 12:35:56.485467000 +0000
++++ epiphany-2.20.1/configure.ac	2007-11-19 12:36:41.962462000 +0000
+@@ -650,8 +650,8 @@
+ 
+ if test "$have_iso_codes" = "yes"; then
+ 	AC_MSG_CHECKING([whether iso-codes has iso-639 and iso-3166 domains])
+-	if $PKG_CONFIG --variable=domains iso-codes | grep -q 639 && \
+-	   $PKG_CONFIG --variable=domains iso-codes | grep -q 3166 ; then
++	if $PKG_CONFIG --variable=domains iso-codes | grep 639 && \
++	   $PKG_CONFIG --variable=domains iso-codes | grep 3166 ; then
+ 		result=yes
+ 	else
+ 		result=no

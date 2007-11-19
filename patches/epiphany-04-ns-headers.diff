@@ -1,0 +1,1783 @@
+diff -urN epiphany-2.20.1.orig/embed/mozilla/nsIClientAuthDialogs.h epiphany-2.20.1/embed/mozilla/nsIClientAuthDialogs.h
+--- epiphany-2.20.1.orig/embed/mozilla/nsIClientAuthDialogs.h	1970-01-01 01:00:00.000000000 +0100
++++ epiphany-2.20.1/embed/mozilla/nsIClientAuthDialogs.h	2007-11-19 14:06:11.461109000 +0000
+@@ -0,0 +1,100 @@
++/*
++ * DO NOT EDIT.  THIS FILE IS GENERATED FROM nsIClientAuthDialogs.idl
++ */
++
++#ifndef __gen_nsIClientAuthDialogs_h__
++#define __gen_nsIClientAuthDialogs_h__
++
++
++#ifndef __gen_nsISupports_h__
++#include "nsISupports.h"
++#endif
++
++/* For IDL files that don't want to include root IDL files. */
++#ifndef NS_NO_VTABLE
++#define NS_NO_VTABLE
++#endif
++class nsIInterfaceRequestor; /* forward declaration */
++
++
++/* starting interface:    nsIClientAuthDialogs */
++#define NS_ICLIENTAUTHDIALOGS_IID_STR "fa4c7520-1433-11d5-ba24-00108303b117"
++
++#define NS_ICLIENTAUTHDIALOGS_IID \
++  {0xfa4c7520, 0x1433, 0x11d5, \
++    { 0xba, 0x24, 0x00, 0x10, 0x83, 0x03, 0xb1, 0x17 }}
++
++/**
++ * nsIClientAuthDialog
++ * Provides UI for SSL client-auth dialogs.
++ */
++class NS_NO_VTABLE nsIClientAuthDialogs : public nsISupports {
++ public: 
++
++  NS_DEFINE_STATIC_IID_ACCESSOR(NS_ICLIENTAUTHDIALOGS_IID)
++
++  /**
++   * display
++   *   UI shown when a user is asked to do SSL client auth.
++   */
++  /* void ChooseCertificate (in nsIInterfaceRequestor ctx, in wstring cn, in wstring organization, in wstring issuer, [array, size_is (count)] in wstring certNickList, [array, size_is (count)] in wstring certDetailsList, in unsigned long count, out long selectedIndex, out boolean canceled); */
++  NS_IMETHOD ChooseCertificate(nsIInterfaceRequestor *ctx, const PRUnichar *cn, const PRUnichar *organization, const PRUnichar *issuer, const PRUnichar **certNickList, const PRUnichar **certDetailsList, PRUint32 count, PRInt32 *selectedIndex, PRBool *canceled) = 0;
++
++};
++
++/* Use this macro when declaring classes that implement this interface. */
++#define NS_DECL_NSICLIENTAUTHDIALOGS \
++  NS_IMETHOD ChooseCertificate(nsIInterfaceRequestor *ctx, const PRUnichar *cn, const PRUnichar *organization, const PRUnichar *issuer, const PRUnichar **certNickList, const PRUnichar **certDetailsList, PRUint32 count, PRInt32 *selectedIndex, PRBool *canceled); 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object. */
++#define NS_FORWARD_NSICLIENTAUTHDIALOGS(_to) \
++  NS_IMETHOD ChooseCertificate(nsIInterfaceRequestor *ctx, const PRUnichar *cn, const PRUnichar *organization, const PRUnichar *issuer, const PRUnichar **certNickList, const PRUnichar **certDetailsList, PRUint32 count, PRInt32 *selectedIndex, PRBool *canceled) { return _to ChooseCertificate(ctx, cn, organization, issuer, certNickList, certDetailsList, count, selectedIndex, canceled); } 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
++#define NS_FORWARD_SAFE_NSICLIENTAUTHDIALOGS(_to) \
++  NS_IMETHOD ChooseCertificate(nsIInterfaceRequestor *ctx, const PRUnichar *cn, const PRUnichar *organization, const PRUnichar *issuer, const PRUnichar **certNickList, const PRUnichar **certDetailsList, PRUint32 count, PRInt32 *selectedIndex, PRBool *canceled) { return !_to ? NS_ERROR_NULL_POINTER : _to->ChooseCertificate(ctx, cn, organization, issuer, certNickList, certDetailsList, count, selectedIndex, canceled); } 
++
++#if 0
++/* Use the code below as a template for the implementation class for this interface. */
++
++/* Header file */
++class nsClientAuthDialogs : public nsIClientAuthDialogs
++{
++public:
++  NS_DECL_ISUPPORTS
++  NS_DECL_NSICLIENTAUTHDIALOGS
++
++  nsClientAuthDialogs();
++
++private:
++  ~nsClientAuthDialogs();
++
++protected:
++  /* additional members */
++};
++
++/* Implementation file */
++NS_IMPL_ISUPPORTS1(nsClientAuthDialogs, nsIClientAuthDialogs)
++
++nsClientAuthDialogs::nsClientAuthDialogs()
++{
++  /* member initializers and constructor code */
++}
++
++nsClientAuthDialogs::~nsClientAuthDialogs()
++{
++  /* destructor code */
++}
++
++/* void ChooseCertificate (in nsIInterfaceRequestor ctx, in wstring cn, in wstring organization, in wstring issuer, [array, size_is (count)] in wstring certNickList, [array, size_is (count)] in wstring certDetailsList, in unsigned long count, out long selectedIndex, out boolean canceled); */
++NS_IMETHODIMP nsClientAuthDialogs::ChooseCertificate(nsIInterfaceRequestor *ctx, const PRUnichar *cn, const PRUnichar *organization, const PRUnichar *issuer, const PRUnichar **certNickList, const PRUnichar **certDetailsList, PRUint32 count, PRInt32 *selectedIndex, PRBool *canceled)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* End of implementation class template. */
++#endif
++
++#define NS_CLIENTAUTHDIALOGS_CONTRACTID "@mozilla.org/nsClientAuthDialogs;1"
++
++#endif /* __gen_nsIClientAuthDialogs_h__ */
+diff -urN epiphany-2.20.1.orig/embed/mozilla/nsIDOMCryptoDialogs.h epiphany-2.20.1/embed/mozilla/nsIDOMCryptoDialogs.h
+--- epiphany-2.20.1.orig/embed/mozilla/nsIDOMCryptoDialogs.h	1970-01-01 01:00:00.000000000 +0100
++++ epiphany-2.20.1/embed/mozilla/nsIDOMCryptoDialogs.h	2007-11-19 14:06:11.471569000 +0000
+@@ -0,0 +1,98 @@
++/*
++ * DO NOT EDIT.  THIS FILE IS GENERATED FROM nsIDOMCryptoDialogs.idl
++ */
++
++#ifndef __gen_nsIDOMCryptoDialogs_h__
++#define __gen_nsIDOMCryptoDialogs_h__
++
++
++#ifndef __gen_nsISupports_h__
++#include "nsISupports.h"
++#endif
++
++/* For IDL files that don't want to include root IDL files. */
++#ifndef NS_NO_VTABLE
++#define NS_NO_VTABLE
++#endif
++class nsIX509Cert; /* forward declaration */
++
++
++/* starting interface:    nsIDOMCryptoDialogs */
++#define NS_IDOMCRYPTODIALOGS_IID_STR "1f8fe77e-1dd2-11b2-8dd2-e55f8d3465b8"
++
++#define NS_IDOMCRYPTODIALOGS_IID \
++  {0x1f8fe77e, 0x1dd2, 0x11b2, \
++    { 0x8d, 0xd2, 0xe5, 0x5f, 0x8d, 0x34, 0x65, 0xb8 }}
++
++class NS_NO_VTABLE nsIDOMCryptoDialogs : public nsISupports {
++ public: 
++
++  NS_DEFINE_STATIC_IID_ACCESSOR(NS_IDOMCRYPTODIALOGS_IID)
++
++  /**
++   * This method is used to warn the user the web site is
++   * trying to escrow the generated private key.  This 
++   * method should return true if the user wants to proceed
++   * and false if the user cancels the action.
++   */
++  /* boolean ConfirmKeyEscrow (in nsIX509Cert escrowAuthority); */
++  NS_IMETHOD ConfirmKeyEscrow(nsIX509Cert *escrowAuthority, PRBool *_retval) = 0;
++
++};
++
++/* Use this macro when declaring classes that implement this interface. */
++#define NS_DECL_NSIDOMCRYPTODIALOGS \
++  NS_IMETHOD ConfirmKeyEscrow(nsIX509Cert *escrowAuthority, PRBool *_retval); 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object. */
++#define NS_FORWARD_NSIDOMCRYPTODIALOGS(_to) \
++  NS_IMETHOD ConfirmKeyEscrow(nsIX509Cert *escrowAuthority, PRBool *_retval) { return _to ConfirmKeyEscrow(escrowAuthority, _retval); } 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
++#define NS_FORWARD_SAFE_NSIDOMCRYPTODIALOGS(_to) \
++  NS_IMETHOD ConfirmKeyEscrow(nsIX509Cert *escrowAuthority, PRBool *_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->ConfirmKeyEscrow(escrowAuthority, _retval); } 
++
++#if 0
++/* Use the code below as a template for the implementation class for this interface. */
++
++/* Header file */
++class nsDOMCryptoDialogs : public nsIDOMCryptoDialogs
++{
++public:
++  NS_DECL_ISUPPORTS
++  NS_DECL_NSIDOMCRYPTODIALOGS
++
++  nsDOMCryptoDialogs();
++
++private:
++  ~nsDOMCryptoDialogs();
++
++protected:
++  /* additional members */
++};
++
++/* Implementation file */
++NS_IMPL_ISUPPORTS1(nsDOMCryptoDialogs, nsIDOMCryptoDialogs)
++
++nsDOMCryptoDialogs::nsDOMCryptoDialogs()
++{
++  /* member initializers and constructor code */
++}
++
++nsDOMCryptoDialogs::~nsDOMCryptoDialogs()
++{
++  /* destructor code */
++}
++
++/* boolean ConfirmKeyEscrow (in nsIX509Cert escrowAuthority); */
++NS_IMETHODIMP nsDOMCryptoDialogs::ConfirmKeyEscrow(nsIX509Cert *escrowAuthority, PRBool *_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* End of implementation class template. */
++#endif
++
++#define NS_DOMCRYPTODIALOGS_CONTRACTID "@mozilla.org/nsDOMCryptoDialogs;1"
++
++#endif /* __gen_nsIDOMCryptoDialogs_h__ */
+diff -urN epiphany-2.20.1.orig/embed/mozilla/nsIFormSigningDialog.h epiphany-2.20.1/embed/mozilla/nsIFormSigningDialog.h
+--- epiphany-2.20.1.orig/embed/mozilla/nsIFormSigningDialog.h	1970-01-01 01:00:00.000000000 +0100
++++ epiphany-2.20.1/embed/mozilla/nsIFormSigningDialog.h	2007-11-19 14:06:11.457591000 +0000
+@@ -0,0 +1,103 @@
++/*
++ * DO NOT EDIT.  THIS FILE IS GENERATED FROM nsIFormSigningDialog.idl
++ */
++
++#ifndef __gen_nsIFormSigningDialog_h__
++#define __gen_nsIFormSigningDialog_h__
++
++
++#ifndef __gen_nsISupports_h__
++#include "nsISupports.h"
++#endif
++
++/* For IDL files that don't want to include root IDL files. */
++#ifndef NS_NO_VTABLE
++#define NS_NO_VTABLE
++#endif
++class nsIInterfaceRequestor; /* forward declaration */
++
++
++/* starting interface:    nsIFormSigningDialog */
++#define NS_IFORMSIGNINGDIALOG_IID_STR "4fe04d6d-4b66-4023-a0bc-b43ce68b3e15"
++
++#define NS_IFORMSIGNINGDIALOG_IID \
++  {0x4fe04d6d, 0x4b66, 0x4023, \
++    { 0xa0, 0xbc, 0xb4, 0x3c, 0xe6, 0x8b, 0x3e, 0x15 }}
++
++/**
++ * nsIFormSigningDialog
++ * Provides UI for form signing.
++ */
++class NS_NO_VTABLE nsIFormSigningDialog : public nsISupports {
++ public: 
++
++  NS_DEFINE_STATIC_IID_ACCESSOR(NS_IFORMSIGNINGDIALOG_IID)
++
++  /**
++   *  confirmSignText
++   *    UI shown when a web site calls crypto.signText,
++   *    asking the user to confirm the confirm the signing request.
++   *
++   *  returns true if the user confirmed, false on cancel
++   */
++  /* boolean confirmSignText (in nsIInterfaceRequestor ctxt, in AString host, in AString signText, [array, size_is (count)] in wstring certNickList, [array, size_is (count)] in wstring certDetailsList, in PRUint32 count, out PRInt32 selectedIndex, out AString password); */
++  NS_IMETHOD ConfirmSignText(nsIInterfaceRequestor *ctxt, const nsAString & host, const nsAString & signText, const PRUnichar **certNickList, const PRUnichar **certDetailsList, PRUint32 count, PRInt32 *selectedIndex, nsAString & password, PRBool *_retval) = 0;
++
++};
++
++/* Use this macro when declaring classes that implement this interface. */
++#define NS_DECL_NSIFORMSIGNINGDIALOG \
++  NS_IMETHOD ConfirmSignText(nsIInterfaceRequestor *ctxt, const nsAString & host, const nsAString & signText, const PRUnichar **certNickList, const PRUnichar **certDetailsList, PRUint32 count, PRInt32 *selectedIndex, nsAString & password, PRBool *_retval); 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object. */
++#define NS_FORWARD_NSIFORMSIGNINGDIALOG(_to) \
++  NS_IMETHOD ConfirmSignText(nsIInterfaceRequestor *ctxt, const nsAString & host, const nsAString & signText, const PRUnichar **certNickList, const PRUnichar **certDetailsList, PRUint32 count, PRInt32 *selectedIndex, nsAString & password, PRBool *_retval) { return _to ConfirmSignText(ctxt, host, signText, certNickList, certDetailsList, count, selectedIndex, password, _retval); } 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
++#define NS_FORWARD_SAFE_NSIFORMSIGNINGDIALOG(_to) \
++  NS_IMETHOD ConfirmSignText(nsIInterfaceRequestor *ctxt, const nsAString & host, const nsAString & signText, const PRUnichar **certNickList, const PRUnichar **certDetailsList, PRUint32 count, PRInt32 *selectedIndex, nsAString & password, PRBool *_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->ConfirmSignText(ctxt, host, signText, certNickList, certDetailsList, count, selectedIndex, password, _retval); } 
++
++#if 0
++/* Use the code below as a template for the implementation class for this interface. */
++
++/* Header file */
++class nsFormSigningDialog : public nsIFormSigningDialog
++{
++public:
++  NS_DECL_ISUPPORTS
++  NS_DECL_NSIFORMSIGNINGDIALOG
++
++  nsFormSigningDialog();
++
++private:
++  ~nsFormSigningDialog();
++
++protected:
++  /* additional members */
++};
++
++/* Implementation file */
++NS_IMPL_ISUPPORTS1(nsFormSigningDialog, nsIFormSigningDialog)
++
++nsFormSigningDialog::nsFormSigningDialog()
++{
++  /* member initializers and constructor code */
++}
++
++nsFormSigningDialog::~nsFormSigningDialog()
++{
++  /* destructor code */
++}
++
++/* boolean confirmSignText (in nsIInterfaceRequestor ctxt, in AString host, in AString signText, [array, size_is (count)] in wstring certNickList, [array, size_is (count)] in wstring certDetailsList, in PRUint32 count, out PRInt32 selectedIndex, out AString password); */
++NS_IMETHODIMP nsFormSigningDialog::ConfirmSignText(nsIInterfaceRequestor *ctxt, const nsAString & host, const nsAString & signText, const PRUnichar **certNickList, const PRUnichar **certDetailsList, PRUint32 count, PRInt32 *selectedIndex, nsAString & password, PRBool *_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* End of implementation class template. */
++#endif
++
++#define NS_FORMSIGNINGDIALOG_CONTRACTID "@mozilla.org/nsFormSigningDialog;1"
++
++#endif /* __gen_nsIFormSigningDialog_h__ */
+diff -urN epiphany-2.20.1.orig/embed/mozilla/nsIGenKeypairInfoDlg.h epiphany-2.20.1/embed/mozilla/nsIGenKeypairInfoDlg.h
+--- epiphany-2.20.1.orig/embed/mozilla/nsIGenKeypairInfoDlg.h	1970-01-01 01:00:00.000000000 +0100
++++ epiphany-2.20.1/embed/mozilla/nsIGenKeypairInfoDlg.h	2007-11-19 14:06:11.475087000 +0000
+@@ -0,0 +1,109 @@
++/*
++ * DO NOT EDIT.  THIS FILE IS GENERATED FROM nsIGenKeypairInfoDlg.idl
++ */
++
++#ifndef __gen_nsIGenKeypairInfoDlg_h__
++#define __gen_nsIGenKeypairInfoDlg_h__
++
++
++#ifndef __gen_nsISupports_h__
++#include "nsISupports.h"
++#endif
++
++/* For IDL files that don't want to include root IDL files. */
++#ifndef NS_NO_VTABLE
++#define NS_NO_VTABLE
++#endif
++class nsIInterfaceRequestor; /* forward declaration */
++
++class nsIKeygenThread; /* forward declaration */
++
++
++/* starting interface:    nsIGeneratingKeypairInfoDialogs */
++#define NS_IGENERATINGKEYPAIRINFODIALOGS_IID_STR "11bf5cdc-1dd2-11b2-ba6a-c76afb326fa1"
++
++#define NS_IGENERATINGKEYPAIRINFODIALOGS_IID \
++  {0x11bf5cdc, 0x1dd2, 0x11b2, \
++    { 0xba, 0x6a, 0xc7, 0x6a, 0xfb, 0x32, 0x6f, 0xa1 }}
++
++/**
++ * nsIGeneratingKeypairInfoDialogs
++ *  This is the interface for giving feedback to the user
++ *  while generating a key pair.
++ */
++class NS_NO_VTABLE nsIGeneratingKeypairInfoDialogs : public nsISupports {
++ public: 
++
++  NS_DEFINE_STATIC_IID_ACCESSOR(NS_IGENERATINGKEYPAIRINFODIALOGS_IID)
++
++  /* void displayGeneratingKeypairInfo (in nsIInterfaceRequestor ctx, in nsIKeygenThread runnable); */
++  NS_IMETHOD DisplayGeneratingKeypairInfo(nsIInterfaceRequestor *ctx, nsIKeygenThread *runnable) = 0;
++
++};
++
++/* Use this macro when declaring classes that implement this interface. */
++#define NS_DECL_NSIGENERATINGKEYPAIRINFODIALOGS \
++  NS_IMETHOD DisplayGeneratingKeypairInfo(nsIInterfaceRequestor *ctx, nsIKeygenThread *runnable); 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object. */
++#define NS_FORWARD_NSIGENERATINGKEYPAIRINFODIALOGS(_to) \
++  NS_IMETHOD DisplayGeneratingKeypairInfo(nsIInterfaceRequestor *ctx, nsIKeygenThread *runnable) { return _to DisplayGeneratingKeypairInfo(ctx, runnable); } 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
++#define NS_FORWARD_SAFE_NSIGENERATINGKEYPAIRINFODIALOGS(_to) \
++  NS_IMETHOD DisplayGeneratingKeypairInfo(nsIInterfaceRequestor *ctx, nsIKeygenThread *runnable) { return !_to ? NS_ERROR_NULL_POINTER : _to->DisplayGeneratingKeypairInfo(ctx, runnable); } 
++
++#if 0
++/* Use the code below as a template for the implementation class for this interface. */
++
++/* Header file */
++class nsGeneratingKeypairInfoDialogs : public nsIGeneratingKeypairInfoDialogs
++{
++public:
++  NS_DECL_ISUPPORTS
++  NS_DECL_NSIGENERATINGKEYPAIRINFODIALOGS
++
++  nsGeneratingKeypairInfoDialogs();
++
++private:
++  ~nsGeneratingKeypairInfoDialogs();
++
++protected:
++  /* additional members */
++};
++
++/* Implementation file */
++NS_IMPL_ISUPPORTS1(nsGeneratingKeypairInfoDialogs, nsIGeneratingKeypairInfoDialogs)
++
++nsGeneratingKeypairInfoDialogs::nsGeneratingKeypairInfoDialogs()
++{
++  /* member initializers and constructor code */
++}
++
++nsGeneratingKeypairInfoDialogs::~nsGeneratingKeypairInfoDialogs()
++{
++  /* destructor code */
++}
++
++/* void displayGeneratingKeypairInfo (in nsIInterfaceRequestor ctx, in nsIKeygenThread runnable); */
++NS_IMETHODIMP nsGeneratingKeypairInfoDialogs::DisplayGeneratingKeypairInfo(nsIInterfaceRequestor *ctx, nsIKeygenThread *runnable)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* End of implementation class template. */
++#endif
++
++/**
++ * This component is to be implemented by the embeddor. It is used to show
++ * feedback to the user while a private key is being generated.
++ *
++ * This component is only ever used on the UI thread.
++ *
++ * INTERFACES THAT NEED TO BE IMPLEMENTED:
++ *   nsIGeneratingKeypairInfoDialogs
++ */
++#define NS_GENERATINGKEYPAIRINFODIALOGS_CONTRACTID \
++            "@mozilla.org/nsGeneratingKeypairInfoDialogs;1"
++
++#endif /* __gen_nsIGenKeypairInfoDlg_h__ */
+diff -urN epiphany-2.20.1.orig/embed/mozilla/nsIKeygenThread.h epiphany-2.20.1/embed/mozilla/nsIKeygenThread.h
+--- epiphany-2.20.1.orig/embed/mozilla/nsIKeygenThread.h	1970-01-01 01:00:00.000000000 +0100
++++ epiphany-2.20.1/embed/mozilla/nsIKeygenThread.h	2007-11-19 14:06:11.492583000 +0000
+@@ -0,0 +1,131 @@
++/*
++ * DO NOT EDIT.  THIS FILE IS GENERATED FROM nsIKeygenThread.idl
++ */
++
++#ifndef __gen_nsIKeygenThread_h__
++#define __gen_nsIKeygenThread_h__
++
++
++#ifndef __gen_nsISupports_h__
++#include "nsISupports.h"
++#endif
++
++/* For IDL files that don't want to include root IDL files. */
++#ifndef NS_NO_VTABLE
++#define NS_NO_VTABLE
++#endif
++class nsIObserver; /* forward declaration */
++
++
++/* starting interface:    nsIKeygenThread */
++#define NS_IKEYGENTHREAD_IID_STR "8712a243-5539-447c-9f47-8653f40c3a09"
++
++#define NS_IKEYGENTHREAD_IID \
++  {0x8712a243, 0x5539, 0x447c, \
++    { 0x9f, 0x47, 0x86, 0x53, 0xf4, 0x0c, 0x3a, 0x09 }}
++
++/**
++ * nsIKeygenThread
++ *  This is used to communicate with the thread generating a key pair,
++ *  to be used by the dialog displaying status information.
++ */
++class NS_NO_VTABLE nsIKeygenThread : public nsISupports {
++ public: 
++
++  NS_DEFINE_STATIC_IID_ACCESSOR(NS_IKEYGENTHREAD_IID)
++
++  /**
++   * startKeyGeneration - run the thread
++   *   A user interface using this interface needs to
++   *   call this method as soon as the status information
++   *   is displaying. This will trigger key generation.
++   *   To allow the closure of the status information,
++   *   the thread needs a handle to an observer.
++   *
++   *   observer will be called on the UI thread.
++   *   When the key generation is done, the observe method will
++   *   be called with a topic of "keygen-finished" and null data
++   *   and subject.
++   */
++  /* void startKeyGeneration (in nsIObserver observer); */
++  NS_IMETHOD StartKeyGeneration(nsIObserver *observer) = 0;
++
++  /**
++   * userCanceled - notify the thread
++   *   If the user canceled, the thread is no longer allowed to
++   *   close the dialog. However, if the thread already closed
++   *   it, we are not allowed to close it.
++   */
++  /* void userCanceled (out boolean threadAlreadyClosedDialog); */
++  NS_IMETHOD UserCanceled(PRBool *threadAlreadyClosedDialog) = 0;
++
++};
++
++/* Use this macro when declaring classes that implement this interface. */
++#define NS_DECL_NSIKEYGENTHREAD \
++  NS_IMETHOD StartKeyGeneration(nsIObserver *observer); \
++  NS_IMETHOD UserCanceled(PRBool *threadAlreadyClosedDialog); 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object. */
++#define NS_FORWARD_NSIKEYGENTHREAD(_to) \
++  NS_IMETHOD StartKeyGeneration(nsIObserver *observer) { return _to StartKeyGeneration(observer); } \
++  NS_IMETHOD UserCanceled(PRBool *threadAlreadyClosedDialog) { return _to UserCanceled(threadAlreadyClosedDialog); } 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
++#define NS_FORWARD_SAFE_NSIKEYGENTHREAD(_to) \
++  NS_IMETHOD StartKeyGeneration(nsIObserver *observer) { return !_to ? NS_ERROR_NULL_POINTER : _to->StartKeyGeneration(observer); } \
++  NS_IMETHOD UserCanceled(PRBool *threadAlreadyClosedDialog) { return !_to ? NS_ERROR_NULL_POINTER : _to->UserCanceled(threadAlreadyClosedDialog); } 
++
++#if 0
++/* Use the code below as a template for the implementation class for this interface. */
++
++/* Header file */
++class nsKeygenThread : public nsIKeygenThread
++{
++public:
++  NS_DECL_ISUPPORTS
++  NS_DECL_NSIKEYGENTHREAD
++
++  nsKeygenThread();
++
++private:
++  ~nsKeygenThread();
++
++protected:
++  /* additional members */
++};
++
++/* Implementation file */
++NS_IMPL_ISUPPORTS1(nsKeygenThread, nsIKeygenThread)
++
++nsKeygenThread::nsKeygenThread()
++{
++  /* member initializers and constructor code */
++}
++
++nsKeygenThread::~nsKeygenThread()
++{
++  /* destructor code */
++}
++
++/* void startKeyGeneration (in nsIObserver observer); */
++NS_IMETHODIMP nsKeygenThread::StartKeyGeneration(nsIObserver *observer)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* void userCanceled (out boolean threadAlreadyClosedDialog); */
++NS_IMETHODIMP nsKeygenThread::UserCanceled(PRBool *threadAlreadyClosedDialog)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* End of implementation class template. */
++#endif
++
++// {195763b8-1dd2-11b2-a843-eb44e44aaa37}
++#define NS_KEYGENTHREAD_CID \
++{ 0x195763b8, 0x1dd2, 0x11b2, { 0xa8, 0x43, 0xeb, 0x44, 0xe4, 0x4a, 0xaa, 0x37 } }
++#define NS_KEYGENTHREAD_CONTRACTID "@mozilla.org/security/keygenthread;1"
++
++#endif /* __gen_nsIKeygenThread_h__ */
+diff -urN epiphany-2.20.1.orig/embed/mozilla/nsIPK11Token.h epiphany-2.20.1/embed/mozilla/nsIPK11Token.h
+--- epiphany-2.20.1.orig/embed/mozilla/nsIPK11Token.h	1970-01-01 01:00:00.000000000 +0100
++++ epiphany-2.20.1/embed/mozilla/nsIPK11Token.h	2007-11-19 14:06:11.485543000 +0000
+@@ -0,0 +1,347 @@
++/*
++ * DO NOT EDIT.  THIS FILE IS GENERATED FROM nsIPK11Token.idl
++ */
++
++#ifndef __gen_nsIPK11Token_h__
++#define __gen_nsIPK11Token_h__
++
++
++#ifndef __gen_nsISupports_h__
++#include "nsISupports.h"
++#endif
++
++/* For IDL files that don't want to include root IDL files. */
++#ifndef NS_NO_VTABLE
++#define NS_NO_VTABLE
++#endif
++
++/* starting interface:    nsIPK11Token */
++#define NS_IPK11TOKEN_IID_STR "51191434-1dd2-11b2-a17c-e49c4e99a4e3"
++
++#define NS_IPK11TOKEN_IID \
++  {0x51191434, 0x1dd2, 0x11b2, \
++    { 0xa1, 0x7c, 0xe4, 0x9c, 0x4e, 0x99, 0xa4, 0xe3 }}
++
++class NS_NO_VTABLE nsIPK11Token : public nsISupports {
++ public: 
++
++  NS_DEFINE_STATIC_IID_ACCESSOR(NS_IPK11TOKEN_IID)
++
++  enum { ASK_EVERY_TIME = -1 };
++
++  enum { ASK_FIRST_TIME = 0 };
++
++  enum { ASK_EXPIRE_TIME = 1 };
++
++  /* readonly attribute wstring tokenName; */
++  NS_IMETHOD GetTokenName(PRUnichar * *aTokenName) = 0;
++
++  /* readonly attribute wstring tokenLabel; */
++  NS_IMETHOD GetTokenLabel(PRUnichar * *aTokenLabel) = 0;
++
++  /* readonly attribute wstring tokenManID; */
++  NS_IMETHOD GetTokenManID(PRUnichar * *aTokenManID) = 0;
++
++  /* readonly attribute wstring tokenHWVersion; */
++  NS_IMETHOD GetTokenHWVersion(PRUnichar * *aTokenHWVersion) = 0;
++
++  /* readonly attribute wstring tokenFWVersion; */
++  NS_IMETHOD GetTokenFWVersion(PRUnichar * *aTokenFWVersion) = 0;
++
++  /* readonly attribute wstring tokenSerialNumber; */
++  NS_IMETHOD GetTokenSerialNumber(PRUnichar * *aTokenSerialNumber) = 0;
++
++  /* boolean isLoggedIn (); */
++  NS_IMETHOD IsLoggedIn(PRBool *_retval) = 0;
++
++  /* void login (in boolean force); */
++  NS_IMETHOD Login(PRBool force) = 0;
++
++  /* void logoutSimple (); */
++  NS_IMETHOD LogoutSimple(void) = 0;
++
++  /* void logoutAndDropAuthenticatedResources (); */
++  NS_IMETHOD LogoutAndDropAuthenticatedResources(void) = 0;
++
++  /* void reset (); */
++  NS_IMETHOD Reset(void) = 0;
++
++  /* readonly attribute long minimumPasswordLength; */
++  NS_IMETHOD GetMinimumPasswordLength(PRInt32 *aMinimumPasswordLength) = 0;
++
++  /* readonly attribute boolean needsUserInit; */
++  NS_IMETHOD GetNeedsUserInit(PRBool *aNeedsUserInit) = 0;
++
++  /* boolean checkPassword (in wstring password); */
++  NS_IMETHOD CheckPassword(const PRUnichar *password, PRBool *_retval) = 0;
++
++  /* void initPassword (in wstring initialPassword); */
++  NS_IMETHOD InitPassword(const PRUnichar *initialPassword) = 0;
++
++  /* void changePassword (in wstring oldPassword, in wstring newPassword); */
++  NS_IMETHOD ChangePassword(const PRUnichar *oldPassword, const PRUnichar *newPassword) = 0;
++
++  /* long getAskPasswordTimes (); */
++  NS_IMETHOD GetAskPasswordTimes(PRInt32 *_retval) = 0;
++
++  /* long getAskPasswordTimeout (); */
++  NS_IMETHOD GetAskPasswordTimeout(PRInt32 *_retval) = 0;
++
++  /* void setAskPasswordDefaults ([const] in long askTimes, [const] in long timeout); */
++  NS_IMETHOD SetAskPasswordDefaults(const PRInt32 askTimes, const PRInt32 timeout) = 0;
++
++  /* boolean isHardwareToken (); */
++  NS_IMETHOD IsHardwareToken(PRBool *_retval) = 0;
++
++  /* boolean needsLogin (); */
++  NS_IMETHOD NeedsLogin(PRBool *_retval) = 0;
++
++  /* boolean isFriendly (); */
++  NS_IMETHOD IsFriendly(PRBool *_retval) = 0;
++
++};
++
++/* Use this macro when declaring classes that implement this interface. */
++#define NS_DECL_NSIPK11TOKEN \
++  NS_IMETHOD GetTokenName(PRUnichar * *aTokenName); \
++  NS_IMETHOD GetTokenLabel(PRUnichar * *aTokenLabel); \
++  NS_IMETHOD GetTokenManID(PRUnichar * *aTokenManID); \
++  NS_IMETHOD GetTokenHWVersion(PRUnichar * *aTokenHWVersion); \
++  NS_IMETHOD GetTokenFWVersion(PRUnichar * *aTokenFWVersion); \
++  NS_IMETHOD GetTokenSerialNumber(PRUnichar * *aTokenSerialNumber); \
++  NS_IMETHOD IsLoggedIn(PRBool *_retval); \
++  NS_IMETHOD Login(PRBool force); \
++  NS_IMETHOD LogoutSimple(void); \
++  NS_IMETHOD LogoutAndDropAuthenticatedResources(void); \
++  NS_IMETHOD Reset(void); \
++  NS_IMETHOD GetMinimumPasswordLength(PRInt32 *aMinimumPasswordLength); \
++  NS_IMETHOD GetNeedsUserInit(PRBool *aNeedsUserInit); \
++  NS_IMETHOD CheckPassword(const PRUnichar *password, PRBool *_retval); \
++  NS_IMETHOD InitPassword(const PRUnichar *initialPassword); \
++  NS_IMETHOD ChangePassword(const PRUnichar *oldPassword, const PRUnichar *newPassword); \
++  NS_IMETHOD GetAskPasswordTimes(PRInt32 *_retval); \
++  NS_IMETHOD GetAskPasswordTimeout(PRInt32 *_retval); \
++  NS_IMETHOD SetAskPasswordDefaults(const PRInt32 askTimes, const PRInt32 timeout); \
++  NS_IMETHOD IsHardwareToken(PRBool *_retval); \
++  NS_IMETHOD NeedsLogin(PRBool *_retval); \
++  NS_IMETHOD IsFriendly(PRBool *_retval); 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object. */
++#define NS_FORWARD_NSIPK11TOKEN(_to) \
++  NS_IMETHOD GetTokenName(PRUnichar * *aTokenName) { return _to GetTokenName(aTokenName); } \
++  NS_IMETHOD GetTokenLabel(PRUnichar * *aTokenLabel) { return _to GetTokenLabel(aTokenLabel); } \
++  NS_IMETHOD GetTokenManID(PRUnichar * *aTokenManID) { return _to GetTokenManID(aTokenManID); } \
++  NS_IMETHOD GetTokenHWVersion(PRUnichar * *aTokenHWVersion) { return _to GetTokenHWVersion(aTokenHWVersion); } \
++  NS_IMETHOD GetTokenFWVersion(PRUnichar * *aTokenFWVersion) { return _to GetTokenFWVersion(aTokenFWVersion); } \
++  NS_IMETHOD GetTokenSerialNumber(PRUnichar * *aTokenSerialNumber) { return _to GetTokenSerialNumber(aTokenSerialNumber); } \
++  NS_IMETHOD IsLoggedIn(PRBool *_retval) { return _to IsLoggedIn(_retval); } \
++  NS_IMETHOD Login(PRBool force) { return _to Login(force); } \
++  NS_IMETHOD LogoutSimple(void) { return _to LogoutSimple(); } \
++  NS_IMETHOD LogoutAndDropAuthenticatedResources(void) { return _to LogoutAndDropAuthenticatedResources(); } \
++  NS_IMETHOD Reset(void) { return _to Reset(); } \
++  NS_IMETHOD GetMinimumPasswordLength(PRInt32 *aMinimumPasswordLength) { return _to GetMinimumPasswordLength(aMinimumPasswordLength); } \
++  NS_IMETHOD GetNeedsUserInit(PRBool *aNeedsUserInit) { return _to GetNeedsUserInit(aNeedsUserInit); } \
++  NS_IMETHOD CheckPassword(const PRUnichar *password, PRBool *_retval) { return _to CheckPassword(password, _retval); } \
++  NS_IMETHOD InitPassword(const PRUnichar *initialPassword) { return _to InitPassword(initialPassword); } \
++  NS_IMETHOD ChangePassword(const PRUnichar *oldPassword, const PRUnichar *newPassword) { return _to ChangePassword(oldPassword, newPassword); } \
++  NS_IMETHOD GetAskPasswordTimes(PRInt32 *_retval) { return _to GetAskPasswordTimes(_retval); } \
++  NS_IMETHOD GetAskPasswordTimeout(PRInt32 *_retval) { return _to GetAskPasswordTimeout(_retval); } \
++  NS_IMETHOD SetAskPasswordDefaults(const PRInt32 askTimes, const PRInt32 timeout) { return _to SetAskPasswordDefaults(askTimes, timeout); } \
++  NS_IMETHOD IsHardwareToken(PRBool *_retval) { return _to IsHardwareToken(_retval); } \
++  NS_IMETHOD NeedsLogin(PRBool *_retval) { return _to NeedsLogin(_retval); } \
++  NS_IMETHOD IsFriendly(PRBool *_retval) { return _to IsFriendly(_retval); } 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
++#define NS_FORWARD_SAFE_NSIPK11TOKEN(_to) \
++  NS_IMETHOD GetTokenName(PRUnichar * *aTokenName) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetTokenName(aTokenName); } \
++  NS_IMETHOD GetTokenLabel(PRUnichar * *aTokenLabel) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetTokenLabel(aTokenLabel); } \
++  NS_IMETHOD GetTokenManID(PRUnichar * *aTokenManID) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetTokenManID(aTokenManID); } \
++  NS_IMETHOD GetTokenHWVersion(PRUnichar * *aTokenHWVersion) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetTokenHWVersion(aTokenHWVersion); } \
++  NS_IMETHOD GetTokenFWVersion(PRUnichar * *aTokenFWVersion) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetTokenFWVersion(aTokenFWVersion); } \
++  NS_IMETHOD GetTokenSerialNumber(PRUnichar * *aTokenSerialNumber) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetTokenSerialNumber(aTokenSerialNumber); } \
++  NS_IMETHOD IsLoggedIn(PRBool *_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->IsLoggedIn(_retval); } \
++  NS_IMETHOD Login(PRBool force) { return !_to ? NS_ERROR_NULL_POINTER : _to->Login(force); } \
++  NS_IMETHOD LogoutSimple(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->LogoutSimple(); } \
++  NS_IMETHOD LogoutAndDropAuthenticatedResources(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->LogoutAndDropAuthenticatedResources(); } \
++  NS_IMETHOD Reset(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->Reset(); } \
++  NS_IMETHOD GetMinimumPasswordLength(PRInt32 *aMinimumPasswordLength) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetMinimumPasswordLength(aMinimumPasswordLength); } \
++  NS_IMETHOD GetNeedsUserInit(PRBool *aNeedsUserInit) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetNeedsUserInit(aNeedsUserInit); } \
++  NS_IMETHOD CheckPassword(const PRUnichar *password, PRBool *_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->CheckPassword(password, _retval); } \
++  NS_IMETHOD InitPassword(const PRUnichar *initialPassword) { return !_to ? NS_ERROR_NULL_POINTER : _to->InitPassword(initialPassword); } \
++  NS_IMETHOD ChangePassword(const PRUnichar *oldPassword, const PRUnichar *newPassword) { return !_to ? NS_ERROR_NULL_POINTER : _to->ChangePassword(oldPassword, newPassword); } \
++  NS_IMETHOD GetAskPasswordTimes(PRInt32 *_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetAskPasswordTimes(_retval); } \
++  NS_IMETHOD GetAskPasswordTimeout(PRInt32 *_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetAskPasswordTimeout(_retval); } \
++  NS_IMETHOD SetAskPasswordDefaults(const PRInt32 askTimes, const PRInt32 timeout) { return !_to ? NS_ERROR_NULL_POINTER : _to->SetAskPasswordDefaults(askTimes, timeout); } \
++  NS_IMETHOD IsHardwareToken(PRBool *_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->IsHardwareToken(_retval); } \
++  NS_IMETHOD NeedsLogin(PRBool *_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->NeedsLogin(_retval); } \
++  NS_IMETHOD IsFriendly(PRBool *_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->IsFriendly(_retval); } 
++
++#if 0
++/* Use the code below as a template for the implementation class for this interface. */
++
++/* Header file */
++class nsPK11Token : public nsIPK11Token
++{
++public:
++  NS_DECL_ISUPPORTS
++  NS_DECL_NSIPK11TOKEN
++
++  nsPK11Token();
++
++private:
++  ~nsPK11Token();
++
++protected:
++  /* additional members */
++};
++
++/* Implementation file */
++NS_IMPL_ISUPPORTS1(nsPK11Token, nsIPK11Token)
++
++nsPK11Token::nsPK11Token()
++{
++  /* member initializers and constructor code */
++}
++
++nsPK11Token::~nsPK11Token()
++{
++  /* destructor code */
++}
++
++/* readonly attribute wstring tokenName; */
++NS_IMETHODIMP nsPK11Token::GetTokenName(PRUnichar * *aTokenName)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute wstring tokenLabel; */
++NS_IMETHODIMP nsPK11Token::GetTokenLabel(PRUnichar * *aTokenLabel)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute wstring tokenManID; */
++NS_IMETHODIMP nsPK11Token::GetTokenManID(PRUnichar * *aTokenManID)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute wstring tokenHWVersion; */
++NS_IMETHODIMP nsPK11Token::GetTokenHWVersion(PRUnichar * *aTokenHWVersion)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute wstring tokenFWVersion; */
++NS_IMETHODIMP nsPK11Token::GetTokenFWVersion(PRUnichar * *aTokenFWVersion)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute wstring tokenSerialNumber; */
++NS_IMETHODIMP nsPK11Token::GetTokenSerialNumber(PRUnichar * *aTokenSerialNumber)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* boolean isLoggedIn (); */
++NS_IMETHODIMP nsPK11Token::IsLoggedIn(PRBool *_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* void login (in boolean force); */
++NS_IMETHODIMP nsPK11Token::Login(PRBool force)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* void logoutSimple (); */
++NS_IMETHODIMP nsPK11Token::LogoutSimple()
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* void logoutAndDropAuthenticatedResources (); */
++NS_IMETHODIMP nsPK11Token::LogoutAndDropAuthenticatedResources()
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* void reset (); */
++NS_IMETHODIMP nsPK11Token::Reset()
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute long minimumPasswordLength; */
++NS_IMETHODIMP nsPK11Token::GetMinimumPasswordLength(PRInt32 *aMinimumPasswordLength)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute boolean needsUserInit; */
++NS_IMETHODIMP nsPK11Token::GetNeedsUserInit(PRBool *aNeedsUserInit)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* boolean checkPassword (in wstring password); */
++NS_IMETHODIMP nsPK11Token::CheckPassword(const PRUnichar *password, PRBool *_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* void initPassword (in wstring initialPassword); */
++NS_IMETHODIMP nsPK11Token::InitPassword(const PRUnichar *initialPassword)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* void changePassword (in wstring oldPassword, in wstring newPassword); */
++NS_IMETHODIMP nsPK11Token::ChangePassword(const PRUnichar *oldPassword, const PRUnichar *newPassword)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* long getAskPasswordTimes (); */
++NS_IMETHODIMP nsPK11Token::GetAskPasswordTimes(PRInt32 *_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* long getAskPasswordTimeout (); */
++NS_IMETHODIMP nsPK11Token::GetAskPasswordTimeout(PRInt32 *_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* void setAskPasswordDefaults ([const] in long askTimes, [const] in long timeout); */
++NS_IMETHODIMP nsPK11Token::SetAskPasswordDefaults(const PRInt32 askTimes, const PRInt32 timeout)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* boolean isHardwareToken (); */
++NS_IMETHODIMP nsPK11Token::IsHardwareToken(PRBool *_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* boolean needsLogin (); */
++NS_IMETHODIMP nsPK11Token::NeedsLogin(PRBool *_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* boolean isFriendly (); */
++NS_IMETHODIMP nsPK11Token::IsFriendly(PRBool *_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* End of implementation class template. */
++#endif
++
++
++#endif /* __gen_nsIPK11Token_h__ */
+diff -urN epiphany-2.20.1.orig/embed/mozilla/nsIPK11TokenDB.h epiphany-2.20.1/embed/mozilla/nsIPK11TokenDB.h
+--- epiphany-2.20.1.orig/embed/mozilla/nsIPK11TokenDB.h	1970-01-01 01:00:00.000000000 +0100
++++ epiphany-2.20.1/embed/mozilla/nsIPK11TokenDB.h	2007-11-19 14:06:11.489103000 +0000
+@@ -0,0 +1,127 @@
++/*
++ * DO NOT EDIT.  THIS FILE IS GENERATED FROM nsIPK11TokenDB.idl
++ */
++
++#ifndef __gen_nsIPK11TokenDB_h__
++#define __gen_nsIPK11TokenDB_h__
++
++
++#ifndef __gen_nsISupports_h__
++#include "nsISupports.h"
++#endif
++
++/* For IDL files that don't want to include root IDL files. */
++#ifndef NS_NO_VTABLE
++#define NS_NO_VTABLE
++#endif
++class nsIPK11Token; /* forward declaration */
++
++class nsIEnumerator; /* forward declaration */
++
++#define NS_PK11TOKENDB_CONTRACTID "@mozilla.org/security/pk11tokendb;1"
++
++/* starting interface:    nsIPK11TokenDB */
++#define NS_IPK11TOKENDB_IID_STR "4ee28c82-1dd2-11b2-aabf-bb4017abe395"
++
++#define NS_IPK11TOKENDB_IID \
++  {0x4ee28c82, 0x1dd2, 0x11b2, \
++    { 0xaa, 0xbf, 0xbb, 0x40, 0x17, 0xab, 0xe3, 0x95 }}
++
++/**
++ * The PK11 Token Database provides access to the PK11 modules
++ * that are installed, and the tokens that are available.
++ * Interfaces: nsIPK11TokenDB
++ * Threading: ??
++ */
++/**
++ * nsIPK11TokenDB - Manages PK11 Tokens
++ */
++class NS_NO_VTABLE nsIPK11TokenDB : public nsISupports {
++ public: 
++
++  NS_DEFINE_STATIC_IID_ACCESSOR(NS_IPK11TOKENDB_IID)
++
++  /* nsIPK11Token getInternalKeyToken (); */
++  NS_IMETHOD GetInternalKeyToken(nsIPK11Token **_retval) = 0;
++
++  /* nsIPK11Token findTokenByName (in wstring tokenName); */
++  NS_IMETHOD FindTokenByName(const PRUnichar *tokenName, nsIPK11Token **_retval) = 0;
++
++  /* nsIEnumerator listTokens (); */
++  NS_IMETHOD ListTokens(nsIEnumerator **_retval) = 0;
++
++};
++
++/* Use this macro when declaring classes that implement this interface. */
++#define NS_DECL_NSIPK11TOKENDB \
++  NS_IMETHOD GetInternalKeyToken(nsIPK11Token **_retval); \
++  NS_IMETHOD FindTokenByName(const PRUnichar *tokenName, nsIPK11Token **_retval); \
++  NS_IMETHOD ListTokens(nsIEnumerator **_retval); 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object. */
++#define NS_FORWARD_NSIPK11TOKENDB(_to) \
++  NS_IMETHOD GetInternalKeyToken(nsIPK11Token **_retval) { return _to GetInternalKeyToken(_retval); } \
++  NS_IMETHOD FindTokenByName(const PRUnichar *tokenName, nsIPK11Token **_retval) { return _to FindTokenByName(tokenName, _retval); } \
++  NS_IMETHOD ListTokens(nsIEnumerator **_retval) { return _to ListTokens(_retval); } 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
++#define NS_FORWARD_SAFE_NSIPK11TOKENDB(_to) \
++  NS_IMETHOD GetInternalKeyToken(nsIPK11Token **_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetInternalKeyToken(_retval); } \
++  NS_IMETHOD FindTokenByName(const PRUnichar *tokenName, nsIPK11Token **_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->FindTokenByName(tokenName, _retval); } \
++  NS_IMETHOD ListTokens(nsIEnumerator **_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->ListTokens(_retval); } 
++
++#if 0
++/* Use the code below as a template for the implementation class for this interface. */
++
++/* Header file */
++class nsPK11TokenDB : public nsIPK11TokenDB
++{
++public:
++  NS_DECL_ISUPPORTS
++  NS_DECL_NSIPK11TOKENDB
++
++  nsPK11TokenDB();
++
++private:
++  ~nsPK11TokenDB();
++
++protected:
++  /* additional members */
++};
++
++/* Implementation file */
++NS_IMPL_ISUPPORTS1(nsPK11TokenDB, nsIPK11TokenDB)
++
++nsPK11TokenDB::nsPK11TokenDB()
++{
++  /* member initializers and constructor code */
++}
++
++nsPK11TokenDB::~nsPK11TokenDB()
++{
++  /* destructor code */
++}
++
++/* nsIPK11Token getInternalKeyToken (); */
++NS_IMETHODIMP nsPK11TokenDB::GetInternalKeyToken(nsIPK11Token **_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* nsIPK11Token findTokenByName (in wstring tokenName); */
++NS_IMETHODIMP nsPK11TokenDB::FindTokenByName(const PRUnichar *tokenName, nsIPK11Token **_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* nsIEnumerator listTokens (); */
++NS_IMETHODIMP nsPK11TokenDB::ListTokens(nsIEnumerator **_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* End of implementation class template. */
++#endif
++
++
++#endif /* __gen_nsIPK11TokenDB_h__ */
+diff -urN epiphany-2.20.1.orig/embed/mozilla/nsIPKCS11ModuleDB.h epiphany-2.20.1/embed/mozilla/nsIPKCS11ModuleDB.h
+--- epiphany-2.20.1.orig/embed/mozilla/nsIPKCS11ModuleDB.h	1970-01-01 01:00:00.000000000 +0100
++++ epiphany-2.20.1/embed/mozilla/nsIPKCS11ModuleDB.h	2007-11-19 14:06:11.478549000 +0000
+@@ -0,0 +1,180 @@
++/*
++ * DO NOT EDIT.  THIS FILE IS GENERATED FROM nsIPKCS11ModuleDB.idl
++ */
++
++#ifndef __gen_nsIPKCS11ModuleDB_h__
++#define __gen_nsIPKCS11ModuleDB_h__
++
++
++#ifndef __gen_nsISupports_h__
++#include "nsISupports.h"
++#endif
++
++/* For IDL files that don't want to include root IDL files. */
++#ifndef NS_NO_VTABLE
++#define NS_NO_VTABLE
++#endif
++class nsIPKCS11Module; /* forward declaration */
++
++class nsIPKCS11Slot; /* forward declaration */
++
++class nsIEnumerator; /* forward declaration */
++
++#define NS_PKCS11MODULEDB_CONTRACTID "@mozilla.org/security/pkcs11moduledb;1"
++
++/* starting interface:    nsIPKCS11ModuleDB */
++#define NS_IPKCS11MODULEDB_IID_STR "ff9fbcd7-9517-4334-b97a-ceed78909974"
++
++#define NS_IPKCS11MODULEDB_IID \
++  {0xff9fbcd7, 0x9517, 0x4334, \
++    { 0xb9, 0x7a, 0xce, 0xed, 0x78, 0x90, 0x99, 0x74 }}
++
++class NS_NO_VTABLE nsIPKCS11ModuleDB : public nsISupports {
++ public: 
++
++  NS_DEFINE_STATIC_IID_ACCESSOR(NS_IPKCS11MODULEDB_IID)
++
++  /* nsIPKCS11Module getInternal (); */
++  NS_IMETHOD GetInternal(nsIPKCS11Module **_retval) = 0;
++
++  /* nsIPKCS11Module getInternalFIPS (); */
++  NS_IMETHOD GetInternalFIPS(nsIPKCS11Module **_retval) = 0;
++
++  /* nsIPKCS11Module findModuleByName (in wstring name); */
++  NS_IMETHOD FindModuleByName(const PRUnichar *name, nsIPKCS11Module **_retval) = 0;
++
++  /* nsIPKCS11Slot findSlotByName (in wstring name); */
++  NS_IMETHOD FindSlotByName(const PRUnichar *name, nsIPKCS11Slot **_retval) = 0;
++
++  /* nsIEnumerator listModules (); */
++  NS_IMETHOD ListModules(nsIEnumerator **_retval) = 0;
++
++  /* readonly attribute boolean canToggleFIPS; */
++  NS_IMETHOD GetCanToggleFIPS(PRBool *aCanToggleFIPS) = 0;
++
++  /* void toggleFIPSMode (); */
++  NS_IMETHOD ToggleFIPSMode(void) = 0;
++
++  /* readonly attribute boolean isFIPSEnabled; */
++  NS_IMETHOD GetIsFIPSEnabled(PRBool *aIsFIPSEnabled) = 0;
++
++};
++
++/* Use this macro when declaring classes that implement this interface. */
++#define NS_DECL_NSIPKCS11MODULEDB \
++  NS_IMETHOD GetInternal(nsIPKCS11Module **_retval); \
++  NS_IMETHOD GetInternalFIPS(nsIPKCS11Module **_retval); \
++  NS_IMETHOD FindModuleByName(const PRUnichar *name, nsIPKCS11Module **_retval); \
++  NS_IMETHOD FindSlotByName(const PRUnichar *name, nsIPKCS11Slot **_retval); \
++  NS_IMETHOD ListModules(nsIEnumerator **_retval); \
++  NS_IMETHOD GetCanToggleFIPS(PRBool *aCanToggleFIPS); \
++  NS_IMETHOD ToggleFIPSMode(void); \
++  NS_IMETHOD GetIsFIPSEnabled(PRBool *aIsFIPSEnabled); 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object. */
++#define NS_FORWARD_NSIPKCS11MODULEDB(_to) \
++  NS_IMETHOD GetInternal(nsIPKCS11Module **_retval) { return _to GetInternal(_retval); } \
++  NS_IMETHOD GetInternalFIPS(nsIPKCS11Module **_retval) { return _to GetInternalFIPS(_retval); } \
++  NS_IMETHOD FindModuleByName(const PRUnichar *name, nsIPKCS11Module **_retval) { return _to FindModuleByName(name, _retval); } \
++  NS_IMETHOD FindSlotByName(const PRUnichar *name, nsIPKCS11Slot **_retval) { return _to FindSlotByName(name, _retval); } \
++  NS_IMETHOD ListModules(nsIEnumerator **_retval) { return _to ListModules(_retval); } \
++  NS_IMETHOD GetCanToggleFIPS(PRBool *aCanToggleFIPS) { return _to GetCanToggleFIPS(aCanToggleFIPS); } \
++  NS_IMETHOD ToggleFIPSMode(void) { return _to ToggleFIPSMode(); } \
++  NS_IMETHOD GetIsFIPSEnabled(PRBool *aIsFIPSEnabled) { return _to GetIsFIPSEnabled(aIsFIPSEnabled); } 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
++#define NS_FORWARD_SAFE_NSIPKCS11MODULEDB(_to) \
++  NS_IMETHOD GetInternal(nsIPKCS11Module **_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetInternal(_retval); } \
++  NS_IMETHOD GetInternalFIPS(nsIPKCS11Module **_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetInternalFIPS(_retval); } \
++  NS_IMETHOD FindModuleByName(const PRUnichar *name, nsIPKCS11Module **_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->FindModuleByName(name, _retval); } \
++  NS_IMETHOD FindSlotByName(const PRUnichar *name, nsIPKCS11Slot **_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->FindSlotByName(name, _retval); } \
++  NS_IMETHOD ListModules(nsIEnumerator **_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->ListModules(_retval); } \
++  NS_IMETHOD GetCanToggleFIPS(PRBool *aCanToggleFIPS) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetCanToggleFIPS(aCanToggleFIPS); } \
++  NS_IMETHOD ToggleFIPSMode(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->ToggleFIPSMode(); } \
++  NS_IMETHOD GetIsFIPSEnabled(PRBool *aIsFIPSEnabled) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetIsFIPSEnabled(aIsFIPSEnabled); } 
++
++#if 0
++/* Use the code below as a template for the implementation class for this interface. */
++
++/* Header file */
++class nsPKCS11ModuleDB : public nsIPKCS11ModuleDB
++{
++public:
++  NS_DECL_ISUPPORTS
++  NS_DECL_NSIPKCS11MODULEDB
++
++  nsPKCS11ModuleDB();
++
++private:
++  ~nsPKCS11ModuleDB();
++
++protected:
++  /* additional members */
++};
++
++/* Implementation file */
++NS_IMPL_ISUPPORTS1(nsPKCS11ModuleDB, nsIPKCS11ModuleDB)
++
++nsPKCS11ModuleDB::nsPKCS11ModuleDB()
++{
++  /* member initializers and constructor code */
++}
++
++nsPKCS11ModuleDB::~nsPKCS11ModuleDB()
++{
++  /* destructor code */
++}
++
++/* nsIPKCS11Module getInternal (); */
++NS_IMETHODIMP nsPKCS11ModuleDB::GetInternal(nsIPKCS11Module **_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* nsIPKCS11Module getInternalFIPS (); */
++NS_IMETHODIMP nsPKCS11ModuleDB::GetInternalFIPS(nsIPKCS11Module **_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* nsIPKCS11Module findModuleByName (in wstring name); */
++NS_IMETHODIMP nsPKCS11ModuleDB::FindModuleByName(const PRUnichar *name, nsIPKCS11Module **_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* nsIPKCS11Slot findSlotByName (in wstring name); */
++NS_IMETHODIMP nsPKCS11ModuleDB::FindSlotByName(const PRUnichar *name, nsIPKCS11Slot **_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* nsIEnumerator listModules (); */
++NS_IMETHODIMP nsPKCS11ModuleDB::ListModules(nsIEnumerator **_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute boolean canToggleFIPS; */
++NS_IMETHODIMP nsPKCS11ModuleDB::GetCanToggleFIPS(PRBool *aCanToggleFIPS)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* void toggleFIPSMode (); */
++NS_IMETHODIMP nsPKCS11ModuleDB::ToggleFIPSMode()
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute boolean isFIPSEnabled; */
++NS_IMETHODIMP nsPKCS11ModuleDB::GetIsFIPSEnabled(PRBool *aIsFIPSEnabled)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* End of implementation class template. */
++#endif
++
++
++#endif /* __gen_nsIPKCS11ModuleDB_h__ */
+diff -urN epiphany-2.20.1.orig/embed/mozilla/nsIPKCS11Slot.h epiphany-2.20.1/embed/mozilla/nsIPKCS11Slot.h
+--- epiphany-2.20.1.orig/embed/mozilla/nsIPKCS11Slot.h	1970-01-01 01:00:00.000000000 +0100
++++ epiphany-2.20.1/embed/mozilla/nsIPKCS11Slot.h	2007-11-19 14:06:11.481998000 +0000
+@@ -0,0 +1,187 @@
++/*
++ * DO NOT EDIT.  THIS FILE IS GENERATED FROM nsIPKCS11Slot.idl
++ */
++
++#ifndef __gen_nsIPKCS11Slot_h__
++#define __gen_nsIPKCS11Slot_h__
++
++
++#ifndef __gen_nsISupports_h__
++#include "nsISupports.h"
++#endif
++
++/* For IDL files that don't want to include root IDL files. */
++#ifndef NS_NO_VTABLE
++#define NS_NO_VTABLE
++#endif
++class nsIPK11Token; /* forward declaration */
++
++
++/* starting interface:    nsIPKCS11Slot */
++#define NS_IPKCS11SLOT_IID_STR "c2d4f296-ee60-11d4-998b-00b0d02354a0"
++
++#define NS_IPKCS11SLOT_IID \
++  {0xc2d4f296, 0xee60, 0x11d4, \
++    { 0x99, 0x8b, 0x00, 0xb0, 0xd0, 0x23, 0x54, 0xa0 }}
++
++class NS_NO_VTABLE nsIPKCS11Slot : public nsISupports {
++ public: 
++
++  NS_DEFINE_STATIC_IID_ACCESSOR(NS_IPKCS11SLOT_IID)
++
++  /* readonly attribute wstring name; */
++  NS_IMETHOD GetName(PRUnichar * *aName) = 0;
++
++  /* readonly attribute wstring desc; */
++  NS_IMETHOD GetDesc(PRUnichar * *aDesc) = 0;
++
++  /* readonly attribute wstring manID; */
++  NS_IMETHOD GetManID(PRUnichar * *aManID) = 0;
++
++  /* readonly attribute wstring HWVersion; */
++  NS_IMETHOD GetHWVersion(PRUnichar * *aHWVersion) = 0;
++
++  /* readonly attribute wstring FWVersion; */
++  NS_IMETHOD GetFWVersion(PRUnichar * *aFWVersion) = 0;
++
++  enum { SLOT_DISABLED = 0U };
++
++  enum { SLOT_NOT_PRESENT = 1U };
++
++  enum { SLOT_UNINITIALIZED = 2U };
++
++  enum { SLOT_NOT_LOGGED_IN = 3U };
++
++  enum { SLOT_LOGGED_IN = 4U };
++
++  enum { SLOT_READY = 5U };
++
++  /* readonly attribute unsigned long status; */
++  NS_IMETHOD GetStatus(PRUint32 *aStatus) = 0;
++
++  /* nsIPK11Token getToken (); */
++  NS_IMETHOD GetToken(nsIPK11Token **_retval) = 0;
++
++  /* readonly attribute wstring tokenName; */
++  NS_IMETHOD GetTokenName(PRUnichar * *aTokenName) = 0;
++
++};
++
++/* Use this macro when declaring classes that implement this interface. */
++#define NS_DECL_NSIPKCS11SLOT \
++  NS_IMETHOD GetName(PRUnichar * *aName); \
++  NS_IMETHOD GetDesc(PRUnichar * *aDesc); \
++  NS_IMETHOD GetManID(PRUnichar * *aManID); \
++  NS_IMETHOD GetHWVersion(PRUnichar * *aHWVersion); \
++  NS_IMETHOD GetFWVersion(PRUnichar * *aFWVersion); \
++  NS_IMETHOD GetStatus(PRUint32 *aStatus); \
++  NS_IMETHOD GetToken(nsIPK11Token **_retval); \
++  NS_IMETHOD GetTokenName(PRUnichar * *aTokenName); 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object. */
++#define NS_FORWARD_NSIPKCS11SLOT(_to) \
++  NS_IMETHOD GetName(PRUnichar * *aName) { return _to GetName(aName); } \
++  NS_IMETHOD GetDesc(PRUnichar * *aDesc) { return _to GetDesc(aDesc); } \
++  NS_IMETHOD GetManID(PRUnichar * *aManID) { return _to GetManID(aManID); } \
++  NS_IMETHOD GetHWVersion(PRUnichar * *aHWVersion) { return _to GetHWVersion(aHWVersion); } \
++  NS_IMETHOD GetFWVersion(PRUnichar * *aFWVersion) { return _to GetFWVersion(aFWVersion); } \
++  NS_IMETHOD GetStatus(PRUint32 *aStatus) { return _to GetStatus(aStatus); } \
++  NS_IMETHOD GetToken(nsIPK11Token **_retval) { return _to GetToken(_retval); } \
++  NS_IMETHOD GetTokenName(PRUnichar * *aTokenName) { return _to GetTokenName(aTokenName); } 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
++#define NS_FORWARD_SAFE_NSIPKCS11SLOT(_to) \
++  NS_IMETHOD GetName(PRUnichar * *aName) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetName(aName); } \
++  NS_IMETHOD GetDesc(PRUnichar * *aDesc) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetDesc(aDesc); } \
++  NS_IMETHOD GetManID(PRUnichar * *aManID) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetManID(aManID); } \
++  NS_IMETHOD GetHWVersion(PRUnichar * *aHWVersion) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetHWVersion(aHWVersion); } \
++  NS_IMETHOD GetFWVersion(PRUnichar * *aFWVersion) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetFWVersion(aFWVersion); } \
++  NS_IMETHOD GetStatus(PRUint32 *aStatus) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetStatus(aStatus); } \
++  NS_IMETHOD GetToken(nsIPK11Token **_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetToken(_retval); } \
++  NS_IMETHOD GetTokenName(PRUnichar * *aTokenName) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetTokenName(aTokenName); } 
++
++#if 0
++/* Use the code below as a template for the implementation class for this interface. */
++
++/* Header file */
++class nsPKCS11Slot : public nsIPKCS11Slot
++{
++public:
++  NS_DECL_ISUPPORTS
++  NS_DECL_NSIPKCS11SLOT
++
++  nsPKCS11Slot();
++
++private:
++  ~nsPKCS11Slot();
++
++protected:
++  /* additional members */
++};
++
++/* Implementation file */
++NS_IMPL_ISUPPORTS1(nsPKCS11Slot, nsIPKCS11Slot)
++
++nsPKCS11Slot::nsPKCS11Slot()
++{
++  /* member initializers and constructor code */
++}
++
++nsPKCS11Slot::~nsPKCS11Slot()
++{
++  /* destructor code */
++}
++
++/* readonly attribute wstring name; */
++NS_IMETHODIMP nsPKCS11Slot::GetName(PRUnichar * *aName)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute wstring desc; */
++NS_IMETHODIMP nsPKCS11Slot::GetDesc(PRUnichar * *aDesc)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute wstring manID; */
++NS_IMETHODIMP nsPKCS11Slot::GetManID(PRUnichar * *aManID)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute wstring HWVersion; */
++NS_IMETHODIMP nsPKCS11Slot::GetHWVersion(PRUnichar * *aHWVersion)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute wstring FWVersion; */
++NS_IMETHODIMP nsPKCS11Slot::GetFWVersion(PRUnichar * *aFWVersion)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute unsigned long status; */
++NS_IMETHODIMP nsPKCS11Slot::GetStatus(PRUint32 *aStatus)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* nsIPK11Token getToken (); */
++NS_IMETHODIMP nsPKCS11Slot::GetToken(nsIPK11Token **_retval)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute wstring tokenName; */
++NS_IMETHODIMP nsPKCS11Slot::GetTokenName(PRUnichar * *aTokenName)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* End of implementation class template. */
++#endif
++
++
++#endif /* __gen_nsIPKCS11Slot_h__ */
+diff -urN epiphany-2.20.1.orig/embed/mozilla/nsISSLStatus.h epiphany-2.20.1/embed/mozilla/nsISSLStatus.h
+--- epiphany-2.20.1.orig/embed/mozilla/nsISSLStatus.h	1970-01-01 01:00:00.000000000 +0100
++++ epiphany-2.20.1/embed/mozilla/nsISSLStatus.h	2007-11-19 14:06:11.454125000 +0000
+@@ -0,0 +1,127 @@
++/*
++ * DO NOT EDIT.  THIS FILE IS GENERATED FROM nsISSLStatus.idl
++ */
++
++#ifndef __gen_nsISSLStatus_h__
++#define __gen_nsISSLStatus_h__
++
++
++#ifndef __gen_nsISupports_h__
++#include "nsISupports.h"
++#endif
++
++/* For IDL files that don't want to include root IDL files. */
++#ifndef NS_NO_VTABLE
++#define NS_NO_VTABLE
++#endif
++class nsIX509Cert; /* forward declaration */
++
++
++/* starting interface:    nsISSLStatus */
++#define NS_ISSLSTATUS_IID_STR "7b2ca1ca-1dd2-11b2-87ec-d217dbe22b85"
++
++#define NS_ISSLSTATUS_IID \
++  {0x7b2ca1ca, 0x1dd2, 0x11b2, \
++    { 0x87, 0xec, 0xd2, 0x17, 0xdb, 0xe2, 0x2b, 0x85 }}
++
++class NS_NO_VTABLE nsISSLStatus : public nsISupports {
++ public: 
++
++  NS_DEFINE_STATIC_IID_ACCESSOR(NS_ISSLSTATUS_IID)
++
++  /* readonly attribute nsIX509Cert serverCert; */
++  NS_IMETHOD GetServerCert(nsIX509Cert * *aServerCert) = 0;
++
++  /* readonly attribute string cipherName; */
++  NS_IMETHOD GetCipherName(char * *aCipherName) = 0;
++
++  /* readonly attribute unsigned long keyLength; */
++  NS_IMETHOD GetKeyLength(PRUint32 *aKeyLength) = 0;
++
++  /* readonly attribute unsigned long secretKeyLength; */
++  NS_IMETHOD GetSecretKeyLength(PRUint32 *aSecretKeyLength) = 0;
++
++};
++
++/* Use this macro when declaring classes that implement this interface. */
++#define NS_DECL_NSISSLSTATUS \
++  NS_IMETHOD GetServerCert(nsIX509Cert * *aServerCert); \
++  NS_IMETHOD GetCipherName(char * *aCipherName); \
++  NS_IMETHOD GetKeyLength(PRUint32 *aKeyLength); \
++  NS_IMETHOD GetSecretKeyLength(PRUint32 *aSecretKeyLength); 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object. */
++#define NS_FORWARD_NSISSLSTATUS(_to) \
++  NS_IMETHOD GetServerCert(nsIX509Cert * *aServerCert) { return _to GetServerCert(aServerCert); } \
++  NS_IMETHOD GetCipherName(char * *aCipherName) { return _to GetCipherName(aCipherName); } \
++  NS_IMETHOD GetKeyLength(PRUint32 *aKeyLength) { return _to GetKeyLength(aKeyLength); } \
++  NS_IMETHOD GetSecretKeyLength(PRUint32 *aSecretKeyLength) { return _to GetSecretKeyLength(aSecretKeyLength); } 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
++#define NS_FORWARD_SAFE_NSISSLSTATUS(_to) \
++  NS_IMETHOD GetServerCert(nsIX509Cert * *aServerCert) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetServerCert(aServerCert); } \
++  NS_IMETHOD GetCipherName(char * *aCipherName) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetCipherName(aCipherName); } \
++  NS_IMETHOD GetKeyLength(PRUint32 *aKeyLength) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetKeyLength(aKeyLength); } \
++  NS_IMETHOD GetSecretKeyLength(PRUint32 *aSecretKeyLength) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetSecretKeyLength(aSecretKeyLength); } 
++
++#if 0
++/* Use the code below as a template for the implementation class for this interface. */
++
++/* Header file */
++class nsSSLStatus : public nsISSLStatus
++{
++public:
++  NS_DECL_ISUPPORTS
++  NS_DECL_NSISSLSTATUS
++
++  nsSSLStatus();
++
++private:
++  ~nsSSLStatus();
++
++protected:
++  /* additional members */
++};
++
++/* Implementation file */
++NS_IMPL_ISUPPORTS1(nsSSLStatus, nsISSLStatus)
++
++nsSSLStatus::nsSSLStatus()
++{
++  /* member initializers and constructor code */
++}
++
++nsSSLStatus::~nsSSLStatus()
++{
++  /* destructor code */
++}
++
++/* readonly attribute nsIX509Cert serverCert; */
++NS_IMETHODIMP nsSSLStatus::GetServerCert(nsIX509Cert * *aServerCert)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute string cipherName; */
++NS_IMETHODIMP nsSSLStatus::GetCipherName(char * *aCipherName)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute unsigned long keyLength; */
++NS_IMETHODIMP nsSSLStatus::GetKeyLength(PRUint32 *aKeyLength)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* readonly attribute unsigned long secretKeyLength; */
++NS_IMETHODIMP nsSSLStatus::GetSecretKeyLength(PRUint32 *aSecretKeyLength)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* End of implementation class template. */
++#endif
++
++
++#endif /* __gen_nsISSLStatus_h__ */
+diff -urN epiphany-2.20.1.orig/embed/mozilla/nsITokenDialogs.h epiphany-2.20.1/embed/mozilla/nsITokenDialogs.h
+--- epiphany-2.20.1.orig/embed/mozilla/nsITokenDialogs.h	1970-01-01 01:00:00.000000000 +0100
++++ epiphany-2.20.1/embed/mozilla/nsITokenDialogs.h	2007-11-19 14:06:11.468119000 +0000
+@@ -0,0 +1,92 @@
++/*
++ * DO NOT EDIT.  THIS FILE IS GENERATED FROM nsITokenDialogs.idl
++ */
++
++#ifndef __gen_nsITokenDialogs_h__
++#define __gen_nsITokenDialogs_h__
++
++
++#ifndef __gen_nsISupports_h__
++#include "nsISupports.h"
++#endif
++
++/* For IDL files that don't want to include root IDL files. */
++#ifndef NS_NO_VTABLE
++#define NS_NO_VTABLE
++#endif
++class nsIInterfaceRequestor; /* forward declaration */
++
++
++/* starting interface:    nsITokenDialogs */
++#define NS_ITOKENDIALOGS_IID_STR "bb4bae9c-39c5-11d5-ba26-00108303b117"
++
++#define NS_ITOKENDIALOGS_IID \
++  {0xbb4bae9c, 0x39c5, 0x11d5, \
++    { 0xba, 0x26, 0x00, 0x10, 0x83, 0x03, 0xb1, 0x17 }}
++
++class NS_NO_VTABLE nsITokenDialogs : public nsISupports {
++ public: 
++
++  NS_DEFINE_STATIC_IID_ACCESSOR(NS_ITOKENDIALOGS_IID)
++
++  /* void ChooseToken (in nsIInterfaceRequestor ctx, [array, size_is (count)] in wstring tokenNameList, in unsigned long count, out wstring tokenName, out boolean canceled); */
++  NS_IMETHOD ChooseToken(nsIInterfaceRequestor *ctx, const PRUnichar **tokenNameList, PRUint32 count, PRUnichar **tokenName, PRBool *canceled) = 0;
++
++};
++
++/* Use this macro when declaring classes that implement this interface. */
++#define NS_DECL_NSITOKENDIALOGS \
++  NS_IMETHOD ChooseToken(nsIInterfaceRequestor *ctx, const PRUnichar **tokenNameList, PRUint32 count, PRUnichar **tokenName, PRBool *canceled); 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object. */
++#define NS_FORWARD_NSITOKENDIALOGS(_to) \
++  NS_IMETHOD ChooseToken(nsIInterfaceRequestor *ctx, const PRUnichar **tokenNameList, PRUint32 count, PRUnichar **tokenName, PRBool *canceled) { return _to ChooseToken(ctx, tokenNameList, count, tokenName, canceled); } 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
++#define NS_FORWARD_SAFE_NSITOKENDIALOGS(_to) \
++  NS_IMETHOD ChooseToken(nsIInterfaceRequestor *ctx, const PRUnichar **tokenNameList, PRUint32 count, PRUnichar **tokenName, PRBool *canceled) { return !_to ? NS_ERROR_NULL_POINTER : _to->ChooseToken(ctx, tokenNameList, count, tokenName, canceled); } 
++
++#if 0
++/* Use the code below as a template for the implementation class for this interface. */
++
++/* Header file */
++class nsTokenDialogs : public nsITokenDialogs
++{
++public:
++  NS_DECL_ISUPPORTS
++  NS_DECL_NSITOKENDIALOGS
++
++  nsTokenDialogs();
++
++private:
++  ~nsTokenDialogs();
++
++protected:
++  /* additional members */
++};
++
++/* Implementation file */
++NS_IMPL_ISUPPORTS1(nsTokenDialogs, nsITokenDialogs)
++
++nsTokenDialogs::nsTokenDialogs()
++{
++  /* member initializers and constructor code */
++}
++
++nsTokenDialogs::~nsTokenDialogs()
++{
++  /* destructor code */
++}
++
++/* void ChooseToken (in nsIInterfaceRequestor ctx, [array, size_is (count)] in wstring tokenNameList, in unsigned long count, out wstring tokenName, out boolean canceled); */
++NS_IMETHODIMP nsTokenDialogs::ChooseToken(nsIInterfaceRequestor *ctx, const PRUnichar **tokenNameList, PRUint32 count, PRUnichar **tokenName, PRBool *canceled)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* End of implementation class template. */
++#endif
++
++#define NS_TOKENDIALOGS_CONTRACTID "@mozilla.org/nsTokenDialogs;1"
++
++#endif /* __gen_nsITokenDialogs_h__ */
+diff -urN epiphany-2.20.1.orig/embed/mozilla/nsITokenPasswordDialogs.h epiphany-2.20.1/embed/mozilla/nsITokenPasswordDialogs.h
+--- epiphany-2.20.1.orig/embed/mozilla/nsITokenPasswordDialogs.h	1970-01-01 01:00:00.000000000 +0100
++++ epiphany-2.20.1/embed/mozilla/nsITokenPasswordDialogs.h	2007-11-19 14:06:11.464605000 +0000
+@@ -0,0 +1,114 @@
++/*
++ * DO NOT EDIT.  THIS FILE IS GENERATED FROM nsITokenPasswordDialogs.idl
++ */
++
++#ifndef __gen_nsITokenPasswordDialogs_h__
++#define __gen_nsITokenPasswordDialogs_h__
++
++
++#ifndef __gen_nsISupports_h__
++#include "nsISupports.h"
++#endif
++
++/* For IDL files that don't want to include root IDL files. */
++#ifndef NS_NO_VTABLE
++#define NS_NO_VTABLE
++#endif
++class nsIInterfaceRequestor; /* forward declaration */
++
++
++/* starting interface:    nsITokenPasswordDialogs */
++#define NS_ITOKENPASSWORDDIALOGS_IID_STR "be26b580-1dd1-11b2-9946-c598d0d07727"
++
++#define NS_ITOKENPASSWORDDIALOGS_IID \
++  {0xbe26b580, 0x1dd1, 0x11b2, \
++    { 0x99, 0x46, 0xc5, 0x98, 0xd0, 0xd0, 0x77, 0x27 }}
++
++/**
++ * nsITokenPasswordDialogs
++ *  This is the interface for setting and changing password
++ *  on a PKCS11 token.
++ */
++class NS_NO_VTABLE nsITokenPasswordDialogs : public nsISupports {
++ public: 
++
++  NS_DEFINE_STATIC_IID_ACCESSOR(NS_ITOKENPASSWORDDIALOGS_IID)
++
++  /**
++   * setPassword - sets the password/PIN on the named token.
++   *   The canceled output value should be set to TRUE when
++   *   the user (or implementation) cancels the operation.
++   */
++  /* void setPassword (in nsIInterfaceRequestor ctx, in wstring tokenName, out boolean canceled); */
++  NS_IMETHOD SetPassword(nsIInterfaceRequestor *ctx, const PRUnichar *tokenName, PRBool *canceled) = 0;
++
++  /* void getPassword (in nsIInterfaceRequestor ctx, in wstring tokenName, out wstring password, out boolean canceled); */
++  NS_IMETHOD GetPassword(nsIInterfaceRequestor *ctx, const PRUnichar *tokenName, PRUnichar **password, PRBool *canceled) = 0;
++
++};
++
++/* Use this macro when declaring classes that implement this interface. */
++#define NS_DECL_NSITOKENPASSWORDDIALOGS \
++  NS_IMETHOD SetPassword(nsIInterfaceRequestor *ctx, const PRUnichar *tokenName, PRBool *canceled); \
++  NS_IMETHOD GetPassword(nsIInterfaceRequestor *ctx, const PRUnichar *tokenName, PRUnichar **password, PRBool *canceled); 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object. */
++#define NS_FORWARD_NSITOKENPASSWORDDIALOGS(_to) \
++  NS_IMETHOD SetPassword(nsIInterfaceRequestor *ctx, const PRUnichar *tokenName, PRBool *canceled) { return _to SetPassword(ctx, tokenName, canceled); } \
++  NS_IMETHOD GetPassword(nsIInterfaceRequestor *ctx, const PRUnichar *tokenName, PRUnichar **password, PRBool *canceled) { return _to GetPassword(ctx, tokenName, password, canceled); } 
++
++/* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
++#define NS_FORWARD_SAFE_NSITOKENPASSWORDDIALOGS(_to) \
++  NS_IMETHOD SetPassword(nsIInterfaceRequestor *ctx, const PRUnichar *tokenName, PRBool *canceled) { return !_to ? NS_ERROR_NULL_POINTER : _to->SetPassword(ctx, tokenName, canceled); } \
++  NS_IMETHOD GetPassword(nsIInterfaceRequestor *ctx, const PRUnichar *tokenName, PRUnichar **password, PRBool *canceled) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetPassword(ctx, tokenName, password, canceled); } 
++
++#if 0
++/* Use the code below as a template for the implementation class for this interface. */
++
++/* Header file */
++class nsTokenPasswordDialogs : public nsITokenPasswordDialogs
++{
++public:
++  NS_DECL_ISUPPORTS
++  NS_DECL_NSITOKENPASSWORDDIALOGS
++
++  nsTokenPasswordDialogs();
++
++private:
++  ~nsTokenPasswordDialogs();
++
++protected:
++  /* additional members */
++};
++
++/* Implementation file */
++NS_IMPL_ISUPPORTS1(nsTokenPasswordDialogs, nsITokenPasswordDialogs)
++
++nsTokenPasswordDialogs::nsTokenPasswordDialogs()
++{
++  /* member initializers and constructor code */
++}
++
++nsTokenPasswordDialogs::~nsTokenPasswordDialogs()
++{
++  /* destructor code */
++}
++
++/* void setPassword (in nsIInterfaceRequestor ctx, in wstring tokenName, out boolean canceled); */
++NS_IMETHODIMP nsTokenPasswordDialogs::SetPassword(nsIInterfaceRequestor *ctx, const PRUnichar *tokenName, PRBool *canceled)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* void getPassword (in nsIInterfaceRequestor ctx, in wstring tokenName, out wstring password, out boolean canceled); */
++NS_IMETHODIMP nsTokenPasswordDialogs::GetPassword(nsIInterfaceRequestor *ctx, const PRUnichar *tokenName, PRUnichar **password, PRBool *canceled)
++{
++    return NS_ERROR_NOT_IMPLEMENTED;
++}
++
++/* End of implementation class template. */
++#endif
++
++#define NS_TOKENPASSWORDSDIALOG_CONTRACTID "@mozilla.org/nsTokenPasswordDialogs;1"
++
++#endif /* __gen_nsITokenPasswordDialogs_h__ */
+--- epiphany-2.20.1/embed/mozilla/Makefile.am.orig	2007-11-19 14:14:56.245601000 +0000
++++ epiphany-2.20.1/embed/mozilla/Makefile.am	2007-11-19 14:15:12.003867000 +0000
+@@ -124,6 +124,7 @@
+ 	shistory		\
+ 	sidebar			\
+ 	spellchecker		\
++	string			\
+ 	uriloader		\
+ 	uconv			\
+ 	wallet			\
+--- epiphany-2.20.1/embed/mozilla/Makefile.in.orig	2007-11-19 14:23:42.042607000 +0000
++++ epiphany-2.20.1/embed/mozilla/Makefile.in	2007-11-19 14:24:05.244703000 +0000
+@@ -441,6 +441,7 @@
+ 	shistory		\
+ 	sidebar			\
+ 	spellchecker		\
++	string			\
+ 	uriloader		\
+ 	uconv			\
+ 	wallet			\
