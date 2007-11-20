@@ -1,0 +1,6 @@
+Dtlogin*altDtsIncrement:	True
+
+Dtlogin*altDtName:	fluxbox for OpenSolaris
+Dtlogin*altDtKey: 	/usr/bin/fluxbox 
+Dtlogin*altDtStart: 	/usr/dt/config/Xsession.fluxbox
+Dtlogin*altDtLogo:	fluxbox

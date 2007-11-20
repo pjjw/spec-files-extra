@@ -1,0 +1,18 @@
+#!/bin/ksh 
+#####################################################################
+###  File:              Xsession.fluxbox  Version 0.1 $Revision: 1.0 $
+###  Default Location:  /usr/dt/config/Xsession.fluxbox
+###  Purpose:           fluxbox session start script
+###  Invoked by:        Solaris Desktop Login Manager (dtlogin)
+#####################################################################
+
+DTDSPMSG=/usr/dt/bin/dtdspmsg
+
+export SESSIONTYPE="altDt"
+export SDT_ALT_SESSION="/usr/dt/config/Xsession2.fluxbox"
+export SDT_ALT_HELLO="/bin/true"
+export SDT_NO_TOOLTALK="1"
+export SDT_NO_DTDBCACHE="1"
+export START_SPECKEYSD="no"
+
+exec /usr/dt/bin/Xsession

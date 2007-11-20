@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=fluxbox
+Comment=This session logs you into the fluxbox Environment
+Exec=/usr/bin/ctrun -l child -i none /usr/dt/config/Xsession.fluxbox
+TryExec=/usr/bin/ctrun -l child -i none /usr/dt/config/Xsession.fluxbox
+# no icon yet, only the top three are currently used
+Icon=
+Type=Application
