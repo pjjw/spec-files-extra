@@ -1,3 +1,26 @@
+2007-11-20  Halton Huo <nonsea@users.sourceforge.net>
+
+        Add Owner
+	* SFEanjuta.spec:
+	* SFEaria.spec:
+	* SFEfilezilla.spec:
+	* SFEgdl.spec:
+	* SFEgnome-build.spec:
+	* SFElibgsf.spec:
+	* SFEtracker.spec:
+	* SFEvnc2swf.spec:
+	* SFEw3m.spec:
+	* SUNWgnome-sync.spec:
+	* base-specs/filezilla.spec:
+	* base-specs/gdl.spec:
+	* base-specs/gio.spec:
+	* base-specs/gnome-build.spec:
+	* base-specs/gnome-sync.spec:
+	* base-specs/gtk-vnc.spec:
+	* base-specs/libgsf.spec:
+	* base-specs/tracker.spec:
+	* base-specs/vnc2swf.spec:
+
 2007-11-19  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* encumbered/SFExine-lib.spec: Add support for building on Indiana.

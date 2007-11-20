@@ -4,6 +4,8 @@
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
+# Owner:halton
+#
 
 Name:        vnc2swf
 Version:     0.5.0

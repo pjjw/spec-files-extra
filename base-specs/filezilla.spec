@@ -2,6 +2,9 @@
 # Copyright 2007 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
+#
+# Owner: halton
+#
 
 %define version_str 3.0.0-beta11_src
 Name:		filezilla

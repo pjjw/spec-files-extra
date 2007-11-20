@@ -5,6 +5,8 @@
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
+# Owner:halton
+#
 
 
 %define real_name gio-standalone
