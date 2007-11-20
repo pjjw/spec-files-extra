@@ -49,6 +49,7 @@ make -j$CPUS
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
+make install-private-headers DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -78,6 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sun Nov 18 2007 - shivakumar.gn@gmail.com
+- The -devel package needs to install private headers as well
+- Most tcl extensions(iTcl) cannot be built without these headers.
 * Sat Sep 29 2007 - dick@nagual.nl
 - Bumped to version 8.4.16
 * Wed Jul 11 2007 - dick@nagual.nl
