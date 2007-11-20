@@ -84,3 +84,16 @@ diff -ur x264-snapshot-20070728-2245.orig/gtk/Makefile x264-snapshot-20070728-22
  
  # Program : test
  $(TEST_BIN): $(OBJECTS_LIB) $(OBJECTS_TEST)
+--- x264-snapshot-20070728-2245/common/osdep.h.orig	2007-11-20 11:47:58.841997000 +0000
++++ x264-snapshot-20070728-2245/common/osdep.h	2007-11-20 11:50:02.449417000 +0000
+@@ -57,6 +57,10 @@
+ #endif
+ #endif
+ 
++#ifndef __attribute__
++#define __attribute__(X)
++#endif
++
+ #ifdef _MSC_VER
+ #define DECLARE_ALIGNED( type, var, n ) __declspec(align(n)) type var
+ #else

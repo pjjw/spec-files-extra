@@ -6,7 +6,7 @@
 
 %include Solaris.inc
 
-%define         snap    20070728
+%define         snap    20071119
 %define         snaph   2245
 %define src_name x264-snapshot
 %define src_url	 ftp://ftp.videolan.org/pub/videolan/x264/snapshots
@@ -15,6 +15,7 @@ Name:                    SFElibx264
 Summary:                 H264 encoder library
 Version:                 20070728
 Source:                  %{src_url}/%{src_name}-%{snap}-%{snaph}.tar.bz2
+URL:                     http://www.videolan.org/developers/x264.html
 Patch1:			 libx264-01-gccisms.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -103,6 +104,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Nov 20 2007 - daymobrew@users.sourceforge.net
+- Bump to 20071119 and add Url.
 * Sun Aug 12 2007 - dougs@truemail.co.th
 - Added SFEgpac as Required
 * Fri Aug  3 2007 - dougs@truemail.co.th

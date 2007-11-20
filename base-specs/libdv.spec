@@ -26,8 +26,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CPPFLAGS="-I/usr/X11/include"
-export CFLAGS="-O4 -fPIC"
-export LDFLAGS="%_ldflags"
+export CFLAGS="%optflags"
+export LDFLAGS="%arch_ldadd %ldadd ${EXTRA_LDFLAGS}"
 
 if $( echo "%{_libdir}" | /usr/xpg4/bin/grep -q %{_arch64} ) ; then
         export CFLAGS="$CFLAGS -m64"
@@ -64,5 +64,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libdv/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Nov 20 2007 - daymobrew@users.sourceforge.net
+- Change LDFLAGS to work for gcc.
 * Thu Aug 30 2007 - dougs@truemail.co.th
 - Initial base spec file

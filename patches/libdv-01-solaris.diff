@@ -222,3 +222,16 @@ diff -ur libdv-1.0.0.orig/playdv/Makefile.in libdv-1.0.0/playdv/Makefile.in
  
  .SUFFIXES:
 Only in libdv-1.0.0/playdv: Makefile.in~
+--- libdv-1.0.0/libdv/encode.c.orig	2007-11-20 14:11:13.080303000 +0000
++++ libdv-1.0.0/libdv/encode.c	2007-11-20 14:13:18.193892000 +0000
+@@ -73,6 +73,10 @@
+ #define VLC_BITS_ON_FULL_MBLOCK_CYCLE_QUANT_3 500
+ #define VLC_MAX_RUNS_PER_CYCLE_QUANT_3        3
+ 
++#ifndef __attribute__
++#define __attribute__(X)
++#endif
++
+ /* typedef unsigned long dv_vlc_entry_t; */
+ typedef uint32_t dv_vlc_entry_t;
+ 
