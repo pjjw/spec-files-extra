@@ -1,5 +1,10 @@
 2007-11-21  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* SFEtls.spec, patches/tls-01-destdir.diff: Added - TLS OpenSSL
+	  extension to Tcl.
+
+2007-11-21  Damien Carbery <daymobrew@users.sourceforge.net>
+
 	* SFEgoffice.spec: Bump to 0.5.3.
 	* patches/goffice-01-no-sunmath-lib.diff: Remove obsolete chunk.
 	* SFEgnumeric.spec: Bump to 1.7.90.

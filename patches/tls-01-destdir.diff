@@ -1,0 +1,27 @@
+--- tls1.5/Makefile.in.orig	2007-11-21 13:19:26.379142000 +0000
++++ tls1.5/Makefile.in	2007-11-21 13:20:09.098186000 +0000
+@@ -208,20 +208,20 @@
+ 	sed -e "s#\@RELPATH\@#$(RELPATH)#" \
+ 	-e "s#\@tls_LIB_FILE\@#$(tls_LIB_FILE)#" \
+ 	< $(srcdir)/pkgIndex.tcl.in > pkgIndex.tcl
+-	$(INSTALL_DATA) pkgIndex.tcl $(pkglibdir)
++	$(INSTALL_DATA) pkgIndex.tcl $(DESTDIR)$(pkglibdir)
+ 
+ #========================================================================
+ # This rule installs platform-independent files, such as header files.
+ #========================================================================
+ 
+ install-libraries: libraries
+-	$(mkinstalldirs) $(includedir)
++	$(mkinstalldirs) $(DESTDIR)$(includedir)
+ 	@echo "Installing header files in $(includedir)"
+ 	@for i in $(GENERIC_HDRS) ; do \
+ 	    echo "Installing $$i" ; \
+-	    $(INSTALL_DATA) $$i $(includedir) ; \
++	    $(INSTALL_DATA) $$i $(DESTDIR)$(includedir) ; \
+ 	done;
+-	$(INSTALL_DATA) $(srcdir)/tls.tcl $(pkglibdir)
++	$(INSTALL_DATA) $(srcdir)/tls.tcl $(DESTDIR)$(pkglibdir)
+ 
+ #========================================================================
+ # Install documentation.  Unix manpages should go in the $(mandir)
