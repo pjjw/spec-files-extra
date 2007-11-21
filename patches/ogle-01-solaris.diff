@@ -1,0 +1,11 @@
+--- ogle-0.9.2/mpeg2_video/mmx.h.orig	2007-11-21 14:36:29.339483000 +0000
++++ ogle-0.9.2/mpeg2_video/mmx.h	2007-11-21 14:36:40.155360000 +0000
+@@ -67,7 +67,7 @@
+ 	__asm__ __volatile__ (#op " %" #regs ", %" #regd)
+ 
+ 
+-#define	emms() __asm__ __volatile__ ("emms")
++#define	emms() asm("emms")
+ 
+ #define	movd_m2r(var,reg)	mmx_m2r (movd, var, reg)
+ #define	movd_r2m(reg,var)	mmx_r2m (movd, reg, var)
