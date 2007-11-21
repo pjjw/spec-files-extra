@@ -14,6 +14,12 @@ URL:                 http://www.dtek.chalmers.se/groups/dvd/
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+BuildRequires: SFElibdvdcss-devel
+BuildRequires: SFElibdvdread
+BuildRequires: SFEliba52
+Requires: SFElibdvdcss
+Requires: SFElibdvdread
+Requires: SFEliba52
 
 %package devel
 Summary: %{summary} - development files
