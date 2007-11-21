@@ -1,3 +1,15 @@
+2007-11-21  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEgoffice.spec: Bump to 0.5.3.
+	* patches/goffice-01-no-sunmath-lib.diff: Remove obsolete chunk.
+	* SFEgnumeric.spec: Bump to 1.7.90.
+
+2007-11-20  opensoars <opensoars@users.sourceforge.net>
+
+	* SFEelightenment.spec, include/Xinitrc.E, include/Xresources.E,
+	  include/Xsession.E, include/Xsession2.E: Added - Enlightenment window
+	  manager support (B77).
+
 2007-11-20  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* patches/libdv-01-solaris.diff: Add chunk to define __attribute__.
@@ -18,6 +30,11 @@
 2007-11-19  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* encumbered/SFExine-lib.spec: Add support for building on Indiana.
+
+2007-11-19  opensoars <opensoars@users.sourceforge.net>
+
+	* SFEtcl.spec: Install tcl private headers required for most Tcl
+	  extensions.
 
 2007-11-19  Petr Sobotka  <sobotkap@centrum.cz>
 
@@ -316,7 +333,8 @@
 	
 	* SFElibopensync.spec: Change to correct configure option.
 	* patches/libopensync-01-prefix.diff: Removed.
-	* base-specs/msynctool.spec: Bump to 0.34 and change to cmake build tool.
+	* base-specs/msynctool.spec: Bump to 0.34 and change to cmake build
+	  tool.
 	* patches/msynctool-01-forte-wall.diff: Removed.
 
 2007-11-05 Jijun Yu <jijun.yu@sun.com>
@@ -434,7 +452,7 @@
 	* SFEmugshot.spec: Add SUNWpcre Requires and BuildRequires.
 	* SFEcurl.spec: Bump to 2.17.1.
 	* SFEpcre.spec: Bump to 7.4 and fix source so you can download the
-	  code.  I know SUNWpcre is now in Nevada, but this might be useful
+	  code. I know SUNWpcre is now in Nevada, but this might be useful
 	  for people using older versions of Solaris.
 
 2007-11-01  Lin Ma  <Lin.Ma@Sun.COM>
@@ -1067,13 +1085,13 @@
 	* patches/libiec61883-03-warning.diff: fix warnings
 
 2007-10-02  Thomas Wagner <tom68@users.sourceforge.net>
-        * SFEzfs-auto-backup: cleand up %files and uninstall
-           SMF Service
+
+        * SFEzfs-auto-backup: cleand up %files and uninstall SMF Service.
 
 2007-10-02  Thomas Wagner <tom68@users.sourceforge.net>
-        * SFEzfs-auto-backup: *NEW* untested zfs-auto-backup
-           to removable media (full/automatic incremental backup)
-         
+
+	* SFEzfs-auto-backup: *NEW* untested zfs-auto-backup to removable
+	  media (full/automatic incremental backup).
 
 2007-10-01  Thomas Wagner <tom68@users.sourceforge.net>
 
@@ -1081,6 +1099,7 @@
           removed Source1 l10* and in %prep removed calling l10*
 
 2007-09-29 Dick Hoogendijk <dick@nagual.nl>
+
 	* version bump for:
 	* SFEtcl.spec: Tcl - Tool Command Language v8.4.16
 	* SFEtk.spec: Tk - TCL GUI Toolkit v8.4.16
@@ -1092,7 +1111,8 @@
 
 2007-09-28  Halton Huo <nonsea@users.sourceforge.net>
 
-	* SFEtracker.spec: Add patch thunderbird.diff to enable thunderbird index.
+	* SFEtracker.spec: Add patch thunderbird.diff to enable thunderbird
+	  index.
 	* patches/tracker-02-thunderbird.diff: Added
 
 2007-09-26  Albert Lee  <trisk@acm.jhu.edu>
@@ -1124,8 +1144,10 @@
 
 2007-09-17  Thomas Wagner <tom68@users.sourceforge.net>
 
-	* SFEpulseaudio: add patch5 dirty_hack_IP_MULTICAST_LOOP-module-rtp-send.c
-	  TODO: find correct way to setup IP_MULTICAST_LOOP or isn't it necessary
+	* SFEpulseaudio: add patch5
+	  dirty_hack_IP_MULTICAST_LOOP-module-rtp-send.c
+	  TODO: find correct way to setup IP_MULTICAST_LOOP or isn't it
+	  necessary.
 
 2007-09-22  Albert Lee  <trisk@acm.jhu.edu>
 
@@ -1159,7 +1181,8 @@
 2007-09-20  flistellox@gmail.com
 
 	* SFErsnapshot.spec: *NEW* A filesystem backup utility based on rsync
-	* include/include/perl-depend.inc: a coomon depend definition for programs using perl
+	* include/include/perl-depend.inc: A common depend definition for
+	  programs using perl.
 
 2007-09-20  flistellox@gmail.com
 	
@@ -1173,9 +1196,10 @@
 
 2007-09-20  Albert Lee  <trisk@acm.jhu.edu>
 
-	* SFEtremulous.spec: *NEW* Team-based first-person shooter game with RTS
-	  elements
-	* patches/tremulous-01-solaris.diff: Build changes and fixes for Solaris
+	* SFEtremulous.spec: *NEW* Team-based first-person shooter game with
+	  RTS elements.
+	* patches/tremulous-01-solaris.diff: Build changes and fixes for
+	  Solaris.
 
 2007-09-19  Albert Lee  <trisk@acm.jhu.edu>
 
@@ -1243,7 +1267,7 @@
 
 2007-09-18  Mark Wright <markwright@internode.on.net>
 
-	* SFEnetpbm.spec: Add netpbm. to svn_url.  Comment netpbm-02-stdlib.diff.
+	* SFEnetpbm.spec: Add netpbm. to svn_url. Comment netpbm-02-stdlib.diff.
 	* patches/netpbm-03-no-XDefs.diff: remove #include <X11/XDefs.h>
 	
 2007-09-18  Halton Huo <nonsea@users.sourceforge.net>
@@ -1300,9 +1324,10 @@
 
 2007-09-16  Ananth Shrinivas <ananth@sun.com>
 
-    * SFEkiwi.spec: *NEW* A framework for Python applications with graphical user interfaces
-    * SFEgazpacho.spec: *NEW* A GTK+ User Interface Builder
-    * SFEpida.spec: *NEW* A Python Integrated Development Environment
+	* SFEkiwi.spec: *NEW* A framework for Python applications with
+	  graphical user interfaces.
+	* SFEgazpacho.spec: *NEW* A GTK+ User Interface Builder.
+	* SFEpida.spec: *NEW* A Python Integrated Development Environment.
 
 2007-09-16  Albert Lee  <trisk@acm.jhu.edu>
 
@@ -1394,11 +1419,13 @@
 
 2007-09-04  Ananth Shrinivas  <ananth@sun.com>
 
-	* SFEruby.spec: YAML files required for ruby RDoc documentation need to be installed
+	* SFEruby.spec: YAML files required for ruby RDoc documentation need
+	  to be installed.
 
 2007-09-08  Albert Lee  <trisk@acm.jhu.edu>
 
-	* SFElast-exit.spec: *NEW* Last Exit - streaming media player for GNOME, using the Last.fm web service
+	* SFElast-exit.spec: *NEW* Last Exit - streaming media player for
+	  GNOME, using the Last.fm web service.
 	* SFEsexy-python.spec: Fix rules, update Python library dir
 	* patches/last-exit-01-solaris.diff: Patch for Solaris compatibility
 	* patches/last-exit-02-memmem.diff: Patch to substitute memmem()
@@ -1408,6 +1435,7 @@
 	* SFEccsm.spec: Correct rules, remove -root, fix Python library location
 
 2007-09-08  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEcompiz-fusion-unsup.spec: Typo fix
 	* SFEcompizconfig-gconf.spec: Rename to match package name
 	* SFEcompizconfig-backend-gconf.spec: Removed
@@ -1506,7 +1534,8 @@
         * SFEpadevchooser: *NEW* PulseAudio Device Chooser
         * SFEpaprefs: *NEW* PulseAudio Preferences Control
         * SFEpavucontrol: *NEW* PulseAudio Volume Control (gtk)
-        * SFElibao-pulse: *NEW* PulseAudio Plugin feed musik into pulsaudio networks
+        * SFElibao-pulse: *NEW* PulseAudio Plugin feed musik into pulsaudio
+	  networks.
 
 2007-09-04  Doug Scott  <dougs@truemail.co.th>
 
@@ -1598,6 +1627,7 @@
 	* patches/mono-02-seek-macros.diff: Make patch apply properly
 
 2007-09-01  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEdeluge.spec: Fix Studio patch, fix file allocation issue
 	* patches/deluge-01-sunpro.diff: Use correct uint32_t type
 	* patches/deluge-03-sparsefile.diff: Always allow sparse file support
@@ -1870,7 +1900,8 @@
 	* SFEboost.spec: Initial version for Boost 1.34.1
 	* patches/boost-01-studio.diff: Patch for building with Studio
 	* patches/boost-02-gcc34.diff: Patch for gcc 3.4 compilation (unused)
-	* SFEmono.spec: Add patch2 http://bugzilla.gnome.org/show_bug.cgi?id=370081
+	* SFEmono.spec: Add patch2
+	  http://bugzilla.gnome.org/show_bug.cgi?id=370081
 	* patches/mono-02-seek-macros.diff: Fix definition of seek macros
 
 2007-08-14 Erwann Chenede - <erwann.chenede@sun.com>
@@ -1883,13 +1914,14 @@
 
 2007-08-15  Mark Wright <markwright@internode.on.net>
 
-	* SFEbinutils.spec: Add patch1 http://sourceware.org/bugzilla/show_bug.cgi?id=2495
-	    Add patch2 http://www.cygwin.com/ml/binutils/2006-06/msg00299.html
-	    Add patch3 http://sourceware.org/ml/binutils/2007-03/msg00175.html
-	* SFEgcc.spec: Change from /usr/ccs/bin/ld to /usr/gnu/bin/ld, this change
-	    requires SFEbinutils built with binutils-01-bug-2495.diff,
-	    binutils-02-ld-m-elf_i386.diff and binutils-03-lib-amd64-ld-so-1.diff.
-	    Add objc to --enable-languages, add --enable-decimal-float.
+	* SFEbinutils.spec: Add patch1
+	  http://sourceware.org/bugzilla/show_bug.cgi?id=2495
+	  Add patch2 http://www.cygwin.com/ml/binutils/2006-06/msg00299.html
+	  Add patch3 http://sourceware.org/ml/binutils/2007-03/msg00175.html
+	* SFEgcc.spec: Change from /usr/ccs/bin/ld to /usr/gnu/bin/ld, this
+	  change requires SFEbinutils built with binutils-01-bug-2495.diff,
+	  binutils-02-ld-m-elf_i386.diff and binutils-03-lib-amd64-ld-so-1.diff.
+	  Add objc to --enable-languages, add --enable-decimal-float.
 
 2007-08-13  Doug Scott  <dougs@truemail.co.th>
 

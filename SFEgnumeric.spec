@@ -6,7 +6,7 @@
 Name:                    SFEgnumeric
 Summary:                 gnumeric - Spreadsheet for GNOME
 URL:                     http://www.gnome.org/projects/gnumeric/
-Version:                 1.7.14
+Version:                 1.7.90
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/gnumeric/1.7/gnumeric-%{version}.tar.gz
 Patch1:                  gnumeric-01-solaris.diff
 SUNW_BaseDir:            %{_basedir}

@@ -6,7 +6,7 @@
 Name:                    SFEgoffice
 Summary:                 goffice - Document centric set of APIs
 URL:                     http://www.gnome.org/
-Version:                 0.5.2
+Version:                 0.5.3
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/goffice/0.5/goffice-%{version}.tar.gz
 Patch1:                  goffice-01-no-sunmath-lib.diff
 SUNW_BaseDir:            %{_basedir}
