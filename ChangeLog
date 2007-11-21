@@ -1,5 +1,7 @@
 2007-11-21  Damien Carbery <daymobrew@users.sourceforge.net>
 
+	* SFEblt.spec, patches/blt-01-solaris.diff: Added - blt - Bluetooth
+	  Location Tracker.
 	* SFEogle.spec, patches/ogle-01-solaris.diff: Added - Ogle DVD player.
 	* SFEtls.spec, patches/tls-01-destdir.diff: Added - TLS OpenSSL
 	  extension to Tcl.

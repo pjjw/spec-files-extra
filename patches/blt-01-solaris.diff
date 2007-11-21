@@ -1,0 +1,24 @@
+--- blt_server-0.15/Makefile.orig	2007-11-21 17:17:05.982494000 +0000
++++ blt_server-0.15/Makefile	2007-11-21 17:34:37.180845000 +0000
+@@ -7,8 +7,8 @@
+ OBJ=blt_server.o names.o server.o data.o tracker.o util.o push.o location.o
+ BINEXEC=blt_server
+ TARDIR=blt_server-0.15
+-LIBS=-lpthread -lcrypto -lssl
+-CFLAGS=-Wall -DBLT_SSL
++LIBS=-L/usr/sfw/lib -lpthread -lcrypto -lssl -lreadline
++CFLAGS=-Wall -DBLT_SSL -I/usr/sfw/include
+ CC=gcc
+ TAR=blt_server-0.15.tgz
+ DIR=dist
+--- blt_server-0.15/blt_server.c.orig	2007-11-21 17:33:43.780918000 +0000
++++ blt_server-0.15/blt_server.c	2007-11-21 17:34:27.518344000 +0000
+@@ -315,7 +315,7 @@
+ 	do {
+ 		if (con_run == 1) { /* interactive mode */
+ 			printf("BLT=>");
+-			if (getline(&cmd_line, &cmd_size, stdin) > 0) {
++			if (readline(&cmd_line, &cmd_size, stdin) > 0) {
+ 
+ 				if (strncasecmp(cmd_line, "quit", 4) == 0) {
+ 					printf("BLT:QUIT\n");
