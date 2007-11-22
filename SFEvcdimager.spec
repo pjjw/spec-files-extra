@@ -30,14 +30,17 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags"
+export CC=gcc
+export CXX=g++
+export CFLAGS="-O4 -fno-omit-frame-pointer"
+export CXXFLAGS="$CFLAGS"
+export LDFLAGS="%arch_ldadd %ldadd ${EXTRA_LDFLAGS}"
 
-libtoolize --copy --force
-aclocal -I .
-autoheader
-automake -a -f
-autoconf -f
+#libtoolize --copy --force
+#aclocal -I .
+#autoheader
+#automake -a -f
+#autoconf -f
 ./configure --prefix=%{_prefix}		\
             --bindir=%{_bindir}		\
             --libdir=%{_libdir}		\
@@ -95,5 +98,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Nov 22 2007 - daymobrew@users.sourceforge.net
+- Build with gcc.
 * Sat Jul 14 2007 - dougs@truemail.co.th
 - Initial spec

@@ -48,7 +48,7 @@ BuildRequires: SUNWgnome-config-devel
 BuildRequires: SUNWgnome-vfs-devel
 BuildRequires: SFElibdvdread-devel
 BuildRequires: SUNWbzip
-BuildRequires: SUNWneon
+BuildRequires: SFEneon
 BuildRequires: SUNWxorg-mesa
 %if %SUNWlibsdl
 BuildRequires:  SUNWlibsdl-devel
@@ -69,7 +69,7 @@ Requires: SUNWlibms
 Requires: SUNWlxml
 Requires: SUNWxorg-clientlibs
 Requires: SUNWzlib
-Requires: SUNWneon
+Requires: SFEneon
 %if %with_hal
 Requires: SUNWhal
 %endif
@@ -168,5 +168,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Nov 22 2007 - daymobrew@users.sourceforge.net
+- Change SUNWneon dependency to SFEneon.
 * Wed Oct 17 2007 - trisk@acm.jhu.edu
 - Initial spec, based on SUNWgnome-media

@@ -34,8 +34,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 export CC=gcc
 export CXX=g++
-export CFLAGS="%{gcc_optflags}"
-export CXXFLAGS="%{gcc_cxx_optflags}"
+export CFLAGS="-O4 -fno-omit-frame-pointer"
+export CXXFLAGS="$CFLAGS"
 export LDFLAGS="%arch_ldadd %ldadd ${EXTRA_LDFLAGS}"
 ./configure --prefix=%{_prefix}		\
 	    --bindir=%{_bindir}		\
@@ -85,6 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Thu Nov 22 2007 - daymobrew@users.sourceforge.net
+- Tweak CFLAGS to get it to build.
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net
 - Change LDFLAGS to work for gcc.
 * Fri Jun  8 2007 - laca@sun.com

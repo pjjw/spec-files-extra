@@ -75,5 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Nov 22 2007 - daymobrew@users.sourceforge.net
+- Change build flags and remove unnecessary autofoo calls.
 * Sat Jul 14 2007 - dougs@truemail.co.th
 - Initial spec

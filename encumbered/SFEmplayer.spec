@@ -51,7 +51,7 @@ Requires: SFElibcdio
 Requires: SUNWgnome-base-libs
 Requires: SUNWsmbau
 Requires: SFElibfribidi
-Requires: SFElibiconv
+#Requires: SFElibiconv
 BuildRequires: SFElibfribidi-devel
 Requires: SFEladspa
 BuildRequires: SFEladspa-devel
@@ -173,6 +173,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Thu Nov 22 2007 - daymobrew@users.sourceforge.net
+- Remove SUNWlibiconv dependency to try to get the module to build.
 * Mon Nov 5 2007 - markwright@internode.on.net
 - Bump to 1.0rc2.  Change SUNWlibcdio to SFElibcdio.  Remove SFElibfame.
 - Comment mplayer-02-makefile-libfame-dep.diff (libfame removed).  Bump patch1.

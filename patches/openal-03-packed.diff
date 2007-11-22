@@ -1,6 +1,17 @@
 diff -ur openal-0.0.8-orig/src/audioconvert/ac_misc.c openal-0.0.8/src/audioconvert/ac_misc.c
 --- openal-0.0.8-orig/src/audioconvert/ac_misc.c	2006-01-20 03:58:51.000000000 +0700
 +++ openal-0.0.8/src/audioconvert/ac_misc.c	2007-05-14 20:11:24.281015146 +0700
+@@ -20,6 +20,10 @@
+ #include <stdlib.h>
+ #include <string.h>
+ 
++#ifndef __attribute__
++#define __attribute__(X)
++#endif
++
+ #include "audioconvert/audioconvert.h"
+ #include "audioconvert/ac_endian.h"
+ #include "audioconvert/ac_wave.h"
 @@ -37,7 +37,7 @@
  	ALshort iSamp1;
  	ALshort iSamp2;

@@ -44,6 +44,7 @@ rm -rf org/gudy/azureus2/platform/{win32,macosx}
 rm -rf org/gudy/azureus2/ui/swt/{win32,osx,test}
 rm -rf com/aelitis/azureus/util/win32
 export ANT_OPTS="-Xms256m -Xmx256m"
+export CLASSPATH="/usr/lib/eclipse/plugins/org.eclipse.swt.gtk.solaris.x86_3.4.0.HEAD"
 ant
 
 %install
@@ -70,5 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/Azureus
 
 %changelog
+* Thu Nov 22 2007 - daymobrew@users.sourceforge.net
+- Set CLASSPATH to try to get it to build.
 * Sat Sep  8 2007 - dougs@truemail.co.th
 - Initial version

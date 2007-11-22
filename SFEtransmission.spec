@@ -17,6 +17,13 @@ BuildRequires: SUNWgnome-base-libs
 BuildRequires: SUNWopenssl-include
 Requires: SUNWgnome-base-libs
 Requires: SUNWopenssl-libraries
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
+Requires: SUNWuiu8
+%endif
+
 
 %if %build_l10n
 %package l10n
@@ -40,6 +47,11 @@ fi
 
 export CFLAGS="%optflags -mt -I/usr/sfw/include"
 export CXXFLAGS="%cxx_optflags -mt -I/usr/sfw/include"
+%if %option_with_gnu_iconv
+export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+export CXXFLAGS="$CXXFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
+%endif
+
 export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib"
 
 ./configure --prefix=%{_prefix}   \
@@ -78,20 +90,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
-#%dir %attr (0755, root, bin) %{_prefix}/sfw
-#%dir %attr (0755, root, bin) %{_prefix}/sfw/share
-#%{_prefix}/sfw/share/zsh
-#%{_prefix}/share/zsh
 
 %if %build_l10n
 %files l10n
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (-, root, sys) %{_datadir}
 %attr (-, root, other) %{_datadir}/locale
 %endif
 
 %changelog
+* Thu Nov 22 2007 - daymobrew@users.sourceforge.net
+- Enable building on Indiana systems.
 * Thu Nov 01 2007 - trisk@acm.jhu.edu
 - Bump to 0.91, replace patch1
 * Mon Sep 10 2007 - trisk@acm.jhu.edu

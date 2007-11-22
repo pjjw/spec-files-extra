@@ -1,3 +1,19 @@
+2007-11-22  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFExcdroast.spec: Added: X-CD-Roast - Flexible CD-burning software.
+	* SFEtransmission.spec: Enable building on Indiana systems.
+	* SFEvcdimager.spec: Build with gcc.
+	* patches/openal-03-packed.diff: Add chunk to define __attribute__.
+	* SFEhpoj.spec: Tweak CFLAGS to get it to build.
+	* encumbered/SFElibmpeg2.spec: Change build flags and remove
+	  unnecessary autofoo calls.
+	* encumbered/SFEmplayer.spec: Remove SUNWlibiconv dependency to try to
+	  get the module to build.
+	* encumbered/SFEgnome-media-extras.spec: Change SUNWneon dependency to
+	  SFEneon.
+	* SFEazureus.spec: Set CLASSPATH to try to get it building.
+	* SFEboost.spec: Comment out SUNWicud dependency to get module to build.
+
 2007-11-21  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEblt.spec, patches/blt-01-solaris.diff: Added - blt - Bluetooth
