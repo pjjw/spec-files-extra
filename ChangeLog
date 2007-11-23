@@ -1,7 +1,9 @@
 2007-11-23  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEslib.spec: Added: SLIB - Portable librart for Scheme programming
-	  language.
+	  language. Install .scm files under guile directory:
+	  %{_datadir}/guile/%{guile_maj_version}/slib
+	  Add Build/Requires SFEguile/-devel.
 
 2007-11-22  Damien Carbery <daymobrew@users.sourceforge.net>
 
