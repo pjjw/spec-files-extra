@@ -1,3 +1,8 @@
+2007-11-23  Damien Carbery <daymobrew@users.sourceforge.net>
+
+	* SFEslib.spec: Added: SLIB - Portable librart for Scheme programming
+	  language.
+
 2007-11-22  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFExcdroast.spec: Added: X-CD-Roast - Flexible CD-burning software.
