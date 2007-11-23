@@ -1,3 +1,8 @@
+2007-11-24  Thomas Wagner <tom68@users.sourceforge.net>
+
+	* SFEurxvt: *new* derived rxvt with unicode support,
+          with transparent to background mode (runs with SFEcompiz :-) )
+
 2007-11-23  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEslib.spec: Added: SLIB - Portable librart for Scheme programming
