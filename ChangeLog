@@ -1,4 +1,10 @@
 2007-11-24  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEperl-Net-DNS.spec SFEperl-TimeDate.spec SFEperl-DBD-mysql.spec 
+          SFEperl-DBD-Pg.spec SFEperl-IO-Socket-INET6.spec SFEperl-DBI.spec 
+          SFEperl-Date-Pcalc.spec SFEperl-Digest-SHA1.spec SFEperl-LWP.spec:
+          *new*
+
+2007-11-24  Thomas Wagner <tom68@users.sourceforge.net>
 
 	* SFEurxvt: *new* derived rxvt with unicode support,
           with transparent to background mode (runs with SFEcompiz :-) )
