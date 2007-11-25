@@ -1,4 +1,10 @@
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEhorde.spec: *new* Horde framework (old spec, needs review)
+        * SFEhorde-imp.spec: *new* Horde IMP Webmailer (old spec, needs review)
+        * SFEtypo3.spec: *new* Typo3 CMS (old spec, needs review)
+        * SFEtypo3demo.spec: *new* Typo3 CMS Demo Site (old spec, needs review)
+
+2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEmutt.spec: PSARC 2007/167 "IDN" is found (new around build 73/74), add -I/usr/include/idn
         * SFEmuttng.spec: PSARC 2007/167 "IDN" is found (new around build 73/74), add -I/usr/include/idn
 
