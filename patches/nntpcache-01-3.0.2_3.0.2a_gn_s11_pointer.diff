@@ -1,0 +1,31 @@
+--- nntpcache-3.0.2/src/nntpcache.c	Sun Apr 11 13:43:56 2004
++++ nntpcache-3.0.2a_gn_s11/src/nntpcache.c	Thu May 25 18:10:46 2006
+@@ -810,7 +810,7 @@
+ 				loge (("missing password in %s:%d: %s", file, n, buf));
+ 				continue;
+ 			}
+-			if ((hostname = strrchr(password-2, '@')) != NULL) {
++			if ((hostname = strrchr(password, '@')) != NULL) {
+ 				*(hostname++) = '\0';
+ 				username = host;
+ 				list->user = Sstrdup (username);
+--- nntpcache-3.0.2/src/article.c	Sun Apr 11 13:43:55 2004
++++ nntpcache-3.0.2a_gn_s11/src/article.c	Thu May 25 18:20:48 2006
+@@ -234,7 +234,7 @@
+ 		if (safePath(buf))
+ 		{
+ 			bool ok;
+-			rfc822lower (msgid);
++			/* rfc822lower (msgid); */
+ 			ok = hisAdd (msgid, buf);
+ 			logd (("adding <%s>:%s to %s (%s)", msgid, buf, con->historyFile, ok ? "suceeded" : "failed"));
+ 		} else
+@@ -488,7 +488,7 @@
+ 		if (getbyid) /* find <msgid> -> server/group/article in history file */
+ 		{
+ 			char *p;
+-			rfc822lower (msgid);
++			/* rfc822lower (msgid); */
+ 			/*
+ 			 * heads are stored as group/artnum_head
+ 			 */

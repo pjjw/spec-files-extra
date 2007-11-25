@@ -1,0 +1,11 @@
+--- nntpcache-3.0.2/libproff/list.ext.orig	2006-03-05 22:49:07.000000000 +0100
++++ nntpcache-3.0.2/libproff/list.ext	2007-11-24 22:19:02.399340470 +0100
+@@ -21,7 +21,7 @@
+ #else
+ #  define EXP_(x)
+ #endif
+-extern struct list *listFind(void *vl, void *ve);
++extern struct nn_list *listFind(void *vl, void *ve);
+ #ifdef __cplusplus
+ }
+ #endif

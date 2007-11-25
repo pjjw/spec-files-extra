@@ -1,0 +1,14 @@
+--- nntpcache-3.0.2/src/Makefile.in.orig	2006-03-05 22:49:17.000000000 +0100
++++ nntpcache-3.0.2/src/Makefile.in	2007-11-24 23:54:46.740796928 +0100
+@@ -454,7 +454,10 @@
+ 
+ 
+ install-exec-hook:
+-	cp nntpcached $(libexecdir)/nntpcached.debug && chmod a+x $(libexecdir)/nntpcached.debug
++	#cp nntpcached $(DESTDIR)$(libexecdir)/nntpcached.debug && chmod a+x $(DESTIR)$(libexecdir)/nntpcached.debug
++	echo " $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) nntpcached $(DESTDIR)$(sbindir)/nntpcached.debug"; \
++	  $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) nntpcached $(DESTDIR)$(sbindir)/nntpcached.debug;
++
+ 
+ nnconf.c nnconf.h : ../cf/nnconf.cf
+ 	$(top_srcdir)/confused/confused $<

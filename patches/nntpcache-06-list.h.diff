@@ -1,0 +1,16 @@
+--- nntpcache-3.0.2/libproff/list.h.orig	2004-04-11 13:43:51.000000000 +0200
++++ nntpcache-3.0.2/libproff/list.h	2007-11-24 21:58:29.984750213 +0100
+@@ -10,10 +10,10 @@
+ 
+ /* l = list, e = element, t = type */
+ 
+-struct list
++struct nn_list
+ {
+-    struct list *next;
+-    struct list *prev;
++    struct nn_list *next;
++    struct nn_list *prev;
+ };
+ 
+ #define PLIST_NEW(t) ((typeof(t)*)PLIST_ALLOC(sizeof (t)))

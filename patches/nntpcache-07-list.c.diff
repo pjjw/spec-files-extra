@@ -1,0 +1,13 @@
+--- nntpcache-3.0.2/libproff/list.c.orig	2007-11-24 22:06:34.501865973 +0100
++++ nntpcache-3.0.2/libproff/list.c	2007-11-24 21:59:00.334467516 +0100
+@@ -1,8 +1,8 @@
+ #include "libproff.h"
+ 
+-EXPORT struct list *listFind(void *vl, void *ve)
++EXPORT struct nn_list *listFind(void *vl, void *ve)
+ {
+-    struct list *l = vl, 
++    struct nn_list *l = vl, 
+                 *e = ve,
+                 *p;
+     PLIST_FOREACH(l, p)

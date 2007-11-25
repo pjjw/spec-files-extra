@@ -1,0 +1,86 @@
+--- nntpcache-3.0.2/cf/Makefile.in.orig	2006-03-05 22:49:25.000000000 +0100
++++ nntpcache-3.0.2/cf/Makefile.in	2007-11-24 21:11:52.004691138 +0100
+@@ -271,15 +271,15 @@
+ 	echo @VERSION@ >$@
+ 
+ install-data-hook:
+-	for f in $(distf); do { cd $(sysconfdir) && (orig=`basename $$f -dist`; test -e $$orig || cp $$f $$orig) ;} done
++	for f in $(distf); do { cd $(DESTDIR)$(sysconfdir) && (orig=`basename $$f -dist`; test -f $$orig || cp $$f $$orig) ;} done
+ 
+ nntpcache.config-dist : nnconf.cf
+ 	sed -e 's/^ *[a-zA-Z_][a-zA-Z_]* //;s/"//g' <nnconf.cf >$@
+ 
+ # this is ugly, but more flexible than merely redefining INSTALL_DATA
+ install-data-local:
+-	cd $(sysconfdir) && chmod 700 . && chown @nntpcacheUID@ . && chgrp @nntpcacheUID@ . && chmod 600 $(sysconf_DATA) && chown @nntpcacheUID@ $(sysconf_DATA) && chgrp @nntpcacheGID@ $(sysconf_DATA)
+-	cd $(localstatedir) && chmod 700 . && chown @nntpcacheUID@ . && chgrp @nntpcacheUID@ . && chmod 600 $(localstate_DATA) && chown @nntpcacheUID@ $(localstate_DATA) && chgrp @nntpcacheGID@ $(localstate_DATA)
++	cd $(DESTDIR)$(sysconfdir) && chmod 700 . 
++	cd $(DESTDIR)$(localstatedir) && chmod 700 . 
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.
+ .NOEXPORT:
+--- nntpcache-3.0.2/http/Makefile.in.orig	2006-03-05 22:50:01.000000000 +0100
++++ nntpcache-3.0.2/http/Makefile.in	2007-11-24 20:20:25.779685118 +0100
+@@ -216,10 +216,10 @@
+ 
+ 
+ install-data-local:
+-	-mkdir $(sysconfdir)/http
+-	cp $(httpdata) $(sysconfdir)/http
+-	cd $(sysconfdir)/http && chown @nntpcacheUID@ $(ch)
+-	cd $(sysconfdir)/http && chgrp @nntpcacheUID@ $(ch)
++	-mkdir $(DESTDIR)$(sysconfdir)/http
++	cp $(httpdata) $(DESTDIR)$(sysconfdir)/http
++	#cd $(DESTDIR)$(sysconfdir)/http && chown @nntpcacheUID@ $(ch)
++	#cd $(DESTDIR)$(sysconfdir)/http && chgrp @nntpcacheUID@ $(ch)
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.
+ .NOEXPORT:
+--- nntpcache-3.0.2/innreport/Makefile.in.orig	2006-03-05 22:50:09.000000000 +0100
++++ nntpcache-3.0.2/innreport/Makefile.in	2007-11-24 20:23:34.102126641 +0100
+@@ -265,10 +265,10 @@
+ 
+ # the trailing slash is to force symlink transversal
+ install-data-local:
+-	cd $(sysconfdir) && chmod 700 . && chown @nntpcacheUID@ . && chgrp @nntpcacheUID@ . && chmod 600 $(sysconf_DATA) && chown @nntpcacheUID@ $(sysconf_DATA) && chgrp @nntpcacheGID@ $(sysconf_DATA)
+-	-mkdir $(sysconfdir)/http $(sysconfdir)/http/innreport $(sysconfdir)/http/innreport/pics
+-	chown @nntpcacheUID@ $(sysconfdir)/http $(sysconfdir)/http/innreport $(sysconfdir)/http/innreport/pics
+-	chgrp @nntpcacheGID@ $(sysconfdir)/http $(sysconfdir)/http/innreport $(sysconfdir)/http/innreport/pics
++	cd $(DESTDIR)$(sysconfdir) && chmod 700 . # && chown @nntpcacheUID@ . && chgrp @nntpcacheUID@ . && chmod 600 $(sysconf_DATA) && chown @nntpcacheUID@ $(sysconf_DATA) && chgrp @nntpcacheGID@ $(sysconf_DATA)
++	-mkdir $(DESTDIR)$(sysconfdir)/http $(DESTDIR)$(sysconfdir)/http/innreport $(DESTDIR)$(sysconfdir)/http/innreport/pics
++	# chown @nntpcacheUID@ $(DESTDIR)$(sysconfdir)/http $(DESTDIR)$(sysconfdir)/http/innreport $(DESTDIR)$(sysconfdir)/http/innreport/pics
++	# chgrp @nntpcacheGID@ $(DESTDIR)$(sysconfdir)/http $(DESTDIR)$(sysconfdir)/http/innreport $(DESTDIR)$(sysconfdir)/http/innreport/pics
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.
+ .NOEXPORT:
+--- nntpcache-3.0.2/pgp/Makefile.in.orig	2006-03-05 22:50:04.000000000 +0100
++++ nntpcache-3.0.2/pgp/Makefile.in	2007-11-24 21:16:48.229811895 +0100
+@@ -236,10 +236,10 @@
+ 
+ # the trailing slash is to force symlink transversal
+ install-data-local:
+-	cd $(sysconfdir) && chmod 700 . && chown @nntpcacheUID@ . && chgrp @nntpcacheUID@ . && chmod 600 $(sysconf_DATA) && chown @nntpcacheUID@ $(sysconf_DATA) && chgrp @nntpcacheGID@ $(sysconf_DATA)
++	cd $(DESTDIR)$(sysconfdir) && chmod 700 .
+ 
+ install-data-hook:
+-	for f in $(sysconf_DATA); do { cd $(sysconfdir) && (orig=`basename $$f -dist`; test -e $$orig || cp $$f $$orig) ;} done
++	for f in $(sysconf_DATA); do { cd $(DESTDIR)$(sysconfdir) && (orig=`basename $$f -dist`; test -f $$orig || cp $$f $$orig) ;} done
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.
+ .NOEXPORT:
+--- nntpcache-3.0.2/unixauth/Makefile.in.orig	2006-03-05 22:50:12.000000000 +0100
++++ nntpcache-3.0.2/unixauth/Makefile.in	2007-11-24 20:22:33.623722195 +0100
+@@ -327,9 +327,9 @@
+ 
+ 
+ install-exec-hook:
+-	chown root $(libexecdir)/unixauth
+-	chgrp @nntpcacheGID@ $(libexecdir)/unixauth
+-	chmod u+s,g+x,o-x $(libexecdir)/unixauth 
++	# chown root $(DESTDIR)$(libexecdir)/unixauth
++	# chgrp @nntpcacheGID@ $(DESTDIR)$(libexecdir)/unixauth
++	# chmod u+s,g+x,o-x $(DESTDIR)$(libexecdir)/unixauth 
+ 
+ %.ext : %.c %.h $(top_srcdir)/config.h $(top_srcdir)/scripts/genextern.sh
+ 	CPP="$(CPP)";export CPP; sh $(top_srcdir)/scripts/genextern.sh $< > $@.tmp $(DEFS) $(INCLUDES) $(CPPFLAGS) && mv -f $@.tmp $@ || rm -f $@.tmp
+

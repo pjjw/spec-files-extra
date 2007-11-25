@@ -1,3 +1,7 @@
+2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
+        * encumbered/SFEnntpcached.spec: *new* good old newscache, see license,
+             needs some more love and testing
+
 2007-11-24  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEperl-Net-DNS.spec SFEperl-TimeDate.spec SFEperl-DBD-mysql.spec 
           SFEperl-DBD-Pg.spec SFEperl-IO-Socket-INET6.spec SFEperl-DBI.spec 
