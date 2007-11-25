@@ -1,4 +1,8 @@
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEmutt.spec: PSARC 2007/167 "IDN" is found (new around build 73/74), add -I/usr/include/idn
+        * SFEmuttng.spec: PSARC 2007/167 "IDN" is found (new around build 73/74), add -I/usr/include/idn
+
+2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
         * encumbered/SFEnntpcached.spec: *new* good old newscache, see license,
              needs some more love and testing
 

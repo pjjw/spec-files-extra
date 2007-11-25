@@ -33,7 +33,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags"
+export CFLAGS="%optflags -I/usr/include/idn"
 export LDFLAGS="%{_ldflags} -R/usr/sfw/lib"
 export CPPFLAGS="-I/usr/sfw/include"
 
@@ -76,6 +76,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
+* Sun Nov 25 2007 Thomas Wagner
+- PSARC 2007/167 "IDN" is found (new around build 73/74), add -I/usr/include/idn
 * Sat May 26 2007
 - Corrected LDFLAGS setting
 * Mon May 21 2007
