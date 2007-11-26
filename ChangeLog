@@ -1,3 +1,6 @@
+2007-11-26  Petr Sobotka  <sobotkap@centrum.cz>
+	* SFEopenafs.spec: Initial commit
+
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEwine.spec: newer OS builds clush with sys/list.h <-> wine/list.h
             *add* script to change list* on wine side, rename wine/list.h to wine/wine_list.h
