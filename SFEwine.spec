@@ -10,11 +10,14 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                0.9.47
+Version:                0.9.49
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
 Patch2:			wine-02-configure.diff
 Patch3:			wine-03-shell.diff
+Patch4: 		wine-04-winegcc.diff
+Patch5:			wine-05-add-wine_list.h_includes.diff
+Patch6:			wine-06-change_functions_structs_named_list_asterisk.sh.diff
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -47,6 +50,16 @@ Requires: %name
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+
+# change all occurences of duplicate functions/structs named "list"*
+bash change_functions_structs_named_list_asterisk.sh
+
+# see above, cleanup concurrency with /usr/include/sys/list.h
+mv include/wine/list.h include/wine/wine_list.h
+
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -121,6 +134,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Sun Nov 25 2007 - Thomas Wagner
+- bump to 0.9.49
+- never Nevada builds define /usr/include/sys/list.h -> "list"* starts clushing with include/wine/list.h.
+  to cleanup addwd "change_functions_structs_named_list_asterisk.sh" as patch5 and patch6
+  quick patch4 removes code to run preload for linux (load an specific addresses on Solaris upcoming)
 * Fri Oct 19 2007 - Doug Scott <dougs@truemail.co.th>
 - bump to 0.9.47
 * Wed Oct  3 2007 - Doug Scott <dougs@truemail.co.th>

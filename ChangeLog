@@ -1,4 +1,10 @@
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEwine.spec: newer OS builds clush with sys/list.h <-> wine/list.h
+            *add* script to change list* on wine side, rename wine/list.h to wine/wine_list.h
+            patch to *remove* code for calls to binary "preload" on linux, fix for Solaris to load
+            kernel32.dll.so and friends on predefined Memorylocation missing (requesting linker guru)
+
+2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEhorde.spec: *new* Horde framework (old spec, needs review)
         * SFEhorde-imp.spec: *new* Horde IMP Webmailer (old spec, needs review)
         * SFEtypo3.spec: *new* Typo3 CMS (old spec, needs review)

@@ -1,0 +1,50 @@
+--- /dev/null	2007-11-25 23:28:16.000000000 +0100
++++ wine-0.9.49/change_functions_structs_named_list_asterisk.sh	2007-11-25 23:57:53.260741489 +0100
+@@ -0,0 +1,47 @@
++#!/usr/bin/bash
++#
++# this file stays under the same licences then the package it modifies.
++# Thomas Wagner tom68@users.sourceforge.net
++
++#Problem: wine uses the same function names then never OpenSolaris (TM) development releases (see /usr/include/sys/list.h, which is included by the 
++#         wine-0.9.49/server/fd.c via "sys/vfs.h" )
++#Workaround: change every occurence of a "list" struct or function name into "wine_list"
++
++#Upstream Fix into wine: If you volunteer to fight that fight, you'll have my support. First, let's see if this works at all. I want this upstream...
++#the resulting file changes-wine.$$.$1 contains the changes, except the renaming of the file include/wine/list.h into include/wine/wine_list.h
++
++echo "Please stand by, searching and changing function names in wine..."
++#find in next two steps occurences of the "list"* functions and includes
++find . -type f -exec grep -l "wine/list.h" {} \; > occurence.$$.$1.tmp
++find . -type f -exec egrep -l "struct *list|list_add_(before|after|head|tail)|list_(next|prev|head|tail|empty|init|count|remove)|list_move_(head|tail)" {} \; >> occurence.$$.$1.tmp
++
++sort -n occurence.$$.$1.tmp | grep -v "occurence.$$.$1.tmp" | uniq > occurence.$$.$1
++
++#echo "add files to occurence.$$.$1 manually: (may be empty). Example: ./include/wine/list.h
++cat - >> occurence.$$.$1 << EOF
++EOF
++
++#remember, if you've changed the regexes: you may use "perl -c ...." for syntax check!
++#/usr/bin/perl -c -w -pi.bak_wine -e "\
++
++/usr/bin/perl -w -pi.bak_wine -e "\
++ s/(list_)(next|prev|head|tail|empty|init|count|remove)/wine_\1\2/g  ;\
++ s/(struct *)(list)/\1wine_\2\3/g  ;\
++ s/(list_add_)(before|after|head|tail)/wine_\1\2/g  ;\
++ s/(list_move_)(head|tail)/wine_\1\2/g ;\
++ s/(^#include *\"wine\/)(list.h\")/\1wine_\2/ ;\
++ s/(\"wine\/)(list.h\" =)/\1wine_\2/ ;\
++ s/(^#include \<wine\/)(list.h\>)/\1wine_\2/ ;\
++ s/include\/wine\/list.h/include\/wine\/wine_list.h/g ;\
++ " `cat occurence.$$.$1`
++
++
++# well, we've changed files all over the place, let the user have a chance to see what happend (write gdiff -u to the screen):
++for file in `cat occurence.$$.$1`; do [ -f $file ] && gdiff -u --unified=0 $file.bak_wine $file; done >> changes-wine.$$.$1
++echo "Changes by the script:"
++cat changes-wine.$$.$1 | egrep "^[+-]" 
++
++
++#sorry, no better error handling available. You will definitly notice compiler errors if this script failes to change the names...
++exit 0
++
