@@ -15,7 +15,7 @@ Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
 Patch2:			wine-02-configure.diff
 Patch3:			wine-03-shell.diff
-Patch4: 		wine-04-winegcc.diff
+#Patch4: 		wine-04-winegcc.diff
 Patch5:			wine-05-add-wine_list.h_includes.diff
 Patch6:			wine-06-change_functions_structs_named_list_asterisk.sh.diff
 SUNW_BaseDir:           %{_basedir}
@@ -50,7 +50,7 @@ Requires: %name
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
+#%patch4 -p1
 %patch5 -p1
 %patch6 -p1
 
@@ -134,6 +134,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Mon Nov 26 2007 - Thomas Wagner
+- pause patch4 (removal of prelink) - breaks wine atm
 * Sun Nov 25 2007 - Thomas Wagner
 - bump to 0.9.49
 - never Nevada builds define /usr/include/sys/list.h -> "list"* starts clushing with include/wine/list.h.
