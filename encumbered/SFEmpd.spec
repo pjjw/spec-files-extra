@@ -23,6 +23,7 @@ Patch1:              mpd-01-include-ao-mpdconf.example.diff
 Patch2:              mpd-02-filesystem_charset-UTF-8-mpdconf.example.diff
 Patch3:              mpd-03-id3-tags-UTF-8-mpdconf.example.diff
 Patch4:              mpd-04-libao_pulse-pulseaudio-icecast-mpdconf.example.diff
+Patch5:              mpd-05-empty_struct_without_libsamplerate.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -33,7 +34,7 @@ BuildRequires: SFElibmpcdec-devel
 BuildRequires: SFElibmad-devel
 BuildRequires: SFEfaad2-devel
 BuildRequires: SFElibid3tag-devel
-BuildRequires: SFElibsamplerate-devel
+#BuildRequires: SFElibsamplerate-devel
 BuildRequires: SUNWogg-vorbis-devel
 BuildRequires: SUNWgnome-audio-devel
 BuildRequires: SUNWflac-devel
@@ -47,7 +48,7 @@ Requires: SFElibmad
 Requires: SFEfaad2
 Requires: SFElibid3tag
 Requires: SFEid3lib
-Requires: SFElibsamplerate
+#Requires: SFElibsamplerate
 Requires: SUNWogg-vorbis
 Requires: SUNWgnome-audio
 Requires: SUNWflac
@@ -72,6 +73,7 @@ auto-network SFEpulseaudio ( via pulseaudio, libao (sun|pulse) )
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 
@@ -95,6 +97,7 @@ export LDFLAGS="%{_ldflags}"
 	    --enable-shout       \
             --disable-alsa       \
             --disable-alsatest   \
+            --disable-lsr \
 	    --enable-pulse
 
 make -j$CPUS
@@ -129,6 +132,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Mon Nov 26 2007 - Thomas Wagner
+- --disable-lsr !(Build-)Requires SFElibsamplerate(-devel) (maybe cause for skipping music every few seconds)
+- quick fix to empty struct when --disable-lsr is used (patch5)
 * Sun Nov 18 2007 Thomas Wagner
 - (Build)Requires: SUNWavahi-bridge-dsd(-devel)
   since parts of avahi interface made it into Nevada :-)
