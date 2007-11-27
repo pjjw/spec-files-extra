@@ -1,3 +1,8 @@
+2007-11-27  simon.zheng  <simon.zheng@sun.com>
+
+	* SFEgnome-power-manager.spec:
+	  Removed man installation dir because man page isn't available.	
+
 2007-11-26  Petr Sobotka  <sobotkap@centrum.cz>
 	* SFEopenafs.spec: Initial commit
 

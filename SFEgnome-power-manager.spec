@@ -67,8 +67,9 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 rm -rf $RPM_BUILD_ROOT/var
 
 
-# Delete doc dir
+# Delete man & doc dir
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc
+rm -rf $RPM_BUILD_ROOT%{_mandir}/
 
 %if %build_l10n
 %else
@@ -173,9 +174,6 @@ test -x $BASEDIR/lib/postrun || exit 0
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/48x48/
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/48x48/apps/
 %{_datadir}/icons/hicolor/48x48/apps/*
-%dir %attr(0755, root, bin) %{_mandir}
-%dir %attr(0755, root, bin) %{_mandir}/man1
-%{_mandir}/man1/*
 
 
 %files root
@@ -191,6 +189,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Tue Nov 27 2007 - simon.zheng@sun.com
+- Removed man installation dir.
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net
 - Fix %files.
 * Thu Nov 08 2007 - trisk@acm.jhu.edu
