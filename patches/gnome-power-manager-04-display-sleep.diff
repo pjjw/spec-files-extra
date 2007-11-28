@@ -1,0 +1,21 @@
+--- src/gpm-backlight.c.org	2007-11-28 14:08:23.926591000 +0800
++++ src/gpm-backlight.c	2007-11-28 14:37:15.105808000 +0800
+@@ -478,6 +478,18 @@
+ 	           strcmp (key, GPM_CONF_TIMEOUT_SLEEP_DISPLAY_AC) == 0 ||
+ 	           strcmp (key, GPM_CONF_BACKLIGHT_DPMS_METHOD_AC) == 0 ||
+ 	           strcmp (key, GPM_CONF_BACKLIGHT_DPMS_METHOD_BATT) == 0) {
++		/*
++		 * Since gnome-screensaver is unavailable on Soalris, it never
++		 * enters GPM_IDLE_MODE_SESSION. Accordingly dpms is never 
++		 * activated. Now activate it as soon as timeout is set.
++		 */
++		GError *error = NULL;
++                gpm_dpms_set_active (backlight->priv->dpms, TRUE, &error);
++		if (error) {
++			gpm_debug ("Unable to set DPMS not active: %s",
++					error->message);
++			g_error_free (error);
++		}
+ 		gpm_backlight_sync_policy (backlight);
+ 	}
+ }

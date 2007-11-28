@@ -1,5 +1,11 @@
 2007-11-27  simon.zheng  <simon.zheng@sun.com>
 
+	* base/gnome-power-manager.spec
+	* gnome-power-manager-04-display-sleep.diff:
+	  Added a patch to enable display automatic sleeping work.
+
+2007-11-27  simon.zheng  <simon.zheng@sun.com>
+
 	* SFEgnome-power-manager.spec:
 	  Removed man installation dir because man page isn't available.	
 

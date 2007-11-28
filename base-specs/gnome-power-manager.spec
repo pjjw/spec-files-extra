@@ -14,6 +14,7 @@ Source0:	http://ftp.gnome.org/pub/gnome/sources/gnome-power-manager/2.20/%{name}
 Patch1:         gnome-power-manager-01-build.diff
 Patch2:         gnome-power-manager-02-kstat.diff
 Patch3:		gnome-power-manager-03-brightness-get-stuck.diff
+Patch4:		gnome-power-manager-04-display-sleep.diff
 URL:		http://www.gnome.org/projects/gnome-power-manager/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake
@@ -70,6 +71,7 @@ Uses of GNOME Power Manager infrastructure
 %patch1 -p1
 %patch2 -p0
 %patch3 -p0
+%patch4 -p0
 
 %build
 %ifos linux
@@ -124,6 +126,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Nov 28 2007 - simon.zheng@sun.com
+- Add patch gnome-power-manager-04-display-sleep.diff, to
+  make display sleeping work.
+
 * Fri Nov 17 2007 - simon.zheng@sun.com
 - Bump to version 2.20.1
 - Add patch gnome-power-manager-03-brightness-get-stuck.diff.
