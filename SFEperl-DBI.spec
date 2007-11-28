@@ -7,12 +7,13 @@
 %define module_version 1.58
 %define module_name DBI
 %define module_name_major DBI
+%define module_package_name dbi
 #still unused: %define module_name_minor NULL
 
 %define perl_version 5.8.4
 
 %include Solaris.inc
-Name:                    SFEperl-%{module_name}
+Name:                    SFEperl-%{module_package_name}
 Summary:                 %{module_name}-%{module_version} PERL module
 Version:                 %{perl_version}.%{module_version}
 Source:                  http://www.cpan.org/modules/by-module/%{module_name_major}/%{module_name}-%{module_version}.tar.gz
@@ -89,8 +90,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 
 %changelog
+* Wed Nov 28 2007 - Thomas Wagner
+- renamed package and if necessary (Build-)Requires
 * Sat Nov 24 2007 - Thomas Wagner
-- moved form site_perl to vendor_perl
+- moved from site_perl to vendor_perl
 - released into the wild
 * Wed, 19 July 2007  - Thomas Wagner
 - Initial spec file

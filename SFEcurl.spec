@@ -5,6 +5,7 @@
 #
 
 %include Solaris.inc
+%include usr-gnu.inc
 
 Name:                    SFEcurl
 Summary:                 curl - Get a file from FTP or HTTP server.
@@ -87,6 +88,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Mon Nov 26 2007 - Thomas Wagner
+- move SFEcurl into /usr/gnu by %include usr-gnu.inc (never OS builds have SUNWcurl)
 * Mon Oct 29 2007 - brian.cameron@sun.com
 - Bump to 7.17.1
 * Tue Sep 18 2007 - nonsea@users.sourceforge.net

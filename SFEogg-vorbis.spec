@@ -32,6 +32,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SUNWgnome-common-devel
 BuildRequires: CBEbison
+#alternatively: BuildRequires: SUNWbison
 BuildRequires: SUNWPython
 Requires: SUNWlibms
 
@@ -137,6 +138,9 @@ rm -rf $RPM_BUILD_ROOT
 #%{_mandir}/man3/*
 
 %changelog
+* Wed Nov 28 2007 - Thomas.Wagner@Sun.COM
+- rework BuildRequires: CBEbison or SUNWbison required.
+  suggestions welcome, new OS releases have SUNWbison but PATH results in /opt/jdsbld/bin/bison w/o packagename CBEbison
 * Thu Sep 06 2007 - Thomas.Wagner@Sun.COM
 - do not download and build manpages when 
   doing amd64 or sparcv9 (already in SUNWogg-vorbis 32-bit)

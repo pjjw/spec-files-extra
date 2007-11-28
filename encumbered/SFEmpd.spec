@@ -23,7 +23,9 @@ Patch1:              mpd-01-include-ao-mpdconf.example.diff
 Patch2:              mpd-02-filesystem_charset-UTF-8-mpdconf.example.diff
 Patch3:              mpd-03-id3-tags-UTF-8-mpdconf.example.diff
 Patch4:              mpd-04-libao_pulse-pulseaudio-icecast-mpdconf.example.diff
+#remove patch if change to empty struct is in normal download
 Patch5:              mpd-05-empty_struct_without_libsamplerate.diff
+
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -73,6 +75,7 @@ auto-network SFEpulseaudio ( via pulseaudio, libao (sun|pulse) )
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+#remove patch if change to empty struct is in normal download
 %patch5 -p1
 
 %build
@@ -97,8 +100,11 @@ export LDFLAGS="%{_ldflags}"
 	    --enable-shout       \
             --disable-alsa       \
             --disable-alsatest   \
-            --disable-lsr \
-	    --enable-pulse
+            --disable-lsr        \
+
+#optional:
+            # --with-zeroconf=no   \
+	    # --enable-pulse
 
 make -j$CPUS
 
@@ -132,12 +138,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
-* Mon Nov 26 2007 - Thomas Wagner
-- --disable-lsr !(Build-)Requires SFElibsamplerate(-devel) (maybe cause for skipping music every few seconds)
-- quick fix to empty struct when --disable-lsr is used (patch5)
+* Wed Nov 28 2007 - Thomas Wagner
+- add --disable-lsr, remove (Build-)Requires SFElibsamplerate(-devel) (maybe cause for skipping music every few seconds)
+- comment out --enable-pulse to not require pulseaudio
+- comment out --*-zeroconf   to not require avahi/bonjour/zeroconf (should be included if it's present on the build-system, pending final solution - suggestions welcome)
+- quick fix to "empty struct" when --disable-lsr is used (patch5) (remove patch5 if change is upstream)
 * Sun Nov 18 2007 Thomas Wagner
 - (Build)Requires: SUNWavahi-bridge-dsd(-devel)
   since parts of avahi interface made it into Nevada :-)
+  if you have problems witch avahi/zeroconf, change ./configure to --with-zeroconf=no
 * Sun Nov 18 2007 Thomas Wagner
 - --disable-alsa (at the moment we use libao)
 - (Build)Requires SFElibsamplerate(-devel)

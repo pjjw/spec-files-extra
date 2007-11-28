@@ -7,7 +7,7 @@ Name:                    SFElibmad
 Summary:                 libmad - High-quality MPEG audio decoder
 URL:                     http://www.underbit.com/products/mad/
 Version:                 0.15.1b
-Source:                  ftp://ftp.mars.org/pub/mpeg/libmad-0.15.1b.tar.gz
+Source:       		 http://%{sf_mirror}/sourceforge/mad/libmad-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -47,7 +47,8 @@ rm $RPM_BUILD_ROOT%{_libdir}/libmad.la
 
 %if %{build_l10n}
 %else
-rmdir $RPM_BUILD_ROOT/%{_datadir}/locale
+#rmdir $RPM_BUILD_ROOT/%{_datadir}/locale
+rm -rf $RPM_BUILD_ROOT/%{_datadir}/locale
 %endif
 
 %clean
@@ -65,5 +66,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov 26 2007 - Thomas Wagner
+- new Source URL
+- change removal of "/locale" if !build_l10n to be rm -rf (diry not longer empty)
 * Mon Nov 19 2007 - daymobrew@users.sourceforge.net
 - Initial version.

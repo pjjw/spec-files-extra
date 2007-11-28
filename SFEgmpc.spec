@@ -63,7 +63,8 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 %if %{build_l10n}
 %else
-rmdir $RPM_BUILD_ROOT/%{_datadir}/locale
+#rmdir $RPM_BUILD_ROOT/%{_datadir}/locale
+rm -rf $RPM_BUILD_ROOT/%{_datadir}/locale
 %endif
 
 %clean
@@ -102,9 +103,13 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Nov 28 2007 - Thomas Wagner
+- remove (Build-)Requires: SFEavahi(-devel) - needs more love (change to SUNW... bonjour/avahi/zeroconf)
+- change removal of "/locale" if !build_l10n to be rm -rf (diry not longer empty)
 * Tue Sep 04 2007  - Thomas Wagner
 - bump to 0.15.1, add %{version} to Download-Dir (might change again)
 - conditional !%build_l10n rmdir $RPM_BUILD_ROOT/%{_datadir}/locale
+- pause avahi/zeroconf on client side (will be re-enabled later)
 * Sat May 26 2007  - Thomas Wagner
 - bump to 0.15.0
 - set compiler to gcc

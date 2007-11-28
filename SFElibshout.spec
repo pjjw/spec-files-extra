@@ -17,13 +17,13 @@ SUNW_BaseDir:           /
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-BuildRequires: SFWoggl
+#BuildRequires: SFWoggl
 BuildRequires: SUNWlibtheora-devel
 BuildRequires: SUNWlxml-devel
 BuildRequires: SUNWlxsl-devel
 BuildRequires: SUNWogg-vorbis-devel
 # TODO needed? BuildRequires: SUNWspeex-devel
-Requires: SFWoggl
+#Requires: SFWoggl
 Requires: SUNWlibtheora
 Requires: SUNWlxml
 Requires: SUNWlxsl
@@ -100,5 +100,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov 26 2007 - Thomas Wagner
+- remove SFWoggl (libao, vorbis, ogg)
 * Tue May 8 2007 - Thomas Wagner
 - Initial version

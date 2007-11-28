@@ -9,12 +9,13 @@
 %define module_version 0.59
 %define module_name Net-DNS
 %define module_name_major Net
+%define module_package_name net-dns
 #still unused: %define module_name_minor DNS
 
 %define perl_version 5.8.4
 
 %include Solaris.inc
-Name:                    SFEperl-%{module_name}
+Name:                    SFEperl-%{module_package_name}
 Summary:                 %{module_name}-%{module_version} PERL module
 Version:                 %{perl_version}.%{module_version}
 Source:                  http://www.cpan.org/modules/by-module/%{module_name_major}/%{module_name}-%{module_version}.tar.gz
@@ -90,8 +91,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Wed Nov 28 2007 - Thomas Wagner
+- renamed package and if necessary (Build-)Requires
 * Sat Nov 24 2007 - Thomas Wagner
-- moved form site_perl to vendor_perl
+- moved from site_perl to vendor_perl
 - special to this module: --no-online-tests for Makefile.PL
 - released into the wild
 * Sat, 19 May 2007  - Thomas Wagner
