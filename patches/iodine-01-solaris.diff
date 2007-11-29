@@ -1,0 +1,88 @@
+diff -ur iodine-0.4.0.orig/src/common.c iodine-0.4.0/src/common.c
+--- iodine-0.4.0.orig/src/common.c	Tue Mar 20 20:00:27 2007
++++ iodine-0.4.0/src/common.c	Wed Nov 28 15:34:00 2007
+@@ -1,4 +1,5 @@
+ /* Copyright (c) 2006-2007 Bjorn Andersson <flex@kryo.se>, Erik Ekman <yarrick@kryo.se>
++ * Copyright (c) 2007 Albert Lee <trisk@acm.jhu.edu>.
+  *
+  * Permission to use, copy, modify, and distribute this software for any
+  * purpose with or without fee is hereby granted, provided that the above
+@@ -21,6 +22,7 @@
+ #endif
+ #include <time.h>
+ #include <err.h>
++#include <sys/types.h>
+ #include <sys/stat.h>
+ #include <stdio.h>
+ #include <stdint.h>
+@@ -28,10 +30,46 @@
+ #include <stdint.h>
+ #include <unistd.h>
+ #include <string.h>
++#include <fcntl.h>
+ #include <ctype.h>
+ 
+ #include "common.h"
+ 
++int daemon(int nochdir, int noclose)
++{
++	int fd, i;
++
++	switch (fork()) {
++		case 0:
++			break;
++		case -1:
++			return -1;
++		default:
++			_exit(0);
++	}
++
++	if (!nochdir) {
++		chdir("/");
++	}
++
++	if (setsid() < 0) {
++		return -1;
++	}
++	
++	if (!noclose) {
++		if (fd = open("/dev/null", O_RDWR) >= 0) {
++			for (i = 0; i < 3; i++) {
++				dup2(fd, i);
++			}
++			if (fd > 2) {
++				close(fd);
++			}
++		}
++	}
++
++	return 0;
++}
++
+ int 
+ open_dns(int localport, in_addr_t listen_ip) 
+ {
+diff -ur iodine-0.4.0.orig/src/iodine.c iodine-0.4.0/src/iodine.c
+--- iodine-0.4.0.orig/src/iodine.c	Sun Mar 25 08:41:20 2007
++++ iodine-0.4.0/src/iodine.c	Wed Nov 28 15:28:00 2007
+@@ -59,6 +59,8 @@
+ static int packetlen;
+ static uint16_t chunkid;
+ 
++static char *__progname = "iodine";
++
+ static void
+ sighandler(int sig) 
+ {
+diff -ur iodine-0.4.0.orig/src/iodined.c iodine-0.4.0/src/iodined.c
+--- iodine-0.4.0.orig/src/iodined.c	Sun Mar 25 08:41:20 2007
++++ iodine-0.4.0/src/iodined.c	Wed Nov 28 15:28:21 2007
+@@ -49,6 +49,8 @@
+ int my_mtu;
+ in_addr_t my_ip;
+ 
++static char *__progname = "iodined";
++
+ static int read_dns(int, struct query *, char *, int);
+ static void write_dns(int, struct query *, char *, int);
+ 

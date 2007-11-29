@@ -7,8 +7,8 @@
 
 Name:                    SFEscummvm
 Summary:                 ScummVM - emulator for classic graphical games
-Version:                 0.9.0
-Source:                  http://kent.dl.sourceforge.net/sourceforge/scummvm/scummvm-%{version}.tar.bz2
+Version:                 0.10.0
+Source:                  http://%{sf_mirror}/sourceforge/scummvm/scummvm-%{version}.tar.bz2
 URL:                     http://www.scummvm.org/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -22,7 +22,7 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP"
+export CFLAGS="%gcc_optflags -I/usr/sfw/include -DANSICPP"
 export RPM_OPT_FLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export PERL5LIB=%{_prefix}/perl5/site_perl/5.6.1/sun4-solaris-64int
@@ -48,6 +48,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/scummvm
+%{_datadir}/scummvm/*
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
 %dir %attr (0755, root, other) %{_datadir}/doc
@@ -57,6 +59,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man6/*
 
 %changelog
+* Sat Nov 17 2007 - trisk@acm.jhu.edu
+- Bump to 0.10.0
 * Fri Jul  7 2006 - laca@sun.com
 - rename to SFEscummvm
 - bump to 0.9.0
