@@ -1,0 +1,11 @@
+--- mpd-0.13.0/src/pcm_utils.h.orig	2007-11-26 23:07:31.088618239 +0100
++++ mpd-0.13.0/src/pcm_utils.h	2007-11-26 22:51:19.702020467 +0100
+@@ -39,6 +39,8 @@
+ 	mpd_sint32 lastInSampleRate;
+ 	mpd_sint32 lastOutSampleRate;
+ 	int error;
++#else
++        int unused;
+ #endif
+ } ConvState;
+ 

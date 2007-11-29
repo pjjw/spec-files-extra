@@ -1,22 +1,30 @@
-2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
-SFEperl-LWP.spec: renamed package to lower case package name (part 1 of 2)
-SFEperl-Digest-SHA1.spec: renamed package to lower case package name (part 1 of 2)
-SFEperl-DBI.spec: renamed package to lower case package name (part 1 of 2)
-SFEperl-DBD-Pg.spec: renamed package to lower case package name (part 1 of 2),    
-                     adjust (Build-)Requires to lower case names
-SFEperl-DBD-mysql.spec: renamed package to lower case package name (part 1 of 2), 
-                     adjust (Build-)Requires to lower case names
-SFEperl-Net-DNS.spec: renamed package to lower casepackage name (part 1 of 2)
-SFEperl-Date-Pcalc.spec: renamed package to lower case package name (part 1 of 2)
-SFEperl-TimeDate.spec: renamed package to lower case package name (part 1 of 2)
-SFEperl-IO-Socket-INET6.spec: renamed package to lower case package name (part 1 of 2)
+2007-11-29  Thomas Wagner <tom68@users.sourceforge.net>
 
-SFElibmad.spec: change to rm -rf if !build_l10n, new Source URL
-SFEcurl.spec: move SFEcurl into /usr/gnu by %include usr-gnu.inc (never OS builds have SUNWcurl)
-SFEogg-vorbis.spec: rework BuildRequires: CBEbison or SUNWbison required (still unresolved).
-SFElibao.spec: bump to 8.8.8 (was looking for skippy music playback)
-SFElibshout.spec: remove (Build-)Requires: SFWoggl
-SFEmpd.spec: - remove libsamplerate with --disable-lsr, remove (Build-)Requires 
+	* SFEmpd.spec: (Change from 2007-11-26)
+	  --disable-lsr !(Build-)Requires SFElibsamplerate(-devel) (maybe cause for skipping music every few seconds)
+	  quick fix to empty struct when --disable-lsr is used (patch5)
+	  add temporary patch mpd-05-empty_struct_without_libsamplerate.diff
+
+
+2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
+	  SFEperl-LWP.spec: renamed package to lower case package name (part 1 of 2)
+	  SFEperl-Digest-SHA1.spec: renamed package to lower case package name (part 1 of 2)
+	  SFEperl-DBI.spec: renamed package to lower case package name (part 1 of 2)
+	  SFEperl-DBD-Pg.spec: renamed package to lower case package name (part 1 of 2),    
+                     adjust (Build-)Requires to lower case names
+	  SFEperl-DBD-mysql.spec: renamed package to lower case package name (part 1 of 2), 
+                     adjust (Build-)Requires to lower case names
+	  SFEperl-Net-DNS.spec: renamed package to lower casepackage name (part 1 of 2)
+	  SFEperl-Date-Pcalc.spec: renamed package to lower case package name (part 1 of 2)
+	  SFEperl-TimeDate.spec: renamed package to lower case package name (part 1 of 2)
+	  SFEperl-IO-Socket-INET6.spec: renamed package to lower case package name (part 1 of 2)
+
+	  SFElibmad.spec: change to rm -rf if !build_l10n, new Source URL
+	  SFEcurl.spec: move SFEcurl into /usr/gnu by %include usr-gnu.inc (never OS builds have SUNWcurl)
+	  SFEogg-vorbis.spec: rework BuildRequires: CBEbison or SUNWbison required (still unresolved).
+	  SFElibao.spec: bump to 8.8.8 (was looking for skippy music playback)
+	  SFElibshout.spec: remove (Build-)Requires: SFWoggl
+	  SFEmpd.spec: - remove libsamplerate with --disable-lsr, remove (Build-)Requires 
                SFElibsamplerate(-devel) (maybe cause for skipping music every few seconds)
              - quick fix to "empty struct" when --disable-lsr is used (patch5)
                (remove patch5 if change is upstream)
@@ -25,12 +33,14 @@ SFEmpd.spec: - remove libsamplerate with --disable-lsr, remove (Build-)Requires
                zeroconf (should be included if it's present on the 
                build-system, pending final solution - suggestions welcome)
 
-SFEgmpc.spec:- remove (Build-)Requires: SFEavahi(-devel) - needs more love 
+	  SFEgmpc.spec:- remove (Build-)Requires: SFEavahi(-devel) - needs more love 
                (change to SUNW... bonjour/avahi/zeroconf)
              - change removal of "/locale" if !build_l10n to be rm -rf (diry not longer empty)
 
-second commit: rename SFEperl* to be lower case
-add by rename: SFEperl-lwp.spec SFEperl-digest-sha1.spec SFEperl-dbi.spec SFEperl-dbd-pg.spec SFEperl-dbd-mysql.spec SFEperl-net-dns.spec SFEperl-date-pcalc.spec SFEperl-timedate.spec SFEperl-io-socket-inet6.spec
+	  second commit: rename SFEperl* to be lower case
+	  add by rename: SFEperl-lwp.spec SFEperl-digest-sha1.spec SFEperl-dbi.spec 
+	  SFEperl-dbd-pg.spec SFEperl-dbd-mysql.spec SFEperl-net-dns.spec SFEperl-date-pcalc.spec 
+	  SFEperl-timedate.spec SFEperl-io-socket-inet6.spec
 
 
 2007-11-27  simon.zheng  <simon.zheng@sun.com>
