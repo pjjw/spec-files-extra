@@ -10,7 +10,7 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                0.9.49
+Version:                0.9.50
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
 Patch2:			wine-02-configure.diff
@@ -134,6 +134,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Mon Nov 30 2007 - trisk@acm.jhu.edu
+- Bump to 0.9.50
 * Mon Nov 26 2007 - Thomas Wagner
 - pause patch4 (removal of prelink) - breaks wine atm
 * Sun Nov 25 2007 - Thomas Wagner

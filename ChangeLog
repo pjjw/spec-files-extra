@@ -1,3 +1,8 @@
+2007-12-01  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEwine.spec: Bump to 0.9.50
+	* patches/wine-05-add-wine_list.h_includes.diff: Update for 0.9.50
+
 2007-12-01  Petr Sobotka  <sobotkap@centrum.cz>
 
 	* SFEwesnoth.spec: Bump to 1.3.12

@@ -46,8 +46,8 @@
  #include "windef.h"
 +#include "wine/list.h"
  
- #include "widl.h"
  #include "typelib.h"
+ #include "typelib_struct.h"
 --- wine-0.9.49/tools/widl/client.c.orig	2007-11-09 17:56:12.000000000 +0100
 +++ wine-0.9.49/tools/widl/client.c	2007-11-12 02:52:15.062837176 +0100
 @@ -35,6 +35,7 @@
