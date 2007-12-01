@@ -1,3 +1,8 @@
+2007-11-30  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEgst-python.spec:  Bump to 0.10.9
+	* SFEpitivi.spec:  Bump to 0.11.1
+
 2007-11-29  Albert Lee <trisk@acm.jhu.edu>
 	
 	* SFEiodine.spec: *NEW* iodine - IP over DNS is now easy
@@ -7,31 +12,42 @@
 2007-11-29  Thomas Wagner <tom68@users.sourceforge.net>
 
 	* SFEmpd.spec: (Change from 2007-11-26)
-	  --disable-lsr !(Build-)Requires SFElibsamplerate(-devel) (maybe cause for skipping music every few seconds)
+	  --disable-lsr !(Build-)Requires SFElibsamplerate(-devel) (maybe cause
+	  for skipping music every few seconds)
 	  quick fix to empty struct when --disable-lsr is used (patch5)
 	  add temporary patch mpd-05-empty_struct_without_libsamplerate.diff
 
 
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
-	  SFEperl-LWP.spec: renamed package to lower case package name (part 1 of 2)
-	  SFEperl-Digest-SHA1.spec: renamed package to lower case package name (part 1 of 2)
-	  SFEperl-DBI.spec: renamed package to lower case package name (part 1 of 2)
-	  SFEperl-DBD-Pg.spec: renamed package to lower case package name (part 1 of 2),    
-                     adjust (Build-)Requires to lower case names
-	  SFEperl-DBD-mysql.spec: renamed package to lower case package name (part 1 of 2), 
-                     adjust (Build-)Requires to lower case names
-	  SFEperl-Net-DNS.spec: renamed package to lower casepackage name (part 1 of 2)
-	  SFEperl-Date-Pcalc.spec: renamed package to lower case package name (part 1 of 2)
-	  SFEperl-TimeDate.spec: renamed package to lower case package name (part 1 of 2)
-	  SFEperl-IO-Socket-INET6.spec: renamed package to lower case package name (part 1 of 2)
+	* SFEperl-LWP.spec: renamed package to lower case package name
+	  (part 1 of 2)
+	* SFEperl-Digest-SHA1.spec: renamed package to lower case package name
+	  (part 1 of 2)
+	* SFEperl-DBI.spec: renamed package to lower case package name
+	  (part 1 of 2)
+	* SFEperl-DBD-Pg.spec: renamed package to lower case package name
+	  (part 1 of 2), adjust (Build-)Requires to lower case names
+	* SFEperl-DBD-mysql.spec: renamed package to lower case package name
+	  (part 1 of 2), adjust (Build-)Requires to lower case names
+	* SFEperl-Net-DNS.spec: renamed package to lower casepackage name
+	  (part 1 of 2)
+	* SFEperl-Date-Pcalc.spec: renamed package to lower case package name
+	  (part 1 of 2)
+	* SFEperl-TimeDate.spec: renamed package to lower case package name
+	  (part 1 of 2)
+	* SFEperl-IO-Socket-INET6.spec: renamed package to lower case package
+	  name (part 1 of 2)
 
-	  SFElibmad.spec: change to rm -rf if !build_l10n, new Source URL
-	  SFEcurl.spec: move SFEcurl into /usr/gnu by %include usr-gnu.inc (never OS builds have SUNWcurl)
-	  SFEogg-vorbis.spec: rework BuildRequires: CBEbison or SUNWbison required (still unresolved).
-	  SFElibao.spec: bump to 8.8.8 (was looking for skippy music playback)
-	  SFElibshout.spec: remove (Build-)Requires: SFWoggl
-	  SFEmpd.spec: - remove libsamplerate with --disable-lsr, remove (Build-)Requires 
-               SFElibsamplerate(-devel) (maybe cause for skipping music every few seconds)
+	* SFElibmad.spec: change to rm -rf if !build_l10n, new Source URL
+	* SFEcurl.spec: move SFEcurl into /usr/gnu by %include usr-gnu.inc
+	  (never OS builds have SUNWcurl)
+	* SFEogg-vorbis.spec: rework BuildRequires: CBEbison or SUNWbison
+	  required (still unresolved).
+	* SFElibao.spec: bump to 8.8.8 (was looking for skippy music playback)
+	* SFElibshout.spec: remove (Build-)Requires: SFWoggl
+	* SFEmpd.spec: - remove libsamplerate with --disable-lsr, remove
+	  (Build-)Requires SFElibsamplerate(-devel) (maybe cause for skipping
+	  music every few seconds)
              - quick fix to "empty struct" when --disable-lsr is used (patch5)
                (remove patch5 if change is upstream)
              - comment out --enable-pulse to not require pulseaudio
@@ -39,15 +55,16 @@
                zeroconf (should be included if it's present on the 
                build-system, pending final solution - suggestions welcome)
 
-	  SFEgmpc.spec:- remove (Build-)Requires: SFEavahi(-devel) - needs more love 
-               (change to SUNW... bonjour/avahi/zeroconf)
-             - change removal of "/locale" if !build_l10n to be rm -rf (diry not longer empty)
+	* SFEgmpc.spec:- remove (Build-)Requires: SFEavahi(-devel) - needs more
+	  love (change to SUNW... bonjour/avahi/zeroconf)
+             - change removal of "/locale" if !build_l10n to be rm -rf (diry
+	       not longer empty)
 
 	  second commit: rename SFEperl* to be lower case
-	  add by rename: SFEperl-lwp.spec SFEperl-digest-sha1.spec SFEperl-dbi.spec 
-	  SFEperl-dbd-pg.spec SFEperl-dbd-mysql.spec SFEperl-net-dns.spec SFEperl-date-pcalc.spec 
+	  add by rename: SFEperl-lwp.spec SFEperl-digest-sha1.spec
+	  SFEperl-dbi.spec SFEperl-dbd-pg.spec SFEperl-dbd-mysql.spec
+	  SFEperl-net-dns.spec SFEperl-date-pcalc.spec 
 	  SFEperl-timedate.spec SFEperl-io-socket-inet6.spec
-
 
 2007-11-27  simon.zheng  <simon.zheng@sun.com>
 
@@ -65,9 +82,11 @@
 
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEwine.spec: newer OS builds clush with sys/list.h <-> wine/list.h
-            *add* script to change list* on wine side, rename wine/list.h to wine/wine_list.h
-            patch to *remove* code for calls to binary "preload" on linux, fix for Solaris to load
-            kernel32.dll.so and friends on predefined Memorylocation missing (requesting linker guru)
+            *add* script to change list* on wine side, rename wine/list.h to
+	    wine/wine_list.h patch to *remove* code for calls to binary
+	    "preload" on linux, fix for Solaris to load kernel32.dll.so and
+	    friends on predefined Memorylocation missing (requesting linker
+	    guru)
 
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEhorde.spec: *new* Horde framework (old spec, needs review)
@@ -76,12 +95,14 @@
         * SFEtypo3demo.spec: *new* Typo3 CMS Demo Site (old spec, needs review)
 
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
-        * SFEmutt.spec: PSARC 2007/167 "IDN" is found (new around build 73/74), add -I/usr/include/idn
-        * SFEmuttng.spec: PSARC 2007/167 "IDN" is found (new around build 73/74), add -I/usr/include/idn
+        * SFEmutt.spec: PSARC 2007/167 "IDN" is found (new around build 73/74),
+	  add -I/usr/include/idn
+        * SFEmuttng.spec: PSARC 2007/167 "IDN" is found (new around build
+	  73/74), add -I/usr/include/idn
 
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
         * encumbered/SFEnntpcached.spec: *new* good old newscache, see license,
-             needs some more love and testing
+          needs some more love and testing
 
 2007-11-24  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEperl-Net-DNS.spec SFEperl-TimeDate.spec SFEperl-DBD-mysql.spec 
