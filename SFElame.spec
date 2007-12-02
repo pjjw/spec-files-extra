@@ -9,6 +9,7 @@ URL:                     http://lame.sourceforge.net/index.php
 Version:                 3.97
 Source:                  http://heanet.dl.sourceforge.net/sourceforge/lame/lame-%{version}.tar.gz
 Patch1:                  lame-01-forte.diff
+Patch2:                  lame-02-lines.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -22,6 +23,7 @@ Requires: %name
 %prep
 %setup -q -n lame-%version
 %patch1 -p1
+%patch2 -p1
 
 %build
 export CFLAGS="%optflags"
@@ -61,5 +63,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sun Dec  2 2007 - laca@sun.com
+- add patch 02 which renames a var called lines to lame_lines due to
+  conflict with term.h(?)
 * Thu Nov 16 2007 - Damien Carbery <daymobrew@users.sourceforge.net>
 - Initial spec
