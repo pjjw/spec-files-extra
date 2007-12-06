@@ -1,7 +1,7 @@
 #
 # spec file for package SFEvcdimager
 #
-# includes module(s): mpeg2decvcdimager
+# includes module(s): vcdimager
 #
 %include Solaris.inc
 
