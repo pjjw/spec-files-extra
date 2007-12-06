@@ -1,3 +1,9 @@
+2007-12-06  Li Yuan <li.yuan@sun.com>
+
+	* SFEgnome-a11y-poke.spec:
+	* base/at-poke.spec:
+	  Spec file for at-poke.
+
 2007-12-02  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFElame.spec: add patch lame-02-lines.diff
