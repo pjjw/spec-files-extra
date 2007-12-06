@@ -15,7 +15,7 @@
 
 Name:                SFEgit
 Summary:             GIT - the stupid content tracker
-Version:             1.5.3
+Version:             1.5.3.7
 Source:              http://www.kernel.org/pub/software/scm/git/git-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -121,6 +121,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/perl5/vendor_perl/%{perl_version}/*
 
 %changelog
+* Thu Dec 06 2007 - brian.cameron@sun.com
+- Bump to 1.5.3.7.
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net
 - Change LDFLAGS to work for gcc.
 * Tue Sep 18 2007 - brian.cameron@sun.com

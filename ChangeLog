@@ -1,3 +1,11 @@
+2007-12-06  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEgit.spec:  Bump to 1.5.3.7.
+	* SFElibmad.spec: Removed.  This is also in the encumbered
+	  directory.
+	* SFElibid3tag-gnu.spec, SFEogle.spec, SFEmplayer-plugin.spec,
+	  SFExine-ui.spec, SFEvnc2swf.spec: Move to encumbered.
+
 2007-12-06  simon.zheng  <simon.zheng@sun.com>
 
 	* base-specs/gnome-power-manager.spec:
