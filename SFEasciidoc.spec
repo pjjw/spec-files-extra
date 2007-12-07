@@ -8,9 +8,9 @@
 
 Name:                    SFEasciidoc
 Summary:                 AsciiDoc - Text based document generation
-Version:                 8.2.3
+Version:                 8.2.5
 URL:                     http://www.methods.co.nz/asciidoc/
-Source:                  http://www.methods.co.nz/asciidoc/asciidoc-%{version}.tar.gz
+Source:                  http://%{sf_mirror}/sourceforge/asciidoc/asciidoc-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -56,6 +56,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/asciidoc
 
 %changelog
+* Wed Dec 05 2007 - trisk@acm.jhu.edu
+- Bump to 8.2.5, correct URL
 * Tue Sep 18 2007 - nonsea@users.sourceforge.net
 - Bump to 8.2.3
 * Mon Aug 06 2007 - brian.cameron@sun.com

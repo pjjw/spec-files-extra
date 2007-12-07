@@ -9,9 +9,8 @@
 Name:                SFEalpine
 License:             Apache
 Summary:             University of Washington Alpine mail user agent
-Version:             0.99999
+Version:             0.999999
 Source:              ftp://ftp.cac.washington.edu/alpine/alpine-%{version}.tar.bz2
-Patch1:              alpine-01-return-type.diff
 Patch2:              alpine-02-CC.diff
 URL:                 http://www.washington.edu/alpine/
 SUNW_BaseDir:        %{_basedir}
@@ -26,7 +25,6 @@ BuildRequires: SFEgawk
 
 %prep
 %setup -q -n alpine-%{version}
-%patch1 -p1
 %patch2 -p1
 
 %build
@@ -85,6 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Fri Dec 07 2007 - trisk@acm.jhu.edu
+- Bump to 0.999999 (Six Nines), drop patch1
 * Fri Nov 09 2007 - trisk@acm.jhu.edu
 - Bump to 0.99999, replace patch1
 * Sat Oct 13 2007 - laca@sun.com
