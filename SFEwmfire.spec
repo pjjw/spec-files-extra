@@ -48,5 +48,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Sat Aug 11 2007 - pradhap (at) gmail.com
-- Initial wmfire spec file
+- Initial wmfire spec file.
 
