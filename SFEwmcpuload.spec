@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 Name:                    SFEwmcpuload
-Summary:                 Wmcpuload Docapp
+Summary:                 Wmcpuload Dockapp
 Version:                 1.0.1
 Source:                  http://dockapps.org/download.php/id/59/wmcpuload-%{version}.tar.bz2
 URL:                     http://www.sh.rim.or.jp/~ssato/dockapp/index.shtml#wmcpuload
