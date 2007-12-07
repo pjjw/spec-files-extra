@@ -15,7 +15,7 @@ Patch1:         gnome-power-manager-01-build.diff
 Patch2:         gnome-power-manager-02-kstat.diff
 Patch3:		gnome-power-manager-03-brightness-get-stuck.diff
 Patch4:		gnome-power-manager-04-display-sleep.diff
-Patch5:		gnome-power-manager-05-porting-everything.diff
+Patch5:		gnome-power-manager-05-configure-power-conf.diff
 URL:		http://www.gnome.org/projects/gnome-power-manager/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake
@@ -128,8 +128,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Dec 07 2007 - simon.zheng@sun.com
+- Update patch gnome-power-manager-05-configure-power-conf.diff.
+
 * Thu Dec 06 2007 - simon.zheng@sun.com
-- Add patch gnome-power-manager-05-porting-everything.diff,
+- Add patch gnome-power-manager-05-configure-power-conf.diff
   to make autoS3, autoshutdwon, disk powermanagement, autopm
   work on Solaris.
 

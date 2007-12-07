@@ -63,13 +63,13 @@ rm -rf $RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 
-# Delete scrollkeeper files
+# Delete scrollkeeper files, man & doc dir
 rm -rf $RPM_BUILD_ROOT/var
-
-
-# Delete man & doc dir
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc
 rm -rf $RPM_BUILD_ROOT%{_mandir}/
+
+# Move scripts from /usr/bin to /usr/lib
+mv $RPM_BUILD_ROOT%{_bindir}/gnome-power-*.sh $RPM_BUILD_ROOT%{_libdir}/
 
 %if %build_l10n
 %else
@@ -132,6 +132,7 @@ test -x $BASEDIR/lib/postrun || exit 0
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/gnome-power-*.sh
 %dir %attr (0755, root, bin) %{_libdir}/bonobo
 %dir %attr (0755, root, bin) %{_libdir}/bonobo/servers
 %{_libdir}/bonobo/servers/GNOME_BrightnessApplet.server
