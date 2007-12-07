@@ -1,3 +1,13 @@
+2007-12-06  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEkino.spec: Remove since this spec file is also in the 
+	  encumbered directory.
+	* patches/lame-01-brhist.diff, lame-02-inline.diff: Restore
+	  patches for lame used by encumbered/SFElame.spec.
+	* SFElame.spec, patches/lame-01-forte.diff, 
+	  patches/lame-02-lines.diff:  Remove since the lame spec
+	  files are already in the encumbered directory.
+
 2007-12-07  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEgnome-power-manager.spec:
