@@ -1,3 +1,9 @@
+2007-12-07  Halton Huo <nonsea@users.sourceforge.net>
+
+	Add new module vinager, a VCN client for the GNOME Desktop
+	* SFEvinagre.spec: (new)
+	* base-specs/vinagre.spec: (new)
+
 2007-12-07  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEalpine.spec: Bump to 0.999999 (Six Nines), drop patch1
