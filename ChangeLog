@@ -1,4 +1,9 @@
+2007-12-08  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEtailor.spec: *NEW* A tool to migrate changesets between SCMs
+
 2007-12-09  Michal Bielicki <michal.bielicki@voiceworks.pl>
+
 
         * first alpha version of SFEunixODBC.spec with 32 and 64 bit 
           version. Works on x86 and x86_64, not tested on sparc yet, 
