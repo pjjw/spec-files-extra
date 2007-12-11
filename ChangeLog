@@ -1,3 +1,17 @@
+2007-12-11  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEconduit.spec: (new) Synchronization for GNOME
+	* SFEgoocanvas.spec: (new) A Cairo Canvas Widget for GTK+
+	* SFEpygoocanvas.spec: (new) GooCanvas python bindings
+	* SFEpython-dateutil.spec: (new) A python module provides powerful
+	  extensions to the standard datetime
+	* SFEpython-vobject.spec: (new) a Python iCalendar library
+	* base-specs/conduit.spec: (new) Synchronization for GNOME
+	* base-specs/goocanvas.spec: (new) A Cairo Canvas Widget for GTK+
+	* base-specs/tracker.spec: Bump to 0.6.4
+	* patches/tracker-02-thunderbird.diff: rework
+	* patches/tracker-03-firefox-history.diff: rework
+
 2007-12-08  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEtailor.spec: *NEW* A tool to migrate changesets between SCMs
@@ -5,9 +19,9 @@
 2007-12-09  Michal Bielicki <michal.bielicki@voiceworks.pl>
 
 
-        * first alpha version of SFEunixODBC.spec with 32 and 64 bit 
-          version. Works on x86 and x86_64, not tested on sparc yet, 
-          has problems with pkgmap, have to fix that and clean the whole thing up :)
+	* first alpha version of SFEunixODBC.spec with 32 and 64 bit 
+	  version. Works on x86 and x86_64, not tested on sparc yet, 
+	  has problems with pkgmap, have to fix that and clean the whole thing up :)
 
 2007-12-06  Brian Cameron  <brian.cameron@sun.com>
 
@@ -127,16 +141,16 @@
 	* SFEmpd.spec: - remove libsamplerate with --disable-lsr, remove
 	  (Build-)Requires SFElibsamplerate(-devel) (maybe cause for skipping
 	  music every few seconds)
-             - quick fix to "empty struct" when --disable-lsr is used (patch5)
-               (remove patch5 if change is upstream)
-             - comment out --enable-pulse to not require pulseaudio
-             - comment out --*-zeroconf   to not require avahi/bonjour/
-               zeroconf (should be included if it's present on the 
-               build-system, pending final solution - suggestions welcome)
+	     - quick fix to "empty struct" when --disable-lsr is used (patch5)
+	       (remove patch5 if change is upstream)
+	     - comment out --enable-pulse to not require pulseaudio
+	     - comment out --*-zeroconf   to not require avahi/bonjour/
+	       zeroconf (should be included if it's present on the 
+	       build-system, pending final solution - suggestions welcome)
 
 	* SFEgmpc.spec:- remove (Build-)Requires: SFEavahi(-devel) - needs more
 	  love (change to SUNW... bonjour/avahi/zeroconf)
-             - change removal of "/locale" if !build_l10n to be rm -rf (diry
+	     - change removal of "/locale" if !build_l10n to be rm -rf (diry
 	       not longer empty)
 
 	  second commit: rename SFEperl* to be lower case
@@ -160,39 +174,39 @@
 	* SFEopenafs.spec: Initial commit
 
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
-        * SFEwine.spec: newer OS builds clush with sys/list.h <-> wine/list.h
-            *add* script to change list* on wine side, rename wine/list.h to
+	* SFEwine.spec: newer OS builds clush with sys/list.h <-> wine/list.h
+	    *add* script to change list* on wine side, rename wine/list.h to
 	    wine/wine_list.h patch to *remove* code for calls to binary
 	    "preload" on linux, fix for Solaris to load kernel32.dll.so and
 	    friends on predefined Memorylocation missing (requesting linker
 	    guru)
 
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
-        * SFEhorde.spec: *new* Horde framework (old spec, needs review)
-        * SFEhorde-imp.spec: *new* Horde IMP Webmailer (old spec, needs review)
-        * SFEtypo3.spec: *new* Typo3 CMS (old spec, needs review)
-        * SFEtypo3demo.spec: *new* Typo3 CMS Demo Site (old spec, needs review)
+	* SFEhorde.spec: *new* Horde framework (old spec, needs review)
+	* SFEhorde-imp.spec: *new* Horde IMP Webmailer (old spec, needs review)
+	* SFEtypo3.spec: *new* Typo3 CMS (old spec, needs review)
+	* SFEtypo3demo.spec: *new* Typo3 CMS Demo Site (old spec, needs review)
 
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
-        * SFEmutt.spec: PSARC 2007/167 "IDN" is found (new around build 73/74),
+	* SFEmutt.spec: PSARC 2007/167 "IDN" is found (new around build 73/74),
 	  add -I/usr/include/idn
-        * SFEmuttng.spec: PSARC 2007/167 "IDN" is found (new around build
+	* SFEmuttng.spec: PSARC 2007/167 "IDN" is found (new around build
 	  73/74), add -I/usr/include/idn
 
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
-        * encumbered/SFEnntpcached.spec: *new* good old newscache, see license,
-          needs some more love and testing
+	* encumbered/SFEnntpcached.spec: *new* good old newscache, see license,
+	  needs some more love and testing
 
 2007-11-24  Thomas Wagner <tom68@users.sourceforge.net>
-        * SFEperl-Net-DNS.spec SFEperl-TimeDate.spec SFEperl-DBD-mysql.spec 
-          SFEperl-DBD-Pg.spec SFEperl-IO-Socket-INET6.spec SFEperl-DBI.spec 
-          SFEperl-Date-Pcalc.spec SFEperl-Digest-SHA1.spec SFEperl-LWP.spec:
-          *new*
+	* SFEperl-Net-DNS.spec SFEperl-TimeDate.spec SFEperl-DBD-mysql.spec 
+	  SFEperl-DBD-Pg.spec SFEperl-IO-Socket-INET6.spec SFEperl-DBI.spec 
+	  SFEperl-Date-Pcalc.spec SFEperl-Digest-SHA1.spec SFEperl-LWP.spec:
+	  *new*
 
 2007-11-24  Thomas Wagner <tom68@users.sourceforge.net>
 
 	* SFEurxvt: *new* derived rxvt with unicode support,
-          with transparent to background mode (runs with SFEcompiz :-) )
+	  with transparent to background mode (runs with SFEcompiz :-) )
 
 2007-11-23  Damien Carbery <daymobrew@users.sourceforge.net>
 
@@ -927,7 +941,7 @@
 
 2007-10-17  Laszlo (Laca) Peter  <laca@sun.com>
 
-        * linux-specs/*.spec: move to base-specs/
+	* linux-specs/*.spec: move to base-specs/
 	* SFEazureus.spec: use %{sf_mirror}
 	* SFEclutter.spec: add /usr/X11 to search paths
 	* SFEcompiz.spec: add /usr/X11 to more CFLAGS
@@ -1182,7 +1196,7 @@
 
 2007-10-13  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEdtracetoolkit: Bredan's DTraceToolkit, relocatable
+	* SFEdtracetoolkit: Bredan's DTraceToolkit, relocatable
 
 2007-10-13  Lin Ma  <Lin.Ma@Sun.COM>
 
@@ -1279,7 +1293,7 @@
 
 2007-10-02  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEzfs-auto-backup: shortend summary, doc correction
+	* SFEzfs-auto-backup: shortend summary, doc correction
 
 2007-10-03  Damien Carbery <daymobrew@users.sourceforge.net>
 
@@ -1313,7 +1327,7 @@
 
 2007-10-02  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEzfs-auto-backup: cleand up %files and uninstall SMF Service.
+	* SFEzfs-auto-backup: cleand up %files and uninstall SMF Service.
 
 2007-10-02  Thomas Wagner <tom68@users.sourceforge.net>
 
@@ -1323,7 +1337,7 @@
 2007-10-01  Thomas Wagner <tom68@users.sourceforge.net>
 
 	* SFEogg-vorbis: base-spec/libogg.spec vorbis.spec
-          removed Source1 l10* and in %prep removed calling l10*
+	  removed Source1 l10* and in %prep removed calling l10*
 
 2007-09-29 Dick Hoogendijk <dick@nagual.nl>
 
@@ -1744,24 +1758,24 @@
 
 2007-09-04  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEmpd: add description, add libao example to mpd.conf (sun|pulse)
-            - enable missing config-patch3: id3v1_encoding "UTF-8"
-            - add more configexamples in mpdconf.example
-              pulseaudio native output, libao driver "sun" or "pulse",
-              icecast streaming (second example)
-        * SFEgmpc: bump to 0.15.1 (small bugfixes)
-        * SFEpulseaudio: - Added LDFLAG -lsocket (ipv6 librarycall
-            - adjust cleaning files from lib/pulse-*/lib*\.a and \.la
-            - fill configuration-package -root with dummy
-            - patch configuration-files default.pa and 
-              dummy client.conf
-            tested: mpd -> libao(pulse) -> pulseaudio(module-solaris)
+	* SFEmpd: add description, add libao example to mpd.conf (sun|pulse)
+	    - enable missing config-patch3: id3v1_encoding "UTF-8"
+	    - add more configexamples in mpdconf.example
+	      pulseaudio native output, libao driver "sun" or "pulse",
+	      icecast streaming (second example)
+	* SFEgmpc: bump to 0.15.1 (small bugfixes)
+	* SFEpulseaudio: - Added LDFLAG -lsocket (ipv6 librarycall
+	    - adjust cleaning files from lib/pulse-*/lib*\.a and \.la
+	    - fill configuration-package -root with dummy
+	    - patch configuration-files default.pa and 
+	      dummy client.conf
+	    tested: mpd -> libao(pulse) -> pulseaudio(module-solaris)
 
-        * SFEpaman: *NEW* Pulseaudio Manager
-        * SFEpadevchooser: *NEW* PulseAudio Device Chooser
-        * SFEpaprefs: *NEW* PulseAudio Preferences Control
-        * SFEpavucontrol: *NEW* PulseAudio Volume Control (gtk)
-        * SFElibao-pulse: *NEW* PulseAudio Plugin feed musik into pulsaudio
+	* SFEpaman: *NEW* Pulseaudio Manager
+	* SFEpadevchooser: *NEW* PulseAudio Device Chooser
+	* SFEpaprefs: *NEW* PulseAudio Preferences Control
+	* SFEpavucontrol: *NEW* PulseAudio Volume Control (gtk)
+	* SFElibao-pulse: *NEW* PulseAudio Plugin feed musik into pulsaudio
 	  networks.
 
 2007-09-04  Doug Scott  <dougs@truemail.co.th>
@@ -2332,9 +2346,9 @@
 
 2007-08-04  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEx86info.spec: *NEW* x86 CPU-Info from snapshot/tarball,
-            inspired by http://blogs.sun.com/gbrunett/entry/solaris_non_executable_stack_concluded#comment-1186009029000
-            
+	* SFEx86info.spec: *NEW* x86 CPU-Info from snapshot/tarball,
+	    inspired by http://blogs.sun.com/gbrunett/entry/solaris_non_executable_stack_concluded#comment-1186009029000
+	    
 
 2007-08-30  Doug Scott  <dougs@truemail.co.th>
 
@@ -2738,20 +2752,20 @@
 2007-07-03  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFEliveMedia.spec: Update the URL - should probably
-        be the '-latest' link instead, but I don't know anything
-        about this project to make that call.
+	be the '-latest' link instead, but I don't know anything
+	about this project to make that call.
 
 2007-07-02  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFElibnotify.spec: Conflicts with SUNWgnome-panel
-        in GNOME 2.20 branch of spec-files on opensolaris.org.
-        Remove.
+	in GNOME 2.20 branch of spec-files on opensolaris.org.
+	Remove.
 
 2007-07-02  Glynn Foster  <glynn.foster@sun.com>
 
 	* MAINTAINERS: Remove myself.
-        * SFEgraphviz.spec: Add post install to install the
-          plugins.
+	* SFEgraphviz.spec: Add post install to install the
+	  plugins.
 
 2007-06-30  Halton Huo <nonsea@users.sourceforge.net>
 
@@ -2924,48 +2938,48 @@
 
 2007-06-04  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEmpd.spec: bump to 0.13.0, re- --enable-flac --enable-oggflac
-          mpd now compiles with newer flac versions
+	* SFEmpd.spec: bump to 0.13.0, re- --enable-flac --enable-oggflac
+	  mpd now compiles with newer flac versions
 	  (new feature) --enable-shout for streaming:t
-          "the net is the music"
-          if SFEavahi is present, mpd resources will
-          be announced with zeroconf/avahi/mDNS broadcasts
-          patch3: make id3_charset in mpdconf.example
-          default to UTF-8
+	  "the net is the music"
+	  if SFEavahi is present, mpd resources will
+	  be announced with zeroconf/avahi/mDNS broadcasts
+	  patch3: make id3_charset in mpdconf.example
+	  default to UTF-8
 
-        * SFEavahi.spec: (new) implemetation of service discovery in
-          local LAN (see Rendezvous/Bonjour/Zeroconf and ...
-          nwam in the future)
-        * SFElibdaemon.spec: (new) library for building daemons (for avahi)
+	* SFEavahi.spec: (new) implemetation of service discovery in
+	  local LAN (see Rendezvous/Bonjour/Zeroconf and ...
+	  nwam in the future)
+	* SFElibdaemon.spec: (new) library for building daemons (for avahi)
 
-        * SFEgmpc.spec: (new feature) AVAHI zeroconf support
-          (new feature) icecast/shout stream to local client (needs: ogg123)
-          bump to 0.15.0, set compiler to gcc
-        * SFEgmpc-(lyrics|serverstats|coveramazon|autoplaylist|qosd|stopbutton|lastfm|magnatune|osd|mdcover).spec
-          bump to 0.15.0, set compiler to gcc
-        * SFElibmpd.spec: bump to 0.14.0
-          temporary patch libmpd-01-libmpdclient-include-limits.h.diff
+	* SFEgmpc.spec: (new feature) AVAHI zeroconf support
+	  (new feature) icecast/shout stream to local client (needs: ogg123)
+	  bump to 0.15.0, set compiler to gcc
+	* SFEgmpc-(lyrics|serverstats|coveramazon|autoplaylist|qosd|stopbutton|lastfm|magnatune|osd|mdcover).spec
+	  bump to 0.15.0, set compiler to gcc
+	* SFElibmpd.spec: bump to 0.14.0
+	  temporary patch libmpd-01-libmpdclient-include-limits.h.diff
 
-        * SFExosd.spec: set compiler to gcc
+	* SFExosd.spec: set compiler to gcc
 
-        * SFEgtodo2.spec: (new) GNOME todo list with priorities and due date
+	* SFEgtodo2.spec: (new) GNOME todo list with priorities and due date
 
-        * SFEcurl.spec: bump to 7.16.2, --disable-static
+	* SFEcurl.spec: bump to 7.16.2, --disable-static
 
-        * SFExchat.spec: bump to 2.8.2
-          /usr/bin/msgfmt errors, use /opt/sfw/bin/msgfmt
-          reworked patch for 2.8.2
+	* SFExchat.spec: bump to 2.8.2
+	  /usr/bin/msgfmt errors, use /opt/sfw/bin/msgfmt
+	  reworked patch for 2.8.2
 
-        * SFEicecast.spec: (new) stream musik over http to the LAN/WAN network
-        * SFElibshout.spec: (new) Support Library for icecast audio streaming
+	* SFEicecast.spec: (new) stream musik over http to the LAN/WAN network
+	* SFElibshout.spec: (new) Support Library for icecast audio streaming
 
-        * SFEpulseaudio.spec: (new) first shot.
-        * SFElibsamplerate.spec: (new) samplerate conversion for pulseaudio
-        * SFEpavumeter.spec: (new) volume meter
+	* SFEpulseaudio.spec: (new) first shot.
+	* SFElibsamplerate.spec: (new) samplerate conversion for pulseaudio
+	* SFEpavumeter.spec: (new) volume meter
 
-        * SFEfont-terminus.spec: (new) nice readably font
+	* SFEfont-terminus.spec: (new) nice readably font
 
-        * SFElynx.spec: bump to 2.8.6, new download-URL since not in
+	* SFElynx.spec: bump to 2.8.6, new download-URL since not in
 	  /current/-diry
 
 2007-06-03  Dick Hoogendijk
@@ -3102,8 +3116,8 @@
 
 2007-05-05  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEre2c.spec: Added re2c for generating high efficient code
-          for regular expression matching
+	* SFEre2c.spec: Added re2c for generating high efficient code
+	  for regular expression matching
 
 2007-05-10  simon.zheng  <simon.zheng@sun.com>
 
@@ -3168,7 +3182,7 @@
 
 2007-05-05  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEphp.spec: Bump: to 5.2.2 (mainly security fixes)
+	* SFEphp.spec: Bump: to 5.2.2 (mainly security fixes)
 
 2007-05-04  Halton Huo  <nonsea@users.sourceforge.net>
 
@@ -3212,7 +3226,7 @@
 
 	* SFExdialog.spec: Fixed src_url and Summary
 	* SFEmplayer.spec: Removed SFEsdl from the Required.
-          Conflicts with SUNWlibsdl from Vermillion
+	  Conflicts with SUNWlibsdl from Vermillion
 	* SFEopenal.spec: Added. Cross-Platform 3D Audio API
 	* patches/openal-01-inline.diff: Fixed __inline
 	* patches/openal-02-nasm.diff: Force x86 to build MMX optimised
@@ -3254,7 +3268,7 @@
 	* patches/afterstep-03-typo.diff: Missing quote
 	* patches/afterstep-04-debug.diff: segv hack
 	* SFEwine.spec: Added freetype requirement for nice TTF fonts
-          Bump to 0.9.36
+	  Bump to 0.9.36
 	* patches/wine-02-configure.diff: Fixed nodefs hack
 	* SFEfreetype.spec: Added, some apps need a modern freetype
 	* patches/freetype-01-options.diff: patch to add features
@@ -3285,9 +3299,9 @@
 
 2007-04-26  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEmpd.spec: --disable-flac, --disable-oggflac
-          mpd possibly has to be updated to reflect new libFLAC includes
-          does not compile with libflac from vermillion_64 (sorry, 62 was a
+	* SFEmpd.spec: --disable-flac, --disable-oggflac
+	  mpd possibly has to be updated to reflect new libFLAC includes
+	  does not compile with libflac from vermillion_64 (sorry, 62 was a
 	  typo) you may enable *flac if using older libFLAC versions
 
 2007-04-26 Erwann Chenede - <erwann.chenede@sun.com>
@@ -3297,15 +3311,15 @@
 
 2007-04-26  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEmpd.spec: Patch2: make filesystem_charset in mpdconf.example UTF-8
-          NOTE: If directories/files with UTF-8 names missing in the 
-          database, then update your existing /etc/mpd.conf|~/.mpd.conf 
-          and recreate the db (mpd --create-db).
-        * patches/mpd-02-filesystem_charset-UTF-8-mpdconf.example.diff: Added
+	* SFEmpd.spec: Patch2: make filesystem_charset in mpdconf.example UTF-8
+	  NOTE: If directories/files with UTF-8 names missing in the 
+	  database, then update your existing /etc/mpd.conf|~/.mpd.conf 
+	  and recreate the db (mpd --create-db).
+	* patches/mpd-02-filesystem_charset-UTF-8-mpdconf.example.diff: Added
 
-          NOTE2: SFEmpd: does not compile with libflac from vermillion_62
+	  NOTE2: SFEmpd: does not compile with libflac from vermillion_62
 
-        * SFEmediawiki.spec: bump to 1.9.3, new download-url
+	* SFEmediawiki.spec: bump to 1.9.3, new download-url
 
 2007-04-26  Doug Scott  <dougs@truemail.co.th>
 
@@ -3401,8 +3415,8 @@
 
 2007-04-21  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEcpio.spec: Added gnu cpio (--no-absolute-filenames)
-          Note: installs in /usr/gnu/bin/cpio
+	* SFEcpio.spec: Added gnu cpio (--no-absolute-filenames)
+	  Note: installs in /usr/gnu/bin/cpio
 
 2007-04-20  Doug Scott  <dougs@truemail.co.th>
 
@@ -3451,30 +3465,30 @@
 
 2007-04-16  Laszlo (Laca) Peter  <laca@sun.com>
 
-        (update from the JDS spec-files repo)
+	(update from the JDS spec-files repo)
 
-        * include/Solaris.inc: fix _ldflags so that it includes the
-          architecture specific flags
-        * include/base.inc: fix cxx_optflags: use EXTRA_CXXFLAGS and not
-          EXTRA_LDFLAGS
+	* include/Solaris.inc: fix _ldflags so that it includes the
+	  architecture specific flags
+	* include/base.inc: fix cxx_optflags: use EXTRA_CXXFLAGS and not
+	  EXTRA_LDFLAGS
 
 2007-04-09  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEgmpc-plugin-*: align spec filename and solaris packagename
-          (s/plugins/plugin/)
+	* SFEgmpc-plugin-*: align spec filename and solaris packagename
+	  (s/plugins/plugin/)
 
 2007-04-08  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEirssi.spec: bump to 0.8.11-rc1
+	* SFEirssi.spec: bump to 0.8.11-rc1
      
 2007-04-07  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEgmpc.spec: Gnome Music Player Client (great frontend to SFEmpd)
-        * SFEgmpc-plugin-*.spec: osd, cover art, lyrics, playlists by filter
-        * SFElibmpd.spec: mpd lib for SFEgmpc.spec
-        * SFExosd.spec: required by SFEgmpc-plugin-osd.spec (Alternatively
-          you could use SFEgmpc-plugin-qosd.spec doesn't require SFExosd.spec)
-        * SFEmpd.spec patch mpd-01-* added missing >"<
+	* SFEgmpc.spec: Gnome Music Player Client (great frontend to SFEmpd)
+	* SFEgmpc-plugin-*.spec: osd, cover art, lyrics, playlists by filter
+	* SFElibmpd.spec: mpd lib for SFEgmpc.spec
+	* SFExosd.spec: required by SFEgmpc-plugin-osd.spec (Alternatively
+	  you could use SFEgmpc-plugin-qosd.spec doesn't require SFExosd.spec)
+	* SFEmpd.spec patch mpd-01-* added missing >"<
 
 2007-04-07  Eric Boutilier  <eric.boutilier@sun.com>
 
@@ -3579,7 +3593,7 @@
 	* SFEgetmail.spec: (new) Python App: Fetchmail replacement, plus add'l
 	  features
 	* SFElinkchecker.spec: (new) "    URL link checker
-	* SFEmoin.spec: (new)        "    Clone of WikiWiki
+	* SFEmoin.spec: (new)	"    Clone of WikiWiki
 	* SFEofflineimap.spec: (new) "    Two-way sync of IMAP/Maildir email
 	  boxes
 	* SFEdenyhosts.spec: (new)   "    Help thwart ssh server attacks
@@ -3590,12 +3604,12 @@
 
 2007-03-31  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEgd.spec: split into SFEgd SFEgd-devel
-          Bump to 2.0.34
-          new Url / Source
-        * SFElibmhash.spec: (new) for: SFEphp
-        * SFElibmcrypt.spec: (new) for: SFEphp
-        * SFEmcrypt.spec: (new) uses SFElibmcrypt and SFElibmhash
+	* SFEgd.spec: split into SFEgd SFEgd-devel
+	  Bump to 2.0.34
+	  new Url / Source
+	* SFElibmhash.spec: (new) for: SFEphp
+	* SFElibmcrypt.spec: (new) for: SFEphp
+	* SFEmcrypt.spec: (new) uses SFElibmcrypt and SFElibmhash
 
 2007-03-31  Laszlo (Laca) Peter  <laca@sun.com>
 
@@ -3637,10 +3651,10 @@
 2007-03-29  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEphp-pear-cmd-pkging.spec: Fixed missing test in %define phplibdir
-	* SFEphp-xml-rpc.spec:           "
-	* SFEphp-auth-sasl.spec:         "
-	* SFEphp-meta-SOAP.spec:         "
-	* SFEphp-net-smtp.spec:          ", and fixed wrong dependency
+	* SFEphp-xml-rpc.spec:	   "
+	* SFEphp-auth-sasl.spec:	 "
+	* SFEphp-meta-SOAP.spec:	 "
+	* SFEphp-net-smtp.spec:	  ", and fixed wrong dependency
 	* SFEphp-net-socket.spec: Removed; it's now in SFEphp-meta-SOAP
 
 2007-03-29  Damien Carbery <daymobrew@users.sourceforge.net>
@@ -3743,7 +3757,7 @@
 	* SFEgnome-power-manager.spec:
 	* linux-specs/gnome-power-manager.spec:
 	* patches/gnome-power-manager-01-build.diff:
-          Add spec files for Gnome power manager.
+	  Add spec files for Gnome power manager.
 
 2007-03-26  Eric Boutilier  <eric.boutilier@sun.com>
 
@@ -3894,8 +3908,8 @@
 	* linux-specs/gnomescan.spec:
 	* linux-specs/sane-backends.spec:
 	* linux-specs/xsane.spec:
-          Split into 2 files, linux-specific spec file are
-          put under linux-specs.
+	  Split into 2 files, linux-specific spec file are
+	  put under linux-specs.
 	* patches/sane-backends-01-disable-saned.diff:
 	  Add a patch to disable network scanning.
 
@@ -3980,8 +3994,8 @@
 
 2007-03-14  Damien Carbery <damien.carbery@sun.com>
 
-        * patches/gthumb-01-menu-entry.diff, patches/gthumb-03-search.diff:
-          Reworked for new tarball.
+	* patches/gthumb-01-menu-entry.diff, patches/gthumb-03-search.diff:
+	  Reworked for new tarball.
 
 2007-03-13  Eric Boutilier  <eric.boutilier@sun.com>
 
@@ -4057,8 +4071,8 @@
 
 2007-03-06  Irene Huang  <sh162551@users.sourceforge.net>
 
-        * SFEgnonlin.spec: New spec, requirement of pitivi
-        * SFEpitivi.spec: New spec.
+	* SFEgnonlin.spec: New spec, requirement of pitivi
+	* SFEpitivi.spec: New spec.
 
 2007-03-05  Damien Carbery <daymobrew@users.sourceforge.net>
 
@@ -4077,7 +4091,7 @@
 2007-03-05  Glynn Foster  <glynn.foster@sun.com>
 
 	* patches/meld-01-msgfmt-no-checks.diff: Add patch as pointed
-          out by Ivan Wang.
+	  out by Ivan Wang.
 
 2007-02-28   markgraf@med.ovgu.de
 
@@ -4221,7 +4235,7 @@
 2007-01-25  Glynn Foster  <glynn.foster@sun.com>
 
 	* KNOWN_ISSUES: Remove syncit from this list since it's been moved to
-        file-replicator.
+	file-replicator.
 
 2007-01-24  Damien Carbery <daymobrew@users.sourceforge.net>
 
@@ -4332,7 +4346,7 @@
 
 2007-01-14  Mike Kiedrowski  <lakeside at cybrzn dot com>
 
-        Perl GNOME2 modules.
+	Perl GNOME2 modules.
 	
 	* SFEperl-cairo.spec: (new)
 	* SFEperl-extutils-dep.spec: (new)
@@ -4386,11 +4400,11 @@
 
 2007-01-12  Dermot McCluskey <dermot.mccluskey@sun.com>
 
-         * SFEnmap.spec: added
-         * patches/nmap-01-__FUNCTION__.diff: (new) Replace __FUNCTION__
-           with __func__
-         * patches/nmap-02-Makefile.diff: (new) Remove makefile.dep and
-           -MM option as per nmap instructions for building on Solaris
+	 * SFEnmap.spec: added
+	 * patches/nmap-01-__FUNCTION__.diff: (new) Replace __FUNCTION__
+	   with __func__
+	 * patches/nmap-02-Makefile.diff: (new) Remove makefile.dep and
+	   -MM option as per nmap instructions for building on Solaris
 
 2007-01-12  Damien Carbery <daymobrew@users.sourceforge.net>
 
@@ -4561,8 +4575,8 @@
 	* SFEmplayer.spec: 
 	  - re-add patches cddb and makefile-libfame-dep after merging with
 	    1.0rc1
-          - add patches asmrules_20061231 (fixes a buffer overflow) and
-            cabac-asm (disables some asm stuff that doesn't seem to compile
+	  - add patches asmrules_20061231 (fixes a buffer overflow) and
+	    cabac-asm (disables some asm stuff that doesn't seem to compile
 	    on Solaris.
 	* SFEpycurl.spec: (new) pycurl - python interface to libcurl.
 	  Needed for proxy support in bzr.
@@ -4771,7 +4785,7 @@
 	* SFEsqlite.spec, SFEsqlite3.spec: Rename and bump to 3.3.8
 	* SFEswig.spec, linux-specs/swig.spec: Bump to 1.3.30
 	* SFElibopensync.spec, linux-specs/libopensync.spec:
-          New module libopensync
+	  New module libopensync
 	* patches/libopensync-01-forte-wall.diff,
 	  patches/libopensync-02-define-func.diff,
 	  patches/libopensync-03-flock.diff,
@@ -4839,7 +4853,7 @@
 2006-11-07  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFEbdb.spec: Add new package for Berkeley DB. Seems to work
-        ok.
+	ok.
 
 2006-11-06  Laszlo (Laca) Peter  <laca@sun.com>
 
@@ -4884,7 +4898,7 @@
 
 2006-11-05  Eric Boutilier  <eric.boutilier@sun.com>
 
-        * Trival changes: Removed meaningless comment remnants; fixed a typo
+	* Trival changes: Removed meaningless comment remnants; fixed a typo
 	
 2006-11-05  Eric Boutilier  <eric.boutilier@sun.com>
 
@@ -4987,28 +5001,28 @@
 	* SFEntop.spec:      (new) A network traffic usage monitor
 	* SFEnetcat.spec:    (new) Read and write data across network
 	  connections
-	* SFEgd.spec:        (new) library for the dynamic creation of images
+	* SFEgd.spec:	(new) library for the dynamic creation of images
 	* SFEnut.spec:       (new) Network UPS Tools
 	* SFEimposter.spec:  (new) Standalone OO presentations viewer using
 	  GTK2
 
 2006-09-27  Eric Boutilier  <eric.boutilier@sun.com>
 
-        * SFEfltk.spec:      (new) A C++ user interface toolkit
-        * SFElzo.spec:       (new) Lossless data compression library
-        * SFElzop.spec:      (new) File compressor -- similar to, but faster
+	* SFEfltk.spec:      (new) A C++ user interface toolkit
+	* SFElzo.spec:       (new) Lossless data compression library
+	* SFElzop.spec:      (new) File compressor -- similar to, but faster
 	  than gzip
-        * SFEraptor.spec:    (new) RDF Parser Library - RDF parser utility
-        * SFEsyslog-ng.spec: (new) Syslog-ng tries to fill the gaps original
+	* SFEraptor.spec:    (new) RDF Parser Library - RDF parser utility
+	* SFEsyslog-ng.spec: (new) Syslog-ng tries to fill the gaps original
 	  syslogd's were lacking
 
 2006-09-27  Brian Cameron  <brian.cameron@sun.com>
 
-        * SFElibcm.spec, patches/libcm-01-fixcompile.diff:  Add new spec file
-          and needed patch for composite manager, used by metacity.  This is
-          experimental code.  Note you need to grab the libcm code from GNOME
-          CVS and "make dist" yourself since it has not yet been posted on
-          ftp.gnome.org.
+	* SFElibcm.spec, patches/libcm-01-fixcompile.diff:  Add new spec file
+	  and needed patch for composite manager, used by metacity.  This is
+	  experimental code.  Note you need to grab the libcm code from GNOME
+	  CVS and "make dist" yourself since it has not yet been posted on
+	  ftp.gnome.org.
 
 2006-09-27  Eric Boutilier  <eric.boutilier@sun.com>
 
@@ -5035,8 +5049,8 @@
 
 2006-09-26  Eric Boutilier  <eric.boutilier@sun.com>
 
-        * SFEganglia.spec: (new) Ganglia cluster monitor; monitoring daemon
-        * SFEmpd.spec:     (new) Daemon for remote access music playing
+	* SFEganglia.spec: (new) Ganglia cluster monitor; monitoring daemon
+	* SFEmpd.spec:     (new) Daemon for remote access music playing
 	  & managing playlists
 
 2006-09-26  Halton Huo  <halton.huo@sun.com>
@@ -5067,7 +5081,7 @@
 
 2006-09-24  Eric Boutilier  <eric.boutilier@sun.com>
 
-        * SFEstow.spec: make it not install info files
+	* SFEstow.spec: make it not install info files
 
 2006-09-24  Eric Boutilier  <eric.boutilier@sun.com>
 
@@ -5172,7 +5186,7 @@
 2006-08-01  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFExchat.spec: Bump to 2.6.6
-        * patches/xchat-03-fix-proxy.diff: Remove, upstream.
+	* patches/xchat-03-fix-proxy.diff: Remove, upstream.
 
 2006-07-27  Laszlo Peter  <laca@sun.com>
 

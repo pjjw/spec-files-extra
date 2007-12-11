@@ -1,85 +1,135 @@
-Index: tracker-trunk/src/trackerd/tracker-dbus-methods.c
-===================================================================
---- tracker-trunk/src/trackerd/tracker-dbus-methods.c	(revision 1012)
-+++ tracker-trunk/src/trackerd/tracker-dbus-methods.c	(working copy)
-@@ -490,6 +490,9 @@
- 	} else if (strcasecmp (option, "EnableEvolution") == 0) {
- 		tracker_log ("evolution support set to %d", value);
- 		tracker->index_evolution_emails = value;
-+	} else if (strcasecmp (option, "EnableThunderbird") == 0) {
-+		tracker_log ("thunderbird support set to %d", value);
-+		tracker->index_thunderbird_emails = value;
- 	} else if (strcasecmp (option, "FastMerges") == 0) {
- 		tracker_log ("Fast merges set to %d", value);
- 		tracker->fast_merges = value;
 Index: tracker-trunk/src/tracker-preferences/tracker-configuration.c
 ===================================================================
---- tracker-trunk/src/tracker-preferences/tracker-configuration.c	(revision 1012)
+--- tracker-trunk/src/tracker-preferences/tracker-configuration.c	(revision 1055)
 +++ tracker-trunk/src/tracker-preferences/tracker-configuration.c	(working copy)
 @@ -362,6 +362,7 @@
  					"# Enables use of language-specific stemmer\n",
  					"EnableStemmer=true\n", "[Emails]\n",
  					"IndexEvolutionEmails=true\n",
-+					"IndexThunderbirdEmails=true\n",
++					"IndexThunderbirdEmails=false\n",
  					"[Performance]\n",
  					"# Maximum size of text in bytes to index from a file's text contents\n",
  					"MaxTextToIndex=1048576\n",
+Index: tracker-trunk/src/tracker-preferences/tracker-preferences.glade
+===================================================================
+--- tracker-trunk/src/tracker-preferences/tracker-preferences.glade	(revision 1055)
++++ tracker-trunk/src/tracker-preferences/tracker-preferences.glade	(working copy)
+@@ -870,10 +870,10 @@
+                     <child>
+                       <widget class="GtkCheckButton" id="chkEnableThunderbirdIndexing">
+                         <property name="visible">True</property>
+-                        <property name="sensitive">False</property>
+                         <property name="label" translatable="yes">Enable _Thunderbird email indexing</property>
+                         <property name="use_underline">True</property>
+                         <property name="response_id">0</property>
++                        <property name="active">True</property>
+                         <property name="draw_indicator">True</property>
+                       </widget>
+                       <packing>
 Index: tracker-trunk/src/tracker-preferences/tracker-preferences.c
 ===================================================================
---- tracker-trunk/src/tracker-preferences/tracker-preferences.c	(revision 1012)
+--- tracker-trunk/src/tracker-preferences/tracker-preferences.c	(revision 1055)
 +++ tracker-trunk/src/tracker-preferences/tracker-preferences.c	(working copy)
-@@ -268,6 +268,15 @@
- 					value);
+@@ -318,8 +318,18 @@
  
+ 		flag_restart = TRUE;
  
+-	} else 	if (g_str_equal (name, "chkIndexContents")) {
 +	} else 	if (g_str_equal (name, "chkEnableThunderbirdIndexing")) {
-+
+ 
 +		set_bool_option (priv, "EnableThunderbird", value);
 +
 +		tracker_configuration_set_bool (configuration,
 +					"/Emails/IndexThunderbirdEmails",
 +					value);
 +
++		flag_restart = TRUE;
 +
- 	} else 	if (g_str_equal (name, "chkIndexContents")) {
- 
++	}  else 	if (g_str_equal (name, "chkIndexContents")) {
++
  		set_bool_option (priv, "IndexFileContents", value);
-@@ -559,6 +568,18 @@
  
- 	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled",
+ 		tracker_configuration_set_bool (configuration,
+@@ -652,20 +662,33 @@
+ 	TrackerConfiguration *configuration =
+ 		TRACKER_CONFIGURATION (priv->prefs);
+ 
+-	GtkWidget *widget = NULL;
+-	gboolean value;
++	GtkWidget *evolution_widget = NULL;
++	GtkWidget *thunderbird_widget = NULL;
++	gboolean evolution_value, thunderbird_value;
+ 
+-	widget = glade_xml_get_widget (priv->gxml,
++	evolution_widget = glade_xml_get_widget (priv->gxml,
+ 				       "chkEnableEvolutionIndexing");
+ 
+-	value = tracker_configuration_get_bool (configuration,
++	evolution_value = tracker_configuration_get_bool (configuration,
+ 						"/Emails/IndexEvolutionEmails",
+ 						NULL);
+ 
+-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), value);
++	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (evolution_widget), evolution_value);
+ 
+-	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled",
++	g_signal_connect (GTK_TOGGLE_BUTTON (evolution_widget), "toggled",
  			  G_CALLBACK (check_toggled_cb), priv);
 +
-+	widget = glade_xml_get_widget (priv->gxml,
++	thunderbird_widget = glade_xml_get_widget (priv->gxml,
 +				       "chkEnableThunderbirdIndexing");
 +
-+	value = tracker_configuration_get_bool (configuration,
++	thunderbird_value = tracker_configuration_get_bool (configuration,
 +						"/Emails/IndexThunderbirdEmails",
 +						NULL);
 +
-+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), value);
++	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (thunderbird_widget), thunderbird_value);
 +
-+	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled",
++	g_signal_connect (GTK_TOGGLE_BUTTON (thunderbird_widget), "toggled",
 +			  G_CALLBACK (check_toggled_cb), priv);
  }
  
  static void
-@@ -780,7 +801,19 @@
- 					"/Emails/IndexEvolutionEmails",
- 					value);
+Index: tracker-trunk/src/trackerd/tracker-email-thunderbird.c
+===================================================================
+--- tracker-trunk/src/trackerd/tracker-email-thunderbird.c	(revision 1055)
++++ tracker-trunk/src/trackerd/tracker-email-thunderbird.c	(working copy)
+@@ -192,6 +192,7 @@
+ 	MailMessage 		*mail_msg;
+ 	gsize			length;
+ 	gchar			*contents = NULL;
++	gchar			*parse;
+ 	GMarkupParseContext 	*context;
+ 	GError 			*error = NULL;
+ 	TmsParserData 		*parser_data;
+@@ -211,10 +212,21 @@
+ 		return mail_msg;
+ 	}
  
-+	widget = glade_xml_get_widget (priv->gxml,
-+				       "chkEnableThunderbirdIndexing");
-+	value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
-+	value_old = tracker_configuration_get_bool (configuration,
-+						    "/Emails/IndexThunderbirdEmails",
-+						    NULL);
-+	if (value != value_old)
-+		flag_restart = TRUE;
-+	tracker_configuration_set_bool (configuration,
-+					"/Emails/IndexThunderbirdEmails",
-+					value);
- 
++	if(g_utf8_validate(contents, -1, NULL) == FALSE) {
++		parse = g_locale_to_utf8(contents, strlen(contents), NULL, NULL, &error);
++		if(!parse) {
++			tracker_log ("Error converting to utf8: %s\nIn file: %s\n", error->message, path);
++			g_error_free(error);
++			goto end;
++		}
++	} else {
++		parse = g_strdup(contents);
++	}	
 +
- 	tracker_configuration_write (configuration);
+ 	context = g_markup_parse_context_new (&tms_file_parser, G_MARKUP_TREAT_CDATA_AS_TEXT,
+                                               parser_data, free_parser_data);
  
- 	if (flag_restart && if_trackerd_start (priv)) {
+-        if (!g_markup_parse_context_parse(context, contents, length, NULL)) {
++        if (!g_markup_parse_context_parse(context, parse, length, NULL)) {
+ 		tracker_log ("Error parsing context with length \n");
+                 goto end;
+ 	}
+@@ -226,6 +238,7 @@
+ 
+  end:
+ 	g_markup_parse_context_free (context);
++	g_free (parse);
+ 	g_free (contents);
+ 	return mail_msg;
+ }
