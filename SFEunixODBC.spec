@@ -143,7 +143,9 @@ export CXXFLAGS=
 
 %install
 
+%ifarch amd64 sparcv9
 %unixodbc64.install -d unixODBC-%{src_version}/%{_arch64}
+%endif
 %unixodbc.install -d unixODBC-%{src_version}/%{base_arch}
 
 %clean
