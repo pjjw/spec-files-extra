@@ -68,6 +68,12 @@ rm -rf $RPM_BUILD_ROOT/var
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc
 rm -rf $RPM_BUILD_ROOT%{_mandir}/
 
+# Remove gnome-inhibit
+rm -rf  $RPM_BUILD_ROOT%{_bindir}/gnome-inhibit-applet
+rm -rf  $RPM_BUILD_ROOT%{_datadir}/gnome-power-manager/gpm-inhibit-test.glade
+rm -rf  $RPM_BUILD_ROOT%{_datadir}/gnome-2.0/ui/GNOME_InhibitApplet.xml
+rm -rf  $RPM_BUILD_ROOT%{_libdir}/bonobo/servers/GNOME_InhibitApplet.server
+
 # Move scripts from /usr/bin to /usr/lib
 mv $RPM_BUILD_ROOT%{_bindir}/gnome-power-*.sh $RPM_BUILD_ROOT%{_libdir}/
 
@@ -136,7 +142,6 @@ test -x $BASEDIR/lib/postrun || exit 0
 %dir %attr (0755, root, bin) %{_libdir}/bonobo
 %dir %attr (0755, root, bin) %{_libdir}/bonobo/servers
 %{_libdir}/bonobo/servers/GNOME_BrightnessApplet.server
-%{_libdir}/bonobo/servers/GNOME_InhibitApplet.server
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/gnome
 %dir %attr (0755, root, bin) %{_datadir}/gnome/autostart
@@ -147,7 +152,6 @@ test -x $BASEDIR/lib/postrun || exit 0
 %dir %attr (0755, root, bin) %{_datadir}/gnome-2.0
 %dir %attr (0755, root, bin) %{_datadir}/gnome-2.0/ui
 %{_datadir}/gnome-2.0/ui/GNOME_BrightnessApplet.xml
-%{_datadir}/gnome-2.0/ui/GNOME_InhibitApplet.xml
 %dir %attr (0755, root, bin) %{_datadir}/gnome-power-manager
 %{_datadir}/gnome-power-manager/*
 %dir %attr (0755, root, bin) %{_datadir}/dbus-1
@@ -190,6 +194,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Thu Dec 12 2007 - simon.zheng@sun.com
+- Disable gnome-inhibit-applet, remove relevant files.
 * Tue Nov 27 2007 - simon.zheng@sun.com
 - Removed man installation dir.
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net

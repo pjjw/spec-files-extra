@@ -16,6 +16,9 @@ Patch2:         gnome-power-manager-02-kstat.diff
 Patch3:		gnome-power-manager-03-brightness-get-stuck.diff
 Patch4:		gnome-power-manager-04-display-sleep.diff
 Patch5:		gnome-power-manager-05-configure-power-conf.diff
+# set gconf key "cpufreq_show" as "true" by default and define
+# gconf key "icon_policy" as "always" by default.
+Patch6:		gnome-power-manager-06-icon_plicy_and_cpufreq_show.diff
 URL:		http://www.gnome.org/projects/gnome-power-manager/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake
@@ -74,6 +77,7 @@ Uses of GNOME Power Manager infrastructure
 %patch3 -p0
 %patch4 -p0
 %patch5 -p0
+%patch6 -p0
 
 %build
 %ifos linux
@@ -128,6 +132,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Dec 12 2007 - simon.zheng@sun.com
+- Add patch gnome-power-manager-06-icon_plicy_and_cpufreq_show.diff,
+  set gconf key "cpufreq_show" as true by default and define
+  gconf key "icon_policy" as always by default.
+
 * Fri Dec 07 2007 - simon.zheng@sun.com
 - Update patch gnome-power-manager-05-configure-power-conf.diff.
 

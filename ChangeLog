@@ -1,3 +1,14 @@
+2007-12-12  simon.zheng  <simon.zheng@sun.com>
+
+	* SFEgnome-power-manager.spec:
+	  Disalbe gnome-inhibit-applet and remove relevant installation 
+	  files.
+	* base-specs/gnome-power-manager.spec:
+	* patches/gnome-power-manager-06-icon_plicy_and_cpufreq_show.diff:
+	  Add this new patch to set gconf key "cpufreq_show" as "true "
+  	  by default and define gconf key "icon_policy" as "always" 
+	  by default too.
+
 2007-12-11  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEconduit.spec: (new) Synchronization for GNOME
