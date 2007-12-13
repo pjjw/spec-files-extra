@@ -12,17 +12,15 @@
 Name:           gtk-vnc
 License:        LGPL
 Group:          Development/Libraries
-Version:        0.2.0
+Version:        0.3.0
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://gtk-vnc.sf.net/
 Summary:        A GTK widget for VNC clients
-Source:         http://superb-east.dl.sourceforge.net/sourceforge/%{name}/%{name}-%{version}.tar.gz
-Patch1:        %{name}-01-makefile.diff
-Patch2:        %{name}-02-macro.diff
-Patch3:        %{name}-03-coroutine.diff
-Patch4:        %{name}-04-namespace.diff
+Source:         http://%{sf_mirror}/sourceforge/%{name}/%{name}-%{version}.tar.gz
+# date:2007-12-13 bugzilla:503359,503360 owner:halton type:bug
+Patch1:        %{name}-01-solaris-ld-ast.diff
 BuildRoot:     %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires: gtk2-devel pygtk2-devel python-devel
@@ -58,9 +56,6 @@ A module allowing use of the GTK-VNC widget from python
 %prep
 %setup -q
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
 %ifos linux
@@ -131,6 +126,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python*/site-packages/gtkvnc.so
 
 %changelog
+* Tue Oct 30 2007 - nonsea@users.sourceforge.net
+- Bump to 0.3.0
+- Remove upsreamed patches: makefile.diff, macro.diff,
+  yield.diff and coroutine.diff
+- Add new patch solaris-ld-ast.diff
 * Tue Oct 30 2007 - nonsea@users.sourceforge.net
 - Add debug option.
 * Thu Oct 25 2007 - nonsea@users.sourceforge.net

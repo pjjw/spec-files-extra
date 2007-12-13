@@ -1,0 +1,13 @@
+Index: trunk/configure.ac
+===================================================================
+--- trunk/configure.ac	(revision 116)
++++ trunk/configure.ac	(working copy)
+@@ -15,7 +15,7 @@
+ AC_HEADER_STDC
+ AM_PROG_LIBTOOL
+ 
+-CFLAGS="${CFLAGS} -Wall"
++GNOME_COMPILE_WARNINGS(yes)
+ 
+ 
+ #*******************************************************************************

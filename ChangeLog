@@ -1,3 +1,15 @@
+2007-12-13  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEvinagre.spec: Add depend to SFEgkt-vnc.
+	* base-specs/gtk-vnc.spec: Bump to 0.3.0
+	* base-specs/vinagre.spec: Bump to 0.4
+	* patches/gtk-vnc-01-makefile.diff: removed upstreamed patch.
+	* patches/gtk-vnc-01-solaris-ld-ast.diff: (added)
+	* patches/gtk-vnc-02-macro.diff: removed upstreamed patch.
+	* patches/gtk-vnc-03-yield.diff: removed upstreamed patch.
+	* patches/gtk-vnc-04-coroutine.diff: removed upstreamed patch.
+	* patches/vinagre-01-wall.diff: (added)
+
 2007-12-12  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEgnome-power-manager.spec:
@@ -6,7 +18,7 @@
 	* base-specs/gnome-power-manager.spec:
 	* patches/gnome-power-manager-06-icon_plicy_and_cpufreq_show.diff:
 	  Add this new patch to set gconf key "cpufreq_show" as "true "
-  	  by default and define gconf key "icon_policy" as "always" 
+	  by default and define gconf key "icon_policy" as "always" 
 	  by default too.
 
 2007-12-11  Halton Huo <nonsea@users.sourceforge.net>
