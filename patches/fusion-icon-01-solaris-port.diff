@@ -1,6 +1,20 @@
-diff -rup fusion-icon/FusionIcon/environment.py fusion-icon-ported/FusionIcon/environment.py
+Only in fusion-icon.modif/FusionIcon: .data.py.swp
+diff -rup fusion-icon/FusionIcon/data.py fusion-icon.modif/FusionIcon/data.py
+--- fusion-icon/FusionIcon/data.py	1970-01-01 01:00:00.000000000 +0100
++++ fusion-icon.modif/FusionIcon/data.py	2007-12-13 17:12:51.361849000 +0100
+@@ -73,7 +73,7 @@ wms = {
+ 
+ 	'xfwm4':
+ 		('xfwm4', ['xfwm4'],
+-		 'Xfwm4', 'xfce', ['noreplace'], ['killall', 'xfwm4']),
++		 'Xfwm4', 'xfce', ['noreplace'], ['pkill', 'xfwm4']),
+ 
+ 	'openbox':
+ 		('openbox', ['openbox', '--replace'],
+Only in fusion-icon.modif/FusionIcon: data.py~
+diff -rup fusion-icon/FusionIcon/environment.py fusion-icon.modif/FusionIcon/environment.py
 --- fusion-icon/FusionIcon/environment.py	1970-01-01 01:00:00.000000000 +0100
-+++ fusion-icon-ported/FusionIcon/environment.py	2007-11-08 22:41:49.751541000 +0100
++++ fusion-icon.modif/FusionIcon/environment.py	2007-12-13 16:59:23.348231000 +0100
 @@ -46,6 +46,8 @@ glx_vendor: 'client glx vendor:' usually
  tfp: 'direct' if texture_from_pixmap is present with direct rendering (implying presence with indirect as well), 'indirect' if only present with indirect context, False if not present at all
  
@@ -10,9 +24,9 @@ diff -rup fusion-icon/FusionIcon/environment.py fusion-icon-ported/FusionIcon/en
  
  		# Check gnome- and kde-specific vars, then try generic 'DESKTOP_SESSION'
  		if GDSID in os.environ:
-diff -rup fusion-icon/FusionIcon/util.py fusion-icon-ported/FusionIcon/util.py
+diff -rup fusion-icon/FusionIcon/util.py fusion-icon.modif/FusionIcon/util.py
 --- fusion-icon/FusionIcon/util.py	1970-01-01 01:00:00.000000000 +0100
-+++ fusion-icon-ported/FusionIcon/util.py	2007-11-08 22:42:32.494737000 +0100
++++ fusion-icon.modif/FusionIcon/util.py	2007-12-13 16:59:23.348590000 +0100
 @@ -155,7 +155,7 @@ class WindowManagers(dict):
  			time.sleep(1)
  

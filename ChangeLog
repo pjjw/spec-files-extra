@@ -1,5 +1,9 @@
 2007-12-13 Erwann Chenede - <erwann.chenede@sun.com>
 
+       *  patches/fusion-icon-01-solaris-port.diff: removed on more linuxism
+
+2007-12-13 Erwann Chenede - <erwann.chenede@sun.com>
+
        * SFEfusion-icon.spec: changed source location as it isn't accessible 
 	 anymore.
 
