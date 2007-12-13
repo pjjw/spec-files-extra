@@ -13,12 +13,12 @@
 %include Solaris.inc
 
 %define src_name fusion-icon
-%define src_version 18f68d35f1a9157743faf834a0b87b978d851cdc
+%define src_version 13-12-07
 
 Name:                    SFEfusion-icon
 Summary:                 fusion-icon - simple tray icon for Compiz Fusion
 Version:                 0.1-20071003
-Source:			 http://cgit.compiz-fusion.org/~crdlb/fusion-icon/snapshot/%{src_name}-%{src_version}.tar.bz2	 
+Source:			 http://www.gnome.org/~erwannc/compiz/%{src_name}-%{src_version}.tar.bz2	 
 Patch1:			 fusion-icon-01-solaris-port.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build

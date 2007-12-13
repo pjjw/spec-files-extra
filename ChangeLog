@@ -1,3 +1,8 @@
+2007-12-13 Erwann Chenede - <erwann.chenede@sun.com>
+
+       * SFEfusion-icon.spec: changed source location as it isn't accessible 
+	 anymore.
+
 2007-12-13  Michal Bielicki <michal.bielicki@voiceworks.pl>
 
        * update curl to contain 32 and 64bit versions
