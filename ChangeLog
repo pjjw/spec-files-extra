@@ -1,3 +1,8 @@
+2007-12-13  Michal Bielicki <michal.bielicki@voiceworks.pl>
+
+       * update curl to contain 32 and 64bit versions
+       * fixed problems with Source line in unixodbc (thanks to laca for that)
+
 2007-12-13  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEvinagre.spec: Add depend to SFEgkt-vnc.

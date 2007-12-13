@@ -29,7 +29,7 @@
 %{!?__cut:%define __cut /usr/bin/cut}
 %{!?__cat:%define __cat /bin/cat}
 
-%define src_name unixODBC
+%define src_name unixodbc
 %define src_version 2.2.12
 %define pkg_release 1
 #######
@@ -38,12 +38,11 @@
 %define prefix   /usr
 %define sysconfdir	/etc
 
-Name: SFE%{src_name}
+Name: SFEunixodbc
 Summary: ODBC driver manager and drivers for PostgreSQL, MySQL, etc.
 Version: %{src_version}
 Release: %{pkg_release}
 Copyright: LGPL and GPL
-Source: http://www.unixodbc.org/unixODBC-%{src_version}.tar.gz
 SUNW_BaseDir:/
 BuildRoot: %{_tmppath}/%{src_name}-%{src_version}-build
 URL: http://www.unixodbc.org/
@@ -105,10 +104,10 @@ This package contains static versions of unixODBC drivers and setup libraries
 %endif # build_drivers
 
 %ifarch amd64 sparcv9
-%use unixodbc64 = unixODBC-sr.spec
+%use unixodbc64 = unixodbc-sr.spec
 %endif
 %include base.inc
-%use unixodbc = unixODBC-sr.spec
+%use unixodbc = unixodbc-sr.spec
 
 %prep
 rm -rf unixODBC-%{src_version}

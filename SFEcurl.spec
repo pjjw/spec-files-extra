@@ -3,9 +3,9 @@
 #
 # includes module(s): curl
 #
+# 64 bit stuff shanelessly stolen from SFEncurses
 
 %include Solaris.inc
-%include usr-gnu.inc
 
 Name:                    SFEcurl
 Summary:                 curl - Get a file from FTP or HTTP server.
@@ -19,6 +19,15 @@ Requires: SUNWopenssl-libraries
 BuildRequires: SUNWopenssl-include
 Requires: SUNWzlib
 
+%include usr-gnu.inc
+
+%ifarch amd64 sparcv9
+%include arch64.inc
+%use curl64=curl.spec
+%endif
+%include base.inc
+%use curl = curl.spec
+
 %package devel
 Summary:		 %{summary} - development files
 SUNW_BaseDir:            %{_basedir}
@@ -27,32 +36,44 @@ Requires:		 %name
 
 %prep
 rm -rf %name-%version
-%setup -q -n curl-%version
+mkdir %name-%version
+
+%ifarch amd64 sparcv9
+mkdir %name-%version/%_arch64
+%curl64.prep -d %name-%version/%_arch64
+%endif
+
+mkdir %name-%version/%{base_arch}
+%curl.prep -d %name-%version/%{base_arch}
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
+
 # -L/usr/sfw/lib added to CFLAGS to workaround what seems to be a libtool bug
-export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP -L/usr/sfw/lib"
-export RPM_OPT_FLAGS="$CFLAGS"
 export CPPFLAGS="-I/usr/sfw/include"
-export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib"
 export MSGFMT="/usr/bin/msgfmt"
 
-./configure --prefix=%{_prefix}			\
-	    --bindir=%{_bindir}			\
-	    --includedir=%{_includedir}		\
-	    --mandir=%{_mandir}			\
-            --libdir=%{_libdir}                 \
-            --disable-static
+%ifarch amd64 sparcv9
+export CFLAGS="%optflags -m64 -I/usr/sfw/include -DANSICPP -L/usr/sfw/lib/%_arch64"
+export RPM_OPT_FLAGS="$CFLAGS"
+export LDFLAGS="-m64 -L/usr/sfw/lib/%_arch64 -R/usr/sfw/lib/%_arch64"
+%curl64.build -d %name-%version/%_arch64
+%endif
 
-make -j$CPUS 
+export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib"
+export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP -L/usr/sfw/lib"
+export RPM_OPT_FLAGS="$CFLAGS"
+%curl.build -d %name-%version/%{base_arch}
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
-rm $RPM_BUILD_ROOT%{_libdir}/lib*a
+%ifarch amd64 sparcv9
+%curl64.install -d %name-%version/%_arch64
+%endif
+
+%curl.install -d %name-%version/%{base_arch}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -69,6 +90,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/curl.1
+%ifarch amd64 sparcv9
+%{_bindir}/%_arch64/curl
+%{_libdir}/%_arch64/lib*.so*
+%endif
 
 %files devel
 %defattr (-, root, bin)
@@ -76,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/curl-config
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/*.la
+%{_libdir}/*.a
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 %dir %attr(0755, root, sys) %{_datadir}
@@ -86,8 +114,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/curl-config.1
 %dir %attr(0755, root, bin) %{_mandir}/man3
 %{_mandir}/man3/*
+%ifarch amd64 sparcv9
+%dir %attr(0755, root, bin) %{_libdir}/%_arch64
+%{_libdir}/%_arch64/*.la
+%{_libdir}/%_arch64/*.a
+%dir %attr(0755, root, bin) %{_libdir}/%_arch64/pkgconfig
+%{_libdir}/%_arch64/pkgconfig/libcurl.pc
+%{_bindir}/%_arch64/curl-config
+%endif
 
 %changelog
+* Wed Dec 12 2007 - Michal Bielicki
+- change the package to be combined 32/64 bit (thanks to Thomas Wagner for all his help with this)
 * Mon Nov 26 2007 - Thomas Wagner
 - move SFEcurl into /usr/gnu by %include usr-gnu.inc (never OS builds have SUNWcurl)
 * Mon Oct 29 2007 - brian.cameron@sun.com

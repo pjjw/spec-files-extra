@@ -10,6 +10,7 @@ Release:	1sr
 Summary: 	ODBC Driver Manager
 License:	LGPL
 URL:		http://www.%{name}.org/
+Source: http://www.unixodbc.org/unixODBC-%{src_version}.tar.gz
 %include default-depend.inc
 %define vpkg odbc
 %{!?_sysconfdir: %define _sysconfdir /etc}
@@ -37,7 +38,6 @@ Group:		%{?group}%{!?group:Applications/Databases}
 Provides:	%{vpkg}, %{name}
 # conflicts with iODBC (same includes and sysconfdir not compatible)
 Conflicts:	%{?conflicts}%{!?conflicts:iodbc}
-Source:		%{?url}%{name}-%{version}.tar.gz
 #Patch:		%{name}-xxxx.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 # do not change prefix below but use "rpm -i --prefix=<prefix>" to relocate
