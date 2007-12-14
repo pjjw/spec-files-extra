@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 
+# Remove doc
+rm -fr $RPM_BUILD_ROOT/usr/doc
+
 %if %build_l10n
 %else
 # REMOVE l10n FILES
@@ -66,19 +69,29 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
-%dir %attr (0755, root, other) %{_libdir}/pkgconfig
-%{_libdir}/pkgconfig/*
 %{_libdir}/gimp
+%dir %attr (0755, root, bin) %{_libdir}/gnome-scan-1.0
+%{_libdir}/gnome-scan-1.0/*
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, other) %{_datadir}/pixmaps
-%{_datadir}/pixmaps/*
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
+%dir %attr (0755, root, other) %{_datadir}/gnome-scan
+%dir %attr (0755, root, other) %{_datadir}/gnome-scan/icons
+%dir %attr (0755, root, other) %{_datadir}/gnome-scan/icons/hicolor
+%dir %attr (0755, root, other) %{_datadir}/gnome-scan/icons/hicolor/scalable
+%dir %attr (0755, root, other) %{_datadir}/gnome-scan/icons/hicolor/scalable/actions
+%{_datadir}/gnome-scan/icons/hicolor/scalable/actions/*
+%dir %attr (0755, root, other) %{_datadir}/icons/
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/scalable
+%{_datadir}/icons/hicolor/scalable/apps/*
 
 %files devel
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 %dir %attr(0755, root, sys) %{_datadir}
 %{_datadir}/gtk-doc
 
