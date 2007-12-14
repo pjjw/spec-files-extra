@@ -81,9 +81,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/gnome-scan/icons/hicolor/scalable
 %dir %attr (0755, root, other) %{_datadir}/gnome-scan/icons/hicolor/scalable/actions
 %{_datadir}/gnome-scan/icons/hicolor/scalable/actions/*
-%dir %attr (0755, root, other) %{_datadir}/icons/
-%dir %attr (0755, root, other) %{_datadir}/icons/hicolor
-%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/scalable
+%dir %attr (0755, root, other) %{_datadir}/icons
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/scalable/
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/scalable/apps/
 %{_datadir}/icons/hicolor/scalable/apps/*
 
 %files devel
