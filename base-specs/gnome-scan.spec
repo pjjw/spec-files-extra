@@ -13,7 +13,7 @@ Summary:      gnomescan - scanner client for the GNOME desktop
 Source:	      http://download.gna.org/gnomescan/gnome-scan-%{version}.tar.gz
 URL:          http://www.gnome.org/projects/gnome-scan/index
 # date:2007-02-25 owner:xz159989 type:feature
-Patch1:       gnomescan-01-build.diff
+Patch1:       gnome-scan-01-build.diff
 
 %package devel
 Summary:                 %{summary} - development files
@@ -22,7 +22,7 @@ Requires:     %name
 
 %prep
 %setup -q
-#%patch1 -p1
+%patch1 -p0
 
 %build
 %ifos linux
@@ -40,6 +40,7 @@ aclocal
 libtoolize --force
 glib-gettextize --force
 autoconf -f
+automake
 ./configure --prefix=%{_prefix}			\
 	    --libexecdir=%{_libexecdir}         \
             --sysconfdir=%{_sysconfdir}         \
@@ -71,6 +72,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtk-doc
 
 %changelog
+* Fri Dec 14 2007 - simon.zheng@sun.com
+  Rework gnome-scan-01-build.diff.
 * Sat Nov 17 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.5.2. Correct module name (gnome-scan) and update url. Disable
   obsolete patch, 01-build.

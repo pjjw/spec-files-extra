@@ -1,5 +1,11 @@
 2007-12-14  simon.zheng  <simon.zheng@sun.com>
 
+	* base-specs/gnome-scan.spec:
+	* patches/gnome-scan-01-build.diff:
+	  Rework patch gnome-scan-01-build.diff
+
+2007-12-14  simon.zheng  <simon.zheng@sun.com>
+
 	* SFEbabl.spec:
 	* base-specs/babl.spec:
 	* patches/babl-01-build.diff:

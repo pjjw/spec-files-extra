@@ -1,0 +1,213 @@
+--- ./lib/gnome-scan-dialog.c.org	2007-12-14 16:44:55.795183000 +0800
++++ ./lib/gnome-scan-dialog.c	2007-12-14 16:45:18.215409000 +0800
+@@ -1124,7 +1124,7 @@
+ static void
+ gsd_update_scanner_ui	(GnomeScanDialog *gsd)
+ {
+-  g_debug (G_STRLOC ": %s", __FUNCTION__);
++  g_debug (G_STRLOC ": %s", G_GNUC_FUNCTION);
+   GnomeScanDialogPrivate *priv = GET_PRIVATE (gsd);
+   GnomeScanner *scanner = gnome_scan_job_get_scanner (priv->job);
+ 	
+--- ./lib/gnome-scan-plugin.c.org	2007-12-14 16:45:47.282581000 +0800
++++ ./lib/gnome-scan-plugin.c	2007-12-14 16:46:05.948737000 +0800
+@@ -451,7 +451,7 @@
+   g_return_if_fail (GNOME_IS_SCAN_PLUGIN (plugin));
+   GNOME_SCAN_PLUGIN_GET_CLASS (plugin)->end_frame (plugin);
+ 	
+-#define dbg_ref(t,o)	g_debug("%s:%i %s %s:%i", __FUNCTION__, __LINE__, t, G_OBJECT_TYPE_NAME (o), G_OBJECT (o)->ref_count);
++#define dbg_ref(t,o)	g_debug("%s:%i %s %s:%i", G_GNUC_FUNCTION, __LINE__, t, G_OBJECT_TYPE_NAME (o), G_OBJECT (o)->ref_count);
+   if (plugin->buffer) {
+     dbg_ref("buffer", plugin->buffer);
+     g_object_unref (plugin->buffer);
+--- ./lib/gnome-scan-module-manager.c.org	2007-12-14 16:46:29.986360000 +0800
++++ ./lib/gnome-scan-module-manager.c	2007-12-14 16:46:48.475579000 +0800
+@@ -181,7 +181,7 @@
+ 			/* Show warning only for absolute path, else should be devel path… */
+ 			if (paths[i][0] == '/')
+ 				g_warning ("%s: Error while searching for modules: %s",
+-						   __FUNCTION__, error->message);
++						   G_GNUC_FUNCTION, error->message);
+ 			g_clear_error (&error);
+ 			continue;
+ 		}
+--- ./lib/gnome-scan-preview-area.c.org	2007-12-14 16:47:24.448142000 +0800
++++ ./lib/gnome-scan-preview-area.c	2007-12-14 16:49:11.361037000 +0800
+@@ -288,7 +288,7 @@
+ static gboolean
+ gspa_expose (GnomeScanPreviewArea *gspa)
+ {
+-    g_debug (__FUNCTION__);
++    g_debug (G_GNUC_FUNCTION);
+     GnomeScanPreviewAreaPrivate *priv = GET_PRIVATE (gspa);
+     GtkWidget *widget = GTK_WIDGET (gspa);
+ 	
+--- ./lib/gnome-scan-preview-plugins.c.org	2007-12-14 16:47:53.119553000 +0800
++++ ./lib/gnome-scan-preview-plugins.c	2007-12-14 16:49:42.728475000 +0800
+@@ -180,7 +180,7 @@
+ static void
+ gsppa_draw_buffer (GnomeScanPreviewArea *gspa, cairo_t *cr, GnomeScanPreviewPluginArea *gsppa)
+ {
+-	g_debug (__FUNCTION__);
++	g_debug (G_GNUC_FUNCTION);
+ 	GtkStateType state = GTK_WIDGET_STATE (GTK_WIDGET (gspa));
+ 	GtkStyle *style = GTK_WIDGET (gspa)->style;
+ 	gdouble dashes[] = {
+@@ -230,7 +230,7 @@
+ static gboolean
+ gsppa_motion_notify_event (GtkWidget *wid, GdkEventMotion *event, GnomeScanPreviewPluginArea *gsppa)
+ {
+-	g_debug (__FUNCTION__);
++	g_debug (G_GNUC_FUNCTION);
+ 	static gint old_tm = G_MAXINT;
+ 	gint new_tm = event->time;
+ 
+--- ./lib/gnome-scan-utils.c.org	2007-12-14 16:48:06.535341000 +0800
++++ ./lib/gnome-scan-utils.c	2007-12-14 16:48:31.489569000 +0800
+@@ -28,7 +28,7 @@
+ #include "gnome-scan-utils.h"
+ #include "gnome-scan-types.h"
+ 
+-#define	GS_WARN_UNSUPPORTED_UNIT(unit)	g_warning("%s: Unsupported unit %s.", __FUNCTION__, gs_enum_get_nick_from_value (GNOME_TYPE_SCAN_UNIT, unit))
++#define	GS_WARN_UNSUPPORTED_UNIT(unit)	g_warning("%s: Unsupported unit %s.", G_GNUC_FUNCTION, gs_enum_get_nick_from_value (GNOME_TYPE_SCAN_UNIT, unit))
+ 
+ static const gchar*
+ gs_enum_get_nick_from_value (GType type, guint value)
+--- ./lib/gnome-scan-param-widget.c.org	2007-12-14 16:50:06.285308000 +0800
++++ ./lib/gnome-scan-param-widget.c	2007-12-14 16:50:22.063735000 +0800
+@@ -283,7 +283,7 @@
+ 	GType type = gs_param_spec_get_widget_type (pspec);
+ 	
+ 	if (type == G_TYPE_INVALID) {
+-		g_warning ("%s: No widget type for param %s (%s)", __FUNCTION__,
++		g_warning ("%s: No widget type for param %s (%s)", G_GNUC_FUNCTION,
+ 				   G_PARAM_SPEC_TYPE_NAME (pspec),
+ 				   G_PARAM_SPEC_TYPE_NAME (pspec));
+ 		return NULL;
+--- ./src/flegita-sink.c.org	2007-12-14 16:51:42.267004000 +0800
++++ ./src/flegita-sink.c	2007-12-14 18:35:53.739811000 +0800
+@@ -364,13 +364,13 @@
+     cs = gtk_print_job_get_surface (priv->job,
+ 				    &error);
+     cairo_t *cr = cairo_create (cs);
+-    GeglRectangle *extent = gegl_buffer_extent (plugin->buffer);
++    GeglRectangle *extent = gegl_buffer_get_extent (plugin->buffer);
+     Babl * format = babl_format("RGB u8");
+     guchar *data = g_new0 (guchar, (extent->width * extent->height * 3));
+     gegl_buffer_get (plugin->buffer,
+-		     extent, 1.,
++		     1., extent,
+ 		     format,
+-		     data);
++		     data, GEGL_AUTO_ROWSTRIDE);
+     cs = cairo_image_surface_create_for_data (data,
+ 					      CAIRO_FORMAT_RGB24,
+ 					      extent->width,
+@@ -396,7 +396,7 @@
+   switch (priv->action) {
+   case FLEGITA_SAVE:
+ 
+-#define dbg_ref(t,o)	g_debug("%s:%i %s %s:%i",__FUNCTION__,__LINE__,t,G_OBJECT_TYPE_NAME(o),G_OBJECT(o)->ref_count);
++#define dbg_ref(t,o)	g_debug("%s:%i %s %s:%i",G_GNUC_FUNCTION,__LINE__,t,G_OBJECT_TYPE_NAME(o),G_OBJECT(o)->ref_count);
+ #define destroy(t,o)	dbg_ref(t,o); g_object_unref(o); o = NULL;
+   destroy ("processor", priv->processor);
+   destroy ("load", priv->load);
+--- ./src/Makefile.am.org	2007-12-14 18:25:52.292550000 +0800
++++ ./src/Makefile.am	2007-12-14 18:26:01.102791000 +0800
+@@ -5,7 +5,7 @@
+ 	$(GNOME_SCAN_CFLAGS) $(FLEGITA_CFLAGS) \
+ 	-I$(top_srcdir)/lib
+ 
+-AM_CFLAGS = -Wall -g
++AM_CFLAGS = -g
+ 
+ # FLEGITA
+ 
+--- ./src/flegita-gimp-sink.c.org	2007-12-14 18:36:25.216185000 +0800
++++ ./src/flegita-gimp-sink.c	2007-12-14 18:38:15.696643000 +0800
+@@ -144,7 +144,7 @@
+ 	gchar*format_name = NULL;
+ 	gint i;
+ 
+-	priv->extent = gegl_buffer_extent (plugin->buffer);
++	priv->extent = gegl_buffer_get_extent (plugin->buffer);
+ 	g_object_get (plugin->buffer, "format", &format, NULL);
+ 
+ 	guint image_type = 0;
+@@ -201,10 +201,10 @@
+ 	guchar* chunk = g_new0 (guchar, chunk_size);
+ 
+ 	gegl_buffer_get (plugin->buffer,
+-					 &rect,
+ 					 1.,
++					 &rect,
+ 					 (Babl*) priv->format,
+-					 chunk);
++					 chunk, GEGL_AUTO_ROWSTRIDE);
+ 
+ 	guchar       *dest = rgn->data;
+ 	memcpy (dest, chunk, chunk_size);
+--- ./modules/gsane-meta-param.c.org	2007-12-14 16:52:20.962480000 +0800
++++ ./modules/gsane-meta-param.c	2007-12-14 18:25:06.768922000 +0800
+@@ -197,7 +197,7 @@
+ 	MetaParamArea *mpa = GSANE_META_PARAM_AREA (mp);
+ 	const gchar *name = g_param_spec_get_name (spec);
+ 	
+-	/*g_debug ("%s:%i %s, %s", __FUNCTION__, __LINE__, mp->name, name);*/
++	/*g_debug ("%s:%i %s, %s", G_GNUC_FUNCTION, __LINE__, mp->name, name);*/
+ 	
+ 	if (g_str_equal (name, "tl-x")) {
+ 		mpa->tl_x = spec;
+@@ -409,7 +409,7 @@
+ static GValue*
+ meta_param_area_get_value			(MetaParam *mp, GParamSpec *spec)
+ {
+-	g_warning ("%s not yet implemented", __FUNCTION__);
++	g_warning ("%s not yet implemented", G_GNUC_FUNCTION);
+ 	return NULL;
+ }
+ 
+--- ./modules/Makefile.am.org	2007-12-14 17:06:13.346053000 +0800
++++ ./modules/Makefile.am	2007-12-14 17:06:23.524194000 +0800
+@@ -2,7 +2,7 @@
+ 	$(GNOME_SCAN_CFLAGS)	\
+ 	-I$(top_srcdir)/lib
+ 
+-AM_CFLAGS = -Wall -g
++AM_CFLAGS = -g
+ 
+ 
+ modulesdir = @MODULE_DIR@
+--- ./modules/gsane-scanner.c.org	2007-12-14 18:54:13.459645000 +0800
++++ ./modules/gsane-scanner.c	2007-12-14 18:24:01.738685000 +0800
+@@ -445,7 +445,7 @@
+ 	}
+ 	
+ 	tbuf = g_new0 (guchar, tlen * 3);
+-	gegl_buffer_get (plugin->buffer, rect, 1., format, tbuf);
++	gegl_buffer_get (plugin->buffer, 1., rect, format, tbuf, GEGL_AUTO_ROWSTRIDE);
+ 	for (i = 0; i < tlen; i++) {
+ 		mask = 0x80 >> (i%8);
+ 		tbuf[i*3+offset] = (buf[i/8] & mask) ? 0xFF : 0x00;
+@@ -484,8 +484,8 @@
+ 	offset*= sp_stride;
+ 	
+ 	tbuf = g_new0 (guchar, len*3);
+-	gegl_buffer_get (plugin->buffer, rect,
+-					 1., NULL, tbuf);
++	gegl_buffer_get (plugin->buffer, 1., rect,
++					 NULL, tbuf, GEGL_AUTO_ROWSTRIDE);
+ 	
+ 	for (i = 0; i < len/sp_stride; i++) {
+ 		/* copy 1 or 2 bytes of sample at the right place */
+--- intltool-merge.in.org	2007-12-14 19:01:39.954547000 +0800
++++ intltool-merge.in	2007-12-14 19:01:56.910741000 +0800
+@@ -93,7 +93,7 @@
+ 
+ my %po_files_by_lang = ();
+ my %translations = ();
+-my $iconv = $ENV{"ICONV"} || "iconv";
++my $iconv = $ENV{"ICONV"} || "/usr/bin/iconv";
+ my $devnull = ($^O eq 'MSWin32' ? 'NUL:' : '/dev/null');
+ 
+ sub isProgramInPath
