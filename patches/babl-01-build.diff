@@ -1,0 +1,21 @@
+--- extensions/Makefile.am.org	2007-12-13 16:33:40.052124000 +0800
++++ extensions/Makefile.am	2007-12-13 16:33:52.198265000 +0800
+@@ -15,7 +15,7 @@
+ 
+ CFLAGS  += -I $(top_srcdir)/babl -I $(top_srcdir)/extensions -fPIC
+ 
+-LDFLAGS += -shared
++LDFLAGS += -G
+ 
+ if OS_WIN32
+ LDADD    = $(no-undefined) $(libbabldlla) $(MATH_LIB)
+--- docs/Makefile.am.org	2007-12-13 17:03:14.937150000 +0800
++++ docs/Makefile.am	2007-12-13 17:03:26.899423000 +0800
+@@ -13,7 +13,6 @@
+ #
+ #
+ HTML_FILES = index-static.html 	\
+-	     index.html		\
+ 	     BablFishPath.html
+ 
+ EXTRA_DIST= 			\

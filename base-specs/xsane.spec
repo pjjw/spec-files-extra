@@ -4,7 +4,7 @@
 Name:         xsane
 License:      GPL
 Group:        Applications/Multimedia
-Version:      0.994
+Version:      0.995
 Release:      1
 Distribution: Java Desktop System
 Vendor:       Sun Microsystems, Inc.
@@ -72,5 +72,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Thu Dec 13 2007 Simon Zheng <simon.zheng@sun.com>
+- Bump to version 0.995.
+
 * Tue Mar 20 2007 Simon Zheng <simon.zheng@sun.com>
 - initial version for pkgbuild 

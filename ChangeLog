@@ -1,3 +1,20 @@
+2007-12-14  simon.zheng  <simon.zheng@sun.com>
+
+	* SFEbabl.spec:
+	* base-specs/babl.spec:
+	* patches/babl-01-build.diff:
+	  Add this because gegl depends on it.
+	* SFEgegl.spec:
+	* base-specs/gegl.spec:
+	* patches/gegl-01-build.diff:
+	  Add this, because latest gnome-scan depends on it.
+	* SFEgnome-scan.spec:
+	* base-specs/gnome-scan.spec:
+	  Rename SFEgnomescan to SFEgnome-scan.
+	  Add dependency on gegl library.
+	* base-specs/xsane.spec:
+	  Bump to 0.995.
+
 2007-12-14  Halton Huo <nonsea@users.sourceforge.net>
 
 	* base-specs/gtk-vnc.spec: Bump to 0.3.1

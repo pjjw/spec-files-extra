@@ -1,0 +1,107 @@
+--- gegl/buffer/gegl-provider.c.org	2007-12-13 17:51:26.520649000 +0800
++++ gegl/buffer/gegl-provider.c	2007-12-13 17:51:46.914633000 +0800
+@@ -27,7 +27,7 @@
+           gint           y,
+           gint           z)
+ {
+-  g_warning ("implementationless %s called", __FUNCTION__);
++  g_warning ("implementationless %s called", G_GNUC_FUNCTION);
+   return NULL;
+ }
+ 
+--- gegl/graph/gegl-node.c.org	2007-12-13 17:52:51.951240000 +0800
++++ gegl/graph/gegl-node.c	2007-12-13 17:53:22.372993000 +0800
+@@ -1596,7 +1596,7 @@
+ 
+   if (!node)
+     {
+-      g_warning ("%s node==NULL", __FUNCTION__);
++      g_warning ("%s node==NULL", G_GNUC_FUNCTION);
+       return 0;
+     }
+ 
+@@ -1604,7 +1604,7 @@
+ 
+   if (!pad)
+     {
+-      g_warning ("%s: no such pad %s for %s", __FUNCTION__, output_pad, gegl_node_get_debug_name (node));
++      g_warning ("%s: no such pad %s for %s", G_GNUC_FUNCTION, output_pad, gegl_node_get_debug_name (node));
+       return 0;
+     }
+ 
+--- operations/Makefile-operations.am.org	2007-12-13 18:02:23.244010000 +0800
++++ operations/Makefile-operations.am	2007-12-13 18:02:37.110018000 +0800
+@@ -14,7 +14,7 @@
+ 
+ CFLAGS  += @DEP_CFLAGS@ @BABL_CFLAGS@ @CPPFLAGS@ \
+            -I$(srcdir) -I$(top_srcdir) -I$(top_srcdir)/gegl -I$(top_srcdir)/gegl/buffer -I. -fPIC
+-LDFLAGS += -shared $(no_undefined)
++LDFLAGS += -G $(no_undefined)
+ 
+ LDADD    = @DEP_LIBS@ @BABL_LIBS@ $(libgegldlla)
+ 
+--- ./gegl/gegl-utils.h.org	2007-12-13 18:13:05.399141000 +0800
++++ ./gegl/gegl-utils.h	2007-12-13 18:21:34.055958000 +0800
+@@ -73,8 +73,8 @@
+ 
+ #define INT_MULT(a,b,t)  ((t) = (a) * (b) + 0x80, ((((t) >> 8) + (t)) >> 8))
+ 
+-inline gint _gegl_float_epsilon_zero  (float     value);
+-inline gint _gegl_float_epsilon_equal (float     v1,
++gint _gegl_float_epsilon_zero  (float     value);
++gint _gegl_float_epsilon_equal (float     v1,
+                                        float     v2);
+ 
+ 
+--- ./gegl/gegl-utils.c.org	2007-12-13 18:13:13.871133000 +0800
++++ ./gegl/gegl-utils.c	2007-12-13 18:21:23.184055000 +0800
+@@ -46,13 +46,13 @@
+                        va_list         args);
+ 
+ 
+-inline gint
++gint
+ _gegl_float_epsilon_zero (float value)
+ {
+   return value > -GEGL_FLOAT_EPSILON && value < GEGL_FLOAT_EPSILON;
+ }
+ 
+-inline gint
++gint
+ _gegl_float_epsilon_equal (float v1, float v2)
+ {
+   register float diff = v1 - v2;
+--- ./bin/editor.c.org	2007-12-13 18:56:40.556212000 +0800
++++ ./bin/editor.c	2007-12-13 18:57:37.297014000 +0800
+@@ -35,6 +35,10 @@
+ 
+ #define  KEY_ZOOM_FACTOR  2.0
+ 
++GtkWidget * StockIcon (const gchar *id, GtkIconSize size, GtkWidget *widget)
++{
++        return gtk_image_new_from_stock (id, size);
++}
+ 
+ static gchar *blank_composition =
+     "<gegl>"
+--- ./docs/Makefile.am.org	2007-12-13 18:59:16.841023000 +0800
++++ ./docs/Makefile.am	2007-12-13 18:59:27.515387000 +0800
+@@ -7,7 +7,6 @@
+ #
+ #
+ HTML_FILES = index-static.html 	\
+-	index.html		\
+ 	operations.html		\
+ 	class-hierarchy.html	\
+ 	gegl.h.html
+--- docs/Makefile.am.org	2007-12-13 19:14:32.526943000 +0800
++++ docs/Makefile.am	2007-12-13 19:14:44.209468000 +0800
+@@ -83,7 +83,7 @@
+ install-exec-local: all-local
+ 	$(INSTALL) -d $(help_dir)
+ 	$(INSTALL) $(srcdir)/api.html $(srcdir)/gegl.devhelp $(help_dir)
+-	$(INSTALL) -T $(srcdir)/devhelp.css $(help_dir)/gegl.css
++	$(INSTALL) $(srcdir)/devhelp.css $(help_dir)/gegl.css
+ 
+ uninstall-local:
+ 	rm -f $(help_dir)/api.html $(help_dir)/gegl.devhelp
