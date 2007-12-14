@@ -12,7 +12,7 @@
 Name:           gtk-vnc
 License:        LGPL
 Group:          Development/Libraries
-Version:        0.3.0
+Version:        0.3.1
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -126,7 +126,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python*/site-packages/gtkvnc.so
 
 %changelog
-* Tue Oct 30 2007 - nonsea@users.sourceforge.net
+* Fro Dec 14 2007 - nonsea@users.sourceforge.net
+- Bump to 0.3.1
+* Thu Dec 13 2007 - nonsea@users.sourceforge.net
 - Bump to 0.3.0
 - Remove upsreamed patches: makefile.diff, macro.diff,
   yield.diff and coroutine.diff

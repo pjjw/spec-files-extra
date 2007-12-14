@@ -1,16 +1,20 @@
+2007-12-14  Halton Huo <nonsea@users.sourceforge.net>
+
+	* base-specs/gtk-vnc.spec: Bump to 0.3.1
+
 2007-12-13 Erwann Chenede - <erwann.chenede@sun.com>
 
-       *  patches/fusion-icon-01-solaris-port.diff: removed on more linuxism
+	*  patches/fusion-icon-01-solaris-port.diff: removed on more linuxism
 
 2007-12-13 Erwann Chenede - <erwann.chenede@sun.com>
 
-       * SFEfusion-icon.spec: changed source location as it isn't accessible 
+	* SFEfusion-icon.spec: changed source location as it isn't accessible 
 	 anymore.
 
 2007-12-13  Michal Bielicki <michal.bielicki@voiceworks.pl>
 
-       * update curl to contain 32 and 64bit versions
-       * fixed problems with Source line in unixodbc (thanks to laca for that)
+	* update curl to contain 32 and 64bit versions
+	* fixed problems with Source line in unixodbc (thanks to laca for that)
 
 2007-12-13  Halton Huo <nonsea@users.sourceforge.net>
 
@@ -179,16 +183,16 @@
 	  (Build-)Requires SFElibsamplerate(-devel) (maybe cause for skipping
 	  music every few seconds)
 	     - quick fix to "empty struct" when --disable-lsr is used (patch5)
-	       (remove patch5 if change is upstream)
+		(remove patch5 if change is upstream)
 	     - comment out --enable-pulse to not require pulseaudio
 	     - comment out --*-zeroconf   to not require avahi/bonjour/
-	       zeroconf (should be included if it's present on the 
-	       build-system, pending final solution - suggestions welcome)
+		zeroconf (should be included if it's present on the 
+		build-system, pending final solution - suggestions welcome)
 
 	* SFEgmpc.spec:- remove (Build-)Requires: SFEavahi(-devel) - needs more
 	  love (change to SUNW... bonjour/avahi/zeroconf)
 	     - change removal of "/locale" if !build_l10n to be rm -rf (diry
-	       not longer empty)
+		not longer empty)
 
 	  second commit: rename SFEperl* to be lower case
 	  add by rename: SFEperl-lwp.spec SFEperl-digest-sha1.spec
@@ -5039,14 +5043,14 @@
 	* SFEnetcat.spec:    (new) Read and write data across network
 	  connections
 	* SFEgd.spec:	(new) library for the dynamic creation of images
-	* SFEnut.spec:       (new) Network UPS Tools
+	* SFEnut.spec:	(new) Network UPS Tools
 	* SFEimposter.spec:  (new) Standalone OO presentations viewer using
 	  GTK2
 
 2006-09-27  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEfltk.spec:      (new) A C++ user interface toolkit
-	* SFElzo.spec:       (new) Lossless data compression library
+	* SFElzo.spec:	(new) Lossless data compression library
 	* SFElzop.spec:      (new) File compressor -- similar to, but faster
 	  than gzip
 	* SFEraptor.spec:    (new) RDF Parser Library - RDF parser utility
