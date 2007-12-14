@@ -11,7 +11,7 @@
 Name:                   SFEpython-parallel
 Summary:                A python module which provides mechanism for parallel execution of python code
 URL:                    http://www.parallelpython.com
-Version:                1.4.5
+Version:                1.5
 Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
@@ -51,5 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{python_version}/vendor-packages
 
 %changelog
+* Sat Dec 15 2007 - Ananth Shrinivas <ananth@sun.com>
+- bumped parallel python to version 1.5
 * Sun Nov 04 2007 - Ananth Shrinivas <ananth@sun.com>
 - Initial Version

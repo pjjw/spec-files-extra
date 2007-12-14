@@ -1,3 +1,10 @@
+2007-12-15  Ananth Shrinivas <ananth@sun.com>
+
+	* SFEpython-webpy.spec: *NEW* A Simple Web Framework for Python
+	* SFEsudo.spec: bumped to 1.6.9p9
+	* SFEpython-parallel.spec: bump to 1.5
+	* SFEpython-mako.spec: Fix missing dependency
+
 2007-12-14  simon.zheng  <simon.zheng@sun.com>
 
 	* base-specs/gnome-scan.spec:

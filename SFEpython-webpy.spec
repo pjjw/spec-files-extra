@@ -1,31 +1,25 @@
 #
-# spec file for package SFEpython-mako
+# spec file for package SFEpython-webpy
 #
-# includes module(s): mako
+# includes module(s): webpy
 #
 %include Solaris.inc
 
-%define src_url         http://www.makotemplates.org/downloads
-%define src_name        Mako
-
-Name:                   SFEpython-mako
-Summary:                Mako is a template library written in Python
-URL:                    http://www.makotemplates.org
-Version:                0.1.9
-Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
-SUNW_BaseDir:           %{_basedir}
-BuildRoot:              %{_tmppath}/%{name}-%{version}-build
+Name:                    SFEpython-webpy
+Summary:                 A Simple Web Framework for Python
+URL:                     http://webpy.org/
+Version:                 0.22
+Source:                  http://webpy.org/static/web.py-%{version}.tar.gz
+SUNW_BaseDir:            %{_basedir}
+BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+Requires:                SUNWPython
 
 %include default-depend.inc
-Requires:               SUNWPython
-Requires:               SFEpython-setuptools
-BuildRequires:          SUNWPython-devel
-BuildRequires:          SFEpython-setuptools
 
 %define python_version  2.4
 
 %prep
-%setup -q -n %{src_name}-%{version}
+%setup -q -n webpy
 
 %build
 python setup.py build
@@ -48,10 +42,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/python%{python_version}/vendor-packages
+%{_libdir}/python%{python_version}/vendor-packages/web
 
 %changelog
 * Sat Dec 15 2007 - Ananth Shrinivas <ananth@sun.com>
-- Added dependency on setup-tools
-* Sun Oct 14 2007 - Ananth Shrinivas <ananth@sun.com>
 - Initial Version

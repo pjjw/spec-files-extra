@@ -4,7 +4,7 @@
 # package are under the same license as the package itself.
 
 %include Solaris.inc
-%define tarball_version 1.6.9p4
+%define tarball_version 1.6.9p9
 
 Name:                SFEsudo
 Summary:             Provides limited super user privs to specific users
@@ -71,6 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/sudoers
 
 %changelog
+* Sat Dec 15 2007 - Ananth Shrinivas <ananth@sun.com>
+- updated to sudo 1.6.9p9
 * Mon Sep 03 2007 - Ananth Shrinivas <ananth@sun.com>
 - updated to new sudo version
 * Thu Nov 09 2006 - Eric Boutilier
