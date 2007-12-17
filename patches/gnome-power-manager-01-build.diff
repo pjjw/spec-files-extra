@@ -1,15 +1,15 @@
-diff -Nur gnome-power-manager-2.19.1/help/Makefile.am gnome-power-manager-2.19.1-new/help/Makefile.am
---- gnome-power-manager-2.19.1/help/Makefile.am	2007-03-02 06:43:39.000000000 +0800
-+++ gnome-power-manager-2.19.1-new/help/Makefile.am	2007-05-08 18:13:24.787226000 +0800
-@@ -21,4 +21,4 @@
- 	figures/gpm-cell-capacity.png \
- 	figures/gpm-suspend-problem.png
+diff -Nur gnome-power-manager-2.21.1-org/help/Makefile.am gnome-power-manager-2.21.1/help/Makefile.am
+--- gnome-power-manager-2.21.1-org/help/Makefile.am	2007-12-17 17:12:56.218240000 +0800
++++ gnome-power-manager-2.21.1/help/Makefile.am	2007-12-17 17:08:33.198369000 +0800
+@@ -19,4 +19,4 @@
+ 	figures/gpm-unplugged.png \
+ 	figures/gs-prefs.png
  
 -DOC_LINGUAS = ca es fr hu it oc pa ru sv
 +DOC_LINGUAS = ca es fr it oc pa ru sv
-diff -Nur gnome-power-manager-2.19.1/src/gpm-array-float.c gnome-power-manager-2.19.1-new/src/gpm-array-float.c
---- gnome-power-manager-2.19.1/src/gpm-array-float.c	2007-04-25 07:09:49.000000000 +0800
-+++ gnome-power-manager-2.19.1-new/src/gpm-array-float.c	2007-05-08 18:15:32.105679000 +0800
+diff -Nur gnome-power-manager-2.21.1-org/src/gpm-array-float.c gnome-power-manager-2.21.1/src/gpm-array-float.c
+--- gnome-power-manager-2.21.1-org/src/gpm-array-float.c	2007-12-17 17:12:56.275650000 +0800
++++ gnome-power-manager-2.21.1/src/gpm-array-float.c	2007-12-17 17:02:07.642824000 +0800
 @@ -75,7 +75,7 @@
   *
   * @array: input array
@@ -28,10 +28,10 @@ diff -Nur gnome-power-manager-2.19.1/src/gpm-array-float.c gnome-power-manager-2
  gpm_array_float_set (GArray *array, guint i, gfloat value)
  {
  	g_array_index (array, gfloat, i) = value;
-diff -Nur gnome-power-manager-2.19.1/src/gpm-array-float.h gnome-power-manager-2.19.1-new/src/gpm-array-float.h
---- gnome-power-manager-2.19.1/src/gpm-array-float.h	2007-04-25 06:39:47.000000000 +0800
-+++ gnome-power-manager-2.19.1-new/src/gpm-array-float.h	2007-05-08 18:16:40.482411000 +0800
-@@ -48,9 +48,9 @@
+diff -Nur gnome-power-manager-2.21.1-org/src/gpm-array-float.h gnome-power-manager-2.21.1/src/gpm-array-float.h
+--- gnome-power-manager-2.21.1-org/src/gpm-array-float.h	2007-12-17 17:12:56.277090000 +0800
++++ gnome-power-manager-2.21.1/src/gpm-array-float.h	2007-12-17 17:02:07.643637000 +0800
+@@ -49,9 +49,9 @@
  gboolean	 gpm_array_float_print			(GArray		*array);
  GArray		*gpm_array_float_convolve		(GArray		*data,
  							 GArray		*kernel);
@@ -43,9 +43,9 @@ diff -Nur gnome-power-manager-2.19.1/src/gpm-array-float.h gnome-power-manager-2
  							 guint		 i,
  							 gfloat		 value);
  
-diff -Nur gnome-power-manager-2.20.0/src/gpm-debug.h gnome-power-manager-2.20.0-new/src/gpm-debug.h
---- gnome-power-manager-2.20.0/src/gpm-debug.h  2007-11-07 18:18:00.161023000 +0800
-+++ gnome-power-manager-2.20.0-new/src/gpm-debug.h      2007-11-07 18:14:36.170143000 +0800
+diff -Nur gnome-power-manager-2.21.1-org/src/gpm-debug.h gnome-power-manager-2.21.1/src/gpm-debug.h
+--- gnome-power-manager-2.21.1-org/src/gpm-debug.h	2007-12-17 17:12:56.284090000 +0800
++++ gnome-power-manager-2.21.1/src/gpm-debug.h	2007-12-17 17:02:07.650493000 +0800
 @@ -28,7 +28,7 @@
  
  G_BEGIN_DECLS
@@ -55,4 +55,24 @@ diff -Nur gnome-power-manager-2.20.0/src/gpm-debug.h gnome-power-manager-2.20.0-
  #define gpm_debug(...) gpm_debug_real (__func__, __FILE__, __LINE__, __VA_ARGS__)
  #define gpm_warning(...) gpm_warning_real (__func__, __FILE__, __LINE__, __VA_ARGS__)
  #define gpm_error(...) gpm_error_real (__func__, __FILE__, __LINE__, __VA_ARGS__)
-
+--- gnome-power-manager-2.21.1/configure.in	2007-11-18 23:36:20.000000000 +0800
++++ gnome-power-manager-2.21.1-new/configure.in	2007-12-17 18:15:26.399221000 +0800
+@@ -136,6 +136,18 @@
+ AC_SUBST(SBINDIR, $sbindir)
+ 
+ dnl ---------------------------------------------------------------------------
++dnl - Is it compiling on Solais?
++dnl ---------------------------------------------------------------------------
++AC_MSG_CHECKING(if we compile on Solaris)
++case "$host" in
++       *-solaris*)
++         AC_MSG_RESULT(yes)
++         AC_DEFINE(SOLARIS, 1, [Define if we compile on Solaris])
++       ;;
++esac
++
++
++dnl ---------------------------------------------------------------------------
+ dnl - Where should we put documentation ?
+ dnl ---------------------------------------------------------------------------
+ AC_ARG_WITH(doc-dir,

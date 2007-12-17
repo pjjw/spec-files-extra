@@ -74,8 +74,9 @@ rm -rf  $RPM_BUILD_ROOT%{_datadir}/gnome-power-manager/gpm-inhibit-test.glade
 rm -rf  $RPM_BUILD_ROOT%{_datadir}/gnome-2.0/ui/GNOME_InhibitApplet.xml
 rm -rf  $RPM_BUILD_ROOT%{_libdir}/bonobo/servers/GNOME_InhibitApplet.server
 
-# Move scripts from /usr/bin to /usr/lib
+# Move scripts and applets from /usr/bin to /usr/lib
 mv $RPM_BUILD_ROOT%{_bindir}/gnome-power-*.sh $RPM_BUILD_ROOT%{_libdir}/
+mv $RPM_BUILD_ROOT%{_bindir}/gnome-*-applet $RPM_BUILD_ROOT%{_libdir}/
 
 %if %build_l10n
 %else
@@ -139,6 +140,7 @@ test -x $BASEDIR/lib/postrun || exit 0
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/gnome-power-*.sh
+%{_libdir}/gnome-*-applet
 %dir %attr (0755, root, bin) %{_libdir}/bonobo
 %dir %attr (0755, root, bin) %{_libdir}/bonobo/servers
 %{_libdir}/bonobo/servers/GNOME_BrightnessApplet.server
@@ -194,6 +196,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Mon Dec 17 2007 - simon.zheng@sun.com
+- Move gnome-brightness-applet into /usr/lib.
 * Thu Dec 12 2007 - simon.zheng@sun.com
 - Disable gnome-inhibit-applet, remove relevant files.
 * Tue Nov 27 2007 - simon.zheng@sun.com

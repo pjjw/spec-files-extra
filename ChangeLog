@@ -1,3 +1,24 @@
+2007-12-17  simon.zheng  <simon.zheng@sun.com>
+
+	* SFEgnome-power-manager.spec:
+	  Move gnome-brightness-applet into /usr/lib.
+	* base-specs/gnome-power-manager.spec:
+	  - Bump to 2.21.1.
+	* patches/gnome-power-manager-01-build.diff:
+	  - Rework.
+	* patches/gnome-power-manager-02-kstat.diff:
+	  - Remove.
+	* patches/gnome-power-manager-03-brightness-get-stuck.diff:
+	  - Remove because upstream has included it.
+	* patches/gnome-power-manager-04-display-sleep.diff:
+	  - Remove.
+	* patches/gnome-power-manager-05-configure-power-conf.diff:
+	  - Remove.
+	* patches/gnome-power-manager-07-disable-sleep-configration.diff:
+	  - Add.
+	* patches/gnome-power-manager-08-brightness-applet-install.diff:
+	  - Add.
+
 2007-12-17 Jerry Yu <jijun.yu@sun.com>
 
 	*SFEgpgme.spec: Bump to 1.1.5 and add some files to the package.

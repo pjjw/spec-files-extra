@@ -1,0 +1,67 @@
+--- src/Makefile.am.org	2007-12-17 18:58:48.299754000 +0800
++++ src/Makefile.am	2007-12-17 18:56:36.079825000 +0800
+@@ -105,6 +105,8 @@
+ 	gpm-common.c					\
+ 	gpm-screensaver.h				\
+ 	gpm-screensaver.c				\
++	gpm-brightness-lcd.h				\
++	gpm-brightness-lcd.c				\
+ 	$(NULL)
+ 
+ gnome_power_preferences_LDADD =				\
+--- src/gpm-prefs-core.c.org	2007-12-17 18:58:34.157062000 +0800
++++ src/gpm-prefs-core.c	2007-12-17 18:55:03.923764000 +0800
+@@ -44,6 +44,7 @@
+ #include "gpm-stock-icons.h"
+ #include "gpm-screensaver.h"
+ #include "gpm-prefs-server.h"
++#include "gpm-brightness-lcd.h"
+ 
+ static void     gpm_prefs_class_init (GpmPrefsClass *klass);
+ static void     gpm_prefs_init       (GpmPrefs      *prefs);
+@@ -957,6 +958,22 @@
+ 		widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_ac_cpu");
+ 		gtk_widget_hide_all (widget);
+ 	}
++
++/* Disable sleep configuration in Phase 1 development */
++#ifdef SOLARIS
++	widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_ac_computer");
++	gtk_widget_hide_all (widget);
++
++	if (gpm_brightness_lcd_has_hw ()) {
++		widget = glade_xml_get_widget (prefs->priv->glade_xml, "vbox_ac_display");
++		gtk_widget_hide_all (widget);
++	} else {
++		widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_ac_display");
++		gtk_widget_hide_all (widget);
++		widget = glade_xml_get_widget (prefs->priv->glade_xml, "checkbutton_ac_display_dim");
++		gtk_widget_hide_all (widget);
++	}
++#endif
+ }
+ 
+ static void
+@@ -1037,6 +1054,22 @@
+ 		widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_battery_cpu");
+ 		gtk_widget_hide_all (widget);
+ 	}
++
++/* Disable sleep configuration in Phase 1 development */
++#ifdef SOLARIS
++        widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_ac_computer");
++        gtk_widget_hide_all (widget);
++
++        if (gpm_brightness_lcd_has_hw ()) {
++                widget = glade_xml_get_widget (prefs->priv->glade_xml, "vbox_ac_display");
++                gtk_widget_hide_all (widget);
++        } else {
++                widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_ac_display");
++                gtk_widget_hide_all (widget);
++                widget = glade_xml_get_widget (prefs->priv->glade_xml, "checkbutton_ac_display_dim");
++                gtk_widget_hide_all (widget);
++        }
++#endif
+ }
+ 
+ static void
