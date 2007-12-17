@@ -1,3 +1,7 @@
+2007-12-17 Jerry Yu <jijun.yu@sun.com>
+
+	*SFEgpgme.spec: Bump to 1.1.5 and add some files to the package.
+
 2007-12-15  Ananth Shrinivas <ananth@sun.com>
 
 	* SFEpython-webpy.spec: *NEW* A Simple Web Framework for Python

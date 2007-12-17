@@ -7,7 +7,7 @@
 
 Name:                SFEgpgme
 Summary:             A C wrapper library for GnuPG
-Version:             1.1.4
+Version:             1.1.5
 Source:              ftp://ftp.gnupg.org/gcrypt/gpgme/gpgme-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
@@ -80,8 +80,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 %dir %attr(0755, root, bin) %{_datadir}/info
 %{_datadir}/info/*
+%{_datadir}/common-lisp
 
 %changelog
+* Mon Dec 17 2007 - jijun.yu@sun.com
+- Bump to 1.1.5 and add some files to the package.
 * Thu Mar 29 2007 - daymobrew@users.sourceforge.net
 - Add '-lsocket -lnsl' to LDFLAGS for the accept/recvmsg/connect functions.
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net
