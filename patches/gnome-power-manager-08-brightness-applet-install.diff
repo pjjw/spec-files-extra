@@ -1,5 +1,5 @@
---- applets/brightness/GNOME_BrightnessApplet.server.in.in.org	2007-12-17 19:21:42.319597000 +0800
-+++ applets/brightness/GNOME_BrightnessApplet.server.in.in	2007-12-17 19:22:22.897177000 +0800
+--- applets/brightness/GNOME_BrightnessApplet.server.in.in.org	2007-12-18 11:50:53.029383000 +0800
++++ applets/brightness/GNOME_BrightnessApplet.server.in.in	2007-12-18 11:45:09.334667000 +0800
 @@ -1,7 +1,7 @@
  <?xml version="1.0"?>
  
@@ -9,3 +9,14 @@
      <oaf_attribute name="repo_ids" type="stringv">
        <item value="IDL:Bonobo/GenericFactory:1.0"/>
        <item value="IDL:Bonobo/Unknown:1.0"/>
+--- applets/brightness/Makefile.am.org	2007-12-18 11:50:27.022113000 +0800
++++ applets/brightness/Makefile.am	2007-12-18 11:44:35.271288000 +0800
+@@ -35,7 +35,7 @@
+ server_DATA     = $(server_in_files:.server.in=.server)
+ 
+ $(server_in_files): $(server_in_files:.server.in=.server.in.in)
+-	sed -e "s|\@BINDIR\@|$(bindir)|" -e "s|\@VERSION\@|$(VERSION)|" $< > $@
++	sed -e "s|\@LIBDIR\@|$(libdir)|" -e "s|\@VERSION\@|$(VERSION)|" $< > $@
+ 
+ @INTLTOOL_SERVER_RULE@
+ 

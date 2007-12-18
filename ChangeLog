@@ -1,3 +1,9 @@
+2007-12-18  simon.zheng  <simon.zheng@sun.com>
+
+        * base-specs/gnome-power-manager.spec:
+        * patches/gnome-power-manager-09-scripts.diff:
+          - Add.
+
 2007-12-17  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEgnome-power-manager.spec:

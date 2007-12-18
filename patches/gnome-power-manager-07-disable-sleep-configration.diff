@@ -29,7 +29,7 @@
 +	widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_ac_computer");
 +	gtk_widget_hide_all (widget);
 +
-+	if (gpm_brightness_lcd_has_hw ()) {
++	if (gpm_brightness_lcd_has_hw () == FALSE) {
 +		widget = glade_xml_get_widget (prefs->priv->glade_xml, "vbox_ac_display");
 +		gtk_widget_hide_all (widget);
 +	} else {
@@ -52,7 +52,7 @@
 +        widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_ac_computer");
 +        gtk_widget_hide_all (widget);
 +
-+        if (gpm_brightness_lcd_has_hw ()) {
++        if (gpm_brightness_lcd_has_hw () == FALSE) {
 +                widget = glade_xml_get_widget (prefs->priv->glade_xml, "vbox_ac_display");
 +                gtk_widget_hide_all (widget);
 +        } else {

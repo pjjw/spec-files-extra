@@ -17,6 +17,7 @@ Patch1:         gnome-power-manager-01-build.diff
 Patch6:		gnome-power-manager-06-icon_plicy_and_cpufreq_show.diff
 Patch7:         gnome-power-manager-07-disable-sleep-configration.diff
 Patch8:		gnome-power-manager-08-brightness-applet-install.diff
+Patch9:		gnome-power-manager-09-scripts.diff
 URL:		http://www.gnome.org/projects/gnome-power-manager/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake
@@ -74,6 +75,7 @@ Uses of GNOME Power Manager infrastructure
 %patch6 -p0
 %patch7 -p0
 %patch8 -p0
+%patch9 -p0
 
 %build
 %ifos linux
@@ -128,6 +130,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Dec 18 2007 - simon.zheng@sun.com
+- Rework gnome-power-manager-07-disable-sleep-configration.diff.
+- Rework gnome-power-manager-08-brightness-applet-install.diff.
+- Add gnome-power-manager-09-scripts.diff.
+
 * Mon Dec 17 2007 - simon.zheng@sun.com
 - Bump to 2.21.1.
 - Rework gnome-power-manager-01-build.diff.
