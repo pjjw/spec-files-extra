@@ -1,0 +1,10 @@
+--- libseahorse/seahorse-ldap-source.c.orig	2007-12-18 13:56:54.145361000 +0800
++++ libseahorse/seahorse-ldap-source.c	2007-12-18 14:37:01.174519000 +0800
+@@ -61,6 +61,7 @@
+ /* Amount of keys to load in a batch */
+ #define DEFAULT_LOAD_BATCH 30
+ 
++#define LDAP_URL_SUCCESS 0x00  /*Success*/
+ /* -----------------------------------------------------------------------------
+  * SERVER INFO
+  */

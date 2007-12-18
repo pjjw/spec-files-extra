@@ -1,3 +1,11 @@
+2007-12-18 jerry yu <jijun.yu@sun.com>
+	* SFEseahorse.spec : added
+	* base-specs/seahorse.spec : added
+	* patches/seahorse-01-cryptui.diff :added
+	* patches/seahorse-02-open.diff :added
+	* patches/seahorse-03-ldap.diff: added
+	* patches/seahorse-04-paths.diff: added
+
 2007-12-18  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEgnome-device-manager.spec:

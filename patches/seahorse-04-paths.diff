@@ -1,0 +1,10 @@
+--- agent/seahorse-agent-io.c.orig	2007-12-18 16:29:11.193251000 +0800
++++ agent/seahorse-agent-io.c	2007-12-18 16:29:28.087867000 +0800
+@@ -26,7 +26,6 @@
+ #include <sys/stat.h>
+ #include <sys/un.h>
+ 
+-#include <paths.h>
+ #include <stddef.h>
+ #include <stdlib.h>
+ #include <unistd.h>
