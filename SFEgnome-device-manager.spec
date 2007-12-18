@@ -20,14 +20,13 @@ Requires: SUNWgnome-python-libs
 BuildRequires: SUNWgnome-python-libs-devel
 Requires: SUNWhal
 BuildRequires: SUNWhal
-Requires: SFEexpat
 
-%package root
-Summary:                 %{summary} - / filesystem
-SUNW_BaseDir:            /
+%package devel
+Summary:                 %{summary} - development files
+SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
-Requires: SUNWpostrun
-Requires: SUNWgnome-config
+Requires: %name
+Requires: SUNWgnome-libs-devel
 
 %if %build_l10n
 %package l10n
@@ -83,6 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 %files 
 %defattr(-, root, bin)
 %{_bindir}/gnome-device-manager
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/lib*.so*
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
@@ -100,6 +101,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (-, root, other) %{_datadir}/icons/hicolor/scalable
 %dir %attr (-, root, other) %{_datadir}/icons/hicolor/scalable/apps
 %{_datadir}/omf/*
+
+%files devel
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_includedir}
+%dir %attr (0755, root, bin) %{_includedir}/gnome-device-manager/
+%{_includedir}/gnome-device-manager/*.h
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
+%dir %attr (0755, root, sys) %dir %{_datadir}
 
 %if %build_l10n
 %files l10n

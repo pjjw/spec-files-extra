@@ -5,8 +5,8 @@
 Name:         gnome-device-manager
 License:      GPL
 Group:        System/GUI
-Version:      0.1
-Release:      1
+Version:      0.2
+Release:      2
 Distribution: Java Desktop System
 Vendor:       Sun Microsystems, Inc.
 Summary:      Device-manager is a GNOME program to manage devices and device drivers.

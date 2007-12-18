@@ -1,18 +1,18 @@
-diff -r -u gnome-device-manager-0.1/configure.ac gnome-device-manager-0.1-new/configure.ac
---- gnome-device-manager-0.1/configure.ac	2007-03-24 04:52:56.000000000 +0100
-+++ gnome-device-manager-0.1-new/configure.ac	2007-08-03 16:58:09.944456000 +0100
+diff -Nur gnome-device-manager-0.2-org/configure.ac gnome-device-manager-0.2/configure.ac
+--- gnome-device-manager-0.2-org/configure.ac	2007-12-18 14:55:30.644301000 +0800
++++ gnome-device-manager-0.2/configure.ac	2007-12-18 14:58:21.675613000 +0800
 @@ -26,7 +26,7 @@
  # Check for required packages
  # ***************************
  
--LIBHAL_REQUIRED=0.5.9
+-LIBHAL_REQUIRED=0.5.10
 +LIBHAL_REQUIRED=0.5.8
  LIBGTK_REQUIRED=2.6.0
  LIBGNOME_REQUIRED=2.14.0
  LIBGNOMEUI_REQUIRED=2.14.0
-diff -r -u gnome-device-manager-0.1/src/gdm-pool.c gnome-device-manager-0.1-new/src/gdm-pool.c
---- gnome-device-manager-0.1/src/gdm-pool.c	2007-03-24 04:52:57.000000000 +0100
-+++ gnome-device-manager-0.1-new/src/gdm-pool.c	2007-08-06 15:01:03.229191000 +0100
+diff -Nur gnome-device-manager-0.2-org/gnome-device-manager/gdm-pool.c gnome-device-manager-0.2/gnome-device-manager/gdm-pool.c
+--- gnome-device-manager-0.2-org/gnome-device-manager/gdm-pool.c	2007-12-18 14:55:30.643917000 +0800
++++ gnome-device-manager-0.2/gnome-device-manager/gdm-pool.c	2007-12-18 14:44:54.974983000 +0800
 @@ -210,7 +210,7 @@
          pool->priv->hal_ctx = hal_ctx;
          pool->priv->devices = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);

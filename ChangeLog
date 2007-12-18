@@ -1,5 +1,12 @@
 2007-12-18  simon.zheng  <simon.zheng@sun.com>
 
+	* SFEgnome-device-manager.spec:
+	* base-specs/gnome-device-manager.spec:
+	* patches/gnome-device-manager-01-build.diff:
+	  Bump to version 0.2. Rework patch.
+
+2007-12-18  simon.zheng  <simon.zheng@sun.com>
+
         * base-specs/gnome-power-manager.spec:
         * patches/gnome-power-manager-09-scripts.diff:
           - Add.
