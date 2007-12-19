@@ -1,3 +1,9 @@
+2007-12-19  simon.zheng  <simon.zheng@sun.com>
+
+	* base-specs/gnome-power-manager.spec:
+	* patches/gnome-power-manager-10-diable-suspend-button-configration
+	.diff: Added.
+
 2007-12-18 jerry yu <jijun.yu@sun.com>
 	* SFEseahorse.spec : added
 	* base-specs/seahorse.spec : added
