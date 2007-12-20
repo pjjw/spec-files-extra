@@ -19,6 +19,8 @@ Patch7:         gnome-power-manager-07-disable-sleep-configration.diff
 Patch8:		gnome-power-manager-08-brightness-applet-install.diff
 Patch9:		gnome-power-manager-09-scripts.diff
 Patch10:        gnome-power-manager-10-diable-suspend-button-configration.diff
+Patch11:        gnome-power-manager-11-authorization-checking.diff
+Patch12:        gnome-power-manager-12-crash.diff       
 URL:		http://www.gnome.org/projects/gnome-power-manager/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake
@@ -78,6 +80,8 @@ Uses of GNOME Power Manager infrastructure
 %patch8 -p0
 %patch9 -p0
 %patch10 -p0
+%patch11 -p0
+%patch12 -p0
 
 %build
 %ifos linux
@@ -132,6 +136,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Dec 20 2007 - simon.zheng@sun.com
+- Rework gnome-power-manager-07-disable-sleep-configration.diff.
+- Add gnome-power-manager-11-authorization-checking.diff
+- Add gnome-power-manager-12-crash.diff
+
 * Wed Dec 19 2007 - simon.zheng@sun.com
 - Add gnome-power-manager-10-diable-suspend-button-configration.diff.
 

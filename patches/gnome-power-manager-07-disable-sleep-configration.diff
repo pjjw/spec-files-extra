@@ -9,8 +9,8 @@
  	$(NULL)
  
  gnome_power_preferences_LDADD =				\
---- src/gpm-prefs-core.c.org	2007-12-17 18:58:34.157062000 +0800
-+++ src/gpm-prefs-core.c	2007-12-17 18:55:03.923764000 +0800
+--- src/gpm-prefs-core.c.org	2007-12-20 16:54:37.514707000 +0800
++++ src/gpm-prefs-core.c	2007-12-20 16:17:57.171458000 +0800
 @@ -44,6 +44,7 @@
  #include "gpm-stock-icons.h"
  #include "gpm-screensaver.h"
@@ -19,7 +19,29 @@
  
  static void     gpm_prefs_class_init (GpmPrefsClass *klass);
  static void     gpm_prefs_init       (GpmPrefs      *prefs);
-@@ -957,6 +958,22 @@
+@@ -917,6 +918,21 @@
+ 				 ACTION_SUSPEND,
+ 				 ACTION_HIBERNATE,
+ 				 NULL};
++/* Disable AC tab on Solaris Sparc in Phase 1 development */
++#ifdef SOLARIS
++        GtkWidget *notebook;
++        gint page;
++
++        if ((prefs->priv->has_button_lid == FALSE)
++	    && (prefs->priv->hal_cpufreq == FALSE)
++	    && (gpm_brightness_lcd_has_hw () == FALSE)) {
++                notebook = glade_xml_get_widget (prefs->priv->glade_xml, "notebook_preferences");
++                widget = glade_xml_get_widget (prefs->priv->glade_xml, "vbox_ac");
++                page = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), GTK_WIDGET (widget));
++                gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), page);
++                return;
++        }
++#endif
+ 
+ 	gpm_prefs_setup_action_combo (prefs, "combobox_ac_lid",
+ 				      GPM_CONF_BUTTON_LID_AC,
+@@ -957,6 +973,22 @@
  		widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_ac_cpu");
  		gtk_widget_hide_all (widget);
  	}
@@ -42,7 +64,7 @@
  }
  
  static void
-@@ -1037,6 +1054,22 @@
+@@ -1037,6 +1069,22 @@
  		widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_battery_cpu");
  		gtk_widget_hide_all (widget);
  	}

@@ -1,3 +1,13 @@
+2007-12-20  simon.zheng  <simon.zheng@sun.com>
+
+	* base-specs/gnome-power-manager.spec:
+	* patches/gnome-power-manager-07-disable-sleep-configration.diff:
+	  - Rework.
+	* patches/gnome-power-manager-11-authorization-checking.diff:
+	  - Add.
+	* patches/gnome-power-manager-12-crash.diff:
+	  - Add.
+
 2007-12-19  simon.zheng  <simon.zheng@sun.com>
 
 	* base-specs/gnome-power-manager.spec:

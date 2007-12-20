@@ -1,0 +1,111 @@
+--- src/gpm-control.c.org	2007-12-20 14:30:34.372531000 +0800
++++ src/gpm-control.c	2007-12-20 15:31:26.998432000 +0800
+@@ -166,9 +166,14 @@
+ 	*can = FALSE;
+ 	gpm_conf_get_bool (control->priv->conf, GPM_CONF_CAN_SUSPEND, &conf_ok);
+ 	hal_ok = hal_gpower_can_suspend (control->priv->hal_power);
++#ifdef SOLARIS
++	polkit_ok = gpm_polkit_is_user_privileged (control->priv->polkit, "hal-power-suspend");
++	gpm_debug ("polkit_ok = %d\n", polkit_ok);
++#else
+ 	if (control->priv->polkit) {
+ 		polkit_ok = gpm_polkit_is_user_privileged (control->priv->polkit, "hal-power-suspend");
+ 	}
++#endif
+ 	if ( conf_ok && hal_ok && polkit_ok ) {
+ 		*can = TRUE;
+ 	}
+@@ -197,9 +202,14 @@
+ 	*can = FALSE;
+ 	gpm_conf_get_bool (control->priv->conf, GPM_CONF_CAN_HIBERNATE, &conf_ok);
+ 	hal_ok = hal_gpower_can_hibernate (control->priv->hal_power);
++#ifdef SOLARIS
++        polkit_ok = gpm_polkit_is_user_privileged (control->priv->polkit, "hal-power-hibernate");
++        gpm_debug ("polkit_ok = %d\n", polkit_ok);
++#else
+ 	if (control->priv->polkit) {
+ 		polkit_ok = gpm_polkit_is_user_privileged (control->priv->polkit, "hal-power-hibernate");
+ 	}
++#endif
+ 	if ( conf_ok && hal_ok && polkit_ok ) {
+ 		*can = TRUE;
+ 	}
+--- src/gpm-polkit.c.org	2007-12-20 12:18:11.917706000 +0800
++++ src/gpm-polkit.c	2007-12-20 15:16:25.839180000 +0800
+@@ -30,6 +30,11 @@
+ #include "gpm-polkit.h"
+ #include "gpm-debug.h"
+ 
++#ifdef SOLARIS
++#include <stdlib.h>
++#include <libpolkit/libpolkit.h> 
++#endif
++
+ static void     gpm_polkit_class_init (GpmPolkitClass *klass);
+ static void     gpm_polkit_init       (GpmPolkit      *polkit);
+ static void     gpm_polkit_finalize   (GObject		   *object);
+@@ -66,6 +71,46 @@
+ 	gboolean ret;
+ 	DBusGProxy *proxy;
+ 
++#ifdef SOLARIS
++	LibPolKitContext *pol_ctx = NULL;
++	DBusConnection *system_bus = NULL;
++	DBusError derror;
++
++	dbus_error_init (&derror);
++ 	system_bus = dbus_bus_get (DBUS_BUS_SYSTEM, &derror);
++ 	if (system_bus == NULL) {
++ 		g_warning ("Cannot connect to the system bus\n");
++ 		do {
++			if (dbus_error_is_set (&derror))
++				dbus_error_free (&derror);
++		} while (0);
++	}
++
++	pol_ctx = libpolkit_new_context (system_bus);
++ 	if (pol_ctx == NULL) {
++ 		gpm_warning ("Cannot get libpolkit context\n");
++		return FALSE;
++ 	}
++
++	bus_unique_name = getenv ("HAL_METHOD_INVOKED_BY_SYSTEMBUS_CONNECTION_NAME");
++
++	if (libpolkit_is_uid_allowed_for_privilege (pol_ctx,
++    						    bus_unique_name,
++ 						    user,
++						    privilege,
++						    myresource,
++						    &out_is_allowed,
++ 						    &out_is_temporary,
++ 						    NULL) 
++						    != LIBPOLKIT_RESULT_OK) {
++		/* abort as calling libpolkit failed */
++ 		gpm_warning ("Cannot lookup privilege from libpolkit\n");
++ 	}
++ 
++ 	if (out_is_allowed == FALSE) {
++ 		gpm_debug ("The user don't possess privilege \"%s\"\n", privilege);
++	}
++#else
+ 	g_return_val_if_fail (GPM_IS_POLKIT (polkit), FALSE);
+ 
+ 	proxy = dbus_proxy_get_proxy (polkit->priv->gproxy);
+@@ -95,6 +140,7 @@
+ 		gpm_warning ("IsUserPrivileged failed!");
+ 		return FALSE;
+ 	}
++#endif
+ 	return out_is_allowed;
+ }
+ 
+--- src/Makefile.am.org	2007-12-20 17:16:53.952028000 +0800
++++ src/Makefile.am	2007-12-20 17:17:41.498664000 +0800
+@@ -214,6 +216,7 @@
+ 	$(GPM_EXTRA_LIBS)				\
+ 	$(LOCAL_LIBHAL_LIBS)				\
+ 	$(LOCAL_LIBDBUS_LIBS)				\
++	-lpolkit
+ 	$(NULL)
+ 
+ if HAVE_LIBNOTIFY
