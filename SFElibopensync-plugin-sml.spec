@@ -50,12 +50,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, bin) %{_datadir}/opensync
-%dir %attr (0755, root, bin) %{_datadir}/opensync/defaults
-%{_datadir}/opensync/defaults/syncml-http-server
-%{_datadir}/opensync/defaults/syncml-obex-client
+%dir %attr (0755, root, bin) %{_datadir}/opensync-1.0
+%dir %attr (0755, root, bin) %{_datadir}/opensync-1.0/defaults
+%{_datadir}/opensync-1.0/defaults/syncml-http-server
+%{_datadir}/opensync-1.0/defaults/syncml-obex-client
 
 %changelog
+* Thu Dec 20 2007 - jijun.yu@sun.com
+- Change a path.
 * Wed Oct 17 2007 - nonsea@users.sourceforge.net
 - Remove -devel pkg.
 - Change %files

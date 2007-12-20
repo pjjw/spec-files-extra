@@ -11,7 +11,7 @@
 Name:           libopensync-plugin-syncml
 License:        GPL
 Group:          System/Libraries
-Version:        0.33
+Version:        0.35
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -48,12 +48,17 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-scons prefix=%{_prefix}         \
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr ../
+
+make -j $CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
-scons install DESTDIR=$RPM_BUILD_ROOT
+cd build
+make install DESTDIR=$RPM_BUILD_ROOT
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
@@ -72,6 +77,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/opensync-1.0/opensync/*
 
 %changelog
+* Thu Dec 20 2007 - jijun.yu@sun.com
+- Bump to 0.35, change the build tool to cmake.
 * Tue Oct 16 2007 - nonsea@users.sourceforge.net
 - Bump to 0.33, change Source to full URL.
 - Use scons build

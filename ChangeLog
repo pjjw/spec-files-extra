@@ -1,4 +1,8 @@
 2007-12-20  jijun.yu  <jijun.yu@sun.com>
+	* SFElibopensync-plugin-sml.spec: change a path.
+	* base-specs/libopensync-plugin-syncml.spec: Bump to 0.35.
+
+2007-12-20  jijun.yu  <jijun.yu@sun.com>
 
 	* SFEmsynctool.spec: delete one require SFEscons and add another one SFEcmake.
 	* base-specs/msynctool.spec: Bump to 0.35.
