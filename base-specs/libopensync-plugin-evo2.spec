@@ -11,14 +11,13 @@
 Name:           libopensync-plugin-evo2
 License:        GPL
 Group:          System/Libraries 
-Version:        0.33
+Version:        0.35
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
 Summary:        Evolution2 plugin for opensync synchronization tool
 Source:         http://www.opensync.org/download/releases/%{version}/%{real_name}-%{version}.tar.bz2
-Patch1:         %{real_name}-01-forte-wall.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires:	libopensync-devel >= %{version}
@@ -37,7 +36,6 @@ Header files for developing programs based on %name.
 
 %prep
 %setup -q -n  %{real_name}-%{version}
-%patch1 -p1
 
 %build
 %ifos linux
@@ -51,20 +49,16 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-libtoolize --force
-aclocal $ACLOCAL_FLAGS -I .
-autoheader
-automake -a -c -f
-autoconf
-./configure --prefix=%{_prefix}                 \
-            --libexecdir=%{_libexecdir}         \
-            --sysconfdir=%{_sysconfdir}         \
-            --mandir=%{_mandir}                 \
+mkdir build
+cd build
+
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr ../
 
 make -j $CPUS
 
 %install
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
+cd build
 make -i install DESTDIR=$RPM_BUILD_ROOT
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
@@ -85,6 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu DEC 20 2007 - jijun.yu@sun.com
+- Bump to 0.35, change the build tool to cmake.
+
 * Tue Oct 16 2007 - nonsea@users.sourceforge.net
 - Bump to 0.33, change Source to full URL.
 

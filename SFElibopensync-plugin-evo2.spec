@@ -49,9 +49,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/opensync
+%{_datadir}/opensync-1.0
 
 %changelog
+* Thu Dec 20 2007 - jijun.yu@sun.coom
+- Change %{_datadir}/opensync to %{_datadir}/opensync-1.0
 * Tue Oct 16 2007 - nonsea@users.sourceforge.net
 - Remove -devel package since there is no header files.
 * Mon Aug 06 2007 - jijun.yu@sun.com

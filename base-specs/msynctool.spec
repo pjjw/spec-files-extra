@@ -11,7 +11,7 @@
 Name:           msynctool
 License:        GPL
 Group:          Applications
-Version:        0.34
+Version:        0.35
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -69,6 +69,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1*
 
 %changelog
+* Thu Dec 20 2007 - jijun.yu@sun.com
+- Bump to 0.35.
+
 * Mon Nov 05 2007 - jijun.yu@sun.com
 - Bump to 0.34.
 - Change to cmake build tool.

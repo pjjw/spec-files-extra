@@ -28,7 +28,7 @@ Requires: SUNWzlib
 Requires: SFEsqlite
 Requires: SFEswig
 Requires: SFElibopensync
-BuildRequires: SFEscons
+BuildRequires: SFEcmake
 BuildRequires: SFEcheck
 
 %prep
@@ -71,6 +71,10 @@ test -x $BASEDIR/lib/postrun || exit 0
 
 
 %changelog
+* Thu Dec 20 2007 - jijun.yu@sun.com
+- Delete the build requires SFEscons
+- Add the build requires SFEcmake
+
 * Wed Jun 06 2007 - nonsea@users.sourceforge.net
 - Add BuildRequires SFEscons and SFEcheck
 * Tue Jun 05 2007 - jijun.yu@sun.com

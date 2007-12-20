@@ -11,7 +11,7 @@
 Name:           libopensync
 License:        GPL
 Group:          System/Libraries
-Version:        0.34
+Version:        0.35
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -107,6 +107,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Thu Dec 20 2007 - jijun.yu@sun.com
+- Bump to 0.35
 * Mon Nov 05 2007 - jijun.yu@sun.com
 - Add the corret prefix option and remove Patch 1.
 * Mon Nov 05 2007 - jijun.yu@sun.com

@@ -1,3 +1,24 @@
+2007-12-20  jijun.yu  <jijun.yu@sun.com>
+
+	* SFEmsynctool.spec: delete one require SFEscons and add another one SFEcmake.
+	* base-specs/msynctool.spec: Bump to 0.35.
+	* SFElibopensync-plugin-evo2.spec: Change a path.
+	* base-specs/libopensync-plugin-evo2.spec: Bump to 0.35.
+	* SFElibopensync.spec: Change a path.
+	* base-specs/libopensync.spec: Bump to 0.35.
+	* SFElibopensync-plugin-file.spec: change a path.
+	* base-specs/libopensync-plugin-file.spec: Bump to 0.35.
+	* SFElibopensync-plugin-palm.spec: remove -devel packages.
+	* base-specs/libopensync-plugin-palm.spec: Bump to 0.35.
+	* base-specs/libopensync-plugin-vfmt.spec: Bump to 0.35.
+	* SFElibopensync-plugin-gcal.spec: change a path.
+	* base-specs/libopensync-plugin-gcal.spec: Bump to 0.35.
+	* patches/libopensync-plugin-evolution2-01-forte-wall.diff: Removed.
+	* patches/libopensync-plugin-file-01-forte-wall.diff: Removed.
+	* patches/libopensync-plugin-vformat-01-add-glib.diff: Removed.
+	* patches/libopensync-plugin-palm-01-detect-plink.diff: Removed.
+	* patches/libopensync-plugin-palm-02-nouse-headers.diff: Removed.
+
 2007-12-20  simon.zheng  <simon.zheng@sun.com>
 
 	* base-specs/gnome-power-manager.spec:

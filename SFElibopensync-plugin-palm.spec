@@ -26,12 +26,6 @@ Requires: SFElibopensync
 BuildRequires:    SUNWpilot-link-devel
 BuildRequires:    SFElibopensync-devel
 
-%package devel
-Summary:       %{summary} - development files
-SUNW_BaseDir:            %{_basedir}
-%include default-depend.inc
-Requires:      %{name}
-
 %prep
 rm -rf %name-%version
 mkdir -p %name-%version
@@ -56,14 +50,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/opensync
-
-%files devel
-%defattr (-, root, bin)
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
+%{_datadir}/opensync-1.0
 
 %changelog
+* Thu Dec 20 2007 - jijun.yu@sun.com
+- Change %{_datadir}/opensync to %{_datadir}/opensync-1.0
+- Remove -devel package
 * Tue Oct 16 2007 - nonsea@users.sourceforge.net
 - Remove useless with_pilot_link logic
 * Mon Aug 06 2007 - jijun.yu@sun.com

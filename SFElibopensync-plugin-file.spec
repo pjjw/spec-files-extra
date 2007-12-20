@@ -54,9 +54,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/opensync
+%{_datadir}/opensync-1.0
 
 %changelog
+* Thu Dec 20 2007 - jijun.yu@sun.com
+- Change %{_datadir}/opensync to %{_datadir}/opensync-1.0
+
 * Wed Jun 05 2007 - jijun.yu@sun.com
 - Splitted from SFElibopensync-plugin.spec and bumped to 0.30
 
