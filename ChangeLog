@@ -13,7 +13,8 @@
 
 2007-12-20  jijun.yu  <jijun.yu@sun.com>
 
-	* SFEmsynctool.spec: delete one require SFEscons and add another one SFEcmake.
+	* SFEmsynctool.spec: delete one require SFEscons and add another one
+	  SFEcmake.
 	* base-specs/msynctool.spec: Bump to 0.35.
 	* SFElibopensync-plugin-evo2.spec: Change a path.
 	* base-specs/libopensync-plugin-evo2.spec: Bump to 0.35.
@@ -188,7 +189,8 @@
 
 	* first alpha version of SFEunixODBC.spec with 32 and 64 bit 
 	  version. Works on x86 and x86_64, not tested on sparc yet, 
-	  has problems with pkgmap, have to fix that and clean the whole thing up :)
+	  has problems with pkgmap, have to fix that and clean the whole thing
+	  up :)
 
 2007-12-06  Brian Cameron  <brian.cameron@sun.com>
 
