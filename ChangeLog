@@ -1,3 +1,8 @@
+2007-12-21  simon.zheng  <simon.zheng@sun.com>
+
+	* SFEgnome-power-manager.spec:
+	  Remove redundant CFLAGS and LDFLAGS.
+
 2007-12-21  jijun.yu  <jijun.yu@sun.com>
 
 	* base-specs/gnupg.spec: Bump to 1.4.8

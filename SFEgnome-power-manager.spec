@@ -6,8 +6,6 @@
 %include Solaris.inc
 %use gpm = gnome-power-manager.spec
 
-%define with_hal %(pkginfo -q SUNWhal && echo 1 || echo 0)
-
 Name:                    SFEgnome-power-manager
 Summary:                 GNOME Power Manager
 Version:                 %{default_pkg_version}
@@ -23,10 +21,7 @@ Requires:                SUNWdbus
 BuildRequires:           SUNWdbus-devel
 Requires:                SUNWdbus-bindings
 BuildRequires:           SUNWdbus-bindings-devel
-%if %with_hal
 Requires:                SUNWhal
-%endif
-Requires:                SUNWdbus-bindings
 Requires:                SUNWgnome-panel
 BuildRequires:           SUNWgnome-panel-devel
 Requires:                SUNWpostrun
@@ -53,8 +48,6 @@ mkdir %name-%version
 cd %{_builddir}/%name-%version
 
 %build
-export LDFLAGS="%_ldflags -lX11 -lkstat -L/usr/gnu/lib -R/usr/gnu/lib"
-export CFLAGS="%optflags -I/usr/gnu/include"
 %gpm.build -d %name-%version
 
 %install
@@ -196,6 +189,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Fri Dec 21 2007 - simon.zheng@sun.com
+- Remove redundant CFLAGS and LDFLAGS.
 * Mon Dec 17 2007 - simon.zheng@sun.com
 - Move gnome-brightness-applet into /usr/lib.
 * Thu Dec 12 2007 - simon.zheng@sun.com
