@@ -1,3 +1,6 @@
+2007-12-23 Pradhap Devarajan <pradhap (at) gmail.com>
+	* SFEleafpad.spec: Leafpad GTK+ based text editor.
+	
 2007-12-21  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEgnome-power-manager.spec:
