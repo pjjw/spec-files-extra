@@ -1,3 +1,9 @@
+2007-12-22 Patrick Ale <patrick.ale@gmail.com>
+    * fluxbox.desktop: move to ext-sources 
+    * azureus.desktop: move to ext-sources
+    * Maelstrom.desktop: move to ext-sources
+    * eclipse.desktop: move to ext-sources
+
 2007-12-23 Pradhap Devarajan <pradhap (at) gmail.com>
 	* SFEleafpad.spec: Leafpad GTK+ based text editor.
 	
