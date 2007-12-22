@@ -1,4 +1,7 @@
-2007-12-22 Patrick Ale <patrick.ale@gmail.com>
+2007-12-22 Patrick Ale <wickedwicky@users.sourceforge.net>
+    * SFEazureus: Add BuildRequires: SUNWgnome-common-devel
+
+2007-12-22 Patrick Ale <wickedwicky@users.sourceforge.net>
     * fluxbox.desktop: move to ext-sources 
     * azureus.desktop: move to ext-sources
     * Maelstrom.desktop: move to ext-sources

@@ -30,6 +30,7 @@ Requires: SFEeclipse
 Requires: SFEjakarta-commons-cli
 Requires: SFElogging-log4j
 Requires: SFEjunit
+BuildRequires: SUNWgnome-common-devel
 
 %prep
 %setup -q -c -n %{name}-%{version}
@@ -71,6 +72,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/Azureus
 
 %changelog
+* Sat Dec 22 2007 - wickedwicky@users.sourceforge.net
+- Add BuildRequires: SUNWgnome-common-devel
 * Thu Nov 22 2007 - daymobrew@users.sourceforge.net
 - Set CLASSPATH to try to get it to build.
 * Sat Sep  8 2007 - dougs@truemail.co.th
