@@ -1,3 +1,6 @@
+2007-12-23 Patrick Ale <wickedwicky@users.sourceforge.net>
+    * default-copyright: move to ext-sources
+
 2007-12-22 Patrick Ale <wickedwicky@users.sourceforge.net>
     * SFEazureus: Add BuildRequires: SUNWgnome-common-devel
 
