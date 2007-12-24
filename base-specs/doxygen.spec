@@ -13,7 +13,11 @@ URL:            http://ftp.stack.nl/pub/users/dimitri
 Summary:        Doxygen is a documentation system for various programming languages
 Source:         http://ftp.stack.nl/pub/users/dimitri/%{name}-%{version}.src.tar.gz
 Patch2:		doxygen-02-nameconflict.diff
-Patch3:		doxygen-03-solaris.diff
+%ifarch sparc
+Patch3:		doxygen-03-solaris-sparc.diff
+%else
+Patch3:		doxygen-03-solaris-i386.diff
+%endif
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Docdir:         %{_defaultdocdir}/doc
 

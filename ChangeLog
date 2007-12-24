@@ -1,3 +1,10 @@
+2007-22-24 Patrick Ale <wickedwicky@users.sourceforge.net>
+	* base-specs/doxygen.spec: Add ifarch statement for Patch03 to solve bug 1830212
+	* patches/doxygen-03-solaris-i386.diff: Added, previously doxygen-03-solaris.diff
+	* patches/doxygen-03-solaris-sparc.diff: Added, previously doxygen-03.solaris.diff
+	  but without the -xregs argument for the compile flags
+	* patches/doxygen-03.solaris.diff: Killed in favor of the splitted i386 and sparc patch
+
 2007-12-24 Pradhap Devarajan <pradhap (at) gmail.com>
 	* SFEwmctrl.spec: A command line tool to interact with an EWMH/NetWM compatible X Window Manager.
 
