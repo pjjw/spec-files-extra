@@ -1,18 +1,18 @@
 #
-# spec file for package SFEpython-cherrypy
+# spec file for package SFEpython-mutagen
 #
-# includes module(s): cherrypy
+# includes module(s): mutagen
 #
 %include Solaris.inc
 
-%define src_url         http://download.cherrypy.org/cherrypy
-%define src_name        CherryPy
+%define src_url         http://www.sacredchao.net/~piman/software
+%define src_name        mutagen
 
-Name:                   SFEpython-cherrypy
-Summary:                CherryPy - A pythonic object-oriented HTTP framework
-URL:                    http://www.cherrypy.org/
-Version:                3.0.2
-Source:                 %{src_url}/%{version}/%{src_name}-%{version}.tar.gz
+Name:                   SFEpython-mutagen
+Summary:                Mutagen - A Python module to handle audio metadata
+URL:                    http://www.sacredchao.net/quodlibet/wiki/Development/Mutagen
+Version:                1.13
+Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 
@@ -45,11 +45,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/python%{python_version}/vendor-packages
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/*
 
 %changelog
 * Tue Dec 25 2007 - Ananth Shrinivas <ananth@sun.com>
-- Fixed errors in spec file
-* Sun Oct 14 2007 - Ananth Shrinivas <ananth@sun.com>
 - Initial Version

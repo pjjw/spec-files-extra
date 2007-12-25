@@ -1,18 +1,18 @@
 #
-# spec file for package SFEpython-cherrypy
+# spec file for package SFEpython-xlib
 #
-# includes module(s): cherrypy
+# includes module(s): python-xlib
 #
 %include Solaris.inc
 
-%define src_url         http://download.cherrypy.org/cherrypy
-%define src_name        CherryPy
+%define src_url         http://jaist.dl.sourceforge.net/sourceforge/python-xlib/python-xlib-0.14.tar.gz
+%define src_name        python-xlib
 
-Name:                   SFEpython-cherrypy
-Summary:                CherryPy - A pythonic object-oriented HTTP framework
-URL:                    http://www.cherrypy.org/
-Version:                3.0.2
-Source:                 %{src_url}/%{version}/%{src_name}-%{version}.tar.gz
+Name:                   SFEpython-xlib
+Summary:                A complete X11R6 client-side implementation in pure-python
+URL:                    http://jaist.dl.sourceforge.net/sourceforge/python-xlib
+Version:                0.14
+Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 
@@ -50,6 +50,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Tue Dec 25 2007 - Ananth Shrinivas <ananth@sun.com>
-- Fixed errors in spec file
-* Sun Oct 14 2007 - Ananth Shrinivas <ananth@sun.com>
 - Initial Version

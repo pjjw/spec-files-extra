@@ -1,29 +1,25 @@
 #
-# spec file for package SFEpython-cherrypy
+# spec file for package SFEpython-feedparser
 #
-# includes module(s): cherrypy
+# includes module(s): feedparser
 #
 %include Solaris.inc
 
-%define src_url         http://download.cherrypy.org/cherrypy
-%define src_name        CherryPy
-
-Name:                   SFEpython-cherrypy
-Summary:                CherryPy - A pythonic object-oriented HTTP framework
-URL:                    http://www.cherrypy.org/
-Version:                3.0.2
-Source:                 %{src_url}/%{version}/%{src_name}-%{version}.tar.gz
-SUNW_BaseDir:           %{_basedir}
-BuildRoot:              %{_tmppath}/%{name}-%{version}-build
+Name:                    SFEpython-feedparser
+Summary:                 FeedParser - A Python module for downloading and parsing syndicated feeds.
+URL:                     http://feedparser.org/
+Version:                 4.1
+Source:                  http://feedparser.googlecode.com/files/feedparser-%{version}.zip
+SUNW_BaseDir:            %{_basedir}
+BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+Requires:                SUNWPython
 
 %include default-depend.inc
-Requires:               SUNWPython
-BuildRequires:          SUNWPython-devel
 
 %define python_version  2.4
 
 %prep
-%setup -q -n %{src_name}-%{version}
+%setup -c -q -n feedparser-%{version}
 
 %build
 python setup.py build
@@ -50,6 +46,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Tue Dec 25 2007 - Ananth Shrinivas <ananth@sun.com>
-- Fixed errors in spec file
-* Sun Oct 14 2007 - Ananth Shrinivas <ananth@sun.com>
 - Initial Version

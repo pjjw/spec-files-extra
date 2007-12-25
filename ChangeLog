@@ -1,3 +1,13 @@
+2007-12-15  Ananth Shrinivas <ananth@sun.com>
+
+	* SFEpython-xlib.spec: *NEW* A complete X11R6 client implementation
+	* SFEpython-feedparser.spec: *NEW* Python feedparser library
+	* SFEpython-eyed3.spec: *NEW* Python module and program for processing ID3 tags
+	* SFEpython-mutagen.spec: *NEW* A Python module to handle audio metadata
+	* SFEglpk.spec: *NEW* The GNU Linear Programming Kit library
+	* SFEpython-cherrypy.spec: Fixed errors in spec file
+	* SFEleafpad.spec: Cleaned up spec file
+
 2007-22-24 Patrick Ale <wickedwicky@users.sourceforge.net>
 	* base-specs/doxygen.spec: Add ifarch statement for Patch03 to solve bug 1830212
 	* patches/doxygen-03-solaris-i386.diff: Added, previously doxygen-03-solaris.diff
