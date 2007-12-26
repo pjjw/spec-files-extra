@@ -1,22 +1,70 @@
---- applets/brightness/GNOME_BrightnessApplet.server.in.in.org	2007-12-18 11:50:53.029383000 +0800
-+++ applets/brightness/GNOME_BrightnessApplet.server.in.in	2007-12-18 11:45:09.334667000 +0800
+Index: applets/inhibit/GNOME_InhibitApplet.server.in.in
+===================================================================
+--- applets/inhibit/GNOME_InhibitApplet.server.in.in	(revision 2616)
++++ applets/inhibit/GNOME_InhibitApplet.server.in.in	(working copy)
 @@ -1,7 +1,7 @@
  <?xml version="1.0"?>
  
  <oaf_info>
--  <oaf_server iid="OAFIID:GNOME_BrightnessApplet_Factory" type="exe" location="@BINDIR@/gnome-brightness-applet">
-+  <oaf_server iid="OAFIID:GNOME_BrightnessApplet_Factory" type="exe" location="@LIBDIR@/gnome-brightness-applet">
+-  <oaf_server iid="OAFIID:GNOME_InhibitApplet_Factory" type="exe" location="@BINDIR@/gnome-inhibit-applet">
++  <oaf_server iid="OAFIID:GNOME_InhibitApplet_Factory" type="exe" location="@LIBEXECDIR@/gnome-inhibit-applet">
      <oaf_attribute name="repo_ids" type="stringv">
        <item value="IDL:Bonobo/GenericFactory:1.0"/>
        <item value="IDL:Bonobo/Unknown:1.0"/>
---- applets/brightness/Makefile.am.org	2007-12-18 11:50:27.022113000 +0800
-+++ applets/brightness/Makefile.am	2007-12-18 11:44:35.271288000 +0800
+Index: applets/inhibit/Makefile.am
+===================================================================
+--- applets/inhibit/Makefile.am	(revision 2616)
++++ applets/inhibit/Makefile.am	(working copy)
+@@ -22,7 +22,7 @@
+ 	$(top_builddir)/libdbus-glib/libdbus-monitor-system.la	\
+ 	$(top_builddir)/libdbus-glib/libdbus-watch.la
+ 
+-bin_PROGRAMS=gnome-inhibit-applet
++libexec_PROGRAMS=gnome-inhibit-applet
+ 
+ gnome_inhibit_applet_SOURCES = inhibit-applet.c
+ gnome_inhibit_applet_LDADD =					\
 @@ -35,7 +35,7 @@
  server_DATA     = $(server_in_files:.server.in=.server)
  
  $(server_in_files): $(server_in_files:.server.in=.server.in.in)
 -	sed -e "s|\@BINDIR\@|$(bindir)|" -e "s|\@VERSION\@|$(VERSION)|" $< > $@
-+	sed -e "s|\@LIBDIR\@|$(libdir)|" -e "s|\@VERSION\@|$(VERSION)|" $< > $@
++	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" -e "s|\@VERSION\@|$(VERSION)|" $< > $@
+ 
+ @INTLTOOL_SERVER_RULE@
+ 
+Index: applets/brightness/GNOME_BrightnessApplet.server.in.in
+===================================================================
+--- applets/brightness/GNOME_BrightnessApplet.server.in.in	(revision 2616)
++++ applets/brightness/GNOME_BrightnessApplet.server.in.in	(working copy)
+@@ -1,7 +1,7 @@
+ <?xml version="1.0"?>
+ 
+ <oaf_info>
+-  <oaf_server iid="OAFIID:GNOME_BrightnessApplet_Factory" type="exe" location="@BINDIR@/gnome-brightness-applet">
++  <oaf_server iid="OAFIID:GNOME_BrightnessApplet_Factory" type="exe" location="@LIBEXECDIR@/gnome-brightness-applet">
+     <oaf_attribute name="repo_ids" type="stringv">
+       <item value="IDL:Bonobo/GenericFactory:1.0"/>
+       <item value="IDL:Bonobo/Unknown:1.0"/>
+Index: applets/brightness/Makefile.am
+===================================================================
+--- applets/brightness/Makefile.am	(revision 2616)
++++ applets/brightness/Makefile.am	(working copy)
+@@ -22,7 +22,7 @@
+ 	$(top_builddir)/libdbus-glib/libdbus-monitor-system.la	\
+ 	$(top_builddir)/libdbus-glib/libdbus-watch.la
+ 
+-bin_PROGRAMS=gnome-brightness-applet
++libexec_PROGRAMS=gnome-brightness-applet
+ 
+ gnome_brightness_applet_SOURCES = brightness-applet.c
+ gnome_brightness_applet_LDADD =					\
+@@ -35,7 +35,7 @@
+ server_DATA     = $(server_in_files:.server.in=.server)
+ 
+ $(server_in_files): $(server_in_files:.server.in=.server.in.in)
+-	sed -e "s|\@BINDIR\@|$(bindir)|" -e "s|\@VERSION\@|$(VERSION)|" $< > $@
++	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" -e "s|\@VERSION\@|$(VERSION)|" $< > $@
  
  @INTLTOOL_SERVER_RULE@
  

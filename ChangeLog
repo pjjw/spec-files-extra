@@ -1,3 +1,9 @@
+2007-12-26  simon.zheng  <simon.zheng@sun.com>
+
+	* SFEgnome-power-manager.spec:
+	* patches/gnome-power-manager-08-brightness-applet-install.diff:
+	  Rework this patch using libexecdir instead of libdir.
+
 2007-12-15  Ananth Shrinivas <ananth@sun.com>
 
 	* SFEpython-xlib.spec: *NEW* A complete X11R6 client implementation

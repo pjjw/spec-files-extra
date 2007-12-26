@@ -67,9 +67,8 @@ rm -rf  $RPM_BUILD_ROOT%{_datadir}/gnome-power-manager/gpm-inhibit-test.glade
 rm -rf  $RPM_BUILD_ROOT%{_datadir}/gnome-2.0/ui/GNOME_InhibitApplet.xml
 rm -rf  $RPM_BUILD_ROOT%{_libdir}/bonobo/servers/GNOME_InhibitApplet.server
 
-# Move scripts and applets from /usr/bin to /usr/lib
+# Move scripts from /usr/bin to /usr/lib
 mv $RPM_BUILD_ROOT%{_bindir}/gnome-power-*.sh $RPM_BUILD_ROOT%{_libdir}/
-mv $RPM_BUILD_ROOT%{_bindir}/gnome-*-applet $RPM_BUILD_ROOT%{_libdir}/
 
 %if %build_l10n
 %else
@@ -189,6 +188,9 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Wed Dec 26 2007 - simon.zheng@sun.com
+- Let patch gnome-power-manager-08-brightness-install.diff 
+  do moving applets.
 * Fri Dec 21 2007 - simon.zheng@sun.com
 - Remove redundant CFLAGS and LDFLAGS.
 * Mon Dec 17 2007 - simon.zheng@sun.com
