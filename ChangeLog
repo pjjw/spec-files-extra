@@ -1,3 +1,7 @@
+2007-12-27  Petr Sobotka  <sobotkap@centrum.cz>
+
+	* SFEruby.spec: Bumped to 1.9.0 version
+
 2007-12-26  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEgnome-power-manager.spec:

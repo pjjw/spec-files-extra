@@ -8,9 +8,9 @@
 Name:         SFEruby
 Summary:      ruby - object oriented scripting language
 URL:          http://www.ruby-lang.org/
-Version:      1.8.6
-%define tarball_version %{version}-p111
-Source:	      http://ftp.ruby-lang.org/pub/ruby/ruby-%{tarball_version}.tar.gz
+Version:      1.9.0
+%define tarball_version %{version}-0
+Source:	      http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-%{tarball_version}.tar.bz2
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -53,8 +53,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/ri
 %dir %attr (0755, root, bin) %{_mandir}
 %{_mandir}/*
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
 
 %changelog
+* Thu Dec 27 2007 - sobotkap@centrum.cz
+- bump to 1.9.0
 * Sun Oct 14 2007 - laca@sun.com
 - bump to 1.8.6-p111; delete upstream patch
 * Sun Sep 09 2007 - Ananth Shrinivas <ananth@sun.com>
