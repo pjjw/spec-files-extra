@@ -11,12 +11,10 @@
 
 Name:                SFElibmpd
 Summary:             libmpd for gmpc
-Version:             0.14.0
+Version:             0.15.0
 #needed for download-URL:
-%define gmpc_version 0.15.0
+%define gmpc_version 0.15.5
 Source:              http://download.sarine.nl/gmpc-%{gmpc_version}/libmpd-%{version}.tar.gz
-# pls remove patch1 if Version > 0.14.0 has #include <limits.h>
-Patch1:              libmpd-01-libmpdclient-include-limits.h.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -32,8 +30,6 @@ Requires: %name
 
 %prep
 %setup -q -n libmpd-%version
-# pls remove patch1 if Version > 0.14.0 has #include <limits.h>
-%patch1 -p1
 
 
 %build
@@ -83,6 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Dec 02 2007 - Thomas Wagner
+- bump to 0.15.0
+- removed Patch1 (#include <limits.h>)
 * Sat May 26 2007  - Thomas Wagner
 - bump to 0.14.0 (corresponding to gmpc version 0.15.0)
 - added patch1, pls remove this if Version > 0.14.0 has #include <limits.h>

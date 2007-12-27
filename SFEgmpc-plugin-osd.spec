@@ -1,62 +1,39 @@
-#
-# spec file for package SFEgmpc-plugin-osd (plugin)
-#
-# use gcc to compile
-#
-
 %include Solaris.inc
-Name:                    SFEgmpc-plugin-osd
-Summary:                 gmpc-plugin-osd - Xosd On Screen Display - plugin for gmpc
-URL:                     http://sarine.nl/xosd-on-screen-display
-Version:                 0.15.0
-%define gmpc_version 0.15.0
-Source:                  http://download.sarine.nl/gmpc-%{gmpc_version}/plugins/gmpc-osd-%{version}.tar.gz
+%define pluginname osd
+%include base.inc
+%use gmpcplugin = gmpc-plugin.spec
 
-
-SUNW_BaseDir:            %{_basedir}
-BuildRoot:               %{_tmppath}/%{name}-%{version}-build
-
-BuildRequires:           SFEgmpc-devel
-#for 1 file "xosd.h" a whole package SFExosd-devel? For now, it's included in SFExosd
-BuildRequires:           SFExosd
-Requires:                SFExosd
-Requires:                SFEgmpc
-
-%include default-depend.inc
+Name:			SFEgmpc-plugin-%{pluginname}
+Summary:                gmpc-%{pluginname} - Xosd On Screen Display - plugin for gmpc
+# Version e.g. 0.15.5.0, note: gmpcplugin.gmpcmainversion is 0.15.5
+Version:                %{gmpcplugin.version}
+ 
+BuildRequires: SFExosd
+Requires: SFExosd
 
 %prep
-%setup -q -n gmpc-osd-%version
-
+%gmpcplugin.prep
+ 
 %build
-
-export LDFLAGS="-lX11"
-export CC=/usr/sfw/bin/gcc
-export CXX=/usr/sfw/bin/g++
-
-CC=/usr/sfw/bin/gcc CXX=/usr/sfw/bin/g++ ./configure --prefix=%{_prefix}
-
-make
-
+%gmpcplugin.build
+ 
 %install
-rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-
+%gmpcplugin.install
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+%gmpcplugin.clean
 
 %files
 %defattr(-, root, bin)
 %doc README ChangeLog CREDITS COPYING INSTALL NEWS AUTHORS TODO ABOUT-NLS
+%dir %attr (0755, root, sys) %{_prefix}
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/gmpc
 %dir %attr (0755, root, other) %{_datadir}/gmpc/plugins
-%{_datadir}/gmpc/plugins/*.so
+%{_datadir}/gmpc/plugins/*
 
 
 %changelog
-* Sat May 26 2007  - Thomas Wagner
-- bump to 0.15.0
-- set compiler to gcc
-* Thu Apr 06 2007  - Thomas Wagner
-- Initial spec
+* Sun Dec 02 2007 - Thomas Wagner
+- rework into base-spec
+- bump to 0.15.5.0

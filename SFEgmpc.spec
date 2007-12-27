@@ -3,14 +3,16 @@
 #
 # use gcc to compile
 
+%define version_sub 0
+
 %include Solaris.inc
 Name:                    SFEgmpc
 Summary:                 gmpc - A gnome frontend for the mpd daemon
 URL:                     http://sarine.nl/gmpc/
-Version:                 0.15.1
-Source:                  http://download.sarine.nl/gmpc-%{version}/gmpc-%{version}.tar.gz
+Version:                 0.15.5
+Source:                  http://download.sarine.nl/gmpc-%{version}/gmpc-%{version}.%{version_sub}.tar.gz
 SUNW_BaseDir:            %{_basedir}
-BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+BuildRoot:               %{_tmppath}/%{name}-%{version}.%{version_sub}-build
 BuildRequires:		 SFElibmpd-devel
 BuildRequires:		 SFEcurl-devel
 #test#BuildRequires:           SFEavahi-devel
@@ -41,7 +43,7 @@ Requires:                %{name}
 %endif
 
 %prep
-%setup -q -n gmpc-%version
+%setup -q -n gmpc-%version.%{version_sub}
 
 %build
 export LDFLAGS="-lX11"
@@ -54,7 +56,8 @@ export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
 
 #TODO: check --disable-sm 
 CC=$CC CXX=$CXX CFLAGS="$CFLAGS" ./configure --prefix=%{_prefix} \
-            --disable-sm
+            --with-curl=/usr/gnu \
+            #--disable-sm
 make
 
 %install
@@ -103,6 +106,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Dec 02 2007 - Thomas Wagner
+- bump to 0.15.5.0, add version_sub (currently at "0")
+- remove --disable-sm (Session Manager)
+- switch to new location of SFEcurl --with-curl=/usr/gnu
 * Wed Nov 28 2007 - Thomas Wagner
 - remove (Build-)Requires: SFEavahi(-devel) - needs more love (change to SUNW... bonjour/avahi/zeroconf)
 - change removal of "/locale" if !build_l10n to be rm -rf (diry not longer empty)

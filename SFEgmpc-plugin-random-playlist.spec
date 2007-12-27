@@ -1,10 +1,12 @@
 %include Solaris.inc
-%define pluginname coveramazon
+%define pluginname random-playlist
+%define pluginshortname random-plst
 %include base.inc
 %use gmpcplugin = gmpc-plugin.spec
 
 Name:			SFEgmpc-plugin-%{pluginname}
-Summary:                gmpc-%{pluginname} - fetch cover art and album informaiton from amazon - plugin for gmpc
+SourcePackage:      SFEgmpc-plugin-%{pluginshortname}-src
+Summary:                gmpc-%{pluginname} - random-playlist
 # Version e.g. 0.15.5.0, note: gmpcplugin.gmpcmainversion is 0.15.5
 Version:                %{gmpcplugin.version}
  
@@ -32,6 +34,8 @@ Version:                %{gmpcplugin.version}
 
 
 %changelog
+* Thu Dev 27 2007 - Thomas Wagner
+- source pakagename exceeds 32 chars, insert shortname
 * Sun Dec 02 2007 - Thomas Wagner
 - rework into base-spec
 - bump to 0.15.5.0

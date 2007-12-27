@@ -1,3 +1,14 @@
+2007-12-27  Thomas Wagner <tom68@users.sourceforge.net>
+
+    * SFEgmpc.spec, SFEgmpc-plugins-*: rework to base-specs/gmpc-plugin.spec
+      base-specs/gmpc-plugin.spec: *NEW* base spec for plugins
+    * SFEgmpc-plugin-extraplaylist.spec SFEgmpc-plugin-favorites.spec 
+      SFEgmpc-plugin-libnotify.spec SFEgmpc-plugin-mserver.spec 
+      SFEgmpc-plugin-random-playlist.spec SFEgmpc-plugin-wikipedia.spec: all *NEW* 
+    * SFEgmpc-plugin-shout.spec: receives a shout-stream locally (use ogg123/ogg321)
+    * SFElibmpd.spec: bump to 0.15.0 (required by SFEgmpc.spec 0.15.5.0 and friends)
+    * SFEliveMedia.spec: bump to 2007.12.27 - well, this is hot
+
 2007-12-27  Petr Sobotka  <sobotkap@centrum.cz>
 
 	* SFEruby.spec: Bumped to 1.9.0 version

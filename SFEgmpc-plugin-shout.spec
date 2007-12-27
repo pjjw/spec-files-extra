@@ -1,13 +1,15 @@
 %include Solaris.inc
-%define pluginname coveramazon
+%define pluginname shout
 %include base.inc
 %use gmpcplugin = gmpc-plugin.spec
 
 Name:			SFEgmpc-plugin-%{pluginname}
-Summary:                gmpc-%{pluginname} - fetch cover art and album informaiton from amazon - plugin for gmpc
+Summary:                gmpc-%{pluginname} - shout
 # Version e.g. 0.15.5.0, note: gmpcplugin.gmpcmainversion is 0.15.5
 Version:                %{gmpcplugin.version}
  
+BuildRequires: SFElibshout-devel
+Requires: SFElibshout
 
 %prep
 %gmpcplugin.prep
