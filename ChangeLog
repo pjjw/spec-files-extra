@@ -1,3 +1,11 @@
+2007-12-29  Jerry Yu <jijun.yu@jijun.yu@sun.com>
+
+    * base-specs/gnupg2.spec: added
+    * SFEgnupg2.spec: added
+    * SFEpth.spec: added
+    * SFElibksba.spec: added
+    * SFElibassuan.spec: added
+
 2007-12-27  Thomas Wagner <tom68@users.sourceforge.net>
 
     * SFEgmpc.spec, SFEgmpc-plugins-*: rework to base-specs/gmpc-plugin.spec
