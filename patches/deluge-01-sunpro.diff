@@ -1,7 +1,6 @@
-diff -ru deluge-0.5.5.orig/setup.py deluge-0.5.5/setup.py
---- deluge-0.5.5.orig/setup.py	2007年  9月 17日 一 01:06:08
-+++ deluge-0.5.5/setup.py	2007年  9月 17日 一 00:49:37
-@@ -96,12 +96,12 @@
+--- deluge-torrent-0.5.8-orig/setup.py	2007-12-29 17:55:55.000000000 +0000
++++ deluge-torrent-0.5.8/setup.py	2007-12-31 05:45:28.039896946 +0000
+@@ -98,12 +98,12 @@
  #    it has been removed to prevent confusion.
  
  if not OS == "win":
@@ -16,31 +15,38 @@ diff -ru deluge-0.5.5.orig/setup.py deluge-0.5.5/setup.py
      if ARCH == "x64":
          EXTRA_COMPILE_ARGS.append("-DAMD64")
  
-@@ -175,7 +175,8 @@
-                     include_dirs = includedirs,
-             libraries = librariestype,
+@@ -150,7 +150,7 @@
+     librariestype = [boost_filesystem, boost_date_time,
+             boost_thread, 'z', 'pthread', 'ssl']
+     
+-    removals = ['-g', '-Wstrict-prototypes']
++    removals = ['-g', '-Wstrict-prototypes', '-OPT:Olimit=0']
+ 
+     if python_version == '2.5':
+         cv_opt = sysconfig.get_config_vars()["CFLAGS"]
+@@ -162,6 +162,10 @@
+         for removal in removals:
+             cv_opt = cv_opt.replace(removal, " ")
+         sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
++    cv_opt = sysconfig.get_config_vars()["BASECFLAGS"]
++    for removal in removals:
++        cv_opt = cv_opt.replace(removal, " ")
++    sysconfig.get_config_vars()["BASECFLAGS"] = ' '.join(cv_opt.split())
+ else:
+     EXTRA_COMPILE_ARGS = [  '-O2', '-DBOOST_WINDOWS',
+                             '-Wno-missing-braces',
+@@ -209,7 +213,8 @@
+                     libraries = librariestype,
                      extra_compile_args = EXTRA_COMPILE_ARGS,
+                     extra_link_args = EXTRA_LINK_ARGS,
 -                    sources = sources)
 +                    sources = sources,
 +                    language = 'c++')
+ 
  # Thanks to Iain Nicol for code to save the location for installed prefix
  # At runtime, we need to know where we installed the data to.
- 
-diff -ru deluge-0.5.5.orig/libtorrent/include/libtorrent/buffer.hpp deluge-0.5.5/libtorrent/include/libtorrent/buffer.hpp
---- deluge-0.5.5.orig/libtorrent/include/libtorrent/buffer.hpp	2007年  9月  3日 一 03:14:45
-+++ deluge-0.5.5/libtorrent/include/libtorrent/buffer.hpp	2007年  9月 17日 一 00:49:37
-@@ -246,7 +246,7 @@
- 	 assert(m_write_cursor == m_last);
-     m_write_cursor = m_first;
- 
--    memcpy(m_write_cursor, first, n);
-+    std::memcpy(m_write_cursor, first, n);
-     m_write_cursor += n;
- }
- 
-diff -ru deluge-0.5.5.orig/libtorrent/include/libtorrent/xml_parse.hpp deluge-0.5.5/libtorrent/include/libtorrent/xml_parse.hpp
---- deluge-0.5.5.orig/libtorrent/include/libtorrent/xml_parse.hpp	2007年  9月 17日 一 01:06:03
-+++ deluge-0.5.5/libtorrent/include/libtorrent/xml_parse.hpp	2007年  9月 17日 一 00:49:37
+--- deluge-torrent-0.5.8-orig/libtorrent/include/libtorrent/xml_parse.hpp	2007-12-29 17:52:01.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/include/libtorrent/xml_parse.hpp	2007-12-31 05:45:28.040294540 +0000
 @@ -128,7 +128,7 @@
  				*(p-1) = '?';
  				tag_end = p - 1;
@@ -50,10 +56,9 @@ diff -ru deluge-0.5.5.orig/libtorrent/include/libtorrent/xml_parse.hpp deluge-0.
  			{
  				start += 3;
  				*(p-2) = 0;
-diff -ru deluge-0.5.5.orig/libtorrent/include/libtorrent/asio/detail/socket_ops.hpp deluge-0.5.5/libtorrent/include/libtorrent/asio/detail/socket_ops.hpp
---- deluge-0.5.5.orig/libtorrent/include/libtorrent/asio/detail/socket_ops.hpp	2007年  9月  3日 一 03:14:45
-+++ deluge-0.5.5/libtorrent/include/libtorrent/asio/detail/socket_ops.hpp	2007年  9月 17日 一 00:49:37
-@@ -130,7 +130,10 @@
+--- deluge-torrent-0.5.8-orig/libtorrent/include/libtorrent/asio/detail/socket_ops.hpp	2007-11-15 05:55:47.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/include/libtorrent/asio/detail/socket_ops.hpp	2007-12-31 05:45:28.041543284 +0000
+@@ -197,7 +197,10 @@
  #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
    b.buf = static_cast<char*>(data);
    b.len = static_cast<u_long>(size);
@@ -65,7 +70,7 @@ diff -ru deluge-0.5.5.orig/libtorrent/include/libtorrent/asio/detail/socket_ops.
    b.iov_base = data;
    b.iov_len = size;
  #endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
-@@ -141,7 +144,10 @@
+@@ -208,7 +211,10 @@
  #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
    b.buf = static_cast<char*>(const_cast<void*>(data));
    b.len = static_cast<u_long>(size);
@@ -77,18 +82,17 @@ diff -ru deluge-0.5.5.orig/libtorrent/include/libtorrent/asio/detail/socket_ops.
    b.iov_base = const_cast<void*>(data);
    b.iov_len = size;
  #endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
-diff -ru deluge-0.5.5.orig/libtorrent/include/libtorrent/asio/impl/error_code.ipp deluge-0.5.5/libtorrent/include/libtorrent/asio/impl/error_code.ipp
---- deluge-0.5.5.orig/libtorrent/include/libtorrent/asio/impl/error_code.ipp	2007年  9月 17日 一 01:06:36
-+++ deluge-0.5.5/libtorrent/include/libtorrent/asio/impl/error_code.ipp	2007年  9月 17日 一 00:49:37
-@@ -77,16 +77,16 @@
-   if (*this == error::socket_type_not_supported)
-     return "Socket type not supported.";
+--- deluge-torrent-0.5.8-orig/libtorrent/include/libtorrent/asio/impl/error_code.ipp	2007-11-15 05:55:48.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/include/libtorrent/asio/impl/error_code.ipp	2007-12-31 05:45:28.041797102 +0000
+@@ -81,16 +81,16 @@
+   if (category() != error::get_system_category())
+     return "asio error";
  #if defined(__sun) || defined(__QNX__)
 -  return strerror(value_);
 +  return std::strerror(value_);
  #elif defined(__MACH__) && defined(__APPLE__) \
  || defined(__NetBSD__) || defined(__FreeBSD__) || defined(__OpenBSD__) \
- || defined(_AIX)
+ || defined(_AIX) || defined(__hpux) || defined(__osf__)
    char buf[256] = "";
 -  strerror_r(value_, buf, sizeof(buf));
 +  std::strerror_r(value_, buf, sizeof(buf));
@@ -96,52 +100,12 @@ diff -ru deluge-0.5.5.orig/libtorrent/include/libtorrent/asio/impl/error_code.ip
  #else
    char buf[256] = "";
 -  return strerror_r(value_, buf, sizeof(buf));
-+  return std::strerror_r(value_, buf, sizeof(buf));
++  std::return strerror_r(value_, buf, sizeof(buf));
  #endif
  #endif // defined(BOOST_WINDOWS)
  }
-diff -ru deluge-0.5.5.orig/libtorrent/src/file.cpp deluge-0.5.5/libtorrent/src/file.cpp
---- deluge-0.5.5.orig/libtorrent/src/file.cpp	2007年  9月 17日 一 01:06:04
-+++ deluge-0.5.5/libtorrent/src/file.cpp	2007年  9月 17日 一 00:49:37
-@@ -183,7 +183,7 @@
- 			{
- 				std::stringstream msg;
- 				msg << "open failed: '" << path.native_file_string() << "'. "
--					<< strerror(errno);
-+					<< std::strerror(errno);
- 				throw file_error(msg.str());
- 			}
- 			m_open_mode = mode;
-@@ -215,7 +215,7 @@
- 			if (ret == -1)
- 			{
- 				std::stringstream msg;
--				msg << "read failed: " << strerror(errno);
-+				msg << "read failed: " << std::strerror(errno);
- 				throw file_error(msg.str());
- 			}
- 			return ret;
-@@ -239,7 +239,7 @@
- 			if (ret == -1)
- 			{
- 				std::stringstream msg;
--				msg << "write failed: " << strerror(errno);
-+				msg << "write failed: " << std::strerror(errno);
- 				throw file_error(msg.str());
- 			}
- 			return ret;
-@@ -280,7 +280,7 @@
- 			if (ret == -1)
- 			{
- 				std::stringstream msg;
--				msg << "seek failed: '" << strerror(errno)
-+				msg << "seek failed: '" << std::strerror(errno)
- 					<< "' fd: " << m_fd
- 					<< " offset: " << offset
- 					<< " seekdir: " << seekdir;
-diff -ru deluge-0.5.5.orig/libtorrent/src/http_stream.cpp deluge-0.5.5/libtorrent/src/http_stream.cpp
---- deluge-0.5.5.orig/libtorrent/src/http_stream.cpp	2007年  9月 17日 一 01:06:07
-+++ deluge-0.5.5/libtorrent/src/http_stream.cpp	2007年  9月 17日 一 00:49:37
+--- deluge-torrent-0.5.8-orig/libtorrent/src/http_stream.cpp	2007-12-29 17:52:03.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/src/http_stream.cpp	2007-12-31 05:45:28.042027784 +0000
 @@ -130,7 +130,7 @@
  		if (found_end)
  		{
@@ -160,30 +124,9 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/http_stream.cpp deluge-0.5.5/libtorren
  			if (code != 200)
  			{
  				(*h)(asio::error::operation_not_supported);
-diff -ru deluge-0.5.5.orig/libtorrent/src/lsd.cpp deluge-0.5.5/libtorrent/src/lsd.cpp
---- deluge-0.5.5.orig/libtorrent/src/lsd.cpp	2007年  9月 17日 一 01:06:04
-+++ deluge-0.5.5/libtorrent/src/lsd.cpp	2007年  9月 17日 一 00:49:37
-@@ -202,13 +202,13 @@
- 		if (line == end) break;
- 		*line = 0;
- 		for (char* i = p; i < line; ++i) *i = std::tolower(*i);
--		if (line - p >= 5 && memcmp(p, "port:", 5) == 0)
-+		if (line - p >= 5 && std::memcmp(p, "port:", 5) == 0)
- 		{
- 			p += 5;
- 			while (*p == ' ') ++p;
--			port = atoi(p);
-+			port = std::atoi(p);
- 		}
--		else if (line - p >= 9 && memcmp(p, "infohash:", 9) == 0)
-+		else if (line - p >= 9 && std::memcmp(p, "infohash:", 9) == 0)
- 		{
- 			p += 9;
- 			while (*p == ' ') ++p;
-diff -ru deluge-0.5.5.orig/libtorrent/src/piece_picker.cpp deluge-0.5.5/libtorrent/src/piece_picker.cpp
---- deluge-0.5.5.orig/libtorrent/src/piece_picker.cpp	2007年  9月 17日 一 01:06:07
-+++ deluge-0.5.5/libtorrent/src/piece_picker.cpp	2007年  9月 17日 一 00:56:37
-@@ -508,7 +508,7 @@
+--- deluge-torrent-0.5.8-orig/libtorrent/src/piece_picker.cpp	2007-12-29 17:52:03.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/src/piece_picker.cpp	2007-12-31 05:45:28.042840440 +0000
+@@ -535,7 +535,7 @@
  		{
  			// find a random position in the destination vector where we will place
  			// this entry.
@@ -192,7 +135,7 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/piece_picker.cpp deluge-0.5.5/libtorre
  			
  			// copy the entry at that position to the back
  			m_piece_map[m_piece_info[priority][dst_index]].index
-@@ -580,7 +580,7 @@
+@@ -607,7 +607,7 @@
  		{
  			// find a random position in the destination vector where we will place
  			// this entry.
@@ -201,18 +144,17 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/piece_picker.cpp deluge-0.5.5/libtorre
  			
  			// copy the entry at that position to the back
  			m_piece_map[m_piece_info[new_priority][dst_index]].index
-@@ -1142,7 +1142,7 @@
+@@ -1188,7 +1188,7 @@
  			// we're not using rarest first (only for the first
  			// bucket, since that's where the currently downloading
  			// pieces are)
 -			int start_piece = rand() % m_piece_map.size();
 +			int start_piece = std::rand() % m_piece_map.size();
- 			int piece = start_piece;
- 			while (num_blocks > 0)
- 			{
-diff -ru deluge-0.5.5.orig/libtorrent/src/session.cpp deluge-0.5.5/libtorrent/src/session.cpp
---- deluge-0.5.5.orig/libtorrent/src/session.cpp	2007年  9月 17日 一 01:06:06
-+++ deluge-0.5.5/libtorrent/src/session.cpp	2007年  9月 17日 一 00:49:37
+ 
+ 			// if we have suggested pieces, try to find one of those instead
+ 			for (std::vector<int>::const_iterator i = suggested_pieces.begin()
+--- deluge-torrent-0.5.8-orig/libtorrent/src/session.cpp	2007-12-29 17:52:03.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/src/session.cpp	2007-12-31 05:45:28.043150871 +0000
 @@ -77,7 +77,6 @@
  using boost::shared_ptr;
  using boost::weak_ptr;
@@ -221,10 +163,9 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/session.cpp deluge-0.5.5/libtorrent/sr
  using libtorrent::aux::session_impl;
  
  namespace libtorrent
-diff -ru deluge-0.5.5.orig/libtorrent/src/session_impl.cpp deluge-0.5.5/libtorrent/src/session_impl.cpp
---- deluge-0.5.5.orig/libtorrent/src/session_impl.cpp	2007年  9月  8日 六 14:57:16
-+++ deluge-0.5.5/libtorrent/src/session_impl.cpp	2007年  9月 17日 一 00:49:37
-@@ -93,7 +93,6 @@
+--- deluge-torrent-0.5.8-orig/libtorrent/src/session_impl.cpp	2007-12-29 17:52:03.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/src/session_impl.cpp	2007-12-31 05:45:28.044432102 +0000
+@@ -98,7 +98,6 @@
  using boost::shared_ptr;
  using boost::weak_ptr;
  using boost::bind;
@@ -232,98 +173,98 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/session_impl.cpp deluge-0.5.5/libtorre
  using libtorrent::aux::session_impl;
  
  namespace libtorrent {
-@@ -203,7 +202,7 @@
+@@ -208,7 +207,7 @@
+ #endif
+ 					}
  
- 					// lock the session to add the new torrent
- 					session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 -					mutex::scoped_lock l2(m_mutex);
-+					boost::mutex::scoped_lock l2(m_mutex);
- 					// clear the resume data now that it has been used
- 					// (the fast resume data is now parsed and stored in t)
- 					t->resume_data = entry();
-@@ -273,7 +272,7 @@
++                                        boost::mutex::scoped_lock l2(m_mutex);
+ 
+ 					if (m_torrents.empty() || m_torrents.front() != t)
+ 					{
+@@ -296,7 +295,7 @@
  				// This will happen if the storage fails to initialize
  				// for example if one of the files has an invalid filename.
  				session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 -				mutex::scoped_lock l2(m_mutex);
-+				boost::mutex::scoped_lock l2(m_mutex);
++                                boost::mutex::scoped_lock l2(m_mutex);
  
  				if (m_ses.m_alerts.should_post(alert::fatal))
  				{
-@@ -292,7 +291,7 @@
+@@ -315,7 +314,7 @@
  #ifndef NDEBUG
  				std::cerr << "error while checking resume data\n";
  #endif
 -				mutex::scoped_lock l(m_mutex);
-+				boost::mutex::scoped_lock l(m_mutex);
- 				assert(!m_torrents.empty());
++                                boost::mutex::scoped_lock l(m_mutex);
+ 				TORRENT_ASSERT(!m_torrents.empty());
  				m_torrents.pop_front();
- 				assert(false);
-@@ -309,7 +308,7 @@
+ 				TORRENT_ASSERT(false);
+@@ -332,7 +331,7 @@
  				boost::tie(finished, progress) = processing->torrent_ptr->check_files();
  
  				{
--					mutex::scoped_lock l(m_mutex);
-+					boost::mutex::scoped_lock l(m_mutex);
- 
- 					INVARIANT_CHECK;
- 
-@@ -335,7 +334,7 @@
- 				{
- 					// lock the session to add the new torrent
- 					session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 -					mutex::scoped_lock l2(m_mutex);
 +					boost::mutex::scoped_lock l2(m_mutex);
  
  					INVARIANT_CHECK;
  
-@@ -390,7 +389,7 @@
+@@ -362,7 +361,7 @@
+ 				{
+ 					// lock the session to add the new torrent
+ 					session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
+-					mutex::scoped_lock l2(m_mutex);
++                                        boost::mutex::scoped_lock l2(m_mutex);
+ 
+ 					INVARIANT_CHECK;
+ 
+@@ -425,7 +424,7 @@
  			{
  				// This will happen if the storage fails to initialize
  				session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 -				mutex::scoped_lock l2(m_mutex);
-+				boost::mutex::scoped_lock l2(m_mutex);
++                                boost::mutex::scoped_lock l2(m_mutex);
  
  				if (m_ses.m_alerts.should_post(alert::fatal))
  				{
-@@ -416,7 +415,7 @@
+@@ -452,7 +451,7 @@
  #ifndef NDEBUG
  				std::cerr << "error while checking files\n";
  #endif
 -				mutex::scoped_lock l(m_mutex);
-+				boost::mutex::scoped_lock l(m_mutex);
- 				assert(!m_processing.empty());
++                                boost::mutex::scoped_lock l(m_mutex);
+ 				TORRENT_ASSERT(!m_processing.empty());
  
  				processing.reset();
-@@ -610,7 +609,7 @@
- 		m_io_service.stop();
- 		l.unlock();
+@@ -763,7 +762,7 @@
+ 		m_download_channel.close();
+ 		m_upload_channel.close();
  
 -		mutex::scoped_lock l2(m_checker_impl.m_mutex);
 +		boost::mutex::scoped_lock l2(m_checker_impl.m_mutex);
  		// abort the checker thread
  		m_checker_impl.m_abort = true;
- 	}
-@@ -1439,7 +1438,7 @@
+ 
+@@ -1645,7 +1644,7 @@
  	std::vector<torrent_handle> session_impl::get_torrents()
  	{
  		mutex_t::scoped_lock l(m_mutex);
 -		mutex::scoped_lock l2(m_checker_impl.m_mutex);
-+		boost::mutex::scoped_lock l2(m_checker_impl.m_mutex);
++                boost::mutex::scoped_lock l2(m_checker_impl.m_mutex);
  		std::vector<torrent_handle> ret;
  		for (std::deque<boost::shared_ptr<aux::piece_checker_data> >::iterator i
  			= m_checker_impl.m_torrents.begin()
-@@ -1493,7 +1492,7 @@
+@@ -1697,7 +1696,7 @@
  
  		// lock the session and the checker thread (the order is important!)
  		mutex_t::scoped_lock l(m_mutex);
 -		mutex::scoped_lock l2(m_checker_impl.m_mutex);
-+		boost::mutex::scoped_lock l2(m_checker_impl.m_mutex);
++                boost::mutex::scoped_lock l2(m_checker_impl.m_mutex);
  
- 		INVARIANT_CHECK;
+ //		INVARIANT_CHECK;
  
-@@ -1568,7 +1567,7 @@
- 		assert(!save_path.empty());
+@@ -1773,7 +1772,7 @@
+ 		TORRENT_ASSERT(!save_path.empty());
  		{
  			// lock the checker_thread
 -			mutex::scoped_lock l(m_checker_impl.m_mutex);
@@ -331,7 +272,7 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/session_impl.cpp deluge-0.5.5/libtorre
  
  			// is the torrent currently being checked?
  			if (m_checker_impl.find_torrent(info_hash))
-@@ -1665,7 +1664,7 @@
+@@ -1873,7 +1872,7 @@
  
  		if (h.m_chk)
  		{
@@ -340,7 +281,7 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/session_impl.cpp deluge-0.5.5/libtorre
  
  			aux::piece_checker_data* d = m_checker_impl.find_torrent(h.m_info_hash);
  			if (d != 0)
-@@ -1998,7 +1997,7 @@
+@@ -2181,7 +2180,7 @@
  		// destructed and then the invariant will be broken).
  
  		{
@@ -349,10 +290,9 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/session_impl.cpp deluge-0.5.5/libtorre
  			// abort the checker thread
  			m_checker_impl.m_abort = true;
  
-diff -ru deluge-0.5.5.orig/libtorrent/src/sha1.cpp deluge-0.5.5/libtorrent/src/sha1.cpp
---- deluge-0.5.5.orig/libtorrent/src/sha1.cpp	2007年  9月  3日 一 03:14:45
-+++ deluge-0.5.5/libtorrent/src/sha1.cpp	2007年  9月 17日 一 00:49:37
-@@ -20,7 +20,6 @@
+--- deluge-torrent-0.5.8-orig/libtorrent/src/sha1.cpp	2007-12-29 17:52:03.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/src/sha1.cpp	2007-12-31 05:45:28.044936330 +0000
+@@ -20,20 +20,19 @@
  // #include <stdint.h>
  
  #include <boost/cstdint.hpp>
@@ -360,7 +300,6 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/sha1.cpp deluge-0.5.5/libtorrent/src/s
  using boost::uint8_t;
  
  #include "libtorrent/config.hpp"
-@@ -27,13 +26,13 @@
  
  struct TORRENT_EXPORT SHA_CTX
  {
@@ -466,22 +405,9 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/sha1.cpp deluge-0.5.5/libtorrent/src/s
  	{
  		digest[i] = static_cast<unsigned char>(
  			(context->state[i>>2] >> ((3-(i & 3)) * 8) ) & 255);
-diff -ru deluge-0.5.5.orig/libtorrent/src/storage.cpp deluge-0.5.5/libtorrent/src/storage.cpp
---- deluge-0.5.5.orig/libtorrent/src/storage.cpp	2007年  9月 17日 一 01:06:08
-+++ deluge-0.5.5/libtorrent/src/storage.cpp	2007年  9月 17日 一 00:49:37
-@@ -2027,7 +2027,7 @@
- 
- 		const int stack_buffer_size = 16*1024;
- 		char zeroes[stack_buffer_size];
--		memset(zeroes, 0, stack_buffer_size);
-+		std::memset(zeroes, 0, stack_buffer_size);
- 		
- 		bool written = false;
- 
-diff -ru deluge-0.5.5.orig/libtorrent/src/torrent.cpp deluge-0.5.5/libtorrent/src/torrent.cpp
---- deluge-0.5.5.orig/libtorrent/src/torrent.cpp	2007年  9月 17日 一 01:06:05
-+++ deluge-0.5.5/libtorrent/src/torrent.cpp	2007年  9月 17日 一 00:49:37
-@@ -78,7 +78,6 @@
+--- deluge-torrent-0.5.8-orig/libtorrent/src/torrent.cpp	2007-12-29 17:52:03.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/src/torrent.cpp	2007-12-31 05:45:28.046251515 +0000
+@@ -79,7 +79,6 @@
  using boost::tuples::get;
  using boost::tuples::make_tuple;
  using boost::bind;
@@ -489,9 +415,8 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/torrent.cpp deluge-0.5.5/libtorrent/sr
  using libtorrent::aux::session_impl;
  
  namespace
-diff -ru deluge-0.5.5.orig/libtorrent/src/torrent_handle.cpp deluge-0.5.5/libtorrent/src/torrent_handle.cpp
---- deluge-0.5.5.orig/libtorrent/src/torrent_handle.cpp	2007年  9月  3日 一 03:14:45
-+++ deluge-0.5.5/libtorrent/src/torrent_handle.cpp	2007年  9月 17日 一 00:55:30
+--- deluge-torrent-0.5.8-orig/libtorrent/src/torrent_handle.cpp	2007-12-29 17:52:03.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/src/torrent_handle.cpp	2007-12-31 05:45:28.046929607 +0000
 @@ -75,7 +75,6 @@
  #endif
  
@@ -499,359 +424,98 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/torrent_handle.cpp deluge-0.5.5/libtor
 -using boost::mutex;
  using libtorrent::aux::session_impl;
  
- namespace libtorrent
-@@ -130,7 +129,7 @@
- 		assert(max_uploads >= 2 || max_uploads == -1);
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->set_max_uploads(max_uploads);
- 	}
- 
-@@ -139,7 +138,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->use_interface(net_interface);
- 	}
- 
-@@ -150,7 +149,7 @@
- 		assert(max_connections >= 2 || max_connections == -1);
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->set_max_connections(max_connections);
- 	}
- 
-@@ -160,7 +159,7 @@
- 		assert(limit >= -1);
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->set_peer_upload_limit(ip, limit);
- 	}
- 
-@@ -170,7 +169,7 @@
- 		assert(limit >= -1);
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->set_peer_download_limit(ip, limit);
- 	}
- 
-@@ -181,7 +180,7 @@
- 		assert(limit >= -1);
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->set_upload_limit(limit);
- 	}
- 
-@@ -189,7 +188,7 @@
- 	{
- 		INVARIANT_CHECK;
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		return find_torrent(m_ses, m_chk, m_info_hash)->upload_limit();
- 	}
- 
-@@ -200,7 +199,7 @@
- 		assert(limit >= -1);
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->set_download_limit(limit);
- 	}
- 
-@@ -209,7 +208,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		return find_torrent(m_ses, m_chk, m_info_hash)->download_limit();
- 	}
- 
-@@ -219,7 +218,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->move_storage(save_path);
- 	}
- 
-@@ -228,7 +227,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		return find_torrent(m_ses, m_chk, m_info_hash)->valid_metadata();
- 	}
- 
-@@ -237,7 +236,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		return find_torrent(m_ses, m_chk, m_info_hash)->is_seed();
- 	}
- 
-@@ -246,7 +245,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		return find_torrent(m_ses, m_chk, m_info_hash)->is_paused();
- 	}
- 
-@@ -255,7 +254,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->pause();
- 	}
- 
-@@ -264,7 +263,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->resume();
- 	}
- 
-@@ -274,7 +273,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->set_tracker_login(name, password);
- 	}
- 
-@@ -286,7 +285,7 @@
- 
- 		if (m_chk)
- 		{
--			mutex::scoped_lock l(m_chk->m_mutex);
-+			boost::mutex::scoped_lock l(m_chk->m_mutex);
- 
- 			aux::piece_checker_data* d = m_chk->find_torrent(m_info_hash);
- 			if (d != 0)
-@@ -320,7 +319,7 @@
- 
- 		if (m_chk)
- 		{
--			mutex::scoped_lock l(m_chk->m_mutex);
-+			boost::mutex::scoped_lock l(m_chk->m_mutex);
- 
- 			aux::piece_checker_data* d = m_chk->find_torrent(m_info_hash);
- 			if (d != 0)
-@@ -356,7 +355,7 @@
- 	{
- 		INVARIANT_CHECK;
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->set_sequenced_download_threshold(threshold);
- 	}
- 
-@@ -365,7 +364,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		return find_torrent(m_ses, m_chk, m_info_hash)->name();
- 	}
- 
-@@ -375,7 +374,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->piece_availability(avail);
- 	}
- 
-@@ -384,7 +383,7 @@
- 		INVARIANT_CHECK;
+ #ifdef BOOST_NO_EXCEPTIONS
+@@ -84,7 +83,7 @@
+ 	if (m_ses == 0) return; \
+ 	TORRENT_ASSERT(m_chk); \
+ 	session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex); \
+-	mutex::scoped_lock l2(m_chk->m_mutex); \
++	boost::mutex::scoped_lock l2(m_chk->m_mutex); \
+ 	torrent* t = find_torrent(m_ses, m_chk, m_info_hash); \
+ 	if (t == 0) return; \
+ 	t->call
+@@ -93,7 +92,7 @@
+ 	if (m_ses == 0) return def; \
+ 	TORRENT_ASSERT(m_chk); \
+ 	session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex); \
+-	mutex::scoped_lock l2(m_chk->m_mutex); \
++	boost::mutex::scoped_lock l2(m_chk->m_mutex); \
+ 	torrent* t = find_torrent(m_ses, m_chk, m_info_hash); \
+ 	if (t == 0) return def; \
+ 	return t->call
+@@ -102,7 +101,7 @@
+ 	if (m_ses == 0) return def; \
+ 	TORRENT_ASSERT(m_chk); \
+ 	session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex); \
+-	mutex::scoped_lock l2(m_chk->m_mutex); \
++	boost::mutex::scoped_lock l2(m_chk->m_mutex); \
+ 	torrent* t = find_torrent(m_ses, m_chk, m_info_hash); \
+ 	if (t == 0) return def; \
+ 	t->call
+@@ -113,7 +112,7 @@
+ 	if (m_ses == 0) throw_invalid_handle(); \
+ 	TORRENT_ASSERT(m_chk); \
+ 	session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex); \
+-	mutex::scoped_lock l2(m_chk->m_mutex); \
++	boost::mutex::scoped_lock l2(m_chk->m_mutex); \
+ 	torrent* t = find_torrent(m_ses, m_chk, m_info_hash); \
+ 	if (t == 0) throw_invalid_handle(); \
+ 	t->call
+@@ -122,7 +121,7 @@
+ 	if (m_ses == 0) throw_invalid_handle(); \
+ 	TORRENT_ASSERT(m_chk); \
+ 	session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex); \
+-	mutex::scoped_lock l2(m_chk->m_mutex); \
++	boost::mutex::scoped_lock l2(m_chk->m_mutex); \
+ 	torrent* t = find_torrent(m_ses, m_chk, m_info_hash); \
+ 	if (t == 0) return def; \
+ 	return t->call
+@@ -131,7 +130,7 @@
+ 	if (m_ses == 0) throw_invalid_handle(); \
+ 	TORRENT_ASSERT(m_chk); \
+ 	session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex); \
+-	mutex::scoped_lock l2(m_chk->m_mutex); \
++	boost::mutex::scoped_lock l2(m_chk->m_mutex); \
+ 	torrent* t = find_torrent(m_ses, m_chk, m_info_hash); \
+ 	if (t == 0) return def; \
+ 	t->call
+@@ -305,7 +304,7 @@
+ 		TORRENT_ASSERT(m_chk);
  	
+ 		session_impl::mutex_t::scoped_lock l(m_ses->m_mutex);
+-		mutex::scoped_lock l2(m_chk->m_mutex);
++		boost::mutex::scoped_lock l2(m_chk->m_mutex);
+ 
+ 		aux::piece_checker_data* d = m_chk->find_torrent(m_info_hash);
+ 		if (d != 0)
+@@ -466,7 +465,7 @@
+ #endif
+ 		TORRENT_ASSERT(m_chk);
  		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
 -		mutex::scoped_lock l2(m_chk->m_mutex);
 +		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->set_piece_priority(index, priority);
+ 		torrent* t = find_torrent(m_ses, m_chk, m_info_hash);
+ 		if (t == 0 || !t->valid_metadata())
+ #ifdef BOOST_NO_EXCEPTIONS
+@@ -483,7 +482,7 @@
+ 		if (m_ses == 0) return false;
+ 		TORRENT_ASSERT(m_chk);
+ 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
+-		mutex::scoped_lock l2(m_chk->m_mutex);
++		boost::mutex::scoped_lock l2(m_chk->m_mutex);
+ 		torrent* t = find_torrent(m_ses, m_chk, m_info_hash);
+ 		return t;
  	}
+@@ -501,7 +500,7 @@
+ 		TORRENT_ASSERT(m_chk);
  
-@@ -393,7 +392,7 @@
- 		INVARIANT_CHECK;
- 	
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
+ 		session_impl::mutex_t::scoped_lock l(m_ses->m_mutex);
 -		mutex::scoped_lock l2(m_chk->m_mutex);
 +		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		return find_torrent(m_ses, m_chk, m_info_hash)->piece_priority(index);
- 	}
  
-@@ -402,7 +401,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->prioritize_pieces(pieces);
- 	}
- 
-@@ -411,7 +410,7 @@
- 		INVARIANT_CHECK;
- 		std::vector<int> ret;
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->piece_priorities(ret);
- 		return ret;
- 	}
-@@ -421,7 +420,7 @@
- 		INVARIANT_CHECK;
- 	
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->prioritize_files(files);
- 	}
- 
-@@ -431,7 +430,7 @@
- 	{
- 		INVARIANT_CHECK;
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->filter_piece(index, filter);
- 	}
- 
-@@ -439,7 +438,7 @@
- 	{
- 		INVARIANT_CHECK;
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->filter_pieces(pieces);
- 	}
- 
-@@ -447,7 +446,7 @@
- 	{
- 		INVARIANT_CHECK;
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		return find_torrent(m_ses, m_chk, m_info_hash)->is_piece_filtered(index);
- 	}
- 
-@@ -456,7 +455,7 @@
- 		INVARIANT_CHECK;
- 		std::vector<bool> ret;
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->filtered_pieces(ret);
- 		return ret;
- 	}
-@@ -465,7 +464,7 @@
- 	{
- 		INVARIANT_CHECK;
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->filter_files(files);
- 	}
- 
-@@ -477,7 +476,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		return find_torrent(m_ses, m_chk, m_info_hash)->trackers();
- 	}
- 
-@@ -486,7 +485,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->add_url_seed(url);
- 	}
- 
-@@ -495,7 +494,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->remove_url_seed(url);
- 	}
- 
-@@ -504,7 +503,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		return find_torrent(m_ses, m_chk, m_info_hash)->url_seeds();
- 	}
- 
-@@ -514,7 +513,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->replace_trackers(urls);
- 	}
- 
-@@ -522,7 +521,7 @@
- 	{
- 		INVARIANT_CHECK;
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		boost::shared_ptr<torrent> t = find_torrent(m_ses, m_chk, m_info_hash);
- 		if (!t->valid_metadata()) throw_invalid_handle();
- 		return t->torrent_file();
-@@ -536,7 +535,7 @@
- 
- 		if (m_chk)
- 		{
--			mutex::scoped_lock l(m_chk->m_mutex);
-+			boost::mutex::scoped_lock l(m_chk->m_mutex);
- 			aux::piece_checker_data* d = m_chk->find_torrent(m_info_hash);
- 			if (d != 0) return true;
- 		}
-@@ -675,7 +674,7 @@
- 		INVARIANT_CHECK;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		return find_torrent(m_ses, m_chk, m_info_hash)->save_path();
- 	}
- 
-@@ -693,7 +692,7 @@
+ 		boost::shared_ptr<torrent> t = m_ses->find_torrent(m_info_hash).lock();
+ 		if (!t || !t->valid_metadata())
+@@ -656,7 +655,7 @@
  			// the torrent is being checked. Add the peer to its
  			// peer list. The entries in there will be connected
  			// once the checking is complete.
@@ -859,38 +523,10 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/torrent_handle.cpp deluge-0.5.5/libtor
 +			boost::mutex::scoped_lock l2(m_chk->m_mutex);
  
  			aux::piece_checker_data* d = m_chk->find_torrent(m_info_hash);
- 			if (d == 0) throw_invalid_handle();
-@@ -744,7 +743,7 @@
- 			ratio = 1.f;
- 
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->set_ratio(ratio);
- 	}
- 
-@@ -753,7 +752,7 @@
- 	{
- 		INVARIANT_CHECK;
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		find_torrent(m_ses, m_chk, m_info_hash)->resolve_countries(r);
- 	}
- 
-@@ -761,7 +760,7 @@
- 	{
- 		INVARIANT_CHECK;
- 		session_impl::mutex_t::scoped_lock l1(m_ses->m_mutex);
--		mutex::scoped_lock l2(m_chk->m_mutex);
-+		boost::mutex::scoped_lock l2(m_chk->m_mutex);
- 		return find_torrent(m_ses, m_chk, m_info_hash)->resolving_countries();
- 	}
- #endif
-diff -ru deluge-0.5.5.orig/libtorrent/src/udp_tracker_connection.cpp deluge-0.5.5/libtorrent/src/udp_tracker_connection.cpp
---- deluge-0.5.5.orig/libtorrent/src/udp_tracker_connection.cpp	2007年  9月  3日 一 03:14:45
-+++ deluge-0.5.5/libtorrent/src/udp_tracker_connection.cpp	2007年  9月 17日 一 00:49:37
-@@ -175,7 +175,7 @@
+ 			if (d == 0)
+--- deluge-torrent-0.5.8-orig/libtorrent/src/udp_tracker_connection.cpp	2007-12-29 17:52:03.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/src/udp_tracker_connection.cpp	2007-12-31 05:45:28.047251142 +0000
+@@ -188,7 +188,7 @@
  		char* ptr = send_buf;
  
  		if (m_transaction_id == 0)
@@ -899,28 +535,27 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/udp_tracker_connection.cpp deluge-0.5.
  
  		// connection_id
  		detail::write_uint32(0x417, ptr);
-@@ -279,7 +279,7 @@
+@@ -293,7 +293,7 @@
  	void udp_tracker_connection::send_udp_announce()
  	{
  		if (m_transaction_id == 0)
 -			m_transaction_id = rand() ^ (rand() << 16);
 +			m_transaction_id = std::rand() ^ (std::rand() << 16);
  
- 		if (!m_socket) return; // the operation was aborted
+ 		if (!m_socket.is_open()) return; // the operation was aborted
  
-@@ -338,7 +338,7 @@
+@@ -353,7 +353,7 @@
  	void udp_tracker_connection::send_udp_scrape()
  	{
  		if (m_transaction_id == 0)
 -			m_transaction_id = rand() ^ (rand() << 16);
 +			m_transaction_id = std::rand() ^ (std::rand() << 16);
  
- 		if (!m_socket) return; // the operation was aborted
+ 		if (!m_socket.is_open()) return; // the operation was aborted
  
-diff -ru deluge-0.5.5.orig/libtorrent/src/upnp.cpp deluge-0.5.5/libtorrent/src/upnp.cpp
---- deluge-0.5.5.orig/libtorrent/src/upnp.cpp	2007年  9月 17日 一 01:06:32
-+++ deluge-0.5.5/libtorrent/src/upnp.cpp	2007年  9月 17日 一 00:49:37
-@@ -618,7 +618,7 @@
+--- deluge-torrent-0.5.8-orig/libtorrent/src/upnp.cpp	2007-12-29 17:52:03.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/src/upnp.cpp	2007-12-31 05:45:28.047704427 +0000
+@@ -586,14 +586,14 @@
  		if (type == xml_start_tag)
  		{
  			if ((!state.top_tag.empty() && state.top_tag == "service")
@@ -929,7 +564,6 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/upnp.cpp deluge-0.5.5/libtorrent/src/u
  			{
  				state.top_tag = string;
  			}
-@@ -625,7 +625,7 @@
  		}
  		else if (type == xml_end_tag)
  		{
@@ -938,7 +572,7 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/upnp.cpp deluge-0.5.5/libtorrent/src/u
  			{
  				state.top_tag.clear();
  				if (state.found_service) state.exit = true;
-@@ -637,7 +637,7 @@
+@@ -605,7 +605,7 @@
  		{
  			if (state.top_tag == "serviceType")
  			{
@@ -947,7 +581,7 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/upnp.cpp deluge-0.5.5/libtorrent/src/u
  					state.found_service = true;
  			}
  			else if (state.top_tag == "controlURL")
-@@ -752,7 +752,7 @@
+@@ -727,7 +727,7 @@
  	void find_error_code(int type, char const* string, error_code_parse_state& state)
  	{
  		if (state.exit) return;
@@ -956,9 +590,8 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/upnp.cpp deluge-0.5.5/libtorrent/src/u
  		{
  			state.in_error_code = true;
  		}
-diff -ru deluge-0.5.5.orig/libtorrent/src/kademlia/node.cpp deluge-0.5.5/libtorrent/src/kademlia/node.cpp
---- deluge-0.5.5.orig/libtorrent/src/kademlia/node.cpp	2007年  9月 17日 一 01:06:32
-+++ deluge-0.5.5/libtorrent/src/kademlia/node.cpp	2007年  9月 17日 一 00:49:37
+--- deluge-torrent-0.5.8-orig/libtorrent/src/kademlia/node.cpp	2007-12-29 17:52:02.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/src/kademlia/node.cpp	2007-12-31 05:45:28.047992439 +0000
 @@ -420,7 +420,7 @@
  	int num = (std::min)((int)v.peers.size(), m_settings.max_peers_reply);
  	peers.clear();
@@ -968,16 +601,15 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/kademlia/node.cpp deluge-0.5.5/libtorr
  		, boost::make_transform_iterator(v.peers.end(), &get_endpoint)
  		, std::back_inserter(peers), num);
  
-diff -ru deluge-0.5.5.orig/libtorrent/src/kademlia/rpc_manager.cpp deluge-0.5.5/libtorrent/src/kademlia/rpc_manager.cpp
---- deluge-0.5.5.orig/libtorrent/src/kademlia/rpc_manager.cpp	2007年  9月 17日 一 01:06:06
-+++ deluge-0.5.5/libtorrent/src/kademlia/rpc_manager.cpp	2007年  9月 17日 一 00:49:37
+--- deluge-torrent-0.5.8-orig/libtorrent/src/kademlia/rpc_manager.cpp	2007-12-29 17:52:02.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/src/kademlia/rpc_manager.cpp	2007-12-31 05:45:28.048263257 +0000
 @@ -82,7 +82,7 @@
  	if (--o->m_refs == 0)
  	{
  		boost::pool<>& p = o->pool_allocator;
 -		o->~observer();
 +		(const_cast<observer*>(o))->~observer();
- 		p.ordered_free(const_cast<observer*>(o));
+ 		p.free(const_cast<observer*>(o));
  	}
  }
 @@ -106,7 +106,7 @@
@@ -989,3 +621,57 @@ diff -ru deluge-0.5.5.orig/libtorrent/src/kademlia/rpc_manager.cpp deluge-0.5.5/
  	, m_oldest_transaction_id(m_next_transaction_id)
  	, m_incoming(f)
  	, m_send(sf)
+--- deluge-torrent-0.5.8-orig/libtorrent/src/web_peer_connection.cpp	2007-12-29 17:52:03.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/src/web_peer_connection.cpp	2007-12-31 05:45:28.048583172 +0000
+@@ -467,7 +467,7 @@
+ 			else
+ 			{
+ 				range_start = 0;
+-				range_end = atol(m_parser.header("content-length").c_str());
++				range_end = std::atol(m_parser.header("content-length").c_str());
+ 				if (range_end == -1)
+ 				{
+ 					// we should not try this server again.
+--- deluge-torrent-0.5.8-orig/libtorrent/include/libtorrent/asio/detail/resolver_service.hpp	2007-10-19 08:02:37.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/include/libtorrent/asio/detail/resolver_service.hpp	2007-12-31 05:45:28.048850401 +0000
+@@ -329,7 +329,7 @@
+   void start_work_thread()
+   {
+     asio::detail::mutex::scoped_lock lock(mutex_);
+-    if (work_thread_ == 0)
++    if (work_thread_.get() == 0)
+     {
+       work_thread_.reset(new asio::detail::thread(
+             work_io_service_runner(*work_io_service_)));
+--- deluge-torrent-0.5.8-orig/libtorrent/src/lsd.cpp	2007-12-29 17:52:03.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/src/lsd.cpp	2007-12-31 05:45:28.049041126 +0000
+@@ -166,7 +166,7 @@
+ 	sha1_hash ih(0);
+ 	std::istringstream ih_sstr(ih_str);
+ 	ih_sstr >> ih;
+-	int port = atoi(port_str.c_str());
++	int port = std::atoi(port_str.c_str());
+ 
+ 	if (!ih.is_all_zeros() && port != 0)
+ 	{
+--- deluge-torrent-0.5.8-orig/libtorrent/src/http_tracker_connection.cpp	2007-12-29 17:52:03.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/src/http_tracker_connection.cpp	2007-12-31 05:45:28.049441089 +0000
+@@ -704,7 +704,7 @@
+ 
+ 		if (m_parser.header_finished())
+ 		{
+-			int cl = atoi(m_parser.header("content-length").c_str());
++			int cl = std::atoi(m_parser.header("content-length").c_str());
+ 			if (cl > m_settings.tracker_maximum_response_length)
+ 			{
+ 				fail(-1, "content-length is greater than maximum response length");
+--- deluge-torrent-0.5.8-orig/libtorrent/src/enum_net.cpp	2007-12-29 17:52:03.000000000 +0000
++++ deluge-torrent-0.5.8/libtorrent/src/enum_net.cpp	2007-12-31 05:51:56.791989742 +0000
+@@ -43,6 +43,7 @@
+ #endif
+ 
+ #include "libtorrent/enum_net.hpp"
++#include "asio/ip/host_name.hpp"
+ 
+ namespace libtorrent
+ {

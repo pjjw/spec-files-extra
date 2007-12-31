@@ -5,37 +5,44 @@
 #
 %include Solaris.inc
 
+%define src_name	 libdca 
+
 Name:                    SFElibdts
 Summary:                 libdts  - a free library for decoding DTS Coherent Acoustics streams
-Version:                 0.0.2
-Source:                  http://download.videolan.org/pub/videolan/libdca/%{version}/libdca-%{version}.tar.gz
-Patch1:			 libdts-01-sigtype.diff
-#Patch2:                  libdts-02-picflags.diff
-Patch2:                  libdts-02-shared.diff
-Patch3:                  libdts-03-opt.diff
+Version:                 0.0.5
+Source:                  http://download.videolan.org/pub/videolan/libdca/%{version}/%{src_name}-%{version}.tar.bz2
+#Patch1:		 libdts-01-sigtype.diff
+#Patch2:                 libdts-02-picflags.diff
+#Patch2:                 libdts-02-shared.diff
+#Patch3:                 libdts-03-opt.diff
+Patch4:                  libdts-04-tweaks-to-fix-trivial-compiler-errors.diff
 SUNW_BaseDir:            %{_basedir}
-BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+BuildRoot:               %{_tmppath}/%{src_name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
+Requires: SFEliba52
 
 %package devel
 Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
+Requires: SFEliba52-devel
 
 %prep
-%setup -q -n libdts-%version
-%patch1 -p1
+%setup -q -n %src_name-%version
+#%patch1 -p1
 #%patch2 -p1 -b .pic
-%patch2 -p1
-%patch3 -p1
+#%patch2 -p1
+#%patch3 -p1
+%patch4 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
+export CPPPFLAGS="-I/usr/include/a52dec"
 export CFLAGS="%optflags -KPIC"
 
 aclocal $ACLOCAL_FLAGS
@@ -80,6 +87,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Dec 31 2007 - markwright@internode.on.net
+- Bump to 0.0.5. Comment patch1, patch2 and patch3.
+- Add patch 4 to fix trivial compiler errors.
 * Fri Aug  3 2007 - dougs@truemail.co.th
 - Build a shared library
 * Sun Jan 21 2007 - laca@sun.com

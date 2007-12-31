@@ -15,6 +15,7 @@ Source:              %{src_url}/%{src_name}-%{version}.tar.gz
 Patch1:		     gpac-01-libs.diff
 Patch2:		     gpac-02-gcc.diff
 Patch3:		     gpac-03-install.diff
+Patch4:		     gpac-04-inaddr.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -40,6 +41,7 @@ Requires: %name
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -58,6 +60,7 @@ chmod 755 ./configure
             --mandir=%{_mandir}		\
 	    --cc=gcc			\
 	    --extra-ldflags="-fPIC"	\
+	    --extra-libs="-lrt -lm"	\
 	    --disable-opt		\
 	    --mozdir=/usr/lib/firefox	\
 	    --extra-cflags="$RPM_OPT_FLAGS"
@@ -87,6 +90,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %{_includedir}
 %changelog
+* Mon Dec 31 6 2007 - markwright@internode.on.net
+- Add patch 4 to fix trivial compiler error missing INADDR_NONE.
+- Add --extra-libs="-lrt -lm".
 * Mon Jul 30 2007 - dougs@truemail.co.th
 - Install headers
 * Sun Jul 29 2007 - dougs@truemail.co.th

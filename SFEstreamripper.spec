@@ -7,7 +7,7 @@
 # Software specific variable definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %define src_name	streamripper
-%define src_version	1.62.1
+%define src_version	1.62.3
 %define pkg_release	1
 
 # =========================================================================== 
@@ -53,6 +53,7 @@ Streamripper can't help with ripping stuff like RealPlayer, Windows MediaPlayer,
 %prep 
 %setup -q -n %{src_name}-%{version}
 CC=gcc
+export LDFLAGS="-L/usr/gnu/lib -R/usr/gnu/lib"
 ./configure --prefix=%{_prefix}
 
 #%patch0 -p 1
@@ -85,7 +86,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/man
 
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/lib*
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Dec 30 2007 - markwright@internode.on.net
+- Bump to 1.62.3
 * 2007.Aug.11 - <shivakumar dot gn at gmail dot com>
 - Initial spec.

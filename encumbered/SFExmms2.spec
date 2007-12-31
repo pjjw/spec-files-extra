@@ -11,7 +11,7 @@
 
 Name:                    SFExmms2
 Summary:                 Client/server based media player system
-Version:                 0.2DrJekyll
+Version:                 0.4DrKosmos
 Source:                  %{src_url}/%{src_name}-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -47,6 +47,7 @@ Requires: %name
 
 %build
 unset CC CFLAGS CXX CXXFLAGS
+export LINKFLAGS="-L/usr/gnu/lib -R/usr/gnu/lib"
 ./waf	--prefix=%{_prefix}		\
 	--with-mandir=%{_mandir}	\
 	--destdir=$RPM_BUILD_ROOT	\
@@ -74,6 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python2.*
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/xmms2
+%dir %attr (0755, root, other) %{_datadir}/pixmaps
+%{_datadir}/pixmaps/*
 %{_mandir}
 %{_prefix}/perl5
 
@@ -85,5 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Dec 30 2007 - markwright@internode.on.net
+- Bump to 2.0.4DrKosmos
 * Mon Jul 30 2007 - dougs@truemail.co.th
 - initial

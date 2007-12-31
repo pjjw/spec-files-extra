@@ -1,3 +1,24 @@
+2007-12-31 Mark Wright <markwright@internode.on.net>
+	* SFEeasytag.spec Added -f option to line rm -rf
+	  $RPM_BUILD_ROOT%{_datadir}/locale
+	* easytag2.1-01-libnsl.diff remvoe -llibstdc++ from LIBS
+	* SFEdeluge.spec Bump to 0.5.8, bump patch1, comment patch 2 and 3.
+	* patches/deluge-01-sunpro.diff Bump to 0.5.8.
+	* base-specs/libmtp.spec Bump to 0.2.4
+	* encumbered/SFEgnomad2.spec Bump to 2.9.0. mkdtemp patch for Solaris 10.
+	* patches/gnomad2-02-2.9.0_p2_mkdtemp.diff mkdtemp for Solaris 10.
+	* encumbered/SFElibnjb.spec bump to 2.2.6
+	* patches/libnjb-01-2.2.6-p1-makefilechanges.diff Bump to 2.2.6
+	* encumbered/SFEgpac.spec Add patch 4 to fix trivial compiler error
+	  missing INADDR_NONE.  Add --extra-libs="-lrt -lm".
+	* patches/gpac-04-inaddr.diff Fix missing INADDR_NONE.
+	* encumbered/SFElibdts.spec Bump to 0.0.5. Comment patch1, patch2 and patch3.
+	* patches/libdts-04-tweaks-to-fix-trivial-compiler-errors.diff
+	* encumbered/SFExmms2.spec Bump to 2.0.4DrKosmos
+	* encumbered/SFExvid.spec Use SFEgcc 4.2.2.  Add sed hack to change -Wl,-M back to
+	  -Wl,--version-script for /usr/gnu/bin/ld.
+	* SFEstreamripper.spec Bump to 1.62.3
+
 2007-12-29  Jerry Yu <jijun.yu@jijun.yu@sun.com>
 
     * base-specs/gnupg2.spec: added

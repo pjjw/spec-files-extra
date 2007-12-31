@@ -6,7 +6,7 @@ diff -uNr easytag-2.1.orig/src/Makefile easytag-2.1/src/Makefile
  LDFLAGS = 
  LIBOBJS =  lstat$U.o
 -LIBS = -lm -lm -lz -lstdc++ -lFLAC -lm -lvorbisfile -lvorbis -logg -lm -lsocket 
-+LIBS = -lm -lm -lz -lstdc++ -lFLAC -lm -lvorbisfile -lvorbis -logg -lm -lsocket -lnsl
++LIBS = -lm -lm -lz -lFLAC -lm -lvorbisfile -lvorbis -logg -lm -lsocket -lnsl
  LIBTOOL = $(SHELL) $(top_builddir)/libtool
  LN_S = ln -s
  LTLIBOBJS =  lstat$U.lo

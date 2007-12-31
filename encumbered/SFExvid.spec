@@ -42,17 +42,25 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags"
-export LDFLAGS="%gnu_ldflags"
-export CC=gcc
+export CFLAGS="-O4 -fPIC -DPIC -I/usr/X11/include -I/usr/openwin/include -D_LARGEFILE64_SOURCE -I/usr/gnu/include -mcpu=pentiumpro -mtune=pentiumpro -msse2 -mfpmath=sse"
+export LDFLAGS=
+export CC="/usr/gnu/bin/gcc"
+export LD="/usr/gnu/bin/ld"
 export CFLAGS="-O4"
 
 cd build/generic
 bash ./bootstrap.sh
+# autotools changes -Wl,--version-script to -Wl,-M since
+# it thinks we are using the Sun linker.  I do not know
+# how to persuade autotools that we are actually using the
+# gnu linker /usr/gnu/ld.  Hence the following sed hack.
+mv configure configure.genned
+sed -e 's/-Wl,-M,libxvidcore.ld/-Wl,--version-script,libxvidcore.ld/' configure.genned >configure
+chmod ug+x configure
 ./configure --prefix=%{_prefix}			\
             --libdir=%{_libdir}			\
             --includedir=%{_includedir}
-make
+gmake
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -77,5 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Mon Dec 31 2007 - markwright@internode.on.net
+- Use SFEgcc 4.2.2.  Add sed hack to change -Wl,-M back to
+- -Wl,--version-script for /usr/gnu/bin/ld.
 * Fri Aug  3 2007 - dougs@truemail.co.th
 - Initial spec

@@ -7,11 +7,11 @@
 
 Name:                SFEdeluge
 Summary:             Deluge - BitTorrent client
-Version:             0.5.5
+Version:             0.5.8
 Source:              http://download.deluge-torrent.org/tarball/%{version}/deluge-%{version}.tar.gz
 Patch1:              deluge-01-sunpro.diff
-Patch2:              deluge-02-path.diff
-Patch3:              deluge-03-sparsefile.diff
+#Patch2:              deluge-02-path.diff
+#Patch3:              deluge-03-sparsefile.diff
 URL:                 http://deluge-torrent.org/
 
 SUNW_BaseDir:        %{_basedir}
@@ -41,10 +41,11 @@ Requires:                %{name}
 %define pythonver 2.4
 
 %prep
-%setup -q -n deluge-%version
+%setup -q -n deluge-torrent-%version
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
+#%patch2 -p1
+#%patch3 -p1
+rm "plugins/WebUi/lib/webpy022/Dependency-not-really part of webui.txt"
 # patch prefix before building
 ed -s src/common.py <<'/EOF/' >/dev/null
 ,s:@datadir@:%_prefix:
@@ -118,6 +119,43 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/deluge.desktop
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/128x128
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/128x128/apps
+%{_datadir}/icons/hicolor/128x128/apps/deluge.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/16x16
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/16x16/apps
+%{_datadir}/icons/hicolor/16x16/apps/deluge.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/192x192
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/192x192/apps
+%{_datadir}/icons/hicolor/192x192/apps/deluge.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/22x22
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/22x22/apps
+%{_datadir}/icons/hicolor/22x22/apps/deluge.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/24x24
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/24x24/apps
+%{_datadir}/icons/hicolor/24x24/apps/deluge.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/256x256
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/256x256/apps
+%{_datadir}/icons/hicolor/256x256/apps/deluge.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/32x32
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/32x32/apps
+%{_datadir}/icons/hicolor/32x32/apps/deluge.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/36x36
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/36x36/apps
+%{_datadir}/icons/hicolor/36x36/apps/deluge.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/48x48
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/48x48/apps
+%{_datadir}/icons/hicolor/48x48/apps/deluge.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/64x64
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/64x64/apps
+%{_datadir}/icons/hicolor/64x64/apps/deluge.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/72x72
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/72x72/apps
+%{_datadir}/icons/hicolor/72x72/apps/deluge.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/96x96
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/96x96/apps
+%{_datadir}/icons/hicolor/96x96/apps/deluge.png
 
 %if %build_l10n
 %files l10n
@@ -127,6 +165,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Dec 31 2007 - markwright@internode.on.net
+- Bump to 0.5.8, bump patch1, comment patch 2 and 3.
 * Mon Sep 17 2007 - trisk@acm.jhu.edu
 - Bump to 0.5.5
 * Sun Sep 02 2007 - trisk@acm.jhu.edu

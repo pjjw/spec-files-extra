@@ -86,7 +86,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %if %build_l10n
 %else
 # REMOVE l10n FILES
-rm -r $RPM_BUILD_ROOT%{_datadir}/locale
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 %endif
 
 %clean
@@ -118,6 +118,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Dec 31 2007 - markwright@internode.on.net
+- Added -f option to line rm -rf $RPM_BUILD_ROOT%{_datadir}/locale 
+
 * Sat 17 Nov 2007 - daymobrew@users.sourceforge.net.
 - Add support for Indiana, including l10n package.
 

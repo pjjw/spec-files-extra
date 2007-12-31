@@ -1,0 +1,20 @@
+--- libnjb-2.2.6-orig/configure.ac	2007-09-05 21:28:57.000000000 +0000
++++ libnjb-2.2.6/configure.ac	2007-12-30 09:10:20.004405950 +0000
+@@ -76,7 +76,7 @@
+ AC_STRUCT_ST_BLKSIZE
+ 
+ # Checks for library functions.
+-AC_FUNC_MALLOC
++# AC_FUNC_MALLOC
+ AC_FUNC_MEMCMP
+ AC_FUNC_STAT
+ AC_CHECK_FUNCS(basename memset select strdup strerror strrchr strtoul usleep)
+@@ -107,7 +107,7 @@
+ # Switches.
+ # Stick in "-Werror" if you want to be more aggressive.
+ # (No need to use AC_SUBST on this default substituted environment variable.)
+-CFLAGS="$CFLAGS -Wall -Wmissing-prototypes"
++# CFLAGS="$CFLAGS -Wall -Wmissing-prototypes"
+ 
+ # Output files
+ AC_CONFIG_FILES([src/libnjb.h doc/Doxyfile Makefile doc/Makefile src/Makefile

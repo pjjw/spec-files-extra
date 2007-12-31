@@ -4,7 +4,7 @@
 # includes module(s): libmtp
 #
 
-%define src_ver 0.2.1
+%define src_ver 0.2.4
 %define src_name libmtp
 %define src_url http://jaist.dl.sourceforge.net/sourceforge/%{src_name}
 
@@ -64,5 +64,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libmtp/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Sun Dec 30 2007 - markwright@internode.on.net
+- Bump to 0.2.4
 * Tue Sep 18 2007 - dougs@truemail.co.th
 - Initial base spec file
