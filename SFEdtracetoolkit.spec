@@ -13,8 +13,7 @@
 %include base.inc
 
 %define src_name        DTraceToolkit
-%define src_url         http://www.opensolaris.org/os/community/dtrace
-#mirror: %define src_url        http://www.brendangregg.com/
+%define src_url         http://www.brendangregg.com/
 ##%define demodir		%{_basedir}/demo
 ##%define installdir	%{demodir}/dtrace
 %define demodir		""
@@ -61,6 +60,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Dec 29 2007 - Thomas Wagner
+- cleaned up download-URL
 * Sun Oct 21 2007 - Thomas Wagner
 - asked people, they wanted DTT to go into /opt/DTraceToolkit
   still with relocatablility to where_ever_you_like

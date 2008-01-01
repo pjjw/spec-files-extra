@@ -7,7 +7,7 @@
 
 Name:                SFEmutt
 Summary:             The mutt e-mail client
-Version:             1.5.15
+Version:             1.5.17
 Source:              ftp://ftp.mutt.org/mutt/devel/mutt-%{version}.tar.gz
 Patch1:              mutt-01-makefile.diff
 
@@ -78,6 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
+* Tue Jan 01 2008 - Thomas Wagner
+- bump to 1.5.17
 * Sun Nov 25 2007 - Thomas Wagner
 - PSARC 2007/167 "IDN" is found (new around build 73/74), add -I/usr/include/idn
 * Sat May 26 2007 - dick@nagual.nl
