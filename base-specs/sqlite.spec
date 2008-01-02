@@ -9,8 +9,8 @@
 Name:           sqlite
 License:        Public Domain
 Group:          System/Libraries
-Version:        3.5.2
-Release:        1
+Version:        3.5.4
+Release:        4
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.sqlite.org

@@ -10,8 +10,8 @@
 
 %use tracker = tracker.spec
 
-Name:           SFEtracker
-Summary:        %{tracker.summary}
+Name:           SUNWdesktop-search
+Summary:        Desktop search tool
 Version:        %{default_pkg_version}
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -21,14 +21,14 @@ Source2:        tracker-thunderbird.xpi
 Requires:       SUNWgnome-base-libs
 Requires:       SUNWdbus
 Requires:       SUNWzlib
-Requires:       SFEsqlite
-Requires:       SFEgmime
+Requires:       SUNWgmime
 Requires:       SUNWgamin
+Requires:       SUNWsqlite
 BuildRequires:  SUNWgnome-base-libs-devel
 BuildRequires:  SUNWdbus-devel
-BuildRequires:  SFEgmime-devel
-BuildRequires:  SFEsqlite-devel
+BuildRequires:  SUNWgmime-devel
 BuildRequires:  SUNWgamin-devel
+BuildRequires:  SUNWsqlite-devel
 %if %option_with_gnu_iconv
 Requires: SUNWgnu-libiconv
 Requires: SUNWgnu-gettext
@@ -42,17 +42,14 @@ Requires:       SUNWogg-vorbis
 Requires:       SUNWlibexif
 Requires:       SUNWgnome-pdf-viewer
 Requires:       SUNWlxsl
-Requires:       SFEw3m
-Requires:       SFEwv
-Requires:       SFElibgsf
+Requires:       SUNWdesktop-search-libs
 BuildRequires:  SUNWgnome-media-devel
 BuildRequires:  SUNWpng-devel
 BuildRequires:  SUNWogg-vorbis-devel
 BuildRequires:  SUNWlibexif-devel
 BuildRequires:  SUNWgnome-pdf-viewer-devel
 BuildRequires:  SUNWlxsl-devel
-BuildRequires:  SFEwv-devel
-BuildRequires:  SFElibgsf-devel
+BuildRequires:  SUNWdesktop-search-libs-devel
 
 %package devel
 Summary:        %{summary} - development files
@@ -172,6 +169,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Jan 02 2008 - nonsea@users.sourceforge.net
+- Rename from SFEtracker to SUNWdesktop-search.
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net
 - Add support for building on Indiana systems
 * Fri Nov 02 2007 - nonsea@users.sourceforge.net

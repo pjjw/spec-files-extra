@@ -1,17 +1,28 @@
+2008-01-02  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEgmime.spec, SUNWgmime.spec: rename
+	* SFEsqlite.spec, SUNWsqlite.spec: rename
+	* SFEtracker.spec, SUNWdesktop-search.spec: rename
+	* SUNWdesktop-search-libs.spec: combine libgsf libgc w3m into one pkg.
+	* base-specs/gmime.spec: spilit from SUNWgmime.spec
+	* base-specs/libgc.spec: spilit from SFElibgc.spec
+	* base-specs/sqlite.spec: Bump to 3.5.4
+	* base-specs/w3m.spec: spilit from SFEw3m.spec
+
 2008-01-01  JerrY Yu <jijun.yu@sun.com>
 	
 	* SFEgpgme.spec: Removed an used file.
 
 2008-01-01  Thomas Wagner <tom68@users.sourceforge.net>
-     * SFEmutt.spec: bump to 1.5.17
-     * SFEdtracetoolkit.spec: clean download-URL
+	* SFEmutt.spec: bump to 1.5.17
+	* SFEdtracetoolkit.spec: clean download-URL
 
 2008-01-01  Petr Sobotka  <sobotkap@centrum.cz>
 
 	* SFEwesnoth.spec: - Bump to 1.3.13
-                           - Introduced new dependency SFEboost
-                           - Changed compiler from gcc to sun studio + 
-                             stlport4 (need to be same as for boost)
+			   - Introduced new dependency SFEboost
+			   - Changed compiler from gcc to sun studio + 
+			     stlport4 (need to be same as for boost)
 
 2007-12-31 Mark Wright <markwright@internode.on.net>
 	* SFEeasytag.spec Added -f option to line rm -rf
@@ -166,9 +177,9 @@
 
 2007-12-18  simon.zheng  <simon.zheng@sun.com>
 
-        * base-specs/gnome-power-manager.spec:
-        * patches/gnome-power-manager-09-scripts.diff:
-          - Add.
+	* base-specs/gnome-power-manager.spec:
+	* patches/gnome-power-manager-09-scripts.diff:
+	  - Add.
 
 2007-12-17  simon.zheng  <simon.zheng@sun.com>
 

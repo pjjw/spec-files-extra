@@ -1,14 +1,20 @@
 #
-# spec file for package SFEsqlite
+# spec file for package SUNWsqlite
 #
-# includes module(s): 
+# includes module(s): sqlite
+#
+# Copyright (c) 2007 Sun Microsystems, Inc.
+# This file and all modifications and additions to the pristine
+# package are under the same license as the package itself.
+#
+# Owner: halton
 #
 %include Solaris.inc
 
 %use sqlite = sqlite.spec
 
-Name:           SFEsqlite
-Summary:        sqlite.summary
+Name:           SUNWsqlite
+Summary:        SQLite - a C library that implements an embeddable SQL database engine
 Version:        %{default_pkg_version}
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -57,6 +63,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jan 02 2008 - nonsea@users.sourceforge.net
+- Rename from SFEsqlite to SUNWsqlite.
 * Mon Nov 12 2007 - nonsea@users.sourceforge.net
 - Spilit into sqlite.spec
 - Tue Oct 09 2007 - brian.cameron@sun.com
@@ -82,7 +90,7 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Feb 28 2007 - markgraf@med.ovgu.de
 - bump to 3.3.13 as source for 3.3.8 is no longer available
 * Tue Nov 11 2006 - halton.huo@sun.com
-- Rename from SFEsqlite3 to SFEsqlite
+- Rename from SUNWsqlite3 to SUNWsqlite
 - Bump to 3.3.8
 * Wed Sep  7 2006 - jedy.wang@sun.com
 - bump to 3.3.7

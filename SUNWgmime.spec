@@ -1,23 +1,27 @@
 #
-# spec file for package SFEgmime
+# spec file for package SUNWgmime
 #
 # includes module(s): gmime
 #
+# Copyright (c) 2008 Sun Microsystems, Inc.
+# This file and all modifications and additions to the pristine
+# package are under the same license as the package itself.
+#
+# Owner: halton
+#
+
 %include Solaris.inc
+
 %define with_mono %(pkginfo -q SFEmono && echo 1 || echo 0)
 
-Name:         SFEgmime
-License:      Other
-Version:      2.2.10
-Release:      1
-Summary:      Libraries and binaries to parse and index mail messages
-Source:       http://spruce.sourceforge.net/gmime/sources/v2.2/gmime-%{version}.tar.gz
-URL:          http://spruce.sourceforge.net/gmime/
-SUNW_BaseDir: %{_basedir}
-BuildRoot:    %{_tmppath}/%{name}-%{version}-build
-Docdir:	      %{_defaultdocdir}/doc
-Autoreqprov:  on
-Requires: SUNWgnome-base-libs
+%use gmime = gmime.spec
+
+Name:          SUNWgmime
+Version:       %{default_pkg_version}
+Summary:       Libraries and binaries to parse and index mail messages
+SUNW_BaseDir:  %{_basedir}
+BuildRoot:     %{_tmppath}/%{name}-%{version}-build
+Requires:      SUNWgnome-base-libs
 BuildRequires: SUNWgnome-base-libs-devel
 %if %with_mono
   Requires: SFEmono
@@ -32,15 +36,17 @@ SUNW_BaseDir:  %{_basedir}
 Requires:      %name
 
 %prep
-%setup -q -c -n %name-%version
+rm -rf %name-%version
+mkdir %name-%version
+%gmime.prep -d %name-%version
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-  CPUS=1
-fi
+export PKG_CONFIG_PATH=%{_pkg_config_path}
+export CFLAGS="%optflags"
+export RPM_OPT_FLAGS="$CFLAGS"
+export LDFLAGS="%_ldflags"
 
-cd gmime-%{version}
+
 %if %with_mono
   export PATH=/usr/mono/bin:$PATH
   %define mono_option --enable-mono
@@ -48,26 +54,17 @@ cd gmime-%{version}
   %define mono_option
 %endif
 
-export CFLAGS="%optflags"
-export LDFLAGS="%{_ldflags}"
-./configure --prefix=%{_prefix} \
-	    --mandir=%{_mandir} \
-            --libdir=%{_libdir} \
-            --libexecdir=%{_libexecdir} \
-            --sysconfdir=%{_sysconfdir} \
-	    %mono_option
-
-make -j $CPUS
+%gmime.build -d %name-%version
 
 %install
-cd gmime-%{version}
-make DESTDIR=$RPM_BUILD_ROOT install
-find $RPM_BUILD_ROOT%{_libdir} -type f -name "*.a" -exec rm -f {} ';'
-find $RPM_BUILD_ROOT%{_libdir} -type f -name "*.la" -exec rm -f {} ';'
+rm -rf $RPM_BUILD_ROOT
+%gmime.install -d %name-%version
 
 # conflicts with SUNWesu
 rm -f $RPM_BUILD_ROOT%{_bindir}/uuencode
 rm -f $RPM_BUILD_ROOT%{_bindir}/uudecode
+
+%{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):unsupported" $RPM_BUILD_ROOT}
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
@@ -98,7 +95,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtk-doc
 
 %changelog
-* TUe Jul 24 2007 - nonsea@users.sourceforge.net
+* Wed Jan 02 2008 - nonsea@users.sourceforge.net
+- Rename from SFEgmime to SUNWgmime.
+* Tue Jul 24 2007 - nonsea@users.sourceforge.net
 - Bump to 2.2.10.
 * Wed May  2 2007 - halton.huo@sun.com
 - Bump to 2.2.8.
