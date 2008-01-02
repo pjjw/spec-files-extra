@@ -1,3 +1,7 @@
+2008-01-01  JerrY Yu <jijun.yu@sun.com>
+	
+	* SFEgpgme.spec: Removed an used file.
+
 2008-01-01  Thomas Wagner <tom68@users.sourceforge.net>
      * SFEmutt.spec: bump to 1.5.17
      * SFEdtracetoolkit.spec: clean download-URL
