@@ -13,10 +13,18 @@ Source:                  http://osdn.dl.sourceforge.net/sourceforge/filereplicat
 SUNW_BaseDir:            %{_basedir}
 URL:                     https://sourceforge.net/projects/filereplicator
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
-Requires: SFEunison
-Requires: SUNWgnome-base-libs
-BuildRequires: SUNWgnome-base-libs-devel
+Requires:               SUNWgnome-base-libs
+Requires:               SUNWgnome-libs
+Requires:               SUNWgnome-component
+Requires:               SUNWgnome-config
+Requires:               SUNWgnome-vfs
+BuildRequires:          SUNWgnome-base-libs-devel
+BuildRequires:          SUNWgnome-libs-devel
+BuildRequires:          SUNWgnome-component-devel
+BuildRequires:          SUNWgnome-config-devel
+BuildRequires:          SUNWgnome-vfs-devel
 
 %prep
 %setup -q            -c -n %name-%version

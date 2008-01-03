@@ -19,7 +19,12 @@ Summary:            wbxml2 - WBXML parser and compiler library
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
+Requires: SUNWlexpt
+Requires: SUNWlibpopt
+Requires: SUNWzlib
+BuildRequires: SUNWlibpopt-devel
 
 %package devel
 Summary:                 %{summary} - development files

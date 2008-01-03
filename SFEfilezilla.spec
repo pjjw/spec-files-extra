@@ -18,13 +18,14 @@ Summary:            %{filezilla}.summary
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
-%include default-depend.inc
 
+%include default-depend.inc
 Requires: SUNWgnome-libs
 Requires: SUNWgnome-base-libs
 Requires: SUNWgnome-vfs
 Requires: SUNWgnome-component
 Requires: SUNWgnome-config
+Requires: SUNWgnutls
 Requires: SFEwxwidgets
 Requires: SFElibidn
 BuildRequires: SUNWgnome-libs-devel
@@ -32,6 +33,7 @@ BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWgnome-vfs-devel
 BuildRequires: SUNWgnome-component-devel
 BuildRequires: SUNWgnome-config-devel
+BuildRequires: SUNWgnutls-devel
 BuildRequires: SFEwxwidgets-devel
 BuildRequires: SFElibidn-devel
 

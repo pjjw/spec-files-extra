@@ -17,12 +17,13 @@ Patch2:              graphviz-02-gd-ldflags.diff
 URL:                 http://www.graphviz.org
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
-%include default-depend.inc
 
+%include default-depend.inc
 Requires: SFElibtool
 Requires: SUNWgd2
 Requires: SUNWlexpt
 Requires: SUNWfontconfig
+Requires: SUNWlexpt
 %if %SFEfreetype
 Requires: SFEfreetype
 %else
@@ -45,6 +46,7 @@ BuildRequires: SUNWTcl
 BuildRequires: SUNWperl584core
 BuildRequires: SFEswig
 BuildRequires: SFEruby
+BuildRequires: SUNWfontconfig-devel
 
 %package devel
 Summary:                 %{summary} - development files

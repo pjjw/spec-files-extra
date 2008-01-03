@@ -24,7 +24,9 @@ Summary:             Freetype
 Version:             2.3.4
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
+Requires: SUNWzlib
 
 %package devel
 Summary:                 %{summary} - development files

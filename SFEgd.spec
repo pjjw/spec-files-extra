@@ -12,26 +12,24 @@ Source:              http://www.libgd.org/releases/gd-%{version}.tar.bz2
 Url:	    	     http://www.libgd.org/
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
 
+Requires: SUNWfontconfig
+Requires: SUNWpng
+Requires: SUNWjpg
 %if %(pkginfo -q FSWxorg-clientlibs && echo 1 || echo 0)
 #FOX
 Requires: FSWxorg-clientlibs
 %else
-BuildRequires: SUNWxwplt
 Requires: SUNWxwplt
 %endif
-BuildRequires: SUNWpng
-BuildRequires: SUNWjpg
-Requires: SUNWpng
-Requires: SUNWjpg
 
 %package devel
 Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
-
 
 %prep
 %setup -q -n gd-%version

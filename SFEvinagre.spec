@@ -21,10 +21,12 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 Requires:           SUNWgnome-base-libs
 Requires:           SUNWgnome-libs
 Requires:           SUNWgnutls
+Requires:           SUNWavahi-bridge-dsd
 Requires:           SFEgtk-vnc
 BuildRequires:      SUNWgnome-base-libs-devel
 BuildRequires:      SUNWgnome-libs-devel
 BuildRequires:      SUNWgnutls-devel
+BuildRequires:      SUNWavahi-bridge-dsd-devel
 BuildRequires:      SFEgtk-vnc-devel
 
 %if %build_l10n

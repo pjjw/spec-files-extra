@@ -19,13 +19,16 @@ Version:             1.5.3.7
 Source:              http://www.kernel.org/pub/software/scm/git/git-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
-BuildRequires: SFEcurl 
-BuildRequires: SFEcurl-devel
-Requires: SFEcurl
 Requires: SUNWzlib
 Requires: SUNWsshu
 Requires: SUNWopenssl-libraries
+Requires: SUNWlexpt
+Requires: SFEcurl
+Requires: SUNWperl584core
+Requires: SUNWPython
+Requires: SUNWbash
 Requires: SUNWlexpt
 %if %(pkginfo -q SUNWgnu-diffutils && echo 1 || echo 0)
 Requires: SUNWgnu-diffutils
@@ -34,10 +37,9 @@ Requires: SFEdiffutils
 %endif
 Requires: SUNWTk
 %define perl_version 5.8.4
-Requires: SUNWperl584core
-Requires: SUNWPython
 BuildRequires: SFEasciidoc
 BuildRequires: SFExmlto
+BuildRequires: SFEcurl-devel
 
 %prep
 %setup -q -n git-%version

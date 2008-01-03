@@ -17,9 +17,11 @@ Patch1:                  gmp-01-solaris.diff
 URL:                     http://swox.com/gmp/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
-BuildRequires: SFEreadline-devel
 Requires: SFEreadline
+Requires: SUNWgccruntime
+BuildRequires: SFEreadline-devel
 
 %package devel
 Summary:                 %{summary} - development files

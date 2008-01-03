@@ -16,7 +16,9 @@ Summary:        %{conduit.summary}
 Version:        %{default_pkg_version}
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
+Requires:       SUNWbash
 Requires:       SUNWgnome-base-libs
 Requires:       SUNWPython
 Requires:       SFEpython-dateutil

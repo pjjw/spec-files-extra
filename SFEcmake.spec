@@ -12,8 +12,10 @@ Source:                  http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
 URL:                     http://www.cmake.org
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
-Requires: SUNWlibC
+Requires:               SUNWlibC
+Requires:               SUNWlibmsr
 
 %prep
 %setup -q -n cmake-%{version}

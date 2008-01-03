@@ -10,11 +10,10 @@ Name:                SFElinks
 Summary:             Text mode browser, similar to Lynx
 Version:             2.1
 Source:              http://links.twibright.com/download/links-2.1pre28.tar.gz
-
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
-%include default-depend.inc
 
+%include default-depend.inc
 Requires: SUNWopenssl-libraries
 Requires: SUNWbzip
 Requires: SUNWzlib

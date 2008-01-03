@@ -1,5 +1,23 @@
 2008-01-03  Halton Huo <nonsea@users.sourceforge.net>
 
+	Update dependencies after run check-deps.pl.
+	* SFEabiword.spec:
+	* SFEcmake.spec:
+	* SFEconduit.spec:
+	* SFEcurl.spec:
+	* SFEfile-replicator.spec:
+	* SFEfilezilla.spec:
+	* SFEfreetype.spec:
+	* SFEgd.spec:
+	* SFEgit.spec:
+	* SFEgmp.spec:
+	* SFEgraphviz.spec:
+	* SFElinks.spec:
+	* SFEvinagre.spec:
+	* SFEwbxml.spec:
+
+2008-01-03  Halton Huo <nonsea@users.sourceforge.net>
+
 	Update Requires/BuildRequires to SUNWsqlite/SUNWsqlite-devel.
 	* SFEbanshee.spec:
 	* SFEbeagle.spec: Update Requires/BuildRequires to

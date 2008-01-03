@@ -14,10 +14,12 @@ URL:                     http://curl.haxx.se/
 Source:                  http://curl.haxx.se/download/curl-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
-Requires: SUNWopenssl-libraries
-BuildRequires: SUNWopenssl-include
-Requires: SUNWzlib
+Requires:               SUNWzlib
+Requires:               SUNWgnu-idn
+Requires:               SUNWopenssl-libraries
+BuildRequires:          SUNWopenssl-include
 
 %include usr-gnu.inc
 
