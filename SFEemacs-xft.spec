@@ -1,5 +1,5 @@
 #
-# spec file for package SFEemacs
+# spec file for package SFEemacs-xft
 #
 # includes module(s): Xft GNU emacs 
 #
@@ -7,9 +7,10 @@
 
 Name:                    SFEemacs-xft
 Summary:                 GNU Emacs text editor with experimental Xft support
-Version:                 23.0.2007.02.25
-%define emacs_version    23.0.0
+Version:                 23.0.2008.01.01
+%define emacs_version    23.0.60
 Source:                  http://pkgbuild.sf.net/spec-files-extra/tarballs/emacs-xft-%{version}.tar.bz2
+Patch1:                  emacs-xft-01-fonts.diff
 URL:                     http://www.emacswiki.org/cgi-bin/wiki/XftGnuEmacs
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -35,6 +36,8 @@ BuildRequires: SUNWgnome-base-libs-devel
 
 %prep
 %setup -q -c -n SFEemacs-xft-%version
+cd emacs
+%patch1 -p1
 
 %build
 cd emacs
@@ -58,11 +61,12 @@ export PERL=/usr/perl5/bin/perl
             --infodir=%{_infodir}            \
             --sysconfdir=%{_sysconfdir}      \
             --localstatedir=%{_localstatedir} \
-            --with-gtk --enable-font-backend --with-xft
+            --with-gif=no \
+            --with-gtk --enable-font-backend --with-xft --with-freetype
 
-# Parallel make spits dummy -j removed - Doug Scott
-make bootstrap # -j$CPUS
-make # -j$CPUS 
+make clean
+make bootstrap
+make
 
 %install
 cd emacs
@@ -96,7 +100,7 @@ echo '#!/bin/bash'                      > $RPM_BUILD_ROOT%{_bindir}/emacs-xft
 echo 'mydir=$(cd $(dirname $0); pwd);' >> $RPM_BUILD_ROOT%{_bindir}/emacs-xft
 echo 'exec ${mydir}/emacs-xft-%{emacs_version} \' \
                                        >> $RPM_BUILD_ROOT%{_bindir}/emacs-xft
-echo '       --enable-font-backend --font "Bitstream Vera Sans Mono-14" \' \
+echo '       --font "Bitstream Vera Sans Mono-13" \' \
 echo '       "${@}"' \
                                        >> $RPM_BUILD_ROOT%{_bindir}/emacs-xft
 chmod 755 $RPM_BUILD_ROOT%{_bindir}/emacs-xft
@@ -118,6 +122,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Thu Jan  3 2008 - laca@sun.com
+- update snapshot tarball
+- add patch fonts.diff that customizes the mode-line fonts so that they
+  look sane
 * Thu Nov 15 2007 - daymobrew@users.sourceforge.net
 - Enable building with either SUNWlibsdl or SFEsdl.
 * Sun Feb 25 2007 - laca@sun.com

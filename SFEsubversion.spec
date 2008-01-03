@@ -55,14 +55,14 @@ Requires:                %{name}
 export CFLAGS="%optflags -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
 export LD=/usr/ccs/bin/ld
 export LDFLAGS="%_ldflags -L$RPM_BUILD_ROOT%{_libdir}"
-export PATH=$PATH:/usr/apache2/bin
+export PATH=$PATH:/usr/apache2/2.2/bin
 aclocal -I build/ac-macros
 autoconf
 ./configure \
     --prefix=%{_prefix} \
     --exec-prefix=%{_prefix} \
     --disable-static \
-    --with-apxs=/usr/apache2/bin/apxs \
+    --with-apxs=/usr/apache2/2.2/bin/apxs \
     --with-pic \
     --with-installbuilddir=%{_datadir}/apr/build \
     --disable-mod-activation \

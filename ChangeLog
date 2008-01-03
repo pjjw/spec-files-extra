@@ -1,3 +1,11 @@
+2008-01-03  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEemacs-xft.spec: update snapshot tarball; add patch fonts.diff
+	  that customizes the mode-line fonts so that they look sane
+	* SFEsubversion.spec: update the location of apache
+	* patches/emacs-xft-01-fonts.diff: (new) patch for customizing
+	  the fonts
+
 2008-01-03  Halton Huo <nonsea@users.sourceforge.net>
 
 	Update dependencies after run check-deps.pl.

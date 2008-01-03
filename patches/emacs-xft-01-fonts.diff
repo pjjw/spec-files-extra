@@ -1,0 +1,20 @@
+--- emacs/lisp/faces.el.orig	2008-01-03 20:40:08.210297451 +1300
++++ emacs/lisp/faces.el	2008-01-03 20:41:33.118775473 +1300
+@@ -2370,7 +2370,7 @@
+ 
+ (defface mode-line-inactive
+   '((default
+-     :inherit mode-line)
++     :inherit mode-line :family "Sans")
+     (((class color) (min-colors 88) (background light))
+      :weight light
+      :box (:line-width -1 :color "grey75" :style nil)
+@@ -2395,7 +2395,7 @@
+   :group 'basic-faces)
+ 
+ (defface mode-line-buffer-id
+-  '((t (:weight bold)))
++  '((t (:weight bold :family "Sans")))
+   "Face used for buffer identification parts of the mode line."
+   :version "22.1"
+   :group 'mode-line-faces
