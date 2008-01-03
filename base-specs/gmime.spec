@@ -11,7 +11,7 @@
 Name:			gmime
 License:		GPL
 Group:			System/Libraries
-Version:		2.2.14
+Version:		2.2.15
 Release:	 	4
 Distribution:		Java Desktop System
 Vendor:			Sun Microsystems, Inc.
@@ -111,5 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtk-doc/html/gmime
 
 %changelog
+* Thu Jan 03 2008 - halton.huo@sun.com
+- Bump to 2.2.15
 * Wed Jan 02 2008 - halton.huo@sun.com
 - spilit from SUNWgmime.spec

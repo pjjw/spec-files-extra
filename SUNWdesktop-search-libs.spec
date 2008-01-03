@@ -188,6 +188,7 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 %if %{!?_without_gtk_doc:1}%{?_without_gtk_doc:0}
+%dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/gtk-doc
 %endif
 

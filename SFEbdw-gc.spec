@@ -1,56 +1,51 @@
 #
-# spec file for package SFEhp-gc
+# spec file for package SFEbdw-gc
 #
-# includes module(s): Hans-Boehm gc
+# includes module(s): libgc
+#
+# Copyright 2007 Sun Microsystems, Inc.
+# This file and all modifications and additions to the pristine
+# package are under the same license as the package itself.
+#
+# Owner: halton
 #
 %include Solaris.inc
 
+%use libgc = libgc.spec
+
 Name:                    SFEbdw-gc
 Summary:                 Boehm-Demers-Weiser garbage collector for C/C++
-Version:                 7.0
-Source:                  http://www.hpl.hp.com/personal/Hans_Boehm/gc/gc_source/gc-%{version}.tar.gz
-URL:                     http://www.hpl.hp.com/personal/Hans_Boehm/gc/
+Version:                 %{default_pkg_version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
+Requires:      SUNWgnome-libs
 BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWPython
-Requires: SUNWgnome-libs
-Obsoletes: SFEgc
-Obsoletes: SFEhp-gc
+Conflicts:     SUNWdesktop-search-libs
 
 %package devel
 Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
-Requires: %name
-Obsoletes: SFEhp-gc-devel
+Requires:                %{name}
+Conflicts:     SUNWdesktop-search-libs-devel
 
 %prep
-%setup -q            -c -n %name-%version
+rm -rf %name-%version
+mkdir %name-%version
+%libgc.prep -d %name-%version
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-    CPUS=1
-fi
 export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
-cd gc-%{version}
-./configure --prefix=%{_prefix} --mandir=%{_mandir} \
-            --libdir=%{_libdir}              \
-            --libexecdir=%{_libexecdir}      \
-            --sysconfdir=%{_sysconfdir}
 
-make -j$CPUS 
+%libgc.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd gc-%{version}
-make install DESTDIR=$RPM_BUILD_ROOT
-cd ..
-
-rm $RPM_BUILD_ROOT%{_libdir}/lib*a
+%libgc.install -d %name-%version
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -71,6 +66,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gc
 
 %changelog
+* Thu Jan 03 2008 - nonsea@users.sourceforge.net
+- Use base spec libgc.spec
 * Mon Oct 15 2007 - nonsea@users.sourceforge.net
 - Bump to 7.0
 - s/gc%{version}/gc-%{version}/g

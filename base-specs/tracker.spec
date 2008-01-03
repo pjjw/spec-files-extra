@@ -21,6 +21,9 @@ Source:         http://www.gnome.org/~jamiemcc/tracker/tracker-%{version}.tar.bz
 Patch1:         %{name}-01-w3m-crash.diff
 Patch2:         %{name}-02-thunderbird.diff
 Patch3:         %{name}-03-firefox-history.diff
+Patch4:         %{name}-04-disable-autostart.diff
+Patch5:         %{name}-05-check-remote.diff
+Patch6:         %{name}-06-r1071-r1092.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires: gmime-devel, poppler-devel, gettext
@@ -61,6 +64,9 @@ developing with tracker
 %patch1 -p1
 %patch2 -p1
 %patch3 -p0
+%patch4 -p1
+%patch5 -p0
+%patch6 -p1
 
 %build
 %ifos linux
@@ -129,6 +135,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Thu Jan 03 2008 - nonsea@users.sourceforge.net
+- Add patch disable-autostart.diff
+- Add patch check-remote.diff
+- Add patch r1071-r1092.diff
 * Sat Nov 17 2007 - daymobrew@users.sourceforge.net
 - Unbump to 0.6.3 and remove obsolete patch, 02-thunderbird.
 * Fri Nov 02 2007 - nonsea@users.sourceforge.net

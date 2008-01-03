@@ -75,6 +75,10 @@ export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib"
 rm -rf $RPM_BUILD_ROOT
 %libgsf.install -d %name-%version
 
+%if %{!?_without_gtk_doc:0}%{?_without_gtk_doc:1}
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gtk-doc
+%endif
+
 %if %build_l10n
 %else
 # REMOVE l10n FILES
@@ -134,8 +138,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
+%if %{!?_without_gtk_doc:1}%{?_without_gtk_doc:0}
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/gtk-doc
+%endif
 
 %files root
 %defattr (-, root, sys)
@@ -150,6 +156,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jan 03 2008 - nonsea@users.sourceforge.net
+- Add gtk-doc check.
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net
 - Add support for building on Indiana systems.
 * Wed Oct 17 2007 - laca@sun.com

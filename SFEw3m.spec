@@ -5,16 +5,16 @@
 #
 # Owner: halton
 #
-
 %include Solaris.inc
+
+%use w3m = w3m.spec
 
 Name:                SFEw3m
 Summary:             A text-based web browser
-Version:             0.5.2
-URL:                 http://w3m.sourceforge.net/
-Source:              http://superb-west.dl.sourceforge.net/sourceforge/w3m/w3m-%{version}.tar.gz
+Version:             %{default_pkg_version}
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
 Requires:            SUNWgnome-base-libs
 Requires:            SUNWlibmsr
@@ -32,37 +32,30 @@ Requires:            SUNWopenssl-libraries
 BuildRequires:       SUNWgnome-base-libs-devel
 BuildRequires:       SUNWopenssl-include
 BuildRequires:       SFEbdw-gc-devel
+Conflicts:           SUNWdesktop-search-libs
 
 %prep
-%setup -q -n w3m-%version
+rm -rf %name-%version
+mkdir %name-%version
+%w3m.prep -d %name-%version
 
 %build
-
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-     CPUS=1
-fi
 
 export CFLAGS="%optflags -I/usr/sfw/include"
 %if %option_with_fox
 export CFLAGS="$CFLAGS -I/usr/X11/include"
 %endif
+export RPM_OPT_FLAGS="$CFLAGS"
 export LDFLAGS="%_ldflags -lX11 -L/usr/sfw/lib -R/usr/sfw/lib"
 
-./configure --prefix=%{_prefix}  		\
-			--libexecdir=%{_libdir}		\
-			--mandir=%{_mandir} 		\
-			--enable-static=no			\
-			--with-browser=/usr/bin/firefox
-
-make -j$CPUS
+%w3m.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
+%w3m.install -d %name-%version
 
-find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
-find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
+#remove unused files
+rm -rf $RPM_BUILD_ROOT%{_mandir}/ja
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -76,10 +69,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/w3m/*
 %dir %attr (0755, root, bin) %{_mandir}
-%{_mandir}/ja/man*/*
 %{_mandir}/man*/*
 
 %changelog
+* Thu Jan 03 2008 - nonsea@users.sourceforge.net
+- Use base spec w3m.spec
 * Sat Nov 17 2007 - daymobrew@users.sourceforge.net
 - Add support for building on Indiana system.
 * Tue Sep 18 2007 - nonsea@users.sourceforge.net

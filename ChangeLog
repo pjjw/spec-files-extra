@@ -1,7 +1,20 @@
+2008-01-03  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEbdw-gc.spec: Use base spec libgc.spec
+	* SFElibgsf.spec: Add gtk-doc check
+	* SFEw3m.spec: Use base spec w3m.spec
+	* SUNWdesktop-search-libs.spec: Fix files error
+	* base-specs/gmime.spec: Bump to 2.2.15
+	* base-specs/tracker.spec: Add patches.
+	* patches/tracker-03-firefox-history.diff: rework
+	* patches/tracker-04-disable-autostart.diff: added
+	* patches/tracker-05-check-remote.diff: added
+	* patches/tracker-06-r1071-r1092.diff: added
+
 2008-01-02  Thomas Wagner <tom68@users.sourceforge.net>
-   
-        * SFEnicstat.spec: *NEW* very nice network stats 
-                           output similar to iostat/prstat/...
+
+	* SFEnicstat.spec: *NEW* very nice network stats 
+	  output similar to iostat/prstat/...
 
 2008-01-02  Halton Huo <nonsea@users.sourceforge.net>
 
