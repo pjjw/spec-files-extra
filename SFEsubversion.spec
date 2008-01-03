@@ -117,6 +117,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jan  3 2008 - laca@sun.com
+- update apache2 location for newer nevada builds
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Bump to 1.4.3.
 - Remove "-I/usr/sfw/include" from CFLAGS and 
