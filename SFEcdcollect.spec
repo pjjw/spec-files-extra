@@ -16,10 +16,10 @@ Docdir:	      %{_defaultdocdir}/doc
 Autoreqprov:  on
 BuildRequires: SFEmono-devel
 BuildRequires: SFEgtk-sharp
-BuildRequires: SFEsqlite
+BuildRequires: SUNWsqlite-devel
 Requires: SFEmono
 Requires: SFEgtk-sharp
-Requires: SFEsqlite
+Requires: SUNWsqlite
 
 %package root
 Summary:                 %{summary} - / filesystem

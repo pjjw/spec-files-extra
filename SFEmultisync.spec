@@ -25,7 +25,6 @@ Requires: SUNWgnome-base-libs
 Requires: SUNWlxml
 Requires: SUNWmlib
 Requires: SUNWzlib
-Requires: SFEsqlite
 Requires: SFEswig
 Requires: SFElibopensync
 

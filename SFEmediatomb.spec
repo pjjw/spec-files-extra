@@ -21,8 +21,8 @@ BuildRequires: SFElibmagic-devel
 Requires: SFElibmagic
 BuildRequires: SFEid3lib-gnu-devel
 Requires: SFEid3lib-gnu
-BuildRequires: SFEsqlite-devel
-Requires: SFEsqlite
+BuildRequires: SUNWsqlite-devel
+Requires: SUNWsqlite
 
 %package devel
 Summary:                 %{summary} - development files

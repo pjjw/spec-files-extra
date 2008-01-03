@@ -19,8 +19,8 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 Requires: SFEexpat
 BuildRequires: SFEgsslib-devel
 Requires: SFEgsslib
-BuildRequires: SFEsqlite-devel
-Requires: SFEsqlite
+BuildRequires: SUNWsqlite-devel
+Requires: SUNWsqlite
 BuildRequires: SUNWpostgr-82-devel
 Requires: SUNWpostgr-82-libs
 Requires: SFEbdb

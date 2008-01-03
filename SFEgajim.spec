@@ -14,11 +14,11 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Patch1:                  gajim-01-build-fix.diff
 %include default-depend.inc
 Requires:                SUNWPython
-Requires:                SFEsqlite
+Requires:                SUNWsqlite
 Requires:                SFEpysqlite
 Requires:                SFEgtkspell
 BuildRequires:           SUNWPython-devel
-BuildRequires:           SFEsqlite-devel
+BuildRequires:           SUNWsqlite-devel
 BuildRequires:           SFEpysqlite
 BuildRequires:           SFEgtkspell-devel
 

@@ -1,5 +1,21 @@
 2008-01-03  Halton Huo <nonsea@users.sourceforge.net>
 
+	Update Requires/BuildRequires to SUNWsqlite/SUNWsqlite-devel.
+	* SFEbanshee.spec:
+	* SFEbeagle.spec: Update Requires/BuildRequires to
+	  SUNWgmime/SUNWgmime-devel.
+	* SFEcdcollect.spec:
+	* SFEf-spot.spec:
+	* SFEgajim.spec:
+	* SFEjabberd.spec:
+	* SFElibopensync.spec:
+	* SFEmediatomb.spec:
+	* SFEmsynctool.spec:
+	* SFEmultisync.spec:
+	* SFEpysqlite.spec:
+
+2008-01-03  Halton Huo <nonsea@users.sourceforge.net>
+
 	* SFEbdw-gc.spec: Use base spec libgc.spec
 	* SFElibgsf.spec: Add gtk-doc check
 	* SFEw3m.spec: Use base spec w3m.spec

@@ -26,10 +26,12 @@ Requires: SUNWPython
 Requires: SUNWgnome-base-libs
 Requires: SUNWlxml
 Requires: SUNWzlib
-Requires: SFEsqlite
+Requires: SUNWsqlite
 Requires: SFEswig
+BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SFEcmake
 BuildRequires: SFEcheck
+BuildRequires: SUNWsqlite-devel
 
 %package devel
 Summary:       %{summary} - development files
