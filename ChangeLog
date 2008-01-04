@@ -1,4 +1,7 @@
 2008-01-04  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEputty.spec:  remove l10n package definition, remove debug call to bash
+
+2008-01-04  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEputty.spec: *NEW* popular terminal emulator/telnet/ssh/sftp/serial client
         * patches/putty-01-gtk.diff: thanks to Takao for  
           "putty-xx-my-build.diff" on desktop-discuss@opensolaris.org

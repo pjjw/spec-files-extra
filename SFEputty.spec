@@ -20,14 +20,6 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 
-%if %build_l10n
-%package l10n
-Summary:                 %{summary} - l10n files
-SUNW_BaseDir:            %{_basedir}
-%include default-depend.inc
-Requires:                %{name}
-%endif
-
 %prep
 %setup -q -n putty-%version
 %patch1 -p1
@@ -48,10 +40,8 @@ cd unix
 make all-gtk all-cli
 
 %install
-bash
 rm -rf $RPM_BUILD_ROOT
 cd unix
-#mkdir -p $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
 %clean
@@ -69,6 +59,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 04 2008 - Thomas Wagner
+- remove l10n package definition, remove debug call to bash
 * Fri Jan 04 2008 - Thomas Wagner
 - add patch1 emailed by Takao.Fujiwara@Sun.COM (16 Nov 2007, putty-xx-my-build.diff)
 * Fri July 20 2007  - Thomas Wagner
