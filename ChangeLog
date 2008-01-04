@@ -1,3 +1,10 @@
+2008-01-04  Yong Sun <yongsun@users.sourceforge.net>
+
+	Sync the patches from opensolaris input-method project.
+	* SFEscim.spec:
+	* patches/scim-01-ss11-patch.diff:
+	* patches/scim-02-ss12-patch.diff:
+
 2008-01-03  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEemacs-xft.spec: update snapshot tarball; add patch fonts.diff

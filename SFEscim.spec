@@ -42,9 +42,11 @@ Requires: SUNWgnome-base-libs
 
 if [ -z "`cc -V 2>&1 | grep 5.9`" ]; then
   %patch1 -p1
-else
-  %patch2 -p1
 fi
+
+%patch2 -p1
+
+touch ChangeLog
 
 %build
 export CFLAGS="%optflags"
@@ -104,6 +106,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_includedir}/*
 
 %changelog
+* Fri Jan 04 2008 - yongsun@users.sourceforge.net
+- Sync the patch files with opensolaris input-method project
+- touch ChangeLog in %prep stage, otherwise automake fails
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net
 - Add support for building on Indiana systems.
 * Thu Jul 26 2007 - dougs@truemail.co.th
