@@ -46,6 +46,10 @@ Requires:                %{name}
 %setup -q -n gmpc-%version.%{version_sub}
 
 %build
+CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
+if test "x$CPUS" = "x" -o $CPUS = 0; then
+  CPUS=1
+fi
 export LDFLAGS="-lX11"
 
 export CC=/usr/sfw/bin/gcc
@@ -58,7 +62,7 @@ export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
 CC=$CC CXX=$CXX CFLAGS="$CFLAGS" ./configure --prefix=%{_prefix} \
             --with-curl=/usr/gnu \
             #--disable-sm
-make
+make -j$CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -106,6 +110,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jan 03 2008 - Thomas Wagner
+- enabled building in parallel
 * Sun Dec 02 2007 - Thomas Wagner
 - bump to 0.15.5.0, add version_sub (currently at "0")
 - remove --disable-sm (Session Manager)

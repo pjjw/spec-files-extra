@@ -1,0 +1,51 @@
+--- putty-0.60/unix/Makefile.gtk.orig	2007-11-16 13:48:44.038679000 +0900
++++ putty-0.60/unix/Makefile.gtk	2007-11-16 13:49:31.187757000 +0900
+@@ -99,7 +99,7 @@
+ # TOOLPATH = /opt/gcc/bin
+ CC = $(TOOLPATH)cc
+ 
+-CFLAGS = -O2 -Wall -Werror -g -I.././ -I../charset/ -I../windows/ -I../unix/ \
++CFLAGS += -I.././ -I../charset/ -I../windows/ -I../unix/ \
+ 		-I../mac/ -I../macosx/ `gtk-config --cflags` -D _FILE_OFFSET_BITS=64
+ XLDFLAGS = $(LDFLAGS) `gtk-config --libs`
+ ULDFLAGS = $(LDFLAGS)
+--- putty-0.60/unix/uxpty.c.orig	2007-11-16 13:56:31.664310000 +0900
++++ putty-0.60/unix/uxpty.c	2007-11-16 13:56:55.836388000 +0900
+@@ -20,6 +20,7 @@
+ #include <sys/stat.h>
+ #include <sys/wait.h>
+ #include <sys/ioctl.h>
++#include <sys/filio.h>
+ #include <errno.h>
+ 
+ #include "putty.h"
+--- putty-0.60/unix/gtkwin.c.orig	2007-11-16 14:09:44.824630000 +0900
++++ putty-0.60/unix/gtkwin.c	2007-11-16 15:16:04.194781000 +0900
+@@ -1547,7 +1547,7 @@ void write_clip(void *frontend, wchar_t 
+ 	 * Now let Xlib convert our UTF-8 data into compound text.
+ 	 */
+ 	list[0] = inst->pasteout_data_utf8;
+-	if (Xutf8TextListToTextProperty(GDK_DISPLAY(), list, 1,
++	if (XmbTextListToTextProperty(GDK_DISPLAY(), list, 1,
+ 					XCompoundTextStyle, &tp) == 0) {
+ 	    inst->pasteout_data_ctext = snewn(tp.nitems+1, char);
+ 	    memcpy(inst->pasteout_data_ctext, tp.value, tp.nitems);
+@@ -1732,7 +1732,7 @@ void selection_received(GtkWidget *widge
+ 	    tp.encoding = (Atom) seldata->type;
+ 	    tp.format = seldata->format;
+ 	    tp.nitems = seldata->length;
+-	    ret = Xutf8TextPropertyToTextList(GDK_DISPLAY(), &tp,
++	    ret = XmbTextPropertyToTextList (GDK_DISPLAY(), &tp,
+ 					      &list, &count);
+ 	    if (ret != 0 || count != 1) {
+ 		/*
+@@ -2646,7 +2646,8 @@ static int set_font_info(struct gui_data
+     inst->fontinfo[fontid].charset = CS_NONE;
+     inst->fontinfo[fontid].is_wide = 0;
+     if (XGetFontProperty(xfs, charset_registry, &registry_ret) &&
+-	XGetFontProperty(xfs, charset_encoding, &encoding_ret)) {
++	XGetFontProperty(xfs, charset_encoding, &encoding_ret) &&
++	registry_ret && encoding_ret) {
+ 	char *reg, *enc;
+ 	reg = XGetAtomName(disp, (Atom)registry_ret);
+ 	enc = XGetAtomName(disp, (Atom)encoding_ret);
