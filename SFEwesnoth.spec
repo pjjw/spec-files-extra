@@ -82,7 +82,6 @@ autoconf
             --libdir=%{_libdir}				\
             --htmldir=%{_docdir}			\
             --with-localedir=%{_localedir}		\
-            --enable-dummy-locales			\
             --enable-shared				\
             --enable-editor                     	\
             --with-preferences-dir=".wesnoth-dev" 	\
@@ -123,6 +122,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Jan 05 2008 - Petr Sobotka <sobotkap@centrum.cz>
+- Removed --enable-dummy-locales option from configure as it cause warning 
 * Tue Jan 01 2008 - Petr Sobotka <sobotkap@centrum.cz>
 - Bump to 1.3.13
 - Introduced new dependency SFEboost

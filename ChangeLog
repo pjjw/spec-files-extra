@@ -1,3 +1,6 @@
+2008-01-05  Petr Sobotka  <sobotkap@centrum.cz>
+	* SFEwesnoth.spec: Deleted option --enable-dummy-locales from configure
+
 2008-01-04  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEputty.spec:  remove l10n package definition, remove debug call to bash
 
