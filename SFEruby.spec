@@ -31,7 +31,8 @@ export LDFLAGS="%_ldflags"
 autoconf
 ./configure --prefix=%{_prefix}              \
             --mandir=%{_mandir}              \
-            --libdir=%{_libdir}
+            --libdir=%{_libdir}              \
+            --enable-shared
 
 make -j$CPUS
 	
@@ -39,6 +40,7 @@ make -j$CPUS
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 make install-doc DESTDIR=$RPM_BUILD_ROOT
+rm -f $RPM_BUILD_ROOT%{_libdir}/libruby*.a
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -57,6 +59,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sun Jan 06 2008 - moinak.ghosh@sun.com
+- Enable building libruby.so shared library
 * Thu Dec 27 2007 - sobotkap@centrum.cz
 - bump to 1.9.0
 * Sun Oct 14 2007 - laca@sun.com
