@@ -13,6 +13,7 @@ Name:                    SFExmms2
 Summary:                 Client/server based media player system
 Version:                 0.4DrKosmos
 Source:                  %{src_url}/%{src_name}-%{version}.tar.bz2
+Patch1:                  xmms2-01-ruby.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -35,6 +36,8 @@ Requires: SFElibmad
 BuildRequires: SFElibmad-devel
 Requires: SFElibmad
 Requires: SFEruby
+Requires: SUNWsqlite
+BuildRequires: SUNWsqlite-devel
 
 %package devel
 Summary:                 %{summary} - development files
@@ -44,6 +47,7 @@ Requires: %name
 
 %prep
 %setup -q -n %{src_name}-%{version}
+%patch1 -p1
 
 %build
 unset CC CFLAGS CXX CXXFLAGS
@@ -88,6 +92,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Jan 06 2008 - moinak.ghosh@sun.com
+- Bumped version to 0.4DrKosmos, add SUNWsqlite dep, add patch to
+- build ruby plugin against ruby 1.9.0 (Ruby plugin patch submitted upstream).
 * Sun Dec 30 2007 - markwright@internode.on.net
 - Bump to 2.0.4DrKosmos
 * Mon Jul 30 2007 - dougs@truemail.co.th

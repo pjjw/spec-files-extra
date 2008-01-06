@@ -1,0 +1,72 @@
+--- xmms2-0.4DrKosmos/src/clients/lib/ruby/wscript.orig	2008-01-03 22:29:01.708109000 +0530
++++ xmms2-0.4DrKosmos/src/clients/lib/ruby/wscript	2008-01-03 22:55:42.250546000 +0530
+@@ -53,14 +53,23 @@
+ 
+     ruby_h = os.popen(ruby + " -rrbconfig -e 'puts File.exist?(Config::CONFIG[\"archdir\"] + \"/ruby.h\")'").read().strip()
+     if ruby_h != 'true':
+-        conf.check_message('ruby', 'header file', False)
+-        return False
++        ruby_h = os.popen(ruby + " -rrbconfig -e 'puts File.exist?(Config::CONFIG[\"rubyhdrdir\"] + \"/ruby.h\")'").read().strip()
++        if ruby_h != 'true':
++            conf.check_message('ruby', 'header file', False)
++            return False
+     conf.check_message('ruby', 'header file', True)
+ 
+     dir = os.popen(ruby + " -rrbconfig -e 'puts \"%s\" % [].fill(Config::CONFIG[\"archdir\"], 0..1)'").read().strip()
+     conf.env["CPPPATH_ruby"] = dir
+     conf.env["LINKFLAGS_ruby"] = '-L%s' % dir
+ 
++    hdir = os.popen(ruby + " -rrbconfig -e 'puts Config::CONFIG[\"rubyhdrdir\"]'").read().strip()
++    conf.env["CCFLAGS_ruby"] = '-I%s ' % hdir
++    hdir += "/ruby"
++    conf.env["CCFLAGS_ruby"] += '-I%s ' % hdir
++    hdir = os.popen(ruby + " -rrbconfig -e 'puts File.join(Config::CONFIG[\"rubyhdrdir\"], Config::CONFIG[\"arch\"])'").read().strip()
++    conf.env["CCFLAGS_ruby"] += '-I%s ' % hdir
++
+     ldflags = os.popen(ruby + " -rrbconfig -e 'print Config::CONFIG[\"LDSHARED\"]'").read().strip()
+     # ok this is really stupid, but the command and flags are combined.
+     # so we try to find the first argument...
+@@ -75,7 +84,7 @@
+     conf.env["LINKFLAGS_ruby"] += " "+ldflags
+ 
+     cflags = os.popen(ruby + " -rrbconfig -e 'print Config::CONFIG[\"CCDLFLAGS\"]'").read().strip()
+-    conf.env["CCFLAGS_ruby"] = cflags
++    conf.env["CCFLAGS_ruby"] += cflags
+ 
+     if not Params.g_options.rubyarchdir:
+         conf.env["ARCHDIR_ruby"] = os.popen(ruby + " -rrbconfig -e 'print Config::CONFIG[\"sitearchdir\"]'").read().strip()
+--- xmms2-0.4DrKosmos/src/clients/lib/ruby/rb_xmmsclient.c.orig	2008-01-03 23:20:56.341209000 +0530
++++ xmms2-0.4DrKosmos/src/clients/lib/ruby/rb_xmmsclient.c	2008-01-03 23:21:24.580284000 +0530
+@@ -73,8 +73,8 @@
+ 	StringValue (arg1); \
+ \
+ 	res = xmmsc_##name (xmms->real, \
+-	                    (unsigned char *) RSTRING (arg1)->ptr, \
+-	                    RSTRING (arg1)->len); \
++	                    (unsigned char *) RSTRING_PTR(arg1), \
++	                    RSTRING_LEN(arg1)); \
+ 	METHOD_HANDLER_FOOTER
+ 
+ static VALUE cPlaylist;
+--- xmms2-0.4DrKosmos/src/clients/lib/ruby/rb_collection.c.orig	2008-01-03 23:21:47.342022000 +0530
++++ xmms2-0.4DrKosmos/src/clients/lib/ruby/rb_collection.c	2008-01-03 23:22:13.148443000 +0530
+@@ -287,7 +287,7 @@
+ 	key = RARRAY (args)->ptr[0];
+ 	value = RARRAY (args)->ptr[1];
+ 
+-	if (RSTRING (s)->len > 1)
++	if (RSTRING_LEN(s) > 1)
+ 		rb_str_buf_cat2 (s, ", ");
+ 
+ 	rb_str_buf_append (s, rb_inspect (key));
+--- xmms2-0.4DrKosmos/src/clients/lib/ruby/rb_result.c.orig	2008-01-03 23:32:04.757832000 +0530
++++ xmms2-0.4DrKosmos/src/clients/lib/ruby/rb_result.c	2008-01-03 23:32:25.283902000 +0530
+@@ -422,7 +422,7 @@
+ 	key = RARRAY (args)->ptr[1];
+ 	value = RARRAY (args)->ptr[2];
+ 
+-	if (RSTRING (s)->len > 1)
++	if (RSTRING_LEN(s) > 1)
+ 		rb_str_buf_cat2 (s, ", ");
+ 
+ 	rb_str_buf_cat2 (s, "[");
