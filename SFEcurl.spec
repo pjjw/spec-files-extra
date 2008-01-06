@@ -120,12 +120,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755, root, bin) %{_libdir}/%_arch64
 %{_libdir}/%_arch64/*.la
 %{_libdir}/%_arch64/*.a
-%dir %attr(0755, root, bin) %{_libdir}/%_arch64/pkgconfig
+%dir %attr(0755, root, other) %{_libdir}/%_arch64/pkgconfig
 %{_libdir}/%_arch64/pkgconfig/libcurl.pc
 %{_bindir}/%_arch64/curl-config
 %endif
 
 %changelog
+* Sun Jan 06 2008 - moinak.ghosh@sun.com
+- Fixed pkgconfig directory permission
 * Wed Dec 12 2007 - Michal Bielicki
 - change the package to be combined 32/64 bit (thanks to Thomas Wagner for all his help with this)
 * Mon Nov 26 2007 - Thomas Wagner
