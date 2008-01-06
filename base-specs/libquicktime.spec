@@ -14,12 +14,14 @@ Version:	%{src_ver}
 Source:		%{src_url}/%{src_name}-%{version}.tar.gz
 Patch1:		libquicktime-01-configure.diff
 Patch2:		libquicktime-02-gtk.diff
+Patch3:		libquicktime-03-rtjpeg.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
 %prep
 %setup -q -n %{src_name}-%{version}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -61,5 +63,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libquicktime/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Sun Jan 06 2008 - moinak.ghosh@sun.com
+- Add a patch to fix a compile failure with Sun Studio 11
 * Tue Sep  4 2007 - dougs@truemail.co.th
 - Initial base spec file

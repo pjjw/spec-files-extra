@@ -65,9 +65,9 @@ cd %{_builddir}/%name-%version/libcdio-%{libcdio.version}
 export CFLAGS="%gcc_optflags"
 export CC=/usr/sfw/bin/gcc
 %if %with_hal
-export LDFLAGS="%gcc_ldflags -lhal -ldbus-1"
+export LDFLAGS="%_ldflags -lhal -ldbus-1"
 %else
-export LDFLAGS="%gcc_ldflags"
+export LDFLAGS="%_ldflags"
 %endif
 
 %libcdio.build -d %name-%version
@@ -100,6 +100,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/cdio
 
 %changelog
+* Sun Jan 06 2008 - moinak.ghosh@sun.com
+- Changed reference to non-existent gcc_ldflags
 * Sun Nov 4 2007 - markwright@internode.on.net
 - Bump to 0.79.  Add libcdio-02-stdint.diff.
 * Thu Oct 18 2007 - laca@sun.com

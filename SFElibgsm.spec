@@ -50,7 +50,7 @@ make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man{1,3},%{_includedir},%{_libdir}}
+mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man{1,3},%{_includedir},%{_libdir}}
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL_ROOT=%{_prefix}
 
 
@@ -74,5 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3
 
 %changelog
+* Sun Jan 06 2008 - moinak.ghosh@sun.com
+- Changed a failing install -d to mkdir -p
 * Fri Aug  3 2007 - dougs@truemail.co.th
 - Initial spec

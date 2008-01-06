@@ -100,6 +100,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/%{src_name}/libexec/*
 %dir %attr (0755, root, bin) %{_sbindir}
 %{_sbindir}/*
+%dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man8
 %{_mandir}/man8/*
@@ -119,6 +120,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Jan 06 2008 - moinak.ghosh@sun.com
+- Added a missing pathname to files section
 * Sat Nov 24 2007 - Thomas Wagner
 - Initial spec
 - list.h from system is included, names/struct redefine errors
