@@ -8,14 +8,17 @@ Summary:                 dcraw - Decoding RAW digital photos in Linux
 URL:                     http://www.cybercom.net/~dcoffin/dcraw/
 Version:                 1.0.0
 Source:                  http://www.cybercom.net/~dcoffin/dcraw/dcraw.c
+Patch1:			 dcraw-01-solaris.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+Requires: SFElcms
 %include default-depend.inc
 
 
 %prep
 %setup -c -T -n dcraw-%version
 cp %SOURCE0 .
+%patch1 -p1
 
 %build
 cc -o dcraw dcraw.c -lm -ljpeg -llcms

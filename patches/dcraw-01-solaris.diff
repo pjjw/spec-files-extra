@@ -1,0 +1,29 @@
+--- dcraw-1.0.0.orig/dcraw.c	2007-12-20 23:51:30.973655000 +0000
++++ dcraw-1.0.0/dcraw.c	2007-12-20 23:55:38.571597000 +0000
+@@ -339,7 +339,7 @@
+ {
+   if (fread (pixel, 2, count, ifp) < count) derror();
+   if ((order == 0x4949) == (ntohs(0x1234) == 0x1234))
+-    swab (pixel, pixel, count*2);
++    swab ((const char *) pixel, pixel, count*2);
+ }
+ 
+ void CLASS canon_600_fixed_wb (int temp)
+@@ -2201,7 +2201,7 @@
+   size_t nbytes;
+ 
+   nbytes = fread (jpeg_buffer, 1, 4096, ifp);
+-  swab (jpeg_buffer, jpeg_buffer, nbytes);
++  swab ((const char *) jpeg_buffer, jpeg_buffer, nbytes);
+   cinfo->src->next_input_byte = jpeg_buffer;
+   cinfo->src->bytes_in_buffer = nbytes;
+   return TRUE;
+@@ -7960,7 +7960,7 @@
+ 	   FORCC ppm [col*colors+c] = lut[image[soff][c]];
+       else FORCC ppm2[col*colors+c] =     image[soff][c];
+     if (output_bps == 16 && !output_tiff && htons(0x55aa) != 0x55aa)
+-      swab (ppm2, ppm2, width*colors*2);
++      swab ((const char *) ppm2, ppm2, width*colors*2);
+     fwrite (ppm, colors*output_bps/8, width, ofp);
+   }
+   free (ppm);

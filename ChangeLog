@@ -1,3 +1,9 @@
+2008-01-07 Brian Nitz   <brian.nitz@sun.com>
+	* SFEdcraw.spec:
+	Incorporated patch which casts unsigned ints so Solaris forte build 
+	works.
+    	* patches/dcraw-01-solaris.diff:
+	Caste swab parameter so it builds under Forte.
 2008-01-04  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEalpine.spec:  bump to 1.00 - old dwnl file removed, no other changes to spec/patches
 
