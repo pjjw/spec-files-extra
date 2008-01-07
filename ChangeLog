@@ -1,9 +1,35 @@
+2008-01-08 Moinak Ghosh <moinak.ghosh@sun.com>
+	* base-specs/eclipse.spec
+	Workaround to properly generate the swt jar
+	* patches/liveMedia-02-config.diff
+	Add Kpic flag to satisfy SUN Studio 11
+	* encumbered/SFExvid.spec
+	Removed redundant CFLAGS setting that was overwriting the earlier value.
 2008-01-07 Brian Nitz   <brian.nitz@sun.com>
 	* SFEdcraw.spec:
 	Incorporated patch which casts unsigned ints so Solaris forte build 
 	works.
     	* patches/dcraw-01-solaris.diff:
 	Caste swab parameter so it builds under Forte.
+2008-01-06 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEcurl.spec
+	Fixed pkgconfig directory permission.
+	* encumbered/SFExmms2.spec
+	* patches/xmms2-01-ruby.diff
+	Bumped xmms2 version to 0.4DrKosmos, add SUNWsqlite dep, add patch to
+	build ruby plugin against ruby 1.9.0 (Ruby plugin patch submitted upstream).
+	* SFEruby.spec
+	Enable building libruby.so shared library
+	* SFElibcdio.spec
+	Changed reference to non-existent gcc_ldflags
+	* SFElibgsm.spec
+	Changed a failing install -d to mkdir -p
+	* libquicktime.spec
+	Add a patch to fix a compile failure with Sun Studio 11
+	* SFEnntpcached.spec
+	Added a missing pathname to files section
+	* SFElibnjb.spec
+	Fix directory permissions, enable building shlib, add SUNW_BaseDir
 2008-01-04  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEalpine.spec:  bump to 1.00 - old dwnl file removed, no other changes to spec/patches
 
