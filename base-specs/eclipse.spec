@@ -42,7 +42,7 @@ export CDE_HOME=/usr/dt
 
 ./build -os solaris -ws gtk -arch %{_eclipse_arch} -compilelibs -target compilelibs
 
-make -C plugins/org.eclipse.core.filesystem/natives/unix/solaris
+gmake -C plugins/org.eclipse.core.filesystem/natives/unix/solaris
 ( cd plugins/org.eclipse.update.core.solaris/src && ant )
 
 %install
@@ -66,10 +66,12 @@ find plugins/org.eclipse.update.core.solaris -name lib\*.so -exec cp {} $RPM_BUI
 
 ./build -os solaris -ws gtk -arch %{_eclipse_arch} -target install
 gtar xfz result/solaris-gtk-%{_eclipse_arch}-sdk.tar.gz -C $RPM_BUILD_ROOT%{_libdir} 
+cp plugins/org.eclipse.swt.gtk.solaris.%{_eclipse_arch}/swt.jar $RPM_BUILD_ROOT%{_libdir}/%{name}/org.eclipse.swt.gtk.solaris.%{_eclipse_arch}.jar 
+
 install -d $RPM_BUILD_ROOT%{_javadir}
 (
   cd $RPM_BUILD_ROOT%{_javadir}
-  ln -s %{_libdir}/%{name}/org.eclipse.swt.gtk.solaris.*.jar swt.jar
+  ln -sf %{_libdir}/%{name}/org.eclipse.swt.gtk.solaris.%{_eclipse_arch}.jar swt.jar
 )
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 
@@ -92,6 +94,8 @@ install -D features/org.eclipse.equinox.executable/bin/gtk/solaris/x86/icon.xpm 
 chmod 755 $RPM_BUILD_ROOT%{_libdir}/eclipse/eclipse
 
 %changelog
+* Tue Jan 08 2008 - moinak.ghosh@sun.com
+- Workaround to properly generate the swt jar
 * Wed Oct  3 2007 - Doug Scott
 - Added src_url
 - bump to eclipse-3.4M2

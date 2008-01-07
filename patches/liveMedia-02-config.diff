@@ -2,7 +2,7 @@
 +++ live/config.solaris	2007-11-03 11:54:36.210784799 +0000
 @@ -1,4 +1,4 @@
 -COMPILE_OPTS =		$(INCLUDES) -I. -O -DSOLARIS -DSOCKLEN_T=socklen_t
-+COMPILE_OPTS =		$(INCLUDES) -I. -O -DSOLARIS -DSOCKLEN_T=socklen_t -fPIC -DPIC
++COMPILE_OPTS =		$(INCLUDES) -I. -O -DSOLARIS -DSOCKLEN_T=socklen_t -fPIC -DPIC -Kpic
  C =			c
  C_COMPILER =		cc
  C_FLAGS =		$(COMPILE_OPTS)

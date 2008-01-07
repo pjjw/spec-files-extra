@@ -46,7 +46,6 @@ export CFLAGS="-O4 -fPIC -DPIC -I/usr/X11/include -I/usr/openwin/include -D_LARG
 export LDFLAGS=
 export CC="/usr/gnu/bin/gcc"
 export LD="/usr/gnu/bin/ld"
-export CFLAGS="-O4"
 
 cd build/generic
 bash ./bootstrap.sh
@@ -85,6 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Tue Jan 08 2008 - moinak.ghosh@sun.com
+- Removed redundant CFLAGS setting that was overwriting the earlier value.
 * Mon Dec 31 2007 - markwright@internode.on.net
 - Use SFEgcc 4.2.2.  Add sed hack to change -Wl,-M back to
 - -Wl,--version-script for /usr/gnu/bin/ld.
