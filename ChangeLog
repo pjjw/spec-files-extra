@@ -6,7 +6,7 @@
 	  Updated LDFLAGS to add extra libs to fix link failure.
 	  Changed to dependency to SFEfreetype to get newer version of
 	  freetype2.
-
+	  Link with SFEfreetype to fix missing symbol problem.
 2008-01-08 Moinak Ghosh <moinak.ghosh@sun.com>
 
 	* base-specs/eclipse.spec
