@@ -8,7 +8,7 @@
 Name:                    SFEconnect
 Summary:                 Proxy command of OpenSSH
 Version:                 1.96
-Source1:                 http://zippo.taiyo.co.jp/~gotoh/ssh/connect.c
+Source1:                 http://www.meadowy.org/~gotoh/ssh/connect.c
 SUNW_BaseDir:            %{_basedir}
 URL:                     http://zippo.taiyo.co.jp/~gotoh/ssh/connect.html
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 
 %changelog
+* Tue Jan  8 2008 - laca@sun.com
+- update src url
 * Sat Jan  6 2006 - laca@sun.com
 - update source url, hope this one works better for jlc
 * Fri Jan 05 2006 - daymobrew@users.sourceforge.net

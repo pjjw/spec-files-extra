@@ -1,3 +1,9 @@
+2008-01-08  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEbc.spec: fix broken symlink
+	* SFEconnect.spec: update src url
+	* SFEeclipse.spec: make it exit with an error if CC is set to gcc
+
 2008-01-08 Moinak Ghosh <moinak.ghosh@sun.com>
 
 	* SFEwindowmaker.spec

@@ -53,7 +53,7 @@ mkdir -p $RPM_BUILD_ROOT%{_prefix}/gnu/bin
 for f in bc dc; do
     mv $RPM_BUILD_ROOT%{_bindir}/$f $RPM_BUILD_ROOT%{_bindir}/g$f
     cd $RPM_BUILD_ROOT%{_prefix}/gnu/bin
-    ln -s ../bin/g$f $f
+    ln -s ../../bin/g$f $f
     cd $RPM_BUILD_ROOT%{_mandir}/man1
     sed -e 's/^\.TH \([^ ]*\) "*1"*/.TH \1 "1GNU"/' $f.1 > ../man1gnu/$f.1gnu
     rm -f $f.1

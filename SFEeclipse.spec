@@ -21,6 +21,10 @@ SUNW_BaseDir:    %{_basedir}
 %include default-depend.inc
 Requires: %name
 
+%if %cc_is_gcc
+%error This spec file requires Sun Studio, set the CC and CXX env variables
+%endif
+
 %prep
 rm -rf %name-%version
 mkdir %name-%version
