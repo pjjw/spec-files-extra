@@ -1,52 +1,70 @@
 2008-01-08 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEwindowmaker.spec
-	Fixed directory attributes
+	  Fixed directory attributes
 	* encumbered/SFEmplayer.spec
-	Updated LDFLAGS to add extra libs to fix link failure.
-	Changed to dependency to SFEfreetype to get newer version of freetype2.
+	  Updated LDFLAGS to add extra libs to fix link failure.
+	  Changed to dependency to SFEfreetype to get newer version of
+	  freetype2.
+
 2008-01-08 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* base-specs/eclipse.spec
-	Workaround to properly generate the swt jar
+	  Workaround to properly generate the swt jar
 	* patches/liveMedia-02-config.diff
-	Add Kpic flag to satisfy SUN Studio 11
+	  Add Kpic flag to satisfy SUN Studio 11
 	* encumbered/SFExvid.spec
-	Removed redundant CFLAGS setting that was overwriting the earlier value.
+	  Removed redundant CFLAGS setting that was overwriting the earlier
+	  value.
+
 2008-01-07 Brian Nitz   <brian.nitz@sun.com>
+
 	* SFEdcraw.spec:
-	Incorporated patch which casts unsigned ints so Solaris forte build 
-	works.
+	  Incorporated patch which casts unsigned ints so Solaris forte build 
+	  works.
     	* patches/dcraw-01-solaris.diff:
-	Caste swab parameter so it builds under Forte.
+	  Caste swab parameter so it builds under Forte.
+
 2008-01-06 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEcurl.spec
-	Fixed pkgconfig directory permission.
+	  Fixed pkgconfig directory permission.
 	* encumbered/SFExmms2.spec
 	* patches/xmms2-01-ruby.diff
-	Bumped xmms2 version to 0.4DrKosmos, add SUNWsqlite dep, add patch to
-	build ruby plugin against ruby 1.9.0 (Ruby plugin patch submitted upstream).
+	  Bumped xmms2 version to 0.4DrKosmos, add SUNWsqlite dep, add patch to
+	  build ruby plugin against ruby 1.9.0 (Ruby plugin patch submitted
+	  upstream).
 	* SFEruby.spec
-	Enable building libruby.so shared library
+	  Enable building libruby.so shared library
 	* SFElibcdio.spec
-	Changed reference to non-existent gcc_ldflags
+	  Changed reference to non-existent gcc_ldflags
 	* SFElibgsm.spec
-	Changed a failing install -d to mkdir -p
+	  Changed a failing install -d to mkdir -p
 	* libquicktime.spec
-	Add a patch to fix a compile failure with Sun Studio 11
+	  Add a patch to fix a compile failure with Sun Studio 11
 	* SFEnntpcached.spec
-	Added a missing pathname to files section
+	  Added a missing pathname to files section
 	* SFElibnjb.spec
-	Fix directory permissions, enable building shlib, add SUNW_BaseDir
+	  Fix directory permissions, enable building shlib, add SUNW_BaseDir
+
 2008-01-04  Thomas Wagner <tom68@users.sourceforge.net>
-        * SFEalpine.spec:  bump to 1.00 - old dwnl file removed, no other changes to spec/patches
+
+        * SFEalpine.spec:  bump to 1.00 - old dwnl file removed, no other
+	  changes to spec/patches
 
 2008-01-05  Petr Sobotka  <sobotkap@centrum.cz>
+
 	* SFEwesnoth.spec: Deleted option --enable-dummy-locales from configure
 
 2008-01-04  Thomas Wagner <tom68@users.sourceforge.net>
-        * SFEputty.spec:  remove l10n package definition, remove debug call to bash
+
+        * SFEputty.spec:  remove l10n package definition, remove debug call to
+	  bash
 
 2008-01-04  Thomas Wagner <tom68@users.sourceforge.net>
-        * SFEputty.spec: *NEW* popular terminal emulator/telnet/ssh/sftp/serial client
+
+        * SFEputty.spec: *NEW* popular terminal emulator/telnet/ssh/sftp/serial
+	  client
         * patches/putty-01-gtk.diff: thanks to Takao for  
           "putty-xx-my-build.diff" on desktop-discuss@opensolaris.org
         * SFEgmpc.spec: add parallel build
@@ -146,6 +164,7 @@
 			     stlport4 (need to be same as for boost)
 
 2007-12-31 Mark Wright <markwright@internode.on.net>
+
 	* SFEeasytag.spec Added -f option to line rm -rf
 	  $RPM_BUILD_ROOT%{_datadir}/locale
 	* easytag2.1-01-libnsl.diff remvoe -llibstdc++ from LIBS
@@ -159,31 +178,36 @@
 	* encumbered/SFEgpac.spec Add patch 4 to fix trivial compiler error
 	  missing INADDR_NONE.  Add --extra-libs="-lrt -lm".
 	* patches/gpac-04-inaddr.diff Fix missing INADDR_NONE.
-	* encumbered/SFElibdts.spec Bump to 0.0.5. Comment patch1, patch2 and patch3.
+	* encumbered/SFElibdts.spec Bump to 0.0.5. Comment patch1, patch2 and
+	  patch3.
 	* patches/libdts-04-tweaks-to-fix-trivial-compiler-errors.diff
 	* encumbered/SFExmms2.spec Bump to 2.0.4DrKosmos
-	* encumbered/SFExvid.spec Use SFEgcc 4.2.2.  Add sed hack to change -Wl,-M back to
-	  -Wl,--version-script for /usr/gnu/bin/ld.
+	* encumbered/SFExvid.spec Use SFEgcc 4.2.2.  Add sed hack to change
+	  -Wl,-M back to -Wl,--version-script for /usr/gnu/bin/ld.
 	* SFEstreamripper.spec Bump to 1.62.3
 
 2007-12-29  Jerry Yu <jijun.yu@jijun.yu@sun.com>
 
-    * base-specs/gnupg2.spec: added
-    * SFEgnupg2.spec: added
-    * SFEpth.spec: added
-    * SFElibksba.spec: added
-    * SFElibassuan.spec: added
+	* base-specs/gnupg2.spec: added
+	* SFEgnupg2.spec: added
+	* SFEpth.spec: added
+	* SFElibksba.spec: added
+	* SFElibassuan.spec: added
 
 2007-12-27  Thomas Wagner <tom68@users.sourceforge.net>
 
-    * SFEgmpc.spec, SFEgmpc-plugins-*: rework to base-specs/gmpc-plugin.spec
-      base-specs/gmpc-plugin.spec: *NEW* base spec for plugins
-    * SFEgmpc-plugin-extraplaylist.spec SFEgmpc-plugin-favorites.spec 
-      SFEgmpc-plugin-libnotify.spec SFEgmpc-plugin-mserver.spec 
-      SFEgmpc-plugin-random-playlist.spec SFEgmpc-plugin-wikipedia.spec: all *NEW* 
-    * SFEgmpc-plugin-shout.spec: receives a shout-stream locally (use ogg123/ogg321)
-    * SFElibmpd.spec: bump to 0.15.0 (required by SFEgmpc.spec 0.15.5.0 and friends)
-    * SFEliveMedia.spec: bump to 2007.12.27 - well, this is hot
+	* SFEgmpc.spec, SFEgmpc-plugins-*: rework to
+	  base-specs/gmpc-plugin.spec
+	  base-specs/gmpc-plugin.spec: *NEW* base spec for plugins
+	* SFEgmpc-plugin-extraplaylist.spec SFEgmpc-plugin-favorites.spec 
+	  SFEgmpc-plugin-libnotify.spec SFEgmpc-plugin-mserver.spec 
+	  SFEgmpc-plugin-random-playlist.spec SFEgmpc-plugin-wikipedia.spec:
+	  all *NEW* 
+	* SFEgmpc-plugin-shout.spec: receives a shout-stream locally (use
+	  ogg123/ogg321)
+	* SFElibmpd.spec: bump to 0.15.0 (required by SFEgmpc.spec 0.15.5.0 and
+	  friends)
+	* SFEliveMedia.spec: bump to 2007.12.27 - well, this is hot
 
 2007-12-27  Petr Sobotka  <sobotkap@centrum.cz>
 
@@ -199,35 +223,47 @@
 
 	* SFEpython-xlib.spec: *NEW* A complete X11R6 client implementation
 	* SFEpython-feedparser.spec: *NEW* Python feedparser library
-	* SFEpython-eyed3.spec: *NEW* Python module and program for processing ID3 tags
+	* SFEpython-eyed3.spec: *NEW* Python module and program for processing
+	  ID3 tags
 	* SFEpython-mutagen.spec: *NEW* A Python module to handle audio metadata
 	* SFEglpk.spec: *NEW* The GNU Linear Programming Kit library
 	* SFEpython-cherrypy.spec: Fixed errors in spec file
 	* SFEleafpad.spec: Cleaned up spec file
 
 2007-22-24 Patrick Ale <wickedwicky@users.sourceforge.net>
-	* base-specs/doxygen.spec: Add ifarch statement for Patch03 to solve bug 1830212
-	* patches/doxygen-03-solaris-i386.diff: Added, previously doxygen-03-solaris.diff
-	* patches/doxygen-03-solaris-sparc.diff: Added, previously doxygen-03.solaris.diff
+
+	* base-specs/doxygen.spec: Add ifarch statement for Patch03 to solve
+	  bug 1830212
+	* patches/doxygen-03-solaris-i386.diff: Added, previously
+	  doxygen-03-solaris.diff
+	* patches/doxygen-03-solaris-sparc.diff: Added, previously
+	  doxygen-03.solaris.diff
 	  but without the -xregs argument for the compile flags
-	* patches/doxygen-03.solaris.diff: Killed in favor of the splitted i386 and sparc patch
+	* patches/doxygen-03.solaris.diff: Killed in favor of the splitted i386
+	  and sparc patch
 
 2007-12-24 Pradhap Devarajan <pradhap (at) gmail.com>
-	* SFEwmctrl.spec: A command line tool to interact with an EWMH/NetWM compatible X Window Manager.
+
+	* SFEwmctrl.spec: A command line tool to interact with an EWMH/NetWM
+	  compatible X Window Manager.
 
 2007-12-23 Patrick Ale <wickedwicky@users.sourceforge.net>
-    * default-copyright: move to ext-sources
+
+	 * default-copyright: move to ext-sources
 
 2007-12-22 Patrick Ale <wickedwicky@users.sourceforge.net>
-    * SFEazureus: Add BuildRequires: SUNWgnome-common-devel
+
+	* SFEazureus: Add BuildRequires: SUNWgnome-common-devel
 
 2007-12-22 Patrick Ale <wickedwicky@users.sourceforge.net>
-    * fluxbox.desktop: move to ext-sources 
-    * azureus.desktop: move to ext-sources
-    * Maelstrom.desktop: move to ext-sources
-    * eclipse.desktop: move to ext-sources
+
+	* fluxbox.desktop: move to ext-sources 
+	* azureus.desktop: move to ext-sources
+	* Maelstrom.desktop: move to ext-sources
+	* eclipse.desktop: move to ext-sources
 
 2007-12-23 Pradhap Devarajan <pradhap (at) gmail.com>
+
 	* SFEleafpad.spec: Leafpad GTK+ based text editor.
 	
 2007-12-21  simon.zheng  <simon.zheng@sun.com>
@@ -240,6 +276,7 @@
 	* base-specs/gnupg.spec: Bump to 1.4.8
 
 2007-12-20  jijun.yu  <jijun.yu@sun.com>
+
 	* SFElibopensync-plugin-sml.spec: change a path.
 	* base-specs/libopensync-plugin-syncml.spec: Bump to 0.35.
 
@@ -282,6 +319,7 @@
 	.diff: Added.
 
 2007-12-18 jerry yu <jijun.yu@sun.com>
+
 	* SFEseahorse.spec : added
 	* base-specs/seahorse.spec : added
 	* patches/seahorse-01-cryptui.diff :added
@@ -511,8 +549,8 @@
 	  quick fix to empty struct when --disable-lsr is used (patch5)
 	  add temporary patch mpd-05-empty_struct_without_libsamplerate.diff
 
-
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
+
 	* SFEperl-LWP.spec: renamed package to lower case package name
 	  (part 1 of 2)
 	* SFEperl-Digest-SHA1.spec: renamed package to lower case package name
@@ -572,9 +610,11 @@
 	  Removed man installation dir because man page isn't available.	
 
 2007-11-26  Petr Sobotka  <sobotkap@centrum.cz>
+
 	* SFEopenafs.spec: Initial commit
 
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
+
 	* SFEwine.spec: newer OS builds clush with sys/list.h <-> wine/list.h
 	    *add* script to change list* on wine side, rename wine/list.h to
 	    wine/wine_list.h patch to *remove* code for calls to binary
@@ -583,22 +623,26 @@
 	    guru)
 
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
+
 	* SFEhorde.spec: *new* Horde framework (old spec, needs review)
 	* SFEhorde-imp.spec: *new* Horde IMP Webmailer (old spec, needs review)
 	* SFEtypo3.spec: *new* Typo3 CMS (old spec, needs review)
 	* SFEtypo3demo.spec: *new* Typo3 CMS Demo Site (old spec, needs review)
 
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
+
 	* SFEmutt.spec: PSARC 2007/167 "IDN" is found (new around build 73/74),
 	  add -I/usr/include/idn
 	* SFEmuttng.spec: PSARC 2007/167 "IDN" is found (new around build
 	  73/74), add -I/usr/include/idn
 
 2007-11-25  Thomas Wagner <tom68@users.sourceforge.net>
+
 	* encumbered/SFEnntpcached.spec: *new* good old newscache, see license,
 	  needs some more love and testing
 
 2007-11-24  Thomas Wagner <tom68@users.sourceforge.net>
+
 	* SFEperl-Net-DNS.spec SFEperl-TimeDate.spec SFEperl-DBD-mysql.spec 
 	  SFEperl-DBD-Pg.spec SFEperl-IO-Socket-INET6.spec SFEperl-DBI.spec 
 	  SFEperl-Date-Pcalc.spec SFEperl-Digest-SHA1.spec SFEperl-LWP.spec:
