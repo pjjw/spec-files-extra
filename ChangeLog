@@ -13,8 +13,6 @@
 	  Changed to dependency to SFEfreetype to get newer version of
 	  freetype2.
 	  Link with SFEfreetype to fix missing symbol problem.
-2008-01-08 Moinak Ghosh <moinak.ghosh@sun.com>
-
 	* base-specs/eclipse.spec
 	  Workaround to properly generate the swt jar
 	* patches/liveMedia-02-config.diff
@@ -22,6 +20,10 @@
 	* encumbered/SFExvid.spec
 	  Removed redundant CFLAGS setting that was overwriting the earlier
 	  value.
+	* SFElibx264.spec
+	  Build with gcc and enable C99FEATURES.
+	* SFEphysfs.spec
+	  Changes to compile inline functions (C99) with Sun Studio
 
 2008-01-07 Brian Nitz   <brian.nitz@sun.com>
 

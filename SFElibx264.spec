@@ -1,4 +1,4 @@
-#
+
 # spec file for package SFEx264
 #
 # includes module(s): x264
@@ -53,7 +53,8 @@ nlsopt=-enable-nls
 nlsopt=-disable-nls
 %endif
 
-export CFLAGS="%optflags"
+export CC=gcc
+export CFLAGS="%optflags -D__C99FEATURES__"
 export LDFLAGS="%_ldflags -lm"
 bash ./configure	\
     --prefix=%{_prefix} \
@@ -104,6 +105,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* tue Jan 08 2008 - moinak.ghosh@sun.com
+- Build with gcc and enable C99FEATURES.
 * Tue Nov 20 2007 - daymobrew@users.sourceforge.net
 - Bump to 20071119 and add Url.
 * Sun Aug 12 2007 - dougs@truemail.co.th

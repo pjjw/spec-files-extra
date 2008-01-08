@@ -1,0 +1,13 @@
+--- physfs-1.1.1/physfs_byteorder.c.orig	2008-01-08 13:39:35.693686000 +0530
++++ physfs-1.1.1/physfs_byteorder.c	2008-01-08 13:42:20.703649000 +0530
+@@ -34,6 +34,10 @@
+ #define __inline__ __inline
+ #endif
+ 
++#if defined (__sun) && defined (__SUNPRO_C) 
++#define __inline__ inline
++#endif
++
+ #ifndef PHYSFS_Swap16
+ static __inline__ PHYSFS_uint16 PHYSFS_Swap16(PHYSFS_uint16 D)
+ {
