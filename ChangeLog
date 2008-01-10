@@ -1,3 +1,13 @@
+2008-01-10  simon.zheng  <simon.zheng@sun.com>
+
+	* base-specs/gnome-device-manager.spec:
+	* patches/gnome-device-manager-02-subsystem.diff:
+	  Add a patch to show device icons because of HAL
+	  0.5.8 doesn't support property "info.subsystem".
+	* base-specs/gnome-power-manager.spec:
+	* patches/gnome-power-manager-13-beep.diff:
+	  Fix bugzilla bug #507789. 
+
 2008-01-10  Irene Huang  <irene.huang@sun.com>
 
 	* SFEpitivi.spec: Add two new requirements

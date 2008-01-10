@@ -12,6 +12,7 @@ Vendor:       Sun Microsystems, Inc.
 Summary:      Device-manager is a GNOME program to manage devices and device drivers.
 Source0:      http://people.freedesktop.org/~david/dist/gnome-device-manager-%{version}.tar.bz2
 Patch1:	      gnome-device-manager-01-build.diff
+Patch2:       gnome-device-manager-02-subsystem.diff
 URL:          http://www.freedesktop.org/wiki/Software_2fhal
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
@@ -33,6 +34,7 @@ rather than just show information.
 %prep
 %setup -q -n gnome-device-manager-%version
 %patch1 -p1
+%patch2 -p0
 
 %build
 %ifos linux
@@ -83,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Jau 10 2008 - simon.zheng@sun.com
+- Add gnome-device-manager-02-subsystem.diff to show icons,
+  because hal 0.5.8 doesn't support property "info.subsystem".
 * Wed Nov 14 2007 - daymobrew@users.sourceforge.net
 - Remove %files sections.
 * Mon Sep 17 2007 - trisk@acm.jhu.edu

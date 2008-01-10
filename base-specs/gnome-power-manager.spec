@@ -21,6 +21,7 @@ Patch9:		gnome-power-manager-09-scripts.diff
 Patch10:        gnome-power-manager-10-diable-suspend-button-configration.diff
 Patch11:        gnome-power-manager-11-authorization-checking.diff
 Patch12:        gnome-power-manager-12-crash.diff       
+Patch13:	gnome-power-manager-13-beep.diff
 URL:		http://www.gnome.org/projects/gnome-power-manager/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake
@@ -82,6 +83,7 @@ Uses of GNOME Power Manager infrastructure
 %patch10 -p0
 %patch11 -p0
 %patch12 -p0
+%patch13 -p0
 
 %build
 %ifos linux
@@ -136,6 +138,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jau 07 2007 - simon.zheng@sun.com
+- Add gnome-power-manager-13-beep.diff to bugzilla bug #507789.
+
 * Thu Dec 20 2007 - simon.zheng@sun.com
 - Rework gnome-power-manager-07-disable-sleep-configration.diff.
 - Add gnome-power-manager-11-authorization-checking.diff
