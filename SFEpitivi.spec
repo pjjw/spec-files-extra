@@ -15,6 +15,8 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 BuildRequires:		 SFEgnonlin
 BuildRequires:		 SFEgnome-python-extras
 BuildRequires:		 SFEgst-python
+Requires:                SFEzope-interface
+Requires: 	         SFEsetuptools
 
 %include default-depend.inc
 
@@ -71,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jan 10 2008 - irene.huang@sun.com
+- Add two new requirements: SFEsetuptools and 
+  SFEzope-interface
 * Fri Nov 30 2007 - brian.cameron@sun.com
 - Bump to 0.11.1
 * Fri Oct 19 2007 - brian.cameron@sun.com
