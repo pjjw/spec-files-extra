@@ -1,0 +1,33 @@
+--- qt-x11-free-3.3.5/tools/designer/designer/hierarchyview.cpp.orig	Fri Feb 10 14:32:07 2006
++++ qt-x11-free-3.3.5/tools/designer/designer/hierarchyview.cpp	Fri Feb 10 14:32:52 2006
+@@ -605,6 +605,7 @@
+ 		    formWindow->mainWindow()->setupTabWidgetHierarchyMenu(
+ 				  this, SLOT( addTabPage() ),
+ 				  SLOT( removeTabPage() ) );
++	    tabWidgetMenu->setItemEnabled(MainWindow::POPUP_REMOVE_PAGE_ID, ((QDesignerTabWidget*)w )->count() > 1);
+ 	    tabWidgetMenu->popup( p );
+ 	}
+     }
+--- qt-x11-free-3.3.5/tools/designer/designer/mainwindow.cpp.orig	Fri Feb 10 14:33:05 2006
++++ qt-x11-free-3.3.5/tools/designer/designer/mainwindow.cpp	Fri Feb 10 14:34:20 2006
+@@ -2463,8 +2463,8 @@
+ {
+     QPopupMenu *menu = new QPopupMenu( parent );
+ 
+-    menu->insertItem( tr( "Add Page" ), parent, addSlot );
+-    menu->insertItem( tr( "Delete Page" ), parent, removeSlot );
++    menu->insertItem( tr( "Add Page" ), parent, addSlot, 0, POPUP_REMOVE_PAGE_ID+1 );
++    menu->insertItem( tr( "Delete Page" ), parent, removeSlot, 0, POPUP_REMOVE_PAGE_ID );
+     menu->insertSeparator();
+     actionEditCut->addTo( menu );
+     actionEditCopy->addTo( menu );
+--- qt-x11-free-3.3.5/tools/designer/designer/mainwindow.h.orig	Fri Feb 10 14:34:31 2006
++++ qt-x11-free-3.3.5/tools/designer/designer/mainwindow.h	Fri Feb 10 14:35:07 2006
+@@ -107,6 +107,7 @@
+ 
+     QPopupMenu *setupNormalHierarchyMenu( QWidget *parent );
+     QPopupMenu *setupTabWidgetHierarchyMenu( QWidget *parent, const char *addSlot, const char *removeSlot );
++    static const int POPUP_REMOVE_PAGE_ID = 1;
+ 
+     FormWindow *openFormWindow( const QString &fn, bool validFileName = TRUE, FormFile *ff = 0 );
+     bool isCustomWidgetUsed( MetaDataBase::CustomWidget *w );

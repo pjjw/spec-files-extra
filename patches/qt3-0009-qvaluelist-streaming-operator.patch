@@ -1,0 +1,17 @@
+--- qt-x11-free-3.3.8/src/tools/qvaluelist.h.orig	2007-02-02 19:31:04.000000000 +0530
++++ qt-x11-free-3.3.8/src/tools/qvaluelist.h	2008-01-08 22:40:14.899836914 +0530
+@@ -638,13 +638,11 @@
+     l.clear();
+     Q_UINT32 c;
+     s >> c;
+-    for( Q_UINT32 i = 0; i < c; ++i )
++    for( Q_UINT32 i = 0; i < c && !s.atEnd(); ++i )
+     {
+ 	T t;
+ 	s >> t;
+ 	l.append( t );
+-	if ( s.atEnd() )
+-	    break;
+     }
+     return s;
+ }

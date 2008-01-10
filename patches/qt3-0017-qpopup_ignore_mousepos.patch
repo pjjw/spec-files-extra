@@ -1,0 +1,30 @@
+--- qt-x11-free-3.3.8/src/widgets/qpopupmenu.cpp.orig	2008-01-08 22:45:36.500530694 +0530
++++ qt-x11-free-3.3.8/src/widgets/qpopupmenu.cpp	2008-01-08 22:48:59.914488419 +0530
+@@ -254,6 +254,7 @@
+     QSize calcSize;
+     QRegion mouseMoveBuffer;
+     uint hasmouse : 1;
++    QPoint ignoremousepos;
+ };
+ 
+ static QPopupMenu* active_popup_menu = 0;
+@@ -1356,6 +1357,7 @@
+     popupActive = -1;
+     if(style().styleHint(QStyle::SH_PopupMenu_SubMenuPopupDelay, this))
+ 	d->mouseMoveBuffer = QRegion();
++    d->ignoremousepos = QCursor::pos();
+ }
+ 
+ /*!
+@@ -1703,6 +1705,11 @@
+ 
+ void QPopupMenu::mouseMoveEvent( QMouseEvent *e )
+ {
++    if( e->globalPos() == d->ignoremousepos ) {
++        return;
++    }
++    d->ignoremousepos = QPoint();
++
+     motion++;
+ 
+     if ( parentMenu && parentMenu->isPopupMenu ) {

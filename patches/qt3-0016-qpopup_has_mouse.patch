@@ -1,0 +1,46 @@
+--- qt-x11-free-3.3.8/src/widgets/qpopupmenu.cpp.orig	2007-02-02 19:31:23.000000000 +0530
++++ qt-x11-free-3.3.8/src/widgets/qpopupmenu.cpp	2008-01-08 22:45:36.500530694 +0530
+@@ -253,6 +253,7 @@
+     } scroll;
+     QSize calcSize;
+     QRegion mouseMoveBuffer;
++    uint hasmouse : 1;
+ };
+ 
+ static QPopupMenu* active_popup_menu = 0;
+@@ -272,6 +273,7 @@
+     d->scroll.scrollableSize = d->scroll.topScrollableIndex = 0;
+     d->scroll.scrollable = QPopupMenuPrivate::Scroll::ScrollNone;
+     d->scroll.scrolltimer = 0;
++    d->hasmouse = 0;
+     isPopupMenu	  = TRUE;
+ #ifndef QT_NO_ACCEL
+     autoaccel	  = 0;
+@@ -1741,6 +1743,11 @@
+ 
+     int	 item = itemAtPos( e->pos() );
+     if ( item == -1 ) {				// no valid item
++        if( !d->hasmouse ) {
++            tryMenuBar( e );
++            return;
++        }
++        d->hasmouse = 0;
+ 	int lastActItem = actItem;
+ 	actItem = -1;
+ 	if ( lastActItem >= 0 )
+@@ -1752,6 +1759,7 @@
+ 	}
+     } else {					// mouse on valid item
+ 	// but did not register mouse press
++        d->hasmouse = 1;
+ 	if ( (e->state() & Qt::MouseButtonMask) && !mouseBtDn )
+ 	    mouseBtDn = TRUE; // so mouseReleaseEvent will pop down
+ 
+@@ -2160,6 +2168,7 @@
+ */
+ void QPopupMenu::leaveEvent( QEvent * )
+ {
++    d->hasmouse = 0;
+     if ( testWFlags( WStyle_Tool ) && style().styleHint(QStyle::SH_PopupMenu_MouseTracking, this) ) {
+ 	int lastActItem = actItem;
+ 	actItem = -1;

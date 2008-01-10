@@ -1,0 +1,16 @@
+--- qt-x11-free-3.3.8/src/iconview/qiconview.cpp.orig	2007-02-02 19:31:07.000000000 +0530
++++ qt-x11-free-3.3.8/src/iconview/qiconview.cpp	2008-01-08 22:34:57.430570431 +0530
+@@ -5245,11 +5245,11 @@
+ 	d->findContainers( dir, relativeTo, searchRect);
+ 
+     cList->first();
+-    while ( cList->current() && !centerMatch ) {
++    while ( cList->current() ) {
+ 	QPtrList<QIconViewItem> &list = (cList->current())->items;
+ 	for ( item = list.first(); item; item = list.next() ) {
+ 	    if ( neighbourItem( dir, relativeTo, item ) &&
+-		 searchRect.contains( item->rect().center() ) &&
++		 searchRect.intersects( item->rect() ) &&
+ 		 item != currentItem() ) {
+  		int ml = (relativeTo - item->rect().center()).manhattanLength();
+ 		if ( centerMatch ) {

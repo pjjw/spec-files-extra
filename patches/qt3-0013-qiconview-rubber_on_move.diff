@@ -1,0 +1,93 @@
+--- qt-x11-free-3.3.8/src/iconview/qiconview.cpp.orig	2007-02-02 19:31:07.000000000 +0530
++++ qt-x11-free-3.3.8/src/iconview/qiconview.cpp	2008-01-08 21:10:14.443365125 +0530
+@@ -236,6 +236,7 @@
+     QPoint dragStartPos;
+     QFontMetrics *fm;
+     int minLeftBearing, minRightBearing;
++    int rubberStartX, rubberStartY;
+ 
+     uint mousePressed		:1;
+     uint cleared		:1;
+@@ -255,6 +256,7 @@
+     uint firstSizeHint : 1;
+     uint showTips		:1;
+     uint pressedSelected	:1;
++    uint canStartRubber		:1;
+     uint dragging		:1;
+     uint drawActiveSelection	:1;
+     uint inMenuMode		:1;
+@@ -2754,6 +2756,7 @@
+     d->currentItem = 0;
+     d->highlightedItem = 0;
+     d->rubber = 0;
++    d->canStartRubber = FALSE;
+     d->scrollTimer = 0;
+     d->startDragItem = 0;
+     d->tmpCurrentItem = 0;
+@@ -4513,29 +4516,19 @@
+ 
+     setCurrentItem( item );
+ 
++    d->canStartRubber = FALSE;
+     if ( e->button() == LeftButton ) {
+ 	if ( !item && ( d->selectionMode == Multi ||
+ 				  d->selectionMode == Extended ) ) {
+-	    d->tmpCurrentItem = d->currentItem;
+-	    d->currentItem = 0;
+-	    repaintItem( d->tmpCurrentItem );
+-	    if ( d->rubber )
+-		delete d->rubber;
+-	    d->rubber = 0;
+-	    d->rubber = new QRect( e->x(), e->y(), 0, 0 );
+-	    d->selectedItems.clear();
+-	    if ( ( e->state() & ControlButton ) == ControlButton ) {
+-		for ( QIconViewItem *i = firstItem(); i; i = i->nextItem() )
+-		    if ( i->isSelected() )
+-			d->selectedItems.insert( i, i );
+-	    }
++	    d->canStartRubber = TRUE;
++	    d->rubberStartX = e->x();
++	    d->rubberStartY = e->y();
+ 	}
+-
+ 	d->mousePressed = TRUE;
+     }
+ 
+  emit_signals:
+-    if ( !d->rubber ) {
++    if ( !d->canStartRubber ) {
+ 	emit mouseButtonPressed( e->button(), item, e->globalPos() );
+ 	emit pressed( item );
+ 	emit pressed( item, e->globalPos() );
+@@ -4579,6 +4572,7 @@
+     d->mousePressed = FALSE;
+     d->startDragItem = 0;
+ 
++    d->canStartRubber = FALSE;
+     if ( d->rubber ) {
+ 	QPainter p;
+ 	p.begin( viewport() );
+@@ -4668,7 +4662,22 @@
+ 	    if ( d->tmpCurrentItem )
+ 		repaintItem( d->tmpCurrentItem );
+ 	}
+-    } else if ( d->mousePressed && !d->currentItem && d->rubber ) {
++    } else if ( d->mousePressed && ((!d->currentItem && d->rubber) || d->canStartRubber) ) {
++	if ( d->canStartRubber ) {
++	    d->canStartRubber = FALSE;
++	    d->tmpCurrentItem = d->currentItem;
++	    d->currentItem = 0;
++	    repaintItem( d->tmpCurrentItem );
++	    delete d->rubber;
++	    d->rubber = new QRect( d->rubberStartX, d->rubberStartY, 0, 0 );
++	    d->selectedItems.clear();
++	    if ( ( e->state() & ControlButton ) == ControlButton ||
++	         ( e->state() & ShiftButton ) == ShiftButton ) {
++		for ( QIconViewItem *i = firstItem(); i; i = i->nextItem() )
++		    if ( i->isSelected() )
++			d->selectedItems.insert( i, i );
++	    }
++	}
+ 	doAutoScroll();
+     }
+ }

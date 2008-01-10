@@ -1,0 +1,19 @@
+--- qt-x11-free-3.3.8/src/kernel/qdragobject.cpp.orig	2007-02-02 19:31:11.000000000 +0530
++++ qt-x11-free-3.3.8/src/kernel/qdragobject.cpp	2008-01-08 22:41:40.686693799 +0530
+@@ -894,6 +894,16 @@
+     if(!e)
+ 	return FALSE;
+ 
++    // when subtype is not specified, try text/plain first, otherwise this may read
++    // things like text/x-moz-url even though better targets are available
++    if( subtype.isNull()) {
++        QCString subtmp = "plain";
++        if( decode( e, str, subtmp )) {
++            subtype = subtmp;
++            return true;
++        }
++    }
++
+     if ( e->cacheType == QMimeSource::Text ) {
+ 	str = *e->cache.txt.str;
+ 	subtype = *e->cache.txt.subtype;

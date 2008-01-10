@@ -1,0 +1,20 @@
+--- qt-x11-free-3.3.5/tools/designer/uic/form.cpp	(revision 459878)
++++ qt-x11-free-3.3.5/tools/designer/uic/form.cpp	(revision 439328)
+@@ -726,16 +726,7 @@
+ 		}
+ 		n2 = n2.nextSibling().toElement();
+ 	    }
+-        } else if ( n.tagName() == "includehints" ) {
+-            QDomElement n2 = n.firstChild().toElement();
+-            while ( !n2.isNull() ) {
+-                if ( n2.tagName() == "includehint" ) {
+-                    QString file = n2.firstChild().toText().data();
+-                    localIncludes += file;
+-                }
+-                n2 = n2.nextSibling().toElement();
+-            }
+-        }
++	}
+     }
+ 
+     // additional includes (local or global) and forward declaractions

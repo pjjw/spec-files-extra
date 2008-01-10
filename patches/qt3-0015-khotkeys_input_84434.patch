@@ -1,0 +1,14 @@
+--- qt-x11-free-3.3.8/src/kernel/qapplication_x11.cpp.orig	2008-01-08 22:39:07.557441351 +0530
++++ qt-x11-free-3.3.8/src/kernel/qapplication_x11.cpp	2008-01-08 22:44:18.220984546 +0530
+@@ -5297,8 +5297,10 @@
+     qt_auto_repeat_data *d = (qt_auto_repeat_data *) arg;
+     if (d->error ||
+         event->xkey.window  != d->window ||
+-        event->xkey.keycode != d->keycode)
++        event->xkey.keycode != d->keycode) {
++        d->error = TRUE;
+         return FALSE;
++    }
+ 
+     if (event->type == XKeyPress) {
+         d->error = (! d->release || event->xkey.time - d->timestamp > 10);

@@ -1,0 +1,13 @@
+--- qt-x11-free-3.3.8/src/iconview/qiconview.cpp.orig	2008-01-08 22:34:57.430570431 +0530
++++ qt-x11-free-3.3.8/src/iconview/qiconview.cpp	2008-01-08 22:37:05.010259807 +0530
+@@ -6169,7 +6169,9 @@
+ 	    item->d->container2 = 0;
+ 	    c->items.append( item );
+ 	    item = item->next;
+-	} else if ( c->rect.intersects( item->rect() ) ) {
++	} else if ( c->rect.intersects( item->rect() ) && (
++		( d->arrangement == LeftToRight && item->y() >= c->rect.y() ) ||
++		( d->arrangement == TopToBottom && item->x() >= c->rect.x() ) ) ) {
+ 	    item->d->container1 = c;
+ 	    c->items.append( item );
+ 	    c = c->n;

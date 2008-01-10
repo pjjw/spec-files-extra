@@ -1,0 +1,11 @@
+--- qt-x11-free-3.3.8/configure.orig	2007-01-15 18:11:50.000000000 +0530
++++ qt-x11-free-3.3.8/configure	2008-01-08 22:51:31.846056897 +0530
+@@ -2396,7 +2396,7 @@
+ 	else
+ 	    echo "Do you accept the terms of $affix license? \c"
+ 	fi
+-	read acceptance
++	acceptance="yes"
+ 	echo
+ 	if [ "$acceptance" = "yes" ]; then
+ 	    break

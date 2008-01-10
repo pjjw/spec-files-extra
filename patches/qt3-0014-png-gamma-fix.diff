@@ -1,0 +1,24 @@
+--- qt-x11-free-3.3.5/src/kernel/qpngio.cpp.orig	Fri Feb 10 14:45:53 2006
++++ qt-x11-free-3.3.5/src/kernel/qpngio.cpp	Fri Feb 10 14:48:05 2006
+@@ -110,10 +110,18 @@
+ static
+ void setup_qt( QImage& image, png_structp png_ptr, png_infop info_ptr, float screen_gamma=0.0 )
+ {
+-    if ( screen_gamma != 0.0 && png_get_valid(png_ptr, info_ptr, PNG_INFO_gAMA) ) {
++    if ( 0.0 == screen_gamma )
++	// PNG docs say this is a good guess for a PC monitor
++        // in a dark room
++	screen_gamma = 2.2;
++    if ( png_get_valid(png_ptr, info_ptr, PNG_INFO_gAMA) ) {
++	// the file has a gAMA attribute
+ 	double file_gamma;
+-	png_get_gAMA(png_ptr, info_ptr, &file_gamma);
+-	png_set_gamma( png_ptr, screen_gamma, file_gamma );
++	if ( png_get_gAMA(png_ptr, info_ptr, &file_gamma))
++	    png_set_gamma( png_ptr, screen_gamma, file_gamma );
++    } else {
++	// no file gamma, use a reasonable default
++	png_set_gamma( png_ptr, screen_gamma, 0.45455 );
+     }
+ 
+     png_uint_32 width;

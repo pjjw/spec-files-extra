@@ -1,0 +1,11 @@
+--- qt-x11-free-3.3.8/src/widgets/qscrollview.cpp.orig	2008-01-08 22:42:34.872697450 +0530
++++ qt-x11-free-3.3.8/src/widgets/qscrollview.cpp	2008-01-08 22:50:19.747641060 +0530
+@@ -1865,7 +1865,7 @@
+        the event itself.
+     */
+     QWheelEvent ce( viewportToContents(e->pos()),
+-        e->globalPos(), e->delta(), e->state());
++        e->globalPos(), e->delta(), e->state(), e->orientation());
+     contentsWheelEvent(&ce);
+     if ( ce.isAccepted() )
+         e->accept();

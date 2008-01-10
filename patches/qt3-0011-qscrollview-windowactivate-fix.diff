@@ -1,0 +1,12 @@
+--- qt-x11-free-3.3.8/src/widgets/qscrollview.cpp.orig	2007-02-02 19:31:24.000000000 +0530
++++ qt-x11-free-3.3.8/src/widgets/qscrollview.cpp	2008-01-08 22:42:34.872697450 +0530
+@@ -1550,6 +1550,9 @@
+         case QEvent::LayoutHint:
+             d->autoResizeHint(this);
+             break;
++        case QEvent::WindowActivate:
++        case QEvent::WindowDeactivate:
++            return TRUE;
+         default:
+             break;
+         }
