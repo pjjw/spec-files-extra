@@ -57,11 +57,6 @@ SUNW_BaseDir:   %{_basedir}
 Requires: %name
 
 %prep
-if [ "x`basename $CC`" != xgcc ]
-then
-	%error This spec file requires Gcc, set the CC and CXX env variables
-fi
-
 %setup -q -n qt-x11-free-%version
 %patch1 -p1
 %patch2 -p1
@@ -91,9 +86,13 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CC=/usr/sfw/bin/gcc
-export CXX=/usr/sfw/bin/g++
-export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer -I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/include -I/usr/include/pgsql -I/usr/include/pgsql/server -I/usr/sfw/include/mysql -DQT_MITSHM"
+if [ "x`basename $CC`" != xgcc ]
+then
+	PLATFORM=solaris-cc
+else
+	PLATFORM=solaris-g++
+fi
+export CFLAGS="%optflags -I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/include -I/usr/include/pgsql -I/usr/include/pgsql/server -I/usr/sfw/include/mysql -DQT_MITSHM"
 
 export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib -L%{_builddir}/qt-x11-free-%{version}/lib"
 export LD_LIBRARY_PATH="/usr/lib:/usr/X11/lib:/usr/gnu/lib:/usr/sfw/lib:%{_builddir}/qt-x11-free-%{version}/lib"
@@ -101,7 +100,7 @@ export LD_LIBRARY_PATH="/usr/lib:/usr/X11/lib:/usr/gnu/lib:/usr/sfw/lib:%{_build
 ./configure -prefix %{_prefix} \
            -shared \
            -release \
-           -platform solaris-g++ \
+           -platform ${PLATFORM} \
            -thread \
            -system-libpng \
            -system-libjpeg \
