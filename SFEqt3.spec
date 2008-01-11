@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 
@@ -167,5 +167,6 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Jan 11 2008 - moinak.ghosh@sun.com
 - Fix Postgres dependency
+- Fix copyright year
 * Tue Jan 08 2008 - moinak.ghosh@sun.com
 - Initial spec. Thanks to Stefan Teleman for the patches.

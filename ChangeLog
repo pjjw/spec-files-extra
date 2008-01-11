@@ -3,6 +3,7 @@
 	  Added proper 64-bit link flags to work with Sun Studio 11 and gcc
 	* SFEqt3.spec:
 	  Fix Postgres dependency
+	  Fix copyright year
 	* SFEnas.spec:
 	  Update source URL, bumped version to 1.9.1
 	  Add openwinbin to PATH, use rm -f to quiesce rm
@@ -16,6 +17,8 @@
 	* patches/gettext-01-vasprintf.diff:
 	  Fix missing '$' in CC variable reference
 	  Add patch to fix invalid usage of a va_list variable
+	* SFEarts.spec:
+	  New spec for aRts
 
 2008-01-11 Moinak Ghosh <moinak.ghosh@sun.com>
 	* Add SFEqt3.spec
