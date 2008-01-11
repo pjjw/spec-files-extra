@@ -12,6 +12,7 @@ Version:             0.16.1
 Source:              ftp://ftp.gnu.org/pub/gnu/gettext/gettext-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
+Patch1:              gettext-01-vasprintf.diff
 %include default-depend.inc
 Requires: SUNWpostrun
 BuildConflicts:      SUNWgnu-gettext
@@ -32,6 +33,7 @@ Requires:                %{name}
 
 %prep
 %setup -q -c -n %name-%version
+%patch1 -p0
 %ifarch amd64 sparcv9
 cp -pr gettext-%{version} gettext-%{version}-64
 %endif
@@ -57,7 +59,7 @@ export LDFLAGS64="%_ldflags"
 
 %ifarch amd64 sparcv9
 
-CC -V 2>&1 | /usr/xpg4/bin/grep -q "CC: Sun C++ 5.8 Patch 121018-0[0-8]" && {
+$CC -V 2>&1 | /usr/xpg4/bin/grep -q "CC: Sun C++ 5.8 Patch 121018-0[0-8]" && {
     echo "The version of the compiler you are using is known to crash the"
     echo "system when compiling this code. Please install the latest patches"
     echo "for the compiler and try again." 
@@ -180,6 +182,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Jan 11 2008 - moinak.ghosh@sun.com
+- Fix missing '$' in CC variable reference
+- Add patch to fix invalid usage of a va_list variable
 * Fri Apr 20 2007 - Doug Scott <dougs@truemail.co.th>
 - Fixed %{_datadir}/doc group
 * Fri Apr 20 2007 - Doug Scott <dougs@truemail.co.th>

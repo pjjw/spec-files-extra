@@ -35,7 +35,15 @@ dbgflag=--disable-debug
 dbgflag=--disable-debug
 %endif
 
-export CFLAGS="%optflags"
+if [ "x`basename $CC`" = xgcc ]
+then
+	C99FLAG="-std=c99 -D__EXTENSIONS__"
+else
+	# xc99 set via patch for Sun Studio
+	C99FLAG=
+fi
+
+export CFLAGS="%optflags $C99FLAG"
 export LDFLAGS="%_ldflags"
 
 libtoolize -f -c
@@ -65,6 +73,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/jack/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Jan 11 2008 - moinak.ghosh@sun.com
+- Added C99 flags to support compilation using gcc
 * Tue Aug 28 2007 - dougs@truemail.co.th
 - Added debug option
 - Patched with latest svn release

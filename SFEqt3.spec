@@ -48,7 +48,7 @@ Requires: SFEcups
 BuildRequires: SFEcups-devel
 BuildRequires: SFEsqlite-devel
 BuildRequires: SUNWsfwhea
-BuildRequires: SUNWpostgr-82-devel
+BuildRequires: SUNWpostgr-devel
 
 %package devel
 Summary:        %{summary} - development files
@@ -165,5 +165,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Fri Jan 11 2008 - moinak.ghosh@sun.com
+- Fix Postgres dependency
 * Tue Jan 08 2008 - moinak.ghosh@sun.com
 - Initial spec. Thanks to Stefan Teleman for the patches.

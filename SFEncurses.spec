@@ -31,6 +31,7 @@ Requires: %name
 rm -rf %name-%version
 mkdir %name-%version
 
+export LDFLAGS="%_ldflags"
 %ifarch amd64 sparcv9
 mkdir %name-%version/%_arch64
 %ncurses_64.prep -d %name-%version/%_arch64
@@ -40,8 +41,15 @@ mkdir %name-%version/%{base_arch}
 %ncurses.prep -d %name-%version/%{base_arch}
 
 %build
+if [ "x`basename $CC`" != xgcc ]
+then
+        FLAG64="-xarch=generic64"
+else
+        FLAG64="-m64"
+fi
+
 %ifarch amd64 sparcv9
-export LDFLAGS=-m64
+export LDFLAGS="$FLAG64"
 %ncurses_64.build -d %name-%version/%_arch64
 %endif
 
@@ -89,6 +97,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Fri Jan 11 2008 - moinak.ghosh@sun.com
+- Added proper 64-bit link flags to work with Sun Studio 11 and gcc
 * Sun Nov 4 2007 - markwright@internode.on.net
 - Bump to 5.6.  Set LDFLAGS=-m64 for 64 bit build.
 * Tue Mar 20 2007 - dougs@truemail.co.th

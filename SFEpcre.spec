@@ -13,7 +13,7 @@
 # =========================================================================== 
 #                    SVR4 required definitions
 # =========================================================================== 
-SUNW_Pkg: SFE%{src_name}-%{base_arch}
+SUNW_Pkg: SFE%{src_name}
 SUNW_ProdVers:	%{src_version}
 SUNW_BaseDir:	%{_basedir}
 
@@ -28,6 +28,7 @@ License:      	BSD
 Source:         http://easynews.dl.sourceforge.net/sourceforge/pcre/%{src_name}-%{version}.tar.gz
 Packager:     	Shivakumar GN
 BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
+Conflicts:      SUNWpcre
 
 #Requires:      
 #BuildRequires: 
@@ -86,6 +87,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 11 2008 - moinak.ghosh@sun.com
+- Add conflict with SUNWpcre, remove -i386 from package name
 * Mon Oct 29 2007 - brian.cameron@sun.com
 - Bump to 7.4 and fix Source URL.
 

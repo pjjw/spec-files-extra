@@ -1,0 +1,78 @@
+--- gettext-0.16.1/gettext-tools/gnulib-lib/vasprintf.c.orig	2008-01-11 19:42:03.189515000 +0530
++++ gettext-0.16.1/gettext-tools/gnulib-lib/vasprintf.c	2008-01-11 19:42:24.746637000 +0530
+@@ -32,13 +32,12 @@
+ #endif
+ 
+ static int
+-int_vasprintf (char **result, const char *format, va_list *args)
++int_vasprintf (char **result, const char *format, va_list ap)
+ {
+   const char *p = format;
+   /* Add one to make sure that it is never zero, which might cause malloc
+      to return NULL.  */
+   size_t total_width = strlen (format) + 1;
+-  va_list ap = *args;
+ 
+   while (*p != '\0')
+     {
+@@ -112,7 +111,7 @@
+ #endif
+   *result = malloc (total_width);
+   if (*result != NULL)
+-    return vsprintf (*result, format, *args);
++    return vsprintf (*result, format, ap);
+   else
+     return -1;
+ }
+--- gettext-0.16.1/gettext-tools/libgettextpo/vasprintf.c.orig	2008-01-11 19:54:48.144596000 +0530
++++ gettext-0.16.1/gettext-tools/libgettextpo/vasprintf.c	2008-01-11 19:55:07.118556000 +0530
+@@ -32,13 +32,12 @@
+ #endif
+ 
+ static int
+-int_vasprintf (char **result, const char *format, va_list *args)
++int_vasprintf (char **result, const char *format, va_list ap)
+ {
+   const char *p = format;
+   /* Add one to make sure that it is never zero, which might cause malloc
+      to return NULL.  */
+   size_t total_width = strlen (format) + 1;
+-  va_list ap = *args;
+ 
+   while (*p != '\0')
+     {
+@@ -112,7 +111,7 @@
+ #endif
+   *result = malloc (total_width);
+   if (*result != NULL)
+-    return vsprintf (*result, format, *args);
++    return vsprintf (*result, format, ap);
+   else
+     return -1;
+ }
+--- gettext-0.16.1/gnulib-local/lib/vasprintf.c.orig	2008-01-11 19:56:52.012132000 +0530
++++ gettext-0.16.1/gnulib-local/lib/vasprintf.c	2008-01-11 19:56:39.352676000 +0530
+@@ -32,13 +32,12 @@
+ #endif
+ 
+ static int
+-int_vasprintf (char **result, const char *format, va_list *args)
++int_vasprintf (char **result, const char *format, va_list ap)
+ {
+   const char *p = format;
+   /* Add one to make sure that it is never zero, which might cause malloc
+      to return NULL.  */
+   size_t total_width = strlen (format) + 1;
+-  va_list ap = *args;
+ 
+   while (*p != '\0')
+     {
+@@ -112,7 +111,7 @@
+ #endif
+   *result = malloc (total_width);
+   if (*result != NULL)
+-    return vsprintf (*result, format, *args);
++    return vsprintf (*result, format, ap);
+   else
+     return -1;
+ }

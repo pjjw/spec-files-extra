@@ -1,5 +1,25 @@
 2008-01-11 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEncurses.spec:
+	  Added proper 64-bit link flags to work with Sun Studio 11 and gcc
+	* SFEqt3.spec:
+	  Fix Postgres dependency
+	* SFEnas.spec:
+	  Update source URL, bumped version to 1.9.1
+	  Add openwinbin to PATH, use rm -f to quiesce rm
+	* SFEpcre.spec:
+	  Add conflict with SUNWpcre, remove -i386 from package name
+	* base-specs/jack.spec:
+	  Added C99 flags to support compilation using gcc
+	* patches/jack-02-solaris.diff:
+	  Use uppercase SUNCC varible name instead of lowercase
+	* SFEgettext.spec:
+	* patches/gettext-01-vasprintf.diff:
+	  Fix missing '$' in CC variable reference
+	  Add patch to fix invalid usage of a va_list variable
+
+2008-01-11 Moinak Ghosh <moinak.ghosh@sun.com>
 	* Add SFEqt3.spec
+
 2008-01-10  Halton Huo <nonsea@users.sourceforge.net>
 
 	* base-specs/gtk-vnc.spec: Bump to 0.3.2

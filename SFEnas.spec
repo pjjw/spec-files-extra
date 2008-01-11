@@ -5,9 +5,9 @@
 #
 %include Solaris.inc
 
-%define	src_ver 1.9
+%define	src_ver 1.9.1
 %define	src_name nas
-%define	src_url	http://nas.codebrilliance.com/nas
+%define	src_url	http://downloads.sourceforge.net/nas
 
 %define openwin		/usr/openwin
 %define openwinlib	%{openwin}/lib
@@ -59,17 +59,19 @@ fi
 export CPPFLAGS="-I/usr/X11/include"
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags -lX11"
+export PATH="${PATH}:%{openwinbin}"
 
 xmkmf
 make World
 
 %install
 
+export PATH="${PATH}:%{openwinbin}"
 rm -rf $RPM_BUILD_ROOT
 make install install.man 	\
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm $RPM_BUILD_ROOT%{openwinlib}/lib*.*a
+rm -f $RPM_BUILD_ROOT%{openwinlib}/lib*.*a
 mkdir -p $RPM_BUILD_ROOT%{_libdir}
 mv $RPM_BUILD_ROOT%{openwinlib}/lib*.so* $RPM_BUILD_ROOT%{_libdir}
 mv $RPM_BUILD_ROOT%{openwinbin} $RPM_BUILD_ROOT%{_bindir}
@@ -97,5 +99,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}
 
 %changelog
+* Fri Jan 11 2008 - moinak.ghosh@sun.com
+- Update source URL, bumped version to 1.9.1
+- Add openwinbin to PATH, use rm -f to quiesce rm
 * Fri Aug  3 2007 - dougs@truemail.co.th
 - Initial spec

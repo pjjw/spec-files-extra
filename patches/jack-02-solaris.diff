@@ -386,7 +386,7 @@ diff -NPur jack-audio-connection-kit-0.103.0.orig/configure.ac jack-audio-connec
 +  solaris*)
 +    JACK_CPP_VARARGS_BROKEN=1;
 +    OS_LDFLAGS="-Wl,-z,muldefs"
-+    if $suncc ; then
++    if $SUNCC ; then
 +	CPPFLAGS="-D__FUNCTION__=__func__"
 +        CFLAGS="-xc99 -erroff=E_ARGUEMENT_MISMATCH $CFLAGS"
 +    fi
