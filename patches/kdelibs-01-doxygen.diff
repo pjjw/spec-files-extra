@@ -1,0 +1,8 @@
+--- kdelibs-3.5.1/admin/doxygen.sh.orig	Thu Feb 16 18:27:20 2006
++++ kdelibs-3.5.1/admin/doxygen.sh	Thu Feb 16 18:27:35 2006
+@@ -1,4 +1,4 @@
+-#! /bin/sh
++#! /usr/bin/bash
+ #
+ # doxygen.sh Copyright (C) 2005 by Adriaan de Groot
+ #            Based on some code from Doxyfile.am, among other things.

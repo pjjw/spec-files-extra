@@ -9,8 +9,8 @@
 
 Name:                SFEfltk2
 Summary:             A C++ user interface toolkit
-Version:             2.0.x-r5783
-Source:              ftp://ftp3.easysw.com/pub/fltk/snapshots/%{src_name}-%{version}.tar.bz2
+Version:             2.0.x-r5990
+Source:              ftp://ftp.easysw.com/pub/fltk/snapshots/fltk-%{version}.tar.bz2
 Patch1:		     fltk2-01-scandir.diff
 Patch2:		     fltk2-02-lX11.diff
 Patch3:		     fltk2-03-test.diff
@@ -84,5 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sat Jan 11 2008 - moinak.ghosh@sun.com
+- Bump version, fix download URL
 * Mon Apr 30 2007 - dougs@truemail.co.th
 - Initial spec

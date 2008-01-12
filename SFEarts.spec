@@ -5,10 +5,12 @@
 
 %include Solaris.inc
 
+%define kde_version 3.5.8
+
 Name:                SFEarts
 Summary:             Software to simulate a modular analog synthesizer
 Version:             1.5.8
-Source:              http://files.kde.org/stable/3.5.8/src/arts-%{version}.tar.bz2
+Source:              http://files.kde.org/stable/%{kde_version}/src/arts-%{version}.tar.bz2
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -48,7 +50,12 @@ export CFLAGS="%optflags -I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/includ
 
 export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib"
 
-./configure -prefix %{_prefix} --enable-shared=yes --enable-static=no
+./configure -prefix %{_prefix} \
+           --includedir %{_includedir}/kde3 \
+           --datadir %{_datadir}/kde3 \
+           --sysconfdir %{_sysconfdir} \
+           --enable-shared=yes \
+           --enable-static=no
 
 make -j$CPUS
 
@@ -75,11 +82,11 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
-%dir %attr (0755, root, other) %{_includedir}/arts
-%{_includedir}/arts/*
-%dir %attr (0755, root, other) %{_includedir}/artsc
-%{_includedir}/artsc/*
+%dir %attr (0755, root, other) %{_includedir}/kde3
+%{_includedir}/kde3/*
 
 %changelog
+* Sat Jan 13 2008 - moinak.ghosh@sun.com
+- Update configuration to reflect kde3 directories
 * Fri Jan 11 2008 - moinak.ghosh@sun.com
 - Initial spec.

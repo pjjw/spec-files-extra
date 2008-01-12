@@ -18,6 +18,7 @@ URL:			http://www.webdav.org/neon/
 BuildRoot:		%{_tmppath}/%{name}-%{version}-build
 SUNW_BaseDir:		%{_prefix}
 %include default-depend.inc
+Conflict: SUNWneon
 Requires: SUNWlibms
 Requires: SUNWzlib
 Requires: SUNWlexpt
@@ -116,6 +117,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Jan 13 2008 - moinak.ghosh@sun.com
+- Add conflict with SUNWneon
 * Wed Mar 28 2007 - laca@sun.com
 - unbump to 0.25.5 otherwise subversion refuses to build with dav support
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net

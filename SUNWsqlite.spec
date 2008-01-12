@@ -32,8 +32,16 @@ mkdir -p %name-%version
 %sqlite.prep -d %name-%version
 
 %build
+
+if [ "x`basename $CC`" != xgcc ]
+then
+	MTFLAG="-mt"
+else
+	MTFLAG=
+fi
+
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export CFLAGS="%optflags -mt -DSOLARIS -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS -D_FILE_OFFSET_BITS=64 -D_XOPEN_SOURCE=500 -D__EXTENSIONS__ -DSQLITE_ENABLE_REDEF_IO"
+export CFLAGS="%optflags $MTFLAG -DSOLARIS -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS -D_FILE_OFFSET_BITS=64 -D_XOPEN_SOURCE=500 -D__EXTENSIONS__ -DSQLITE_ENABLE_REDEF_IO"
 export LDFLAGS="%{_ldflags}"
 export RPM_OPT_FLAGS="$CFLAGS"
 %sqlite.build -d %name-%version
@@ -63,6 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Jan 12 2008 - moinak.ghosh@sun.com
+- Fix build with gcc
 * Wed Jan 02 2008 - nonsea@users.sourceforge.net
 - Rename from SFEsqlite to SUNWsqlite.
 * Mon Nov 12 2007 - nonsea@users.sourceforge.net

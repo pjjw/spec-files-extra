@@ -1,0 +1,11 @@
+--- kdelibs-3.5.8/kded/kbuildsycoca.cpp.orig	2008-01-13 00:02:50.824427000 +0530
++++ kdelibs-3.5.8/kded/kbuildsycoca.cpp	2008-01-13 00:03:57.631669000 +0530
+@@ -379,7 +379,7 @@
+      connect(g_vfolder, SIGNAL(newService(const QString &, KService **)),
+              this, SLOT(slotCreateEntry(const QString &, KService **)));
+              
+-     VFolderMenu::SubMenu *kdeMenu = g_vfolder->parseMenu("applications.menu", true);
++     VFolderMenu::SubMenu *kdeMenu = g_vfolder->parseMenu("kapplications.menu", true);
+ 
+      KServiceGroup *entry = g_bsgf->addNew("/", kdeMenu->directoryFile, 0, false);
+      entry->setLayoutInfo(kdeMenu->layoutList);

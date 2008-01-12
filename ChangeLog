@@ -1,3 +1,23 @@
+2008-01-13 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEfltk2.spec: 
+	  Bump version, fix download URL
+	* SFEarts.spec:
+	  Update configuration to reflect kde3 directories
+	* SUNWsqlite.spec:
+	  Fix build with gcc
+	* SFEneon.spec:
+	  Add conflict with SUNWneon
+	* SFEfam.spec:
+	* patches/fam-oss-01.patch:
+	* patches/fam-oss-02.patch:
+	  Add SGI FAM
+	* SFEkdelibs3.spec:
+	* patches/kdelibs-01-doxygen.diff:
+	* patches/kdelibs-02-libart.diff:
+	* patches/kdelibs-03-makefile.diff:
+	* patches/kdelibs-04-kmenuapps.diff:
+	  Add kdelibs 3.5.8
+
 2008-01-11 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEncurses.spec:
 	  Added proper 64-bit link flags to work with Sun Studio 11 and gcc

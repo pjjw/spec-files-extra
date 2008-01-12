@@ -1,0 +1,34 @@
+--- kdelibs-3.5.8/kdecore/svgicons/ksvgiconengine.cpp.orig	2008-01-12 13:42:43.932693000 +0530
++++ kdelibs-3.5.8/kdecore/svgicons/ksvgiconengine.cpp	2008-01-12 13:43:00.842306000 +0530
+@@ -29,6 +29,14 @@
+ 
+ #include <zlib.h>
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++#include <libart_lgpl/art_misc.h>
++#ifdef __cplusplus
++}
++#endif
++
+ #include "ksvgiconpainter.h"
+ #include "ksvgiconengine.h"
+ 
+--- kdelibs-3.5.8/kdecore/svgicons/ksvgiconpainter.cpp.orig	2008-01-12 12:54:52.957641000 +0530
++++ kdelibs-3.5.8/kdecore/svgicons/ksvgiconpainter.cpp	2008-01-12 13:42:13.979097000 +0530
+@@ -31,6 +31,14 @@
+ 
+ #include <kdebug.h>
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++#include <libart_lgpl/art_misc.h>
++#ifdef __cplusplus
++}
++#endif
++
+ #include <libart_lgpl/art_rgba.h>
+ #include <libart_lgpl/art_bpath.h>
+ #include <libart_lgpl/art_vpath.h>
