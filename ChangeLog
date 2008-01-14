@@ -1,3 +1,11 @@
+2008-01-14  simon.zheng  <simon.zheng@sun.com>
+
+	* base-specs/gnome-power-manager.spec:
+	* patches/gnome-power-manager-14-lid-shutdown.diff:
+	  - Patch to add shutdown to lid actions.
+	* patches/gnome-power-manager-15-disable-lid-beeping.diff:
+	  - Patch to diable beeping when lid is closed or opened.
+
 2008-01-13 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEfltk2.spec: 
 	  Bump version, fix download URL

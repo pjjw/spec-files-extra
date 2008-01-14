@@ -22,6 +22,8 @@ Patch10:        gnome-power-manager-10-diable-suspend-button-configration.diff
 Patch11:        gnome-power-manager-11-authorization-checking.diff
 Patch12:        gnome-power-manager-12-crash.diff       
 Patch13:	gnome-power-manager-13-beep.diff
+Patch14:        gnome-power-manager-14-lid-shutdown.diff
+Patch15:        gnome-power-manager-15-disable-lid-beeping.diff
 URL:		http://www.gnome.org/projects/gnome-power-manager/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake
@@ -84,6 +86,8 @@ Uses of GNOME Power Manager infrastructure
 %patch11 -p0
 %patch12 -p0
 %patch13 -p0
+%patch14 -p0
+%patch15 -p0
 
 %build
 %ifos linux
@@ -138,6 +142,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jau 14 2007 - simon.zheng@sun.com
+- Add gnome-power-manager-14-lid-shutdown.diff.
+- Add gnome-power-manager-15-inhibit-lid-beeping.diff to diable 
+  beeping when lid id closed or opened.
+
 * Mon Jau 07 2007 - simon.zheng@sun.com
 - Add gnome-power-manager-13-beep.diff to bugzilla bug #507789.
 

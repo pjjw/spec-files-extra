@@ -1,0 +1,20 @@
+Index: src/gpm-prefs-core.c
+===================================================================
+--- src/gpm-prefs-core.c	(revision 2632)
++++ src/gpm-prefs-core.c	(working copy)
+@@ -916,6 +916,7 @@
+ 				 ACTION_BLANK,
+ 				 ACTION_SUSPEND,
+ 				 ACTION_HIBERNATE,
++				 ACTION_SHUTDOWN,
+ 				 NULL};
+ /* Disable AC tab on Solaris Sparc in Phase 1 development */
+ #ifdef SOLARIS
+@@ -973,6 +974,7 @@
+ 				 ACTION_BLANK,
+ 				 ACTION_SUSPEND,
+ 				 ACTION_HIBERNATE,
++				 ACTION_SHUTDOWN,
+ 				 NULL};
+ 	const gchar  *battery_critical_actions[] =
+ 				{ACTION_NOTHING,

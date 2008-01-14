@@ -1,0 +1,24 @@
+Index: src/gpm-button.c
+===================================================================
+--- src/gpm-button.c	(revision 2632)
++++ src/gpm-button.c	(working copy)
+@@ -315,7 +315,9 @@
+ 			return;
+ 		}
+ 		button->priv->lid_is_closed = TRUE;
++#ifndef SOLARIS
+ 		gpm_sound_event (button->priv->sound, GPM_SOUND_LID_DOWN);
++#endif
+ 	}
+ 	if (strcmp (atype, GPM_BUTTON_LID_OPEN) == 0) {
+ 		if (button->priv->lid_is_closed == FALSE) {
+@@ -323,7 +325,9 @@
+ 			return;
+ 		}
+ 		button->priv->lid_is_closed = FALSE;
++#ifndef SOLARIS
+ 		gpm_sound_event (button->priv->sound, GPM_SOUND_LID_UP);
++#endif
+ 	}
+ 
+ 	/* the names changed in 0.5.8 */
