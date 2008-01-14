@@ -8,7 +8,7 @@
 %define kde_version 3.5.8
 
 Name:                SFEkdelibs3
-Summary:             Cross-platform development framework/toolkit (older version)
+Summary:             Base KDE3 libraries
 Version:             %{kde_version}
 Source:              http://files.kde.org/stable/%{kde_version}/src/kdelibs-%{version}.tar.bz2
 
@@ -24,6 +24,10 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 Requires: SFEgawk
 Requires: SFEqt3
 BuildRequires: SFEqt3-devel
+Requires: SFEarts
+BuildRequires: SFEarts-devel
+Requires: SFElibidn
+BuildRequires: SFElibidn-devel
 Requires: SUNWzlib
 Requires: SUNWpng
 BuildRequires: SUNWpng-devel

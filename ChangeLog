@@ -2,6 +2,8 @@
 	* SFEcyrus-sasl.spec:
 	* patches/cyrus-sasl-01.diff:
 	  Add Cyrus SASL library
+	* SFEkdelibs3.spec:
+	  Fix description and add dependencies
 
 2008-01-14  simon.zheng  <simon.zheng@sun.com>
 
