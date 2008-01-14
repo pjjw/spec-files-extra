@@ -1,0 +1,18 @@
+--- cyrus-sasl-2.1.21/saslauthd/auth_getpwent.c.orig	Sat Feb 11 23:27:33 2006
++++ cyrus-sasl-2.1.21/saslauthd/auth_getpwent.c	Sat Feb 11 23:32:01 2006
+@@ -41,6 +41,7 @@
+ #include <string.h>
+ #include <pwd.h>
+ 
++#if 0
+ # ifdef WITH_DES
+ #  ifdef WITH_SSL_DES
+ #   include <openssl/des.h>
+@@ -48,6 +49,7 @@
+ #   include <des.h>
+ #  endif /* WITH_SSL_DES */
+ # endif /* WITH_DES */
++#endif
+ 
+ #ifdef HAVE_CRYPT_H
+ #include <crypt.h>

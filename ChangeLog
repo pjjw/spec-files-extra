@@ -1,3 +1,8 @@
+2008-01-15 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEcyrus-sasl.spec:
+	* patches/cyrus-sasl-01.diff:
+	  Add Cyrus SASL library
+
 2008-01-14  simon.zheng  <simon.zheng@sun.com>
 
 	* base-specs/gnome-power-manager.spec:
