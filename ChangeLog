@@ -1,3 +1,10 @@
+2008-01-15  Halton Huo  <halton.huo@sun.com>
+
+	Update copyright to 2008
+	* SFEgtk-vnc.spec: Add Requires/BuildRequires
+	* SFEvinagre.spec: Add Requires/BuildRequires
+	* base-specs/vinagre.spec:
+
 2008-01-15 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEcyrus-sasl.spec:
 	* patches/cyrus-sasl-01.diff:

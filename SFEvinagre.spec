@@ -3,7 +3,7 @@
 #
 # includes module(s): vinagre
 #
-# Copyright (c) 2007 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -21,12 +21,38 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 Requires:           SUNWgnome-base-libs
 Requires:           SUNWgnome-libs
 Requires:           SUNWgnutls
+Requires:           SUNWlibgcrypt
+Requires:           SUNWlibgpg-error
 Requires:           SUNWavahi-bridge-dsd
+Requires:           SUNWlxml
+Requires:           SUNWgnome-vfs
+Requires:           SUNWgnome-config
+Requires:           SUNWgnome-component
+Requires:           SUNWxwrtl
+Requires:           SUNWlibm
+Requires:           SUNWmlib
+Requires:           SUNWfontconfig
+Requires:           SUNWxorg-clientlibs
+Requires:           SUNWdbus
+Requires:           SUNWopenssl-libraries
+Requires:           SUNWxwplt
+Requires:           SUNWfreetype2
+Requires:           SUNWlexpt
+Requires:           SUNWpng
 Requires:           SFEgtk-vnc
 BuildRequires:      SUNWgnome-base-libs-devel
 BuildRequires:      SUNWgnome-libs-devel
 BuildRequires:      SUNWgnutls-devel
+BuildRequires:      SUNWlibgcrypt-devel
+BuildRequires:      SUNWlibgpg-error-devel
 BuildRequires:      SUNWavahi-bridge-dsd-devel
+BuildRequires:      SUNWlxml-devel
+BuildRequires:      SUNWgnome-vfs-devel
+BuildRequires:      SUNWgnome-config-devel
+BuildRequires:      SUNWgnome-component-devel
+BuildRequires:      SUNWmlibh
+BuildRequires:      SUNWdbus-devel
+BuildRequires:      SUNWpng-devel
 BuildRequires:      SFEgtk-vnc-devel
 
 %if %build_l10n

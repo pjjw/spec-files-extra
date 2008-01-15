@@ -3,7 +3,7 @@
 #
 # includes module(s): gtk-vnc
 #
-# Copyright (c) 2007 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -23,10 +23,26 @@ Requires:           SUNWgnome-base-libs
 Requires:           SUNWgnome-libs
 Requires:           SUNWgnome-python-libs
 Requires:           SUNWgnutls
+Requires:           SUNWlibgcrypt
+Requires:           SUNWlibgpg-error
+Requires:           SUNWzlib
+Requires:           SUNWxwrtl
+Requires:           SUNWxwplt
+Requires:           SUNWmlib
+Requires:           SUNWlibm
+Requires:           SUNWfontconfig
+Requires:           SUNWfreetype2
+Requires:           SUNWxorg-clientlibs
+Requires:           SUNWpng
+Requires:           SUNWlexpt
 BuildRequires:      SUNWgnome-base-libs-devel
 BuildRequires:      SUNWgnome-libs-devel
 BuildRequires:      SUNWgnome-python-libs-devel
 BuildRequires:      SUNWgnutls-devel
+BuildRequires:      SUNWlibgcrypt-devel
+BuildRequires:      SUNWlibgpg-error-devel
+BuildRequires:      SUNWmlibh
+BuildRequires:      SUNWpng-devel
 
 %package devel
 Summary:       %{summary} - development files
