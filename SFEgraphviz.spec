@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 
@@ -39,7 +39,7 @@ BuildRequires: SUNWfreetype2
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWsfwhea
 BuildRequires: SUNWlibtool
-BuildRequires: SUNWPython
+BuildRequires: SUNWPython-devel
 BuildRequires: SUNWTcl
 BuildRequires: SUNWperl584core
 BuildRequires: SFEswig
@@ -61,7 +61,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CPPFLAGS="-I/usr/sfw/include"
+export CPPFLAGS="-I/usr/sfw/include -D_SYS_MODE_H"
 export CFLAGS="%optflags -I/usr/X11/include -I/usr/include/gd2"
 export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib -lgd"
 %if %tcl_8_3
@@ -88,7 +88,6 @@ autoconf
             --disable-lua \
             --disable-ocaml \
             --disable-php \
-            --disable-perl \
             $TCL_OPTS
 
 make -j$CPUS
@@ -138,6 +137,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/graphviz/*
 
 %changelog
+* Wed Jan 17 2008 - moinak.ghosh@sun.com
+- Do not disable perl.
+- Prevent sys/mode.h from being pulled in via perl.h by defining _SYS_MODE_H. This
+- allows the perl plugin to be built.
 * Wed Jan 16 2008 - moinak.ghosh@sun.com
 - Bump version to 2.16.1
 - Remove SUNWfontconfig-devel from BuildRequires. SUNWfontconfig package includes

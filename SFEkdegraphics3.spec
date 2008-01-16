@@ -19,6 +19,7 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 # This also brings in all relevenat deps including kdelibs, qt, aRts and others.
 Requires: SFEkdebase3
 BuildRequires: SFEkdebase3-devel
+Requires: SFEgraphviz
 
 %package devel
 Summary:        %{summary} - development files
@@ -112,5 +113,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Wed Jan 17 2008 - moinak.ghosh@sun.com
+- Add SFEgraphviz dependency.
 * Wed Jan 16 2008 - moinak.ghosh@sun.com
 - Initial spec.
