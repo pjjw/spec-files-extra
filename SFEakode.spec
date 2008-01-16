@@ -25,6 +25,7 @@ Requires: SUNWlibtool
 Requires: SUNWaudh
 BuildRequires: SFEffmpeg-devel
 BuildRequires: SFElibmad-devel
+BuildRequires: oss
 Requires: SFEjack
 BuildRequires: SFEjack-devel
 
