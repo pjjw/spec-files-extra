@@ -16,15 +16,16 @@
 
 Name:                    	SFEwesnoth
 Summary:                 	Battle for Wesnoth is a fantasy turn-based strategy game
-Version:                 	1.3.13
+Version:                 	1.3.14
 Source:                  	http://kent.dl.sourceforge.net/sourceforge/wesnoth/wesnoth-%{version}.tar.bz2
-Patch1:                         wesnoth-01-fixheaders.diff
-Patch2:                         wesnoth-02-fixgccextension.diff
-Patch3:                         wesnoth-03-fixgccism.diff
+#Patch1:                         wesnoth-01-fixheaders.diff
+#Patch2:                         wesnoth-02-fixgccextension.diff
+#Patch3:                         wesnoth-03-fixgccism.diff
 Patch4:                         wesnoth-04-fixlocale.diff
 Patch5:                         wesnoth-05-fixconfigure.diff
-Patch6:                         wesnoth-06-fixundefsymbol.diff
-Patch7:                         wesnoth-07-fixundef2.diff
+#Patch6:                         wesnoth-06-fixundefsymbol.diff
+#Patch7:                         wesnoth-07-fixundef2.diff
+Patch8:                          wesnoth-08-fixconst.diff
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 %if %SUNWlibsdl
@@ -47,14 +48,14 @@ Requires:		SUNWPython
 
 %prep
 %setup -q -n wesnoth-%version
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
+#%patch1 -p1
+#%patch2 -p1
+#%patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
-%patch7 -p1
-
+#%patch6 -p1
+#%patch7 -p1
+%patch8 -p1
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
@@ -85,6 +86,7 @@ autoconf
             --enable-shared				\
             --enable-editor                     	\
             --with-preferences-dir=".wesnoth-dev" 	\
+            --enable-python-install     \
     	    --disable-static
 
 make -j$CPUS 
@@ -122,6 +124,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jan 16 2008 - Petr Sobotka <sobotkap@centrum.cz>
+- Bump to 1.3.14
 * Sat Jan 05 2008 - Petr Sobotka <sobotkap@centrum.cz>
 - Removed --enable-dummy-locales option from configure as it cause warning 
 * Tue Jan 01 2008 - Petr Sobotka <sobotkap@centrum.cz>
