@@ -41,7 +41,8 @@ fi
 	    --mandir=%{_mandir}                 \
             --docdir=%{_datadir}/doc            \
 	    --datadir=%{_datadir}               \
-            --infodir=%{_datadir}/info
+            --infodir=%{_datadir}/info		\
+            --localstatedir=%{_localstatedir}
 	    		
 make -j$CPUS
 
@@ -69,6 +70,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Wed Jan 16 2008 - moinak.ghosh@sun.com
+- Added localstatedir to properly create /var instead of /usr/var
 * Tue Mar 20 2007 - simon.zheng@sun.com
 - initial version for pkgbuild
 - Add patch sane-backends-01-disable-saned.diff

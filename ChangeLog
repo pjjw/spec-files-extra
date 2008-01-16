@@ -18,6 +18,19 @@
 	  Add KDE admin utilities.
 	* SFEkdeartwork3.spec:
 	  Add KDE artworks package.
+	* base-specs/sane-backends.spec:
+	* SFEsane-backends.spec:
+	  Added localstatedir to properly create /var instead of /usr/var
+	* SFEgraphviz.spec:
+	* patches/graphviz-02-gd-ldflags.diff:
+	* patches/graphviz-01-arith-h.diff:
+	  Bump version to 2.16.1
+	  Remove SUNWfontconfig-devel from BuildRequires. SUNWfontconfig package
+	  includes devel components.
+	  Changed SFElibtool dep to SUNWlibtool.
+	  Remove unneeded patches.
+	* SFEkdegraphics3.spec:
+	  Added KDE graphics applications package.
 
 2008-01-15  Halton Huo  <halton.huo@sun.com>
 

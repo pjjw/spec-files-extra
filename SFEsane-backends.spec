@@ -87,6 +87,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr(0755, root, sys) %{_sysconfdir}
 %{_sysconfdir}/*
+%dir %attr (0755, root, sys) %{_localstatedir}
+%{_localstatedir}/*
 
 %files devel
 %defattr (-, root, bin)
@@ -101,6 +103,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Jan 16 2008 - moinak.ghosh@sun.com
+- Added localstatedir to properly create /var instead of /usr/var
 * Tue Mar 20 2007 - simon.zheng@sun.com
 - Split into 2 files, SFEsane-backends.spec and
   linux-specs/sane-backends.spec

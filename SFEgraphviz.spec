@@ -10,16 +10,14 @@
 
 Name:                SFEgraphviz
 Summary:             Graph drawing tools and libraries
-Version:             2.14.1
+Version:             2.16.1
 Source:              http://www.graphviz.org/pub/graphviz/ARCHIVE/graphviz-%{version}.tar.gz
-Patch1:              graphviz-01-arith-h.diff
-Patch2:              graphviz-02-gd-ldflags.diff
 URL:                 http://www.graphviz.org
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
-Requires: SFElibtool
+Requires: SUNWlibtool
 Requires: SUNWgd2
 Requires: SUNWlexpt
 Requires: SUNWfontconfig
@@ -40,13 +38,12 @@ BuildRequires: SUNWfreetype2
 %endif
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWsfwhea
-BuildRequires: SFElibtool
+BuildRequires: SUNWlibtool
 BuildRequires: SUNWPython
 BuildRequires: SUNWTcl
 BuildRequires: SUNWperl584core
 BuildRequires: SFEswig
 BuildRequires: SFEruby
-BuildRequires: SUNWfontconfig-devel
 
 %package devel
 Summary:                 %{summary} - development files
@@ -56,8 +53,6 @@ Requires: %name
 
 %prep
 %setup -q -n graphviz-%version
-%patch1 -p1
-%patch2 -p0
 
 %build
 
@@ -68,7 +63,7 @@ fi
 
 export CPPFLAGS="-I/usr/sfw/include"
 export CFLAGS="%optflags -I/usr/X11/include -I/usr/include/gd2"
-export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib"
+export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib -lgd"
 %if %tcl_8_3
 TCL_OPTS="--with-tclsh=/usr/sfw/bin/tclsh8.3 \
           --with-wish=/usr/sfw/bin/wish8.3"
@@ -143,6 +138,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/graphviz/*
 
 %changelog
+* Wed Jan 16 2008 - moinak.ghosh@sun.com
+- Bump version to 2.16.1
+- Remove SUNWfontconfig-devel from BuildRequires. SUNWfontconfig package includes
+- devel components.
+- Changed SFElibtool dep to SUNWlibtool.
+- Remove unneeded patches.
 * Thu Oct 25 2007 - nonsea@users.sourceforge.net
 - Add configure option --disale-perl 
 - Add patch gd-ldflags.diff
