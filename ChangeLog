@@ -1,3 +1,8 @@
+2008-01-16  simon.zheng  <simon.zheng@sun.com>
+
+	* patches/gnome-power-manager-07-disable-sleep-configration.diff:
+	  Rework.
+
 2008-01-16 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEkdelibs3.spec:
 	* SFEarts.spec:
