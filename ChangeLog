@@ -13,6 +13,7 @@
 	* ext-sources/kde.desktop:
 	  Added KDE3 base environment.
 	  Handle setting setuid attributes for non-root builds.
+	  Add kapplications-merged to properly get kde-essential menu.
 	* SFEkdeadmin3.spec:
 	  Add KDE admin utilities.
 	* SFEkdeartwork3.spec:

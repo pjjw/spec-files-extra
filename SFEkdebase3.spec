@@ -107,6 +107,8 @@ rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sessionsdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sessionsdir}
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/xdg/menus/kapplications-merged
+(cd $RPM_BUILD_ROOT%{_sysconfdir}/xdg/menus/kapplications-merged; ln -s ../applications-merged/kde-essential.menu)
 
 # KDE requires the .la files
 rm -f ${RPM_BUILD_ROOT}%{_libdir}/*.a
@@ -194,3 +196,4 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Jan 16 2008 - moinak.ghosh@sun.com
 - Initial spec.
 - Handle setting setuid attributes for non-root builds.
+- Add kapplications-merged to properly get kde-essential menu.
