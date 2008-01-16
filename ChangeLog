@@ -8,9 +8,15 @@
 	* SFEarts.spec:
 	  Get rid of custom kde3-prefixed datadir and includedir. Unsettles KDE3.
 	  Fix copyright year.
+	  Handle setting setuid attributes for non-root builds.
 	* SFEkdebase3.spec:
 	* ext-sources/kde.desktop:
 	  Added KDE3 base environment.
+	  Handle setting setuid attributes for non-root builds.
+	* SFEkdeadmin3.spec:
+	  Add KDE admin utilities.
+	* SFEkdeartwork3.spec:
+	  Add KDE artworks package.
 
 2008-01-15  Halton Huo  <halton.huo@sun.com>
 

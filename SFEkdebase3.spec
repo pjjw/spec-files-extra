@@ -111,13 +111,21 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_sessionsdir}
 # KDE requires the .la files
 rm -f ${RPM_BUILD_ROOT}%{_libdir}/*.a
 
+# Generate binfiles list since we have to specify
+# setuid/gid perms for two files.
+#
+(cd ${RPM_BUILD_ROOT}; find ./%{_bindir}/* | \
+    egrep -v "kcheckpass|kdesud" | sed 's/^\.\///' \
+    > %{_builddir}/kdebase-%version/kbase_binfiles)
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%files -f kbase_binfiles
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
+%attr (4755, root, bin) %{_bindir}/kcheckpass
+%attr (2755, root, bin) %{_bindir}/kdesud
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %{_libdir}/lib*.la*
@@ -169,7 +177,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/desktop-directories/*
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
-%dir %attr (0755, root, other) %{_datadir}/xsessions
+%dir %attr (0755, root, bin) %{_datadir}/xsessions
 %{_datadir}/xsessions/*
 
 %files root
@@ -183,5 +191,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
-* Web Jan 16 2008 - moinak.ghosh@sun.com
+* Wed Jan 16 2008 - moinak.ghosh@sun.com
 - Initial spec.
+- Handle setting setuid attributes for non-root builds.

@@ -123,13 +123,22 @@ mv ${RPM_BUILD_ROOT}%{_sysconfdir}/xdg/menus/applications.menu \
 
 rm -f ${RPM_BUILD_ROOT}%{_datadir}/icons/hicolor/index.theme
 
+# Generate binfiles list since we have to specify
+# setuid perms for three files.
+#
+(cd ${RPM_BUILD_ROOT}; find ./%{_bindir}/* | \
+    egrep -v "fileshareset|kgrantpty|kpac_dhcp_helper" | sed 's/^\.\///' \
+    > %{_builddir}/kdelibs-%version/klibs_binfiles)
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%files -f klibs_binfiles
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
+%attr (4755, root, bin) %{_bindir}/fileshareset
+%attr (4755, root, bin) %{_bindir}/kgrantpty
+%attr (4755, root, bin) %{_bindir}/kpac_dhcp_helper
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %{_libdir}/lib*.la*
@@ -177,5 +186,6 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Wed Jan 16 2008 - moinak.ghosh@sun.com
 - Get rid of custom kde3-prefixed datadir and includedir. Unsettles KDE3.
+- Handle setting setuid attributes for non-root builds.
 * Tue Jan 12 2008 - moinak.ghosh@sun.com
 - Initial spec.

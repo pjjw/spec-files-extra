@@ -1,0 +1,19 @@
+--- kdeartwork-3.5.8/kscreensaver/kdesavers/kclock.cpp.orig	2008-01-16 14:18:42.989300000 +0530
++++ kdeartwork-3.5.8/kscreensaver/kdesavers/kclock.cpp	2008-01-16 14:19:05.459699000 +0530
+@@ -28,8 +28,15 @@
+ #include <klocale.h>
+ #include <kmessagebox.h>
+ 
+-#include <libart_lgpl/art_affine.h>
++#ifdef __cplusplus
++extern "C" {
++#endif
+ #include <libart_lgpl/art_misc.h>
++#ifdef __cplusplus
++}
++#endif
++
++#include <libart_lgpl/art_affine.h>
+ #include <libart_lgpl/art_rgb.h>
+ #include <libart_lgpl/art_rgb_svp.h>
+ #include <libart_lgpl/art_svp_vpath.h>
