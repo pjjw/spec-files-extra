@@ -5,6 +5,8 @@
 	  Do not disable perl.
 	  Prevent sys/mode.h from being pulled in via perl.h by defining _SYS_MODE_H. This
 	  allows the perl plugin to be built.
+	* SFEakode.spec:
+	  Add audio decoding framework package.
 
 2008-01-16  simon.zheng  <simon.zheng@sun.com>
 
