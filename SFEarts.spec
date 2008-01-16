@@ -51,8 +51,6 @@ export CFLAGS="%optflags -I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/includ
 export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib"
 
 ./configure -prefix %{_prefix} \
-           --includedir %{_includedir}/kde3 \
-           --datadir %{_datadir}/kde3 \
            --sysconfdir %{_sysconfdir} \
            --enable-shared=yes \
            --enable-static=no
@@ -82,10 +80,11 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
-%dir %attr (0755, root, other) %{_includedir}/kde3
-%{_includedir}/kde3/*
+%{_includedir}/*
 
 %changelog
+* Wed Jan 16 2008 - moinak.ghosh@sun.com
+- Get rid of custom kde3-prefixed datadir and includedir. Unsettles KDE3.
 * Sat Jan 13 2008 - moinak.ghosh@sun.com
 - Update configuration to reflect kde3 directories
 * Fri Jan 11 2008 - moinak.ghosh@sun.com

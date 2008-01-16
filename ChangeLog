@@ -1,3 +1,12 @@
+2008-01-16 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEkdelibs3.spec:
+	* SFEarts.spec:
+	  Get rid of custom kde3-prefixed datadir and includedir. Unsettles KDE3.
+	  Fix copyright year.
+	* SFEkdebase3.spec:
+	* ext-sources/kde.desktop:
+	  Added KDE3 base environment.
+
 2008-01-15  Halton Huo  <halton.huo@sun.com>
 
 	Update copyright to 2008

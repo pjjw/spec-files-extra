@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 
@@ -10,7 +10,7 @@
 Name:                SFEkdelibs3
 Summary:             Base KDE3 libraries
 Version:             %{kde_version}
-Source:              http://files.kde.org/stable/%{kde_version}/src/kdelibs-%{version}.tar.bz2
+Source:              http://mirrors.isc.org/pub/kde/stable/%{kde_version}/src/kdelibs-%{version}.tar.bz2
 
 Patch1:              kdelibs-01-doxygen.diff
 Patch2:              kdelibs-02-libart.diff
@@ -26,8 +26,7 @@ Requires: SFEqt3
 BuildRequires: SFEqt3-devel
 Requires: SFEarts
 BuildRequires: SFEarts-devel
-Requires: SFElibidn
-BuildRequires: SFElibidn-devel
+Requires: SUNWgnu-idn
 Requires: SUNWzlib
 Requires: SUNWpng
 BuildRequires: SUNWpng-devel
@@ -100,8 +99,6 @@ export CXXFLAGS="%cxx_optflags -I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/
 export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib -lc -lsocket -lnsl `/usr/bin/libart2-config --libs`"
 
 ./configure -prefix %{_prefix} \
-           --includedir %{_includedir}/kde3 \
-           --datadir %{_datadir}/kde3 \
            --sysconfdir %{_sysconfdir} \
            --enable-shared=yes \
            --enable-static=no \
@@ -118,12 +115,13 @@ rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
 
-# KDE requires the .la files
-rm -f ${RPM_BUILD_ROOT}%{_libdir}/*.a
+# KDE requires the .la and the .a files
 
 # Rename to avoid conflict with Gnome's applications.menu
 mv ${RPM_BUILD_ROOT}%{_sysconfdir}/xdg/menus/applications.menu \
    ${RPM_BUILD_ROOT}%{_sysconfdir}/xdg/menus/kapplications.menu
+
+rm -f ${RPM_BUILD_ROOT}%{_datadir}/icons/hicolor/index.theme
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -137,28 +135,29 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lib*.la*
 %dir %attr (0755, root, other) %{_libdir}/kde3
 %{_libdir}/kde3/*
+
+%defattr (-, root, other)
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, other) %{_datadir}/kde3
-%dir %attr (0755, root, other) %{_datadir}/kde3/locale
-%{_datadir}/kde3/locale/*
-%dir %attr (0755, root, other) %{_datadir}/kde3/applications
-%{_datadir}/kde3/applications/*
-%dir %attr (0755, root, other) %{_datadir}/kde3/icons
-%{_datadir}/kde3/icons/*
-%dir %attr (0755, root, other) %{_datadir}/kde3/apps
-%{_datadir}/kde3/apps/*
-%dir %attr (0755, root, other) %{_datadir}/kde3/config
-%{_datadir}/kde3/config/*
-%dir %attr (0755, root, other) %{_datadir}/kde3/services
-%{_datadir}/kde3/services/*
-%dir %attr (0755, root, other) %{_datadir}/kde3/servicetypes
-%{_datadir}/kde3/servicetypes/*
-%dir %attr (0755, root, other) %{_datadir}/kde3/mimelnk
-%{_datadir}/kde3/mimelnk/*
-%dir %attr (0755, root, other) %{_datadir}/kde3/emoticons
-%{_datadir}/kde3/emoticons/*
-%dir %attr (0755, root, other) %{_datadir}/kde3/autostart
-%{_datadir}/kde3/autostart/*
+%dir %attr (0755, root, other) %{_datadir}/locale
+%{_datadir}/locale/*
+%dir %attr (0755, root, other) %{_datadir}/applications
+%{_datadir}/applications/*
+%dir %attr (0755, root, other) %{_datadir}/icons
+%{_datadir}/icons/*
+%dir %attr (0755, root, other) %{_datadir}/apps
+%{_datadir}/apps/*
+%dir %attr (0755, root, other) %{_datadir}/config
+%{_datadir}/config/*
+%dir %attr (0755, root, other) %{_datadir}/services
+%{_datadir}/services/*
+%dir %attr (0755, root, other) %{_datadir}/servicetypes
+%{_datadir}/servicetypes/*
+%dir %attr (0755, root, other) %{_datadir}/mimelnk
+%{_datadir}/mimelnk/*
+%dir %attr (0755, root, other) %{_datadir}/emoticons
+%{_datadir}/emoticons/*
+%dir %attr (0755, root, sys) %{_datadir}/autostart
+%{_datadir}/autostart/*
 
 %files root
 %defattr (-, root, sys)
@@ -168,13 +167,15 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
-%dir %attr (0755, root, other) %{_includedir}/kde3
-%{_includedir}/kde3/*
+%{_includedir}/*
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/lib*.a
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, other) %{_datadir}/kde3
-%dir %attr (0755, root, other) %{_datadir}/kde3/doc
-%{_datadir}/kde3/doc/*
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
 
 %changelog
+* Wed Jan 16 2008 - moinak.ghosh@sun.com
+- Get rid of custom kde3-prefixed datadir and includedir. Unsettles KDE3.
 * Tue Jan 12 2008 - moinak.ghosh@sun.com
 - Initial spec.
