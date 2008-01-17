@@ -16,7 +16,7 @@
 # application/ogg ogg
 #
 %define name elisa
-%define version 0.3.2
+%define version 0.3.3
 
 %include Solaris.inc
 
@@ -37,6 +37,7 @@ BuildRequires:     SFEpython-imaging
 BuildRequires:     SFEpython-setuptools
 BuildRequires:     SFEpython-twisted
 BuildRequires:     SFEpysqlite
+BuildRequires:     SFEpigment-python
 Requires:          SUNWPython
 Requires:          SUNWPython-extra
 Requires:          SUNWgnome-media
@@ -48,6 +49,7 @@ Requires:          SFEpython-imaging
 Requires:          SFEpython-setuptools
 Requires:          SFEpython-twisted
 Requires:          SFEpysqlite
+Requires:          SFEpigment-python
 
 %include default-depend.inc
 
@@ -106,13 +108,13 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %defattr(-,root,bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/elisa
-
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/python%{pythonver}/vendor-packages/elisa
 %{_libdir}/python%{pythonver}/vendor-packages/elisa-%{version}-py%{pythonver}.egg-info
-%{_libdir}/python%{pythonver}/vendor-packages/external_plugins
 
 %changelog
+* Wed Jan 16 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.3.3.  Add SFEpigment-python as a new dependency.
 * Thu Oct 25 2007 Brian Cameron  <brian.cameron@sun.com>
 - Add SUNWPython-extra dependency since it depends on elementtree.
 * Fri Oct 05 2007 Brian Cameron  <brian.cameron@sun.com>
