@@ -1,3 +1,7 @@
+2008-01-17 Michal Pryc <michal.pryc@sun.com>
+
+	* patches/tracker-02-thunderbird.diff: Support for mail body.
+
 2008-01-16  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEpigment.spec: Bump to 0.3.3

@@ -92,9 +92,82 @@ Index: tracker-trunk/src/tracker-preferences/tracker-preferences.c
  static void
 Index: tracker-trunk/src/trackerd/tracker-email-thunderbird.c
 ===================================================================
---- tracker-trunk/src/trackerd/tracker-email-thunderbird.c	(revision 1055)
+--- tracker-trunk/src/trackerd/tracker-email-thunderbird.c	(revision 1096)
 +++ tracker-trunk/src/trackerd/tracker-email-thunderbird.c	(working copy)
-@@ -192,6 +192,7 @@
+@@ -160,6 +160,7 @@
+ email_parse_mail_tms_file_and_save_new_emails (DBConnection *db_con, MailApplication mail_app, const gchar *path)
+ {
+ 	MailMessage *mail_msg;
++	MailStore *ms;
+ 
+         g_return_val_if_fail (db_con, FALSE);
+         g_return_val_if_fail (path, FALSE);
+@@ -169,17 +170,57 @@
+ 	if (!mail_msg) {
+                 return FALSE;
+         }
+-        //Check if it is valid mail message
+-            
+-        if (mail_msg->parent_mail_file->mail_app == MAIL_APP_THUNDERBIRD ) {
++	
++	if (mail_msg->parent_mail_file->mail_app == MAIL_APP_THUNDERBIRD ) {
+ //           || mail_msg->parent_mail_file->mail_app == MAIL_APP_THUNDERBIRD_FEED) {
+-                tracker_db_email_save_email (db_con, mail_msg);
+-                email_free_mail_file(mail_msg->parent_mail_file);
++	    
++	    gchar       *mbox_file;
++	    mbox_file = g_strdup(mail_msg->path);
++	
++	    if (tracker_db_email_get_mbox_id (db_con, mbox_file) == -1) {
++			gchar *uri_prefix, *message_key;
++			message_key = g_strdup_printf("#%d",mail_msg->id);
++			uri_prefix = *g_strsplit_set (mail_msg->uri, message_key, -1);
++			g_free (message_key);
++			tracker_db_email_register_mbox (db_con, MAIL_APP_THUNDERBIRD, MAIL_TYPE_MBOX ,mbox_file, mbox_file, uri_prefix);
++			g_free (uri_prefix);
++			g_free(mbox_file);
++	    }
++	
++	    ms = tracker_db_email_get_mbox_details(db_con, mail_msg->path);
++	
++	    if ( mail_msg->has_offline ) {
++		MailMessage *mail_msg_full;
++		MailFile *mf;
++		
++		mf = email_open_mail_file_at_offset(
++		        mail_msg->parent_mail_file->mail_app,
++			mail_msg->path,
++			mail_msg->offset,
++			TRUE
++		    );
++
++		mail_msg_full = email_mail_file_parse_next (mf,
++			NULL, NULL);
++		mail_msg_full->path = g_strdup(mail_msg->path);
++		mail_msg_full->store = ms;
++		mail_msg_full->uri = g_strdup(mail_msg->uri);
++		tracker_db_email_save_email (db_con, mail_msg_full);
++		email_free_mail_file(mail_msg->parent_mail_file);
+                 email_free_mail_message (mail_msg);
+-                return TRUE;
++		tracker_db_email_free_mail_store (mail_msg_full->store);
++		email_free_mail_file(mail_msg_full->parent_mail_file);
++                email_free_mail_message (mail_msg_full);
++		return TRUE;
++	    }
++	    
++	    tracker_db_email_save_email (db_con, mail_msg);
++	    email_free_mail_file(mail_msg->parent_mail_file);
++	    email_free_mail_message (mail_msg);
++	    return TRUE;
+         }
+ 
+-        email_free_mail_file(mail_msg->parent_mail_file);
++	email_free_mail_file(mail_msg->parent_mail_file);
+ 	email_free_mail_message (mail_msg);
+ 
+ 	return FALSE;
+@@ -192,6 +233,7 @@
  	MailMessage 		*mail_msg;
  	gsize			length;
  	gchar			*contents = NULL;
@@ -102,7 +175,7 @@ Index: tracker-trunk/src/trackerd/tracker-email-thunderbird.c
  	GMarkupParseContext 	*context;
  	GError 			*error = NULL;
  	TmsParserData 		*parser_data;
-@@ -211,10 +212,21 @@
+@@ -211,10 +253,21 @@
  		return mail_msg;
  	}
  
@@ -125,7 +198,7 @@ Index: tracker-trunk/src/trackerd/tracker-email-thunderbird.c
  		tracker_log ("Error parsing context with length \n");
                  goto end;
  	}
-@@ -226,6 +238,7 @@
+@@ -226,6 +279,7 @@
  
   end:
  	g_markup_parse_context_free (context);
@@ -133,3 +206,37 @@ Index: tracker-trunk/src/trackerd/tracker-email-thunderbird.c
  	g_free (contents);
  	return mail_msg;
  }
+@@ -326,10 +380,10 @@
+                                 //msg->folder = g_strdup (buffer);
+ 				break;
+ 			case TAG_FOLDER_FILE:
+-                                //msg->folder_file = g_strdup (buffer);
++                                msg->path = g_strdup (buffer);
+ 				break;
+ 			case TAG_HAS_OFFLINE:
+-                                //msg->has_offline = get_boolean_from_string (g_strdup (buffer));
++                                msg->has_offline = get_boolean_from_string (g_strdup (buffer));
+ 				break;
+ 			case TAG_MESSAGE_ID:
+                                 msg->message_id = g_strdup (buffer);
+@@ -354,7 +408,7 @@
+                                     msg->subject = g_strdup (buffer);
+                                 break;
+                         case TAG_MESSAGE_KEY:
+-                                //msg->message_key = g_strdup (buffer);
++                                msg->id = atoi (buffer);
+                                 break;
+                         case TAG_URI:
+                                 msg->uri = g_strdup (buffer);
+Index: tracker-trunk/src/trackerd/tracker-email-utils.h
+===================================================================
+--- tracker-trunk/src/trackerd/tracker-email-utils.h	(revision 1096)
++++ tracker-trunk/src/trackerd/tracker-email-utils.h	(working copy)
+@@ -120,6 +120,7 @@
+ 	gchar		*body;
+ 	GSList		*attachments;		/* names of attachments */
+ 	MailStore	*store;	
++	gboolean	has_offline;		/* 1 if message have offline body */
+ } MailMessage;
+ 
+ 
