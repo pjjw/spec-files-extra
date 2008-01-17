@@ -1,3 +1,10 @@
+2008-01-17 Michal Pryc <michal dot pryc at sun dot com>
+
+        * ext-sources/tracker-thunderbird.xpi: 
+	Patch from Mathieu Dimanche <mdimanche at free dot fr>
+        Fixed character encoding problems between Thunderbird
+        and trackerd, a.k.a. UTF-8 encoded TMS files
+
 2008-01-17 Michal Pryc <michal.pryc@sun.com>
 
 	* patches/tracker-02-thunderbird.diff: Support for mail body.
