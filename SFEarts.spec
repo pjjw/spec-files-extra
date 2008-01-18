@@ -75,7 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %dir %attr (0755, root, other) %{_libdir}/mcop
-%{_libdir}/mcop/*
+%{_libdir}/mcop/*mcop*
+%dir %attr (0755, root, other) %{_libdir}/mcop/Arts
+%{_libdir}/mcop/Arts/*
 
 %files devel
 %defattr (-, root, bin)
@@ -83,6 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sat Jan 19 2008 - moinak.ghosh@sun.com
+- Fix dir perms for usr/lib/mcop/Arts
 * Wed Jan 16 2008 - moinak.ghosh@sun.com
 - Get rid of custom kde3-prefixed datadir and includedir. Unsettles KDE3.
 * Sat Jan 13 2008 - moinak.ghosh@sun.com

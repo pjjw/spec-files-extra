@@ -1,3 +1,17 @@
+2008-01-19 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFElibcdio.spec:
+	  Set g++ as cpp compiler
+	  Added back man and info files
+	* SFEarts.spec:
+	  Fix dir perms for usr/lib/mcop/Arts
+	* SFEakode.spec:
+	  Change summary line for encumbered package
+	* base-specs/libcdio.spec:
+	  Add a compatibility symlink
+	* SFEkdemultimedia3.spec:
+	* patches/kdemultimedia-01-mpeglib.diff:
+	  Add KDE3 multimedia package
+
 2008-01-18 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEtaglib.spec:
 	  Allow build using g++

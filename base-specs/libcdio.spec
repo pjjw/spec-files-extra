@@ -62,9 +62,12 @@ make -j $CPUS
 %install
 make -i install DESTDIR=$RPM_BUILD_ROOT
 
-#Clean up unpackaged files
+# Clean up unpackaged files.
 rm $RPM_BUILD_ROOT%{_libdir}/*.a
 rm $RPM_BUILD_ROOT%{_libdir}/*la
+
+# Create symlink for compatibility with kdemultimedia
+(cd $RPM_BUILD_ROOT%{_libdir}/; ln -s libcdio_paranoia.so libcdda_paranoia.so)
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -74,13 +77,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, root)
-%{_libdir}/*.so.*
+%{_libdir}/*.so*
 
 %files devel
 %defattr(-, root, root)
 %{_libdir}/*.so
 
 %changelog
+* Fri Jan 18 2008 - moinak.ghosh@sun.com
+- Add a compatibility symlink 
 * Sat Nov 3 2007 - markwright@internode.on.net
 - Bump to 0.79.  Add libcdio-02-stdint.diff.
 * Thu Oct 18 2007 - laca@sun.com

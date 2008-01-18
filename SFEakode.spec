@@ -36,7 +36,7 @@ SUNW_BaseDir:            %{_prefix}
 Requires: %name
 
 %package encumbered
-Summary:                 %{summary} - encumbered codecs
+Summary:                 %{summary} - support for encumbered codecs
 SUNW_BaseDir:            %{_prefix}
 %include default-depend.inc
 Requires: %name
@@ -98,5 +98,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*mpeg*
 
 %changelog
+* Fri Jan 18 2008 - moinak.ghosh@sun.com
+- Change summary line for encumbered package
 * Wed Jan 17 2008 - moinak.ghosh@sun.com
 - Initial spec

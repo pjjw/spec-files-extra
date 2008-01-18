@@ -1,0 +1,11 @@
+--- kdemultimedia-3.5.8/configure.orig	2008-01-18 22:02:37.954655000 +0530
++++ kdemultimedia-3.5.8/configure	2008-01-18 22:02:53.116264000 +0530
+@@ -40846,7 +40846,7 @@
+     kde_mpeglib_compiles=yes
+     ;;
+   SunOS)
+-    kde_mpeglib_compiles=yes
++    kde_mpeglib_compiles=no
+     ;;
+   DragonFly)
+     kde_mpeglib_compiles=yes

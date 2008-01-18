@@ -64,6 +64,7 @@ cd %{_builddir}/%name-%version/libcdio-%{libcdio.version}
 %build
 export CFLAGS="%gcc_optflags"
 export CC=/usr/sfw/bin/gcc
+export CXX=/usr/sfw/bin/g++
 %if %with_hal
 export LDFLAGS="%_ldflags -lhal -ldbus-1"
 %else
@@ -75,11 +76,12 @@ export LDFLAGS="%_ldflags"
 %install
 %libcdio.install -d %name-%version
 
-rm -rf $RPM_BUILD_ROOT%{_mandir}
-rm -rf $RPM_BUILD_ROOT%{_prefix}/share
-rm -rf $RPM_BUILD_ROOT%{_prefix}/info
+#rm -rf $RPM_BUILD_ROOT%{_mandir}
+#rm -rf $RPM_BUILD_ROOT%{_prefix}/share
+#rm -rf $RPM_BUILD_ROOT%{_prefix}/info
+rm -f $RPM_BUILD_ROOT%{_prefix}/share/info/dir
 
-%{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
+#%{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -89,7 +91,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/lib*.so*
+%{_libdir}/*.so*
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/*
+%dir %attr (0755, root, bin) %{_mandir}/jp
+%dir %attr (0755, root, bin) %{_mandir}/jp/man1
+%{_mandir}/jp/man1/*
+%dir %attr (0755, root, bin) %{_infodir}
+%{_infodir}/*
 
 %files devel
 %defattr (-, root, bin)
@@ -100,6 +111,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/cdio
 
 %changelog
+* Sat Jan 19 2008 - moinak.ghosh@sun.com
+- Set g++ as cpp compiler
+- Added back man and info files
 * Sun Jan 06 2008 - moinak.ghosh@sun.com
 - Changed reference to non-existent gcc_ldflags
 * Sun Nov 4 2007 - markwright@internode.on.net
