@@ -43,3 +43,32 @@ diff -ur doxygen-1.5.2-orig/qtools/qxml.cpp doxygen-1.5.2/qtools/qxml.cpp
  		if ( !parseOk ) {
  		    d->error = XMLERR_ERRORPARSINGCHOICE;
  		    goto parseError;
+--- doxygen-1.5.4/src/index.h	2007-10-20 23:00:08.000000000 +0530
++++ doxygen-1.5.4/src/index.h.new	2008-01-18 10:24:50.038397000 +0530
+@@ -47,19 +47,19 @@
+     {
+       QListIterator<IndexIntf> li(m_intfs);
+       for (li.toFirst();li.current();++li) (li.current()->*methodPtr)();
+-    };
+-    template<typename A1>
+-    void foreach(void (IndexIntf::*methodPtr)(A1),A1 a1)
++    }
++    template<typename _A1>
++    void foreach(void (IndexIntf::*methodPtr)(_A1),_A1 a1)
+     {
+       QListIterator<IndexIntf> li(m_intfs);
+       for (li.toFirst();li.current();++li) (li.current()->*methodPtr)(a1);
+-    };
+-    template<typename A1,typename A2,typename A3,typename A4,typename A5>
+-    void foreach(void (IndexIntf::*methodPtr)(A1,A2,A3,A4,A5),A1 a1,A2 a2,A3 a3,A4 a4,A5 a5)
++    }
++    template<typename _A1,typename _A2,typename _A3,typename _A4,typename _A5>
++    void foreach(void (IndexIntf::*methodPtr)(_A1,_A2,_A3,_A4,_A5),_A1 a1,_A2 a2,_A3 a3,_A4 a4,_A5 a5)
+     {
+       QListIterator<IndexIntf> li(m_intfs);
+       for (li.toFirst();li.current();++li) (li.current()->*methodPtr)(a1,a2,a3,a4,a5);
+-    };
++    }
+ 
+   public:
+     IndexList() { m_intfs.setAutoDelete(TRUE); }

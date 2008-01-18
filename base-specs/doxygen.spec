@@ -8,7 +8,7 @@
 
 Name:           doxygen
 License:        GPL
-Version:        1.5.3
+Version:        1.5.4
 URL:            http://ftp.stack.nl/pub/users/dimitri
 Summary:        Doxygen is a documentation system for various programming languages
 Source:         http://ftp.stack.nl/pub/users/dimitri/%{name}-%{version}.src.tar.gz
@@ -18,6 +18,7 @@ Patch3:		doxygen-03-solaris-sparc.diff
 %else
 Patch3:		doxygen-03-solaris-i386.diff
 %endif
+Patch4:         doxygen-04-tmake-g++.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Docdir:         %{_defaultdocdir}/doc
 
@@ -30,6 +31,7 @@ Requires:	%{name} = %{version}
 %setup -q
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %ifos linux
@@ -45,10 +47,10 @@ fi
 
 export CFLAGS="%optflags"
 export CXXFLAGS="%cxx_optflags"
-export LDFLAGS="%_ldflags"
+export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib"
 
 ./configure --prefix %{_prefix}		\
-	    --platform solaris-cc	\
+	    --platform solaris-g++	\
 	    --docdir %{_datadir}/doc	\
 	    --release			\
 	    --shared
@@ -65,6 +67,12 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Jan 18 2008 - moinak.ghosh@sun.com
+- Bump version to 1.5.4
+- Change build configuration to solaris-g++ since SUN Studio compiled doxygen
+- dumps core while building documentation for SFEcppunit.
+- Add patch for solaris-g++ config to include /usr/gnu/lib.
+- Update nameconflict patch to remove additional conflicts.
 * Mon Jul 30 2007 - markwright@internode.on.net
 - bump to 1.5.3, remove patch1 as already applied, bump patch3.
 * Sat Apr 21 2007 - dougs@truemail.co.th

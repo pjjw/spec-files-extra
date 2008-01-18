@@ -35,7 +35,13 @@ fi
 
 export CFLAGS="%optflags"
 export CXXFLAGS="%cxx_optflags"
-export LDFLAGS="%_ldflags -lc -lCrun -lCstd"
+
+if [ "x`basename $CC`" = xgcc ]
+then
+	export LDFLAGS="%_ldflags -lc -lstdc++"
+else
+	export LDFLAGS="%_ldflags -lc -lCrun -lCstd"
+fi
 
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --libdir=%{_libdir}              \
@@ -71,5 +77,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Jan 18 2008 - moinak.ghosh@sun.com
+- Allow build using g++
 * Sun Nov 04 2007 - trisk@acm.jhu.edu
 - Initial spec

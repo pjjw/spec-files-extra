@@ -15,6 +15,8 @@ Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+BuildRequires: SFEdoxygen
+BuildRequires: SFEgraphviz
 
 %package devel
 Summary:                 %{summary} - development files
@@ -82,5 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 18 2008 - moinak.ghosh@sun.com
+- Added doxygen,graphviz as buildrequires
 * Mon May  7 2007 - dougs@truemail.co.th
 - Initial version

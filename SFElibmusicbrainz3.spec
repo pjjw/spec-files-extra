@@ -49,7 +49,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export LDFLAGS="%_ldflags -i"
+export LDFLAGS="%_ldflags -i -lstdc++"
+
 cmake	-DCMAKE_INSTALL_PREFIX:PATH=%{_prefix}				\
 	-DCMAKE_BUILD_TYPE=Release					\
 	-DCMAKE_C_COMPILER:FILEPATH=$(CC)				\
@@ -80,6 +81,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Jan 18 2008 - moinak.ghosh@sun.com
+- Add -lstdc++ to LDFLAGS otherwise build fails
 * Wed Oct 17 2007 - laca@sun.com
 - use /usr/sfw/bin/g++ because /usr/gnu/bin/g++ uses gld and ldflags
   are incompatible

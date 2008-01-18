@@ -1,0 +1,24 @@
+--- libtunepimp-0.4.2/lib/write.cpp.orig	Mon Feb 13 01:46:06 2006
++++ libtunepimp-0.4.2/lib/write.cpp	Mon Feb 13 01:47:50 2006
+@@ -1182,13 +1182,21 @@
+ 
+ bool WriteThread::diskSpaceTest(const string &fileName, unsigned long fileSize)
+ {
++#ifdef __sun__
++    struct statvfs stat;
++#else
+     struct statfs stat;
++#endif
+     string        encoding;
+    
+     encoding = tunePimp->context.getFileNameEncoding();
+ 
+     string path = extractFilePath(fileName);
++#ifdef __sun__
++    if (statvfs(utf8ToEncoding(path, encoding).c_str(), &stat) == 0)
++#else
+     if (statfs(utf8ToEncoding(path, encoding).c_str(), &stat) == 0)
++#endif
+     {
+         if (stat.f_bsize == 0)
+             return true;
