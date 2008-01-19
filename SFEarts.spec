@@ -53,7 +53,8 @@ export LDFLAGS="-L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/u
 ./configure -prefix %{_prefix} \
            --sysconfdir %{_sysconfdir} \
            --enable-shared=yes \
-           --enable-static=no
+           --enable-static=no \
+           --disable-libmad
 
 make -j$CPUS
 
@@ -88,6 +89,7 @@ rm -rf $RPM_BUILD_ROOT
 * Sat Jan 19 2008 - moinak.ghosh@sun.com
 - Fix dir perms for usr/lib/mcop/Arts
 - Do not include default CFLAGS and LDFLAGS. Causes artsd to dump core.
+- Disable libmad to avoid direct linking with encumbered lib.
 * Wed Jan 16 2008 - moinak.ghosh@sun.com
 - Get rid of custom kde3-prefixed datadir and includedir. Unsettles KDE3.
 * Sat Jan 13 2008 - moinak.ghosh@sun.com

@@ -1,0 +1,17 @@
+--- kdebase-3.5.8/startkde.orig	2008-01-19 10:20:35.354977000 +0530
++++ kdebase-3.5.8/startkde	2008-01-19 10:21:30.819083000 +0530
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/bash
+ #
+ #  DEFAULT KDE STARTUP SCRIPT ( KDE-3.5.8 )
+ #
+@@ -377,7 +377,7 @@
+ fi
+ 
+ # wait if there's any crashhandler shown
+-while dcop | grep -q ^drkonqi- ; do
++while dcop | ggrep -q ^drkonqi- ; do
+     sleep 5
+ done
+ 

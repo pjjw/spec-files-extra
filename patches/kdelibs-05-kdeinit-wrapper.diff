@@ -1,0 +1,11 @@
+--- kdelibs-3.5.8/kinit/start_kdeinit_wrapper.c.orig	2008-01-19 10:26:16.505045000 +0530
++++ kdelibs-3.5.8/kinit/start_kdeinit_wrapper.c	2008-01-19 10:26:35.914249000 +0530
+@@ -85,7 +85,7 @@
+    if(argc == 0)
+       return 1;
+    argv[0] = "start_kdeinit";
+-   execv("start_kdeinit",argv);
++   execv("/usr/bin/start_kdeinit",argv);
+    perror("start_kdeinit");
+    return 1;
+ }
