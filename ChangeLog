@@ -4,13 +4,17 @@
 	  Added back man and info files
 	* SFEarts.spec:
 	  Fix dir perms for usr/lib/mcop/Arts
+	  Do not include default CFLAGS and LDFLAGS. Causes artsd to dump core.
 	* SFEakode.spec:
 	  Change summary line for encumbered package
+	  Do not include default CFLAGS and LDFLAGS. Screws up akode.
 	* base-specs/libcdio.spec:
 	  Add a compatibility symlink
 	* SFEkdemultimedia3.spec:
 	* patches/kdemultimedia-01-mpeglib.diff:
 	  Add KDE3 multimedia package
+	* SFEkdelibs3.spec:
+	  Fix some startkde/kdeinit nits, disable debug to avoid filling up log file.
 
 2008-01-18 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEtaglib.spec:

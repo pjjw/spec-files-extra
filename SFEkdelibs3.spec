@@ -16,6 +16,7 @@ Patch1:              kdelibs-01-doxygen.diff
 Patch2:              kdelibs-02-libart.diff
 Patch3:              kdelibs-03-makefile.diff
 Patch4:              kdelibs-04-kmenuapps.diff
+Patch5:              kdelibs-05-kdeinit-wrapper.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -24,8 +25,8 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 Requires: SFEgawk
 Requires: SFEqt3
 BuildRequires: SFEqt3-devel
-Requires: SFEarts
-BuildRequires: SFEarts-devel
+#Requires: SFEarts
+#BuildRequires: SFEarts-devel
 Requires: SUNWgnu-idn
 Requires: SUNWzlib
 Requires: SUNWpng
@@ -80,6 +81,7 @@ Requires: %name
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 if [ "x`basename $CC`" != xgcc ]
 then
@@ -105,7 +107,8 @@ export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gn
            --enable-final \
            --with-ssl-dir=/usr/sfw \
            --with-extra-includes="/usr/X11/include:/usr/gnu/include:/usr/sfw/include:/usr/include/pcre" \
-           --with-gssapi=no
+           --with-gssapi=no \
+           --disable-debug
 
 
 make -j$CPUS
@@ -184,6 +187,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Sat Jan 19 2008 - moinak.ghosh@sun.com
+- Fix some startkde/kdeinit nits, disable debug to avoid filling up log file.
 * Wed Jan 16 2008 - moinak.ghosh@sun.com
 - Get rid of custom kde3-prefixed datadir and includedir. Unsettles KDE3.
 - Handle setting setuid attributes for non-root builds.

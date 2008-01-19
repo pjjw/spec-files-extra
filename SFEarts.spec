@@ -46,9 +46,9 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags -I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/include"
+export CFLAGS="-I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/include"
 
-export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib"
+export LDFLAGS="-L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib"
 
 ./configure -prefix %{_prefix} \
            --sysconfdir %{_sysconfdir} \
@@ -87,6 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Sat Jan 19 2008 - moinak.ghosh@sun.com
 - Fix dir perms for usr/lib/mcop/Arts
+- Do not include default CFLAGS and LDFLAGS. Causes artsd to dump core.
 * Wed Jan 16 2008 - moinak.ghosh@sun.com
 - Get rid of custom kde3-prefixed datadir and includedir. Unsettles KDE3.
 * Sat Jan 13 2008 - moinak.ghosh@sun.com

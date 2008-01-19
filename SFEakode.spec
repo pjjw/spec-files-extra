@@ -52,8 +52,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CPPFLAGS="-I/usr/sfw/include"
-export CFLAGS="%optflags -D__EXTENSIONS__ -fPIC"
-export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib"
+export CFLAGS="-D__EXTENSIONS__ -fPIC"
+export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib"
 
 ./configure --prefix=%{_prefix}  \
             --enable-shared=yes \
@@ -98,6 +98,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*mpeg*
 
 %changelog
+* Sat Jan 19 2008 - moinak.ghosh@sun.com
+- Do not include default CFLAGS and LDFLAGS. Screws up akode.
 * Fri Jan 18 2008 - moinak.ghosh@sun.com
 - Change summary line for encumbered package
 * Wed Jan 17 2008 - moinak.ghosh@sun.com
