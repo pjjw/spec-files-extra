@@ -1,4 +1,10 @@
 2008-01-21 Moinak Ghosh <moinak.ghosh@sun.com>
+	* encumbered/SFEogle.spec:
+	* patches/ogle-01-mmx.diff:
+	  Fixed ogle build to include libdvdcontrol, add missing dirs to package
+	  Patch to fix MediaLib and MMX usage
+
+2008-01-21 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEgnupg2.spec:
 	* patches/gnupg2-01-asschk.diff:
 	* patches/gnupg2-02-inittests.diff:
