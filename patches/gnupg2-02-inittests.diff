@@ -1,0 +1,14 @@
+--- gnupg-2.0.8/tests/inittests.orig	2008-01-20 22:13:22.574567000 +0530
++++ gnupg-2.0.8/tests/inittests	2008-01-20 22:15:22.413821000 +0530
+@@ -51,6 +51,11 @@
+     exit 0
+ fi
+ 
++#
++# Get rid of multiple forward slashes like //
++#
++GNUPGHOME=`echo "$GNUPGHOME" |  sed 's|//|/|'`
++
+ if [ "$GNUPGHOME" != "`pwd`" ]; then
+     echo "inittests: please set GNUPGHOME to the test directory" >&2
+     exit 1

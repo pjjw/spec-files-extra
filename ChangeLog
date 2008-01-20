@@ -1,3 +1,14 @@
+2008-01-21 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEgnupg2.spec:
+	* patches/gnupg2-01-asschk.diff:
+	* patches/gnupg2-02-inittests.diff:
+	  Fixed various nits.
+	  Fixed build using SUN Studio.
+	* base-specs/gnupg2.spec:
+	  Fixed l10n build.
+	* SFElibical.spec:
+	  Add iCalendar package needed by kdepim.
+
 2008-01-20 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEkdegraphics3.spec:
 	  Added kdebase-devel dep to the devel package.

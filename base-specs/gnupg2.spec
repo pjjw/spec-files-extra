@@ -29,12 +29,23 @@ these versions of PGP 2.
 %setup -n %{name}-%{version}
 
 %build
+%if %build_l10n
+CFLAGS="$RPM_OPT_FLAGS" ./configure \
+                        --prefix=%{_prefix} \
+                        --disable-agent       \
+                        --libexecdir=%{_libexecdir} \
+                        --mandir=%{_mandir} \
+                        --infodir=%{_datadir}/info \
+                        --with-included-gettext
+%else
 CFLAGS="$RPM_OPT_FLAGS" ./configure \
                         --prefix=%{_prefix} \
 			--disable-agent       \
                         --libexecdir=%{_libexecdir} \
 			--mandir=%{_mandir} \
 			--infodir=%{_datadir}/info
+%endif
+
 make 
 
 %install
@@ -74,5 +85,7 @@ fi
 %attr (0755,root,root) %{_libexecdir}/gnupg/*
 
 %changelog -n gnupg
+* Mon Jan 21 2008 - moinak.ghosh@sun.com
+- Fixed l10n build.
 * Sat Dec 29 2007 - jijun.yu@sun.com
 - Intial spec
