@@ -1,0 +1,68 @@
+--- kdenetwork-3.5.1/kopete/protocols/groupwise/libgroupwise/rtf.cc.orig	Mon Feb 13 21:13:51 2006
++++ kdenetwork-3.5.1/kopete/protocols/groupwise/libgroupwise/rtf.cc	Mon Feb 13 21:12:12 2006
+@@ -2298,7 +2298,7 @@
+ const unsigned GREEN		= 3;
+ const unsigned BLUE			= 4;
+ const unsigned CF			= 5;
+-const unsigned FS			= 6;
++const unsigned FS_			= 6;
+ const unsigned HIGHLIGHT	= 7;
+ const unsigned PARD			= 8;
+ const unsigned PAR			= 9;
+@@ -2462,7 +2462,7 @@
+                 case CF:
+                     cur_level.setFontColor(cmd_value);
+                     break;
+-                case FS:
++                case FS_:
+                     cur_level.setFontSizeHalfPoints(cmd_value);
+                     break;
+                 case HIGHLIGHT:
+--- kdenetwork-3.5.1/kopete/protocols/groupwise/libgroupwise/rtf.ll.orig	Mon Feb 13 21:13:41 2006
++++ kdenetwork-3.5.1/kopete/protocols/groupwise/libgroupwise/rtf.ll	Mon Feb 13 21:08:35 2006
+@@ -633,7 +633,7 @@
+ const unsigned GREEN		= 3;
+ const unsigned BLUE			= 4;
+ const unsigned CF			= 5;
+-const unsigned FS			= 6;
++const unsigned FS_			= 6;
+ const unsigned HIGHLIGHT	= 7;
+ const unsigned PARD			= 8;
+ const unsigned PAR			= 9;
+@@ -797,7 +797,7 @@
+                 case CF:
+                     cur_level.setFontColor(cmd_value);
+                     break;
+-                case FS:
++                case FS_:
+                     cur_level.setFontSizeHalfPoints(cmd_value);
+                     break;
+                 case HIGHLIGHT:
+--- kdenetwork-3.5.8/kopete/libkopete/avdevice/videocontrol.h.orig	2008-01-20 20:10:53.378651000 +0530
++++ kdenetwork-3.5.8/kopete/libkopete/avdevice/videocontrol.h	2008-01-20 20:14:40.265478000 +0530
+@@ -20,6 +20,16 @@
+ #ifndef KOPETE_AVVIDEOCONTROL_H
+ #define KOPETE_AVVIDEOCONTROL_H
+ 
++#if defined(sun) || defined(__sun)
++
++#include <sys/types.h>
++#define __u64 uint64_t
++#define __s64 int64_t
++#define __u32 uint32_t
++#define __s32 int32_t
++
++#else
++
+ #include <asm/types.h>
+ #undef __STRICT_ANSI__
+ #ifndef __u64 //required by videodev.h
+@@ -30,6 +40,8 @@
+ #define __s64 long long
+ #endif // __s64
+ 
++#endif // sun
++
+ #include <qstring.h>
+ #include <kdebug.h>
+ #include <qvaluevector.h>

@@ -1,0 +1,40 @@
+--- kdenetwork-3.5.1/kopete/protocols/oscar/liboscar/rtf.cc.orig	Mon Feb 13 21:17:22 2006
++++ kdenetwork-3.5.1/kopete/protocols/oscar/liboscar/rtf.cc	Mon Feb 13 21:17:57 2006
+@@ -2194,7 +2194,7 @@
+ const unsigned GREEN		= 3;
+ const unsigned BLUE			= 4;
+ const unsigned CF			= 5;
+-const unsigned FS			= 6;
++const unsigned FS_			= 6;
+ const unsigned HIGHLIGHT	= 7;
+ const unsigned PARD			= 8;
+ const unsigned PAR			= 9;
+@@ -2358,7 +2358,7 @@
+                 case CF:
+                     cur_level.setFontColor(cmd_value);
+                     break;
+-                case FS:
++                case FS_:
+                     cur_level.setFontSizeHalfPoints(cmd_value);
+                     break;
+                 case HIGHLIGHT:
+--- kdenetwork-3.5.1/kopete/protocols/oscar/liboscar/rtf.ll.orig	Mon Feb 13 21:17:33 2006
++++ kdenetwork-3.5.1/kopete/protocols/oscar/liboscar/rtf.ll	Mon Feb 13 21:18:12 2006
+@@ -631,7 +631,7 @@
+ const unsigned GREEN		= 3;
+ const unsigned BLUE			= 4;
+ const unsigned CF			= 5;
+-const unsigned FS			= 6;
++const unsigned FS_			= 6;
+ const unsigned HIGHLIGHT	= 7;
+ const unsigned PARD			= 8;
+ const unsigned PAR			= 9;
+@@ -795,7 +795,7 @@
+                 case CF:
+                     cur_level.setFontColor(cmd_value);
+                     break;
+-                case FS:
++                case FS_:
+                     cur_level.setFontSizeHalfPoints(cmd_value);
+                     break;
+                 case HIGHLIGHT:

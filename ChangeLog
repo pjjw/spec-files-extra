@@ -1,3 +1,33 @@
+2008-01-20 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEkdegraphics3.spec:
+	  Added kdebase-devel dep to the devel package.
+	* SFEkdemultimedia3.spec:
+	  Add dependencies to devel package. Added oss dependency.
+	* SFEkdeaddons3.spec:
+	  Add addon scripts/plugins package for KDE.
+	* SFEkdenetwork3.spec:
+	* patches/kdenetwork-02-oscar.diff:
+	* patches/kdenetwork-01-kopete.diff:
+	  Add official KDE network apps package.
+	* SFEkdelibs3.spec:
+	  Add dependencies to devel package. Added oss dependency.
+	* SFElibmikmod.spec:
+	  Added build dependency on oss.
+	* SFEakode.spec:
+	  Updated dependencies of devel package.
+	* SFEarts.spec:
+	  Updated devel package dependencies. Added oss dependency.
+	* SFEkdebase3.spec:
+	  Updated devel package dependency.
+	* SFExmms1.spec:
+	  Add Xmms 1.x package.
+	* SFEkdegames3.spec:
+	  Add KDE games collection package.
+	* SFEqt3.spec:
+	* patches/qt3-0004-qpixmap_constants.patch:
+	  Commented out patch 3 for now. Leaks memory like a sieve without
+	  showing any perceptible performance improvement.
+
 2008-01-19 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFElibcdio.spec:
 	  Set g++ as cpp compiler

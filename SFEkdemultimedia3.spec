@@ -40,12 +40,23 @@ BuildRequires: SUNWflac-devel
 Requires: SFElibtunepimp
 BuildRequires: SFElibtunepimp-devel
 BuildRequires: SFElibtunepimp-encumbered
+BuildRequires: oss
 
 %package devel
 Summary:        %{summary} - development files
 SUNW_BaseDir:   %{_basedir}
 %include default-depend.inc
 Requires: %name
+Requires: SFEkdebase3-devel
+Requires: SFElibcdio-devel
+Requires: SUNWgnome-audio-devel
+Requires: SFEtaglib-devel
+Requires: SFEakode-devel
+Requires: SUNWogg-vorbis-devel
+Requires: SUNWlibtheora-devel
+Requires: SUNWflac-devel
+Requires: SFElibtunepimp-devel
+Requires: oss
 
 %package root
 Summary:                 %{summary} - root
@@ -232,5 +243,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Jan 20 2008 - moinak.ghosh@sun.com
+- Add dependencies to devel package. Added oss dependency.
 * Sat Jan 19 2008 - moinak.ghosh@sun.com
 - Initial spec.

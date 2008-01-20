@@ -25,8 +25,8 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 Requires: SFEgawk
 Requires: SFEqt3
 BuildRequires: SFEqt3-devel
-#Requires: SFEarts
-#BuildRequires: SFEarts-devel
+Requires: SFEarts
+BuildRequires: SFEarts-devel
 Requires: SUNWgnu-idn
 Requires: SUNWzlib
 Requires: SUNWpng
@@ -63,6 +63,7 @@ Requires: SUNWaspell
 BuildRequires: SUNWaspell-devel
 Requires: SFEopenexr
 BuildRequires: SFEopenexr-devel
+BuildRequires: oss
 
 %package root
 Summary:                 %{summary} - root
@@ -74,6 +75,22 @@ Summary:        %{summary} - development files
 SUNW_BaseDir:   %{_basedir}
 %include default-depend.inc
 Requires: %name
+Requires: SFEqt3-devel
+Requires: SFEarts-devel
+Requires: SUNWpng-devel
+Requires: SUNWjpg-devel
+Requires: SFEdoxygen
+Requires: SFEcups-devel
+Requires: SUNWlxml-devel
+Requires: SUNWlxsl-devel
+Requires: SUNWTiff-devel
+Requires: SUNWgnome-common-devel
+Requires: SUNWgnome-base-libs-devel
+Requires: SFEfam-devel
+Requires: SUNWopenssl-include
+Requires: SUNWaspell-devel
+Requires: SFEopenexr-devel
+Requires: oss
 
 %prep
 %setup -q -n kdelibs-%version
@@ -187,6 +204,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Sun Jan 20 2008 - moinak.ghosh@sun.com
+- Add dependencies to devel package. Added oss dependency.
 * Sat Jan 19 2008 - moinak.ghosh@sun.com
 - Fix some startkde/kdeinit nits, disable debug to avoid filling up log file.
 * Wed Jan 16 2008 - moinak.ghosh@sun.com

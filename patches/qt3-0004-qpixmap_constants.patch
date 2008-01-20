@@ -1,6 +1,6 @@
---- qt-x11-free-3.3.8/src/kernel/qpixmap_x11.cpp.orig	2008-01-08 20:58:34.205490934 +0530
-+++ qt-x11-free-3.3.8/src/kernel/qpixmap_x11.cpp	2008-01-08 21:00:37.539509723 +0530
-@@ -1290,9 +1290,6 @@
+--- qt-x11-free-3.3.8/src/kernel/qpixmap_x11.cpp	2007-02-02 19:31:11.000000000 +0530
++++ src/kernel/qpixmap_x11.cpp	2008-01-20 11:40:55.009234000 +0530
+@@ -1123,9 +1123,6 @@
  	    return FALSE;
  	int    bppc = xi->bits_per_pixel;
  
@@ -10,7 +10,7 @@
  	bool contig_bits = n_bits(red_mask) == rbits &&
                             n_bits(green_mask) == gbits &&
                             n_bits(blue_mask) == bbits;
-@@ -1342,31 +1339,69 @@
+@@ -1175,31 +1172,69 @@
  	    init=TRUE;
  	}
  
@@ -96,7 +96,7 @@
  #define GET_PIXEL_DITHER_TC \
  		int r = qRed  ( *p ); \
  		int g = qGreen( *p ); \
-@@ -1387,91 +1422,177 @@
+@@ -1220,91 +1255,177 @@
  		    ? g << green_shift : g >> -green_shift; \
  		b = blue_shift  > 0 \
  		    ? b << blue_shift  : b >> -blue_shift; \
@@ -346,7 +346,7 @@
      }
  
      if ( d == 8 && !trucol ) {			// 8 bit pixmap
-@@ -1751,9 +1872,17 @@
+@@ -1554,9 +1675,17 @@
  
                  if (image.depth() == 32) {
                      const int *iptr = (const int *) image.bits();

@@ -14,12 +14,14 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
+BuildRequires: oss
 
 %package devel
 Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
+Requires: oss
 
 %prep
 %setup -q -n libmikmod-%tarball_version
@@ -70,6 +72,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Sun Jan 20 2008 - moinak.ghosh@sun.com
+- Added build dependency on oss.
 * Mon Jun 12 2006 - laca@sun.com
 - renamed to SFElibmikmod
 - changed to root:bin to follow other JDS pkgs.

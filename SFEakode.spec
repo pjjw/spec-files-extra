@@ -34,6 +34,12 @@ Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_prefix}
 %include default-depend.inc
 Requires: %name
+Requires: SUNWogg-vorbis-devel
+Requires: SUNWspeex-devel
+Requires: SFEffmpeg-devel
+Requires: SFElibmad-devel
+Requires: oss
+Requires: SFEjack-devel
 
 %package encumbered
 Summary:                 %{summary} - support for encumbered codecs
@@ -98,6 +104,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*mpeg*
 
 %changelog
+* Sun Jan 20 2008 - moinak.ghosh@sun.com
+- Updated dependencies of devel package
 * Sat Jan 19 2008 - moinak.ghosh@sun.com
 - Do not include default CFLAGS and LDFLAGS. Screws up akode.
 * Fri Jan 18 2008 - moinak.ghosh@sun.com

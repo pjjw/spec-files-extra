@@ -7,10 +7,10 @@
 
 %define kde_version 3.5.8
 
-Name:                SFEkdegraphics3
-Summary:             A collection of graphics applications for KDE
+Name:                SFEkdegames3
+Summary:             KDE Games collection
 Version:             %{kde_version}
-Source:              http://mirrors.isc.org/pub/kde/stable/%{kde_version}/src/kdegraphics-%{version}.tar.bz2
+Source:              http://mirrors.isc.org/pub/kde/stable/%{kde_version}/src/kdegames-%{version}.tar.bz2
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -19,7 +19,9 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 # This also brings in all relevenat deps including kdelibs, qt, aRts and others.
 Requires: SFEkdebase3
 BuildRequires: SFEkdebase3-devel
-Requires: SFEgraphviz
+Requires: SUNWlibsdl
+BuildRequires: SUNWlibsdl-devel
+Requires: SFEdoxygen
 
 %package devel
 Summary:        %{summary} - development files
@@ -27,9 +29,10 @@ SUNW_BaseDir:   %{_basedir}
 %include default-depend.inc
 Requires: %name
 Requires: SFEkdebase3-devel
+Requires: SUNWlibsdl-devel
 
 %prep
-%setup -q -n kdegraphics-%version
+%setup -q -n kdegames-%version
 
 if [ "x`basename $CC`" != xgcc ]
 then
@@ -44,7 +47,7 @@ fi
 
 export CFLAGS="%optflags -fPIC -I/usr/X11/include -I/usr/gnu/include -I/usr/gnu/include/sasl -I/usr/sfw/include -I/usr/include/pcre `/usr/bin/libart2-config --cflags` -D__C99FEATURES__ -D__EXTENSIONS__"
 
-export CXXFLAGS="%cxx_optflags -I/usr/X11/include -I/usr/gnu/include -I/usr/gnu/include/sasl -I/usr/sfw/include -I/usr/include/pcre `/usr/bin/libart2-config --cflags` -D__C99FEATURES__ -D__EXTENSIONS__"
+export CXXFLAGS="%cxx_optflags -fPIC -I/usr/X11/include -I/usr/gnu/include -I/usr/gnu/include/sasl -I/usr/sfw/include -I/usr/include/pcre `/usr/bin/libart2-config --cflags` -D__C99FEATURES__ -D__EXTENSIONS__"
 
 export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib -lc -lsocket -lnsl `/usr/bin/libart2-config --libs`"
 
@@ -57,8 +60,7 @@ export PATH="${PATH}:/usr/openwin/bin"
            --enable-shared=yes \
            --enable-static=no \
            --enable-final \
-           --with-extra-includes="/usr/X11/include:/usr/gnu/include:/usr/gnu/include/sasl:/usr/sfw/include:/usr/include/pcre" \
-           --without-kamera
+           --with-extra-includes="/usr/X11/include:/usr/gnu/include:/usr/gnu/include/sasl:/usr/sfw/include:/usr/include/pcre"
 
 
 make -j$CPUS
@@ -91,16 +93,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/apps
 %{_datadir}/apps/*
-%dir %attr (0755, root, other) %{_datadir}/applnk
-%{_datadir}/applnk/*
 %dir %attr (0755, root, other) %{_datadir}/mimelnk
 %{_datadir}/mimelnk/*
 %dir %attr (0755, root, other) %{_datadir}/config.kcfg
 %{_datadir}/config.kcfg/*
 %dir %attr (0755, root, other) %{_datadir}/services
 %{_datadir}/services/*
-%dir %attr (0755, root, other) %{_datadir}/servicetypes
-%{_datadir}/servicetypes/*
 %dir %attr (0755, root, other) %{_datadir}/config
 %{_datadir}/config/*
 
@@ -115,8 +113,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Sun Jan 20 2008 - moinak.ghosh@sun.com
-- Added kdebase-devel dep to the devel package.
-* Wed Jan 17 2008 - moinak.ghosh@sun.com
-- Add SFEgraphviz dependency.
-* Wed Jan 16 2008 - moinak.ghosh@sun.com
 - Initial spec.

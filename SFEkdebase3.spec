@@ -38,6 +38,7 @@ Summary:        %{summary} - development files
 SUNW_BaseDir:   %{_basedir}
 %include default-depend.inc
 Requires: %name
+Requires: SFEkdelibs3-devel
 
 %prep
 %setup -q -n kdebase-%version
@@ -195,6 +196,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sun Jan 20 2008 - moinak.ghosh@sun.com
+- Updated devel package dependency.
 * Sat Jan 19 2008 - moinak.ghosh@sun.com
 - Handle a few startkde nits
 * Wed Jan 16 2008 - moinak.ghosh@sun.com

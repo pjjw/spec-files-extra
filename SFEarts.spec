@@ -28,14 +28,22 @@ Requires: SFElibmad
 BuildRequires: SFElibmad-devel
 Requires: SFEjack
 BuildRequires: SFEjack-devel
-#Requires: SFEnas
 BuildRequires: SFEnas-devel
+BuildRequires: oss
 
 %package devel
 Summary:        %{summary} - development files
 SUNW_BaseDir:   %{_basedir}
 %include default-depend.inc
 Requires: %name
+Requires: SFEqt3-devel
+Requires: SUNWgnome-audio-devel
+Requires: SUNWgnome-base-libs-devel
+Requires: SUNWogg-vorbis-devel
+Requires: SFElibmad-devel
+Requires: SFEjack-devel
+Requires: SFEnas-devel
+Requires: oss
 
 %prep
 %setup -q -n arts-%{version}
@@ -86,6 +94,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sun Jan 20 2008 - moinak.ghosh@sun.com
+- Updated devel package dependencies. Added oss dependency.
 * Sat Jan 19 2008 - moinak.ghosh@sun.com
 - Fix dir perms for usr/lib/mcop/Arts
 - Do not include default CFLAGS and LDFLAGS. Causes artsd to dump core.

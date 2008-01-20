@@ -12,7 +12,7 @@ Source:              ftp://ftp.trolltech.com/qt/source/qt-x11-free-%{version}.ta
 
 Patch1:             qt3-0001-dnd_optimization.patch
 Patch2:             qt3-0002-dnd_active_window_fix.patch
-Patch3:             qt3-0003-qpixmap_mitshm.patch
+#Patch3:             qt3-0003-qpixmap_mitshm.patch
 Patch4:             qt3-0004-qpixmap_constants.patch
 Patch5:             qt3-0005-qiconview-finditem.patch
 Patch6:             qt3-0006-qiconview-rebuildcontainer.patch
@@ -46,7 +46,7 @@ Requires: SUNWxwxft
 # The above also pulls in SUNWfreetype2
 Requires: SFEcups
 BuildRequires: SFEcups-devel
-BuildRequires: SFEsqlite-devel
+BuildRequires: SUNWsqlite-devel
 BuildRequires: SUNWsfwhea
 BuildRequires: SUNWpostgr-devel
 
@@ -60,7 +60,7 @@ Requires: %name
 %setup -q -n qt-x11-free-%version
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
+#%patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
@@ -92,7 +92,8 @@ then
 else
 	PLATFORM=solaris-g++
 fi
-export CFLAGS="%optflags -I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/include -I/usr/include/pgsql -I/usr/include/pgsql/server -I/usr/sfw/include/mysql -DQT_MITSHM"
+export CFLAGS="%optflags -I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/include -I/usr/include/pgsql -I/usr/include/pgsql/server -I/usr/sfw/include/mysql"
+#export CXXFLAGS=$CFLAGS
 
 export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib -L%{_builddir}/qt-x11-free-%{version}/lib"
 export LD_LIBRARY_PATH="/usr/lib:/usr/X11/lib:/usr/gnu/lib:/usr/sfw/lib:%{_builddir}/qt-x11-free-%{version}/lib"
@@ -125,7 +126,6 @@ export LD_LIBRARY_PATH="/usr/lib:/usr/X11/lib:/usr/gnu/lib:/usr/sfw/lib:%{_build
            -I/usr/include/pgsql -I/usr/include/pgsql/server \
            -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib \
            -L/usr/sfw/lib -R/usr/sfw/lib \
-           -DQT_MITSHM \
            -v
 
 make -j$CPUS
@@ -165,6 +165,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Sun Jan 20 2008 - moinak.ghosh@sun.com
+- Commented out patch 3 for now. Leaks memory like a sieve without
+- showing any perceptible performance improvement.
 * Fri Jan 11 2008 - moinak.ghosh@sun.com
 - Fix Postgres dependency
 - Fix copyright year
