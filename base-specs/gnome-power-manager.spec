@@ -24,6 +24,7 @@ Patch12:        gnome-power-manager-12-crash.diff
 Patch13:	gnome-power-manager-13-beep.diff
 Patch14:        gnome-power-manager-14-lid-shutdown.diff
 Patch15:        gnome-power-manager-15-disable-lid-beeping.diff
+Patch16:        gnome-power-manager-16-brightness-reduction.diff
 URL:		http://www.gnome.org/projects/gnome-power-manager/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake
@@ -88,6 +89,7 @@ Uses of GNOME Power Manager infrastructure
 %patch13 -p0
 %patch14 -p0
 %patch15 -p0
+%patch16 -p0
 
 %build
 %ifos linux
@@ -142,6 +144,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jau 21 2007 - simon.zheng@sun.com
+- Add gnome-power-manager-16-brightness-reduction.diff to fix
+  bugzilla bug #510068.
+- Rework gnome-power-manager-11-authrization-checking.diff to
+  add cpufreq policy auth checking.
+
 * Mon Jau 14 2007 - simon.zheng@sun.com
 - Add gnome-power-manager-14-lid-shutdown.diff.
 - Add gnome-power-manager-15-inhibit-lid-beeping.diff to diable 

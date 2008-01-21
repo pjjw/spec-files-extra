@@ -99,13 +99,68 @@
  	return out_is_allowed;
  }
  
---- src/Makefile.am.org	2007-12-20 17:16:53.952028000 +0800
-+++ src/Makefile.am	2007-12-20 17:17:41.498664000 +0800
-@@ -214,6 +216,7 @@
+--- src/gpm-prefs-core.c.org	2008-01-17 11:54:00.119993000 +0800
++++ src/gpm-prefs-core.c	2008-01-21 14:14:40.842045000 +0800
+@@ -45,6 +45,9 @@
+ #include "gpm-stock-icons.h"
+ #include "gpm-screensaver.h"
+ #include "gpm-prefs-server.h"
++#ifdef SOLARIS
++#include "gpm-polkit.h"
++#endif
+ 
+ static void     gpm_prefs_class_init (GpmPrefsClass *klass);
+ static void     gpm_prefs_init       (GpmPrefs      *prefs);
+@@ -958,7 +961,12 @@
+ 		widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_ac_lid");
+ 		gtk_widget_hide_all (widget);
+ 	}
++#ifdef SOLARIS
++	if (prefs->priv->hal_cpufreq == NULL 
++	   || gpm_polkit_is_user_privileged (NULL, "hal-power-cpu") == FALSE ) {
++#else
+ 	if (prefs->priv->hal_cpufreq == NULL) {
++#endif
+ 		widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_ac_cpu");
+ 		gtk_widget_hide_all (widget);
+ 	}
+@@ -1056,7 +1067,12 @@
+ 		widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_battery_lid");
+ 		gtk_widget_hide_all (widget);
+ 	}
++#ifdef SOLARIS
++        if (prefs->priv->hal_cpufreq == NULL
++           || gpm_polkit_is_user_privileged (NULL, "hal-power-cpu") == FALSE ) {
++#else
+ 	if (prefs->priv->hal_cpufreq == NULL) {
++#endif
+ 		widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_battery_cpu");
+ 		gtk_widget_hide_all (widget);
+ 	}
+--- src/Makefile.am.orig	2007-11-02 06:43:22.000000000 +0800
++++ src/Makefile.am	2008-01-21 14:51:32.193850000 +0800
+@@ -105,6 +105,8 @@
+ 	gpm-common.c					\
+ 	gpm-screensaver.h				\
+ 	gpm-screensaver.c				\
++	gpm-polkit.h					\
++	gpm-polkit.c					\
+ 	$(NULL)
+ 
+ gnome_power_preferences_LDADD =				\
+@@ -115,6 +117,7 @@
  	$(GPM_EXTRA_LIBS)				\
  	$(LOCAL_LIBHAL_LIBS)				\
  	$(LOCAL_LIBDBUS_LIBS)				\
-+	-lpolkit
++	-lpolkit					\
+ 	$(NULL)
+ 
+ if HAVE_GTKUNIQUE
+@@ -214,6 +217,7 @@
+ 	$(GPM_EXTRA_LIBS)				\
+ 	$(LOCAL_LIBHAL_LIBS)				\
+ 	$(LOCAL_LIBDBUS_LIBS)				\
++	-lpolkit					\
  	$(NULL)
  
  if HAVE_LIBNOTIFY

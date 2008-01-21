@@ -1,3 +1,14 @@
+2008-01-21  simon.zheng  <simon.zheng@sun.com>
+
+	* base-specs/gnome-power-manager.spec:
+	  Correct tarball download website.
+	* base-specs/gnome-device-manager.spec:
+	* patches/gnome-power-manager-07-disable-sleep-configration.diff:
+	* patches/gnome-power-manager-11-authorization-checking.diff:
+	  Rework them to add cpufreq auth checking.
+	* patches/gnome-power-manager-16-brightness-reduction.diff:
+	  Add this patch to fix bugzilla bug #510068.
+
 2008-01-21 Moinak Ghosh <moinak.ghosh@sun.com>
 	* encumbered/SFEogle.spec:
 	* patches/ogle-01-mmx.diff:

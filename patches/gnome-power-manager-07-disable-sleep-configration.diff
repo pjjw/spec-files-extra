@@ -1,24 +1,5 @@
---- src/Makefile.am.org	2007-12-17 18:58:48.299754000 +0800
-+++ src/Makefile.am	2007-12-17 18:56:36.079825000 +0800
-@@ -105,6 +105,8 @@
- 	gpm-common.c					\
- 	gpm-screensaver.h				\
- 	gpm-screensaver.c				\
-+	gpm-brightness-lcd.h				\
-+	gpm-brightness-lcd.c				\
- 	$(NULL)
- 
- gnome_power_preferences_LDADD =				\
 --- src/gpm-prefs-core.c.org	2007-12-20 16:54:37.514707000 +0800
 +++ src/gpm-prefs-core.c	2007-12-20 16:17:57.171458000 +0800
-@@ -44,6 +44,7 @@
- #include "gpm-stock-icons.h"
- #include "gpm-screensaver.h"
- #include "gpm-prefs-server.h"
-+#include "gpm-brightness-lcd.h"
- 
- static void     gpm_prefs_class_init (GpmPrefsClass *klass);
- static void     gpm_prefs_init       (GpmPrefs      *prefs);
 @@ -917,6 +918,21 @@
  				 ACTION_SUSPEND,
  				 ACTION_HIBERNATE,
@@ -30,7 +11,7 @@
 +
 +        if ((prefs->priv->has_button_lid == FALSE)
 +	    && (prefs->priv->hal_cpufreq == FALSE)
-+	    && (gpm_brightness_lcd_has_hw () == FALSE)) {
++	    && (prefs->priv->has_lcd == FALSE)) {
 +                notebook = glade_xml_get_widget (prefs->priv->glade_xml, "notebook_preferences");
 +                widget = glade_xml_get_widget (prefs->priv->glade_xml, "vbox_ac");
 +                page = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), GTK_WIDGET (widget));
@@ -51,7 +32,7 @@
 +	widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_ac_computer");
 +	gtk_widget_hide_all (widget);
 +
-+	if (gpm_brightness_lcd_has_hw () == FALSE) {
++	if (prefs->priv->has_lcd == FALSE) {
 +		widget = glade_xml_get_widget (prefs->priv->glade_xml, "vbox_ac_display");
 +		gtk_widget_hide_all (widget);
 +	} else {
@@ -74,7 +55,7 @@
 +        widget = glade_xml_get_widget (prefs->priv->glade_xml, "hbox_battery_computer");
 +        gtk_widget_hide_all (widget);
 +
-+        if (gpm_brightness_lcd_has_hw () == FALSE) {
++        if (prefs->priv->has_lcd == FALSE) {
 +                widget = glade_xml_get_widget (prefs->priv->glade_xml, "vbox_battery_display");
 +                gtk_widget_hide_all (widget);
 +        } else {
