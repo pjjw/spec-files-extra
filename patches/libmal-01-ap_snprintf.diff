@@ -1,0 +1,18 @@
+--- libmal-0.44/malsync/mal/common/AGUtilUnix.h.orig	2008-01-21 21:32:09.661352000 +0530
++++ libmal-0.44/malsync/mal/common/AGUtilUnix.h	2008-01-21 21:32:21.664886000 +0530
+@@ -41,15 +41,6 @@
+ #define min(a,b)  ((a) < (b) ? (a) : (b))
+ #endif /* !min */
+ 
+-#ifdef __sun__
+-#ifndef MALSYNC
+-#include <httpd.h>
+-#include <ap.h>
+-#endif
+-#define snprintf ap_snprintf
+-#define vsnprintf ap_vsnprintf
+-#endif
+-
+ #endif /* __unix__ */
+ 
+ #ifdef __cplusplus

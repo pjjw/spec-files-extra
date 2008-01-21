@@ -1,3 +1,13 @@
+2008-01-21 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEgnokii.spec
+	* patches/gnokii-01-uint8.diff
+	* patches/gnokii-02-utils.diff
+	* patches/gnokii-03-makefile.diff
+	* patches/libmal-01-ap_snprintf.diff
+	  Added mobile phone interfacing utilities package.
+	* SFElibmal.spec
+	  Added malsync library needed by kdepim.
+
 2008-01-21  simon.zheng  <simon.zheng@sun.com>
 
 	* base-specs/gnome-power-manager.spec:

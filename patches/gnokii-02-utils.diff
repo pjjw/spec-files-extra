@@ -1,0 +1,15 @@
+--- gnokii-0.6.22/gnokii/gnokii-utils.c.orig	2008-01-21 22:56:48.744208000 +0530
++++ gnokii-0.6.22/gnokii/gnokii-utils.c	2008-01-21 22:57:18.462032000 +0530
+@@ -44,6 +44,12 @@
+ #include <stdio.h>
+ #include <signal.h>
+ 
++#if defined(__sun__) || defined (__sun)
++#include <fcntl.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++#endif
++
+ #include "gnokii-app.h"
+ #include "gnokii.h"
+ 

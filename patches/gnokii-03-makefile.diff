@@ -1,0 +1,21 @@
+--- gnokii-0.6.22/xgnokii/Makefile.orig	2007-11-24 17:01:01.000000000 +0530
++++ gnokii-0.6.22/xgnokii/Makefile	2008-01-21 23:35:24.928984000 +0530
+@@ -51,10 +51,14 @@
+ 	$(LIBTOOL) --mode=install $(INSTALL) xgnokii $(DESTDIR)$(xbindir)
+ 	$(INSTALL) -d $(DESTDIR)$(xgnokii_libdir)/help
+ 	( cd $(HELP_DIR); \
+-	  $(FIND) . -type d \! -path "*CVS*" \
+-	       -exec $(INSTALL) -d $(DESTDIR)$(xgnokii_libdir)/help/{} \; ; \
+-	  $(FIND) . -type f \! -path "*CVS*" \
+-	       -exec $(INSTALL_DATA) {} $(DESTDIR)$(xgnokii_libdir)/help/{} \; \
++	  for d in `$(FIND) . -type d | grep -v CVS`; \
++	  do \
++	    $(INSTALL) -d $(DESTDIR)$(xgnokii_libdir)/help/$$d; \
++	  done; \
++	  for f in `$(FIND) . -type f | grep -v CVS`; \
++	  do \
++	    $(INSTALL_DATA) $$f $(DESTDIR)$(xgnokii_libdir)/help/$$f; \
++	  done; \
+ 	)
+ 	$(INSTALL_DATA) ../Docs/CREDITS $(DESTDIR)$(xgnokii_libdir)/help/en_US
+ 	$(INSTALL_DATA) ../COPYING $(DESTDIR)$(xgnokii_libdir)/help/en_US

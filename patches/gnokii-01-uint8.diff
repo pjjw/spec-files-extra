@@ -1,0 +1,31 @@
+--- gnokii-0.6.22/include/compat.h.orig	2008-01-21 22:37:18.461126000 +0530
++++ gnokii-0.6.22/include/compat.h	2008-01-21 22:37:28.342497000 +0530
+@@ -285,7 +285,7 @@
+ #endif
+ 
+ #ifndef HAVE_U_INT8_T
+-	typedef u_int_8_t;
++	typedef unsigned char u_int_8_t;
+ #endif
+ 
+ #ifdef HAVE_WCRTOMB
+--- gnokii-0.6.22/include/devices/dku2libusb.h.orig	2008-01-21 22:42:01.665681000 +0530
++++ gnokii-0.6.22/include/devices/dku2libusb.h	2008-01-21 22:42:11.446219000 +0530
+@@ -92,12 +92,12 @@
+ /* "Union Functional Descriptor" from CDC spec 5.2.3.X
+  * used to find data/slave DKU2 FBUS interface */
+ struct cdc_union_desc {
+-	u_int8_t      bLength;
+-	u_int8_t      bDescriptorType;
+-	u_int8_t      bDescriptorSubType;
++	uint8_t      bLength;
++	uint8_t      bDescriptorType;
++	uint8_t      bDescriptorSubType;
+ 
+-	u_int8_t      bMasterInterface0;
+-	u_int8_t      bSlaveInterface0;
++	uint8_t      bMasterInterface0;
++	uint8_t      bSlaveInterface0;
+ } __attribute__ ((packed));
+ 
+ /* Nokia is the vendor we are interested in */
