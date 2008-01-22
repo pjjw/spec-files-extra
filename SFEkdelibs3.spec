@@ -117,8 +117,8 @@ export CXXFLAGS="%cxx_optflags -I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/
 
 export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib -lc -lsocket -lnsl `/usr/bin/libart2-config --libs`"
 
-./configure -prefix %{_prefix} \
-           --sysconfdir %{_sysconfdir} \
+./configure --prefix=%{_prefix} \
+           --sysconfdir=%{_sysconfdir} \
            --enable-shared=yes \
            --enable-static=no \
            --enable-final \
@@ -204,6 +204,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Tue Jan 22 2008 - moinak.ghosh@sun.com
+- Fixed typo in configure options.
 * Sun Jan 20 2008 - moinak.ghosh@sun.com
 - Add dependencies to devel package. Added oss dependency.
 * Sat Jan 19 2008 - moinak.ghosh@sun.com

@@ -1,11 +1,28 @@
+2008-01-22 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEkdegraphics3.spec:
+	* SFEkdemultimedia3.spec:
+	* SFEkdeaddons3.spec:
+	* SFEkdenetwork3.spec:
+	* SFEkdelibs3.spec:
+	* SFEkdebase3.spec:
+	* SFEkdeadmin3.spec:
+	* SFEkdegames3.spec:
+	* SFEkdeartwork3.spec:
+	  Fixed a typo in configure script options.
+	* SFEkdeaccessibility3.spec
+	  Added KDE accessibility tools package.
+	* SFEkdepim3.spec:
+	* patches/kdepim-01-kalarm.diff:
+	  Added KDE PIM tools package.
+
 2008-01-21 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEgnokii.spec
 	* patches/gnokii-01-uint8.diff
 	* patches/gnokii-02-utils.diff
 	* patches/gnokii-03-makefile.diff
-	* patches/libmal-01-ap_snprintf.diff
 	  Added mobile phone interfacing utilities package.
 	* SFElibmal.spec
+	* patches/libmal-01-ap_snprintf.diff
 	  Added malsync library needed by kdepim.
 
 2008-01-21  simon.zheng  <simon.zheng@sun.com>

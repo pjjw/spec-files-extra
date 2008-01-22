@@ -95,8 +95,8 @@ export LIBS=$LDFLAGS
 
 export PATH="${PATH}:/usr/openwin/bin"
 
-./configure -prefix %{_prefix} \
-           --sysconfdir %{_sysconfdir} \
+./configure --prefix=%{_prefix} \
+           --sysconfdir=%{_sysconfdir} \
            --enable-shared=yes \
            --enable-static=no \
            --enable-final \
@@ -243,6 +243,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jan 22 2008 - moinak.ghosh@sun.com
+- Fixed typo in configure options.
 * Sun Jan 20 2008 - moinak.ghosh@sun.com
 - Add dependencies to devel package. Added oss dependency.
 * Sat Jan 19 2008 - moinak.ghosh@sun.com

@@ -1,0 +1,11 @@
+--- /tmp/dcophandler.cpp.orig	2008-01-22 09:43:06.848250490 +0530
++++ kalarm/dcophandler.cpp	2008-01-22 09:10:11.797835000 +0530
+@@ -479,7 +479,7 @@
+ 	kdDebug(5950) << "DcopHandlerOld::process(): " << func << endl;
+ 	enum
+ 	{
+-		ERR            = 0,
++		ERR_            = 0,
+ 		OPERATION      = 0x0007,    // mask for main operation
+ 		  HANDLE       = 0x0001,
+ 		  CANCEL       = 0x0002,

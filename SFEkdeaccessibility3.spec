@@ -7,11 +7,10 @@
 
 %define kde_version 3.5.8
 
-Name:                SFEkdeartwork3
-Summary:             Additional Artwork (themes, wallpapers etc.) for KDE
+Name:                SFEkdeaccessibility3
+Summary:             Accessibility Aids For KDE in the official release
 Version:             %{kde_version}
-Source:              http://mirrors.isc.org/pub/kde/stable/%{kde_version}/src/kdeartwork-%{version}.tar.bz2
-Patch1:              kdeartwork-01-libart.diff
+Source:              http://mirrors.isc.org/pub/kde/stable/%{kde_version}/src/kdeaccessibility-%{version}.tar.bz2
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -22,8 +21,7 @@ Requires: SFEkdebase3
 BuildRequires: SFEkdebase3-devel
 
 %prep
-%setup -q -n kdeartwork-%version
-%patch1 -p1
+%setup -q -n kdeaccessibility-%version
 
 if [ "x`basename $CC`" != xgcc ]
 then
@@ -36,11 +34,11 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags -fPIC -I/usr/X11/include -I/usr/gnu/include -I/usr/gnu/include/sasl -I/usr/sfw/include -I/usr/include/pcre `/usr/bin/libart2-config --cflags` -D__C99FEATURES__ -D__EXTENSIONS__"
+export CFLAGS="%optflags -fPIC -I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/include -D__C99FEATURES__ -D__EXTENSIONS__"
 
-export CXXFLAGS="%cxx_optflags -I/usr/X11/include -I/usr/gnu/include -I/usr/gnu/include/sasl -I/usr/sfw/include -I/usr/include/pcre `/usr/bin/libart2-config --cflags` -D__C99FEATURES__ -D__EXTENSIONS__"
+export CXXFLAGS="%cxx_optflags -I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/include -D__C99FEATURES__ -D__EXTENSIONS__"
 
-export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib -lc -lsocket -lnsl `/usr/bin/libart2-config --libs` -lartsflow -lartsflow_idl"
+export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib -lc -lsocket -lnsl"
 
 export LIBS=$LDFLAGS
 
@@ -51,7 +49,8 @@ export PATH="${PATH}:/usr/openwin/bin"
            --enable-shared=yes \
            --enable-static=no \
            --enable-final \
-           --with-extra-includes="/usr/X11/include:/usr/gnu/include:/usr/gnu/include/sasl:/usr/sfw/include:/usr/include/pcre"
+           --with-extra-includes="/usr/X11/include:/usr/gnu/include:/usr/sfw/include" \
+           --with-pic
 
 
 make -j$CPUS
@@ -71,6 +70,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/lib*.so*
+%{_libdir}/lib*.la*
 %dir %attr (0755, root, other) %{_libdir}/kde3
 %{_libdir}/kde3/*
 
@@ -78,21 +79,27 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/icons
 %{_datadir}/icons/*
-%dir %attr (0755, root, other) %{_datadir}/emoticons
-%{_datadir}/emoticons/*
+%dir %attr (0755, root, other) %{_datadir}/applications
+%{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/apps
 %{_datadir}/apps/*
 %dir %attr (0755, root, other) %{_datadir}/applnk
 %{_datadir}/applnk/*
-%dir %attr (0755, root, other) %{_datadir}/wallpapers
-%{_datadir}/wallpapers/*
+%dir %attr (0755, root, other) %{_datadir}/services
+%{_datadir}/services/*
+%dir %attr (0755, root, other) %{_datadir}/servicetypes
+%{_datadir}/servicetypes/*
+%dir %attr (0755, root, other) %{_datadir}/config
+%{_datadir}/config/*
 
 %defattr (-, root, bin)
-%dir %attr (0755, root, bin) %{_datadir}/sounds
-%{_datadir}/sounds/*
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
+
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
 
 %changelog
 * Tue Jan 22 2008 - moinak.ghosh@sun.com
-- Fixed typo in configure options.
-* Wed Jan 16 2008 - moinak.ghosh@sun.com
 - Initial spec.
