@@ -7,6 +7,7 @@
 	* patches/tracker-06-thunderbird.diff: (rework)
 	* patches/tracker-08-check-remote.diff: (rework) 
 	* patches/tracker-09-man.diff: (added)
+	* ext-sources/tracker-firefox-history-xesam.xpi: (rework)
 
 2008-01-22 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEkdegraphics3.spec:
