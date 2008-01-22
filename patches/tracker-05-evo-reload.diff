@@ -1,0 +1,456 @@
+Index: trunk/src/trackerd/tracker-utils.h
+===================================================================
+--- trunk/src/trackerd/tracker-utils.h	(revision 1097)
++++ trunk/src/trackerd/tracker-utils.h	(working copy)
+@@ -564,6 +564,7 @@
+ 
+ GSList *	tracker_get_service_dirs 	(const char *service);
+ void		tracker_add_service_path 	(const char *service, const char *path);
++void		tracker_remove_service_path 	(const char *path);
+ char *		tracker_get_service_for_uri 	(const char *uri);
+ gboolean	tracker_is_service_file 	(const char *uri);
+ 
+Index: trunk/src/trackerd/tracker-db-email.c
+===================================================================
+--- trunk/src/trackerd/tracker-db-email.c	(revision 1097)
++++ trunk/src/trackerd/tracker-db-email.c	(working copy)
+@@ -795,7 +795,55 @@
+         return TRUE;
+ }
+ 
++gboolean
++tracker_db_email_delete_email_app (DBConnection *db_con, MailApplication mail_app)
++{
++	char *service_id = NULL;
+ 
++	char *service = get_service_name (mail_app);
++	tracker_log ("Delete %s emails", service);
++	char ***res = tracker_exec_proc (db_con->common, "GetRelatedServiceIDs", 2, service, service);
++	g_free (service);
++
++	char *str_mail_app = tracker_int_to_str (mail_app);
++	tracker_exec_proc (db_con->emails, "DeleteMboxByApp", 1, str_mail_app);
++	g_free (str_mail_app);
++
++	if (res) {
++		if (res[0] && res[0][0]) {
++			service_id = res[0][0];
++		} else {
++			tracker_db_free_result (res);
++			g_free (service);
++			return FALSE;
++		}
++
++		tracker_db_cleanup_service_stat (db_con, atoi (service_id));
++		tracker_exec_proc (db_con->emails, "DeleteServiceByType", 1, service_id);
++		tracker_db_free_result (res);
++	}
++
++	/* Delete email watch folders */
++	char *sql = NULL;
++	switch (mail_app) {
++	case MAIL_APP_EVOLUTION:
++		sql = g_strdup_printf ("DELETE FROM Services where path like '%s/.evolution/%s'", g_get_home_dir (), "%");
++		break;
++	case MAIL_APP_KMAIL:
++		break;
++	case MAIL_APP_THUNDERBIRD:
++		break;
++	default:
++		break;
++	}
++	if (sql) {
++		tracker_exec_sql (db_con, sql);
++		g_free (sql);
++	}
++
++	return TRUE;
++}
++
+ gboolean
+ tracker_db_email_lookup_junk (DBConnection *db_con, const gchar *mbox_id, gint uid)
+ {
+Index: trunk/src/trackerd/tracker-db-email.h
+===================================================================
+--- trunk/src/trackerd/tracker-db-email.h	(revision 1097)
++++ trunk/src/trackerd/tracker-db-email.h	(working copy)
+@@ -34,6 +34,7 @@
+ gboolean  tracker_db_email_delete_email_file     (DBConnection *db_con, const gchar *uri);
+ gboolean  tracker_db_email_delete_emails_of_mbox (DBConnection *db_con, const gchar *mbox_file_path);
+ gboolean  tracker_db_email_delete_email          (DBConnection *db_con, const gchar *uri);
++gboolean  tracker_db_email_delete_email_app      (DBConnection *db_con, MailApplication mail_app);
+ gint	  tracker_db_email_get_mbox_id 	         (DBConnection *db_con, const gchar *mbox_uri);
+ void	  tracker_db_email_insert_junk 	         (DBConnection *db_con, const gchar *mbox_uri, guint32 uid);
+ gchar *** tracker_db_email_get_mbox_junk         (DBConnection *db_con);
+Index: trunk/src/trackerd/tracker-email-utils.c
+===================================================================
+--- trunk/src/trackerd/tracker-email-utils.c	(revision 1097)
++++ trunk/src/trackerd/tracker-email-utils.c	(working copy)
+@@ -65,6 +65,13 @@
+ 
+ 
+ void
++email_remove_watch_directory (const gchar *dir)
++{
++	tracker_log ("Unregistering path %s", dir);
++	tracker_remove_service_path (dir);
++}
++
++void
+ email_watch_directories (const GSList *dirs, const gchar *service)
+ {
+ 	const GSList *tmp;
+@@ -75,7 +82,17 @@
+ 	}
+ }
+ 
++void
++email_remove_watch_directories (const GSList *dirs)
++{
++	const GSList *tmp;
+ 
++	for (tmp = dirs; tmp; tmp = tmp->next) {
++		const gchar *dir = tmp->data;
++		email_remove_watch_directory (dir);
++	}
++}
++
+ gboolean
+ email_parse_and_save_mail_message (DBConnection *db_con, MailApplication mail_app, const char *path,
+                                    ReadMailHelperFct read_mail_helper, gpointer read_mail_user_data)
+Index: trunk/src/trackerd/tracker-email.c
+===================================================================
+--- trunk/src/trackerd/tracker-email.c	(revision 1097)
++++ trunk/src/trackerd/tracker-email.c	(working copy)
+@@ -59,6 +59,20 @@
+ 
+ 
+ void
++tracker_email_remove_service_directories (DBConnection *db_con)
++{
++
++	g_mime_init (0);
++
++	if (!tracker->index_evolution_emails) {
++		if (evolution_init_module ()) {
++			evolution_remove_watch_emails (db_con);
++			evolution_finalize_module ();
++		}
++	}
++}
++
++void
+ tracker_email_end_email_watching (void)
+ {
+ 	//email_free_root_path_for_attachments ();
+Index: trunk/src/trackerd/tracker-email-utils.h
+===================================================================
+--- trunk/src/trackerd/tracker-email-utils.h	(revision 1097)
++++ trunk/src/trackerd/tracker-email-utils.h	(working copy)
+@@ -124,7 +124,9 @@
+ 
+ 
+ void		email_watch_directory				(const gchar *dir, const gchar *service);
++void		email_remove_watch_directory			(const gchar *dir);
+ void		email_watch_directories				(const GSList *dirs, const gchar *service);
++void		email_remove_watch_directories			(const GSList *dirs);
+ 
+ typedef void (* ReadMailHelperFct) (GMimeMessage *g_m_message, MailMessage *msg, gpointer read_mail_user_data);
+ typedef gchar* (* MakeURIHelperFct) (MailMessage *msg, gpointer read_mail_user_data);
+Index: trunk/src/trackerd/tracker-email.h
+===================================================================
+--- trunk/src/trackerd/tracker-email.h	(revision 1097)
++++ trunk/src/trackerd/tracker-email.h	(working copy)
+@@ -28,6 +28,7 @@
+ #include "tracker-db-sqlite.h"
+ 
+ void		tracker_email_add_service_directories	(DBConnection *db_con);
++void		tracker_email_remove_service_directories (DBConnection *db_con);
+ void		tracker_email_end_email_watching	(void);
+ gboolean	tracker_email_file_is_interesting	(FileInfo *info, const char *service);
+ gboolean	tracker_email_index_file		(DBConnection *db_con, FileInfo *info, const char *service);
+Index: trunk/src/trackerd/tracker-dbus-methods.c
+===================================================================
+--- trunk/src/trackerd/tracker-dbus-methods.c	(revision 1097)
++++ trunk/src/trackerd/tracker-dbus-methods.c	(working copy)
+@@ -496,6 +496,7 @@
+ 	} else if (strcasecmp (option, "EnableEvolution") == 0) {
+ 		tracker->index_evolution_emails = value;
+ 		tracker_log ("evolution support set to %d", value);
++		tracker->index_status = INDEX_EMAILS;
+ 	} else if (strcasecmp (option, "FastMerges") == 0) {
+ 		tracker->fast_merges = value;
+ 		tracker_log ("Fast merges set to %d", value);
+Index: trunk/src/trackerd/trackerd.c
+===================================================================
+--- trunk/src/trackerd/trackerd.c	(revision 1097)
++++ trunk/src/trackerd/trackerd.c	(working copy)
+@@ -1258,51 +1258,55 @@
+ 
+ 								tracker_db_start_index_transaction (db_con);
+ 
+-								if (tracker->index_evolution_emails || tracker->index_kmail_emails
+-                                                                        || tracker->index_thunderbird_emails) {
++								tracker_log ("Starting email indexing...");
++								tracker_db_start_transaction (db_con->cache);
+ 
++								if (tracker->index_evolution_emails) {
+ 									tracker_email_add_service_directories (db_con->emails);
+-									tracker_log ("Starting email indexing...");
++									GSList *list = tracker_get_service_dirs ("EvolutionEmails");
++									tracker_add_root_directories (list);
++									process_directory_list (db_con, list, TRUE);
++									g_slist_free (list);
+ 
+-									tracker_db_start_transaction (db_con->cache);
++									/* if initial indexing has not finished reset mtime on all email stuff so they are rechecked */
+ 
+-									if (tracker->index_evolution_emails) {
+-										GSList *list = tracker_get_service_dirs ("EvolutionEmails");
+-										tracker_add_root_directories (list);
+-										process_directory_list (db_con, list, TRUE);
+-										g_slist_free (list);
++									if (tracker_db_get_option_int (db_con->common, "InitialIndex") == 1) {
+ 
+-										/* if initial indexing has not finished reset mtime on all email stuff so they are rechecked */
++										char *sql = g_strdup_printf ("update Services set mtime = 0 where path like '%s/.evolution/%s'", g_get_home_dir (), "%");
+ 
+-										if (tracker_db_get_option_int (db_con->common, "InitialIndex") == 1) {
++										tracker_exec_sql (db_con, sql);
+ 
+-											char *sql = g_strdup_printf ("update Services set mtime = 0 where path like '%s/.evolution/%s'", g_get_home_dir (), "%");
+-
+-											tracker_exec_sql (db_con, sql);
+-
+-											g_free (sql);
+-										}
+-
++										g_free (sql);
+ 									}
++								} else {
++									tracker_email_remove_service_directories (db_con->emails);
++									tracker_db_email_delete_email_app (db_con, MAIL_APP_EVOLUTION);
++								}
+ 
+-									if (tracker->index_kmail_emails) {
+-										GSList *list = tracker_get_service_dirs ("KMailEmails");
+-										tracker_add_root_directories (list);
+-										process_directory_list (db_con, list, TRUE);
+-										g_slist_free (list);
+-									}
+-                                                                        
+-                                                                        if (tracker->index_thunderbird_emails) {
+-										GSList *list = tracker_get_service_dirs ("ThunderbirdEmails");
+-										tracker_add_root_directories (list);
+-										process_directory_list (db_con, list, TRUE);
+-										g_slist_free (list);
+-									}
++								if (tracker->index_kmail_emails) {
++									tracker_email_add_service_directories (db_con->emails);
++									GSList *list = tracker_get_service_dirs ("KMailEmails");
++									tracker_add_root_directories (list);
++									process_directory_list (db_con, list, TRUE);
++									g_slist_free (list);
++								} else {
++									tracker_email_remove_service_directories (db_con->emails);
++									tracker_db_email_delete_email_app (db_con, MAIL_APP_KMAIL);
++								}
+ 
+-									tracker_db_end_transaction (db_con->cache);
+-							
++								if (tracker->index_thunderbird_emails) {
++									tracker_email_add_service_directories (db_con->emails);
++									GSList *list = tracker_get_service_dirs ("ThunderbirdEmails");
++									tracker_add_root_directories (list);
++									process_directory_list (db_con, list, TRUE);
++									g_slist_free (list);
++								} else {
++									tracker_email_remove_service_directories (db_con->emails);
++									tracker_db_email_delete_email_app (db_con, MAIL_APP_THUNDERBIRD);
+ 								}
+ 
++								tracker_db_end_transaction (db_con->cache);
++							
+ 							}
+ 							break;
+ 				
+Index: trunk/src/trackerd/tracker-email-evolution.c
+===================================================================
+--- trunk/src/trackerd/tracker-email-evolution.c	(revision 1097)
++++ trunk/src/trackerd/tracker-email-evolution.c	(working copy)
+@@ -293,6 +293,16 @@
+ }
+ 
+ 
++void
++evolution_remove_watch_emails (DBConnection *db_con)
++{
++	email_remove_watch_directory (evolution_config->dir_local);
++
++	g_slist_foreach (evolution_config->imap_dirs, (GFunc) email_remove_watch_directory, NULL);
++	g_slist_foreach (evolution_config->mh_dirs, (GFunc) email_remove_watch_directory, NULL);
++	g_slist_foreach (evolution_config->maildir_dirs, (GFunc) email_remove_watch_directory, NULL);
++}
++
+ gboolean
+ evolution_file_is_interesting (FileInfo *info, const gchar *service)
+ {
+@@ -2392,7 +2402,9 @@
+ 
+ 		m = g_queue_pop_head (mail_parts);
+ 
+-		if (strcmp (m->mime_infos->type, "multipart") == 0) {
++		if (m->mime_infos &&
++			m->mime_infos->type &&
++			strcmp (m->mime_infos->type, "multipart") == 0) {
+ 			gint j;
+ 
+ 			for (j = 1; ; j++) {
+Index: trunk/src/trackerd/tracker-email-evolution.h
+===================================================================
+--- trunk/src/trackerd/tracker-email-evolution.h	(revision 1097)
++++ trunk/src/trackerd/tracker-email-evolution.h	(working copy)
+@@ -38,6 +38,7 @@
+ gboolean	evolution_module_is_running	(void);
+ gboolean	evolution_finalize_module	(void);
+ void		evolution_watch_emails		(DBConnection *db_con);
++void		evolution_remove_watch_emails	(DBConnection *db_con);
+ gboolean	evolution_file_is_interesting	(FileInfo *info, const char *service);
+ void		evolution_index_file		(DBConnection *db_con, FileInfo *info);
+ 
+Index: trunk/src/trackerd/tracker-db-sqlite.c
+===================================================================
+--- trunk/src/trackerd/tracker-db-sqlite.c	(revision 1097)
++++ trunk/src/trackerd/tracker-db-sqlite.c	(working copy)
+@@ -4632,7 +4632,39 @@
+ 
+ }
+ 
++void
++tracker_db_cleanup_service_stat (DBConnection *db_con, int id)
++{
++	char *service = tracker_get_service_by_id (id);
++	char *stat = NULL;
+ 
++	if (service) {
++		char ***res = tracker_exec_proc (db_con->common, "selectStats", 2, service, service);
++		if (res[0] && res[0][0]) {
++			stat = res[0][0];
++		} else {
++			tracker_db_free_result (res);
++			return;
++		}
++
++		tracker_exec_proc (db_con->common, "DecStatNum", 2, stat, service);
++
++		char *parent = tracker_get_parent_service (service);
++		if (parent) {
++			tracker_exec_proc (db_con->common, "DecStatNum", 2, stat, parent);
++			g_free (parent);
++		}
++
++                tracker_db_free_result (res);
++		g_free (service);
++		
++	} else {
++		tracker_debug ("could not dec stat for service ID %d", id);
++	}
++
++}
++
++
+ char *
+ tracker_db_get_id (DBConnection *db_con, const char *service, const char *uri)
+ {
+Index: trunk/src/trackerd/tracker-db.h
+===================================================================
+--- trunk/src/trackerd/tracker-db.h	(revision 1097)
++++ trunk/src/trackerd/tracker-db.h	(working copy)
+@@ -31,6 +31,7 @@
+ gboolean	tracker_db_is_file_up_to_date 	(DBConnection *db_con, const char *uri, guint32 *id);
+ FileInfo *	tracker_db_get_file_info	(DBConnection *db_con, FileInfo *info);
+ gboolean	tracker_is_valid_service	(DBConnection *db_con, const char *service);
++void            tracker_db_cleanup_service_stat (DBConnection *db_con, int id);
+ char *		tracker_db_get_id		(DBConnection *db_con, const char *service, const char *uri);
+ GHashTable *	tracker_db_save_metadata	(DBConnection *db_con, GHashTable *table, GHashTable *index_table, const char *service, guint32 file_id, gboolean new_file);
+ void		tracker_db_save_thumbs		(DBConnection *db_con, const char *small_thumb, const char *large_thumb, guint32 file_id);
+Index: trunk/src/trackerd/tracker-utils.c
+===================================================================
+--- trunk/src/trackerd/tracker-utils.c	(revision 1097)
++++ trunk/src/trackerd/tracker-utils.c	(working copy)
+@@ -1567,7 +1567,7 @@
+ 		char *path = (char *) tmp->data;
+ 		char *path_service = g_hash_table_lookup (tracker->service_directory_table, path);
+ 
+-		if (strcasecmp (service, path_service) ==0) {
++		if (path && path_service && strcasecmp (service, path_service) ==0) {
+ 			list = g_slist_prepend (list, path);
+ 		}
+ 	}
+@@ -1583,15 +1583,41 @@
+ 		return;
+ 	}
+ 
+-	char *dir_path = g_strdup (path);
+-	char *service_type = g_strdup (service);
++	char *dir_path = NULL;
++	char *service_type = NULL;
++	GSList *find = g_slist_find_custom (tracker->service_directory_list, path, strcmp);
+ 
+-	tracker->service_directory_list = g_slist_prepend (tracker->service_directory_list, dir_path);
++	if (!find) {
++		dir_path = g_strdup (path);
++		tracker->service_directory_list = g_slist_prepend (tracker->service_directory_list, dir_path);
++	}
+ 
+-	g_hash_table_insert (tracker->service_directory_table, dir_path, service_type);
++	if (!g_hash_table_lookup (tracker->service_directory_table, path)) {
++		if (!dir_path)
++			dir_path = g_strdup (path);
++		service_type = g_strdup (service);
++		g_hash_table_insert (tracker->service_directory_table, dir_path, service_type);
++	}
+ }
+ 
+ 
++void
++tracker_remove_service_path (const char *path)
++{
++	if (!path) {
++		return;
++	}
++
++	GSList *find = g_slist_find_custom (tracker->service_directory_list, path, strcmp);
++
++	if (find) {
++		tracker->service_directory_list = g_slist_delete_link (tracker->service_directory_list, find);
++		g_free ((char *)find->data);
++	}
++
++	g_hash_table_remove (tracker->service_directory_table, path);
++}
++
+ char *
+ tracker_get_service_for_uri (const char *uri)
+ {
+Index: trunk/data/sqlite-stored-procs.sql
+===================================================================
+--- trunk/data/sqlite-stored-procs.sql	(revision 1097)
++++ trunk/data/sqlite-stored-procs.sql	(working copy)
+@@ -59,6 +59,8 @@
+ DeleteService9 Delete FROM ServiceLinks Where (DestPath = ? and DestName = ?);
+ DeleteService10 Delete FROM ServiceLinks Where (DestPath = ?) or (DestPath glob ?); 
+ DeleteService11 DELETE FROM ServiceContents where ServiceID = ?;
++DeleteServiceByType DELETE FROM Services where ServiceTypeID = ?;
++DeleteMboxByApp DELETE FROM MailSummary where MailApp = ?;
+ 
+ DeleteEmbeddedServiceMetadata1 DELETE FROM ServiceMetaData WHERE ServiceID = ? and MetaDataID in (select ID from MetaDataTypes where Embedded = 1);
+ DeleteEmbeddedServiceMetadata2 DELETE FROM ServiceKeywordMetaData WHERE ServiceID = ? and MetaDataID in (select ID from MetaDataTypes where Embedded = 1);
+@@ -156,6 +158,7 @@
+ selectStats Select Sum(TypeCount) from ServiceTypes where TypeName = ? or TypeName in (select TypeName from ServiceTypes where Parent = ?);
+ IncStat UPDATE ServiceTypes set TypeCount = (TypeCount + 1) where TypeName = ?;
+ DecStat UPDATE ServiceTypes set TypeCount = (TypeCount - 1) where TypeName = ?;
++DecStatNum UPDATE ServiceTypes set TypeCount = (TypeCount - ?) where TypeName = ?;
+ GetStats Select TypeName, TypeCount from ServiceTypes Group By TypeName order by TypeID asc;
+ 
+ InsertBackupService INSERT INTO BackupServices (Path, Name) select S.Path, S.Name from Services S where S.ID = ?;

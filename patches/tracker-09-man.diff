@@ -1,0 +1,13 @@
+--- docs/trackerd.1	Tue Jan 22 15:27:24 2008
++++ docs/trackerd.1.new	Tue Jan 22 15:27:04 2008
+@@ -100,6 +100,10 @@
+ needs a
+ .BR dbus-daemon(1)
+ to be running within your current session.
++.PP
++Please check tracker releasenotes on solaris platform on
++.PP
++\fBhttp://opensolaris\&.org/os/project/jds/tasks/MetaTracker/\fR\&.
+ 
+ .SH SEE ALSO
+ .BR tracker-search-tool (1),

@@ -1,3 +1,13 @@
+2008-01-22  Halton Huo  <halton.huo@sun.com>
+
+	* base-specs/tracker.spec: Add patches and reorder.
+	* patches/tracker-03-r1071-latest.diff: (rework)
+	* patches/tracker-04-preferences-explicit-apply.diff: (added)
+	* patches/tracker-05-evo-reload.diff: (added)
+	* patches/tracker-06-thunderbird.diff: (rework)
+	* patches/tracker-08-check-remote.diff: (rework) 
+	* patches/tracker-09-man.diff: (added)
+
 2008-01-22 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEkdegraphics3.spec:
 	* SFEkdemultimedia3.spec:

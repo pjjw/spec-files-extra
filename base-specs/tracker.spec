@@ -1,7 +1,7 @@
 #
 # spec file for package tracker
 #
-# Copyright (c) 2007 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -18,12 +18,16 @@ Vendor:         Sun Microsystems, Inc.
 URL:            http://www.tracker-project.org
 Summary:        Desktop search tool
 Source:         http://www.gnome.org/~jamiemcc/tracker/tracker-%{version}.tar.bz2
+
 Patch1:         %{name}-01-w3m-crash.diff
-Patch2:         %{name}-02-thunderbird.diff
-Patch3:         %{name}-03-firefox-history.diff
-Patch4:         %{name}-04-disable-autostart.diff
-Patch5:         %{name}-05-check-remote.diff
-Patch6:         %{name}-06-r1071-r1092.diff
+Patch2:         %{name}-02-disable-autostart.diff
+Patch3:         %{name}-03-r1071-latest.diff
+Patch4:         %{name}-04-preferences-explicit-apply.diff
+Patch5:         %{name}-05-evo-reload.diff
+Patch6:         %{name}-06-thunderbird.diff
+Patch7:         %{name}-07-firefox-history.diff
+Patch8:         %{name}-08-check-remote.diff
+Patch9:         %{name}-09-man.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires: gmime-devel, poppler-devel, gettext
@@ -63,10 +67,13 @@ developing with tracker
 %setup -q
 %patch1 -p1
 %patch2 -p1
-%patch3 -p0
+%patch3 -p1
 %patch4 -p1
-%patch5 -p0
+%patch5 -p1
 %patch6 -p1
+%patch7 -p0
+%patch8 -p1
+%patch9 -p0
 
 %build
 %ifos linux
@@ -135,6 +142,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Jan 22 2008 - nonsea@users.sourceforge.net
+- Add patch preferences-explicit-apply.diff
+- Add patch evo-reload.diff
+- Add patch man.diff
+- Rename r1071-r1092.diff to r1071-latest.diff
+- Reorder patches.
 * Thu Jan 03 2008 - nonsea@users.sourceforge.net
 - Add patch disable-autostart.diff
 - Add patch check-remote.diff
