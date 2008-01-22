@@ -1,0 +1,15 @@
+--- kdesdk-3.5.1/kbabel/common/libgettext/pofiles.cc.orig	Tue Feb 14 13:28:10 2006
++++ kdesdk-3.5.1/kbabel/common/libgettext/pofiles.cc	Tue Feb 14 13:44:02 2006
+@@ -24,7 +24,11 @@
+ #ifdef __cplusplus
+ 
+ #include <stdlib.h>
+-class istream;
++//class istream;
++#include <iostream>
++using std::ostream;
++using std::istream;
++
+ #include <unistd.h>
+ 
+ /* Use prototypes in function declarations. */

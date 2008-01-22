@@ -1,0 +1,137 @@
+#!/usr/bin/bash
+
+prefix=/usr
+exec_prefix=${prefix}
+exec_prefix_set=no
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+usage()
+{
+    cat <<EOF
+Usage: svn-config [OPTION]...
+
+Known values for OPTION are:
+
+  --prefix		print installation prefix
+  --exec-prefix		print prefix where binaries have been installed
+  --libs		print library linking information
+  --ldflags		print library linking information
+  --cflags		print pre-processor and compiler flags
+  --includes		print pre-processor and compiler flags
+  --cppflags		print pre-processor flags
+  --help		display this help and exit
+  --version		output version information
+EOF
+
+    exit $1
+}
+
+if test $# -eq 0; then
+    usage 1
+fi
+
+cflags=false
+cppflags=false
+libs=false
+
+while test $# -gt 0; do
+    case "$1" in
+    -*=*) optarg=`echo "$1" | sed 's/[-_a-zA-Z0-9]*=//'` ;;
+    *) optarg= ;;
+    esac
+
+    case "$1" in
+    --prefix)
+	echo $prefix
+	;;
+
+    --exec-prefix)
+	echo $exec_prefix
+	;;
+
+    --version)
+	echo SVN_VERSION
+	exit 0
+	;;
+
+    --help)
+	usage 0
+	;;
+
+    --cflags)
+       	cflags=true
+       	cppflags=true
+       	;;
+
+    --includes)
+       	cflags=true
+       	;;
+
+    --cppflags)
+       	cppflags=true
+       	;;
+
+    --libs)
+       	libs=true
+       	;;
+
+    --ldflags)
+       	libs=true
+       	;;
+
+    *)
+	usage
+	exit 1
+	;;
+    esac
+    shift
+done
+
+the_libs="-L${libdir} -L/usr/lib -R/usr/lib -lsvn_client-1 -lz -lsocket -lnsl -lm"
+
+if $cflags; then
+    the_flags="$the_flags -I${includedir} -I${includedir}/svn"
+fi
+
+if $cppflags; then
+    the_flags="$the_flags -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
+fi
+
+all_flags="$the_flags"
+
+if $libs; then
+    all_flags="$all_flags $services $the_libs"
+fi
+
+if test -z "$all_flags" || test "x$all_flags" = "x "; then
+    exit 1
+fi
+
+# Straight out any possible duplicates, but be careful to
+# get `-lfoo -lbar -lbaz' for `-lfoo -lbaz -lbar -lbaz'
+other_flags=
+rev_libs=
+for i in $all_flags; do
+    case "$i" in
+    # a library, save it for later, in reverse order
+    -l*) rev_libs="$i $rev_libs" ;;
+    *)
+	case " $other_flags " in
+	*\ $i\ *) ;;				# already there
+	*) other_flags="$other_flags $i" ;;	# add it to output
+        esac ;;
+    esac
+done
+
+ord_libs=
+for i in $rev_libs; do
+    case " $ord_libs " in
+    *\ $i\ *) ;;			# already there
+    *) ord_libs="$i $ord_libs" ;;	# add it to output in reverse order
+    esac
+done
+
+echo $other_flags $ord_libs
+
+exit 0

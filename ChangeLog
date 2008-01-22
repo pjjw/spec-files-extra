@@ -1,3 +1,20 @@
+2008-01-22 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEsubversion.spec:
+	* ext-sources/svn-config:
+	  Major rework to install in /usr/gnu and avoid conflict with SUNWsvn and
+	  CBEsvn.
+	  Depends on two new package SFElibapr and SFEaprutil. Having svn to depend
+	  on whole of Apache seems a bit of an overkill. These are also needed by
+	  kdesdk.
+	  Bumped version to 1.4.6
+	  Package a home-grown svn-config to satisfy a few software like kdesdk.
+	* SFEkdesdk3.spec:
+	* patches/kdesdk-01-kbabel.diff:
+	  Add SDK tools suite in KDE.
+	* SFElibapr.spec:
+	* SFEaprutil.spec:
+	  Add Apache portable runtime libs and utilities.
+
 2008-01-22  Halton Huo  <halton.huo@sun.com>
 
 	* base-specs/tracker.spec: Add patches and reorder.
