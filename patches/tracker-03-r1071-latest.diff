@@ -1,8 +1,14 @@
 Index: trunk/ChangeLog
 ===================================================================
 --- trunk/ChangeLog	(revision 1071)
-+++ trunk/ChangeLog	(revision 1098)
-@@ -1,3 +1,57 @@
++++ trunk/ChangeLog	(revision 1099)
+@@ -1,3 +1,63 @@
++2008-01-23 Halton Huo   <Halton.Huo@Sun.COM>
++
++	Implement explicit apply for t-p.
++	* src/tracker-preferences/tracker-preferences.c:
++	* src/tracker-preferences/tracker-preferences.glade:
++
 +2008-01-21 Halton Huo   <Halton.Huo@Sun.COM>
 +
 +	* src/trackerd/trackerd.c: (process_files_thread):
@@ -63,7 +69,7 @@ Index: trunk/ChangeLog
 Index: trunk/src/trackerd/trackerd.c
 ===================================================================
 --- trunk/src/trackerd/trackerd.c	(revision 1071)
-+++ trunk/src/trackerd/trackerd.c	(revision 1098)
++++ trunk/src/trackerd/trackerd.c	(revision 1099)
 @@ -618,19 +618,13 @@
  static void
  signal_handler (gint signo)
@@ -195,7 +201,7 @@ Index: trunk/src/trackerd/trackerd.c
 Index: trunk/src/trackerd/tracker-email-evolution.c
 ===================================================================
 --- trunk/src/trackerd/tracker-email-evolution.c	(revision 1071)
-+++ trunk/src/trackerd/tracker-email-evolution.c	(revision 1098)
++++ trunk/src/trackerd/tracker-email-evolution.c	(revision 1099)
 @@ -148,6 +148,7 @@
  */
  
@@ -308,7 +314,7 @@ Index: trunk/src/trackerd/tracker-email-evolution.c
 Index: trunk/src/trackerd/tracker-indexer.c
 ===================================================================
 --- trunk/src/trackerd/tracker-indexer.c	(revision 1071)
-+++ trunk/src/trackerd/tracker-indexer.c	(revision 1098)
++++ trunk/src/trackerd/tracker-indexer.c	(revision 1099)
 @@ -215,7 +215,7 @@
  	}
  
@@ -431,7 +437,7 @@ Index: trunk/src/trackerd/tracker-indexer.c
 Index: trunk/src/trackerd/tracker-utils.c
 ===================================================================
 --- trunk/src/trackerd/tracker-utils.c	(revision 1071)
-+++ trunk/src/trackerd/tracker-utils.c	(revision 1098)
++++ trunk/src/trackerd/tracker-utils.c	(revision 1099)
 @@ -2552,7 +2552,7 @@
                                           "# Disable all indexing when on battery\n",
                                           "BatteryIndex=true\n",
@@ -459,7 +465,7 @@ Index: trunk/src/trackerd/tracker-utils.c
 Index: trunk/src/trackerd/tracker-ioprio.c
 ===================================================================
 --- trunk/src/trackerd/tracker-ioprio.c	(revision 1071)
-+++ trunk/src/trackerd/tracker-ioprio.c	(revision 1098)
++++ trunk/src/trackerd/tracker-ioprio.c	(revision 1099)
 @@ -1,20 +1,28 @@
  /* Tracker - indexer and metadata database engine
   * Copyright (C) 2006, Mr Jamie McCracken (jamiemcc@gnome.org)
@@ -504,7 +510,7 @@ Index: trunk/src/trackerd/tracker-ioprio.c
 Index: trunk/src/tracker-extract/tracker-extract-gstreamer.c
 ===================================================================
 --- trunk/src/tracker-extract/tracker-extract-gstreamer.c	(revision 1071)
-+++ trunk/src/tracker-extract/tracker-extract-gstreamer.c	(revision 1098)
++++ trunk/src/tracker-extract/tracker-extract-gstreamer.c	(revision 1099)
 @@ -496,7 +496,7 @@
  		add_uint_gst_tag (metadata, "Audio:DiscNo", extractor->tagcache, GST_TAG_ALBUM_VOLUME_NUMBER);
  		add_string_gst_tag (metadata, "Audio:Performer", extractor->tagcache, GST_TAG_PERFORMER);
@@ -517,7 +523,7 @@ Index: trunk/src/tracker-extract/tracker-extract-gstreamer.c
 Index: trunk/src/libtracker-gtk/Makefile.am
 ===================================================================
 --- trunk/src/libtracker-gtk/Makefile.am	(revision 1071)
-+++ trunk/src/libtracker-gtk/Makefile.am	(revision 1098)
++++ trunk/src/libtracker-gtk/Makefile.am	(revision 1099)
 @@ -23,6 +23,9 @@
  	tracker-tag-bar.c	\
  	tracker-keyword-store.c
@@ -532,7 +538,7 @@ Index: trunk/src/libtracker-gtk/Makefile.am
 Index: trunk/src/tracker-search-tool/tracker-search-tool.c
 ===================================================================
 --- trunk/src/tracker-search-tool/tracker-search-tool.c	(revision 1071)
-+++ trunk/src/tracker-search-tool/tracker-search-tool.c	(revision 1098)
++++ trunk/src/tracker-search-tool/tracker-search-tool.c	(revision 1099)
 @@ -2261,7 +2261,7 @@
  
  	tracker_search_ui_manager (gsearch);
@@ -545,7 +551,7 @@ Index: trunk/src/tracker-search-tool/tracker-search-tool.c
 Index: trunk/src/tracker-search-tool/tracker-search-tool.desktop.in.in
 ===================================================================
 --- trunk/src/tracker-search-tool/tracker-search-tool.desktop.in.in	(revision 1071)
-+++ trunk/src/tracker-search-tool/tracker-search-tool.desktop.in.in	(revision 1098)
++++ trunk/src/tracker-search-tool/tracker-search-tool.desktop.in.in	(revision 1099)
 @@ -3,7 +3,7 @@
  _Name=Tracker Search Tool
  _Comment=Locate documents and folders on this computer by name or content using Tracker
@@ -558,7 +564,7 @@ Index: trunk/src/tracker-search-tool/tracker-search-tool.desktop.in.in
 Index: trunk/src/tracker-preferences/tracker-preferences-private.h
 ===================================================================
 --- trunk/src/tracker-preferences/tracker-preferences-private.h	(revision 1071)
-+++ trunk/src/tracker-preferences/tracker-preferences-private.h	(revision 1098)
++++ trunk/src/tracker-preferences/tracker-preferences-private.h	(revision 1099)
 @@ -1,124 +0,0 @@
 -/* Tracker - indexer and metadata database engine
 - * Copyright (C) 2007, Saleem Abdulrasool (compnerd@gentoo.org)
@@ -687,7 +693,7 @@ Index: trunk/src/tracker-preferences/tracker-preferences-private.h
 Index: trunk/src/tracker-preferences/tracker-configuration-private.h
 ===================================================================
 --- trunk/src/tracker-preferences/tracker-configuration-private.h	(revision 1071)
-+++ trunk/src/tracker-preferences/tracker-configuration-private.h	(revision 1098)
++++ trunk/src/tracker-preferences/tracker-configuration-private.h	(revision 1099)
 @@ -1,108 +0,0 @@
 -/* Tracker - indexer and metadata database engine
 - * Copyright (C) 2007, Saleem Abdulrasool (compnerd@gentoo.org)
@@ -800,7 +806,7 @@ Index: trunk/src/tracker-preferences/tracker-configuration-private.h
 Index: trunk/src/tracker-preferences/tracker-configuration.c
 ===================================================================
 --- trunk/src/tracker-preferences/tracker-configuration.c	(revision 1071)
-+++ trunk/src/tracker-preferences/tracker-configuration.c	(revision 1098)
++++ trunk/src/tracker-preferences/tracker-configuration.c	(revision 1099)
 @@ -16,16 +16,65 @@
   * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
   * Boston, MA  02110-1301, USA.
@@ -872,7 +878,7 @@ Index: trunk/src/tracker-preferences/tracker-configuration.c
 Index: trunk/src/tracker-preferences/tracker-preferences.glade
 ===================================================================
 --- trunk/src/tracker-preferences/tracker-preferences.glade	(revision 1071)
-+++ trunk/src/tracker-preferences/tracker-preferences.glade	(revision 1098)
++++ trunk/src/tracker-preferences/tracker-preferences.glade	(revision 1099)
 @@ -429,7 +429,7 @@
                                  <property name="label" translatable="yes">Additional paths to index and watch:</property>
                                  <property name="mnemonic_widget">lstAdditionalPathIndexes</property>
@@ -1086,10 +1092,51 @@ Index: trunk/src/tracker-preferences/tracker-preferences.glade
                                      <property name="x_options">GTK_FILL</property>
                                      <property name="y_options"></property>
                                    </packing>
+@@ -1362,9 +1362,9 @@
+               </widget>
+             </child>
+             <child>
+-              <widget class="GtkButton" id="cmdClose">
++              <widget class="GtkButton" id="cmdApply">
+                 <property name="visible">True</property>
+-                <property name="label">gtk-close</property>
++                <property name="label">gtk-apply</property>
+                 <property name="use_stock">True</property>
+                 <property name="response_id">0</property>
+               </widget>
+@@ -1372,6 +1372,28 @@
+                 <property name="position">1</property>
+               </packing>
+             </child>
++            <child>
++              <widget class="GtkButton" id="cmdCancel">
++                <property name="visible">True</property>
++                <property name="label">gtk-cancel</property>
++                <property name="use_stock">True</property>
++                <property name="response_id">0</property>
++              </widget>
++              <packing>
++                <property name="position">2</property>
++              </packing>
++            </child>
++            <child>
++              <widget class="GtkButton" id="cmdOK">
++                <property name="visible">True</property>
++                <property name="label">gtk-ok</property>
++                <property name="use_stock">True</property>
++                <property name="response_id">0</property>
++              </widget>
++              <packing>
++                <property name="position">3</property>
++              </packing>
++            </child>
+           </widget>
+           <packing>
+             <property name="expand">False</property>
 Index: trunk/src/tracker-preferences/Makefile.am
 ===================================================================
 --- trunk/src/tracker-preferences/Makefile.am	(revision 1071)
-+++ trunk/src/tracker-preferences/Makefile.am	(revision 1098)
++++ trunk/src/tracker-preferences/Makefile.am	(revision 1099)
 @@ -10,10 +10,8 @@
  pkgdata_DATA = tracker-preferences.glade
  
@@ -1104,8 +1151,8 @@ Index: trunk/src/tracker-preferences/Makefile.am
 Index: trunk/src/tracker-preferences/tracker-preferences.c
 ===================================================================
 --- trunk/src/tracker-preferences/tracker-preferences.c	(revision 1071)
-+++ trunk/src/tracker-preferences/tracker-preferences.c	(revision 1098)
-@@ -16,23 +16,70 @@
++++ trunk/src/tracker-preferences/tracker-preferences.c	(revision 1099)
+@@ -16,23 +16,76 @@
   * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
   * Boston, MA  02110-1301, USA.
   */
@@ -1117,6 +1164,7 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
 +#include <glib-object.h>
 +#include <gtk/gtk.h>
 +#include <glade/glade.h>
++#include <stdlib.h>
 +
  #include "../trackerd/tracker-dbus.h"
  #include "../libtracker/tracker.h"
@@ -1146,7 +1194,9 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
 +static void setup_page_performance (TrackerPreferences *preferences);
 +static void tracker_preferences_cmd_quit (GtkWidget *widget, GdkEvent *event, gpointer data);
 +static void tracker_preferences_cmd_help (GtkWidget *widget, gpointer data);
-+static void tracker_preferences_cmd_close (GtkWidget *widget, gpointer data);
++static void tracker_preferences_cmd_apply (GtkWidget *widget, gpointer data);
++static void tracker_preferences_cmd_cancel (GtkWidget *widget, gpointer data);
++static void tracker_preferences_cmd_ok (GtkWidget *widget, gpointer data);
 +static void tracker_preferences_cmd_add_index_path (GtkWidget *widget, gpointer data);
 +static void tracker_preferences_cmd_remove_index_path (GtkWidget *widget, gpointer data);
 +static void tracker_preferences_cmd_add_crawled_path (GtkWidget *widget, gpointer data);
@@ -1165,10 +1215,13 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
 +static gint _strcmp (gconstpointer a, gconstpointer b);
 +static void initialize_listview (GtkWidget *treeview);
 +static void populate_list (GtkWidget *treeview, GSList *list);
++static gboolean str_slist_equal (GSList *a, GSList *b);
 +
  static GObjectClass *parent_class = NULL;
  static gboolean flag_restart = FALSE;
  static gboolean flag_reindex = FALSE;
++static gboolean first_time = TRUE;
++static gboolean flag_quit = FALSE;
  static GtkWidget *main_window = NULL;
  
 +
@@ -1178,7 +1231,7 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	GObjectClass *g_class = G_OBJECT_CLASS (klass);
  	parent_class = g_type_class_peek_parent (klass);
-@@ -43,7 +90,7 @@
+@@ -43,7 +96,7 @@
  }
  
  static void
@@ -1187,7 +1240,20 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (instance);
  	TrackerPreferencesPrivate *priv =
-@@ -69,11 +116,11 @@
+@@ -52,12 +105,10 @@
+ 	priv->prefs = tracker_configuration_new ();
+ 
+ 	GtkWidget *widget = NULL;
+-	
+ 
+ 	priv->gxml =
+ 		glade_xml_new (TRACKER_DATADIR "/tracker-preferences.glade",
+ 			       NULL, NULL);
+-	/* priv->gxml = glade_xml_new("tracker-preferences.glade", NULL, NULL); */
+ 
+ 	if (priv->gxml == NULL)
+ 		g_error ("Unable to find locate tracker-preferences.glade");
+@@ -69,11 +120,11 @@
  
  	gtk_window_set_icon_name (GTK_WINDOW (main_window), "tracker");
  	g_signal_connect (main_window, "delete-event",
@@ -1201,14 +1267,24 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  			  self);
  	gtk_widget_hide (widget);
  
-@@ -82,48 +129,48 @@
+@@ -81,49 +132,57 @@
+ 	gtk_button_box_set_layout (GTK_BUTTON_BOX (widget),
  				   GTK_BUTTONBOX_END);
  
- 	widget = glade_xml_get_widget (priv->gxml, "cmdClose");
+-	widget = glade_xml_get_widget (priv->gxml, "cmdClose");
 -	g_signal_connect (widget, "clicked", G_CALLBACK (cmdClose_Clicked),
-+	g_signal_connect (widget, "clicked", G_CALLBACK (tracker_preferences_cmd_close),
++	widget = glade_xml_get_widget (priv->gxml, "cmdApply");
++	g_signal_connect (widget, "clicked", G_CALLBACK (tracker_preferences_cmd_apply),
  			  self);
  
++	widget = glade_xml_get_widget (priv->gxml, "cmdCancel");
++	g_signal_connect (widget, "clicked", G_CALLBACK (tracker_preferences_cmd_cancel),
++			  self);
++
++	widget = glade_xml_get_widget (priv->gxml, "cmdOK");
++	g_signal_connect (widget, "clicked", G_CALLBACK (tracker_preferences_cmd_ok),
++			  self);
++
  	widget = glade_xml_get_widget (priv->gxml, "cmdAddIndexPath");
  	g_signal_connect (widget, "clicked",
 -			  G_CALLBACK (cmdAddIndexPath_Clicked), self);
@@ -1261,7 +1337,7 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  
  	/* Init dbus */
  	GError *error = NULL;
-@@ -168,7 +215,7 @@
+@@ -168,7 +227,7 @@
  }
  
  static void
@@ -1270,16 +1346,216 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (object);
  	TrackerPreferencesPrivate *priv =
-@@ -385,7 +432,7 @@
+@@ -220,172 +279,8 @@
  
+ }
  
+-
+-void
+-throttle_changed_cb (GtkRange *range, gpointer user_data)  
+-{
+-	TrackerPreferencesPrivate *priv = user_data;
+-	TrackerConfiguration *configuration = TRACKER_CONFIGURATION (priv->prefs);
+-
+-	int value = gtk_range_get_value (range);
+-
+-	tracker_configuration_set_int (configuration,
+-					"/Indexing/Throttle",
+-					value);
+-
+-	set_int_option (priv, "Throttle", value);
+-
+-}
+-
+-void 
+-spin_value_changed_cb (GtkSpinButton *spin_button, gpointer user_data)
+-{
+-	TrackerPreferencesPrivate *priv = user_data;
+-	TrackerConfiguration *configuration = TRACKER_CONFIGURATION (priv->prefs);
+-
+-	const char *name = gtk_widget_get_name (GTK_WIDGET (spin_button));
+-	int value = gtk_spin_button_get_value_as_int (spin_button);
+-
+-	if (name) {
+-		g_print ("%s was clicked with value %d\n", name, value);
+-	}  else {
+-		g_print ("unknown widget was clicked with value %d\n", value);
+-	}
+-
+-	if (g_str_equal (name, "spnMaxText")) {
+-
+-		set_int_option (priv, "MaxText", value*1024);
+-
+-		tracker_configuration_set_int (configuration,
+-						"/Performance/MaxTextToIndex",
+-						value);
+-
+-
+-	} else 	if (g_str_equal (name, "spnMaxWords")) {
+-
+-		set_int_option (priv, "MaxWords", value);
+-
+-		tracker_configuration_set_int (configuration,
+-					"/Performance/MaxWordsToIndex",
+-					value);
+-
+-	}
+-
+-}
+-
+-void
+-check_toggled_cb (GtkToggleButton *check_button, gpointer user_data)  
+-{
+-	TrackerPreferencesPrivate *priv = user_data;
+-	TrackerConfiguration *configuration = TRACKER_CONFIGURATION (priv->prefs);
+-
+-	const char *name = gtk_widget_get_name (GTK_WIDGET (check_button));
+-
+-	gboolean value =  gtk_toggle_button_get_active (check_button);
+-
+-	if (name) {
+-		g_print ("%s was clicked with value %d\n", name, value);
+-	}  else {
+-		g_print ("unknown widget was clicked with value %d\n", value);
+-	}
+-
+-	if (g_str_equal (name, "chkEnableIndexing")) {
+-
+-		set_bool_option (priv, "EnableIndexing", value);
+-
+-		tracker_configuration_set_bool (configuration,
+-						 "/Indexing/EnableIndexing",
+-						 value);
+-		flag_restart = TRUE;
+-
+-	} else 	if (g_str_equal (name, "chkEnableWatching")) {
+-
+-		set_bool_option (priv, "EnableWatching", value);
+-
+-		tracker_configuration_set_bool (configuration,
+-					"/Watches/EnableWatching",
+-					value);
+-
+-		flag_restart = TRUE;
+-
+-	} else 	if (g_str_equal (name, "chkEnableEvolutionIndexing")) {
+-
+-		set_bool_option (priv, "EnableEvolution", value);
+-
+-		tracker_configuration_set_bool (configuration,
+-					"/Emails/IndexEvolutionEmails",
+-					value);
+-
+-		flag_restart = TRUE;
+-
+-	} else 	if (g_str_equal (name, "chkIndexContents")) {
+-
+-		set_bool_option (priv, "IndexFileContents", value);
+-
+-		tracker_configuration_set_bool (configuration,
+-					"/Indexing/EnableFileContentIndexing",
+-					value);
+-
+-		flag_restart = TRUE;
+-
+-	} else 	if (g_str_equal (name, "chkGenerateThumbs")) {
+-
+-		set_bool_option (priv, "GenerateThumbs", value);
+-
+-		tracker_configuration_set_bool (configuration,
+-					"/Indexing/EnableThumbnails",
+-					value);
+-
+-
+-	} else 	if (g_str_equal (name, "chkSkipMountPoints")) {
+-
+-		set_bool_option (priv, "SkipMountPoints", !value);
+-
+-		tracker_configuration_set_bool (configuration,
+-					"/Indexing/SkipMountPoints",
+-					!value);
+-
+-
+-	} else 	if (g_str_equal (name, "chkFastMerges")) {
+-
+-		set_bool_option (priv, "FastMerges", value);
+-
+-		tracker_configuration_set_bool (configuration,
+-					"/Indexing/FastMerges",
+-					value);
+-
+-	} else 	if (g_str_equal (name, "optReducedMemory")) {
+-
+-		set_bool_option (priv, "LowMemoryMode", value);
+-
+-		tracker_configuration_set_bool (configuration,
+-					"/General/LowMemoryMode",
+-					value);
+-
+-	}  else if (g_str_equal (name, "chkDisableBatteryIndex")) {
+-
+-		set_bool_option (priv, "BatteryIndex", !value);
+-
+-		tracker_configuration_set_bool (configuration,
+-					"/Indexing/BatteryIndex",
+-					!value);
+-
+-	}  else if (g_str_equal (name, "chkDisableBatteryInitialIndex")) {
+-
+-		set_bool_option (priv, "BatteryIndexInitial", !value);
+-
+-		tracker_configuration_set_bool (configuration,
+-					"/Indexing/BatteryIndexInitial",
+-					!value);
+-	}
+-
+-}
+-
+-
+-
+-
  static void
 -setup_page_general (TrackerPreferences * preferences)
 +setup_page_general (TrackerPreferences *preferences)
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (preferences);
  	TrackerPreferencesPrivate *priv =
-@@ -457,7 +504,7 @@
+@@ -408,18 +303,12 @@
+ 						NULL);
+ 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), value);
+ 
+-	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled",
+-			  G_CALLBACK (check_toggled_cb), priv);
+-
+ 	widget = glade_xml_get_widget (priv->gxml, "chkEnableWatching");
+ 	value = tracker_configuration_get_bool (configuration,
+ 						"/Watches/EnableWatching",
+ 						NULL);
+ 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), value);
+ 
+-	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled",
+-			  G_CALLBACK (check_toggled_cb), priv);
+-
+ 	widget = glade_xml_get_widget (priv->gxml, "comLanguage");
+ 	char *str_value = tracker_configuration_get_string (configuration,
+ 							    "/Indexing/Language",
+@@ -441,23 +330,16 @@
+ 						NULL);
+ 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), !value);
+ 
+-	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled",
+-			  G_CALLBACK (check_toggled_cb), priv);
+-
+ 	widget = glade_xml_get_widget (priv->gxml, "chkDisableBatteryInitialIndex");
+ 	value = tracker_configuration_get_bool (configuration,
+ 						"/Indexing/BatteryIndexInitial",
+ 						NULL);
+ 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), !value);
+ 
+-	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled",
+-			  G_CALLBACK (check_toggled_cb), priv);
+-
+-
  }
  
  static void
@@ -1288,16 +1564,97 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (preferences);
  	TrackerPreferencesPrivate *priv =
-@@ -526,7 +573,7 @@
+@@ -473,8 +355,6 @@
+ 	value = tracker_configuration_get_int (configuration,
+ 					       "/Indexing/Throttle", NULL);
+ 	gtk_range_set_value (GTK_RANGE (widget), value);
+-	g_signal_connect (GTK_RANGE (widget), "value-changed",
+-			  G_CALLBACK (throttle_changed_cb), priv);
  
+ 	widget = glade_xml_get_widget (priv->gxml, "optReducedMemory");
+ 	bvalue = tracker_configuration_get_bool (configuration,
+@@ -482,14 +362,8 @@
+ 						 NULL);
+ 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), bvalue);
  
+-	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled",
+-			  G_CALLBACK (check_toggled_cb), priv);
+-
+-
+ 	widget = glade_xml_get_widget (priv->gxml, "optNormal");
+ 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), !bvalue);
+-	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled",
+-			  G_CALLBACK (check_toggled_cb), priv);
+ 
+ 	widget = glade_xml_get_widget (priv->gxml, "chkFastMerges");
+ 	bvalue = tracker_configuration_get_bool (configuration,
+@@ -497,10 +371,6 @@
+ 						 NULL);
+ 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), bvalue);
+ 
+-	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled",
+-			  G_CALLBACK (check_toggled_cb), priv);
+-
+-
+ 	widget = glade_xml_get_widget (priv->gxml, "spnMaxText");
+ 	value = tracker_configuration_get_int (configuration,
+ 					       "/Performance/MaxTextToIndex",
+@@ -509,9 +379,6 @@
+ 	value = value / 1024;
+ 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (widget), value);
+ 
+-	g_signal_connect (GTK_SPIN_BUTTON (widget), "value-changed",
+-			  G_CALLBACK (spin_value_changed_cb), priv);
+-
+ 	widget = glade_xml_get_widget (priv->gxml, "spnMaxWords");
+ 	value = tracker_configuration_get_int (configuration,
+ 					       "/Performance/MaxWordsToIndex",
+@@ -519,14 +386,10 @@
+ 
+ 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (widget), value);
+ 
+-	g_signal_connect (GTK_SPIN_BUTTON (widget), "value-changed",
+-			  G_CALLBACK (spin_value_changed_cb), priv);
+ }
+ 
+-
+-
  static void
 -setup_page_files (TrackerPreferences * preferences)
 +setup_page_files (TrackerPreferences *preferences)
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (preferences);
  	TrackerPreferencesPrivate *priv =
-@@ -607,7 +654,7 @@
+@@ -543,28 +406,19 @@
+ 						"/Indexing/EnableFileContentIndexing",
+ 						NULL);
+ 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), value);
+-	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled",
+-			  G_CALLBACK (check_toggled_cb), priv);
+ 
+-
+ 	widget = glade_xml_get_widget (priv->gxml, "chkGenerateThumbs");
+ 	value = tracker_configuration_get_bool (configuration,
+ 						"/Indexing/EnableThumbnails",
+ 						NULL);
+ 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), value);
+-	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled",
+-			  G_CALLBACK (check_toggled_cb), priv);
+ 
+-
+ 	widget = glade_xml_get_widget (priv->gxml, "chkSkipMountPoints");
+ 	value = tracker_configuration_get_bool (configuration,
+ 						"/Indexing/SkipMountPoints",
+ 						NULL);
+ 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), !value);
+-	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled",
+-			  G_CALLBACK (check_toggled_cb), priv);
+ 
+-
+ 	widget = glade_xml_get_widget (priv->gxml,
+ 				       "lstAdditionalPathIndexes");
+ 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (widget), FALSE);
+@@ -607,7 +461,7 @@
  }
  
  static void
@@ -1306,7 +1663,7 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (preferences);
  	TrackerPreferencesPrivate *priv =
-@@ -644,7 +691,7 @@
+@@ -644,7 +498,7 @@
  }
  
  static void
@@ -1315,7 +1672,26 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (preferences);
  	TrackerPreferencesPrivate *priv =
-@@ -669,19 +716,19 @@
+@@ -657,34 +511,37 @@
+ 
+ 	widget = glade_xml_get_widget (priv->gxml,
+ 				       "chkEnableEvolutionIndexing");
+-
+ 	value = tracker_configuration_get_bool (configuration,
+ 						"/Emails/IndexEvolutionEmails",
+ 						NULL);
++	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), value);
+ 
++	widget = glade_xml_get_widget (priv->gxml,
++				       "chkEnableThunderbirdIndexing");
++	value = tracker_configuration_get_bool (configuration,
++						"/Emails/IndexThunderbirdEmails",
++						NULL);
+ 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), value);
+ 
+-	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled",
+-			  G_CALLBACK (check_toggled_cb), priv);
++
  }
  
  static void
@@ -1323,7 +1699,7 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
 +tracker_preferences_cmd_quit (GtkWidget *widget, GdkEvent *event, gpointer data)
  {
 -	cmdClose_Clicked (NULL, data);
-+	tracker_preferences_cmd_close (NULL, data);
++	tracker_preferences_cmd_ok (NULL, data);
  }
  
  static void
@@ -1339,8 +1715,18 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
 +		    const gchar *prev_owner, const gchar *new_owner,
  		    gpointer data)
  {
-         static gboolean first_time = TRUE;
-@@ -704,7 +751,7 @@
+-        static gboolean first_time = TRUE;
+ 
+ 	if (!g_str_equal (name, TRACKER_SERVICE))
+ 		return;
+@@ -699,12 +556,13 @@
+ 		if (!g_spawn_command_line_async (command, NULL))
+ 			g_warning ("Unable to execute command: %s", command);
+                 first_time = FALSE;
+-		gtk_main_quit ();
++		if (flag_quit)
++			gtk_main_quit ();
+ 	}
  }
  
  static gboolean
@@ -1349,25 +1735,303 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	gchar *status = NULL;
  	TrackerClient *client = NULL;
-@@ -762,7 +809,7 @@
+@@ -735,12 +593,12 @@
+ 		TrackerPreferences *self = TRACKER_PREFERENCES (data);
+ 		TrackerPreferencesPrivate *priv = TRACKER_PREFERENCES_GET_PRIVATE (self);
+ 
++		first_time = TRUE;
+ 		dbus_g_proxy_add_signal (priv->dbus_proxy,
+ 					 "NameOwnerChanged",
+ 					 G_TYPE_STRING,
+ 					 G_TYPE_STRING,
+ 					 G_TYPE_STRING, G_TYPE_INVALID);
+-
+ 		dbus_g_proxy_connect_signal (priv->dbus_proxy,
+ 					     "NameOwnerChanged",
+ 					     G_CALLBACK (name_owner_changed),
+@@ -753,16 +611,17 @@
+ 					 NULL,
+ 					 G_TYPE_BOOLEAN,
+ 					 flag_reindex, G_TYPE_INVALID);
++		flag_restart = FALSE;
++		flag_reindex = FALSE;
+ 
+-	} else {
++	} else if (flag_quit) {
+ 		gtk_main_quit ();
+ 	}
+-
+ 	
  }
  
  static void
 -cmdClose_Clicked (GtkWidget * widget, gpointer data)
-+tracker_preferences_cmd_close (GtkWidget *widget, gpointer data)
++tracker_preferences_cmd_apply (GtkWidget *widget, gpointer data)
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (data);
  	TrackerPreferencesPrivate *priv =
-@@ -772,8 +819,6 @@
+@@ -771,18 +630,40 @@
+ 		TRACKER_CONFIGURATION (priv->prefs);
  
  	GSList *list = NULL;
- 	gboolean value = FALSE;
+-	gboolean value = FALSE;
 -	gboolean value_old = FALSE;
 -	gint ivalue, ivalue_old;
++	GSList *list_old = NULL;
++	int ivalue, ivalue_old;
++	gboolean bvalue, bvalue_old;
  	char *str_value;
  
  
-@@ -846,7 +891,7 @@
+ 	/* save general settings */
+ 	widget = glade_xml_get_widget (priv->gxml, "spnInitialSleep");
+-	value = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget));
++	ivalue = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget));
+ 	tracker_configuration_set_int (configuration, "/General/InitialSleep",
+-				       value);
++				       ivalue);
+ 
++	widget = glade_xml_get_widget (priv->gxml, "chkEnableIndexing");
++	bvalue = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
++	bvalue_old = tracker_configuration_get_bool (configuration,
++					"/Indexing/EnableIndexing", NULL);
++	if (bvalue != bvalue_old) {
++		flag_restart = TRUE;
++		set_bool_option (priv, "EnableIndexing", bvalue);
++		tracker_configuration_set_bool (configuration,
++					"/Indexing/EnableIndexing", bvalue);
++	}
++
++	widget = glade_xml_get_widget (priv->gxml, "chkEnableWatching");
++	bvalue = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
++	bvalue_old = tracker_configuration_get_bool (configuration,
++					"/Watches/EnableWatching", NULL);
++	if (bvalue != bvalue_old) {
++		flag_restart = TRUE;
++		set_bool_option (priv, "EnableIndexing", bvalue);
++		tracker_configuration_set_bool (configuration,
++					"/Watches/EnableWatching", bvalue);
++	}
++
+ 	widget = glade_xml_get_widget (priv->gxml, "comLanguage");
+ 	gint i = gtk_combo_box_get_active (GTK_COMBO_BOX (widget));
+ 	str_value = tracker_configuration_get_string (configuration,
+@@ -798,9 +679,63 @@
+ 						  tmap[i].lang);
+ 	}
+ 
++	widget = glade_xml_get_widget (priv->gxml, "chkDisableBatteryIndex");
++	bvalue = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
++	bvalue_old = tracker_configuration_get_bool (configuration,
++					"/Indexing/BatteryIndex", NULL);
++	if (bvalue != bvalue_old) {
++		set_bool_option (priv, "BatteryIndex", bvalue);
++		tracker_configuration_set_bool (configuration,
++					"/Indexing/BatteryIndex", bvalue);
++	}
+ 
++	widget = glade_xml_get_widget (priv->gxml, "chkDisableBatteryInitialIndex");
++	bvalue = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
++	bvalue_old = tracker_configuration_get_bool (configuration,
++					"/Indexing/BatteryIndexInitial", NULL);
++	if (bvalue != bvalue_old) {
++		set_bool_option (priv, "BatteryIndexInitial", bvalue);
++		tracker_configuration_set_bool (configuration,
++					"/Indexing/BatteryIndexInitial", bvalue);
++	}
++
+ 	/* files settings */
+ 
++	widget = glade_xml_get_widget (priv->gxml, "chkIndexContents");
++	bvalue = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
++	bvalue_old = tracker_configuration_get_bool (configuration,
++					"/Indexing/EnableFileContentIndexing", NULL);
++	if (bvalue != bvalue_old) {
++		flag_restart = TRUE;
++		flag_reindex = TRUE;
++		set_bool_option (priv, "IndexFileContents", bvalue);
++		tracker_configuration_set_bool (configuration,
++					"/Indexing/EnableFileContentIndexing", bvalue);
++	}
++
++	widget = glade_xml_get_widget (priv->gxml, "chkGenerateThumbs");
++	bvalue = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
++	bvalue_old = tracker_configuration_get_bool (configuration,
++					"/Indexing/EnableThumbnails", NULL);
++	if (bvalue != bvalue_old) {
++		flag_restart = TRUE;
++		flag_reindex = TRUE;
++		set_bool_option (priv, "GenerateThumbs", bvalue);
++		tracker_configuration_set_bool (configuration,
++					"/Indexing/EnableThumbnails", bvalue);
++	}
++
++	widget = glade_xml_get_widget (priv->gxml, "chkSkipMountPoints");
++	bvalue = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
++	bvalue_old = tracker_configuration_get_bool (configuration,
++					"/Indexing/SkipMountPoints", NULL);
++	if (bvalue != bvalue_old) {
++		flag_restart = TRUE;
++		set_bool_option (priv, "SkipMountPoints", bvalue);
++		tracker_configuration_set_bool (configuration,
++					"/Indexing/SkipMountPoints", bvalue);
++	}
++
+ 	widget = glade_xml_get_widget (priv->gxml,
+ 				       "lstAdditionalPathIndexes");
+ 	list = treeview_get_values (GTK_TREE_VIEW (widget));
+@@ -809,44 +744,153 @@
+ 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget))) {
+ 		list = g_slist_prepend (list, g_strdup (g_get_home_dir ()));
+ 	}
+-	tracker_configuration_set_list (configuration,
++	list_old = tracker_configuration_get_list (configuration,
++					       "/Watches/WatchDirectoryRoots",
++					       G_TYPE_STRING, NULL);
++	if (!str_slist_equal (list, list_old)) {
++		flag_restart = TRUE;
++		tracker_configuration_set_list (configuration,
+ 					"/Watches/WatchDirectoryRoots", list,
+ 					G_TYPE_STRING);
++	}
++
+ 	g_slist_free (list);
+ 	list = NULL;
++	g_slist_free (list_old);
++	list_old = NULL;
+ 
+ 	widget = glade_xml_get_widget (priv->gxml, "lstCrawledPaths");
+ 	list = treeview_get_values (GTK_TREE_VIEW (widget));
+-	tracker_configuration_set_list (configuration,
++	list_old = tracker_configuration_get_list (configuration,
++					       "/Watches/CrawlDirectory",
++					       G_TYPE_STRING, NULL);
++	if (!str_slist_equal (list, list_old)) {
++		flag_restart = TRUE;
++		tracker_configuration_set_list (configuration,
+ 					"/Watches/CrawlDirectory", list,
+ 					G_TYPE_STRING);
++	}
++
+ 	g_slist_free (list);
+ 	list = NULL;
++	g_slist_free (list_old);
++	list_old = NULL;
+ 
+-
+ 	/* ignored files settings */
+ 	widget = glade_xml_get_widget (priv->gxml, "lstIgnorePaths");
+ 	list = treeview_get_values (GTK_TREE_VIEW (widget));
+-	tracker_configuration_set_list (configuration,
++	list_old = tracker_configuration_get_list (configuration,
++					       "/Watches/NoWatchDirectory",
++					       G_TYPE_STRING, NULL);
++	if (!str_slist_equal (list, list_old)) {
++		flag_restart = TRUE;
++		tracker_configuration_set_list (configuration,
+ 					"/Watches/NoWatchDirectory", list,
+ 					G_TYPE_STRING);
++	}
++
+ 	g_slist_free (list);
+ 	list = NULL;
++	g_slist_free (list_old);
++	list_old = NULL;
+ 
+ 	widget = glade_xml_get_widget (priv->gxml, "lstIgnoreFilePatterns");
+ 	list = treeview_get_values (GTK_TREE_VIEW (widget));
+-	tracker_configuration_set_list (configuration,
++	list_old = tracker_configuration_get_list (configuration,
++					       "/Indexing/NoIndexFileTypes",
++					       G_TYPE_STRING, NULL);
++	if (!str_slist_equal (list, list_old)) {
++		flag_restart = TRUE;
++		tracker_configuration_set_list (configuration,
+ 					"/Indexing/NoIndexFileTypes", list,
+ 					G_TYPE_STRING);
++	}
++
+ 	g_slist_free (list);
+ 	list = NULL;
++	g_slist_free (list_old);
++	list_old = NULL;
+ 
++	/* Email settings */
+ 
++	widget = glade_xml_get_widget (priv->gxml, "chkEnableEvolutionIndexing");
++	bvalue = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
++	bvalue_old = tracker_configuration_get_bool (configuration,
++					"/Emails/IndexEvolutionEmails", NULL);
++	if (bvalue != bvalue_old) {
++		set_bool_option (priv, "EnableEvolution", bvalue);
++		tracker_configuration_set_bool (configuration,
++					"/Emails/IndexEvolutionEmails", bvalue);
++	}
++
++	widget = glade_xml_get_widget (priv->gxml, "chkEnableThunderbirdIndexing");
++	bvalue = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
++	bvalue_old = tracker_configuration_get_bool (configuration,
++					"/Emails/IndexThunderbirdEmails", NULL);
++	if (bvalue != bvalue_old) {
++		set_bool_option (priv, "EnableThunderbird", bvalue);
++		tracker_configuration_set_bool (configuration,
++					"/Emails/IndexThunderbirdEmails", bvalue);
++	}
++
++	/* Performance settings */
++
++	widget = glade_xml_get_widget (priv->gxml, "scaThrottle");
++	ivalue = gtk_range_get_value (GTK_RANGE (widget));
++	ivalue_old = tracker_configuration_get_int (configuration,
++					"/Indexing/Throttle", NULL);
++	if (ivalue != ivalue_old) {
++		set_int_option (priv, "Throttle", ivalue);
++		tracker_configuration_set_int (configuration,
++					"/Indexing/Throttle", ivalue);
++	}
++
++	widget = glade_xml_get_widget (priv->gxml, "optReducedMemory");
++	bvalue = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
++	bvalue_old = tracker_configuration_get_bool (configuration,
++					"/General/LowMemoryMode", NULL);
++	if (bvalue != bvalue_old) {
++		set_bool_option (priv, "LowMemoryMode", bvalue);
++		tracker_configuration_set_bool (configuration,
++					"/General/LowMemoryMode", bvalue);
++	}
++
++	widget = glade_xml_get_widget (priv->gxml, "chkFastMerges");
++	bvalue = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
++	bvalue_old = tracker_configuration_get_bool (configuration,
++					"/Indexing/FastMerges", NULL);
++	if (bvalue != bvalue_old) {
++		set_bool_option (priv, "FastMerges", bvalue);
++		tracker_configuration_set_bool (configuration,
++					"/Indexing/FastMerges", bvalue);
++	}
++
++	widget = glade_xml_get_widget (priv->gxml, "spnMaxText");
++	ivalue = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget))*1024;
++	ivalue_old = tracker_configuration_get_int (configuration,
++					"/Performance/MaxTextToIndex", NULL);
++	if (ivalue != ivalue_old) {
++		set_int_option (priv, "MaxText", ivalue);
++		tracker_configuration_set_int (configuration,
++					"/Performance/MaxTextToIndex", ivalue);
++	}
++
++	widget = glade_xml_get_widget (priv->gxml, "spnMaxWords");
++	ivalue = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget));
++	ivalue_old = tracker_configuration_get_int (configuration,
++					"/Performance/MaxWordsToIndex", NULL);
++	if (ivalue != ivalue_old) {
++		set_int_option (priv, "MaxWords", ivalue);
++		tracker_configuration_set_int (configuration,
++					"/Performance/MaxWordsToIndex", ivalue);
++	}
++
++	/* save config to distk */
+ 	tracker_configuration_write (configuration);
  
  	if (flag_restart && if_trackerd_start (priv)) {
  
@@ -1376,16 +2040,43 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  		char *msg;
  
  		if (flag_reindex) {
-@@ -876,7 +921,7 @@
+@@ -869,15 +913,28 @@
+ 
+ 		gtk_widget_show (dialog);
+ 
+-		
+-	} else {
++	} else if (flag_quit) {
+ 		gtk_main_quit ();
+ 	}
++
  }
  
  static void
 -cmdAddCrawledPath_Clicked (GtkWidget * widget, gpointer data)
-+tracker_preferences_cmd_add_crawled_path (GtkWidget *widget, gpointer data)
++tracker_preferences_cmd_cancel (GtkWidget *widget, gpointer data)
  {
++	gtk_main_quit ();
++}
++
++static void
++tracker_preferences_cmd_ok (GtkWidget *widget, gpointer data)
++{
++	flag_quit = TRUE;
++	tracker_preferences_cmd_apply (widget, data);
++}
++
++static void
++tracker_preferences_cmd_add_crawled_path (GtkWidget *widget, gpointer data)
++{
  	TrackerPreferences *self = TRACKER_PREFERENCES (data);
  	gchar *path = tracker_preferences_select_folder ();
-@@ -891,7 +936,7 @@
+ 
+@@ -887,19 +944,17 @@
+ 	append_item_to_list (self, path, "lstCrawledPaths");
+ 
+ 	g_free (path);
+-	flag_restart = TRUE;
  }
  
  static void
@@ -1394,7 +2085,7 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (data);
  	remove_selection_from_list (self, "lstCrawledPaths");
-@@ -899,7 +944,7 @@
+-	flag_restart = TRUE;
  }
  
  static void
@@ -1403,7 +2094,11 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (data);
  	TrackerPreferencesPrivate *priv =
-@@ -923,7 +968,7 @@
+@@ -919,19 +974,17 @@
+ 		append_item_to_list (self, path, "lstAdditionalPathIndexes");
+ 
+ 	g_free (path);
+-	flag_restart = TRUE;
  }
  
  static void
@@ -1412,7 +2107,7 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (data);
  	remove_selection_from_list (self, "lstAdditionalPathIndexes");
-@@ -931,7 +976,7 @@
+-	flag_restart = TRUE;
  }
  
  static void
@@ -1421,7 +2116,11 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (data);
  
-@@ -946,7 +991,7 @@
+@@ -942,19 +995,17 @@
+ 
+ 	append_item_to_list (self, path, "lstAdditionalMBoxIndexes");
+ 	g_free (path);
+-	flag_restart = TRUE;
  }
  
  static void
@@ -1430,7 +2129,7 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (data);
  	remove_selection_from_list (self, "lstAdditionalMBoxIndexes");
-@@ -954,7 +999,7 @@
+-	flag_restart = TRUE;
  }
  
  static void
@@ -1439,7 +2138,11 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (data);
  
-@@ -969,7 +1014,7 @@
+@@ -965,19 +1016,17 @@
+ 
+ 	append_item_to_list (self, path, "lstIgnorePaths");
+ 	g_free (path);
+-	flag_restart = TRUE;
  }
  
  static void
@@ -1448,7 +2151,7 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (data);
  	remove_selection_from_list (self, "lstIgnorePaths");
-@@ -977,7 +1022,7 @@
+-	flag_restart = TRUE;
  }
  
  static void
@@ -1457,7 +2160,11 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (data);
  
-@@ -991,7 +1036,7 @@
+@@ -987,20 +1036,18 @@
+ 		return;
+ 
+ 	append_item_to_list (self, pattern, "lstIgnoreFilePatterns");
+-	flag_restart = TRUE;
  }
  
  static void
@@ -1466,7 +2173,7 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferences *self = TRACKER_PREFERENCES (data);
  	remove_selection_from_list (self, "lstIgnoreFilePatterns");
-@@ -999,8 +1044,8 @@
+-	flag_restart = TRUE;
  }
  
  static void
@@ -1477,7 +2184,7 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferencesPrivate *priv =
  		TRACKER_PREFERENCES_GET_PRIVATE (dialog);
-@@ -1025,8 +1070,8 @@
+@@ -1025,8 +1072,8 @@
  }
  
  static void
@@ -1488,7 +2195,7 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	TrackerPreferencesPrivate *priv =
  		TRACKER_PREFERENCES_GET_PRIVATE (dialog);
-@@ -1044,7 +1089,7 @@
+@@ -1044,7 +1091,7 @@
  }
  
  static GSList *
@@ -1497,7 +2204,7 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	GtkTreeIter iter;
  	GSList *list = NULL;
-@@ -1083,7 +1128,7 @@
+@@ -1083,7 +1130,7 @@
  }
  
  static void
@@ -1506,7 +2213,7 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	GtkListStore *store = NULL;
  	GtkCellRenderer *renderer = NULL;
-@@ -1102,7 +1147,7 @@
+@@ -1102,7 +1149,7 @@
  }
  
  static void
@@ -1515,10 +2222,38 @@ Index: trunk/src/tracker-preferences/tracker-preferences.c
  {
  	GtkTreeModel *store;
  	GSList *tmp;
+@@ -1121,6 +1168,27 @@
+ 	}
+ }
+ 
++static gboolean
++str_slist_equal (GSList *a, GSList *b)
++{
++	guint lena = g_slist_length (a);
++	guint lenb = g_slist_length (b);
++
++	if (lena != lenb)
++		return FALSE;
++
++	GSList *l, *find;
++
++	for (l = a; l; l = g_slist_next (l)) {
++		find = g_slist_find_custom (b, (const gchar *)(l->data), _strcmp);
++		if (!find)
++			return FALSE;
++	}
++
++	return TRUE;
++
++}
++
+ GType
+ tracker_preferences_get_type (void)
+ {
 Index: trunk/src/tracker-applet/tracker-applet-private.h
 ===================================================================
 --- trunk/src/tracker-applet/tracker-applet-private.h	(revision 1071)
-+++ trunk/src/tracker-applet/tracker-applet-private.h	(revision 1098)
++++ trunk/src/tracker-applet/tracker-applet-private.h	(revision 1099)
 @@ -1,81 +0,0 @@
 -#ifndef __TRACKER_MONITOR_TRAY_ICON_PRIVATE_H__
 -#define __TRACKER_MONITOR_TRAY_ICON_PRIVATE_H__
@@ -1604,7 +2339,7 @@ Index: trunk/src/tracker-applet/tracker-applet-private.h
 Index: trunk/src/tracker-applet/tracker-applet.c
 ===================================================================
 --- trunk/src/tracker-applet/tracker-applet.c	(revision 1071)
-+++ trunk/src/tracker-applet/tracker-applet.c	(revision 1098)
++++ trunk/src/tracker-applet/tracker-applet.c	(revision 1099)
 @@ -1,4 +1,25 @@
 +/* Tracker - indexer and metadata database engine
 + * Copyright (C) 2007, Saleem Abdulrasool <compnerd@gentoo.org>
@@ -1710,7 +2445,7 @@ Index: trunk/src/tracker-applet/tracker-applet.c
 Index: trunk/src/tracker-applet/tracker-applet.h
 ===================================================================
 --- trunk/src/tracker-applet/tracker-applet.h	(revision 1071)
-+++ trunk/src/tracker-applet/tracker-applet.h	(revision 1098)
++++ trunk/src/tracker-applet/tracker-applet.h	(revision 1099)
 @@ -1,6 +1,26 @@
 -#ifndef __TM_TRAY_ICON_H__
 -#define __TM_TRAY_ICON_H__
@@ -1748,7 +2483,7 @@ Index: trunk/src/tracker-applet/tracker-applet.h
 Index: trunk/src/tracker-applet/Makefile.am
 ===================================================================
 --- trunk/src/tracker-applet/Makefile.am	(revision 1071)
-+++ trunk/src/tracker-applet/Makefile.am	(revision 1098)
++++ trunk/src/tracker-applet/Makefile.am	(revision 1099)
 @@ -17,7 +17,6 @@
  
  noinst_HEADERS = \
@@ -1760,7 +2495,7 @@ Index: trunk/src/tracker-applet/Makefile.am
 Index: trunk/configure.ac
 ===================================================================
 --- trunk/configure.ac	(revision 1071)
-+++ trunk/configure.ac	(revision 1098)
++++ trunk/configure.ac	(revision 1099)
 @@ -80,7 +80,7 @@
  
  dnl DBus services dir
@@ -1935,7 +2670,7 @@ Index: trunk/configure.ac
 Index: trunk/po/ar.po
 ===================================================================
 --- trunk/po/ar.po	(revision 1071)
-+++ trunk/po/ar.po	(revision 1098)
++++ trunk/po/ar.po	(revision 1099)
 @@ -1,4 +1,4 @@
 -# translation of tracker.HEAD.ar.po to Arabic
 +# translation of tracker.HEAD.po to Arabic
@@ -3449,7 +4184,7 @@ Index: trunk/po/ar.po
 Index: trunk/po/pt_BR.po
 ===================================================================
 --- trunk/po/pt_BR.po	(revision 1071)
-+++ trunk/po/pt_BR.po	(revision 1098)
++++ trunk/po/pt_BR.po	(revision 1099)
 @@ -7,8 +7,8 @@
  msgstr ""
  "Project-Id-Version: tracker\n"
@@ -4262,7 +4997,7 @@ Index: trunk/po/pt_BR.po
 Index: trunk/po/es.po
 ===================================================================
 --- trunk/po/es.po	(revision 1071)
-+++ trunk/po/es.po	(revision 1098)
++++ trunk/po/es.po	(revision 1099)
 @@ -5,12 +5,12 @@
  # Jorge González <jorgegonz@svn.gnome.org>, 2007.
  msgid ""
@@ -4706,7 +5441,7 @@ Index: trunk/po/es.po
 Index: trunk/po/ko.po
 ===================================================================
 --- trunk/po/ko.po	(revision 0)
-+++ trunk/po/ko.po	(revision 1098)
++++ trunk/po/ko.po	(revision 1099)
 @@ -0,0 +1,1343 @@
 +# Korean translation of tracker.
 +# Copyright (C) 2007 THE tracker'S COPYRIGHT HOLDER
@@ -6054,7 +6789,7 @@ Index: trunk/po/ko.po
 Index: trunk/po/ChangeLog
 ===================================================================
 --- trunk/po/ChangeLog	(revision 1071)
-+++ trunk/po/ChangeLog	(revision 1098)
++++ trunk/po/ChangeLog	(revision 1099)
 @@ -1,3 +1,35 @@
 +2007-12-31  Yannig Marchegay <yannig@marchegay.org>
 +
@@ -6094,7 +6829,7 @@ Index: trunk/po/ChangeLog
 Index: trunk/po/LINGUAS
 ===================================================================
 --- trunk/po/LINGUAS	(revision 1071)
-+++ trunk/po/LINGUAS	(revision 1098)
++++ trunk/po/LINGUAS	(revision 1099)
 @@ -15,6 +15,7 @@
  gl
  hu
@@ -6106,7 +6841,7 @@ Index: trunk/po/LINGUAS
 Index: trunk/po/sv.po
 ===================================================================
 --- trunk/po/sv.po	(revision 1071)
-+++ trunk/po/sv.po	(revision 1098)
++++ trunk/po/sv.po	(revision 1099)
 @@ -7,8 +7,8 @@
  msgstr ""
  "Project-Id-Version: tracker\n"
@@ -6633,7 +7368,7 @@ Index: trunk/po/sv.po
 Index: trunk/po/oc.po
 ===================================================================
 --- trunk/po/oc.po	(revision 1071)
-+++ trunk/po/oc.po	(revision 1098)
++++ trunk/po/oc.po	(revision 1099)
 @@ -1,59 +1,185 @@
 -# translation of oc.po to Occitan
  # Occitan translation of Tracker
@@ -7890,7 +8625,7 @@ Index: trunk/po/oc.po
 Index: trunk/po/zh_CN.po
 ===================================================================
 --- trunk/po/zh_CN.po	(revision 1071)
-+++ trunk/po/zh_CN.po	(revision 1098)
++++ trunk/po/zh_CN.po	(revision 1099)
 @@ -7,9 +7,9 @@
  msgid ""
  msgstr ""

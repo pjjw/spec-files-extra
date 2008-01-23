@@ -1,3 +1,12 @@
+2008-01-23  Halton Huo  <halton.huo@sun.com>
+
+	* SUNWdesktop-search.spec: Add extension link to firefox3,
+	  remove it when FF3 rename to firefox.
+	* base-specs/tracker.spec: 
+	* patches/tracker-03-r1071-latest.diff: (rework)
+	* patches/tracker-04-preferences-explicit-apply.diff: (removed) upstreamed.
+	* patches/tracker-04-tp-reindex.diff: (added) to fix t-p reindex bugs.
+
 2008-01-22 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEsubversion.spec:
 	* ext-sources/svn-config:

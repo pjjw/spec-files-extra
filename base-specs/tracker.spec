@@ -18,15 +18,23 @@ Vendor:         Sun Microsystems, Inc.
 URL:            http://www.tracker-project.org
 Summary:        Desktop search tool
 Source:         http://www.gnome.org/~jamiemcc/tracker/tracker-%{version}.tar.bz2
-
+# date:2008-01-23 owner:jerrytan type:branding
 Patch1:         %{name}-01-w3m-crash.diff
+# date:2008-01-23 owner:halton type:branding
 Patch2:         %{name}-02-disable-autostart.diff
+# date:2008-01-23 owner:halton type:branding
 Patch3:         %{name}-03-r1071-latest.diff
-Patch4:         %{name}-04-preferences-explicit-apply.diff
+# date:2008-01-23 owner:halton type:bug bugzilla:503725,503727,503960,503966,504000
+Patch4:         %{name}-04-tp-reindex.diff
+# date:2008-01-23 owner:halton type:bug bugzilla:503376
 Patch5:         %{name}-05-evo-reload.diff
+# date:2008-01-23 owner:migi type:branding
 Patch6:         %{name}-06-thunderbird.diff
+# date:2008-01-23 owner:jerrytan type:branding
 Patch7:         %{name}-07-firefox-history.diff
+# date:2008-01-23 owner:rickju type:bug bugzilla:511474
 Patch8:         %{name}-08-check-remote.diff
+# date:2008-01-23 owner:halton type:branding
 Patch9:         %{name}-09-man.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
@@ -142,6 +150,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Wed Jan 23 2008 - nonsea@users.sourceforge.net
+- Remove upstreamed patch preferences-explicit-apply.diff
+- Add temporary patch tp-reindex.diff
 * Tue Jan 22 2008 - nonsea@users.sourceforge.net
 - Add patch preferences-explicit-apply.diff
 - Add patch evo-reload.diff

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2007 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -102,6 +102,11 @@ cd $RPM_BUILD_ROOT%{_libdir}/firefox/extensions
 mkdir \{fda00e13-8c62-4f63-9d19-d168115b11ca\}
 cd \{fda00e13-8c62-4f63-9d19-d168115b11ca\}
 unzip %SOURCE1
+# FIXME: delete this link when firefox3 is removed or it is default
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/firefox3/extensions
+cd $RPM_BUILD_ROOT%{_libdir}/firefox3/extensions
+ln -s ../../firefox/extensions/\{fda00e13-8c62-4f63-9d19-d168115b11ca\} \{fda00e13-8c62-4f63-9d19-d168115b11ca\}
+
 
 # Install firefox extension
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/thunderbird/extensions
@@ -153,7 +158,7 @@ rm -rf $RPM_BUILD_ROOT
 %files extension
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/firefox
+%{_libdir}/firefox*
 %{_libdir}/thunderbird
 
 %files root
@@ -169,6 +174,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Jan 23 2008 - nonsea@users.sourceforge.net
+- Add extension link to firefox3, remove it when FF3 rename to firefox.
 * Wed Jan 02 2008 - nonsea@users.sourceforge.net
 - Rename from SFEtracker to SUNWdesktop-search.
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net
