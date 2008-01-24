@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 
@@ -8,7 +8,7 @@
 Name:                SFEautogen
 Summary:             Templatized program/text generation system
 URL:                 http://autogen.sourceforge.net/
-Version:             5.9.2
+Version:             5.9.4
 Source:              http://%{sf_mirror}/sourceforge/autogen/autogen-%{version}.tar.bz2
 
 SUNW_BaseDir:        %{_basedir}
@@ -103,6 +103,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Thu Jan 24 2008 - nonsea@users.sourceforge.net
+- Bump to 5.9.4
 * Mon Sep 10 2007 - nonsea@users.sourceforge.net
 - Bump to 5.9.2
 * Sun May 13 2007 - nonsea@users.sourceforge.net

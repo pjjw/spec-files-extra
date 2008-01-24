@@ -1,4 +1,8 @@
 #
+# Copyright (c) 2008 Sun Microsystems, Inc.
+# This file and all modifications and additions to the pristine
+# package are under the same license as the package itself.
+#
 # spec file for package SFEswig
 #
 # includes module(s): swig
@@ -7,8 +11,8 @@
 
 Name:                    SFEswig
 Summary:                 SWIG Interface compiler
-Version:                 1.3.31
-Source:                  http://internap.dl.sourceforge.net/sourceforge/swig/swig-%{version}.tar.gz
+Version:                 1.3.33
+Source:                  http://%{sf_mirror}/sourceforge/swig/swig-%{version}.tar.gz
 URL:                     http://www.swig.org/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -53,6 +57,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
+* Thu Jan 24 2008 - nonsea@users.sourceforge.net
+- Bump to 1.3.33.
 * Tue Mar 06 2007 - nonsea@users.sourceforge.net
 - Bump to 1.3.31
 * Tue Nov 11 2006 - halton.huo@sun.com

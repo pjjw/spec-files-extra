@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2007 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -13,16 +13,18 @@
 # or, depend on package SUNWevolution-bdb-devel, which is in jds spec-files/closed
 # now, use second way.
 Name:           SFEanjuta
-Version:        2.3.0
+Version:        2.3.2
 Summary:        GNOME IDE for C and C++
 Group:          Development/Tools
 License:        GPL
 URL:            http://anjuta.org/
-Source:         http://download.gnome.org/sources/anjuta/2.2/anjuta-%{version}.tar.bz2
+Source:         http://download.gnome.org/sources/anjuta/2.3/anjuta-%{version}.tar.bz2
 # date:2007-04-04 owner:nonsea type:branding
 Patch1:         anjuta-01-solaris-grep.diff
 # date:2007-05-14 owner:nonsea type:branding
 Patch2:         anjuta-02-ld-z-text.diff
+# date:2008-01-24 owner:nonsea type:branding
+Patch3:         anjuta-03-to-latest.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -43,7 +45,7 @@ Requires: SUNWlxml
 Requires: SUNWlxsl
 Requires: SUNWperl584core
 Requires: SUNWpcre
-Requires: SUNWapch2u
+Requires: SUNWapch22u
 %if %(pkginfo -q SUNWneon && echo 1 || echo 0)
 Requires: SUNWneon
 %else
@@ -75,6 +77,19 @@ These are usually run via a text console, and can be unfriendly to use.
 This package includes anjuta_create_global_tags.sh, which will allow you to
 create an up to date, local system.tags.
 
+%package root
+Summary:                 %{summary} - / filesystem
+SUNW_BaseDir:            /
+%include default-depend.inc
+Requires: SUNWpostrun-root
+Requires: SUNWgnome-config
+
+%package devel
+Summary:                 %{summary} - development files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+
 %if %build_l10n
 %package l10n
 Summary:                 %{summary} - l10n files
@@ -83,11 +98,6 @@ SUNW_BaseDir:            %{_basedir}
 Requires:                %{name}
 %endif
 
-%package devel
-Summary:                 %{summary} - development files
-SUNW_BaseDir:            %{_basedir}
-%include default-depend.inc
-Requires:                %{name}
 
 %prep
 %setup -q -n anjuta-%{version}
@@ -99,11 +109,12 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags"
+# FIXME: delete -I/usr/incldue/pcre when bug 6654493 is fixed.
+export CFLAGS="%optflags -I/usr/include/pcre"
 export CXXFLAGS="%cxx_optflags"
 export LDFLAGS="%_ldflags"
 
-glib-gettextize -f
+#glib-gettextize -f
 libtoolize --copy --force
 aclocal $ACLOCAL_FLAGS
 autoheader
@@ -117,11 +128,12 @@ autoconf
 	    --with-svn-include=%{_includedir}/svn			\
 	    --with-svn-lib=%{_libdir}/svn				\
             --with-apr-config=%{_prefix}/apache2/bin/apr-1-config	\
-            --disable-scrollkeeper
+            --disable-scrollkeeper					\
+	    %gtk_doc_option
 
 %patch2 -p1
 
-make -j$CPUS
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -129,6 +141,16 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
+
+%if %{!?_without_gtk_doc:0}%{?_without_gtk_doc:1}
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gtk-doc
+%endif
+
+%if %build_l10n
+%else
+# REMOVE l10n FILES
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+%endif
 
 # generated in the postinstall scripts (update-mime-database)
 rm -rf $RPM_BUILD_ROOT%{_datadir}/mime
@@ -173,6 +195,34 @@ test -x $BASEDIR/lib/postrun || exit 0
   fi
 ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u
 
+%post root
+test -x $BASEDIR/var/lib/postrun/postrun || exit 0
+( echo 'test -x /usr/bin/gconftool-2 || {';
+  echo '  echo "ERROR: gconftool-2 not found"';
+  echo '  exit 1';
+  echo '}';
+  echo 'umask 0022';
+  echo 'GCONF_CONFIG_SOURCE=xml:merged:/etc/gconf/gconf.xml.defaults';
+  echo 'export GCONF_CONFIG_SOURCE';
+  echo '/usr/bin/gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/*.schemas > /dev/null'
+) | $BASEDIR/var/lib/postrun/postrun -u -c JDS_wait
+
+%preun root
+test -x $BASEDIR/var/lib/postrun/postrun || exit 0
+( echo 'test -x $PKG_INSTALL_ROOT/usr/bin/gconftool-2 || {';
+  echo '  echo "WARNING: gconftool-2 not found; not uninstalling gconf schemas"';
+  echo '  exit 0';
+  echo '}';
+  echo 'umask 0022';
+  echo 'GCONF_CONFIG_SOURCE=xml:merged:$BASEDIR/etc/gconf/gconf.xml.defaults';
+  echo 'GCONF_BACKEND_DIR=$PKG_INSTALL_ROOT/usr/lib/GConf/2';
+  echo 'LD_LIBRARY_PATH=$PKG_INSTALL_ROOT/usr/lib';
+  echo 'export GCONF_CONFIG_SOURCE GCONF_BACKEND_DIR LD_LIBRARY_PATH';
+  echo 'SDIR=$BASEDIR%{_sysconfdir}/gconf/schemas';
+  echo 'schemas="$SDIR/anjuta-*.schemas "';
+  echo '$PKG_INSTALL_ROOT/usr/bin/gconftool-2 --makefile-uninstall-rule $schemas'
+) | $BASEDIR/var/lib/postrun/postrun -i -c JDS -a
+
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
@@ -180,8 +230,10 @@ test -x $BASEDIR/lib/postrun || exit 0
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %{_libdir}/anjuta
+%{_libdir}/glade3
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/anjuta
+%{_datadir}/glade3
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/doc
@@ -191,7 +243,6 @@ test -x $BASEDIR/lib/postrun || exit 0
 %{_datadir}/omf/anjuta*
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/anjuta*
-
 %dir %attr (-, root, other) %{_datadir}/icons
 %dir %attr (-, root, other) %{_datadir}/icons/hicolor
 %dir %attr (-, root, other) %{_datadir}/icons/gnome
@@ -211,17 +262,10 @@ test -x $BASEDIR/lib/postrun || exit 0
 %dir %attr(0755, root, bin) %{_mandir}/*
 %{_mandir}/*/*
 
-%if %build_l10n
-%files l10n
-%defattr (-, root, bin)
-%dir %attr (0755, root, sys) %{_datadir}
-%attr (-, root, other) %{_datadir}/locale
-%{_datadir}/omf/anjuta/anjuta-[a-z][a-z].omf
-%{_datadir}/omf/anjuta/anjuta-[a-z][a-z]_[A-Z][A-Z].omf
-%dir %attr (0755, root, other) %{_datadir}/gnome
-%{_datadir}/gnome/help/anjuta/[a-z][a-z]
-%{_datadir}/gnome/help/anjuta/[a-z][a-z]_[A-Z][A-Z]
-%endif
+%files root
+%defattr (-, root, sys)
+%attr (0755, root, sys) %dir %{_sysconfdir}
+%{_sysconfdir}/gconf/schemas/*.schemas
 
 %files devel
 %defattr (-, root, bin)
@@ -230,10 +274,23 @@ test -x $BASEDIR/lib/postrun || exit 0
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
+%if %{!?_without_gtk_doc:1}%{?_without_gtk_doc:0}
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/gtk-doc
+%endif
+
+%if %build_l10n
+%files l10n
+%defattr (-, root, bin)
+%dir %attr (0755, root, sys) %{_datadir}
+%attr (-, root, other) %{_datadir}/locale
+%endif
 
 %changelog
+* Fri Nov 02 2007 - nonsea@users.sourceforge.net
+- Bump to 2.3.2
+- Add new package l10n.
+- Add _without_gtk_doc control
 * Fri Nov 02 2007 - nonsea@users.sourceforge.net
 - Bump to 2.3.0
 - Remove SUNWpcre-devel from BuildRequires

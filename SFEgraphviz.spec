@@ -42,8 +42,8 @@ BuildRequires: SUNWlibtool
 BuildRequires: SUNWPython-devel
 BuildRequires: SUNWTcl
 BuildRequires: SUNWperl584core
+BuildRequires: SUNWruby18u
 BuildRequires: SFEswig
-BuildRequires: SFEruby
 
 %package devel
 Summary:                 %{summary} - development files
@@ -137,6 +137,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/graphviz/*
 
 %changelog
+* Thu Jan 24 2008 - nonsea@users.sourceforge.net
+- Replace SFEruby to SUNWruby18u
 * Wed Jan 17 2008 - moinak.ghosh@sun.com
 - Do not disable perl.
 - Prevent sys/mode.h from being pulled in via perl.h by defining _SYS_MODE_H. This

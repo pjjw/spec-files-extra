@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2007 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -24,11 +24,13 @@ BuildRequires: SFEgoocanvas-devel
 Requires: SUNWPython
 Requires: SFEgoocanvas-devel
 
+%if %{!?_without_gtk_doc:1}%{?_without_gtk_doc:0}
 %package devel
 Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
+%endif
 
 %prep
 %setup -q -n %{src_name}-%version
@@ -55,6 +57,10 @@ make install DESTDIR=$RPM_BUILD_ROOT \
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.pyo" -exec rm -f {} ';'
 
+%if %{!?_without_gtk_doc:0}%{?_without_gtk_doc:1}
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gtk-doc
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -63,14 +69,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/python?.?/vendor-packages
 
+%if %{!?_without_gtk_doc:1}%{?_without_gtk_doc:0}
 %files devel
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) %{_datadir}
-%if %{!?_without_gtk_doc:1}%{?_without_gtk_doc:0}
 %{_datadir}/gtk-doc
 %endif
 
 
 %changelog
+* Thu Jan 24 2008 - nonsea@users.sourceforge.net
+- Add _without_gtk_doc control
 * Tue Dec 11 2007 - nonsea@users.sourceforge.net
 - Initial spec

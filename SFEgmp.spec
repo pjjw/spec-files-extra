@@ -1,4 +1,8 @@
 #
+# Copyright (c) 2008 Sun Microsystems, Inc.
+# This file and all modifications and additions to the pristine
+# package are under the same license as the package itself.
+#
 # spec file for package SUNWgmp
 #
 # includes module(s): GNU gmp
@@ -19,9 +23,7 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
-Requires: SFEreadline
 Requires: SUNWgccruntime
-BuildRequires: SFEreadline-devel
 
 %package devel
 Summary:                 %{summary} - development files
@@ -167,6 +169,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Fri Nov 02 2007 - nonsea@users.sourceforge.net
+- Remove Requires/BuildRequires to SFEreadline
 * Fri Aug 17 2007 - trisk@acm.jhu.edu
 - Fix amd64 build
 * Sat Jun 30 2007 - nonsea@users.sourceforge.net

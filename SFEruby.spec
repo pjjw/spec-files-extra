@@ -1,4 +1,8 @@
 #
+# Copyright (c) 2008 Sun Microsystems, Inc.
+# This file and all modifications and additions to the pristine
+# package are under the same license as the package itself.
+#
 # spec file for package SFEruby
 #
 # includes module(s): ruby
@@ -17,6 +21,7 @@ BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Requires:     SUNWlibmsr
 Requires:     SUNWopenssl-libraries
 Requires:     SUNWzlib
+Conflicts:    SUNWruby18u
 
 %prep
 %setup -q -n ruby-%{tarball_version}
@@ -59,6 +64,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Thu Jan 24 2008 - nonsea@users.sourceforge.net
+- Add Conflicts: SUNWruby18u
 * Sun Jan 06 2008 - moinak.ghosh@sun.com
 - Enable building libruby.so shared library
 * Thu Dec 27 2007 - sobotkap@centrum.cz

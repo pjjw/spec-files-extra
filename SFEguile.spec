@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 
@@ -18,10 +18,9 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SFEgmp
-Requires: SFEreadline
-Requires: SFElibtool
-Requires: SUNWlibmsr
-BuildRequires: SFEreadline-devel
+Requires: SUNWlibtool
+Requires: SUNWltdl
+Requires: SUNWlibm
 
 %package devel
 Summary:       %{summary} - development files
@@ -105,6 +104,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Thu Jan 24 2008 - nonsea@users.sourceforge.net
+- Update Requires
 * Thu Oct 25 2007 - nonsea@users.sourceforge.net
 - Bump to 1.8.3 
 - Add patch define-function.diff

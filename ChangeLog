@@ -1,5 +1,17 @@
 2008-01-24  Halton Huo  <halton.huo@sun.com>
 
+	* SFEanjuta.spec: Bump to 2.3.2, add package l10n, 
+	  add _without_gtk_doc control
+	* SFEautogen.spec: Bump to 5.9.4
+	* SFEgmp.spec: Remove Requires/BuildRequires to SFEreadline
+	* SFEgraphviz.spec: Replace SFEruby to SUNWruby18u
+	* SFEguile.spec: Update Requires
+	* SFEpygoocanvas.spec: Add _without_gtk_doc control
+	* SFEruby.spec: Add Conflicts: SUNWruby18u
+	* SFEswig.spec: Bump to 1.3.33.
+
+2008-01-24  Halton Huo  <halton.huo@sun.com>
+
 	* SUNWdesktop-search-libs.spec: Remove Requires: SUNWcsl
 	* SUNWgmime.spec: Remove mono stuff
 	* SUNWlibgc.spec: Remove Requires: SUNWcsl
