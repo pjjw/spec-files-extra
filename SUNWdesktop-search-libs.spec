@@ -1,9 +1,9 @@
 #
 # spec file for packages SUNWdesktop-search-libs
 #
-# includes module(s): libgsf, libgc, w3m
+# includes module(s): libgsf, w3m
 #
-# Copyright 2007 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -22,7 +22,6 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
-Requires: SUNWcsl
 Requires: SUNWlibms
 Requires: SUNWgnome-base-libs
 Requires: SUNWlxml
@@ -102,10 +101,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %libgsf.install -d %name-%version
 %w3m.install -d %name-%version
-
-%if %{!?_without_gtk_doc:0}%{?_without_gtk_doc:1}
-rm -rf $RPM_BUILD_ROOT%{_datadir}/gtk-doc
-%endif
 
 %if %build_l10n
 %else
@@ -188,5 +183,7 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Thu Jan 24 2008 - halton.huo@sun.com
+- Move libgc out.
 * Wed Jan 02 2008 - halton.huo@sun.com
 - Initial spec-file created

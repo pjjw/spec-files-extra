@@ -1,9 +1,18 @@
-2008-01-25  Brian Nitz < brian dot nitz at sun dot com>
-       First build of micropolis-actvity (opensourced parts of SimCity for OLPC)
-       * SFEmicropolis.spec 
-       * patches/micropolis-01-solaris.diff2008-01-24  Thomas Wagner <tom68@users.sourceforge.net>
+2008-01-24  Halton Huo  <halton.huo@sun.com>
 
-        * SFElibsndfile.spec: remove %{_mandir}/man1/* from -devel
+	* SUNWdesktop-search-libs.spec: Remove Requires: SUNWcsl
+	* SUNWgmime.spec: Remove mono stuff
+	* SUNWlibgc.spec: Remove Requires: SUNWcsl
+	* base-specs/gmime.spec: Remove mono stuff
+	* base-specs/libgc.spec: add _without_gtk_doc control
+	* base-specs/libgsf.spec: add _without_gtk_doc control
+
+2008-01-25  Brian Nitz < brian dot nitz at sun dot com>
+	First build of micropolis-actvity (opensourced parts of SimCity for OLPC)
+	* SFEmicropolis.spec 
+	* patches/micropolis-01-solaris.diff2008-01-24  Thomas Wagner <tom68@users.sourceforge.net>
+
+	* SFElibsndfile.spec: remove %{_mandir}/man1/* from -devel
 
 2008-01-24  Halton Huo  <halton.huo@sun.com>
 
@@ -185,10 +194,10 @@
 
 2008-01-17 Michal Pryc <michal dot pryc at sun dot com>
 
-        * ext-sources/tracker-thunderbird.xpi: 
+	* ext-sources/tracker-thunderbird.xpi: 
 	Patch from Mathieu Dimanche <mdimanche at free dot fr>
-        Fixed character encoding problems between Thunderbird
-        and trackerd, a.k.a. UTF-8 encoded TMS files
+	Fixed character encoding problems between Thunderbird
+	and trackerd, a.k.a. UTF-8 encoded TMS files
 
 2008-01-17 Michal Pryc <michal.pryc@sun.com>
 
@@ -399,7 +408,7 @@
 
 2008-01-04  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEalpine.spec:  bump to 1.00 - old dwnl file removed, no other
+	* SFEalpine.spec:  bump to 1.00 - old dwnl file removed, no other
 	  changes to spec/patches
 
 2008-01-05  Petr Sobotka  <sobotkap@centrum.cz>
@@ -408,16 +417,16 @@
 
 2008-01-04  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEputty.spec:  remove l10n package definition, remove debug call to
+	* SFEputty.spec:  remove l10n package definition, remove debug call to
 	  bash
 
 2008-01-04  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEputty.spec: *NEW* popular terminal emulator/telnet/ssh/sftp/serial
+	* SFEputty.spec: *NEW* popular terminal emulator/telnet/ssh/sftp/serial
 	  client
-        * patches/putty-01-gtk.diff: thanks to Takao for  
-          "putty-xx-my-build.diff" on desktop-discuss@opensolaris.org
-        * SFEgmpc.spec: add parallel build
+	* patches/putty-01-gtk.diff: thanks to Takao for  
+	  "putty-xx-my-build.diff" on desktop-discuss@opensolaris.org
+	* SFEgmpc.spec: add parallel build
 
 2008-01-04  Yong Sun <yongsun@users.sourceforge.net>
 

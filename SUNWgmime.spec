@@ -12,8 +12,6 @@
 
 %include Solaris.inc
 
-%define with_mono %(pkginfo -q SFEmono && echo 1 || echo 0)
-
 %use gmime = gmime.spec
 
 Name:          SUNWgmime
@@ -21,13 +19,10 @@ Version:       %{default_pkg_version}
 Summary:       Libraries and binaries to parse and index mail messages
 SUNW_BaseDir:  %{_basedir}
 BuildRoot:     %{_tmppath}/%{name}-%{version}-build
+Requires:      SUNWzlib
+Requires:      SUNWlibms
 Requires:      SUNWgnome-base-libs
 BuildRequires: SUNWgnome-base-libs-devel
-%if %with_mono
-  Requires: SFEmono
-  BuildRequires: SFEmono-devel
-  Requires: SFEgtk-sharp
-%endif
 
 %package devel
 Summary:       %{summary} - development files
@@ -45,14 +40,6 @@ export PKG_CONFIG_PATH=%{_pkg_config_path}
 export CFLAGS="%optflags"
 export RPM_OPT_FLAGS="$CFLAGS"
 export LDFLAGS="%_ldflags"
-
-
-%if %with_mono
-  export PATH=/usr/mono/bin:$PATH
-  %define mono_option --enable-mono
-%else
-  %define mono_option
-%endif
 
 %gmime.build -d %name-%version
 
@@ -73,13 +60,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, bin)
 %dir %attr (0755, root, bin) %dir %{_libdir}
 %{_libdir}/*.so*
-%if %with_mono
-  %dir %attr (0755, root, bin) %dir %{_libdir}/mono
-  %{_libdir}/mono/*
-  %dir %attr (0755, root, sys) %dir %{_datadir}
-  %dir %attr (0755, root, bin) %dir %{_datadir}/gapi-2.0
-  %{_datadir}/gapi-2.0/*
-%endif
 
 %files devel
 %defattr(-, root, bin)
@@ -91,10 +71,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*.sh
 %dir %attr (0755, root, other) %dir %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
+%if %{!?_without_gtk_doc:1}%{?_without_gtk_doc:0}
 %dir %attr (0755, root, sys) %dir %{_datadir}
 %{_datadir}/gtk-doc
+%endif
 
 %changelog
+* Thu Jan 24 2008 - nonsea@users.sourceforge.net
+- Remove mono stuff
+- Add gtk-doc for %files devel
 * Wed Jan 02 2008 - nonsea@users.sourceforge.net
 - Rename from SFEgmime to SUNWgmime.
 * Tue Jul 24 2007 - nonsea@users.sourceforge.net

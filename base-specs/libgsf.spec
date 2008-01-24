@@ -1,7 +1,7 @@
 #
 # spec file for package libgsf
 #
-# Copyright (c) 2005 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -127,6 +127,10 @@ make install DESTDIR=$RPM_BUILD_ROOT
 #Clean up unpackaged files
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
+
+%if %{!?_without_gtk_doc:0}%{?_without_gtk_doc:1}
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gtk-doc
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT

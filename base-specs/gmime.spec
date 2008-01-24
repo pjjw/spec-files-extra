@@ -1,7 +1,7 @@
 #
 # spec file for package gmime
 #
-# Copyright (c) 2005 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -9,7 +9,7 @@
 #
 
 Name:			gmime
-License:		GPL
+License:		LGPL
 Group:			System/Libraries
 Version:		2.2.15
 Release:	 	4
@@ -30,10 +30,6 @@ BuildRequires:  gtk-doc >= 1.0
 BuildRequires:  libtool
 BuildRequires:  pkgconfig
 BuildRequires:  zlib-devel
-%if %with_mono
-BuildRequires:  dotnet-gtk-sharp2-devel >= 2.9.0
-BuildRequires:  mono-csharp >= 1.1.16.1
-%endif
 
 %description
 This library allows you to manipulate MIME messages.
@@ -78,8 +74,7 @@ CFLAGS="$RPM_OPT_FLAGS"			\
             --libdir=%{_libdir}         \
             --libexecdir=%{_libexecdir} \
             --sysconfdir=%{_sysconfdir} \
-	    %gtk_doc_option             \
-            %mono_option
+	    %gtk_doc_option
 
 make -j $CPUS
 
@@ -87,6 +82,10 @@ make -j $CPUS
 make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
+
+%if %{!?_without_gtk_doc:0}%{?_without_gtk_doc:1}
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gtk-doc
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -111,6 +110,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtk-doc/html/gmime
 
 %changelog
+* Thu Jan 24 2008 - halton.huo@sun.com
+- Remove mono stuff.
 * Thu Jan 03 2008 - halton.huo@sun.com
 - Bump to 2.2.15
 * Wed Jan 02 2008 - halton.huo@sun.com
