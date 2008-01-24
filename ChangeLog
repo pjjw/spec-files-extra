@@ -1,4 +1,7 @@
-2008-01-24  Thomas Wagner <tom68@users.sourceforge.net>
+2008-01-25  Brian Nitz < brian dot nitz at sun dot com>
+       First build of micropolis-actvity (opensourced parts of SimCity for OLPC)
+       * SFEmicropolis.spec 
+       * patches/micropolis-01-solaris.diff2008-01-24  Thomas Wagner <tom68@users.sourceforge.net>
 
         * SFElibsndfile.spec: remove %{_mandir}/man1/* from -devel
 
