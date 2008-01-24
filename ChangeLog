@@ -1,3 +1,10 @@
+2008-01-24  Darren Kenny  <darren.kenny@sun.com>
+
+	* SFEpysqlite.spec:
+	  Bump to version 2.4.0
+	* SFEpython-zope-interface.spec:
+	  Bump to version 3.4.1
+
 2008-01-24  Halton Huo <halton.huo@sun.com>
 
 	* SUNWsqlite.spec, base-specs/sqlite.spec:

@@ -9,9 +9,9 @@
 
 Name:            SFEpython-zope-interface
 Summary:         The zope interface module
-URL:             http://www.zope.org/Wikis/Interfaces/FrontPage
-Version:         3.3.0
-Source0:         http://www.zope.org/Products/ZopeInterface/3.3.0/%{tarname}-%{version}.tar.gz
+URL:             http://pypi.python.org/pypi/zope.interface
+Version:         3.4.1
+Source0:         http://pypi.python.org/packages/source/z/zope.interface/zope.interface-%{version}.tar.gz
 SUNW_BaseDir:    %{_basedir}
 BuildRoot:       %{_tmppath}/%{name}-%{version}-build
 BuildRequires:	 SUNWPython-devel
@@ -68,5 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{pythonver}/vendor-packages/%{tarname}-%{version}-py%{pythonver}.egg-info
 
 %changelog
+* Thu Jan 24 2008 Darren Kenny <darren.kenny@sun.com
+- Bump to 3.4.1
 * Tue Jul 10 2007 Brian Cameron <brian.cameron@sun.com>
 - Created spec

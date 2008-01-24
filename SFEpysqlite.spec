@@ -10,8 +10,8 @@
 Name:                    SFEpysqlite
 Summary:                 Python DB-API 2.0 interface for the SQLite
 %define 
-%define major_version 2.3
-Version:                 %{major_version}.5
+%define                  major_version 2.4
+Version:                 %{major_version}.0
 Source:                  http://initd.org/pub/software/pysqlite/releases/%{major_version}/%{version}/pysqlite-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -54,6 +54,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/lib/python2.4/vendor-packages/pysqlite2/*
 
 %changelog
+* Thu Jan 24 2008 - darren.kenny@sun.com
+- Bump to 2.4.0
 * Tue Oct 09 2007 - Brian.Cameron@sun.co
 - Move module from site-packages to vendor-packages.
 * Fri Oct 05 2007 - Brian.Cameron@sun.com
