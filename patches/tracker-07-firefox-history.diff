@@ -280,8 +280,8 @@ Index: src/tracker-search-tool/tracker-search-tool.c
 -			pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), icon,
 +                        if ((g_str_has_suffix(icon,"png") == TRUE) || g_str_has_suffix(icon,"xpm")==TRUE || g_str_has_suffix(icon,"svg") == TRUE) 
 +                        {
-+ 				char icon_filename[50] ;
-+                                g_strlcat(icon_filename,icon, strlen(icon)-3);
++ 				 gchar* icon_filename = g_malloc0(50) ;
++                                g_strlcpy(icon_filename,icon, strlen(icon)-3);
 +                          
 +				pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), icon_filename,
  			                                             ICON_SIZE, 0, NULL);
