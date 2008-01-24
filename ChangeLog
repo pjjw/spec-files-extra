@@ -1,3 +1,27 @@
+2008-01-24  Halton Huo <halton.huo@sun.com>
+
+	Import MetaTracker project relates spec files and patches to vermillion
+	doc, so remove them from SFE dock.
+	* SFEw3m.spec:
+	* SUNWdesktop-search-libs.spec:
+	* SUNWdesktop-search.spec:
+	* SUNWgmime.spec:
+	* SUNWlibgc.spec:
+	* base-specs/gmime.spec:
+	* base-specs/libgc.spec:
+	* base-specs/tracker.spec:
+	* base-specs/w3m.spec:
+	* patches/libgsf-01-uninstalled-pc.diff:
+	* patches/tracker-01-w3m-crash.diff:
+	* patches/tracker-02-disable-autostart.diff:
+	* patches/tracker-03-r1071-latest.diff:
+	* patches/tracker-04-tp-reindex.diff:
+	* patches/tracker-05-evo-reload.diff:
+	* patches/tracker-06-thunderbird.diff:
+	* patches/tracker-07-firefox-history.diff:
+	* patches/tracker-08-check-remote.diff:
+	* patches/tracker-09-man.diff:
+
 2008-01-24  Halton Huo  <halton.huo@sun.com>
 
 	* SFEanjuta.spec: Bump to 2.3.2, add package l10n, 
