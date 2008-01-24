@@ -1,5 +1,13 @@
 2008-01-24  Halton Huo  <halton.huo@sun.com>
 
+	* SFEbdw-gc.spec, SUNWlibgc.spec: rename from SFEbdw-gc to SUNWlibgc.
+	* SFEinkscape.spec: Update Requires/BuildRequires to SUNWlibgc.
+	* SFEw3m.spec: Update Requires/BuildRequires to SUNWlibgc.
+	* SUNWdesktop-search-libs.spec: Remove libgc build,
+	  Add Requires/BuildRequires to SUNWlibgc.
+
+2008-01-24  Halton Huo  <halton.huo@sun.com>
+
 	* patches/tracker-07-firefox-history.diff: (rework) fix crash on t-s-t
 	  on sparc.
 

@@ -1,5 +1,5 @@
 #
-# spec file for package SFEbdw-gc
+# spec file for package SUNWlibgc
 #
 # includes module(s): libgc
 #
@@ -13,24 +13,21 @@
 
 %use libgc = libgc.spec
 
-Name:                    SFEbdw-gc
+Name:                    SUNWlibgc
 Summary:                 Boehm-Demers-Weiser garbage collector for C/C++
 Version:                 %{default_pkg_version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
-Requires:      SUNWgnome-libs
-BuildRequires: SUNWgnome-libs-devel
-BuildRequires: SUNWPython
-Conflicts:     SUNWdesktop-search-libs
+Requires: SUNWcsl
+Requires: SUNWlibms
 
 %package devel
 Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires:                %{name}
-Conflicts:     SUNWdesktop-search-libs-devel
 
 %prep
 rm -rf %name-%version

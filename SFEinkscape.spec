@@ -1,6 +1,10 @@
 #
 # spec file for package SFEinkscape
 #
+# Copyright (c) 2008 Sun Microsystems, Inc.
+# This file and all modifications and additions to the pristine
+# package are under the same license as the package itself.
+#
 # includes module(s): inkscape
 #
 %include Solaris.inc
@@ -14,7 +18,7 @@ Patch1:                  inkscape-01-no-ver-check.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires:      SFEbdw-gc
+Requires:      SUNWlibgc
 Requires:      SUNWgnome-libs
 Requires:      SFEgtkmm
 Requires:      SFEglibmm
@@ -23,7 +27,7 @@ Requires:      SFElcms
 BuildRequires: SFEgtkmm-devel
 BuildRequires: SFEglibmm-devel
 BuildRequires: SFEsigcpp-devel
-BuildRequires: SFEbdw-gc-devel
+BuildRequires: SUNWlibgc-devel
 BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWPython
 BuildRequires: SFElcms-devel

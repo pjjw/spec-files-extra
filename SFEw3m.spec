@@ -27,11 +27,11 @@ BuildRequires: FSWxorg-headers
 Requires: SUNWxwrtl
 %endif
 Requires:            SUNWzlib
-Requires:            SFEbdw-gc
+Requires:            SUNWlibgc
 Requires:            SUNWopenssl-libraries
 BuildRequires:       SUNWgnome-base-libs-devel
 BuildRequires:       SUNWopenssl-include
-BuildRequires:       SFEbdw-gc-devel
+BuildRequires:       SUNWlibgc-devel
 Conflicts:           SUNWdesktop-search-libs
 
 %prep

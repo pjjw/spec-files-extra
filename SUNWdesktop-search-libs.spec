@@ -12,7 +12,6 @@
 %include Solaris.inc
 
 %use libgsf = libgsf.spec
-%use libgc = libgc.spec
 %use w3m = w3m.spec
 
 Name:                    SUNWdesktop-search-libs
@@ -23,17 +22,17 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
-Requires: SUNWcslr
-Requires: SUNWlibmsr
+Requires: SUNWcsl
+Requires: SUNWlibms
 Requires: SUNWgnome-base-libs
 Requires: SUNWlxml
 Requires: SUNWgnome-component
 Requires: SUNWgnome-vfs
 Requires: SUNWbzip
 Requires: SUNWpostrun
-Requires: SUNWlibmsr
 Requires: SUNWopenssl-libraries
 Requires: SUNWxwplt
+Requires: SUNWlibgc
 %if %option_with_fox
 Requires: FSWxorg-clientlibs
 Requires: FSWxwrtl
@@ -41,17 +40,18 @@ BuildRequires: FSWxorg-headers
 %else
 Requires: SUNWxwrtl
 %endif
-BuildRequires: SUNWgnome-base-libs-devel
-BuildRequires: SUNWlxml-devel
-BuildRequires: SUNWgnome-component-devel
-BuildRequires: SUNWgnome-vfs-devel
-BuildRequires: SUNWopenssl-include
 %if %option_with_gnu_iconv
 Requires: SUNWgnu-libiconv
 Requires: SUNWgnu-gettext
 %else
 Requires: SUNWuiu8
 %endif
+BuildRequires: SUNWgnome-base-libs-devel
+BuildRequires: SUNWlxml-devel
+BuildRequires: SUNWgnome-component-devel
+BuildRequires: SUNWgnome-vfs-devel
+BuildRequires: SUNWopenssl-include
+BuildRequires: SUNWlibgc-devel
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -77,7 +77,6 @@ Requires:                %{name}
 rm -rf %name-%version
 mkdir %name-%version
 %libgsf.prep -d %name-%version
-%libgc.prep -d %name-%version
 %w3m.prep -d %name-%version
 #cd %{_builddir}/%name-%version
 #gzcat %SOURCE0 | tar xf -
@@ -96,22 +95,12 @@ export RPM_OPT_FLAGS="$CFLAGS"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 
 %libgsf.build -d %name-%version
-
-%libgc.build -d %name-%version
-
-export CFLAGS="$CFLAGS -I%{_builddir}/%name-%version/gc-%{libgc.version}/include"
-export RPM_OPT_FLAGS="$CFLAGS"
-export LDFLAGS="$LDFLAGS -L%{_builddir}/%name-%version/gc-%{libgc.version}/.libs"
-export LD_LIBRARY_PATH="%{_builddir}/%name-%version/gc-%{libgc.version}/.libs"
-export PKG_CONFIG_PATH=%{_builddir}/%name-%version/gc-%{libgc.version}:%{_pkg_config_path}
-
 %w3m.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 %libgsf.install -d %name-%version
-%libgc.install -d %name-%version
 %w3m.install -d %name-%version
 
 %if %{!?_without_gtk_doc:0}%{?_without_gtk_doc:1}
@@ -170,7 +159,6 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %attr (-, root, bin) %{_libdir}/python*
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/w3m/*
-%{_datadir}/gc/*
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*
