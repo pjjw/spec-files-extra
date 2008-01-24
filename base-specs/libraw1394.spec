@@ -15,11 +15,13 @@ Source:		%{src_url}/%{src_name}-%{version}.tar.gz
 Source1:	byteswap-compat.h
 Source2:	endian-compat.h
 Patch1:		libraw1394-01-solaris.diff
+Patch2:		libraw1394-01-studio.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
 %prep
 %setup -q -n %{src_name}-%{version}
 %patch1 -p1
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`

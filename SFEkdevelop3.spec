@@ -7,45 +7,31 @@
 
 %define kde_version 3.5.8
 
-Name:                SFEkdepim3
-Summary:             Personal Imformation Management tool from official KDE release
-Version:             %{kde_version}
-Source:              http://mirrors.isc.org/pub/kde/stable/%{kde_version}/src/kdepim-%{version}.tar.bz2
-Patch1:              kdepim-01-kalarm.diff
+Name:                SFEkdevelop3
+Summary:             KDE Application Development IDE
+Version:             3.5.0
+Source:              http://mirrors.isc.org/pub/kde/stable/%{kde_version}/src/kdevelop-%{version}.tar.bz2
+Patch1:              kdevelop-01-getline.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-%include perl-depend.inc
 
 # This also brings in all relevenat deps including kdelibs, qt, aRts and others.
 Requires: SFEkdebase3
-BuildRequires: SFEkdebase3-devel
-Requires: SFEkdemultimedia3
-BuildRequires: SFEkdemultimedia3-devel
-Requires: SFEgnupg
-Requires: SFEgnupg2
-Requires: SFEgpgme
-Requires: SUNWbison
-Requires: SUNWpilot-link
-BuildRequires: SUNWpilot-link-devel
-Requires: SFElibmal
-Requires: SFEcyrus-sasl
-Requires: SFEgraphviz
-Requires: SFEdoxygen
-Requires: SUNWflexlex
-
-%package devel
-Summary:        %{summary} - development files
-SUNW_BaseDir:   %{_basedir}
-%include default-depend.inc
-Requires: %name
 Requires: SFEkdebase3-devel
-Requires: SUNWpilot-link-devel
-Requires: SFEkdemultimedia3-devel
+Requires: SFEkdelibs3-devel
+BuildRequires: SFEkdebase3-devel
+BuildRequires: SFEkdelibs3-devel
+Requires: SFEdoxygen
+BuildRequires: SFEdoxygen
+Requires: SFEgraphviz
+Requires: SUNWflexlex
+BuildRequires: SUNWflexlex
+Requires: SFEhtdig
 
 %prep
-%setup -q -n kdepim-%version
+%setup -q -n kdevelop-%version
 %patch1 -p1
 
 if [ "x`basename $CC`" != xgcc ]
@@ -59,14 +45,14 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
+#export PATH="${PATH}:/usr/perl5/5.8.4/bin"
 export CFLAGS="%optflags -fPIC -I%{xorg_inc} -I%{gnu_inc} -I%{sfw_inc} `/usr/bin/libart2-config --cflags` -D__C99FEATURES__ -D__EXTENSIONS__"
 
 export CXXFLAGS="%cxx_optflags -I%{xorg_inc} -I%{gnu_inc} -I%{sfw_inc} `/usr/bin/libart2-config --cflags` -D__C99FEATURES__ -D__EXTENSIONS__"
 
-export LDFLAGS="%_ldflags %{xorg_lib_path} %{gnu_lib_path} %{sfw_lib_path} -lc -lsocket -lnsl `/usr/bin/libart2-config --libs`"
+export LDFLAGS="%{xorg_lib_path} %{gnu_lib_path} %{sfw_lib_path} -lc -lsocket -lnsl `/usr/bin/libart2-config --libs`"
 
-export LIBS=$LDFLAGS
-
+export QTDOCDIR=%{_datadir}/qt3/doc/html
 export PATH="${PATH}:/usr/openwin/bin"
 extra_inc="%{xorg_inc}:%{gnu_inc}:%{sfw_inc}"
 sfw_prefix=`dirname %{sfw_bin}`
@@ -77,8 +63,11 @@ sfw_prefix=`dirname %{sfw_bin}`
            --enable-static=no \
            --enable-final \
            --with-extra-includes="${extra_inc}" \
-           --with-ssl-dir="${sfw_prefix}" \
-           --with-gpgsm=no
+           --with-apr-config=%{gnu_bin}/apr-1-config \
+           --with-apu-config=%{gnu_bin}/apu-1-config \
+           --with-svn-include=%{gnu_inc}/subversion-1 \
+           --with-svn-lib=%{gnu_lib} \
+           --disable-ada
 
 
 make -j$CPUS
@@ -113,35 +102,23 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/apps
 %{_datadir}/apps/*
-%dir %attr (0755, root, other) %{_datadir}/applnk
-%{_datadir}/applnk/*
-%dir %attr (0755, root, other) %{_datadir}/applnk/.hidden
-%{_datadir}/applnk/.hidden/*
 %dir %attr (0755, root, other) %{_datadir}/mimelnk
 %{_datadir}/mimelnk/*
-%dir %attr (0755, root, other) %{_datadir}/config.kcfg
-%{_datadir}/config.kcfg/*
+%dir %attr (0755, root, other) %{_datadir}/config
+%{_datadir}/config/*
 %dir %attr (0755, root, other) %{_datadir}/services
 %{_datadir}/services/*
 %dir %attr (0755, root, other) %{_datadir}/servicetypes
 %{_datadir}/servicetypes/*
-%dir %attr (0755, root, other) %{_datadir}/config
-%{_datadir}/config/*
-%dir %attr (0755, root, sys) %{_datadir}/autostart
-%{_datadir}/autostart/*
 
 %defattr (-, root, bin)
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
-
-%files devel
-%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_datadir}/desktop-directories
+%{_datadir}/desktop-directories/*
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 
 %changelog
 * Thu Jan 24 2008 - moinak.ghosh@sun.com
-- Use perl-depend definitions
-- Use predefined macros instead of hardcoding pathnames
-* Tue Jan 22 2008 - moinak.ghosh@sun.com
 - Initial spec.

@@ -111,24 +111,29 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags -I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/include -I/usr/include/pcre `/usr/bin/libart2-config --cflags` -D__C99FEATURES__ -D__EXTENSIONS__"
+export CFLAGS="%optflags -I%{xorg_inc} -I%{gnu_inc} -I%{sfw_inc} -I/usr/include/pcre `/usr/bin/libart2-config --cflags` -D__C99FEATURES__ -D__EXTENSIONS__"
 
-export CXXFLAGS="%cxx_optflags -I/usr/X11/include -I/usr/gnu/include -I/usr/sfw/include -I/usr/include/pcre `/usr/bin/libart2-config --cflags` -D__C99FEATURES__ -D__EXTENSIONS__"
+export CXXFLAGS="%cxx_optflags -I%{xorg_inc} -I%{gnu_inc} -I%{sfw_inc} -I/usr/include/pcre `/usr/bin/libart2-config --cflags` -D__C99FEATURES__ -D__EXTENSIONS__"
 
-export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib -lc -lsocket -lnsl `/usr/bin/libart2-config --libs`"
+export LDFLAGS="%_ldflags %{xorg_lib_path} %{gnu_lib_path} %{sfw_lib_path} -lc -lsocket -lnsl `/usr/bin/libart2-config --libs`"
+
+export QTDOCDIR=%{_datadir}/qt3/doc/html
+extra_inc="%{xorg_inc}:%{gnu_inc}:%{sfw_inc}:/usr/include/pcre"
+sfw_prefix=`dirname %{sfw_bin}`
 
 ./configure --prefix=%{_prefix} \
            --sysconfdir=%{_sysconfdir} \
            --enable-shared=yes \
            --enable-static=no \
            --enable-final \
-           --with-ssl-dir=/usr/sfw \
-           --with-extra-includes="/usr/X11/include:/usr/gnu/include:/usr/sfw/include:/usr/include/pcre" \
+           --with-ssl-dir="${sfw_prefix}" \
+           --with-extra-includes="${extra_inc}" \
            --with-gssapi=no \
            --disable-debug
 
 
 make -j$CPUS
+make -j$CPUS apidox
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -204,6 +209,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Thu Jan 24 2008 - moinak.ghosh@sun.com
+- Set QTDOCDIR to satisfy internal doxygen script.
+- Use predefined macros instead of hardcoding pathnames.
 * Tue Jan 22 2008 - moinak.ghosh@sun.com
 - Fixed typo in configure options.
 * Sun Jan 20 2008 - moinak.ghosh@sun.com

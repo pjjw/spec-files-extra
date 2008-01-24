@@ -10,8 +10,8 @@
 
 Name:                   SFEsupertux
 Summary:                Super Tux Game
-Version:                0.3.0
-Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
+Version:                0.3.1
+Source:                 %{src_url}/%{src_name}-%{version}d.tar.bz2
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -42,7 +42,7 @@ export CC=/usr/sfw/bin/gcc
 export CXX=/usr/sfw/bin/g++
 unset CFLAGS
 unset CXXFLAGS
-export LDFLAGS="%_ldflags"
+unset LDFLAGS
 ./configure --prefix=%{_prefix}		\
 	    --bindir=%{_bindir}		\
 	    --mandir=%{_mandir}		\
@@ -51,7 +51,8 @@ export LDFLAGS="%_ldflags"
             --libexecdir=%{_libexecdir} \
             --sysconfdir=%{_sysconfdir} \
             --enable-shared		\
-	    --disable-static
+	    --disable-static		\
+            --enable-opengl=no
 jam
 
 %install
@@ -69,18 +70,18 @@ EOM
 
 jam install
 ( cd $RPM_BUILD_ROOT%{_datadir}
-  tar fcp - supertux | bzip2 -c > supertux.tar.bz2
-  rm -rf supertux
-  mkdir supertux
-  mv supertux.tar.bz2 supertux
+  tar fcp - supertux2 | bzip2 -c > supertux2.tar.bz2
+  rm -rf supertux2
+  mkdir supertux2
+  mv supertux2.tar.bz2 supertux2
 )
 
 %post
-( cd ${BASEDIR}/usr/share
-  bzcat supertux/supertux.tar.bz2 | tar fx -
+( cd ${BASEDIR}/share
+  bzcat supertux2/supertux2.tar.bz2 | tar xf -
   cd ..
-  removef $PKGINST share/supertux/supertux.tar.bz2
-  rm -f share/supertux/supertux.tar.bz2
+  removef $PKGINST share/supertux2/supertux2.tar.bz2
+  rm -f share/supertux2/supertux2.tar.bz2
   removef -f $PKGINST || exit 2
 )
 ( echo 'test -x /usr/bin/update-desktop-database || exit 0';
@@ -100,7 +101,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %{_bindir}
 %dir %attr (0755,root,sys) %{_datadir}
-%{_datadir}/supertux
+%{_datadir}/supertux2
 %dir %attr (0755,root,other) %{_datadir}/doc
 %dir %attr (0755,root,other) %{_datadir}/applications
 %dir %attr (0755,root,other) %{_datadir}/pixmaps

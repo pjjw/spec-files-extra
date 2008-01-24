@@ -135,8 +135,19 @@ rm -rf $RPM_BUILD_ROOT
 
 make install INSTALL_ROOT=$RPM_BUILD_ROOT
 
+# Developing Qt apps needs a few .a libs
+#
 rm ${RPM_BUILD_ROOT}%{_libdir}/*.la
-rm ${RPM_BUILD_ROOT}%{_libdir}/*.a
+
+#
+# Create a compatibility doc link
+#
+(cd ${RPM_BUILD_ROOT}%{_datadir}/qt3
+  mkdir doc
+  chmod 0755 doc
+  cd doc
+  ln -s ../../doc/qt3/html
+)
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -147,7 +158,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
-%{_libdir}/lib*.prl
 %dir %attr (0755, root, other)  %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*.pc
 %dir %attr (0755, root, bin) %{_libdir}/qt3
@@ -155,6 +165,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/lib*.prl
+%{_libdir}/lib*.a
 %dir %attr (0755, root, bin) %{_includedir}
 %dir %attr (0755, root, other) %{_includedir}/qt3
 %{_includedir}/qt3/*
@@ -165,6 +178,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Thu Jan 24 2008 - moinak.ghosh@sun.com
+- Create a compatibility doc link so that KDE and other software
+- can find QT documentation.
+- Do not remove static libs. Put them in devel package.
 * Sun Jan 20 2008 - moinak.ghosh@sun.com
 - Commented out patch 3 for now. Leaks memory like a sieve without
 - showing any perceptible performance improvement.

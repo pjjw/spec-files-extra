@@ -1,0 +1,131 @@
+--- kdeutils-3.5.1/khexedit/lib/kbytesedit.h.orig	Tue Feb 14 15:05:08 2006
++++ kdeutils-3.5.1/khexedit/lib/kbytesedit.h	Tue Feb 14 15:05:43 2006
+@@ -73,7 +73,7 @@
+       * @param Name name for this widget
+       * @param F flags
+       */
+-    KBytesEdit( char *D, int DS, int RS, bool KM, QWidget *Parent = 0, const char *Name = 0, WFlags F = 0 );
++    KBytesEdit( char *D, int DS_, int RS_, bool KM, QWidget *Parent = 0, const char *Name = 0, WFlags F = 0 );
+     /** hands over to the editor a new byte array.
+       * If there exists an old one and autodelete is set the old one gets deleted.
+       * @param D pointer to memory
+@@ -81,7 +81,7 @@
+       * @param RS real size of the memory
+       * @param KM keep the memory on resize (RS is the maximum size)
+       */
+-    KBytesEdit( char *D, int DS, QWidget *Parent = 0, const char *Name = 0, WFlags F = 0 );
++    KBytesEdit( char *D, int DS_, QWidget *Parent = 0, const char *Name = 0, WFlags F = 0 );
+     /** hands over to the editor a new byte array.
+       * If there exists an old one and autodelete is set the old one gets deleted.
+       * @param D pointer to memory
+--- kdeutils-3.5.1/khexedit/lib/kbytesedit.cpp.orig	Tue Feb 14 15:06:07 2006
++++ kdeutils-3.5.1/khexedit/lib/kbytesedit.cpp	Tue Feb 14 15:06:41 2006
+@@ -24,18 +24,18 @@
+ using namespace KHE;
+ 
+ 
+-KBytesEdit::KBytesEdit( char *D, int DS, int RS, bool KM, QWidget *Parent, const char *Name, WFlags F )
++KBytesEdit::KBytesEdit( char *D, int DS_, int RS_, bool KM, QWidget *Parent, const char *Name, WFlags F )
+  : KHexEdit( 0L, Parent, Name, F ),
+    AutoDelete( false )
+ {
+-  setData( D, DS, RS, KM );
++  setData( D, DS_, RS_, KM );
+ }
+ 
+-KBytesEdit::KBytesEdit( char *D, int DS, QWidget *Parent, const char *Name, WFlags F )
++KBytesEdit::KBytesEdit( char *D, int DS_, QWidget *Parent, const char *Name, WFlags F )
+  : KHexEdit( 0L, Parent, Name, F ),
+    AutoDelete( false )
+ {
+-  setData( D, DS );
++  setData( D, DS_ );
+ }
+ 
+ 
+--- kdeutils-3.5.1/khexedit/lib/kbufferranges.cpp.orig	Tue Feb 14 15:08:05 2006
++++ kdeutils-3.5.1/khexedit/lib/kbufferranges.cpp	Tue Feb 14 15:09:08 2006
+@@ -99,46 +99,46 @@
+ 
+   if( OldSelection == Selection )
+     return;
+-  int CS;
+-  int CE;
++  int CS_;
++  int CE_;
+   // changes at the end?
+   if( Selection.start() == OldSelection.start() )
+   {
+-    CS = OldSelection.end()+1;
+-    CE = Selection.end();
+-    if( CE < CS )
++    CS_ = OldSelection.end()+1;
++    CE_ = Selection.end();
++    if( CE_ < CS_ )
+     {
+-      CS = Selection.end()+1;
+-      CE = OldSelection.end();
++      CS_ = Selection.end()+1;
++      CE_ = OldSelection.end();
+     }
+   }
+   // changes at the start?
+   else if( Selection.end() == OldSelection.end() )
+   {
+-    CS = OldSelection.start();
+-    CE = Selection.start()-1;
+-    if( CE < CS )
++    CS_ = OldSelection.start();
++    CE_ = Selection.start()-1;
++    if( CE_ < CS_ )
+     {
+-      CS = Selection.start();
+-      CE = OldSelection.start()-1;
++      CS_ = Selection.start();
++      CE_ = OldSelection.start()-1;
+     }
+   }
+   // change over the anchor
+   else
+   {
+-    CS = OldSelection.start();
+-    CE = Selection.end();
+-    if( CE < CS )
++    CS_ = OldSelection.start();
++    CE_ = Selection.end();
++    if( CE_ < CS_ )
+     {
+-      CS = Selection.start();
+-      CE = OldSelection.end();
++      CS_ = Selection.start();
++      CE_ = OldSelection.end();
+     }
+   }
+-  KSection C( CS, CE );
++  KSection C_( CS_, CE_ );
+ 
+-  bool Changed = C.isValid();
++  bool Changed = C_.isValid();
+   if( Changed )
+-    addChangedRange( C );
++    addChangedRange( C_ );
+   return;
+ }
+ 
+--- kdeutils-3.5.1/khexedit/parts/kbytesedit/kbyteseditwidget.h.orig	Tue Feb 14 15:11:04 2006
++++ kdeutils-3.5.1/khexedit/parts/kbytesedit/kbyteseditwidget.h	Tue Feb 14 15:11:36 2006
+@@ -52,11 +52,11 @@
+     /** hands over to the editor a new byte array.
+       * If there exists an old one and autodelete is set the old one gets deleted.
+       * @param D pointer to memory
+-      * @param DS size of used memory
+-      * @param RS real size of the memory
++      * @param DS_ size of used memory
++      * @param RS_ real size of the memory
+       * @param KM keep the memory on resize (RS is the maximum size)
+       */
+-    virtual void setData( char *D, int DS, int RS = -1, bool KM = true );
++    virtual void setData( char *D, int DS_, int RS_ = -1, bool KM = true );
+ 
+     /** sets the maximal size of the actual byte array. If the actual array is already larger
+       * it will not be modified but there can be only done non-inserting actions

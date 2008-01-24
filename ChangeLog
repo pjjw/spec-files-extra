@@ -1,3 +1,33 @@
+2008-01-24  Moinak Ghosh  <moinak.ghosh@sun.com>
+	* SFEkdevelop3.spec:
+	* patches/kdevelop-01-getline.diff:
+	  Added KDE Development IDE
+	* SFElibvisual.spec:
+	* patches/libvisual-01-lv_types.diff:
+	  Added visualization library package
+	* SFEhtdig.spec:
+	  Added HTML indexing/searching application
+	* SFEkdewebdev3.spec:
+	  Added KDE Web development tools package
+	* SFExerces-c.spec:
+	  Added Xerces C++ XML manipulation library
+	* SFEkdeutils3.spec:
+	* patches/kdeutils-02-superkaramba.diff:
+	* patches/kdeutils-01-khexedit.diff:
+	  Added KDE utilities package
+	* SFEqt3.spec:
+	  Create a compatibility doc link so that KDE and other software
+	  can find QT documentation.
+	  Do not remove static libs. Put them in devel package.
+	* SFEkdepim3.spec:
+	  Use perl-depend definitions
+	  Use predefined macros instead of hardcoding pathnames
+	* SFEkdelibs3.spec:
+	  Set QTDOCDIR to satisfy internal doxygen script.
+	  Use predefined macros instead of hardcoding pathnames.
+	  include/perl-depend.inc:
+	  Add macro to define Perl bin directory path
+
 2008-01-24  Darren Kenny  <darren.kenny@sun.com>
 
 	* SFEpysqlite.spec:

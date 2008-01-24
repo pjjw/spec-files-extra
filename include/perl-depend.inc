@@ -13,3 +13,4 @@ Requires:       SUNWperl584core
 %define perl_dir i86pc-solaris-64int 
 %endif
 
+%define perl_bin /usr/perl5/5.8.4/bin

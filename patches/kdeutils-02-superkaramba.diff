@@ -1,0 +1,11 @@
+--- kdeutils-3.5.8/superkaramba/src/Makefile.in.orig	2008-01-23 10:14:03.011153000 +0530
++++ kdeutils-3.5.8/superkaramba/src/Makefile.in	2008-01-23 10:14:25.107160000 +0530
+@@ -475,7 +475,7 @@
+ 
+ 
+ # kde_cfg_DATA = superkaramba.kcfg
+-superkaramba_LDFLAGS = -Wl,-export-dynamic  $(KDE_RPATH) $(all_libraries) $(PYTHONLIB) $(XMMS_LDFLAGS)
++superkaramba_LDFLAGS = $(KDE_RPATH) $(all_libraries) $(PYTHONLIB) $(XMMS_LDFLAGS)
+ #superkaramba_LDADD = -lkio $(LIB_KDEUI) $(XMMS_LDADD) $(LIBPYTHON) $(LIBKVM) $(MY_LIBKNEWSTUFF)
+ superkaramba_LDADD = -lkio $(LIB_KDEUI) $(XMMS_LIBS) $(LIBPYTHON) $(LIBKVM) $(MY_LIBKNEWSTUFF)
+ 
