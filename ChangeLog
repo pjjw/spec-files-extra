@@ -1,5 +1,13 @@
 2008-01-24  Halton Huo <halton.huo@sun.com>
 
+	* SUNWsqlite.spec, base-specs/sqlite.spec:
+	Remove from SFE dock since it is already in vermillion dock.
+	* ext-sources/tracker-thunderbird.xpi, 
+	  ext-sources/tracker-firefox-history-xesam.xpi:
+	Remove two more files for MetaTracker projects.
+
+2008-01-24  Halton Huo <halton.huo@sun.com>
+
 	Import MetaTracker project relates spec files and patches to vermillion
 	doc, so remove them from SFE dock.
 	* SFEw3m.spec:
