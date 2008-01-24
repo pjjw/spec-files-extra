@@ -1,3 +1,7 @@
+2008-01-24  Thomas Wagner <tom68@users.sourceforge.net>
+
+        * SFElibsndfile.spec: remove %{_mandir}/man1/* from -devel
+
 2008-01-24  Halton Huo  <halton.huo@sun.com>
 
 	* SFEbdw-gc.spec, SUNWlibgc.spec: rename from SFEbdw-gc to SUNWlibgc.

@@ -96,7 +96,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_mandir}/man1/*
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
 %ifarch amd64 sparcv9
@@ -106,6 +105,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jan 24 2007 - Thomas Wagner
+- remove %{_mandir}/man1/* from the -devel package
 * Sun Aug 12 2007 - dougs@truemail.co.th
 - Converted to build 64bit
 * Mon Apr 30 2007 - laca@sun.com
