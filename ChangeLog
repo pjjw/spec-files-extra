@@ -1,3 +1,11 @@
+2008-01-21  simon.zheng  <simon.zheng@sun.com>
+
+        * base-specs/gnome-device-manager.spec:
+          Correct tarball download website.
+        * base-specs/gnome-power-manager.spec:
+        * patches/gnome-power-manager-11-authorization-checking.diff:
+	  Enable configure option --enable-polkit.
+
 2008-01-25 Moinak Ghosh  <moinak.ghosh@sun.com>
 	* SFEkdevelop3.spec:
 	  Add -zcombreloc and -zdirect linker options.

@@ -107,6 +107,7 @@ intltoolize --copy --force --automake
 autoheader
 autoconf
 ./configure --prefix=%{_prefix}			\
+	    --enable-policykit			\
 	    --libexecdir=%{_libexecdir}         \
             --sysconfdir=%{_sysconfdir}         \
 	    --mandir=%{_mandir}                 \
@@ -144,6 +145,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jau 25 2007 - simon.zheng@sun.com
+- Enable configure option --enable-polkit.
+
 * Mon Jau 21 2007 - simon.zheng@sun.com
 - Add gnome-power-manager-16-brightness-reduction.diff to fix
   bugzilla bug #510068.

@@ -10,7 +10,7 @@ Release:      2
 Distribution: Java Desktop System
 Vendor:       Sun Microsystems, Inc.
 Summary:      Device-manager is a GNOME program to manage devices and device drivers.
-Source0:      http://hal.freedesktop.org/release/%{name}-%{version}.tar.bz2
+Source0:      http://hal.freedesktop.org/releases/%{name}-%{version}.tar.bz2
 Patch1:	      gnome-device-manager-01-build.diff
 Patch2:       gnome-device-manager-02-subsystem.diff
 URL:          http://www.freedesktop.org/wiki/Software_2fhal
