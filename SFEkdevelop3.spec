@@ -45,12 +45,11 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-#export PATH="${PATH}:/usr/perl5/5.8.4/bin"
 export CFLAGS="%optflags -fPIC -I%{xorg_inc} -I%{gnu_inc} -I%{sfw_inc} `/usr/bin/libart2-config --cflags` -D__C99FEATURES__ -D__EXTENSIONS__"
 
 export CXXFLAGS="%cxx_optflags -I%{xorg_inc} -I%{gnu_inc} -I%{sfw_inc} `/usr/bin/libart2-config --cflags` -D__C99FEATURES__ -D__EXTENSIONS__"
 
-export LDFLAGS="%{xorg_lib_path} %{gnu_lib_path} %{sfw_lib_path} -lc -lsocket -lnsl `/usr/bin/libart2-config --libs`"
+export LDFLAGS="-Wl,-zcombreloc -Wl,-zdirect %{xorg_lib_path} %{gnu_lib_path} %{sfw_lib_path} -lc -lsocket -lnsl `/usr/bin/libart2-config --libs`"
 
 export QTDOCDIR=%{_datadir}/qt3/doc/html
 export PATH="${PATH}:/usr/openwin/bin"
@@ -67,7 +66,8 @@ sfw_prefix=`dirname %{sfw_bin}`
            --with-apu-config=%{gnu_bin}/apu-1-config \
            --with-svn-include=%{gnu_inc}/subversion-1 \
            --with-svn-lib=%{gnu_lib} \
-           --disable-ada
+           --disable-ada \
+           --disable-debug
 
 
 make -j$CPUS
@@ -120,5 +120,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Fri Jan 25 2008 - moinak.ghosh@sun.com
+- Add -zcombreloc and -zdirect linker options.
+- Disable debug. 
 * Thu Jan 24 2008 - moinak.ghosh@sun.com
 - Initial spec.

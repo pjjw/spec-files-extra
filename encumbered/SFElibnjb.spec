@@ -83,10 +83,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 
+%dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
 
 %changelog
+* Fri Jan 25 2008 - moinak.ghosh@sun.com
+- Fix one more directory permission.
 * Sun Jan 06 2008 - moinak.ghosh@sun.com
 - Fix directory permissions, enable building shlib, add SUNW_BaseDir
 - Re-generate libnjb patch using gdiff

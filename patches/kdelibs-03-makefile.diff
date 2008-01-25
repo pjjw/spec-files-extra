@@ -1,15 +1,17 @@
---- kdelibs-3.5.8/Makefile.in.orig	2008-01-12 12:21:31.246363000 +0530
-+++ kdelibs-3.5.8/Makefile.in	2008-01-12 12:21:42.236583000 +0530
-@@ -1050,11 +1050,11 @@
+--- kdelibs-3.5.8/Makefile.in.orig	2008-01-25 12:08:10.063341557 +0530
++++ kdelibs-3.5.8/Makefile.in	2008-01-25 12:10:00.397681991 +0530
+@@ -1050,11 +1050,13 @@
  uninstall-apidox:
  	@if test "$(subdir)" != "."; then \
  		if test -d $(DESTDIR)$(kde_htmldir)/en/$(PACKAGE)-apidocs/$(subdir); then \
 -			rm -rfv $(DESTDIR)$(kde_htmldir)/en/$(PACKAGE)-apidocs/$(subdir); \
++			echo "Cleaning up $(DESTDIR)$(kde_htmldir)/en/$(PACKAGE)-apidocs/$(subdir)"; \
 +			rm -rf $(DESTDIR)$(kde_htmldir)/en/$(PACKAGE)-apidocs/$(subdir); \
  		fi \
  	else \
  		if test -d $(DESTDIR)$(kde_htmldir)/en/$(PACKAGE)-apidocs; then \
 -			rm -rfv $(DESTDIR)$(kde_htmldir)/en/$(PACKAGE)-apidocs; \
++			echo "Cleaning up $(DESTDIR)$(kde_htmldir)/en/$(PACKAGE)-apidocs"; \
 +			rm -rf $(DESTDIR)$(kde_htmldir)/en/$(PACKAGE)-apidocs; \
  		fi \
  	fi

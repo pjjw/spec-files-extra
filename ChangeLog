@@ -1,3 +1,13 @@
+2008-01-25 Moinak Ghosh  <moinak.ghosh@sun.com>
+	* SFEkdevelop3.spec:
+	  Add -zcombreloc and -zdirect linker options.
+	  Disable debug.
+	* encumbered/SFElibnjb.spec:
+	  Fix one more directory permission.
+	* patches/kdenetwork-01-kopete.diff:
+	* patches/kdelibs-03-makefile.diff:
+	  Rework.
+
 2008-01-24  Moinak Ghosh  <moinak.ghosh@sun.com>
 	* SFEkdevelop3.spec:
 	* patches/kdevelop-01-getline.diff:
