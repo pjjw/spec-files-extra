@@ -1,0 +1,13 @@
+--- kdeedu-3.5.8/kmplot/kmplot/diagr.cpp.orig	2008-01-25 23:59:12.536365888 +0530
++++ kdeedu-3.5.8/kmplot/kmplot/diagr.cpp	2008-01-25 23:59:24.878494874 +0530
+@@ -35,10 +35,6 @@
+ 
+ #ifdef USE_SOLARIS
+ #include <ieeefp.h>
+-int isinf(double x)
+-{
+-	return !finite(x) && x==x;
+-}
+ #endif
+ 
+ #include <kdebug.h>

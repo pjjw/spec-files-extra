@@ -1,0 +1,11 @@
+--- kdeedu-3.5.8/kstars/kstars/fitsviewer.cpp.orig	2008-01-26 00:11:52.929072225 +0530
++++ kdeedu-3.5.8/kstars/kstars/fitsviewer.cpp	2008-01-26 00:12:06.098511536 +0530
+@@ -336,7 +336,7 @@
+     {
+     FITS_GETBITPIX32(tempData, pixval_32);
+     //pixval_32 = ntohl(pixval_32);
+-    if (isnan(pixval_32)) pixval_32 = 0;
++    if (isnan((float)pixval_32)) pixval_32 = 0;
+     buffer[i] = pixval_32;
+     tempData+=4;
+    }

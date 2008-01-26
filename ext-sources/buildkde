@@ -1,0 +1,168 @@
+#!/usr/bin/sh
+
+#
+# A script to build KDE and dependencies
+#
+
+_GCC=1
+_STUDIO=2
+export _GCC _STUDIO
+
+if [ "x$1" = "x" ]
+then
+	echo "Usage: $0 <path/to/spec/files/directory>"
+	echo ""
+	exit 1
+fi
+
+SPEC_PATH=$1
+cd $SPEC_PATH
+
+PKGTOOL_OPTIONS="--halt-on-errors --without-dt --with-l10n --src=/packages/SOURCES:/space/data/SFE/include:/space/data/SFE/ext-sources"
+export PKGTOOL_OPTIONS
+
+call_pkgtool() {
+	compiler=$1
+	specs=`echo $2 | sed 's/:/ /g'`
+	if [ $compiler -eq $_GCC ]
+	then
+		CC=/usr/sfw/bin/gcc
+		CXX=/usr/sfw/bin/g++
+	else
+		CC=/opt/SUNWspro/bin/cc
+		CXX=/opt/SUNWspro/bin/CC
+	fi
+
+	CC32=$CC
+	CC64=$CC
+	CXX32=$CXX
+	CXX64=$CXX
+	export CC CC32 CC64 CXX CXX32 CXX64
+
+	pkgtool build ${PKGTOOL_OPTIONS} --download ${specs}
+
+	if [ $? -ne 0 ]
+	then
+		echo "ERROR: Pkgtool BUILD failed"
+		exit 1
+	fi
+}
+
+if [ `pkginfo -q SUNWgnu-libiconv` ]
+	if [ `pkginfo -q SFEgettext` ]
+	then
+		call_pkgtool $_GCC "SFEgettext.spec:SFElibiconv.spec"
+
+		pkgrm -n SFEgettext-l10n SFEgettext-devel SFEgettext
+		call_pkgtool $_GCC "SFEgettext.spec"
+	fi
+fi
+
+if [ `pkginfo -q SUNWsqlite` ]
+then
+	if [ ! -f SUNWsqlite.spec ]
+	then
+		echo "The SUNWsqlite package is required. Please copy"
+		echo "SUNWsqlite.spec from JDS spec files repository to"
+		echo "$SPEC_PATH"
+		echo ""
+		exit 1
+	else
+		call_pkgtool $_STUDIO SUNWsqlite.spec
+	fi
+fi
+
+call_pkgtool $_STUDIO "SFEreadline.spec"
+call_pkgtool $_GCC "SFEcups.spec:SFEqt3.spec:SFEcurl.spec:SFElibsndfile.spec:SFEjack.spec:SFEnas.spec:SFEarts.spec:SFEfltk.spec:SFEilmbase.spec:SFEopenexr.spec:SFEfam.spec"
+
+call_pkgtool $_STUDIO "SFEdoxygen.spec:SFEbdb.spec:SFEgdbm.spec"
+
+if [ `pkginfo -q SFEkdelibs3` -o `pkginfo -q SFEkdebase3` ]
+then
+	# Kdelibs and Kdebase installs a few setuid apps
+	#
+	echo ""
+	echo "Kdelibs and Kdebase installs a few setuid apps, so we need to modify"
+	echo "/var/sadm/install/admin/default temporarily to ignore setuid check to"
+	echo "allow pkgtool to successfully install these packages."
+	echo ""
+
+	tmpf="/tmp/`basename ${0}`.$$"
+
+	cat <<_EOF > $tmpf
+#!/bin/sh
+cp /var/sadm/install/admin/default /var/sadm/install/admin/default.orig
+cat > /var/sadm/install/admin/default <<EOF
+mail=
+instance=unique
+partial=ask
+runlevel=ask
+idepend=ask
+rdepend=ask
+space=ask
+setuid=nocheck
+conflict=ask
+action=ask
+networktimeout=60
+networkretries=3
+authentication=quit
+keystore=/var/sadm/security
+proxy=
+basedir=default
+rscriptalt=noaccess
+EOF
+_EOF
+
+	if [ $? -ne 0 ]
+	then
+		echo "Writing to temp file $tmpf failed"
+		echo ""
+		exit 1
+	fi
+
+	chmod a+x $tmpf
+	echo "Please enter root passwd to continue:"
+	su - root "$tmpf"
+
+	if [ $? -ne 0 ]
+	then
+		echo "Updating admin file failed"
+		echo ""
+		exit 1
+	fi
+
+	call_pkgtool $_GCC "SFEkdelibs3.spec:SFEkdebase3.spec"
+
+cat <<_EOF > $tmpf
+#!/bin/sh
+cp /var/sadm/install/admin/default.orig /var/sadm/install/admin/default 
+rm -f /var/sadm/install/admin/default.orig
+_EOF
+	chmod a+x $tmpf
+	echo "Please enter root passwd to continue:"
+	su - root "$tmpf"
+	rm -f $tmpf
+fi
+
+call_pkgtool $_GCC SFEkdeadmin3.spec:SFEkdeartwork3.spec:SFEsane-backends.spec:SFEsane-frontends.spec:SFExsane.spec:SFEswig.spec:SFEruby.spec:SFEgraphviz.spec:SFEkdegraphics3.spec:SFElibsndfile.spec:SFElibsamplerate.spec:SFEakode.spec:SFEcmake.spec:SFElibdiscid.spec:SFEdoxygen.spec:SFEcppunit.spec:SFElibmusicbrainz3.spec:SFEtaglib.spec:SFElibofa.spec:SFElibtunepimp.spec
+
+call_pkgtool $_STUDIO "SFElibmikmod.spec:SFExmms1.spec:SFEpth.spec:SFElibassuan.spec:SFElibksba.spec:SFEgnupg2.spec:SFEgnupg.spec:SFEgpgme.spec"
+
+_OPATH=$PATH
+PATH=/usr/ccs/bin:/usr/gnu/bin:/usr/bin:/usr/sbin:/bin:/usr/sfw/bin:/opt/SUNWspro/bin:/opt/jdsbld/bin
+export PATH
+call_pkgtool $_STUDIO "SFElibapr.spec:SFEaprutil.spec:SFEsubversion.spec:SFEgmp.spec"
+PATH=$_OPATH
+export PATH
+
+call_pkgtool $_GCC "SFEkdemultimedia3.spec:SFEkdegames3.spec:SFEkdeaddons3.spec:SFEkdenetwork3.spec:SFElibical.spec:SFElibmal.spec:SFEgnokii.spec:SFEkdeaccessibility3.spec:SFEkdepim3.spec:SFEkdesdk3.spec:SFEkdeutils3.spec:SFEkdewebdev3.spec"
+
+call_pkgtool $_GCC "SFEhtdig.spec:SFEkdevelop3.spec:SFElibvisual.spec:SFExerces-c.spec:encumbered/SFElibnjb.spec:SFEmpfr.spec"
+
+_USE_GCC3_="1"
+export _USE_GCC3_
+call_pkgtool $_GCC "encumbered/SFExine-lib-gcc3.spec"
+unset _USE_GCC3_
+
+call_pkgtool $_GCC "SFEamarok1.spec:SFEkdeedu3.spec"
+

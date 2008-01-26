@@ -1,3 +1,21 @@
+2008-01-26 Moinak Ghosh  <moinak.ghosh@sun.com>
+	* SFEamarok1.spec:
+	  Add Amarok media player for KDE.
+	* ext-sources/buildkde:
+	  First attempt at a KDE3 build script.
+	* encumbered/SFExine-lib.spec:
+	  Refactor package into encumbered and non-encumbered parts.
+	  Use gmake instead of Solaris make.
+	  Allow optional build using Gcc3.
+	* patches/xine-lib-04-hal-support.diff:
+	  Rework patch as it was failing to apply.
+	* SFEkdeedu3.spec:
+	* patches/kdeedu-01-kmplot.diff:
+	* patches/kdeedu-02-kstars.diff:
+	  Add KDE educational software suite.
+	* SFEbinutils.spec:
+	  Add workaround for a potential spurious build issue.
+
 2008-01-21  simon.zheng  <simon.zheng@sun.com>
 
         * base-specs/gnome-device-manager.spec:

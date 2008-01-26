@@ -134,6 +134,14 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.la
+
+#
+# Workaround for a potential problem
+#
+%ifarch amd64 sparcv9
+rm -rf $RPM_BUILD_ROOT%{_libdir}/%{_arch64}/%{_arch64}
+%endif
+
 # Clashes with autoconf
 rm $RPM_BUILD_ROOT%{_std_datadir}/info/standards.info
 
@@ -197,6 +205,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Jan 26 2008 - moinak.ghosh@sun.com
+- Add workaround for a potential spurious build issue.
 * Sun Oct 14 2007 - Mark Wright <markwright@internode.on.net>
 - Bump to 2.18.  Comment patch2, as already applied to 2.18.
 - Add patch4 to avoid avoid sun cc error:
