@@ -7,8 +7,8 @@
 %include usr-gnu.inc
 %include base.inc
 
-Name:                SFEgcc
-Summary:             GNU gcc
+Name:                SFEgccruntime
+Summary:             GNU gcc runtime libraries required by applications
 Version:             4.2.2
 Source:              ftp://ftp.gnu.org/pub/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.bz2
 Patch1:              gcc-01-bug-32787.diff
@@ -23,14 +23,23 @@ Requires: SFEmpfr
 Requires: SFEgmp
 Requires: SUNWpostrun
 
-%package devel
-Summary:                 %{summary} - developer files
+%package -n SFEgcc
+Summary:                 GNU gcc
+Version:                 4.2.2
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
+BuildRequires: SFEgmp-devel
+BuildRequires: SFEbinutils
+Requires: SFEbinutils
+BuildRequires: SFEmpfr-devel
+Requires: SFEmpfr
+Requires: SFEgmp
+Requires: SUNWpostrun
+
 
 %if %build_l10n
-%package l10n
+%package -n SFEgcc-l10n
 Summary:                 %{summary} - l10n files
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
@@ -38,7 +47,7 @@ Requires:                %{name}
 %endif
 
 %prep
-%setup -q -c -n %name-%version
+%setup -q -c -n %{name}-%version
 mkdir gcc
 cd gcc-%{version}
 %patch1 -p1 -b .patch01
@@ -119,15 +128,10 @@ rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 %endif
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.a
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{_arch64}/lib*.a
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{_arch64}/lib*.la
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
+%post -n SFEgcc
 ( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
   echo 'infos="';
   echo 'gcc.info cpp.info gccint.info cppinternals.info gccinstall.info gfortran.info' ;
@@ -138,7 +142,7 @@ rm -rf $RPM_BUILD_ROOT
   echo 'done';
   echo 'exit $retval' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
 
-%preun
+%preun -n SFEgcc
 ( echo 'PATH=/usr/bin:/usr/sfw/bin; export PATH' ;
   echo 'infos="';
   echo 'gcc.info cpp.info gccint.info cppinternals.info gccinstall.info gfortran.info' ;
@@ -149,14 +153,26 @@ rm -rf $RPM_BUILD_ROOT
   echo 'exit 0' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
 
 %files
+%dir %attr (0755, root, bin) %{_prefix}
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/lib*.so*
+%{_libdir}/lib*.spec
+%ifarch amd64 sparcv9
+%dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
+%{_libdir}/%{_arch64}/lib*.so*
+%{_libdir}/%{_arch64}/lib*.spec
+%endif
+
+
+%files -n SFEgcc
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_prefix}
 %{_prefix}/man
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/lib*.so*
-%{_libdir}/lib*.spec
+%{_libdir}/lib*.a
+%{_libdir}/lib*.la
 %{_libdir}/gcc
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, bin) %{_mandir}
@@ -169,22 +185,23 @@ rm -rf $RPM_BUILD_ROOT
 %{_infodir}/*
 %ifarch amd64 sparcv9
 %dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
-%{_libdir}/%{_arch64}/lib*.so*
-%{_libdir}/%{_arch64}/lib*.spec
+%{_libdir}/%{_arch64}/lib*.a
+%{_libdir}/%{_arch64}/lib*.la
 %endif
-
-%files devel
 %defattr (-, root, bin)
 %{_includedir}
 
 %if %build_l10n
-%files l10n
+%files -n SFEgcc-l10n
 %defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_prefix}
 %dir %attr (0755, root, sys) %{_datadir}
 %attr (-, root, other) %{_datadir}/locale
 %endif
 
 %changelog
+* Sat Jan 26 2008 - Moinak Ghosh <moinak.ghosh@sun.com>
+- Refactor package to have SFEgcc and SFEgccruntime.
 * Sun Oct 14 2007 - Mark Wright <markwright@internode.on.net>
 - Bump to 4.2.2.
 * Wed Aug 15 2007 - Mark Wright <markwright@internode.on.net>
@@ -201,4 +218,5 @@ rm -rf $RPM_BUILD_ROOT
 * Sun Mar  7 2007 - Doug Scott <dougs@truemail.co.th>
 - change to use GNU as from SFEbinutils
 * Sun Mar  7 2007 - Doug Scott <dougs@truemail.co.th>
+M
 - Initial spec

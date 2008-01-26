@@ -1,3 +1,16 @@
+2008-01-26 Moinak Ghosh  <moinak.ghosh@sun.com>
+	* ext-sources/buildkde:
+	  Various typo and other fixes.
+	  Re-order some specs.
+	* encumbered/SFExine-lib.spec:
+	  Change SFEgcc deps, follows from SFEgcc refactoring.
+	* SFEneon.spec:
+	  Fixed typo in conflict tag.
+	* SFEkdetoys3.spec:
+	  Add KDE fun apps package.
+	* SFEgcc.spec:
+	  Refactor package to have SFEgcc and SFEgccruntime.
+
 2008-01-26 Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEconsolekit.spec: 

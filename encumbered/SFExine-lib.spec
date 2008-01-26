@@ -55,8 +55,8 @@ BuildRequires: SFElibmad-devel
 BuildRequires: SUNWgcc
 Requires: SUNWgccruntime
 %else
-BuildRequires: SFEgcc-devel
-Requires: SFEgcc
+BuildRequires: SFEgcc
+Requires: SFEgccruntime
 %endif
 
 %if %with_hal
@@ -313,6 +313,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Jan 26 2008 - moinak.ghosh@sun.com
+- Change SFEgcc deps, follows from SFEgcc refactoring.
 * Sat Jan 26 2008 - moinak.ghosh@sun.com
 - Refactor package into encumbered and non-encumbered parts.
 - Use gmake instead of Solaris make.
