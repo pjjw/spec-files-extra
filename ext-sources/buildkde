@@ -1,7 +1,43 @@
 #!/usr/bin/sh
 
 #
+# CDDL HEADER START
+#
+# The contents of this file are subject to the terms of the
+# Common Development and Distribution License (the "License").
+# You may not use this file except in compliance with the License.
+#
+# You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+# or http://www.opensolaris.org/os/licensing.
+# See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL HEADER in each
+# file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+# If applicable, add the following below this CDDL HEADER, with the
+# fields enclosed by brackets "[]" replaced with your own identifying
+# information: Portions Copyright [yyyy] [name of copyright owner]
+#
+# CDDL HEADER END
+#
+#
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#
 # A script to build KDE and dependencies
+#
+# TODO: This script also builds encumbered stuff. Need to make it optional.
+# This requires changes in KDE3 spec files.
+#
+# Changelog
+#
+# 2008-01-26 - Moinak Ghosh <moinak.ghosh@sun.com>
+# Add remaining spec files for KDE3 dependencies and a few additional stuff.
+# TODO: Need review.
+#
+# 2008-01-26 - Moinak Ghosh <moinak.ghosh@sun.com>
+# Initial version.
 #
 
 _GCC=1
@@ -71,6 +107,37 @@ then
 		call_pkgtool $_STUDIO SUNWsqlite.spec
 	fi
 fi
+
+call_pkgtool $_STUDIO "SFEogg-vorbis.spec:SFElibsndfile.spec:SFElibsamplerate.spec:SFEportaudio.spec"
+call_pkgtool $_GCC "SFEwxwidgets-gnu.spec"
+call_pkgtool $_STUDIO "SFEfreetype.spec:SFEjam.spec:SFEfreeglut.spec:SFElibgsm.spec"
+call_pkgtool $_GCC "SFEnasm.spec:SFElibx264.spec"
+call_pkgtool $_STUDIO "SFEid3lib.spec:SFEamrwb.spec:SFEncurses.spec:SFEneon.spec:SFEswig.spec:SFElcms.spec:SFElibmng.spec:encumbered/SFElibnjb.spec:SFElibao.spec:SFEliveMedia.spec:SFElibcdio.spec:SFElibfribidi.spec:SFEladspa.spec:SFEopenal.spec:SFEgawk.spec:SFEsdl-image.spec:SFElibebml.spec:SFElibmatroska.spec:SFElibcddb.spec:SFElibupnp.spec:SFEvcdimager.spec:SFElibtar.spec:SFEcurl.spec:SFElibdiscid.spec:SFEruby.spec:SFEjack.spec:SFEfftw.spec"
+
+# Build encumbered stuff
+# TODO: Need a mechanism to make this optional. Needs modifications to KDE spec files as well.
+call_pkgtool $_STUDIO "encumbered/SFEamrnb:encumbered/SFEdvdauthor:encumbered/SFEfaad2"
+call_pkgtool $_STUDIO "encumbered/SFEffmpeg:encumbered/SFElame"
+call_pkgtool $_STUDIO "encumbered/SFEliba52:encumbered/SFElibdts:encumbered/SFElibdv"
+call_pkgtool $_STUDIO "encumbered/SFElibdvbpsi:encumbered/SFElibdvdcss:encumbered/SFElibdvdnav"
+call_pkgtool $_STUDIO "encumbered/SFElibdvdplay:encumbered/SFElibdvdread:encumbered/SFElibfame"
+call_pkgtool $_STUDIO "encumbered/SFElibid3tag-gnu:encumbered/SFElibid3tag:encumbered/encumbered/SFElibmad"
+call_pkgtool $_STUDIO "encumbered/SFElibmpcdec:encumbered/SFElibmpeg2:encumbered/SFElibnjb"
+call_pkgtool $_STUDIO "encumbered/SFElibquicktime:encumbered/SFEmpg321:encumbered/SFEmpgtx"
+call_pkgtool $_STUDIO "encumbered/SFEmplayer-codecs:encumbered/SFEmplayer-plugin:encumbered/SFEmplayer"
+call_pkgtool $_STUDIO "encumbered/SFEogle:encumbered/SFEswfdec:encumbered/SFEtwolame:encumbered/SFEvlc"
+call_pkgtool $_STUDIO "encumbered/SFEvnc2swf:encumbered/SFExmms2"
+call_pkgtool $_GCC "encumbered/SFExvid"
+
+_OPATH=$PATH
+PATH="/usr/ucb:${PATH}
+export PATH
+call_pkgtool $_STUDIO "encumbered/SFEgpac.spec"
+PATH=$_OPATH
+export PATH
+
+call_pkgtool $_STUDIO "SFElibpcap.spec:SFEsed.spec:SFEethereal.spec"
+call_pkgtool $_STUDIO "SFEcmake.spec:SFEphysfs.spec"
 
 call_pkgtool $_STUDIO "SFEreadline.spec"
 call_pkgtool $_GCC "SFEcups.spec:SFEqt3.spec:SFEcurl.spec:SFElibsndfile.spec:SFEjack.spec:SFEnas.spec:SFEarts.spec:SFEfltk.spec:SFEilmbase.spec:SFEopenexr.spec:SFEfam.spec"
@@ -157,7 +224,7 @@ export PATH
 
 call_pkgtool $_GCC "SFEkdemultimedia3.spec:SFEkdegames3.spec:SFEkdeaddons3.spec:SFEkdenetwork3.spec:SFElibical.spec:SFElibmal.spec:SFEgnokii.spec:SFEkdeaccessibility3.spec:SFEkdepim3.spec:SFEkdesdk3.spec:SFEkdeutils3.spec:SFEkdewebdev3.spec"
 
-call_pkgtool $_GCC "SFEhtdig.spec:SFEkdevelop3.spec:SFElibvisual.spec:SFExerces-c.spec:encumbered/SFElibnjb.spec:SFEmpfr.spec"
+call_pkgtool $_GCC "SFEhtdig.spec:SFEkdevelop3.spec:SFElibvisual.spec:SFExerces-c.spec:SFEmpfr.spec"
 
 _USE_GCC3_="1"
 export _USE_GCC3_

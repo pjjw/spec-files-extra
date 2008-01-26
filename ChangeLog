@@ -1,4 +1,8 @@
 2008-01-26 Moinak Ghosh  <moinak.ghosh@sun.com>
+	* ext-sources/buildkde
+	  More spec file additions to list.
+
+2008-01-26 Moinak Ghosh  <moinak.ghosh@sun.com>
 	* SFEamarok1.spec:
 	  Add Amarok media player for KDE.
 	* ext-sources/buildkde:
