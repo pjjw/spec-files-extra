@@ -33,6 +33,9 @@
 # Changelog
 #
 # 2008-01-26 - Moinak Ghosh <moinak.ghosh@sun.com>
+# Fix another bad mistake in previous commit.
+#
+# 2008-01-26 - Moinak Ghosh <moinak.ghosh@sun.com>
 # Various typo and other fixes.
 # Re-order some specs.
 #
@@ -88,8 +91,8 @@ call_pkgtool() {
 	fi
 }
 
-if [ 0 -eq 1 ]
-then
+#if [ 0 -eq 1 ]
+#then
 if [ `pkginfo -q SUNWgnu-libiconv` ]
 then
 	if [ `pkginfo -q SFEgettext` ]
@@ -245,7 +248,9 @@ _USE_GCC3_="1"
 export _USE_GCC3_
 call_pkgtool $_GCC "encumbered/SFExine-lib.spec"
 unset _USE_GCC3_
-fi
+#fi
 
 call_pkgtool $_GCC "SFEamarok1.spec:SFEkdeedu3.spec:SFEkdetoys3.spec"
+
+call_pkgtool $_STUDIO "SFElibgsf.spec:SFEwv2.spec"
 

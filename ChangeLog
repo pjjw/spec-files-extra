@@ -1,5 +1,9 @@
 2008-01-26 Moinak Ghosh  <moinak.ghosh@sun.com>
 	* ext-sources/buildkde:
+	  Fix another bad mistake in previous commit.
+
+2008-01-26 Moinak Ghosh  <moinak.ghosh@sun.com>
+	* ext-sources/buildkde:
 	  Various typo and other fixes.
 	  Re-order some specs.
 	* encumbered/SFExine-lib.spec:
