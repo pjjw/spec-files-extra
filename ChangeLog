@@ -1,8 +1,19 @@
+2008-01-26 Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEconsolekit.spec: 
+	* patches/ConsoleKit-02-RBAC.diff: Make PolicyKit an optional
+	  dependency.  Instead support RBAC.
+	* patches/ConsoleKit-03-fixbugs.diff: Fix some bugs.
+	* patches/ConsoleKit-02-fixsolaris.diff: Remove upstream patch.
+	* patches/CosoleKit-01-nox11check.diff: Rework.
+
 2008-01-26 Moinak Ghosh  <moinak.ghosh@sun.com>
+
 	* ext-sources/buildkde
 	  More spec file additions to list.
 
 2008-01-26 Moinak Ghosh  <moinak.ghosh@sun.com>
+
 	* SFEamarok1.spec:
 	  Add Amarok media player for KDE.
 	* ext-sources/buildkde:
@@ -29,6 +40,7 @@
 	  Enable configure option --enable-polkit.
 
 2008-01-25 Moinak Ghosh  <moinak.ghosh@sun.com>
+
 	* SFEkdevelop3.spec:
 	  Add -zcombreloc and -zdirect linker options.
 	  Disable debug.
@@ -39,6 +51,7 @@
 	  Rework.
 
 2008-01-24  Moinak Ghosh  <moinak.ghosh@sun.com>
+
 	* SFEkdevelop3.spec:
 	* patches/kdevelop-01-getline.diff:
 	  Added KDE Development IDE
@@ -129,7 +142,8 @@
 	* base-specs/libgsf.spec: add _without_gtk_doc control
 
 2008-01-25  Brian Nitz < brian dot nitz at sun dot com>
-	First build of micropolis-actvity (opensourced parts of SimCity for OLPC)
+	First build of micropolis-actvity (opensourced parts of SimCity for
+	OLPC)
 	* SFEmicropolis.spec 
 	* patches/micropolis-01-solaris.diff
 
@@ -156,17 +170,19 @@
 	  remove it when FF3 rename to firefox.
 	* base-specs/tracker.spec: 
 	* patches/tracker-03-r1071-latest.diff: (rework)
-	* patches/tracker-04-preferences-explicit-apply.diff: (removed) upstreamed.
+	* patches/tracker-04-preferences-explicit-apply.diff: (removed)
+	  upstreamed.
 	* patches/tracker-04-tp-reindex.diff: (added) to fix t-p reindex bugs.
 
 2008-01-22 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEsubversion.spec:
 	* ext-sources/svn-config:
-	  Major rework to install in /usr/gnu and avoid conflict with SUNWsvn and
-	  CBEsvn.
-	  Depends on two new package SFElibapr and SFEaprutil. Having svn to depend
-	  on whole of Apache seems a bit of an overkill. These are also needed by
-	  kdesdk.
+	  Major rework to install in /usr/gnu and avoid conflict with SUNWsvn
+	  and CBEsvn.
+	  Depends on two new package SFElibapr and SFEaprutil. Having svn to
+	  depend on whole of Apache seems a bit of an overkill. These are also
+	  needed by kdesdk.
 	  Bumped version to 1.4.6
 	  Package a home-grown svn-config to satisfy a few software like kdesdk.
 	* SFEkdesdk3.spec:
@@ -188,6 +204,7 @@
 	* ext-sources/tracker-firefox-history-xesam.xpi: (rework)
 
 2008-01-22 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEkdegraphics3.spec:
 	* SFEkdemultimedia3.spec:
 	* SFEkdeaddons3.spec:
@@ -205,6 +222,7 @@
 	  Added KDE PIM tools package.
 
 2008-01-21 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEgnokii.spec
 	* patches/gnokii-01-uint8.diff
 	* patches/gnokii-02-utils.diff
@@ -226,12 +244,14 @@
 	  Add this patch to fix bugzilla bug #510068.
 
 2008-01-21 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* encumbered/SFEogle.spec:
 	* patches/ogle-01-mmx.diff:
 	  Fixed ogle build to include libdvdcontrol, add missing dirs to package
 	  Patch to fix MediaLib and MMX usage
 
 2008-01-21 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEgnupg2.spec:
 	* patches/gnupg2-01-asschk.diff:
 	* patches/gnupg2-02-inittests.diff:
@@ -243,6 +263,7 @@
 	  Add iCalendar package needed by kdepim.
 
 2008-01-20 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEkdegraphics3.spec:
 	  Added kdebase-devel dep to the devel package.
 	* SFEkdemultimedia3.spec:
@@ -273,6 +294,7 @@
 	  showing any perceptible performance improvement.
 
 2008-01-19 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFElibcdio.spec:
 	  Set g++ as cpp compiler
 	  Added back man and info files
@@ -292,9 +314,11 @@
 	* patches/kdelibs-05-kdeinit-wrapper.diff:
 	* SFEkdebase3.spec:
 	* patches/kdebase-01-startkde.diff
-	  Fix some startkde/kdeinit nits, disable kdelibs debug to avoid filling up log file.
+	  Fix some startkde/kdeinit nits, disable kdelibs debug to avoid
+	  filling up log file.
 
 2008-01-18 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEtaglib.spec:
 	  Allow build using g++
 	  SFElibmusicbrainz3.spec:
@@ -305,8 +329,8 @@
 	* patches/doxygen-02-nameconflict.diff:
  	* patches/doxygen-04-tmake-g++.diff
 	  Bump version to 1.5.4
-	  Change build configuration to solaris-g++ since SUN Studio compiled doxygen
-	  dumps core while building documentation for SFEcppunit.
+	  Change build configuration to solaris-g++ since SUN Studio compiled
+	  doxygen dumps core while building documentation for SFEcppunit.
 	  Add patch for solaris-g++ config to include /usr/gnu/lib.
 	  Update nameconflict patch to remove additional conflicts.
 	* SFElibtunepimp.spec:
@@ -355,6 +379,7 @@
 	  Rework.
 
 2008-01-16 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEkdelibs3.spec:
 	* SFEarts.spec:
 	  Get rid of custom kde3-prefixed datadir and includedir. Unsettles KDE3.
@@ -426,6 +451,7 @@
 	  Add kdelibs 3.5.8
 
 2008-01-11 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEncurses.spec:
 	  Added proper 64-bit link flags to work with Sun Studio 11 and gcc
 	* SFEqt3.spec:
@@ -448,6 +474,7 @@
 	  New spec for aRts
 
 2008-01-11 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* Add SFEqt3.spec
 
 2008-01-10  Halton Huo <nonsea@users.sourceforge.net>

@@ -10,10 +10,11 @@
 
 Name:                    SFEconsolekit
 Summary:                 Framework for tracking users, login sessions, and seats.
-Version:                 0.2.3
+Version:                 0.2.6
 Source:                  http://people.freedesktop.org/~mccann/dist/ConsoleKit-%{version}.tar.gz
 Patch1:                  ConsoleKit-01-nox11check.diff
-Patch2:                  ConsoleKit-02-fixsolaris.diff
+Patch2:                  ConsoleKit-02-RBAC.diff
+Patch3:                  ConsoleKit-03-fixbugs.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -60,6 +61,7 @@ Requires: %name
 %setup -q -n ConsoleKit-%version
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -86,11 +88,12 @@ aclocal $ACLOCAL_FLAGS
 autoheader
 automake -a -c -f 
 autoconf
-
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
-            --libdir=%{_libdir}              \
-            --libexecdir=%{_libexecdir}      \
-            --sysconfdir=%{_sysconfdir}
+            --libdir=%{_libdir}                     \
+            --libexecdir=%{_libexecdir}             \
+            --localstatedir=%{_localstatedir}       \
+            --sysconfdir=%{_sysconfdir}             \
+            --enable-rbac-shutdown=solaris.system.shutdown
 
 make
 # Not sure why this is breaking the build, commenting out for now.
@@ -112,19 +115,23 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
+%{_libdir}/ConsoleKit
 %{_libexecdir}/ck-collect-session-info
 %{_libexecdir}/ck-get-x11-server-pid
 %{_libexecdir}/ck-get-x11-display-device
 %dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/dbus-1
 %{_mandir}/man8
 
 %files root
 %defattr (-, root, sys)
-%{_sysconfdir}/rc.d/init.d/ConsoleKit
 %{_sysconfdir}/ConsoleKit/seats.d/00-primary.seat
+%{_sysconfdir}/ConsoleKit/run-session.d
 %dir %attr (0755, root, bin) %{_sysconfdir}/dbus-1
 %dir %attr (0755, root, bin) %{_sysconfdir}/dbus-1/system.d
 %{_sysconfdir}/dbus-1/system.d/ConsoleKit.conf
+%attr (0755, root, sys) %dir %{_localstatedir}
+%{_localstatedir}/run/*
 
 %files devel
 %defattr (-, root, bin)
@@ -136,6 +143,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 25 2007 - Brian.Cameron@sun.com
+- Bump to 0.2.6.  Rework patches.  Add patch ConsoleKit-02-RBAC.diff
+  to make ConsoleKit use RBAC instead of PolicyKit on Solaris.
+  Patch ConsoleKit-03-fixbugs.diff fixes some bugs I found.
 * Tue Sep 18 2007 - Brian.Cameron@sun.com
 - Bump to 0.2.3.  Remove upstream ConsoleKit-01-head.diff
   patch and add ConsoleKit-02-fixsolaris.diff to fix some
