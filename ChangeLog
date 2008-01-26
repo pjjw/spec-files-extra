@@ -1,4 +1,20 @@
 2008-01-26 Moinak Ghosh  <moinak.ghosh@sun.com>
+	* SFEimagemagick.spec:
+	  Bump version to 6.3.6-10.
+	  Add check to prevent build using Gcc.
+	  Add dependency on Perl.
+	* SFEwv2.spec:
+	  Add version 2.x of Microsoft Word file access library.
+	* SFElibgsf.spec:
+	  Add check for presence on SUNWgnu-iconv and SUNWgnu-gettext packages.
+	* SFEwpd.spec:
+	  Add Wordperfect file access library.
+	* SFElibpqxx.spec:
+	  Add C++ client library for PostgreSQL.
+	* base-specs/libgsf.spec:
+	  Commented patch removed from repository.
+
+2008-01-26 Moinak Ghosh  <moinak.ghosh@sun.com>
 	* ext-sources/buildkde:
 	  Fix another bad mistake in previous commit.
 

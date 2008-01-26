@@ -12,6 +12,7 @@
 
 %include Solaris.inc
 %use libgsf = libgsf.spec
+%define sunw_gnu_iconv %(pkginfo -q SUNWgnu-libiconv && echo 1 || echo 0)
 
 Name:                    SFElibgsf
 Summary:                 A library provide i/o abstraction for dealing with different structured file formats
@@ -30,8 +31,13 @@ BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWgnome-component-devel
 BuildRequires: SUNWgnome-vfs-devel 
 %if %option_with_gnu_iconv
+%if %sunw_gnu_iconv
 Requires: SUNWgnu-libiconv
 Requires: SUNWgnu-gettext
+%else
+Requires: SFElibiconv
+Requires: SFEgettext
+%endif
 %else
 Requires: SUNWuiu8
 %endif
@@ -156,6 +162,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Jan 26 2008 - moinak.ghosh@sun.com
+- Add check for presence on SUNWgnu-iconv and SUNWgnu-gettext packages.
 * Thu Jan 03 2008 - nonsea@users.sourceforge.net
 - Add gtk-doc check.
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net

@@ -17,7 +17,7 @@ Distribution:		Java Desktop System
 Vendor:			Sun Microsystems, Inc.
 Summary:		The GNOME Structured File Library
 Source:			http://ftp.gnome.org/pub/gnome/sources/libgsf/1.14/%{name}-%{version}.tar.bz2
-Patch0:			libgsf-01-uninstalled-pc.diff
+#Patch0:			libgsf-01-uninstalled-pc.diff
 URL:			http://ftp.gnome.org/pub/gnome/sources/libgsf/
 BuildRoot:		%{_tmppath}/%{name}-%{version}-build
 Docdir:			%{_defaultdocdir}/doc
@@ -84,7 +84,7 @@ libgsf development headers
 
 %prep
 %setup -q
-%patch0 -p1
+#%patch0 -p1
 
 #####################################
 ##      Package Build Section      ##
@@ -172,6 +172,9 @@ gconftool-2 --makefile-uninstall-rule %{_sysconfdir}/gconf/schemas/gsf-office-th
 %{_datadir}/gtk-doc/html/libgsf/*
 
 %changelog
+* Sat Jan 26 2008 - moinak.ghosh@sun.com
+- Commented patch removed from repository
+
 * Fri Sep 14 2007 - nonsea@users.sourceforge.net
 - Add libtoolize and intltoolize to fix build fail.
 

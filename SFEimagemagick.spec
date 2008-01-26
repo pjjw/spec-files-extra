@@ -8,7 +8,7 @@
 %define src_name	ImageMagick
 %define src_url		ftp://ftp.imagemagick.org/pub/%src_name
 %define major		6.3.6
-%define minor		-9
+%define minor		-10
 
 Name:                   SFEimagemagick
 Summary:                ImageMagick - Image Manipulation Utilities and Libraries
@@ -17,6 +17,7 @@ Source:                 %{src_url}/%{src_name}-%{version}%{minor}.tar.bz2
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+%include perl-depend.inc
 
 %package devel
 Summary:                 %{summary} - development files
@@ -34,8 +35,12 @@ fi
 
  
 export CPPFLAGS="-I/usr/sfw/include/freetype2 -I/usr/X11/include"
+export LDFLAGS="%_ldflags -L/usr/sfw/lib -L/usr/X11/lib -R/usr/sfw/lib -R/usr/X11/lib"
+if [ "x`basename $CC`" = xgcc ]
+then
+	%error "Building this spec with GCC is not supported."
+fi
 export CFLAGS="%optflags -xCC"
-export LDFLAGS="%_ldflags -L/usr/sfw/lib -L/usr/X11/lib -R/usr/sfw/lib:/usr/X11/lib"
 ./configure --prefix=%{_prefix}		\
 	    --bindir=%{_bindir}		\
 	    --mandir=%{_mandir}		\
@@ -45,6 +50,7 @@ export LDFLAGS="%_ldflags -L/usr/sfw/lib -L/usr/X11/lib -R/usr/sfw/lib:/usr/X11/
             --sysconfdir=%{_sysconfdir} \
             --enable-shared		\
 	    --disable-static
+
 make -j$CPUS 
 
 %install
@@ -80,6 +86,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sat Jan 26 2008 - moinak.ghosh@sun.com
+- Bump version to 6.3.6-10.
+- Add check to prevent build using Gcc.
+- Add dependency on Perl.
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net
 - Bump to 6.3.6-9.
 * Tue Jul 10 2007 - brian.cameron@sun.com
