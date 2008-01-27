@@ -4,14 +4,14 @@
 # includes module(s): glibmm
 #
 %include Solaris.inc
+%use glibmm = glibmm.spec
 
 Name:                    SFEglibmm
 Summary:                 glibmm - C++ Wrapper for the Glib2 Library
-Version:                 2.12.10
-URL:                     http://www.gtkmm.org/
-Source:                  http://ftp.acc.umu.se/pub/GNOME/sources/glibmm/2.12/glibmm-%{version}.tar.bz2
+Version:                 %{default_pkg_version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
 Requires: SUNWgnome-base-libs
 BuildRequires: SUNWgnome-base-libs-devel
@@ -25,34 +25,64 @@ SUNW_BaseDir:            %{_basedir}
 Requires: %name
 Requires: SUNWgnome-base-libs-devel
 
+%if %build_l10n
+%package l10n
+Summary:		 %{summary} - l10n files
+SUNW_BaseDir:		 %{_basedir}
+%include default-depend.inc
+Requires:		 %{name}
+%endif
+
 %prep
-%setup -q -n glibmm-%version
+rm -rf %name-%version
+mkdir %name-%version
+%glibmm.prep -d %name-%version
+cd %{_builddir}/%name-%version
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-    CPUS=1
-fi
 %if %cc_is_gcc
 %else
 export CXX="${CXX} -norunpath"
 %endif
 export CXXFLAGS="%cxx_optflags"
 export PERL_PATH=/usr/perl5/bin/perl
-./configure --prefix=%{_prefix} --mandir=%{_mandir} \
-            --libdir=%{_libdir}              \
-            --libexecdir=%{_libexecdir}      \
-            --sysconfdir=%{_sysconfdir} --disable-python
-make -j$CPUS 
+%glibmm.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
+%glibmm.install -d %name-%version
+find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
+find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
+%if %build_l10n
+%else
+# REMOVE l10n FILES
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+( echo 'test -x /usr/bin/gtk-update-icon-cache || exit 0';
+  echo 'rm -f %{_datadir}/icons/*/icon-theme.cache';
+  echo 'ls -d %{_datadir}/icons/* | xargs -l1 /usr/bin/gtk-update-icon-cache'
+) | $BASEDIR/lib/postrun -b -u -t 5 -c JDS
+( echo 'test -x /usr/bin/update-desktop-database || exit 0';
+  echo '/usr/bin/update-desktop-database'
+) | $BASEDIR/lib/postrun -b -u -c JDS_wait
+( echo 'test -x /usr/bin/scrollkeeper-update || exit 0';
+  echo '/usr/bin/scrollkeeper-update'
+) | $BASEDIR/lib/postrun -b -u -c JDS
+
+%postun
+test -x $BASEDIR/lib/postrun || exit 0
+( echo 'test -x /usr/bin/update-desktop-database || exit 0';
+  echo '/usr/bin/update-desktop-database'
+) | $BASEDIR/lib/postrun -b -u -c JDS
+( echo 'test -x /usr/bin/scrollkeeper-update || exit 0';
+  echo '/usr/bin/scrollkeeper-update'
+) | $BASEDIR/lib/postrun -b -u -c JDS
 
 %files
 %defattr (-, root, bin)
@@ -74,6 +104,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Mon Jau 28 2008 - simon.zheng@sun.com
+- Split into SFEglibmm.spec and glibmm.spec.
+- Change download URL to GNOME official website.
 * Fri Aug 17 2007 - trisk@acm.jhu.edu
 - Bump to 2.12.10
 * Tue Apr 17 2007 - daymobrew@users.sourceforge.net

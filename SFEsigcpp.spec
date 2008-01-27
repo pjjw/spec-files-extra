@@ -7,11 +7,10 @@
 
 Name:                    SFEsigcpp
 Summary:                 libsigc++ Typesafe Callback System for Standard C++
-Version:                 2.0.17
+Version:                 2.0.18
 URL:                     http://libsigc.sourceforge.net/
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/libsigc++/2.0/libsigc++-%{version}.tar.bz2
 Patch1:                  sigcpp-01-build-fix.diff
-Patch2:                  sigcpp-02-prototypes.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -26,7 +25,6 @@ Requires: %name
 %prep
 %setup -q -n libsigc++-%version
 %patch1 -p1
-%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -76,6 +74,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Mon Jau 28 2007 - simon.zheng@sun.com
+- Remove upstream patch sigcpp-02-prototypes.diff. 
 * Fri Aug 17 2007 - trisk@acm.jhu.edu
 - Add patch for missing prototypes in test
 * Fri Jun 23 2006 - laca@sun.com

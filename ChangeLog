@@ -1,3 +1,13 @@
+2008-01-28 Simon Zheng  <simon.zheng@sun.com>
+
+	* patches/sigcpp-02-prototypes.diff:
+	* SFEsigcpp.spec:
+	  Remove upstream patch and bump to 2.0.18.
+	* SFEglibmm.spec:
+	* base-specs/glibmm.spec:
+	  Split into SFEglibmm.spec and glibmm.spec,
+	  and change download URL to GNOME official website.
+
 2008-01-26 Moinak Ghosh  <moinak.ghosh@sun.com>
 	* SFEimagemagick.spec:
 	  Bump version to 6.3.6-10.
