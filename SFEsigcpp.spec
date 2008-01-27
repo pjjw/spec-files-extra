@@ -74,7 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
-* Mon Jau 28 2007 - simon.zheng@sun.com
+* Mon Jau 28 2008 - simon.zheng@sun.com
 - Remove upstream patch sigcpp-02-prototypes.diff. 
 * Fri Aug 17 2007 - trisk@acm.jhu.edu
 - Add patch for missing prototypes in test
