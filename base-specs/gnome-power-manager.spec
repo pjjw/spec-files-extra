@@ -25,6 +25,7 @@ Patch13:	gnome-power-manager-13-beep.diff
 Patch14:        gnome-power-manager-14-lid-shutdown.diff
 Patch15:        gnome-power-manager-15-disable-lid-beeping.diff
 Patch16:        gnome-power-manager-16-brightness-reduction.diff
+Patch17:        gnome-power-manager-17-interactive-cmd.diff
 URL:		http://www.gnome.org/projects/gnome-power-manager/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake
@@ -90,6 +91,7 @@ Uses of GNOME Power Manager infrastructure
 %patch14 -p0
 %patch15 -p0
 %patch16 -p0
+%patch17 -p0
 
 %build
 %ifos linux
@@ -145,21 +147,25 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Jau 25 2007 - simon.zheng@sun.com
+* Mon Jau 28 2008 - simon.zheng@sun.com
+- Add patch gnome-power-manager-17-interactive-cmd.diff to
+  set gnome-sys-suspend as power button interactive policy.
+
+* Fri Jau 25 2008 - simon.zheng@sun.com
 - Enable configure option --enable-polkit.
 
-* Mon Jau 21 2007 - simon.zheng@sun.com
+* Mon Jau 21 2008 - simon.zheng@sun.com
 - Add gnome-power-manager-16-brightness-reduction.diff to fix
   bugzilla bug #510068.
 - Rework gnome-power-manager-11-authrization-checking.diff to
   add cpufreq policy auth checking.
 
-* Mon Jau 14 2007 - simon.zheng@sun.com
+* Mon Jau 14 2008 - simon.zheng@sun.com
 - Add gnome-power-manager-14-lid-shutdown.diff.
 - Add gnome-power-manager-15-inhibit-lid-beeping.diff to diable 
   beeping when lid id closed or opened.
 
-* Mon Jau 07 2007 - simon.zheng@sun.com
+* Mon Jau 07 2008 - simon.zheng@sun.com
 - Add gnome-power-manager-13-beep.diff to bugzilla bug #507789.
 
 * Thu Dec 20 2007 - simon.zheng@sun.com

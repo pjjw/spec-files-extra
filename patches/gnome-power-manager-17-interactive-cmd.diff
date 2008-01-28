@@ -1,0 +1,14 @@
+--- src/gpm-manager.c.orig	2008-01-28 14:15:42.571886000 +0800
++++ src/gpm-manager.c	2008-01-28 14:20:17.209524000 +0800
+@@ -495,9 +495,8 @@
+ 	} else if (strcmp (action, ACTION_INTERACTIVE) == 0) {
+ 		gpm_info_explain_reason (manager->priv->info, GPM_EVENT_NOTIFICATION,
+ 					_("GNOME interactive logout."), reason);
+-		gnome_client_request_save (gnome_master_client (),
+-					   GNOME_SAVE_GLOBAL,
+-					   TRUE, GNOME_INTERACT_ANY, FALSE, TRUE);
++		if (g_spawn_command_line_async ("gnome-sys-suspend", NULL) == FALSE)
++			gpm_warning ("Couldn't execute command: gnome-sys-suspend");
+ 	} else {
+ 		gpm_warning ("unknown action %s", action);
+ 	}

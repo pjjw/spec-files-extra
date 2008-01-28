@@ -1,3 +1,10 @@
+2008-01-28  Simon Zheng  <simon.zheng@sun.com>
+
+	* base-specs/gnome-power-manager.spec:
+	* patches/gnome-power-manager-17-interactive-cmd.diff:
+	  Add a patch to set gnome-sys-suspend as power button
+          interactive policy.
+
 2008-01-28 Simon Zheng  <simon.zheng@sun.com>
 
 	* patches/sigcpp-02-prototypes.diff:
