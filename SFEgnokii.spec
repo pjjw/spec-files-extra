@@ -1,5 +1,5 @@
 #
-# spec file for package SFEopenexr.spec
+# spec file for package SFEgnokii.spec
 #
 # Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
@@ -7,6 +7,7 @@
 #
 
 %include Solaris.inc
+%define sunw_gnu_iconv %(pkginfo -q SUNWgnu-libiconv && echo 1 || echo 0)
 
 Name:                   SFEgnokii
 Summary:                Tools and user-space drivers for interfacing with mobiles phones esp. Nokia
@@ -21,10 +22,18 @@ BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SFElibical
 BuildRequires: SFElibical-devel
-Requires: SFEgettext
-BuildRequires: SFEgettext-devel
+%if %sunw_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
 Requires: SFElibiconv
 BuildRequires: SFElibiconv-devel
+Requires: SFEgettext
+BuildRequires: SFEgettext-devel
+%endif
+
+Requires: SFEgettext
+Requires: SFElibiconv
 
 %prep
 %setup -q -n gnokii-%{version}
@@ -85,5 +94,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/locale/*
 
 %changelog
-* Mon Jan  21 2008 - moinak.ghosh@sun.com
+* Mon Jan 28 2008 - moinak.ghosh@sun.com
+- Add check for presence on SUNWgnu-iconv and SUNWgnu-gettext packages.
+- Fixed a typo.
+* Mon Jan 21 2008 - moinak.ghosh@sun.com
 - Initial spec.

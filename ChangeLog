@@ -1,3 +1,13 @@
+2008-01-28 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFElibgsf.spec:
+	  Added a couple of missing dependencies.
+	* SFEgnokii.spec:
+	  Add check for presence on SUNWgnu-iconv and SUNWgnu-gettext packages.
+	  Fixed a typo.
+	* SFEmultitail.spec:
+	* patches/multitail-01-makefiles.diff:
+	  Added new Multitail package.
+
 2008-01-28 Brian Nitz <brian dot nitz at sun dot com>
 	*SFExlincity.spec
 	* patches/xlincity-01-solaris.diff

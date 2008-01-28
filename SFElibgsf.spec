@@ -36,7 +36,9 @@ Requires: SUNWgnu-libiconv
 Requires: SUNWgnu-gettext
 %else
 Requires: SFElibiconv
+BuildRequires: SFElibiconv-devel
 Requires: SFEgettext
+BuildRequires: SFEgettext-devel
 %endif
 %else
 Requires: SUNWuiu8
@@ -162,6 +164,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon jan 28 2008 - moinak.ghosh@sun.com
+- Added a couple of missing dependencies.
 * Sat Jan 26 2008 - moinak.ghosh@sun.com
 - Add check for presence on SUNWgnu-iconv and SUNWgnu-gettext packages.
 * Thu Jan 03 2008 - nonsea@users.sourceforge.net
