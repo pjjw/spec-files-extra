@@ -1,0 +1,62 @@
+diff -urN ../lincity-1.12.0/lcconfig.h ./lcconfig.h
+--- ../lincity-1.12.0/lcconfig.h	2003-12-19 03:17:50.000000000 +0000
++++ ./lcconfig.h	2007-11-17 07:21:54.000000000 +0000
+@@ -19,7 +19,6 @@
+ #elif (SIZEOF_LONG==4)
+ typedef long Int32;
+ #else
+-ERROR.  Int32 is not defined.
+ #endif
+ 
+ #if (SIZEOF_SHORT==2)
+@@ -27,7 +26,6 @@
+ #elif (SIZEOF_INT==2)
+ typedef int Int16;
+ #else
+-ERROR.  Int16 is not defined.
+ #endif
+ 
+ #endif	/* __lcconfig_h__ */
+diff -urN ../lincity-1.12.0/mouse.c ./mouse.c
+--- ../lincity-1.12.0/mouse.c	2003-12-19 03:17:50.000000000 +0000
++++ ./mouse.c	2007-11-17 07:19:50.000000000 +0000
+@@ -1056,7 +1056,7 @@
+    and set to 1 if the existing transport if the more expensive sort
+    (e.g. GROUP_RAIL when overwriting GROUP_ROAD).
+ */
+-inline int
++int
+ mt_erase(int x, int y)
+ {
+     if (x < 0 || y < 0 || x >= WORLD_SIDE_LEN || y >= WORLD_SIDE_LEN)
+@@ -1093,7 +1093,7 @@
+     return 0;
+ }
+ 
+-inline int
++int
+ mt_temp(int x, int y)
+ {
+     if (x < 0 || y < 0 || x >= WORLD_SIDE_LEN || y >= WORLD_SIDE_LEN)
+@@ -1127,7 +1127,7 @@
+     return 0;
+ }
+ 
+-inline int
++int
+ mt_perm(int x, int y)
+ {
+     /* By now, it has already been mt_erase()'d */
+diff -urN ../lincity-1.12.0/pixmap.c ./pixmap.c
+--- ../lincity-1.12.0/pixmap.c	2003-12-19 03:17:50.000000000 +0000
++++ ./pixmap.c	2007-11-17 07:23:22.000000000 +0000
+@@ -390,7 +390,7 @@
+ 		  likes it in the file.  Still need to fix this in autoconf,
+                   but for now this will do. */
+ #if !defined (WIN32)
+-inline int 
++int 
+ pixmap_index (int x, int y)
+ {
+     return y*pixmap_width + x;
+Binary files ../lincity-1.12.0/xlincity and ./xlincity differ

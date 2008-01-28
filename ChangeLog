@@ -1,3 +1,8 @@
+2008-01-28 Brian Nitz <brian dot nitz at sun dot com>
+	*SFExlincity.spec
+	* patches/xlincity-01-solaris.diff
+	First version of xlincity (another opensource fork of S*mC*ty)
+
 2008-01-28 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEkoffice3.spec:
 	* patches/koffice-05-libart.diff:
