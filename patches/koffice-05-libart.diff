@@ -1,0 +1,65 @@
+--- koffice-1.6.3/karbon/render/art_rgb.h.orig	2008-01-27 11:10:37.443276358 +0530
++++ koffice-1.6.3/karbon/render/art_rgb.h	2008-01-27 11:10:58.447631416 +0530
+@@ -23,7 +23,13 @@
+ #ifdef LIBART_COMPILATION
+ #include "art_misc.h"
+ #else
++#ifdef __cplusplus
++extern "C" {
++#endif
+ #include <libart_lgpl/art_misc.h>
++#ifdef __cplusplus
++}
++#endif
+ #endif
+ 
+ #ifdef __cplusplus
+--- koffice-1.6.3/karbon/render/art_rgb_affine_private.c.orig	2008-01-27 11:11:30.908167054 +0530
++++ koffice-1.6.3/karbon/render/art_rgb_affine_private.c	2008-01-27 11:11:52.705040247 +0530
+@@ -21,7 +21,13 @@
+ #include "art_rgb_affine_private.h"
+ 
+ #include <math.h>
++#ifdef __cplusplus
++extern "C" {
++#endif
+ #include <libart_lgpl/art_misc.h>
++#ifdef __cplusplus
++}
++#endif
+ #include <libart_lgpl/art_point.h>
+ #include <libart_lgpl/art_affine.h>
+ 
+--- koffice-1.6.3/karbon/render/art_rgba_affine.c.orig	2008-01-27 11:12:42.991186535 +0530
++++ koffice-1.6.3/karbon/render/art_rgba_affine.c	2008-01-27 11:13:09.331039452 +0530
+@@ -21,7 +21,13 @@
+ #include "art_rgba_affine.h"
+ 
+ #include <math.h>
++#ifdef __cplusplus
++extern "C" {
++#endif
+ #include <libart_lgpl/art_misc.h>
++#ifdef __cplusplus
++}
++#endif
+ #include <libart_lgpl/art_point.h>
+ #include <libart_lgpl/art_affine.h>
+ #include <art_rgb_affine_private.h>
+--- koffice-1.6.3/karbon/render/vkopainter.cc.orig	2008-01-27 12:04:26.772582484 +0530
++++ koffice-1.6.3/karbon/render/vkopainter.cc	2008-01-27 12:05:47.709883405 +0530
+@@ -31,7 +31,14 @@
+ #include <qimage.h>
+ 
+ #include "libart_lgpl/art_vpath.h"
++#ifdef __cplusplus
++extern "C" {
++#endif /* __cplusplus */
+ #include <libart_lgpl/art_bpath.h>
++#ifdef __cplusplus
++}
++#endif /* __cplusplus */
++
+ #include <libart_lgpl/art_vpath_bpath.h>
+ #include <libart_lgpl/art_svp_vpath.h>
+ #include <libart_lgpl/art_svp_vpath_stroke.h>

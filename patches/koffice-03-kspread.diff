@@ -1,0 +1,12 @@
+--- koffice-1.6.2/filters/kspread/opencalc/opencalcexport.cc.orig	Sat May 19 18:51:12 2007
++++ koffice-1.6.2/filters/kspread/opencalc/opencalcexport.cc	Sat May 19 18:51:51 2007
+@@ -196,8 +196,7 @@
+   QDomNode officeMeta = meta.createElement( "office:meta" );
+ 
+   QDomElement data = meta.createElement( "meta:generator" );
+-  QString app( "KSpread " );
+-  app += KSpread::version;
++  QString app( "KSpread 1.6.2" );
+   data.appendChild( meta.createTextNode( app ) );
+   officeMeta.appendChild( data );
+ 

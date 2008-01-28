@@ -1,3 +1,31 @@
+2008-01-28 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEkoffice3.spec:
+	* patches/koffice-05-libart.diff:
+	* patches/koffice-06-build_kexi_file.diff:
+	* patches/koffice-03-kspread.diff:
+	* patches/koffice-04-objects.diff:
+	* patches/koffice-02-kross.diff:
+	* patches/koffice-01-krita.diff:
+	  Add KDE Office suite.
+	* ext-sources/kformula.files
+	* ext-sources/kivio.files
+	* ext-sources/karbon14.files
+	* ext-sources/buildkde
+	* ext-sources/kpresenter.files
+	* ext-sources/kword.files
+	* ext-sources/kspread.files
+	* ext-sources/kplato.files
+	* ext-sources/kexi.files
+	* ext-sources/koffice.files
+	* ext-sources/kugar.files
+	* ext-sources/krita.files
+	* ext-sources/kchart.files
+	  File lists for KOffice suite sub-packages.
+	* SFEgraphicsmagick.spec:
+	  Add GraphicsMagick package needed by KOffice.
+	* ext-sources/buildkde:
+	  Add new packages to build.
+
 2008-01-28  Simon Zheng  <simon.zheng@sun.com>
 
 	* base-specs/gnome-power-manager.spec:

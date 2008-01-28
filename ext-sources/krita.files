@@ -1,0 +1,35 @@
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/*krita*
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/*krita*
+%dir %attr (0755, root, other) %{_libdir}/kde3
+%{_libdir}/kde3/*krita*
+
+%defattr (-, root, other)
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/apps
+%dir %attr (0755, root, other) %{_datadir}/apps/krita
+%{_datadir}/apps/krita/*
+%dir %attr (0755, root, other) %{_datadir}/apps/kritaplugins
+%{_datadir}/apps/kritaplugins/*
+%dir %attr (0755, root, other) %{_datadir}/apps/konqueror
+%dir %attr (0755, root, other) %{_datadir}/apps/konqueror/servicemenus
+%{_datadir}/apps/konqueror/servicemenus/*krita*
+%dir %attr (0755, root, other) %{_datadir}/services
+%{_datadir}/services/*krita*
+%dir %attr (0755, root, other) %{_datadir}/applications
+%dir %attr (0755, root, other) %{_datadir}/applications/kde
+%{_datadir}/applications/kde/*krita*
+%dir %attr (0755, root, other) %{_datadir}/servicetypes
+%{_datadir}/servicetypes/*krita*
+%dir %attr (0755, root, other) %{_datadir}/applnk
+%dir %attr (0755, root, other) %{_datadir}/applnk/.hidden
+%{_datadir}/applnk/.hidden/*krita*
+
+%defattr (-, root, bin)
+%dir %attr (0755, root, other) %{_datadir}/doc
+%dir %attr (0755, root, bin) %{_datadir}/doc/HTML
+%dir %attr (0755, root, bin) %{_datadir}/doc/HTML/en
+%dir %attr (0755, root, bin) %{_datadir}/doc/HTML/en/krita
+%{_datadir}/doc/HTML/en/krita/*

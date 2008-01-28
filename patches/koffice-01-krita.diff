@@ -1,0 +1,23 @@
+--- koffice-1.4.90/krita/core/tiles/kis_tilemanager.cc.orig	Sat Feb 18 22:21:16 2006
++++ koffice-1.4.90/krita/core/tiles/kis_tilemanager.cc	Sat Feb 18 22:37:39 2006
+@@ -18,8 +18,8 @@
+ 
+ #include <kdebug.h>
+ 
+-#include <sys/mman.h>
+ #include <sys/types.h>
++#include <sys/mman.h>
+ #include <sys/stat.h>
+ #include <unistd.h>
+ #include <string.h>
+@@ -36,6 +36,10 @@
+ #include "kis_tile.h"
+ #include "kis_tilemanager.h"
+ 
++extern "C" {
++extern int madvise(void *addr, size_t, int);
++}
++
+ // Note: the cache file doesn't get deleted when we crash and so :(
+ 
+ KisTileManager* KisTileManager::m_singleton = 0;

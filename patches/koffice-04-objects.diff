@@ -1,0 +1,34 @@
+--- koffice-1.6.3/lib/kross/python/cxx/Objects.hxx.orig	2008-01-27 10:32:09.182777156 +0530
++++ koffice-1.6.3/lib/kross/python/cxx/Objects.hxx	2008-01-27 10:32:47.388837002 +0530
+@@ -11,6 +11,14 @@
+ #undef _XOPEN_SOURCE
+ #endif
+ 
++// Prevent multiple conflicting definitions of swab
++// from stdlib.h and unistd.h
++#if defined(__sun) || defined(sun)
++#if defined(_XPG4)
++#undef _XPG4
++#endif
++#endif
++
+ #include "Python.h"
+ #include "Config.hxx"
+ #include "Exception.hxx"
+--- koffice-1.6.3/lib/kross/python/pythonconfig.h.orig	2008-01-27 10:45:34.230137269 +0530
++++ koffice-1.6.3/lib/kross/python/pythonconfig.h	2008-01-27 10:45:55.664385109 +0530
+@@ -30,6 +30,14 @@
+   #undef _POSIX_C_SOURCE
+ #endif
+ 
++// Prevent multiple conflicting definitions of swab
++// from stdlib.h and unistd.h
++#if defined(__sun) || defined(sun)
++#if defined(_XPG4)
++#undef _XPG4
++#endif
++#endif
++
+ // The Python.h needs to be included first.
+ #include <Python.h>
+ #include <object.h>

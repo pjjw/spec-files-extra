@@ -1,0 +1,43 @@
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/*exi*
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/*exi*
+%dir %attr (0755, root, other) %{_libdir}/kde3
+%{_libdir}/kde3/kexi*
+%{_libdir}/kde3/*_kexi*
+%{_libdir}/kde3/krosskexi*
+
+%defattr (-, root, other)
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/apps
+%dir %attr (0755, root, other) %{_datadir}/apps/konqueror
+%dir %attr (0755, root, other) %{_datadir}/apps/konqueror/servicemenus
+%{_datadir}/apps/konqueror/servicemenus/*exi*
+%dir %attr (0755, root, other) %{_datadir}/apps/kexi
+%{_datadir}/apps/kexi/*
+%dir %attr (0755, root, other) %{_datadir}/services
+%{_datadir}/services/kexi*
+%dir %attr (0755, root, other) %{_datadir}/services/kformdesigner
+%{_datadir}/services/kformdesigner/*exi*
+%dir %attr (0755, root, other) %{_datadir}/applications
+%dir %attr (0755, root, other) %{_datadir}/applications/kde
+%{_datadir}/applications/kde/*exi*
+%dir %attr (0755, root, other) %{_datadir}/servicetypes
+%{_datadir}/servicetypes/*exi*
+%dir %attr (0755, root, other) %{_datadir}/config
+%{_datadir}/config/*
+%dir %attr (0755, root, other) %{_datadir}/mimelnk
+%dir %attr (0755, root, other) %{_datadir}/mimelnk/application
+%{_datadir}/mimelnk/application/*exi*
+%dir %attr (0755, root, other) %{_datadir}/locale
+%dir %attr (0755, root, other) %{_datadir}/locale/pl
+%dir %attr (0755, root, other) %{_datadir}/locale/pl/LC_MESSAGES
+%{_datadir}/locale/pl/LC_MESSAGES/*exi*
+
+%defattr (-, root, bin)
+%dir %attr (0755, root, other) %{_datadir}/doc
+%dir %attr (0755, root, bin) %{_datadir}/doc/HTML
+%dir %attr (0755, root, bin) %{_datadir}/doc/HTML/en
+%dir %attr (0755, root, bin) %{_datadir}/doc/HTML/en/kexi
+%{_datadir}/doc/HTML/en/kexi/*

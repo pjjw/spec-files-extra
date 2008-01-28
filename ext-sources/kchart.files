@@ -1,0 +1,30 @@
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/*chart*
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/*chart*
+%dir %attr (0755, root, other) %{_libdir}/kde3
+%{_libdir}/kde3/*chart*
+
+%defattr (-, root, other)
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/apps
+%dir %attr (0755, root, other) %{_datadir}/apps/kchart
+%{_datadir}/apps/kchart/*
+%dir %attr (0755, root, other) %{_datadir}/apps/konqueror
+%dir %attr (0755, root, other) %{_datadir}/apps/konqueror/servicemenus
+%{_datadir}/apps/konqueror/servicemenus/*kchart*
+%dir %attr (0755, root, other) %{_datadir}/services
+%{_datadir}/services/*chart*
+%dir %attr (0755, root, other) %{_datadir}/applications
+%dir %attr (0755, root, other) %{_datadir}/applications/kde
+%{_datadir}/applications/kde/*chart*
+%dir %attr (0755, root, other) %{_datadir}/servicetypes
+%{_datadir}/servicetypes/*chart*
+
+%defattr (-, root, bin)
+%dir %attr (0755, root, other) %{_datadir}/doc
+%dir %attr (0755, root, bin) %{_datadir}/doc/HTML
+%dir %attr (0755, root, bin) %{_datadir}/doc/HTML/en
+%dir %attr (0755, root, bin) %{_datadir}/doc/HTML/en/kchart
+%{_datadir}/doc/HTML/en/kchart/*

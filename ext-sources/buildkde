@@ -32,6 +32,9 @@
 #
 # Changelog
 #
+# 2008-01-28 - Moinak Ghosh <moinak.ghosh@sun.com>
+# Add new packages.
+#
 # 2008-01-26 - Moinak Ghosh <moinak.ghosh@sun.com>
 # Fix another bad mistake in previous commit.
 #
@@ -82,6 +85,7 @@ call_pkgtool() {
 	CXX64=$CXX
 	export CC CC32 CC64 CXX CXX32 CXX64
 
+	[ -n "$EXTRA_PKGTOOL_OPTIONS" ] && PKGTOOL_OPTIONS="${PKGTOOL_OPTIONS} ${EXTRA_PKGTOOL_OPTIONS}"
 	pkgtool build ${PKGTOOL_OPTIONS} --download ${specs}
 
 	if [ $? -ne 0 ]
@@ -91,8 +95,6 @@ call_pkgtool() {
 	fi
 }
 
-#if [ 0 -eq 1 ]
-#then
 if [ `pkginfo -q SUNWgnu-libiconv` ]
 then
 	if [ `pkginfo -q SFEgettext` ]
@@ -248,9 +250,19 @@ _USE_GCC3_="1"
 export _USE_GCC3_
 call_pkgtool $_GCC "encumbered/SFExine-lib.spec"
 unset _USE_GCC3_
-#fi
 
 call_pkgtool $_GCC "SFEamarok1.spec:SFEkdeedu3.spec:SFEkdetoys3.spec"
 
-call_pkgtool $_STUDIO "SFElibgsf.spec:SFEwv2.spec"
+EXTRA_PKGTOOL_OPTIONS="--with-gnu-iconv"
+export EXTRA_PKGTOOL_OPTIONS
+call_pkgtool $_STUDIO "SFElibgsf.spec"
+call_pkgtool $_GCC "SFEwv2.spec"
+unset EXTRA_PKGTOOL_OPTIONS
 
+call_pkgtool $_GCC "SFEwpd.spec:SFElibpqxx.spec"
+
+# TODO: Need to upgrade SUNW imagick
+# call_pkgtool $_STUDIO "SFEimagemagick.spec"
+call_pkgtool $_STUDIO "SFEgraphicsmagick.spec"
+
+call_pkgtool $_GCC "SFEkoffice3.spec"

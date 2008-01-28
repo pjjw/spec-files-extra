@@ -1,0 +1,8 @@
+--- koffice-1.6.3/kexi/examples/build_kexi_file.sh.orig	2008-01-27 13:30:48.635249600 +0530
++++ koffice-1.6.3/kexi/examples/build_kexi_file.sh	2008-01-27 13:32:18.004188459 +0530
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ # Builds a single .kexi file from a .sql file specified as $1.
+ # The destination .kexi file is saved with name specified as $2.

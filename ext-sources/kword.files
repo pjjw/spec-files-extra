@@ -1,0 +1,32 @@
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/*kword*
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/*kword*
+%dir %attr (0755, root, other) %{_libdir}/kde3
+%{_libdir}/kde3/*kword*
+
+%defattr (-, root, other)
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/apps
+%dir %attr (0755, root, other) %{_datadir}/apps/kword
+%{_datadir}/apps/kword/*
+%dir %attr (0755, root, other) %{_datadir}/apps/konqueror
+%dir %attr (0755, root, other) %{_datadir}/apps/konqueror/servicemenus
+%{_datadir}/apps/konqueror/servicemenus/*kword*
+%dir %attr (0755, root, other) %{_datadir}/apps/xsltfilter
+%dir %attr (0755, root, other) %{_datadir}/apps/xsltfilter/export
+%dir %attr (0755, root, other) %{_datadir}/apps/xsltfilter/export/kword
+%{_datadir}/apps/xsltfilter/export/kword/*
+%dir %attr (0755, root, other) %{_datadir}/services
+%{_datadir}/services/*kword*
+%dir %attr (0755, root, other) %{_datadir}/applications
+%dir %attr (0755, root, other) %{_datadir}/applications/kde
+%{_datadir}/applications/kde/*kword*
+
+%defattr (-, root, bin)
+%dir %attr (0755, root, other) %{_datadir}/doc
+%dir %attr (0755, root, bin) %{_datadir}/doc/HTML
+%dir %attr (0755, root, bin) %{_datadir}/doc/HTML/en
+%dir %attr (0755, root, bin) %{_datadir}/doc/HTML/en/kword
+%{_datadir}/doc/HTML/en/kword/*
