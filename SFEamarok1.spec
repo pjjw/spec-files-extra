@@ -47,6 +47,9 @@ Requires: SFExine-lib
 BuildRequires: SFExine-lib-devel
 Requires: SUNWruby18u
 BuildRequires: SUNWruby18u
+Requires: SFElibvisual
+BuildRequires: SFElibvisual-devel
+Requires: SFElibvisual-plugins
 
 %package encumbered
 Summary:                 %{summary} - support for encumbered libraries
@@ -178,5 +181,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Jan 29 2008 - moinak.ghosh@sun.com
+- Added dependency to libvisual and libvisual-plugins.
 * Sat Jan 26 2008 - moinak.ghosh@sun.com
 - Initial spec.

@@ -1,5 +1,5 @@
---- multitail-5.2.0/makefile.solaris_gcc.orig	2008-01-28 23:21:33.716064093 +0530
-+++ multitail-5.2.0/makefile.solaris_gcc	2008-01-28 23:23:08.810270476 +0530
+--- multitail-5.2.0/makefile.solaris_gcc.orig	2008-01-28 23:59:51.455889322 +0530
++++ multitail-5.2.0/makefile.solaris_gcc	2008-01-29 00:00:35.260524206 +0530
 @@ -5,8 +5,8 @@
  
  CC=gcc
@@ -11,7 +11,7 @@
  
  OBJS=utils.o mt.o error.o my_pty.o term.o scrollback.o help.o mem.o cv.o color.o stripstring.o selbox.o misc.o ui.o exec.o diff.o config.o cmdline.o globals.o history.o
  
-@@ -16,17 +16,27 @@
+@@ -16,17 +16,25 @@
  	$(CC) $(OBJS) $(LDFLAGS) -o multitail
  
  install: multitail
@@ -38,13 +38,11 @@
  	cp *.txt INSTALL manual.html $(DESTDIR)/usr/share/doc/multitail-$(VERSION)
 -	rm -f $(DESTDIR)/usr/man/man1/multitail.1.gz
 -	gzip -9 $(DESTDIR)/usr/man/man1/multitail.1
-+	rm -f $(DESTDIR)/usr/share/man/man1/multitail.1.gz
-+	gzip -9 $(DESTDIR)/usr/share/man/man1/multitail.1
  	#
  	# +-=-------------------------------------------------------------=-+
  	# | There's a mailinglist!                                          |
---- multitail-5.2.0/makefile.solaris_sunwspro.orig	2008-01-28 23:21:39.802643417 +0530
-+++ multitail-5.2.0/makefile.solaris_sunwspro	2008-01-28 23:23:55.219267828 +0530
+--- multitail-5.2.0/makefile.solaris_sunwspro.orig	2008-01-29 00:00:01.294540929 +0530
++++ multitail-5.2.0/makefile.solaris_sunwspro	2008-01-29 00:00:47.116815922 +0530
 @@ -4,8 +4,8 @@
  CONFIG_FILE=$(DESTDIR)/etc/multitail.conf
  
@@ -56,7 +54,7 @@
  
  OBJS=utils.o mt.o error.o my_pty.o term.o scrollback.o help.o mem.o cv.o color.o stripstring.o selbox.o misc.o ui.o exec.o diff.o config.o cmdline.o globals.o history.o
  
-@@ -15,17 +15,27 @@
+@@ -15,17 +15,25 @@
  	$(CC) $(OBJS) $(LDFLAGS) -o multitail
  
  install: multitail
@@ -82,8 +80,6 @@
  	cp *.txt INSTALL manual.html $(DESTDIR)/usr/share/doc/multitail-$(VERSION)
 -	rm -f $(DESTDIR)/usr/man/man1/multitail.1.gz
 -	gzip -9 $(DESTDIR)/usr/man/man1/multitail.1
-+	rm -f $(DESTDIR)/usr/share/man/man1/multitail.1.gz
-+	gzip -9 $(DESTDIR)/usr/share/man/man1/multitail.1
  	#
  	# +-=-------------------------------------------------------------=-+
  	# | There's a mailinglist!                                          |

@@ -38,7 +38,7 @@ autoheader
 automake --add-missing
 autoconf --force
 
-export CFLAGS="%optflags"
+export CFLAGS="%optflags -D__C99FEATURES__"
 export LDFLAGS="%_ldflags"
 ./configure --prefix=%{_prefix}		\
 	    --bindir=%{_bindir}		\
@@ -48,7 +48,9 @@ export LDFLAGS="%_ldflags"
             --libexecdir=%{_libexecdir} \
             --sysconfdir=%{_sysconfdir} \
             --enable-shared		\
-	    --disable-static
+	    --disable-static		\
+	    --enable-getoptwrapper=no
+
 make -j$CPUS 
 
 %install
@@ -71,5 +73,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}
 
 %changelog
+* Tue Jan 20 2008 - moinak.ghosh@sun.com
+- Enable C99 flag to get a couple of math functions.
+- Disable automatic check to getopt wrapper. Causes an infinite loop in libtool.
 * Sun May 28 2007 - dougs@truemail.co.th
 - Initial version

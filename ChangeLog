@@ -1,3 +1,20 @@
+2008-01-29 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFElibvisual-plugins.spec:
+	  Add Libvisual plugins package.
+	* SFEamarok1.spec;
+	  Added dependency to libvisual and libvisual-plugins.
+	* SFExcdroast.spec:
+	  Various fixes.
+	* SFEhercules.spec:
+	  Enable C99 flag to get a couple of math functions.
+	  Disable automatic check to getopt wrapper. Causes an infinite loop in libtool.
+	* SFEbyacc.spec:
+	  Add Berkeley Yacc into /usr/gnu.
+	* patches/multitail-01-makefiles.diff:
+	  Slight rework.
+	* SFEheroes.spec:
+	  Fix a conflict if building with l10n.
+
 2008-01-29 Willie Walker <william.walker@sun.com>
 
 	* SFEespeak.spec:
