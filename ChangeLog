@@ -1,3 +1,9 @@
+2008-01-29 Willie Walker <william.walker@sun.com>
+
+	* SFEespeak.spec:
+	* patches/espeak-01-solaris.diff:
+	  Add eSpeak package - a software speech synthesis engine.
+
 2008-01-28 Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEgst-python.spec:  Bump to 0.10.10.
