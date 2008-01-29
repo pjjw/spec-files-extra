@@ -1,4 +1,9 @@
+2008-01-28 Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEgst-python.spec:  Bump to 0.10.10.
+
 2008-01-28 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFElibgsf.spec:
 	  Added a couple of missing dependencies.
 	* SFEgnokii.spec:
@@ -9,11 +14,13 @@
 	  Added new Multitail package.
 
 2008-01-28 Brian Nitz <brian dot nitz at sun dot com>
-	*SFExlincity.spec
+
+	* SFExlincity.spec
 	* patches/xlincity-01-solaris.diff
-	First version of xlincity (another opensource fork of S*mC*ty)
+	  First version of xlincity (another opensource fork of S*mC*ty)
 
 2008-01-28 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEkoffice3.spec:
 	* patches/koffice-05-libart.diff:
 	* patches/koffice-06-build_kexi_file.diff:
@@ -59,6 +66,7 @@
 	  and change download URL to GNOME official website.
 
 2008-01-26 Moinak Ghosh  <moinak.ghosh@sun.com>
+
 	* SFEimagemagick.spec:
 	  Bump version to 6.3.6-10.
 	  Add check to prevent build using Gcc.
@@ -75,10 +83,12 @@
 	  Commented patch removed from repository.
 
 2008-01-26 Moinak Ghosh  <moinak.ghosh@sun.com>
+
 	* ext-sources/buildkde:
 	  Fix another bad mistake in previous commit.
 
 2008-01-26 Moinak Ghosh  <moinak.ghosh@sun.com>
+
 	* ext-sources/buildkde:
 	  Various typo and other fixes.
 	  Re-order some specs.
@@ -749,7 +759,7 @@
 	* base-specs/sqlite.spec: Bump to 3.5.4
 	* base-specs/w3m.spec: spilit from SFEw3m.spec
 
-2008-01-01  JerrY Yu <jijun.yu@sun.com>
+2008-01-01  Jerry Yu <jijun.yu@sun.com>
 	
 	* SFEgpgme.spec: Removed an used file.
 
@@ -1057,7 +1067,6 @@
 	* SFEtailor.spec: *NEW* A tool to migrate changesets between SCMs
 
 2007-12-09  Michal Bielicki <michal.bielicki@voiceworks.pl>
-
 
 	* first alpha version of SFEunixODBC.spec with 32 and 64 bit 
 	  version. Works on x86 and x86_64, not tested on sparc yet, 
