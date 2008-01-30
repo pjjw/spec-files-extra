@@ -21,8 +21,8 @@ Requires:   	SUNWperl584core
 Requires:		SUNWgnome-base-libs
 BuildRequires:	SFEperl-extutils-dep
 BuildRequires:	SFEperl-extutils-pkg
-Requires:		SFEperl-glib
-Requires:   	SFEperl-cairo
+BuildRequires:		SFEperl-glib
+BuildRequires:   	SFEperl-cairo
 
 %ifarch sparc
 %define perl_dir sun4-solaris-64int

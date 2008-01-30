@@ -1,3 +1,9 @@
+2008-01-30 Erwann Chenede - <erwann.chenede@sun.com>
+
+	* SFEperl-gtk2.spec: changed SFEperl-glib, SFEperl-cairo
+	  from Requires to BuildRequires. Problem pointed out 
+	  by Emmanuel Jannetti.
+
 2008-01-30  jijun.yu  <jijun.yu@sun.com>
 
 	* base-specs/msynctool.spec: Bump to 0.36.
