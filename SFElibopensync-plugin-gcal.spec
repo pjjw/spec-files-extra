@@ -53,14 +53,14 @@ rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr (-, root, bin)
-/usr/google-cal*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/opensync-1.0
 
 %changelog
+* Wed Jan 30 2007 - jijun.yu@sun.com
+- Removed the items not in %files
 * Thu Dec 20 2007 - jijun.yu@sun.com
 - Change %{_datadir}/opensync to %{_datadir}/opensync-1.0
 * Tue Aug 07 2007 - jijun.yu@sun.com

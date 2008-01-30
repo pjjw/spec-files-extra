@@ -9,7 +9,7 @@
 Name:           libopensync-plugin-palm
 License:        GPL
 Group:          System/Libraries
-Version:        0.35
+Version:        0.36
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -81,8 +81,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu Dec 20 2007 - jijun.yu@sun.com
-- Bump to 0.35, change the build tool to cmake.
+* Wed Jan 30 2008 - jijun.yu@sun.com
+- Bump to 0.36.
 
 * Tue Oct 16 2007 - nonsea@users.sourceforge.net
 - Bump to 0.33, change Source to full URL.
