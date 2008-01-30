@@ -32,6 +32,9 @@
 #
 # Changelog
 #
+# 2008-01-30 - Moinak Ghosh <moinak.ghosh@sun.com>
+# Add new packages.
+#
 # 2008-01-28 - Moinak Ghosh <moinak.ghosh@sun.com>
 # Add new packages.
 #
@@ -244,7 +247,7 @@ export PATH
 
 call_pkgtool $_GCC "SFEkdemultimedia3.spec:SFEkdegames3.spec:SFEkdeaddons3.spec:SFEkdenetwork3.spec:SFElibical.spec:SFElibmal.spec:SFEgnokii.spec:SFEkdeaccessibility3.spec:SFEkdepim3.spec:SFEkdesdk3.spec:SFEkdeutils3.spec:SFEkdewebdev3.spec"
 
-call_pkgtool $_GCC "SFEhtdig.spec:SFEkdevelop3.spec:SFElibvisual.spec:SFExerces-c.spec:SFEmpfr.spec"
+call_pkgtool $_GCC "SFEhtdig.spec:SFEkdevelop3.spec:SFElibvisual.spec:SFElibvisual-plugins.spec:SFExerces-c.spec:SFEmpfr.spec"
 
 _USE_GCC3_="1"
 export _USE_GCC3_
@@ -265,4 +268,5 @@ call_pkgtool $_GCC "SFEwpd.spec:SFElibpqxx.spec"
 # call_pkgtool $_STUDIO "SFEimagemagick.spec"
 call_pkgtool $_STUDIO "SFEgraphicsmagick.spec"
 
-call_pkgtool $_GCC "SFEkoffice3.spec"
+call_pkgtool $_GCC "SFEkoffice3.spec:SFElibkipi.spec:SFEexiv2.spec:SFEdcraw.spec:SFElibkdcraw.spec:SFElibkexiv2.spec:SFEkipi-plugins.spec:SFEjasper.spec:SFEdigikam.spec"
+

@@ -1,3 +1,24 @@
+2008-01-29 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEexiv2.spec:
+	* patches/exiv2-01-makefile.diff:
+	  Add new Image metadata library.
+	* ext-sources/buildkde:
+	  Add new packages to build.
+	* SFElibkdcraw.spec:
+	  Add RAW image data processing library for KDE.
+	* SFEdigikam.spec:
+	  Add Digital photo mgmt. KDE app.
+	* SFEkipi-plugins.spec:
+	  Add KDE Image Plugin Interface library plugins.
+	* SFElibkexiv2.spec:
+	  Add KDE interface to Exiv2 lib.
+	* SFElibkipi.spec:
+	  Add KDE Image Plugin Interface library.
+	* SFEjasper.spec:
+	  Add Jasper, JPEG JPEG-2000 Part-1 handling lib.
+	* SFEhtml-tidy.spec:
+	  Remove architecture from package name.
+
 2008-01-30 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* SFEperl-gtk2.spec: changed SFEperl-glib, SFEperl-cairo

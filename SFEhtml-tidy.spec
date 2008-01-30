@@ -20,7 +20,7 @@
 # =========================================================================== 
 #                    SVR4 required definitions
 # =========================================================================== 
-SUNW_Pkg:	SFE%{src_name}-%{base_arch}
+SUNW_Pkg:	SFE%{src_name}
 SUNW_ProdVers:	${src_version}
 SUNW_BaseDir:	%{_basedir}
 
@@ -91,5 +91,7 @@ rm -rf $RPM_BUILD_ROOT
 %{deploy_prefix}/include/*
 
 %changelog
+* Wed Jan 30 2008 - moinak.ghosh@sun.com
+- Remove architecture from package name.
 * 2007.06.25 - Ravibharadwaj & Saurabh vyas
 - Initial spec
