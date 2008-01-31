@@ -1,3 +1,8 @@
+2008-01-31  simon.zheng  <simon.zheng@sun.com>
+
+	* base-specs/glibmm.spec:
+	  Bump to version 2.14.2.
+
 2008-01-29 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEexiv2.spec:
 	* patches/exiv2-01-makefile.diff:

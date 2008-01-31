@@ -8,13 +8,13 @@
 Name:                    glibmm
 License:        	 LGPL
 Group:                   System/Libraries
-Version:                 2.12.10
+Version:                 2.14.2
 Release:                 1
 Distribution:            Java Desktop System
 Vendor:                  Sun Microsystems, Inc.
 Summary:                 glibmm - C++ Wrapper for the Glib2 Library
 URL:                     http://www.gtkmm.org/
-Source:                  http://ftp.gnome.org/pub/GNOME/sources/glibmm/2.12/%{name}-%{version}.tar.bz2
+Source:                  http://ftp.gnome.org/pub/GNOME/sources/glibmm/2.14/%{name}-%{version}.tar.bz2
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
@@ -78,5 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Thu Jau 31 2008 - simon.zheng@sun.com
+- Bump to 2.14.2.
+
 * Mon Jau 28 2008 - simon.zheng@sun.com
 - Create. Split from SFEglibmm.
