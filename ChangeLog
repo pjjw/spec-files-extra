@@ -1,5 +1,11 @@
 2008-01-31 Brian Cameron  <brian.cameron@sun.com>
 
+	* SUNWgnome-display-mgr.spec, patches-02-sdtlogin.diff:  Add 
+	  SDTLOGIN interface back to GDM 2.21 so that the Xserver is 
+	  dropped to user permissions upon session startup.
+
+2008-01-31 Brian Cameron  <brian.cameron@sun.com>
+
 	* SUNWgnome-display-mgr.spec, patches/gdm-01-fixcompile.diff:
 	  Add a spec file to build GDM 2.21.
 

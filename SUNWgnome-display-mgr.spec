@@ -18,6 +18,7 @@ Release:                 1
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.21/gdm-%{version}.tar.bz2
 Source1:                 gdm.xml
 Patch1:                  gdm-01-fixcompile.diff
+Patch2:                  gdm-02-sdtlogin.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -73,6 +74,7 @@ Requires:                %{name}
 %prep
 %setup -q -n gdm-%version
 %patch1 -p0
+%patch2 -p1
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
