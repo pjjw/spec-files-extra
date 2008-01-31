@@ -15,6 +15,7 @@ Summary:                HTML Indexing and Search engine
 Version:                3.2.0b6
 Source:                 http://htdig.sourceforge.net/files/htdig-%{version}.tar.gz
 URL:                    http://www.htdig.org/
+Patch1:                 htdig-01-debian.diff
 
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
@@ -31,6 +32,7 @@ Requires:               %{name}
 
 %prep
 %setup -q -n htdig-%{version}
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -95,5 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr (0755, root, bin) %dir %{_localstatedir}/htdig
 
 %changelog
+* Fri Feb 01 2008 - moinak.ghosh@sun.com
+- Added jumbo patch from Debian Etch (several improvemements) with
+- further additions to fix Makefile issues causing undefined symbols
+- at runtime.
 * Thu Jan 24 2008 - moinak.ghosh@sun.com
 - Initial spec.

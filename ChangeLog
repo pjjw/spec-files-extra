@@ -1,3 +1,12 @@
+2008-01-31 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEhtdig.spec:
+	* patches/htdig-01-debian.diff:
+	  Added jumbo patch from Debian Etch (several improvemements) with
+	  further additions to fix Makefile issues causing undefined symbols
+	  at runtime.
+	* patches/kdebase-01-startkde.diff:
+	  Add /usr/openwin/bin to PATH to get X utilities(iceauth) on SXDE.
+
 2008-01-31  simon.zheng  <simon.zheng@sun.com>
 
 	* base-specs/glibmm.spec:
