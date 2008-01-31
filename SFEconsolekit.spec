@@ -10,11 +10,10 @@
 
 Name:                    SFEconsolekit
 Summary:                 Framework for tracking users, login sessions, and seats.
-Version:                 0.2.6
+Version:                 0.2.7
 Source:                  http://people.freedesktop.org/~mccann/dist/ConsoleKit-%{version}.tar.gz
 Patch1:                  ConsoleKit-01-nox11check.diff
-Patch2:                  ConsoleKit-02-RBAC.diff
-Patch3:                  ConsoleKit-03-fixbugs.diff
+Patch2:                  ConsoleKit-02-emptystruct.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -61,7 +60,6 @@ Requires: %name
 %setup -q -n ConsoleKit-%version
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -143,7 +141,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Jan 25 2007 - Brian.Cameron@sun.com
+* Thu Jan 31 2008 - Brian.Cameron@sun.com
+- Bump to 0.2.7.  Remove two upstream patches added on January 25,
+  2007.
+* Fri Jan 25 2008 - Brian.Cameron@sun.com
 - Bump to 0.2.6.  Rework patches.  Add patch ConsoleKit-02-RBAC.diff
   to make ConsoleKit use RBAC instead of PolicyKit on Solaris.
   Patch ConsoleKit-03-fixbugs.diff fixes some bugs I found.

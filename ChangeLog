@@ -1,4 +1,13 @@
+2008-01-31 Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEconsolekit.spec: Bump to 0.2.7
+	* patches/ConsoleKit-02-emptystruct.diff: Fix new issue with empty
+	  structures the Sun Studio compiler does not like.
+	* patches/ConsoleKit-02-RBAC.diff, patches/ConsoleKit-03-fixbugs.diff:
+	  Remove upstream patches.
+
 2008-01-31 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEhtdig.spec:
 	* patches/htdig-01-debian.diff:
 	  Added jumbo patch from Debian Etch (several improvemements) with
@@ -13,6 +22,7 @@
 	  Bump to version 2.14.2.
 
 2008-01-29 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEexiv2.spec:
 	* patches/exiv2-01-makefile.diff:
 	  Add new Image metadata library.
@@ -57,6 +67,7 @@
 	* patches/wesnoth-05-fixconfigure.diff: Small modification
 
 2008-01-29 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFElibvisual-plugins.spec:
 	  Add Libvisual plugins package.
 	* SFEamarok1.spec;
@@ -184,7 +195,7 @@
 
 2008-01-26 Brian Cameron  <brian.cameron@sun.com>
 
-	* SFEconsolekit.spec: 
+	* SFEconsolekit.spec: Bump to 0.2.6.
 	* patches/ConsoleKit-02-RBAC.diff: Make PolicyKit an optional
 	  dependency.  Instead support RBAC.
 	* patches/ConsoleKit-03-fixbugs.diff: Fix some bugs.

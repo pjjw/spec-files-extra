@@ -1,0 +1,20 @@
+--- ConsoleKit-0.2.7/src/ck-log-event.h-orig	2008-01-31 14:57:17.524688000 -0600
++++ ConsoleKit-0.2.7/src/ck-log-event.h	2008-01-31 14:57:35.747848000 -0600
+@@ -44,14 +44,17 @@ typedef enum
+ 
+ typedef struct
+ {
++   gboolean foo;
+ } CkLogSystemStopEvent;
+ 
+ typedef struct
+ {
++   gboolean foo;
+ } CkLogSystemRestartEvent;
+ 
+ typedef struct
+ {
++   gboolean foo;
+ } CkLogSystemStartEvent;
+ 
+ typedef struct
