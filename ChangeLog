@@ -6,8 +6,8 @@
 
 2008-01-31 Brian Cameron  <brian.cameron@sun.com>
 
-	* SUNWgnome-display-mgr.spec, patches/gdm-01-fixcompile.diff:
-	  Add a spec file to build GDM 2.21.
+	* SUNWgnome-display-mgr.spec, patches/gdm-01-fixcompile.diff,
+	  ext-sources/gdm.xml: Add a spec file to build GDM 2.21.
 
 2008-01-31 Brian Cameron  <brian.cameron@sun.com>
 
