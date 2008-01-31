@@ -1,5 +1,10 @@
 2008-01-31 Brian Cameron  <brian.cameron@sun.com>
 
+	* SUNWgnome-display-mgr.spec, patches/gdm-01-fixcompile.diff:
+	  Add a spec file to build GDM 2.21.
+
+2008-01-31 Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEconsolekit.spec: Bump to 0.2.7
 	* patches/ConsoleKit-02-emptystruct.diff: Fix new issue with empty
 	  structures the Sun Studio compiler does not like.

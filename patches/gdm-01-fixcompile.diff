@@ -1,0 +1,33 @@
+Index: common/gdm-address.c
+===================================================================
+--- common/gdm-address.c	(revision 5659)
++++ common/gdm-address.c	(working copy)
+@@ -25,10 +25,12 @@
+ #include <stdio.h>
+ #include <fcntl.h>
+ #include <unistd.h>
++#include <stropts.h>
+ #include <string.h>
+ #ifdef HAS_SYS_SOCKET
+ #include <sys/socket.h>
+ #endif
++#include <sys/sockio.h>
+ #include <netdb.h>
+ #include <sys/ioctl.h>
+ #include <net/if.h>
+Index: configure.ac
+===================================================================
+--- configure.ac	(revision 5659)
++++ configure.ac	(working copy)
+@@ -134,7 +134,10 @@
+ AC_PATH_XTRA
+ 
+ # Unit testing framework
+-PKG_CHECK_MODULES(CHECK,[check >= 0.9.4])
++PKG_CHECK_MODULES(CHECK,
++                  [check >= 0.9.4],
++                  have_check=yes,
++                  have_check=no)
+ AM_CONDITIONAL([HAVE_CHECK],[test "x$CHECK_CFLAGS" != "x"])
+ 
+ AC_PATH_PROG(GCONFTOOL, gconftool-2)
