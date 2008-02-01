@@ -1,0 +1,19 @@
+--- kdelibs-3.5.8/kdecore/ktimezones.cpp.orig	2008-02-01 21:21:57.109792234 +0530
++++ kdelibs-3.5.8/kdecore/ktimezones.cpp	2008-02-01 22:14:15.976351156 +0530
+@@ -396,13 +396,13 @@
+                 m_zoneinfoDir = "/usr/share/lib/zoneinfo";
+                 KTempFile temp;
+                 KShellProcess reader;
+-                reader << "/bin/grep" << "-h" << "^Zone" << m_zoneinfoDir << "/src/*" << temp.name() << "|" <<
+-                    "/bin/awk" << "'{print \"??\\t+9999+99999\\t\" $2}'";
++                reader << "/bin/grep" << "-h" << "^Zone" <<  "/usr/share/lib/zoneinfo/src/*" << "|" <<
++                    "/bin/awk" << "'{print \"??\\t+9999+99999\\t\" $2}'" << ">" << temp.name();
+                 // Note the use of blocking here...it is a trivial amount of data!
+                 temp.close();
+                 reader.start(KProcess::Block);
+                 f.setName(temp.name());
+-                if (!temp.status() || !f.open(IO_ReadOnly))
++                if (temp.status() || !f.open(IO_ReadOnly))
+                 {
+                     kdDebug() << "Can't open " << f.name() << endl;
+                     return *m_zones;

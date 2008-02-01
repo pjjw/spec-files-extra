@@ -17,6 +17,7 @@ Patch2:              kdelibs-02-libart.diff
 Patch3:              kdelibs-03-makefile.diff
 Patch4:              kdelibs-04-kmenuapps.diff
 Patch5:              kdelibs-05-kdeinit-wrapper.diff
+Patch6:              kdelibs-06-ktimezones.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -99,6 +100,7 @@ Requires: oss
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 if [ "x`basename $CC`" != xgcc ]
 then
@@ -209,6 +211,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Fri Feb 01 2008 - moinak.ghosh@sun.com
+- Add patch to fix timezone handing on Solaris.
 * Thu Jan 24 2008 - moinak.ghosh@sun.com
 - Set QTDOCDIR to satisfy internal doxygen script.
 - Use predefined macros instead of hardcoding pathnames.

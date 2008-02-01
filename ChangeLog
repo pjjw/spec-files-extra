@@ -1,3 +1,8 @@
+2008-02-01 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEkdelibs3.spec:
+	* patches/kdelibs-06-ktimezones.diff:
+	  Add patch to fix timezone handing on Solaris.
+
 2008-01-31 Brian Cameron  <brian.cameron@sun.com>
 
 	* SUNWgnome-display-mgr.spec, patches-02-sdtlogin.diff:  Add 
