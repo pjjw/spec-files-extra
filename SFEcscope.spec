@@ -6,14 +6,17 @@
 %include Solaris.inc
 
 Name:                    SFEcscope
-Summary:                 cscope - interactive source code examiner
+License:                 BSD
+Summary:                 Cscope - interactive source code examiner
 Version:                 15.6
 Source:                  http://easynews.dl.sourceforge.net/sourceforge/cscope/cscope-%{version}.tar.gz
 URL:                     http://cscope.sourceforge.net/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildConflicts:	SPROsslnk
+BuildConflicts:      SPROsslnk
+BuildRequires:       SUNWbison
+Requires:            SFEctags
 
 %prep
 %setup -q -n cscope-%version
@@ -31,6 +34,8 @@ export LDFLAGS="%_ldflags"
 make -j$CPUS 
 
 %install
+rm -rf $RPM_BUILD_ROOT
+
 make install DESTDIR=$RPM_BUILD_ROOT
 
 %clean
@@ -46,6 +51,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Sat Feb 02 2008 - moinak.ghosh@sun.com
+- Slight tweaks and add dependency on ctags and bison.
 * Sat Apr 21 2007 - dougs@truemail.co.th
 - Added BuildConflicts: SPROsslnk
 * Fri Jan 05 2007 - daymobrew@users.sourceforge.net

@@ -1,0 +1,71 @@
+--- kscope-1.6.1/src/kscope_config.orig	2008-02-02 21:32:36.840894183 +0530
++++ kscope-1.6.1/src/kscope_config	2008-02-02 21:32:42.273186903 +0530
+@@ -15,7 +15,7 @@
+ 	CSCOPE_VER_MAJOR=`$CSCOPE_PATH -V 2>&1 | grep -i $CSCOPE_EXE | sed -e "s/.*version \([1-9][0-9]*\)\.\([0-9]\).*/\1/"`
+ 	CSCOPE_VER_MINOR=`$CSCOPE_PATH -V 2>&1 | grep -i $CSCOPE_EXE | sed -e "s/.*version \([1-9][0-9]*\)\.\([0-9]\).*/\2/"`
+ 	
+-	if [ \( "$CSCOPE_VER_MAJOR" \) -a \( "$CSCOPE_VER_MINOR" \) ]
++	if [ -n "$CSCOPE_VER_MAJOR"  -a  "$CSCOPE_VER_MINOR" ]
+ 	then
+ 		echo $CSCOPE_VER_MAJOR.$CSCOPE_VER_MINOR
+ 
+@@ -55,7 +55,7 @@
+ 	fi
+ }
+ 
+-DEBUG=
++DEBUG=0
+ CSCOPE_OPTIONS_ONLY=
+ 
+ # Parse command-line parameters
+@@ -82,7 +82,7 @@
+ 	CSCOPE_PATH=`which cscope`
+ fi
+ 
+-if [ \( $CSCOPE_PATH \) -a \( -x $CSCOPE_PATH \) ]
++if [ -n "$CSCOPE_PATH"  -a  -x "$CSCOPE_PATH"  ]
+ then
+ 	echo $CSCOPE_PATH
+ 	verifyCscope
+@@ -94,7 +94,7 @@
+ 	fi
+ fi
+ 
+-if [ $CSCOPE_OPTIONS_ONLY ]
++if [ -n "$CSCOPE_OPTIONS_ONLY" ]
+ then
+ 	exit
+ fi
+@@ -104,7 +104,7 @@
+ 	echo -n Looking for Ctags...
+ fi
+ 
+-if [ -z $CTAGS_PATH ]
++if [ -z "$CTAGS_PATH" ]
+ then
+ 	for CTAGS_NAME in exctags ctags-exuberant exuberant-ctags ctags
+ 	do
+@@ -116,7 +116,7 @@
+ 	done
+ fi
+ 
+-if [ $CTAGS_PATH ]
++if [ -n "$CTAGS_PATH" ]
+ then	
+ 	echo $CTAGS_PATH
+ 	
+@@ -139,12 +139,12 @@
+ 
+ # echo -n Looking for Dot...
+ 
+-if [ -z $DOT_PATH ]
++if [ -z "$DOT_PATH" ]
+ then
+ 	DOT_PATH=`which dot`
+ fi
+ 
+-if [ \( $DOT_PATH \) -a \( -x $DOT_PATH \) ]
++if [ -n "$DOT_PATH" -a  -x "$DOT_PATH" ]
+ then	
+ 	echo $DOT_PATH
+ 	

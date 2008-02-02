@@ -270,3 +270,4 @@ call_pkgtool $_STUDIO "SFEgraphicsmagick.spec"
 
 call_pkgtool $_GCC "SFEkoffice3.spec:SFElibkipi.spec:SFEexiv2.spec:SFEdcraw.spec:SFElibkdcraw.spec:SFElibkexiv2.spec:SFEkipi-plugins.spec:SFEjasper.spec:SFEdigikam.spec"
 
+call_pkgtool $_GCC "SFEktorrent.spec:SFEctags.spec:SFEcscope.spec:SFEkscope.spec"

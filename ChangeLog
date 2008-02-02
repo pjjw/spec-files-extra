@@ -1,3 +1,15 @@
+2008-02-02 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEktorrent.spec:
+	* patches/ktorrent-01-isinf.diff:
+	  Add Ktorrent a KDE Torrent client.
+	* SFEkscope.spec:
+	* patches/kscope-01-config.diff:
+	  A great KDE based Cscope frontend - yeah baby.
+	* SFEcscope.spec:
+	  A few tweaks.
+	* ext-sources/buildkde:
+	  Add new packages to build.
+
 2008-02-02 Pradhap Devarajan <pradhap (at) gmail.com>
 	* SFEgocr : Added spec file for GOCR 
 	  Optical Character Recognition package.

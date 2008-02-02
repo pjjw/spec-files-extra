@@ -1,0 +1,10 @@
+--- ktorrent-2.2.5/plugins/stats/ChartDrawer.cc.orig	2008-02-02 19:12:00.986073824 +0530
++++ ktorrent-2.2.5/plugins/stats/ChartDrawer.cc	2008-02-02 19:12:08.911208549 +0530
+@@ -22,7 +22,6 @@
+ 
+ #ifdef USE_SOLARIS
+ #include <ieeefp.h>
+-int isinf(double x) { return !finite(x) && x==x; }
+ #endif
+ 
+ 
