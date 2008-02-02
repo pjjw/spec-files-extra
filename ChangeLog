@@ -1,3 +1,7 @@
+2008-02-02 Pradhap Devarajan <pradhap (at) gmail.com>
+	* SFEgocr : Added spec file for GOCR 
+	  Optical Character Recognition package.
+
 2008-02-02 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEp7zip.spec:
 	* patches/p7zip-01-makefile.diff:
