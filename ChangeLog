@@ -1,3 +1,8 @@
+2008-02-02  Jim Li  <jim.li@sun.com>
+        * SFEpolicykit.spec, base-specs/PolicyKit.spec,
+	  base-specs/PolicyKit-gnome.spec, patches/PolicyKit-0.7.diff:
+          Spec file for PolicyKit and patch to let it work on Solaris
+
 2008-02-02  Laszlo Peter  <laca@sun.com>
 
 	* SFEinkscape.spec: fix the build, bump to 0.45.1
