@@ -1,0 +1,11 @@
+--- inkscape-0.45.1/src/display/nr-filter-gaussian.cpp.orig	2008-02-02 16:19:10.770363788 +1300
++++ inkscape-0.45.1/src/display/nr-filter-gaussian.cpp	2008-02-02 16:19:29.152420040 +1300
+@@ -16,8 +16,6 @@
+ #include <cmath>
+ #include <glib.h>
+ 
+-using std::isnormal;
+-
+ #include "display/nr-filter-primitive.h"
+ #include "display/nr-filter-gaussian.h"
+ #include "display/nr-filter-types.h"

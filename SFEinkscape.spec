@@ -1,7 +1,7 @@
 #
 # spec file for package SFEinkscape
 #
-# Copyright (c) 2008 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -11,10 +11,12 @@
 
 Name:                    SFEinkscape
 Summary:                 Inkscape - vector graphics editor
-Version:                 0.45
+Version:                 0.45.1
 Source:                  http://easynews.dl.sourceforge.net/sourceforge/inkscape/inkscape-%{version}.tar.gz
 URL:                     http://www.inkscape.org
 Patch1:                  inkscape-01-no-ver-check.diff
+Patch2:                  inkscape-02-aclocal.diff
+Patch3:                  inkscape-03-isnormal.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -32,15 +34,20 @@ BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWPython
 BuildRequires: SFElcms-devel
 
-%package root
-Summary:                 %{summary} - / filesystem
-SUNW_BaseDir:            /
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
+Requires:                %{name}
+%endif
 
 %prep
 %setup -q -c -n %name-%version
 cd inkscape-%{version}
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -52,11 +59,11 @@ fi
 %if %cc_is_gcc
 %else
 echo this version of inkscape uses gcc specific code
-exit 1
+#exit 1
 %endif
 
 export CFLAGS="%optflags"
-export CXXFLAGS="%cxx_optflags"
+export CXXFLAGS="%cxx_optflags -D__C99FEATURES__"
 
 %if %cc_is_gcc
 %else
@@ -85,7 +92,12 @@ make -j$CPUS
 rm -rf $RPM_BUILD_ROOT
 cd inkscape-%{version}
 make install DESTDIR=$RPM_BUILD_ROOT
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
+
+%if %build_l10n
+%else
+# REMOVE l10n FILES
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -94,20 +106,26 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
-%dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
+%{_datadir}/inkscape
+%{_mandir}
 
-%files root
-%defattr (0755, root, sys)
-%attr (0755, root, sys) %dir %{_sysconfdir}
-%{_sysconfdir}/gconf/schemas/inkscape.schemas
+%if %build_l10n
+%files l10n
+%defattr (-, root, bin)
+%dir %attr (0755, root, sys) %{_datadir}
+%attr (-, root, other) %{_datadir}/locale
+%endif
 
 %changelog
+* Sat Feb  2 2008 - laca@sun.com
+- bump to 0.45.1
+- add patches aclocal.diff and isnormal.diff both fix build issues
+- update %files lists - delete root pkg, add l10n pkg
 * Tue Feb  6 2007 - damien.carbery@sun.com
 - Bump to 0.45. Add Build/Requires SFElcms/-devel.
 * Fri Oct 13 2006 - laca@sun.com

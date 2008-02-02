@@ -1,0 +1,18 @@
+--- inkscape-0.45.1/configure.ac.orig	2008-01-31 23:13:44.327990726 +1300
++++ inkscape-0.45.1/configure.ac	2008-01-31 23:14:15.145145678 +1300
+@@ -25,6 +25,7 @@
+ 
+ dnl These next few lines are needed only while libcroco is in our source tree.
+ AC_PROG_CC
++AM_PROG_CC_STDC
+ AM_PROG_CC_C_O
+ if test "$GCC" = "yes"; then
+   # Enable some warnings from gcc.
+@@ -41,7 +42,6 @@
+ AC_LANG(C++)
+ AC_ISC_POSIX
+ AC_PROG_CXX
+-AM_PROG_CC_STDC
+ AM_PROG_AS
+ AC_HEADER_STDC
+ 
