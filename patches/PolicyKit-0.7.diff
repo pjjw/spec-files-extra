@@ -1,0 +1,1145 @@
+diff -ru PolicyKit-0.7.orig/config.h.in PolicyKit-0.7/config.h.in
+--- PolicyKit-0.7.orig/config.h.in	Sat Dec  1 09:43:35 2007
++++ PolicyKit-0.7/config.h.in	Fri Jan 25 14:44:43 2008
+@@ -54,6 +54,9 @@
+ /* SELinux support */
+ #undef HAVE_SELINUX
+ 
++/* Is this a Solaris system? */
++#undef HAVE_SOLARIS
++
+ /* Define to 1 if you have the <stdint.h> header file. */
+ #undef HAVE_STDINT_H
+ 
+diff -ru PolicyKit-0.7.orig/configure.in PolicyKit-0.7/configure.in
+--- PolicyKit-0.7.orig/configure.in	Mon Nov 26 04:43:40 2007
++++ PolicyKit-0.7/configure.in	Fri Jan 25 14:43:04 2008
+@@ -370,7 +370,7 @@
+ 
+ AC_SUBST(PAM_MODULE_DIR)
+ 
+-AC_ARG_WITH(os-type,     [  --with-os-type=<os>        distribution or OS (redhat/suse/gentoo/pardus)])
++AC_ARG_WITH(os-type,     [  --with-os-type=<os>        distribution or OS (redhat/suse/gentoo/pardus/solaris)])
+ 
+ #### Check our operating system (distro-tweaks required)
+ if test "z$with_os_type" = "z"; then
+@@ -395,6 +395,8 @@
+         with_os_type=gentoo
+     elif test x$operating_system = xpardus ; then
+         with_os_type=pardus
++    elif test x$operating_system = xsolaris ; then
++	with_os_type=solaris
+     else
+         with_os_type=unknown
+     fi
+@@ -406,6 +408,7 @@
+ AM_CONDITIONAL(OS_TYPE_SUSE, test x$with_os_type = xsuse, [Running on SUSE OS'es])
+ AM_CONDITIONAL(OS_TYPE_GENTOO, test x$with_os_type = xgentoo, [Running on Gentoo OS'es])
+ AM_CONDITIONAL(OS_TYPE_PARDUS, test x$with_os_type = xpardus, [Running on Pardus OS'es])
++AM_CONDITIONAL(OS_TYPE_SALARIS, test x$with_os_type = xsolaris, [Running os Solaris OS'es])
+ 
+ AC_ARG_WITH(pam-include, [  --with-pam-include=<file>  pam file to include])
+ 
+@@ -420,7 +423,7 @@
+    PAM_FILE_INCLUDE_ACCOUNT=system-auth
+    PAM_FILE_INCLUDE_PASSWORD=system-auth
+    PAM_FILE_INCLUDE_SESSION=system-auth
+-elif test x$with_os_type = xsuse ; then
++elif test x$with_os_type = xsuse -o x$with_os_type - xsolaris ; then
+    PAM_FILE_INCLUDE_AUTH=common-auth
+    PAM_FILE_INCLUDE_ACCOUNT=common-account
+    PAM_FILE_INCLUDE_PASSWORD=common-password
+@@ -441,6 +444,17 @@
+ AC_DEFINE_UNQUOTED(PAM_FILE_INCLUDE_PASSWORD, "$PAM_FILE_INCLUDE_PASSWORD", [pam file password])
+ AC_DEFINE_UNQUOTED(PAM_FILE_INCLUDE_SESSION, "$PAM_FILE_INCLUDE_SESSION", [pam file session])
+ 
++dnl ---------------------------------------------------------------------------
++dnl - check OS 
++dnl ---------------------------------------------------------------------------
++case "$host_os" in
++  *linux*)
++	;;
++  *solaris*)
++	AC_DEFINE([HAVE_SOLARIS], 1, [Is this a Solaris system?])
++	;;
++esac
++
+ # ********************
+ # Internationalisation
+ # ********************
+diff -ru PolicyKit-0.7.orig/src/kit/kit-file.h PolicyKit-0.7/src/kit/kit-file.h
+--- PolicyKit-0.7.orig/src/kit/kit-file.h	Thu Nov 29 05:32:39 2007
++++ PolicyKit-0.7/src/kit/kit-file.h	Fri Jan 25 15:15:28 2008
+@@ -35,6 +35,9 @@
+ #define KIT_FILE_H
+ 
+ #include <kit/kit.h>
++#ifdef HAVE_SOLARIS
++#include <sys/types.h>
++#endif
+ 
+ KIT_BEGIN_DECLS
+ 
+diff -ru PolicyKit-0.7.orig/src/kit/kit-message.h PolicyKit-0.7/src/kit/kit-message.h
+--- PolicyKit-0.7.orig/src/kit/kit-message.h	Thu Nov 29 05:31:41 2007
++++ PolicyKit-0.7/src/kit/kit-message.h	Fri Jan 25 15:02:22 2008
+@@ -38,8 +38,13 @@
+ 
+ KIT_BEGIN_DECLS
+ 
++#ifdef __sun
++void kit_debug   (const char *format, ...);
++void kit_warning (const char *format, ...);
++#else
+ void kit_debug   (const char *format, ...) __attribute__((__format__ (__printf__, 1, 2)));
+ void kit_warning (const char *format, ...) __attribute__((__format__ (__printf__, 1, 2)));
++#endif
+ 
+ KIT_END_DECLS
+ 
+diff -ru PolicyKit-0.7.orig/src/kit/kit-spawn.c PolicyKit-0.7/src/kit/kit-spawn.c
+--- PolicyKit-0.7.orig/src/kit/kit-spawn.c	Thu Nov 29 05:32:22 2007
++++ PolicyKit-0.7/src/kit/kit-spawn.c	Fri Jan 25 15:35:28 2008
+@@ -156,9 +156,9 @@
+  * @flags: A combination of flags from #KitSpawnFlags
+  * @argv: #NULL terminated argument vector
+  * @envp: #NULL terminated environment or #NULL to inherit parents;
+- * @stdin: String to write to stdin of child or #NULL
+- * @stdout: Return location for stdout from child or #NULL. Free with kit_free().
+- * @stderr: Return location for stderr from child or #NULL. Free with kit_free().
++ * @stdinp: String to write to stdin of child or #NULL
++ * @stdoutp: Return location for stdout from child or #NULL. Free with kit_free().
++ * @stderrp: Return location for stderr from child or #NULL. Free with kit_free().
+  * @out_exit_status: Return location for exit status
+  *
+  * Executes a child process and waits for the child process to exit
+@@ -175,9 +175,9 @@
+                 KitSpawnFlags   flags,
+                 char          **argv,
+                 char          **envp,
+-                char           *stdin,
+-                char          **stdout,
+-                char          **stderr,
++                char           *stdinp,
++                char          **stdoutp,
++                char          **stderrp,
+                 int            *out_exit_status)
+ {
+         kit_bool_t ret;
+@@ -191,28 +191,28 @@
+ 
+         kit_return_val_if_fail (argv != NULL, FALSE);
+         kit_return_val_if_fail (out_exit_status != NULL, FALSE);
+-        kit_return_val_if_fail (! ((flags & KIT_SPAWN_CHILD_INHERITS_STDIN) && stdin != NULL), FALSE);
+-        kit_return_val_if_fail (! ((flags & KIT_SPAWN_STDOUT_TO_DEV_NULL) && stdout != NULL), FALSE);
+-        kit_return_val_if_fail (! ((flags & KIT_SPAWN_STDERR_TO_DEV_NULL) && stderr != NULL), FALSE);
++        kit_return_val_if_fail (! ((flags & KIT_SPAWN_CHILD_INHERITS_STDIN) && stdinp != NULL), FALSE);
++        kit_return_val_if_fail (! ((flags & KIT_SPAWN_STDOUT_TO_DEV_NULL) && stdoutp != NULL), FALSE);
++        kit_return_val_if_fail (! ((flags & KIT_SPAWN_STDERR_TO_DEV_NULL) && stderrp != NULL), FALSE);
+ 
+-        if (stdout != NULL)
+-                *stdout = NULL;
+-        if (stderr != NULL)
+-                *stderr = NULL;
++        if (stdoutp != NULL)
++                *stdoutp = NULL;
++        if (stderrp != NULL)
++                *stderrp = NULL;
+ 
+-        if (stdin != NULL) {
++        if (stdinp != NULL) {
+                 if (pipe (stdin_pipe) != 0) {
+                         goto out;
+                 }
+         }
+ 
+-        if (stdout != NULL) {
++        if (stdoutp != NULL) {
+                 if (pipe (stdout_pipe) != 0) {
+                         goto out;
+                 }
+         }
+ 
+-        if (stderr != NULL) {
++        if (stderrp != NULL) {
+                 if (pipe (stderr_pipe) != 0) {
+                         goto out;
+                 }
+@@ -260,9 +260,9 @@
+                         }
+                 }
+ 
+-                /* set stdin, stdout and stderr */
++                /* set stdinp, stdoutp and stderrp */
+ 
+-                if (stdin != NULL) {
++                if (stdinp != NULL) {
+                         if (_sane_dup2 (stdin_pipe[0], 0) < 0) {
+                                 exit (128 + errno);
+                         }
+@@ -272,7 +272,7 @@
+                         }
+                 }
+ 
+-                if (stdout != NULL) {
++                if (stdoutp != NULL) {
+                         if (_sane_dup2 (stdout_pipe[1], 1) < 0) {
+                                 exit (128 + errno);
+                         }
+@@ -282,7 +282,7 @@
+                         }
+                 }
+ 
+-                if (stderr != NULL) {
++                if (stderrp != NULL) {
+                         if (_sane_dup2 (stderr_pipe[1], 2) < 0) {
+                                 exit (128 + errno);
+                         }
+@@ -322,7 +322,7 @@
+                         close (stderr_pipe[1]);
+                 }
+ 
+-                wp = stdin;
++                wp = stdinp;
+ 
+                 while (stdin_pipe[1] != -1 || stdout_pipe[0] != -1 || stderr_pipe[0] != -1) {
+                         int ret;
+@@ -375,7 +375,7 @@
+                         }
+                         
+                         if (stdout_pipe[0] != -1) {
+-                                num_read = _read_from (stdout_pipe[0], stdout);
++                                num_read = _read_from (stdout_pipe[0], stdoutp);
+                                 if (num_read == 0) {
+                                         close (stdout_pipe[0]);
+                                         stdout_pipe[0] = -1;
+@@ -385,7 +385,7 @@
+                         }
+                         
+                         if (stderr_pipe[0] != -1) {
+-                                num_read = _read_from (stderr_pipe[0], stderr);
++                                num_read = _read_from (stderr_pipe[0], stderrp);
+                                 if (num_read == 0) {
+                                         close (stderr_pipe[0]);
+                                         stderr_pipe[0] = -1;
+@@ -424,13 +424,13 @@
+                 close (stderr_pipe[0]);
+ 
+         if (!ret) {
+-                if (stdout != NULL) {
+-                        kit_free (*stdout);
+-                        *stdout = NULL;
++                if (stdoutp != NULL) {
++                        kit_free (*stdoutp);
++                        *stdoutp = NULL;
+                 }
+-                if (stderr != NULL) {
+-                        kit_free (*stderr);
+-                        *stderr = NULL;
++                if (stderrp != NULL) {
++                        kit_free (*stderrp);
++                        *stderrp = NULL;
+                 }
+         }
+ 
+@@ -483,8 +483,8 @@
+                 "echo -n \"$value\""                       "\n"
+                 "exit 0"                                   "\n";
+         char *argv[] = {"/tmp/kit-spawn-test", NULL};
+-        char *stdout;
+-        char *stderr;
++        char *stdoutp;
++        char *stderrp;
+         int exit_status;
+         struct stat statbuf;
+ 
+@@ -495,14 +495,14 @@
+                                     argv,
+                                     NULL,
+                                     NULL,
+-                                    &stdout,
+-                                    &stderr,
++                                    &stdoutp,
++                                    &stderrp,
+                                     &exit_status)) {
+                         kit_assert (WEXITSTATUS (exit_status) == 42);
+-                        kit_assert (stdout != NULL && strcmp (stdout, "Hello World\n") == 0);
+-                        kit_assert (stderr != NULL && strcmp (stderr, "Goodbye World\n") == 0);
+-                        kit_free (stdout);
+-                        kit_free (stderr);
++                        kit_assert (stdoutp != NULL && strcmp (stdoutp, "Hello World\n") == 0);
++                        kit_assert (stderrp != NULL && strcmp (stderrp, "Goodbye World\n") == 0);
++                        kit_free (stdoutp);
++                        kit_free (stderrp);
+                 }
+ 
+                 if (kit_spawn_sync ("/",
+@@ -526,12 +526,12 @@
+                                     argv,
+                                     NULL,
+                                     NULL,
+-                                    &stdout,
+-                                    &stderr,
++                                    &stdoutp,
++                                    &stderrp,
+                                     &exit_status)) {
+                         kit_assert (WEXITSTATUS (exit_status) == 43);
+-                        kit_assert (stdout == NULL);
+-                        kit_assert (stderr == NULL);
++                        kit_assert (stdoutp == NULL);
++                        kit_assert (stderrp == NULL);
+                 }
+ 
+                 kit_assert (unlink (path) == 0);
+@@ -546,12 +546,12 @@
+                                     argv,
+                                     envp,
+                                     NULL,
+-                                    &stdout,
++                                    &stdoutp,
+                                     NULL,
+                                     &exit_status)) {
+                         kit_assert (WEXITSTATUS (exit_status) == 0);
+-                        kit_assert (stdout != NULL && strcmp (stdout, "some_value") == 0);
+-                        kit_free (stdout);
++                        kit_assert (stdoutp != NULL && strcmp (stdoutp, "some_value") == 0);
++                        kit_free (stdoutp);
+                 }
+ 
+                 kit_assert (unlink (path) == 0);
+@@ -606,12 +606,12 @@
+                                     argv,
+                                     NULL,
+                                     NULL,
+-                                    &stdout,
++                                    &stdoutp,
+                                     NULL,
+                                     &exit_status)) {
+                         kit_assert (WEXITSTATUS (exit_status) == 0);
+-                        kit_assert (stdout != NULL && strcmp (stdout, "/tmp\n") == 0);
+-                        kit_free (stdout);
++                        kit_assert (stdoutp != NULL && strcmp (stdoutp, "/tmp\n") == 0);
++                        kit_free (stdoutp);
+                 }
+ 
+                 kit_assert (stat ("/usr", &statbuf) == 0 && S_ISDIR (statbuf.st_mode));
+@@ -620,12 +620,12 @@
+                                     argv,
+                                     NULL,
+                                     NULL,
+-                                    &stdout,
++                                    &stdoutp,
+                                     NULL,
+                                     &exit_status)) {
+                         kit_assert (WEXITSTATUS (exit_status) == 0);
+-                        kit_assert (stdout != NULL && strcmp (stdout, "/usr\n") == 0);
+-                        kit_free (stdout);
++                        kit_assert (stdoutp != NULL && strcmp (stdoutp, "/usr\n") == 0);
++                        kit_free (stdoutp);
+                 }
+ 
+                 kit_assert (unlink (path) == 0);
+@@ -650,12 +650,12 @@
+                                     argv,
+                                     NULL,
+                                     "foobar0\nfoobar1",
+-                                    &stdout,
++                                    &stdoutp,
+                                     NULL,
+                                     &exit_status)) {
+                         kit_assert (WEXITSTATUS (exit_status) == 0);
+-                        kit_assert (stdout != NULL && strcmp (stdout, "foobar0 foobar1") == 0);
+-                        kit_free (stdout);
++                        kit_assert (stdoutp != NULL && strcmp (stdoutp, "foobar0 foobar1") == 0);
++                        kit_free (stdoutp);
+                 }
+ 
+                 kit_assert (unlink (path) == 0);
+diff -ru PolicyKit-0.7.orig/src/kit/kit-spawn.h PolicyKit-0.7/src/kit/kit-spawn.h
+--- PolicyKit-0.7.orig/src/kit/kit-spawn.h	Thu Nov 29 05:31:32 2007
++++ PolicyKit-0.7/src/kit/kit-spawn.h	Fri Jan 25 15:00:55 2008
+@@ -57,9 +57,9 @@
+                            KitSpawnFlags   flags,
+                            char          **argv,
+                            char          **envp,
+-                           char           *stdin,
+-                           char          **stdout,
+-                           char          **stderr,
++                           char           *stdinp,
++                           char          **stdoutp,
++                           char          **stderrp,
+                            int            *out_exit_status);
+ 
+ KIT_END_DECLS
+diff -ru PolicyKit-0.7.orig/src/kit/kit-string.c PolicyKit-0.7/src/kit/kit-string.c
+--- PolicyKit-0.7.orig/src/kit/kit-string.c	Thu Dec  6 10:25:37 2007
++++ PolicyKit-0.7/src/kit/kit-string.c	Fri Jan 25 16:18:03 2008
+@@ -127,6 +127,26 @@
+ 
+ #endif /* KIT_BUILD_TESTS */
+ 
++#ifdef HAVE_SOLARIS
++int vasprintf(char **strp, const char *fmt, va_list ap)
++{
++        int size;
++        va_list ap2;
++        char s;
++
++        *strp = NULL;
++        va_copy(ap2, ap);
++        size = vsnprintf(&s, 1, fmt, ap2);
++        va_end(ap2);
++        *strp = malloc(size + 1);
++        if (!*strp)
++                return -1;
++        vsnprintf(*strp, size + 1, fmt, ap);
++
++        return size;
++}
++#endif
++
+ /**
+  * kit_strdup_printf:
+  * @format: sprintf(3) format string
+diff -ru PolicyKit-0.7.orig/src/kit/kit-string.h PolicyKit-0.7/src/kit/kit-string.h
+--- PolicyKit-0.7.orig/src/kit/kit-string.h	Sat Dec  1 07:22:06 2007
++++ PolicyKit-0.7/src/kit/kit-string.h	Fri Jan 25 14:47:39 2008
+@@ -40,7 +40,11 @@
+ 
+ char *kit_strdup         (const char *s);
+ char *kit_strndup        (const char *s, size_t n);
++#ifdef __sun
++char *kit_strdup_printf  (const char *format, ...);
++#else
+ char *kit_strdup_printf  (const char *format, ...) __attribute__((__format__ (__printf__, 1, 2)));
++#endif
+ char *kit_strdup_vprintf (const char *format, va_list args);
+ char *kit_str_append     (char *s, const char *s2);
+
+diff -ru PolicyKit-0.7.orig/src/kit/kit-test.c PolicyKit-0.7/src/kit/kit-test.c
+--- PolicyKit-0.7.orig/src/kit/kit-test.c       Thu Nov 29 05:32:34 2007
++++ PolicyKit-0.7.good/src/kit/kit-test.c       Fri Jan 25 18:30:16 2008
+@@ -27,8 +27,15 @@
+  *
+  **************************************************************************/
+
++#ifdef HAVE_CONFIG_H
++#  include <config.h>
++#endif
++
+ #include <stdio.h>
+ #include <stdlib.h>
++#ifdef HAVE_SOLARIS
++#include <sys/types.h>
++#endif
+ #include <kit/kit-test.h>
+ #include <kit/kit-memory.h>
+
+ 
+diff -ru PolicyKit-0.7.orig/src/kit/kit.h PolicyKit-0.7/src/kit/kit.h
+--- PolicyKit-0.7.orig/src/kit/kit.h	Thu Nov 29 12:59:43 2007
++++ PolicyKit-0.7/src/kit/kit.h	Fri Jan 25 15:17:53 2008
+@@ -72,6 +72,9 @@
+ 
+ void kit_print_backtrace (void);
+ 
++#ifdef HAVE_SOLARIS
++#define __PRETTY_FUNCTION__ __func__
++#endif
+ /**
+  * kit_assert:
+  * @expr: expression
+@@ -136,6 +139,9 @@
+ 
+ #define _KIT_INSIDE_KIT_H 1
+ 
++#ifdef HAVE_SOLARIS
++#include <sys/types.h>
++#endif
+ #include <kit/kit-memory.h>
+ #include <kit/kit-string.h>
+ #include <kit/kit-list.h>
+diff -ru PolicyKit-0.7.orig/src/polkit/polkit-config.c PolicyKit-0.7/src/polkit/polkit-config.c
+--- PolicyKit-0.7.orig/src/polkit/polkit-config.c	Thu Nov 29 11:21:19 2007
++++ PolicyKit-0.7/src/polkit/polkit-config.c	Fri Jan 25 15:53:24 2008
+@@ -39,7 +39,12 @@
+ #include <grp.h>
+ #include <unistd.h>
+ #include <errno.h>
++#ifdef HAVE_SOLARIS
++#include <port.h>
++#include <sys/stat.h>
++#else
+ #include <sys/inotify.h>
++#endif
+ #include <regex.h>
+ #include <syslog.h>
+ #include <regex.h>
+diff -ru PolicyKit-0.7.orig/src/polkit/polkit-context.c PolicyKit-0.7/src/polkit/polkit-context.c
+--- PolicyKit-0.7.orig/src/polkit/polkit-context.c	Wed Dec  5 09:22:41 2007
++++ PolicyKit-0.7/src/polkit/polkit-context.c	Fri Jan 25 15:48:51 2008
+@@ -39,7 +39,12 @@
+ #include <grp.h>
+ #include <unistd.h>
+ #include <errno.h>
++#ifdef HAVE_SOLARIS
++#include <port.h>
++#include <sys/stat.h>
++#else
+ #include <sys/inotify.h>
++#endif
+ #include <syslog.h>
+ 
+ #include "polkit-config.h"
+@@ -153,7 +158,60 @@
+ 
+         /* NOTE: we don't load the configuration file until it's needed */
+ 
++#ifdef HAVE_SOLARIS
+         if (pk_context->io_add_watch_func != NULL) {
++                pk_context->inotify_fd = port_create ();
++                if (pk_context->inotify_fd < 0) {
++                        _pk_debug ("failed to port_create: %s", strerror (errno));
++                        /* TODO: set error */
++                        goto error;
++                }
++
++                /* Watch the /etc/PolicyKit/PolicyKit.conf file */
++                pk_context->inotify_config_wd = port_add_watch (pk_context->inotify_fd,
++                                                                   PACKAGE_SYSCONF_DIR "/PolicyKit/PolicyKit.conf",
++                                                                   FILE_MODIFIED | FILE_ATTRIB);
++                if (pk_context->inotify_config_wd < 0) {
++                        _pk_debug ("failed to add watch on file '" PACKAGE_SYSCONF_DIR "/PolicyKit/PolicyKit.conf': %s",
++                                   strerror (errno));
++                        /* TODO: set error */
++                        goto error;
++                }
++
++                /* Watch the /usr/share/PolicyKit/policy directory */
++                pk_context->inotify_policy_wd = port_add_watch (pk_context->inotify_fd,
++                                                                   PACKAGE_DATA_DIR "/PolicyKit/policy",
++                                                                   FILE_MODIFIED | FILE_ATTRIB);
++                if (pk_context->inotify_policy_wd < 0) {
++                        _pk_debug ("failed to add watch on directory '" PACKAGE_DATA_DIR "/PolicyKit/policy': %s",
++                                   strerror (errno));
++                        /* TODO: set error */
++                        goto error;
++                }
++
++#ifdef POLKIT_AUTHDB_DEFAULT
++                /* Watch the /var/lib/misc/PolicyKit.reload file */
++                pk_context->inotify_grant_perm_wd = port_add_watch (pk_context->inotify_fd,
++                                                                       PACKAGE_LOCALSTATE_DIR "/lib/misc/PolicyKit.reload",
++                                                                       FILE_MODIFIED | FILE_ATTRIB);
++                if (pk_context->inotify_grant_perm_wd < 0) {
++                        _pk_debug ("failed to add watch on file '" PACKAGE_LOCALSTATE_DIR "/lib/misc/PolicyKit.reload': %s",
++                                   strerror (errno));
++                        /* TODO: set error */
++                        goto error;
++                }
++#endif
++
++                pk_context->inotify_fd_watch_id = pk_context->io_add_watch_func (pk_context, pk_context->inotify_fd);
++                if (pk_context->inotify_fd_watch_id == 0) {
++                        _pk_debug ("failed to add io watch");
++                        /* TODO: set error */
++                        goto error;
++                }
++        }
++
++#else
++        if (pk_context->io_add_watch_func != NULL) {
+                 pk_context->inotify_fd = inotify_init ();
+                 if (pk_context->inotify_fd < 0) {
+                         _pk_debug ("failed to initialize inotify: %s", strerror (errno));
+@@ -203,6 +261,7 @@
+                         goto error;
+                 }
+         }
++#endif
+ 
+         return TRUE;
+ error:
+@@ -209,7 +268,72 @@
+         return FALSE;
+ }
+ 
++#ifdef HAVE_SOLARIS
++
++struct fileportinfo {
++        struct file_obj fobj;
++        int events;
++        int port;
++};
++
+ /**
++ * port_add_watch:
++ * @port: the port object
++ * @name: filename which will be added to the port
++ * @events: the event which will be watched for
++ *
++ * add file watch .
++ *
++ * Returns: the object
++ **/
++int
++port_add_watch (int port, const char *name, uint32_t events)
++{
++        struct fileportinfo *fpi;
++
++        if ( (fpi = kit_malloc (sizeof(struct fileportinfo)) ) == NULL ) {
++                _pk_debug ("Faile to kit_malloc!");
++                /* TODO: set error */
++                return -1;
++        }
++
++        fpi->fobj.fo_name = strdup (name);
++        fpi->events = events;
++        fpi->port = port;
++
++        if ( file_associate (fpi, events) < 0 ) {
++                _pk_debug ("Failed to associate with file %s: %s", fpi->fobj.fo_name, strerror (errno));
++                /* TODO: set error */
++                return -1;
++        }
++        return 0;
++}
++
++int
++file_associate (struct fileportinfo *fpinfo, int events)
++{
++        struct stat sb;
++
++        if ( stat (fpinfo->fobj.fo_name, &sb) == -1) {
++                _pk_debug ("Failed to stat file %s: %s", fpinfo->fobj.fo_name, strerror (errno));
++                /* TODO: set error */
++                return -1;
++        }
++
++        fpinfo->fobj.fo_atime = sb.st_atim;
++        fpinfo->fobj.fo_mtime = sb.st_mtim;
++        fpinfo->fobj.fo_ctime = sb.st_ctim;
++
++        if ( port_associate (fpinfo->port, PORT_SOURCE_FILE, (uintptr_t)&(fpinfo->fobj), events, (void *)fpinfo ) == -1) {
++                _pk_debug ("Failed to register file %s: %s", fpinfo->fobj.fo_name, strerror (errno));
++                /* TODO: set error */
++                return -1;
++        }
++        return 0;
++}
++#endif
++
++/**
+  * polkit_context_ref:
+  * @pk_context: the context object
+  * 
+@@ -296,7 +420,32 @@
+ 
+         config_changed = FALSE;
+ 
++#ifdef HAVE_SOLARIS
+         if (fd == pk_context->inotify_fd) {
++                port_event_t pe;
++                struct file_obj *fobjp;
++                struct fileportinfo *fpip;
++
++                while ( !port_get (fd, &pe, NULL) ) {
++                        switch (pe.portev_source) {
++                        case PORT_SOURCE_FILE:
++                                fpip = (struct fileportinfo *)pe.portev_object;
++                                fobjp = &fpip->fobj;
++                                _pk_debug ("filename = %s, events = %d", fobjp->fo_name, pe.portev_events);
++                                config_changed = TRUE;
++                                _pk_debug ("Config changed");
++                                file_associate ((struct fileportinfo *)pe.portev_object, pe.portev_events);
++                                break;
++                        default:
++                                _pk_debug ("Event from unexpected source");
++                        }
++                        if ( config_changed )
++                                break;
++                }
++        }
++
++#else
++        if (fd == pk_context->inotify_fd) {
+ /* size of the event structure, not counting name */
+ #define EVENT_SIZE  (sizeof (struct inotify_event))
+ /* reasonable guess as to size of 1024 events */
+@@ -327,6 +476,7 @@
+                         i += EVENT_SIZE + event->len;
+                 }
+         }
++#endif
+ 
+         if (config_changed) {
+                 polkit_context_force_reload (pk_context);
+diff -ru PolicyKit-0.7.orig/src/polkit/polkit-debug.h PolicyKit-0.7/src/polkit/polkit-debug.h
+--- PolicyKit-0.7.orig/src/polkit/polkit-debug.h	Thu Nov 29 05:28:01 2007
++++ PolicyKit-0.7/src/polkit/polkit-debug.h	Fri Jan 25 15:38:43 2008
+@@ -30,7 +30,11 @@
+ #ifndef POLKIT_DEBUG_H
+ #define POLKIT_DEBUG_H
+ 
++#ifdef __sun
++void _pk_debug (const char *format, ...);
++#else
+ void _pk_debug (const char *format, ...) __attribute__((__format__ (__printf__, 1, 2)));
++#endif
+ 
+ #endif /* POLKIT_DEBUG_H */
+ 
+diff -ru PolicyKit-0.7.orig/src/polkit/polkit-error.h PolicyKit-0.7/src/polkit/polkit-error.h
+--- PolicyKit-0.7.orig/src/polkit/polkit-error.h	Thu Nov 29 05:25:31 2007
++++ PolicyKit-0.7/src/polkit/polkit-error.h	Fri Jan 25 15:37:44 2008
+@@ -89,7 +89,11 @@
+ PolKitErrorCode  polkit_error_get_error_code (PolKitError *error);
+ const char      *polkit_error_get_error_message (PolKitError *error);
+ void             polkit_error_free (PolKitError *error);
++#ifdef __sun
++polkit_bool_t    polkit_error_set_error (PolKitError **error, PolKitErrorCode error_code, const char *format, ...);
++#else
+ polkit_bool_t    polkit_error_set_error (PolKitError **error, PolKitErrorCode error_code, const char *format, ...) __attribute__((__format__ (__printf__, 3, 4)));
++#endif
+ 
+ POLKIT_END_DECLS
+ 
+diff -ru PolicyKit-0.7.orig/src/polkit/polkit-policy-cache.c PolicyKit-0.7/src/polkit/polkit-policy-cache.c
+--- PolicyKit-0.7.orig/src/polkit/polkit-policy-cache.c	Thu Nov 29 14:14:09 2007
++++ PolicyKit-0.7/src/polkit/polkit-policy-cache.c	Fri Jan 25 15:50:48 2008
+@@ -127,8 +127,10 @@
+                 char *filename;
+                 static const char suffix[] = ".policy";
+ 
++#ifndef HAVE_SOLARIS
+                 if (d->d_type != DT_REG)
+                         continue;
++#endif
+ 
+                 filename = d->d_name;
+                 name_len = strlen (filename);
+diff -ru PolicyKit-0.7.orig/src/polkit/polkit-policy-file.c PolicyKit-0.7/src/polkit/polkit-policy-file.c
+--- PolicyKit-0.7.orig/src/polkit/polkit-policy-file.c	Thu Nov 29 11:30:38 2007
++++ PolicyKit-0.7/src/polkit/polkit-policy-file.c	Fri Jan 25 16:21:09 2008
+@@ -804,7 +804,27 @@
+ 
+         return FALSE;
+ }
++#ifdef HAVE_SOLARIS
++char *strndup ( const char *s, size_t n)
++{
++        size_t nAvail;
++        char *p;
+ 
++        if ( !s )
++                return 0;
++
++        if ( strlen(s) > n )
++                nAvail = n + 1;
++        else
++                nAvail = strlen(s) + 1;
++        p = malloc ( nAvail );
++        memcpy ( p, s, nAvail );
++        p[nAvail - 1] = '\0';
++
++        return p;
++}
++#endif
++
+ #ifdef POLKIT_BUILD_TESTS
+ 
+ /* this checks that the policy descriptions read from test-valid-3-lang.policy are correct */
+diff -ru PolicyKit-0.7.orig/src/polkit/polkit-sysdeps.c PolicyKit-0.7/src/polkit/polkit-sysdeps.c
+--- PolicyKit-0.7.orig/src/polkit/polkit-sysdeps.c	Thu Nov 29 05:26:14 2007
++++ PolicyKit-0.7/src/polkit/polkit-sysdeps.c	Fri Jan 25 15:43:42 2008
+@@ -39,7 +39,20 @@
+ #include <grp.h>
+ #include <unistd.h>
+ #include <errno.h>
++
++#ifdef HAVE_SOLARIS
++#include <fcntl.h>
++#include <sys/time.h>
++#if _FILE_OFFSET_BITS==64
++#undef _FILE_OFFSET_BITS
++#include <procfs.h>
++#define _FILE_OFFSET_BITS 64
++#else
++#include <procfs.h>
++#endif
++#else
+ #include <sys/inotify.h>
++#endif
+ #include <syslog.h>
+ 
+ #include "polkit-sysdeps.h"
+@@ -74,14 +87,24 @@
+         char *contents;
+         size_t length;
+         polkit_uint64_t start_time;
++#ifdef HAVE_SOLARIS
++        struct psinfo info;
++#else
+         char **tokens;
+         size_t num_tokens;
+         char *p;
+         char *endp;
++#endif
+ 
+         start_time = 0;
+         contents = NULL;
+ 
++#ifdef HAVE_SOLARIS
++        if (polkit_sysdeps_pid_psinfo ( pid, &info)) {
++                goto out;
++        }
++        start_time = (unsigned long long) (info.pr_start.tv_sec);
++#else
+         filename = kit_strdup_printf ("/proc/%d/stat", pid);
+         if (filename == NULL) {
+                 errno = ENOMEM;
+@@ -118,10 +141,13 @@
+         }
+ 
+         kit_strfreev (tokens);
++#endif
+ 
+ out:
++#ifndef HAVE_SOLARIS
+         kit_free (filename);
+         kit_free (contents);
++#endif
+         return start_time;
+ }
+ 
+@@ -153,6 +179,15 @@
+ 
+         ret = 0;
+ 
++#ifdef HAVE_SOLARIS
++        struct psinfo info;
++
++        if (polkit_sysdeps_pid_psinfo (pid, &info)) {
++                goto out;
++        }
++        ret = strlen (info.pr_psargs);
++        strncpy (out_buf, info.pr_psargs, ret);
++#else
+         snprintf (proc_name, sizeof (proc_name), "/proc/%d/exe", pid);
+         ret = readlink (proc_name, out_buf, buf_size - 1);
+         if (ret == -1) {
+@@ -159,6 +194,7 @@
+                 strncpy (out_buf, "(unknown)", buf_size);
+                 goto out;
+         }
++#endif
+         kit_assert (ret >= 0 && ret < (int) buf_size - 1);
+         out_buf[ret] = '\0';
+ 
+@@ -166,6 +202,26 @@
+         return ret;
+ }
+ 
++#ifdef HAVE_SOLARIS
++int
++polkit_sysdeps_pid_psinfo (pid_t pid, struct psinfo *ps)
++{
++        char pname[32];
++        int  procfd;
++
++        (void) snprintf(pname, sizeof(pname), "/proc/%d/psinfo", pid);
++        if ((procfd = open(pname, O_RDONLY)) == -1) {
++                return -1;
++        }
++        if (read(procfd, ps, sizeof(struct psinfo)) < 0) {
++                (void) close(procfd);
++                return -1;
++        }
++        (void) close(procfd);
++        return 0;
++}
++#endif
++
+ #ifdef POLKIT_BUILD_TESTS
+ 
+ static polkit_bool_t
+diff -ru PolicyKit-0.7.orig/src/polkit-dbus/polkit-read-auth-helper.c PolicyKit-0.7/src/polkit-dbus/polkit-read-auth-helper.c
+--- PolicyKit-0.7.orig/src/polkit-dbus/polkit-read-auth-helper.c	Thu Nov 29 12:33:10 2007
++++ PolicyKit-0.7/src/polkit-dbus/polkit-read-auth-helper.c	Fri Jan 25 16:31:42 2008
+@@ -49,6 +49,10 @@
+ #include <utime.h>
+ #include <fcntl.h>
+ #include <dirent.h>
++#ifdef HAVE_SOLARIS
++#include <limits.h>
++#define LOG_AUTHPRIV    (10<<3)
++#endif
+ 
+ #include <polkit-dbus/polkit-dbus.h>
+ #include <polkit/polkit-private.h>
+@@ -183,8 +187,10 @@
+                 static const char suffix[] = ".auths";
+                 struct passwd *pw;
+ 
++#ifndef HAVE_SOLARIS
+                 if (d->d_type != DT_REG)
+                         continue;
++#endif
+ 
+                 if (d->d_name == NULL)
+                         continue;
+@@ -282,8 +288,15 @@
+ 
+ #ifndef POLKIT_BUILD_TESTS
+         /* clear the entire environment to avoid attacks using with libraries honoring environment variables */
++#ifdef HAVE_SOLARIS
++        extern char **environ;
++
++        if (environ != NULL)
++                environ[0] = NULL;
++#else
+         if (clearenv () != 0)
+                 goto out;
++#endif
+         /* set a minimal environment */
+         setenv ("PATH", "/usr/sbin:/usr/bin:/sbin:/bin", 1);
+ #endif
+diff -ru PolicyKit-0.7.orig/src/polkit-dbus/polkit-set-default-helper.c PolicyKit-0.7/src/polkit-dbus/polkit-set-default-helper.c
+--- PolicyKit-0.7.orig/src/polkit-dbus/polkit-set-default-helper.c	Thu Nov 29 05:30:30 2007
++++ PolicyKit-0.7/src/polkit-dbus/polkit-set-default-helper.c	Fri Jan 25 16:34:17 2008
+@@ -55,6 +55,10 @@
+ #include <polkit/polkit-private.h>
+ #include <polkit-dbus/polkit-dbus.h>
+ 
++#ifdef HAVE_SOLARIS
++#define LOG_AUTHPRIV    (10<<3)
++#endif
++
+ static polkit_bool_t
+ set_default (const char *action_id, const char *any, const char *inactive, const char *active)
+ {
+@@ -127,8 +131,15 @@
+ 
+         ret = 1;
+         /* clear the entire environment to avoid attacks using with libraries honoring environment variables */
++#ifdef HAVE_SOLARIS
++        extern char **environ;
++
++        if (environ != NULL)
++                environ[0] = NULL;
++#else
+         if (clearenv () != 0)
+                 goto out;
++#endif
+         /* set a minimal environment */
+         setenv ("PATH", "/usr/sbin:/usr/bin:/sbin:/bin", 1);
+ 
+diff -ru PolicyKit-0.7.orig/src/polkit-grant/polkit-explicit-grant-helper.c PolicyKit-0.7/src/polkit-grant/polkit-explicit-grant-helper.c
+--- PolicyKit-0.7.orig/src/polkit-grant/polkit-explicit-grant-helper.c	Thu Dec  6 09:34:02 2007
++++ PolicyKit-0.7/src/polkit-grant/polkit-explicit-grant-helper.c	Fri Jan 25 17:12:10 2008
+@@ -53,6 +53,10 @@
+ #include <polkit-dbus/polkit-dbus.h>
+ #include <polkit/polkit-private.h>
+ 
++#ifdef HAVE_SOLARIS
++#define LOG_AUTHPRIV    (10<<3)
++#endif
++
+ int
+ main (int argc, char *argv[])
+ {
+@@ -67,8 +71,15 @@
+         ret = 1;
+ 
+         /* clear the entire environment to avoid attacks using with libraries honoring environment variables */
++#ifdef HAVE_SOLARIS
++        extern char **environ;
++
++        if (environ != NULL)
++                environ[0] = NULL;
++#else
+         if (clearenv () != 0)
+                 goto out;
++#endif
+         /* set a minimal environment */
+         setenv ("PATH", "/usr/sbin:/usr/bin:/sbin:/bin", 1);
+ 
+diff -ru PolicyKit-0.7.orig/src/polkit-grant/polkit-grant-helper-pam.c PolicyKit-0.7/src/polkit-grant/polkit-grant-helper-pam.c
+--- PolicyKit-0.7.orig/src/polkit-grant/polkit-grant-helper-pam.c	Thu Nov 29 05:28:31 2007
++++ PolicyKit-0.7/src/polkit-grant/polkit-grant-helper-pam.c	Fri Jan 25 17:10:54 2008
+@@ -28,6 +28,9 @@
+  **************************************************************************/
+ 
+ /* TODO: FIXME: XXX: this code needs security review before it can be released! */
++#ifdef HAVE_CONFIG_H
++#  include <config.h>
++#endif
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
+@@ -38,6 +41,10 @@
+ #include <syslog.h>
+ #include <security/pam_appl.h>
+ 
++#ifdef HAVE_SOLARIS
++#define LOG_AUTHPRIV    (10<<3)
++#endif
++
+ /* Development aid: define PGH_DEBUG to get debugging output. Do _NOT_
+  * enable this in production builds; it may leak passwords and other
+  * sensitive information.
+@@ -60,8 +67,15 @@
+         pam_h = NULL;
+ 
+         /* clear the entire environment to avoid attacks using with libraries honoring environment variables */
++#ifdef HAVE_SOLARIS
++        extern char **environ;
++
++        if (environ != NULL)
++                environ[0] = NULL;
++#else
+         if (clearenv () != 0)
+                 goto error;
++#endif
+         /* set a minimal environment */
+         setenv ("PATH", "/usr/sbin:/usr/bin:/sbin:/bin", 1);
+ 
+diff -ru PolicyKit-0.7.orig/src/polkit-grant/polkit-grant-helper.c PolicyKit-0.7/src/polkit-grant/polkit-grant-helper.c
+--- PolicyKit-0.7.orig/src/polkit-grant/polkit-grant-helper.c	Thu Dec  6 10:48:36 2007
++++ PolicyKit-0.7/src/polkit-grant/polkit-grant-helper.c	Fri Jan 25 16:35:50 2008
+@@ -52,6 +52,10 @@
+ #include <polkit-dbus/polkit-dbus.h>
+ // #include <polkit/polkit-grant-database.h>
+ 
++#ifdef HAVE_SOLARIS
++#define LOG_AUTHPRIV    (10<<3)
++#endif
++
+ /* Development aid: define PGH_DEBUG to get debugging output. Do _NOT_
+  * enable this in production builds; it may leak passwords and other
+  * sensitive information.
+@@ -546,8 +550,15 @@
+         ret = 3;
+ 
+         /* clear the entire environment to avoid attacks using with libraries honoring environment variables */
++#ifdef HAVE_SOLARIS
++        extern char **environ;
++
++        if (environ != NULL)
++                environ[0] = NULL;
++#else
+         if (clearenv () != 0)
+                 goto out;
++#endif
+         /* set a minimal environment */
+         setenv ("PATH", "/usr/sbin:/usr/bin:/sbin:/bin", 1);
+ 
+diff -ru PolicyKit-0.7.orig/src/polkit-grant/polkit-grant.c PolicyKit-0.7/src/polkit-grant/polkit-grant.c
+--- PolicyKit-0.7.orig/src/polkit-grant/polkit-grant.c	Thu Nov 29 05:29:25 2007
++++ PolicyKit-0.7/src/polkit-grant/polkit-grant.c	Fri Jan 25 16:40:18 2008
+@@ -35,6 +35,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <errno.h>
+ #include <sys/types.h>
+ #include <unistd.h>
+ #include <sys/wait.h>
+@@ -542,6 +543,49 @@
+         return FALSE;
+ }
+ 
++#ifdef HAVE_SOLARIS
++#define BUFFER_LEN      256
++
++ssize_t getline (char **lineptr, size_t *n, FILE *f)
++{
++        char ch;
++        size_t m = 0;
++        ssize_t buf_len = 0;
++        char * buf = NULL;
++        char * p = NULL;
++
++
++        while ( (ch = getc(f)) !=EOF )
++        {
++                if (errno != 0)
++                        return -1;
++                if ( m++ >= buf_len )
++                {
++                        buf_len += BUFFER_LEN;
++                        buf = (char *) realloc(buf, buf_len + 1);
++                        if ( buf == NULL )
++                        {
++                                return -1;
++                        }
++                        p = buf + buf_len - BUFFER_LEN;
++                }
++                if ( ch == '\n' )
++                        break;
++                *p = ch;
++                p++;
++        }
++        if ( m == 0 )
++        {
++                return -1;
++        } else {
++                *p = '\0';
++                *lineptr = buf;
++                *n = m;
++                return m;
++        }
++}
++#endif
++
+ #ifdef POLKIT_BUILD_TESTS
+ 
+ static polkit_bool_t
+diff -ru PolicyKit-0.7.orig/src/polkit-grant/polkit-revoke-helper.c PolicyKit-0.7/src/polkit-grant/polkit-revoke-helper.c
+--- PolicyKit-0.7.orig/src/polkit-grant/polkit-revoke-helper.c	Thu Nov 29 13:28:35 2007
++++ PolicyKit-0.7/src/polkit-grant/polkit-revoke-helper.c	Fri Jan 25 17:12:46 2008
+@@ -52,6 +52,10 @@
+ #include <polkit-dbus/polkit-dbus.h>
+ #include <polkit/polkit-private.h>
+ 
++#ifdef HAVE_SOLARIS
++#define LOG_AUTHPRIV    (10<<3)
++#endif
++
+ static int
+ _write_to_fd (int fd, const char *str, ssize_t str_len)
+ {
+@@ -109,8 +113,15 @@
+ 
+ #ifndef POLKIT_BUILD_TESTS
+         /* clear the entire environment to avoid attacks using with libraries honoring environment variables */
++#ifdef HAVE_SOLARIS
++        extern char **environ;
++
++        if (environ != NULL)
++                environ[0] = NULL;
++#else
+         if (clearenv () != 0)
+                 goto out;
++#endif
+         /* set a minimal environment */
+         setenv ("PATH", "/usr/sbin:/usr/bin:/sbin:/bin", 1);
+ #endif
+diff -ru PolicyKit-0.7.orig/tools/polkit-auth.c PolicyKit-0.7/tools/polkit-auth.c
+--- PolicyKit-0.7.orig/tools/polkit-auth.c	Thu Dec  6 11:30:18 2007
++++ PolicyKit-0.7/tools/polkit-auth.c	Fri Jan 25 17:19:42 2008
+@@ -37,6 +37,9 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <sys/types.h>
++#ifdef HAVE_SOLARIS
++#include <sys/wait.h>
++#endif
+ #include <pwd.h>
+ #include <grp.h>
+ #include <unistd.h>
+Only in PolicyKit-0.7/tools: polkit-auth.o
+Only in PolicyKit-0.7/tools: polkit-config-file-validate
+Only in PolicyKit-0.7/tools: polkit-config-file-validate.o
+Only in PolicyKit-0.7/tools: polkit-policy-file-validate
+Only in PolicyKit-0.7/tools: polkit-policy-file-validate.o
