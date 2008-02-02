@@ -1,0 +1,66 @@
+--- ntfsprogs-2.0.0/ntfsprogs/ntfsclone.c.orig	2008-02-02 11:42:48.813488971 +0530
++++ ntfsprogs-2.0.0/ntfsprogs/ntfsclone.c	2008-02-02 12:08:45.203435223 +0530
+@@ -116,7 +116,11 @@
+ 	int restore_image;
+ 	char *output;
+ 	char *volume;
++#if defined(__sun) || defined(__sun__) || defined(sun)
++	struct statvfs stfs;
++#else
+ 	struct statfs stfs;
++#endif
+ } opt;
+ 
+ struct bitmap {
+@@ -590,11 +594,13 @@
+ 	if (write_all(&fd_out, buff, csize) == -1) {
+ 		int err = errno;
+ 		perr_printf("Write failed");
++#if !defined(__sun) && !defined(__sun__) && !defined(sun)
+ 		if (err == EIO && opt.stfs.f_type == 0x517b)
+ 			Printf("Apparently you tried to clone to a remote "
+ 			       "Windows computer but they don't\nhave "
+ 			       "efficient sparse file handling by default. "
+ 			       "Please try a different method.\n");
++#endif
+ 		exit(1);
+ 	}
+ }
+@@ -1487,7 +1493,29 @@
+ static void set_filesize(s64 filesize)
+ {
+ 	long fs_type = 0; /* Unknown filesystem type */
++#if defined(__sun) || defined(__sun__) || defined(sun)
++	if (fstatvfs(fd_out, &opt.stfs) == -1)
++		Printf("WARNING: Couldn't get filesystem type: "
++		       "%s\n", strerror(errno));
+ 
++	if (strcmp(opt.stfs.f_basetype, "pcfs") == 0)
++		Printf("WARNING: You're using PCFS, it does not support "
++			"sparse files so the next operation might take "
++			"a while. You should consider using the more "
++                        "efficient --save-image option of ntfsclone. Use "
++                        "the --restore-image option to restore the image.\n");
++
++	if (ftruncate(fd_out, filesize) == -1) {
++		int err = errno;
++		perr_printf("ftruncate failed for file '%s'", opt.output);
++		Printf("Destination filesystem type is %s\n",
++						opt.stfs.f_basetype);
++		if (err == EFBIG || (err == EINVAL && filesize > 0))
++			Printf("Your system or the destination filesystem "
++			       "doesn't support large files.\n");
++		exit(1);
++	}
++#else
+ 	if (fstatfs(fd_out, &opt.stfs) == -1)
+ 		Printf("WARNING: Couldn't get filesystem type: "
+ 		       "%s\n", strerror(errno));
+@@ -1528,6 +1556,7 @@
+ 		}
+ 		exit(1);
+ 	}
++#endif
+ }
+ 
+ static s64 open_image(void)

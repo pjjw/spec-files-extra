@@ -1,0 +1,26 @@
+--- ntfsprogs-2.0.0/libntfs/libntfs.conf.in.orig	2008-02-02 14:09:34.730191924 +0530
++++ ntfsprogs-2.0.0/libntfs/libntfs.conf.in	2008-02-02 14:09:37.627405603 +0530
+@@ -0,0 +1 @@
++libntfs: libntfs-gnomevfs
+--- ntfsprogs-2.0.0/libntfs/Makefile.in.orig	2008-02-02 13:43:49.018629980 +0530
++++ ntfsprogs-2.0.0/libntfs/Makefile.in	2008-02-02 13:44:07.759951151 +0530
+@@ -306,7 +306,7 @@
+ @ENABLE_GNOME_VFS_TRUE@gnomevfsmoduleslib_LTLIBRARIES = libntfs-gnomevfs.la
+ @ENABLE_GNOME_VFS_TRUE@gnomevfsmodulesconfdir = $(sysconfdir)/gnome-vfs-2.0/modules
+ @ENABLE_GNOME_VFS_TRUE@gnomevfsmodulesconf_DATA = libntfs.conf
+-libntfs_gnomevfs_la_LDFLAGS = -version-info $(LTVERSION_LIBNTFS_GNOMEVFS)
++libntfs_gnomevfs_la_LDFLAGS = -version-info $(LTVERSION_LIBNTFS_GNOMEVFS) $(LIBNTFS_GNOMEVFS_LIBS)
+ libntfs_gnomevfs_la_LIBADD = libntfs.la
+ libntfs_gnomevfs_la_LIBS = $(LIBNTFS_GNOMEVFS_LIBS)
+ libntfs_gnomevfs_la_CFLAGS = $(LIBNTFS_GNOMEVFS_CFLAGS)
+--- ntfsprogs-2.0.0/libntfs/gnome-vfs-method.c.orig	2008-02-02 13:59:59.476459763 +0530
++++ ntfsprogs-2.0.0/libntfs/gnome-vfs-method.c	2008-02-02 14:01:04.010332788 +0530
+@@ -49,6 +49,8 @@
+ static GHashTable *method_name_hash;
+ G_LOCK_DEFINE_STATIC(method_name_hash);
+ 
++G_LOCK_DEFINE(libntfs);
++
+ struct method_name_info {
+ 	gchar *args;
+ };

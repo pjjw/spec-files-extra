@@ -47,18 +47,16 @@ make install DESTDIR=$RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_basedir}/bin
 mkdir -p $RPM_BUILD_ROOT%{_basedir}/share/man
 
-indirb=".."
-indirm="../.."
+indirb="../.."
 for d in `echo %{_basedir} | sed '/\// /g'`
 do
 	indirb="${indirb}/..
-	indirm="${indirm}/..
 done
 
 (cd $RPM_BUILD_ROOT%{_basedir}/bin
     ln -s ${indirb}/%{_bindir}/yacc byacc)
 (cd $RPM_BUILD_ROOT%{_basedir}/share/man
-    ln -s %{indirm}/%{_mandir}/man1/yacc.1 byacc.1)
+    ln -s %{indirb}/%{_mandir}/man1/yacc.1 byacc.1)
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -77,5 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_basedir}/share/man/*
 
 %changelog
+* Sat Feb 02 2008 - moinak.ghosh@sun.com
+- Fix a symbolic link.
 * Tue Jan 29 2008 - moinak.ghosh@sun.com
 - Initial spec.

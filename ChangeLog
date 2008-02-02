@@ -1,3 +1,16 @@
+2008-02-02 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEp7zip.spec:
+	* patches/p7zip-01-makefile.diff:
+	  Bump version to 4.57 and update patch.
+	* SFEbyacc.spec:
+	  Fix a symbolic link.
+	* SFEntfsprogs.spec:
+	* patches/ntfsprogs-01-ntfsclone.diff:
+	* patches/ntfsprogs-02-libntfs.diff:
+	  Add NTFS Filesystem utilities with R/W support.
+	* SFEe2fsprogs.spec:
+	  Add Ext2/3 Filesystem utilities with R/W support.
+
 2008-02-02  Jim Li  <jim.li@sun.com>
         * SFEpolicykit.spec, base-specs/PolicyKit.spec,
 	  base-specs/PolicyKit-gnome.spec, patches/PolicyKit-0.7.diff:
