@@ -1,4 +1,17 @@
-2008-02-02 Moinak Ghosh <moinak.ghosh@sun.com>
+2008-02-04 Moinak Ghosh <moinak.ghosh@sun.com>
+	* ext-sources/buildkde:
+	  Add a new package to build.
+	* SFEdttdocviewer.spec:
+	  Add DTraceToolkit documentation viewer GUI.
+	* SFEperl-curses-ui.spec:
+	  Add Perl-Curses widget toolkit.
+	* SFEperl-curses.spec:
+	  Add Perl interface to NCurses.
+	* SFEprtpci.spec:
+	* patches/prtpci-01-etc.diff:
+	  Add Dan Mick's prtpci utility.
+
+2008-02-03 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEliberationfonts.spec:
 	  Add the Liberation Fonts package from RedHat.
 	* SFEbwidget.spec:

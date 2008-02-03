@@ -1,0 +1,25 @@
+--- prtpci/prtpci.orig	2008-02-03 20:20:55.832978465 +0530
++++ prtpci/prtpci	2008-02-03 20:21:51.262997447 +0530
+@@ -3,12 +3,7 @@
+ # dan.mick@sun.com
+ 
+ $prog=$0;
+-if (index($prog, "/") != -1) {
+-	$path=substr($prog, 0, rindex($prog, "/"));
+-} else {
+-	$path = ".";
+-}
+-$PCIIDS="$path/pciids";
++$PCIIDS="/etc/pciids";
+ 
+ # $debug=1;
+ sub read_files 
+@@ -95,7 +90,7 @@
+ &read_files();
+ 
+ if (-t STDIN) {
+-	open(PRTCONF, "prtconf -pv |");
++	open(PRTCONF, "/usr/sbin/prtconf -pv |");
+ 	*FH = *PRTCONF;
+ } else {
+ 	*FH = *STDIN;

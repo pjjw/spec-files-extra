@@ -165,7 +165,7 @@ call_pkgtool $_STUDIO "SFEcmake.spec:SFEphysfs.spec"
 call_pkgtool $_STUDIO "SFEreadline.spec"
 call_pkgtool $_GCC "SFEcups.spec:SFEqt3.spec:SFEcurl.spec:SFElibsndfile.spec:SFEjack.spec:SFEnas.spec:SFEarts.spec:SFEfltk.spec:SFEilmbase.spec:SFEopenexr.spec:SFEfam.spec"
 
-call_pkgtool $_STUDIO "SFEdoxygen.spec:SFEbdb.spec:SFEgdbm.spec"
+call_pkgtool $_STUDIO "SFEdoxygen.spec:SFEbdb.spec:SFEgdbm.spec:SFElibntlm.spec:SFEcyrus-sasl.spec"
 
 if [ `pkginfo -q SFEkdelibs3` -o `pkginfo -q SFEkdebase3` ]
 then
