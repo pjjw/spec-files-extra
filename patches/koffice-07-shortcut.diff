@@ -1,0 +1,14 @@
+--- koffice-1.6.3/lib/kofficecore/kkbdaccessextensions.cpp.orig	2008-02-03 11:36:55.023991307 +0530
++++ koffice-1.6.3/lib/kofficecore/kkbdaccessextensions.cpp	2008-02-03 11:57:11.812929397 +0530
+@@ -200,6 +200,11 @@
+         KShortcut revSc = d->revAction->shortcut();
+         KShortcut accessKeysSc = d->accessKeysAction->shortcut();
+         QKeyEvent* kev = dynamic_cast<QKeyEvent *>(e);
++
++	// Paranoid check for dynamic_cast failure
++	if (kev == NULL)
++		return false;
++
+         KKey k = KKey(kev);
+         KShortcut sc = KShortcut(k);
+         // kdDebug() << "KKbdAccessExtensions::eventFilter: Key press " << sc << endl;

@@ -17,6 +17,7 @@ Patch3:              koffice-03-kspread.diff
 Patch4:              koffice-04-objects.diff
 Patch5:              koffice-05-libart.diff
 Patch6:              koffice-06-build_kexi_file.diff
+Patch7:              koffice-07-shortcut.diff
 
 Source1:             koffice.files
 Source2:             kexi.files
@@ -151,6 +152,7 @@ Requires: %name
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 if [ "x`basename $CC`" != xgcc ]
 then
@@ -263,5 +265,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sun Feb 03 2008 - moinak.ghosh@sun.com
+- Add workaround for a null pointer crash during key event processing.
 * Mon Jan 28 2008 - moinak.ghosh@sun.com
 - Initial spec.

@@ -1,4 +1,17 @@
 2008-02-02 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEliberationfonts.spec:
+	  Add the Liberation Fonts package from RedHat.
+	* SFEbwidget.spec:
+	  Add a high-quality megawidget set for Tcl/Tk.
+	* SFEkoffice3.spec:
+	* patches/koffice-07-shortcut.diff:
+	  Add workaround for a null pointer crash during key event processing.
+	* SFEmrxvt.spec:
+	  Remove architecture from package name.
+	* SFEcyrus-sasl.spec:
+	  Add dependency on SFElibntlm.
+
+2008-02-02 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEktorrent.spec:
 	* patches/ktorrent-01-isinf.diff:
 	  Add Ktorrent a KDE Torrent client.

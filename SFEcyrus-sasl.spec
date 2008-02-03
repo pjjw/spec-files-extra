@@ -20,6 +20,8 @@ Requires: SUNWsqlite
 BuildRequires: SUNWsqlite-devel
 Requires: SUNWopenssl-libraries
 BuildRequires: SUNWopenssl-include
+Requires: SFElibntlm
+BuildRequires: SFElibntlm-devel
 
 %prep
 %setup -q -n cyrus-sasl-%{version}
@@ -77,5 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/*
 
 %changelog
+* Sun Feb 03 2008 - moinak.ghosh@sun.com
+- Add dependency on SFElibntlm.
 * Tue Jan 15 2008 - moinak.ghosh@sun.com
 - Initial spec.

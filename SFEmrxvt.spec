@@ -9,7 +9,7 @@
 %define src_version	0.5.2
 %define pkg_release	1
 
-SUNW_Pkg: SFE%{src_name}-%{base_arch}
+SUNW_Pkg: SFE%{src_name}
 SUNW_ProdVers:	%{src_version}
 SUNW_BaseDir:	/
 
@@ -67,6 +67,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/mrxvt/*
 
 %changelog
+* Sun Feb 03 2008 - moinak.ghosh@sun.com
+- Remove architecture from package name.
 * Sat Aug 11 2007 - ananth@sun.com
 - Initial mrxvt spec file
 
