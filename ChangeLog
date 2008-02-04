@@ -1,3 +1,9 @@
+2008-02-04 Michal Pryc <Michal dot Pryc [(at] Sun . Com>
+	* SFElibcddb.spec:
+	  - cddb_query is an example utlility. Moved to devel package, now it is 
+     installed under /usr/demo/libcddb/bin/cddb_query
+	  - build without cdio support. Affects only cddb_query example utility.
+
 2008-02-04 Moinak Ghosh <moinak.ghosh@sun.com>
 	* ext-sources/buildkde:
 	  Add a new package to build.
