@@ -1,3 +1,8 @@
+2008-02-05 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEavant.spec:
+	* ext-sources/x11.pc:
+	  Add Avant Window Navigator.
+
 2008-02-04 Pradhap Devarajan <pradhap (at) gmail.com>
 	* SFEbrlcad.spec:
 	  - The BRL-CAD package is a powerful Constructive Solid Geometry (CSG) solid
