@@ -1,3 +1,8 @@
+2008-02-04 Pradhap Devarajan <pradhap (at) gmail.com>
+	* SFEbrlcad.spec:
+	  - The BRL-CAD package is a powerful Constructive Solid Geometry (CSG) solid
+	     modeling system
+
 2008-02-04 Michal Pryc <Michal dot Pryc [(at] Sun . Com>
 	* SFElibcddb.spec:
 	  - cddb_query is an example utlility. Moved to devel package, now it is 
