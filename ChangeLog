@@ -1,3 +1,8 @@
+2008-02-07 Pradhap Devarajan <pradhap (at) gmail.com
+        * SFEopenmotif.spec
+          - OpenMotif is the publicly licensed version of Motif,
+            the industry standard user interface toolkit for UNIX systems
+
 2008-02-06 Ananth Shrinivas <ananth@sun.com>
 	* SFEsudo.spec: Bump to version 1.6.9p12
 	* SFEpython-psyco.spec: Bump to version 1.6
