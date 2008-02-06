@@ -4,7 +4,7 @@
 # includes module(s): pigment
 #
 %define name pigment
-%define version 0.3.3
+%define version 0.3.4
 
 %include Solaris.inc
 
@@ -67,8 +67,8 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 rm -r $RPM_BUILD_ROOT/%{_libdir}/*.la
 rm -r $RPM_BUILD_ROOT/%{_libdir}/*.a
-rm -r $RPM_BUILD_ROOT/%{_libdir}/pigment-0.3/*.la
-rm -r $RPM_BUILD_ROOT/%{_libdir}/pigment-0.3/*.a
+rm -r $RPM_BUILD_ROOT/%{_libdir}/pigment-0.3/%{version}/*.la
+rm -r $RPM_BUILD_ROOT/%{_libdir}/pigment-0.3/%{version}/*.a
 
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 
@@ -79,7 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,bin)
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
-%{_libdir}/pigment-0.3/lib*.so*
+%{_libdir}/pigment-0.3/%{version}/lib*.so*
 
 %files devel
 %defattr (-, root, bin)
@@ -94,6 +94,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtk-doc/html/*
 
 %changelog
+* Wed Feb 06 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.3.4.
 * Wed Jan 16 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.3.3.  Remove upstream patch.
 * Fri Oct 05 2007 Brian Cameron  <brian.cameron@sun.com>

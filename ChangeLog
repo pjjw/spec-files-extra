@@ -1,29 +1,45 @@
+2008-02-06 Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEpigment.spec:  Bump to 0.3.4.
+	* SFEpigment-python.spec:  Bump to 0.3.2.
+	* SFEpython-zope-interface.spec:  Add SFEpython-setuptools as
+	  a dependency.
+	* SUNWgnome-display-mgr.spec: Fix --enable-rbac-shudown configure
+	  arguemnt, and packaging.
+
 2008-02-06 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEe2fsprogs.spec:
 	* ext-sources/ext2fs.pc:
 	  Rework to build shlibs and add additional headers.
 
 2008-02-06 Pradhap Devarajan <pradhap (at) gmail.com>
+
 	* SFElbreakout.spec:
 	 - LBreakout is a breakout-style arcade game in the manner of Arkanoid. 
 
 2008-02-05 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEavant.spec:
 	* ext-sources/x11.pc:
 	  Add Avant Window Navigator.
 
 2008-02-04 Pradhap Devarajan <pradhap (at) gmail.com>
+
 	* SFEbrlcad.spec:
-	  - The BRL-CAD package is a powerful Constructive Solid Geometry (CSG) solid
-	     modeling system
+	  - The BRL-CAD package is a powerful Constructive Solid Geometry (CSG)
+	    solid modeling system
 
 2008-02-04 Michal Pryc <Michal dot Pryc [(at] Sun . Com>
+
 	* SFElibcddb.spec:
-	  - cddb_query is an example utlility. Moved to devel package, now it is 
-     installed under /usr/demo/libcddb/bin/cddb_query
-	  - build without cdio support. Affects only cddb_query example utility.
+	  - cddb_query is an example utlility. Moved to devel package, now it
+	    is installed under /usr/demo/libcddb/bin/cddb_query
+	  - build without cdio support. Affects only cddb_query example
+	    utility.
 
 2008-02-04 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* ext-sources/buildkde:
 	  Add a new package to build.
 	* SFEdttdocviewer.spec:
@@ -37,6 +53,7 @@
 	  Add Dan Mick's prtpci utility.
 
 2008-02-03 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEliberationfonts.spec:
 	  Add the Liberation Fonts package from RedHat.
 	* SFEbwidget.spec:
@@ -50,6 +67,7 @@
 	  Add dependency on SFElibntlm.
 
 2008-02-02 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEktorrent.spec:
 	* patches/ktorrent-01-isinf.diff:
 	  Add Ktorrent a KDE Torrent client.
@@ -62,10 +80,12 @@
 	  Add new packages to build.
 
 2008-02-02 Pradhap Devarajan <pradhap (at) gmail.com>
+
 	* SFEgocr : Added spec file for GOCR 
 	  Optical Character Recognition package.
 
 2008-02-02 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEp7zip.spec:
 	* patches/p7zip-01-makefile.diff:
 	  Bump version to 4.57 and update patch.
@@ -79,6 +99,7 @@
 	  Add Ext2/3 Filesystem utilities with R/W support.
 
 2008-02-02  Jim Li  <jim.li@sun.com>
+
         * SFEpolicykit.spec, base-specs/PolicyKit.spec,
 	  base-specs/PolicyKit-gnome.spec, patches/PolicyKit-0.7.diff:
           Spec file for PolicyKit and patch to let it work on Solaris

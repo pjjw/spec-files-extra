@@ -4,7 +4,7 @@
 # includes module(s): pigment-python
 #
 %define name pigment-python
-%define version 0.3.1
+%define version 0.3.2
 %define pythonver 2.4
 
 %include Solaris.inc
@@ -82,7 +82,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{pythonver}/vendor-packages/_pgmgtkmodule.so
 %{_libdir}/python%{pythonver}/vendor-packages/_pgmmodule.so
 %{_libdir}/python%{pythonver}/vendor-packages/pgm
+%dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/pigment-python
 
 %changelog
-* Wed Jan 16 2007 Brian Cameron  <brian.cameron@sun.com>
+* Wed Feb 06 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.3.2.
+* Wed Jan 16 2008 Brian Cameron  <brian.cameron@sun.com>
 - Created.

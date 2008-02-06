@@ -14,7 +14,10 @@ Version:         3.4.1
 Source0:         http://pypi.python.org/packages/source/z/zope.interface/zope.interface-%{version}.tar.gz
 SUNW_BaseDir:    %{_basedir}
 BuildRoot:       %{_tmppath}/%{name}-%{version}-build
-BuildRequires:	 SUNWPython-devel
+BuildRequires:   SUNWPython-devel
+BuildRequires:   SFEpython-setuptools
+Requires:        SUNWPython-devel
+Requires:        SFEpython-setuptools
 
 %include default-depend.inc
 

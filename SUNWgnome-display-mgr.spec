@@ -111,7 +111,7 @@ BINDIR_CONFIG=""
 CTRUN_CONFIG=""
 %ifos solaris
 BINDIR_CONFIG="--with-post-path=/usr/openwin/bin"
-RBAC_CONFIG="--enable-rbac-shutdown=solaris.sytem.shutdown"
+RBAC_CONFIG="--enable-rbac-shutdown=solaris.system.shutdown"
 %endif
 
 libtoolize --force
@@ -234,7 +234,7 @@ test -x $BASEDIR/lib/postrun || exit 0
 /var/svc/*
 %{_localstatedir}/gdm
 %dir %attr (0755, root, sys) /var/log
-%dir %attr (0755, root, root) /var/log/gdm
+%dir %attr (1770, root, gdm) /var/log/gdm
 %dir %attr (0755, root, other) %{_localstatedir}/lib
 %dir %attr (1770, root, gdm) %{_localstatedir}/lib/gdm
 %{_localstatedir}/lib/gdm/.gconf.path
