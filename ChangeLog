@@ -1,3 +1,7 @@
+2008-02-06 Pradhap Devarajan <pradhap (at) gmail.com>
+	* SFElbreakout.spec:
+	 - LBreakout is a breakout-style arcade game in the manner of Arkanoid. 
+
 2008-02-05 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEavant.spec:
 	* ext-sources/x11.pc:
