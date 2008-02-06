@@ -13,6 +13,7 @@ Summary:             Ext2 Filesystems Utilities
 Version:             1.40.5
 URL:                 http://e2fsprogs.sourceforge.net/
 Source:              http://nchc.dl.sourceforge.net/sourceforge/e2fsprogs/e2fsprogs-%{version}.tar.gz
+Source1:             ext2fs.pc
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -43,17 +44,20 @@ fi
 
 %build
 
-export CFLAGS="%optflags -I%{gnu_inc} -DINSTALLPREFIX=\\\"%{_prefix}\\\""
-export LDFLAGS="%_ldflags %{gnu_lib_path} -liconv -lintl"
+export CFLAGS="%optflags -I%{gnu_inc} -DINSTALLPREFIX=\\\"%{_prefix}\\\" -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+export LDFLAGS="%_ldflags %{gnu_lib_path} -liconv -lintl -R%{_libdir}/ext2fs"
 export PATH=/usr/bin:${PATH}
 
 ./configure --prefix=%{_prefix}	\
             --mandir=%{_mandir}	\
             --infodir=%{_infodir} \
+            --libdir=%{_libdir}/ext2fs \
             --sysconfdir=%{_sysconfdir} \
             --enable-shared=yes \
             --enable-static=no  \
-            --with-pic
+            --with-pic \
+            --enable-elf-shlibs \
+            --with-ldopts="${LDFLAGS}"
 
 cp config/asm_types.h .
 
@@ -65,10 +69,15 @@ rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
 # Copy files for the devel package
-cp lib/libext2fs.a $RPM_BUILD_ROOT%{_libdir}
-cp lib/libcom_err.a $RPM_BUILD_ROOT%{_libdir}
+#cp lib/libext2fs.a $RPM_BUILD_ROOT%{_libdir}
+#cp lib/libcom_err.a $RPM_BUILD_ROOT%{_libdir}
 mkdir -p $RPM_BUILD_ROOT%{_includedir}/ext2fs
-mkdir -p $RPM_BUILD_ROOT%{_includedir}/et
+mkdir -p $RPM_BUILD_ROOT%{_includedir}/ext2fs/et
+mkdir -p $RPM_BUILD_ROOT%{_includedir}/ext2fs/e2p
+mkdir -p $RPM_BUILD_ROOT%{_includedir}/ext2fs/ss
+mkdir -p $RPM_BUILD_ROOT%{_includedir}/ext2fs/blkid
+mkdir -p $RPM_BUILD_ROOT%{_includedir}/ext2fs/uuid
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 
 cp lib/ext2fs/bitops.h $RPM_BUILD_ROOT%{_includedir}/ext2fs
 cp lib/ext2fs/ext2_err.h $RPM_BUILD_ROOT%{_includedir}/ext2fs
@@ -77,6 +86,15 @@ cp lib/ext2fs/ext2fs.h $RPM_BUILD_ROOT%{_includedir}/ext2fs
 cp lib/ext2fs/ext2_fs.h $RPM_BUILD_ROOT%{_includedir}/ext2fs
 cp lib/ext2fs/ext2_types.h $RPM_BUILD_ROOT%{_includedir}/ext2fs
 cp lib/ext2fs/ext3_extents.h $RPM_BUILD_ROOT%{_includedir}/ext2fs
+cp lib/et/com_err.h $RPM_BUILD_ROOT%{_includedir}/ext2fs/et
+cp lib/e2p/e2p.h $RPM_BUILD_ROOT%{_includedir}/ext2fs/e2p
+cp lib/ss/ss.h $RPM_BUILD_ROOT%{_includedir}/ext2fs/ss
+cp lib/ss/ss_err.h $RPM_BUILD_ROOT%{_includedir}/ext2fs/ss
+cp lib/blkid/blkid.h $RPM_BUILD_ROOT%{_includedir}/ext2fs/blkid
+cat lib/blkid/blkid_types.h | sed 's/__signed__//' > $RPM_BUILD_ROOT%{_includedir}/ext2fs/blkid/blkid_types.h
+cp lib/uuid/uuid.h $RPM_BUILD_ROOT%{_includedir}/ext2fs/uuid
+cp lib/uuid/uuidd.h $RPM_BUILD_ROOT%{_includedir}/ext2fs/uuid
+cp %{SOURCE1} $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 
 # Remove stuff that conflict with Solaris native utilities
 rm -rf $RPM_BUILD_ROOT%{_sysconfdir}
@@ -133,11 +151,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_infodir}
 %{_infodir}/*
 %dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, bin) %{_libdir}/ext2fs
+%{_libdir}/ext2fs/*.so*
 %dir %attr (0755, root, sys) %{_libdir}/fs
 %dir %attr (0755, root, sys) %{_libdir}/fs/ext2fs
 %{_libdir}/fs/ext2fs/*
 %{_libdir}/fs/ext3fs
-%attr (0755, root, bin) %{_libdir}/e2initrd_helper
+%attr (0755, root, bin) %{_libdir}/ext2fs/e2initrd_helper
 
 %if %build_l10n
 %files l10n
@@ -152,8 +172,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*.a
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Feb 06 2008 - moinak.ghosh@sun.com
+- Rework to build shlibs and add additional headers.
 * Sat Feb 02 2008 - moinak.ghosh@sun.com
 - Initial spec.

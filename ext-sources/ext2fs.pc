@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${prefix}/lib/ext2fs
+includedir=${prefix}/include
+
+Name: LibExt2FS
+Description: userland EXT2 filesystem access library
+Version: 1.40.5
+Requires: 
+Libs: -L${libdir} -R${libdir} -lext2fs -lcom_err
+Cflags: -I${includedir}/ext2fs

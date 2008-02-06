@@ -1,3 +1,8 @@
+2008-02-06 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEe2fsprogs.spec:
+	* ext-sources/ext2fs.pc:
+	  Rework to build shlibs and add additional headers.
+
 2008-02-06 Pradhap Devarajan <pradhap (at) gmail.com>
 	* SFElbreakout.spec:
 	 - LBreakout is a breakout-style arcade game in the manner of Arkanoid. 
