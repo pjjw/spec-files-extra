@@ -1,29 +1,28 @@
 #
-# spec file for package SFElibmikmod
 #
-# includes module(s): libmikmod
+# Copyright (c) 2008 Sun Microsystems, Inc.
+# This file and all modifications and additions to the pristine
+# package are under the same license as the package itself.
+#
+# spec file for package SFElibmikmod
 #
 %include Solaris.inc
 
-Name:                    SFElibmikmod
-Summary:                 libmikmod  - a portable sound library for Unix and other systems.
-Version:                 3.2.0
-%define tarball_version 3.2.0-beta2
-Source:                  http://mikmod.raphnet.net/files/libmikmod-%{tarball_version}.tar.bz2
+Name:                    SFEmikmod
+Summary:                 Mikmod  - A module player using the sound library libmikmod
+Version:                 3.2.2
+%define tarball_version 3.2.2-beta1
+Source:                  http://mikmod.raphnet.net/files/mikmod-%{tarball_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
 BuildRequires: oss
-
-%package devel
-Summary:                 %{summary} - development files
-SUNW_BaseDir:            %{_basedir}
-%include default-depend.inc
-Requires: %name
+Requires: SFElibmikmod
+BuildRequires: SFElibmikmod-devel
 
 %prep
-%setup -q -n libmikmod-%tarball_version
+%setup -q -n mikmod-%tarball_version
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -54,30 +53,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
-%dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/lib*.so*
-
-%files devel
-%defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/libmikmod-config
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
+%{_bindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, sys) %{_datadir}/mikmod
+%{_datadir}/mikmod/*
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*
-%dir %attr (0755, root, other) %{_datadir}/aclocal
-%{_datadir}/aclocal/*
 
 %changelog
 * Wed Feb 06 2008 - moinak.ghosh@sun.com
-- Remove hard dependency on oss from devel package.
-* Sun Jan 20 2008 - moinak.ghosh@sun.com
-- Added build dependency on oss.
-* Mon Jun 12 2006 - laca@sun.com
-- renamed to SFElibmikmod
-- changed to root:bin to follow other JDS pkgs.
-- add missing dep
-* Mon May 8 2006 - drdoug007@yahoo.com.au
-- Initial version
+- Initial spec.

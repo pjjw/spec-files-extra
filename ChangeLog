@@ -1,4 +1,10 @@
 2008-02-06 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEmikmod.spec:
+	  Add interactive text based module player based on libmikmod.
+	* SFElibmikmod.spec:
+	  Remove hard dependency on oss from devel package.
+
+2008-02-06 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFElbreakout2.spec:
 	* patches/lbreakout2-01-locale.diff:
 	* ext-sources/lbreakout2.desktop:
