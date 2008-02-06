@@ -8,8 +8,8 @@ Release:	2
 License:	MIT
 Group:		Libraries
 Source0:	http://hal.freedesktop.org/releases/%{name}-%{version}.tar.gz
-# Source0-md5:	99e0cc588310656fa25f8f66a411c71f
-Patch0:		%{name}-%{version}.diff
+Patch1:		PolicyKit-01-solaris.diff
+Patch2:		PolicyKit-02-dirfd.diff
 URL:		http://people.freedesktop.org/~david/polkit-spec.html
 BuildRequires:	autoconf >= 2.60
 BuildRequires:	automake >= 1:1.7
@@ -38,8 +38,6 @@ Requires:	ConsoleKit >= 0.2.1
 Provides:	group(polkituser)
 Provides:	user(polkituser)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_libexecdir	%{_libdir}/%{name}
 
 %description
 PolicyKit is a framework for defining policy for system-wide
@@ -105,7 +103,8 @@ Statyczne biblioteki PolicyKit.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 %ifos linux
@@ -127,8 +126,12 @@ automake
 ./configure \
 	--enable-maintainer-mode \
 	--enable-gtk-doc \
-	--prefix=/usr \
-	--sysconfdir=/etc \
+	--prefix=%{_prefix} \
+	--libdir=%{_libdir}/polkit \
+	--libexecdir=%{_libdir}/polkit \
+	--sysconfdir=%{_sysconfdir} \
+        --localstatedir=%{_localstatedir} \
+        --mandir=%{_mandir} \
 	--disable-tests \
 	--with-polkit-user=polkitu \
 	--with-polkit-group=polkitg \
@@ -236,119 +239,8 @@ fi
 %{_libdir}/libpolkit-dbus.a
 %{_libdir}/libpolkit-grant.a
 
-%define date	%(echo `LC_ALL="C" date +"%a %b %d %Y"`)
 %changelog
-* %{date} PLD Team <feedback@pld-linux.org>
-All persons listed below can be reached at <cvs_login>@pld-linux.org
-
-$Log: PolicyKit.spec,v $
-Revision 1.35  2008-01-15 18:19:00  patrys
-- make it work on xfs
-
-Revision 1.34  2007-12-16 03:23:38  qboosh
-- more
-
-Revision 1.33  2007-12-16 03:23:14  qboosh
-- whole package is on MIT X11 license now
-
-Revision 1.32  2007-12-16 03:22:47  qboosh
-- updated to 0.7
-
-Revision 1.31  2007-11-09 12:23:53  arekm
-- rel 3; keep libexecdir binaries one level deeper in own subdirectory
-
-Revision 1.30  2007-11-09 09:26:49  arekm
-- rel 2; safer polkit-grant-helper-pam perms
-
-Revision 1.29  2007/10/30 21:53:02  qboosh
-- ConsoleKit version
-
-Revision 1.28  2007/10/13 20:37:33  megabajt
-- updated to 0.6
-
-Revision 1.27  2007/09/18 17:56:58  patrys
-- R: ConsoleKit
-
-Revision 1.26  2007/09/08 17:08:45  patrys
-- remove TODO
-
-Revision 1.25  2007/09/08 17:05:22  patrys
-- create user and group
-
-Revision 1.24  2007/09/08 16:29:00  patrys
-- package datadir
-
-Revision 1.23  2007/09/08 13:47:31  qboosh
-- cleanup, updated comments
-- BR: libselinux-devel (for polkit-dbus library)
-
-Revision 1.22  2007/09/08 09:26:29  tommat
-- ver 0.5
-
-Revision 1.21  2007/07/10 16:59:05  wolvverine
-- rel. 2
-
-Revision 1.20  2007/06/24 22:12:57  qboosh
-- devel deps
-- removed obsolete rc-scripts and chkconfig deps
-
-Revision 1.19  2007/06/24 21:21:39  qboosh
-- some cleanups and notes
-- trigger to delete PolicyKit service on upgrade
-
-Revision 1.18  2007/06/24 11:58:40  arekm
-- parallel build broken
-
-Revision 1.17  2007/06/21 12:52:46  patrys
-- drop initscript (DBUS activation)
-- FIXME: someone please write a trigger to remove the service on upgrade
-
-Revision 1.16  2007/06/21 12:46:22  patrys
-- 0.3
-
-Revision 1.15  2007/03/14 16:52:51  czarny
-- up to 20070314
-
-Revision 1.14  2007/03/05 07:54:44  arekm
-- rel .2
-
-Revision 1.13  2007/02/13 06:46:49  glen
-- tabs in preamble
-
-Revision 1.12  2007/02/12 01:06:44  baggins
-- converted to UTF-8
-
-Revision 1.11  2006/12/09 13:27:17  qboosh
-- actually it's 0.2 snapshot - updated Version, release .1
-- polkit user/group not needed yet (not used for anything)
-
-Revision 1.10  2006/12/09 13:10:04  qboosh
-- libpolkit License is GPL v2 or AFL v2.1
-
-Revision 1.9  2006/12/09 13:07:03  qboosh
-- separated -libs, release .6
-
-Revision 1.8  2006/12/06 22:37:55  arekm
-- rel .5
-
-Revision 1.7  2006/12/06 07:11:16  qboosh
-- package gtkdoc
-- more BRs/Rs
-
-Revision 1.6  2006/12/05 22:03:41  arekm
-- rel .4
-
-Revision 1.5  2006/12/05 21:53:42  arekm
-- rel .3
-
-Revision 1.4  2006/12/05 21:29:16  patrys
-- typo
-
-Revision 1.3  2006/12/05 21:25:33  patrys
-- added init
-
-Revision 1.2  2006/12/05 20:02:43  qboosh
-- pl, unified
-
-Revision 1.1  2006/12/03 22:21:11  arekm
-- new
+* Wed Feb 06 2008 - brian.cameron@sun.com
+- Cleanup
+* Sat Feb 02 2008 - jim.li@sun.com
+- Created.

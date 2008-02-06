@@ -1,5 +1,23 @@
 2008-02-06 Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEpolicykit.spec: Rename from SFEPolicyKit.spec.  Now this
+	  spec file just builds the PolicyKit module.  Fixed Requires
+	  and BuildRequires sections.  Fixed packaging.
+	* patches/PolicyKit-02-dirfd.diff: Add patch so PolicyKit can
+	  build on systems that do not have dirfd.
+	* patches/PolicyKit-02-solaris.diff: Rename from 
+	  PolicyKit-0.7.diff
+	* SFEpolicykit-gnome.spec: Separate spec file for building
+	  PolicyKit-gome.  Fixed Requires and BuildRequires sections.
+	  Fixed packaging.
+	* base-specs/PolicyKit.spec, base-specs/PolicyKit-gnome.spec:
+	  Fix configure call.
+	* SFEpitivi.spec:  Depend on SFEpython-zope-interface and
+	  SFEpython-setuptools instead of SFEzope-interface and
+	  SFE-setuptools.
+
+2008-02-06 Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEpigment.spec:  Bump to 0.3.4.
 	* SFEpigment-python.spec:  Bump to 0.3.2.
 	* SFEpython-zope-interface.spec:  Add SFEpython-setuptools as

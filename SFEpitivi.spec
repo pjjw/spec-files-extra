@@ -12,11 +12,11 @@ Version:                 0.11.1
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/pitivi/0.11/pitivi-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
-BuildRequires:		 SFEgnonlin
-BuildRequires:		 SFEgnome-python-extras
-BuildRequires:		 SFEgst-python
-Requires:                SFEzope-interface
-Requires: 	         SFEsetuptools
+BuildRequires:           SFEgnonlin
+BuildRequires:           SFEgnome-python-extras
+BuildRequires:           SFEgst-python
+Requires:                SFEpython-zope-interface
+Requires:                SFEpython-setuptools
 
 %include default-depend.inc
 
@@ -32,8 +32,8 @@ Requires:                %{name}
 %setup -q -n pitivi-%version
 
 %build
-./configure --prefix=%{_prefix}	\
-	    --enable-gstreamer
+./configure --prefix=%{_prefix} \
+            --enable-gstreamer
 make
 
 %install

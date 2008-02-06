@@ -1,0 +1,63 @@
+--- PolicyKit-0.7/configure.in-orig	2008-02-06 01:23:37.911792000 -0600
++++ PolicyKit-0.7/configure.in	2008-02-06 01:24:16.554869000 -0600
+@@ -288,6 +288,43 @@ AM_CONDITIONAL(POLKIT_AUTHDB_DEFAULT, [t
+ 
+ 
+ dnl ---------------------------------------------------------------------------
++dnl - Check for dirfd
++dnl ---------------------------------------------------------------------------
++
++AC_MSG_CHECKING(for dirfd)
++AC_TRY_LINK([
++#include <sys/types.h>
++#include <dirent.h>
++],[
++DIR *dirp;
++dirp = opendir(".");
++dirfd(dirp);
++closedir(dirp);
++],
++dbus_have_dirfd=yes, dbus_have_dirfd=no)
++AC_MSG_RESULT($dbus_have_dirfd)
++if test "$dbus_have_dirfd" = yes; then
++        AC_DEFINE(HAVE_DIRFD,1,[Have dirfd function])
++else
++        AC_MSG_CHECKING(for DIR *dirp->dd_fd)
++        AC_TRY_LINK([
++#include <sys/types.h>
++#include <dirent.h>
++        ],[
++DIR *dirp;
++int fd;
++dirp = opendir(".");
++fd = dirp->dd_fd;
++closedir(dirp);
++        ],
++        dbus_have_ddfd=yes, dbus_have_ddfd=no)
++        AC_MSG_RESULT($dbus_have_ddfd)
++        if test "$dbus_have_ddfd" = yes; then
++                AC_DEFINE(HAVE_DDFD,1,[Have the ddfd member of DIR])
++        fi
++fi
++
++dnl ---------------------------------------------------------------------------
+ dnl - Check for PAM
+ dnl ---------------------------------------------------------------------------
+ 
+--- PolicyKit-0.7/src/polkit-dbus/polkit-read-auth-helper.c-orig	2008-02-06 01:22:30.289636000 -0600
++++ PolicyKit-0.7/src/polkit-dbus/polkit-read-auth-helper.c	2008-02-06 01:20:42.957310000 -0600
+@@ -167,7 +171,14 @@ dump_auths_all (const char *root)
+                 goto out;
+         }
+ 
++#if defined(HAVE_DIRFD)
+         dfd = dirfd (dir);
++#elif defined(HAVE_DDFD)
++        dfd = dir->dd_fd;
++#else
++        dfd = dir->__dd_fd;
++#endif
++
+         if (dfd == -1) {
+                 fprintf (stderr, "polkit-read-auth-helper: error calling dirfd(): %m\n");
+                 goto out;

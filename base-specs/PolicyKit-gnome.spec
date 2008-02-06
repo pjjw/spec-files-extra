@@ -108,7 +108,12 @@ autoheader
 autoconf
 automake
 ./configure \
-	--prefix=/usr
+        --prefix=%{_prefix} \
+        --libdir=%{_libdir} \
+        --libexecdir=%{_libdir} \
+        --sysconfdir=%{_sysconfdir} \
+        --localstatedir=%{_localstatedir} \
+        --mandir=%{_mandir}
 make
 
 %install
@@ -155,38 +160,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/polkit-gnome-example
 %{_datadir}/PolicyKit/policy/polkit-gnome-example.policy
 
-%define date	%(echo `LC_ALL="C" date +"%a %b %d %Y"`)
 %changelog
-* %{date} PLD Team <feedback@pld-linux.org>
-All persons listed below can be reached at <cvs_login>@pld-linux.org
+* Wed Feb 06 2008 - brian.cameron@sun.com
+- Cleanup
+* Sat Feb 02 2008 - jim.li@sun.com
+- Created.
 
-$Log: PolicyKit-gnome.spec,v $
-Revision 1.9  2008-01-06 00:13:41  megabajt
-- run ldconfig in %post / %postun
-
-Revision 1.8  2008-01-04 01:52:56  qboosh
-- added link patch, fixed files
-- release 1
-
-Revision 1.7  2007-12-16 03:44:14  qboosh
-- up to 0.7 (not tested)
-
-Revision 1.6  2007-10-30 21:48:02  qboosh
-- updated pl (lazy developers :/)
-
-Revision 1.5  2007/10/17 13:37:13  megabajt
-- added demo subpackage and TODO
-- release 1
-
-Revision 1.4  2007/10/13 20:48:07  megabajt
-- updated to 0.6
-- release 0.1 NFY
-
-Revision 1.3  2007/09/08 16:07:56  patrys
-- 0.5
-
-Revision 1.2  2007/09/08 13:48:37  qboosh
-- updated Source URL
-
-Revision 1.1  2007/07/07 23:24:13  qboosh
-- new
