@@ -1,0 +1,13 @@
+--- lbreakout2-2.6beta-7/server/server.c.orig	2008-02-06 18:34:09.027505519 +0530
++++ lbreakout2-2.6beta-7/server/server.c	2008-02-06 18:35:56.266112935 +0530
+@@ -21,6 +21,10 @@
+ #include "server.h"
+ #include "server_game.h"
+ 
++#if defined(ENABLE_NLS) && (defined(__sun) || defined(sun))
++#include <locale.h>
++#endif
++
+ /***** EXTERNAL VARIABLES **************************************************/
+ 
+ extern int net_buffer_cur_size, msg_read_pos;

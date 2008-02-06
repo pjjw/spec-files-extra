@@ -1,3 +1,9 @@
+2008-02-06 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFElbreakout2.spec:
+	* patches/lbreakout2-01-locale.diff:
+	* ext-sources/lbreakout2.desktop:
+	  Add LBreakout2 second generation LBreakout game.
+
 2008-02-06 Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEpolicykit.spec: Rename from SFEPolicyKit.spec.  Now this

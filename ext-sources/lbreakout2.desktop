@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Encoding=UTF-8
+Name=LBreakout2
+Name[en]=LBreakout2
+GenericName=A Brickout Clone
+GenericName[en]=A Brickout Clone
+Comment=A much enhanced Brickout Clone
+Comment[en]=A much enhanced Brickout Clone
+Icon=lbreakout2.png
+Exec=lbreakout2
+Terminal=false
+StartupNotify=false
+Categories=Application;Game;ArcadeGame
