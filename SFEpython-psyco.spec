@@ -11,7 +11,7 @@
 Name:                   SFEpython-psyco
 Summary:                A extension module which can massively speed up the execution of any Python code
 URL:                    http://psyco.sourceforge.net
-Version:                1.5.2
+Version:                1.6
 Source:                 %{src_url}/%{src_name}-%{version}-src.tar.gz
 Patch1:                 psyco-01-inline.diff
 SUNW_BaseDir:           %{_basedir}
@@ -51,5 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{python_version}/vendor-packages/psyco
 
 %changelog
+* Wed Feb 06 2008 - Ananth Shrinivas <ananth@sun.com>
+- Bump to version 1.6
 * Sun Oct 14 2007 - Ananth Shrinivas <ananth@sun.com>
 - Initial Version

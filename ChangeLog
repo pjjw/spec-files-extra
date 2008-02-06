@@ -1,3 +1,7 @@
+2008-02-06 Ananth Shrinivas <ananth@sun.com>
+	* SFEsudo.spec: Bump to version 1.6.9p12
+	* SFEpython-psyco.spec: Bump to version 1.6
+
 2008-02-06 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEmikmod.spec:
 	  Add interactive text based module player based on libmikmod.
