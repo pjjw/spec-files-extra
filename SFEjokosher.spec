@@ -12,6 +12,7 @@ Summary:	Jokosher is a multi-track studio application
 Version:	0.9
 URL:		http://jokosher.org
 Source0:	http://www.jokosher.org/downloads/source/jokosher-%{version}.tar.gz
+Patch1:         jokosher-01-fixdesktop.diff
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/jokosher-%{version}-build
 Requires:	SUNWgnome-python-libs
@@ -38,6 +39,7 @@ Requires:                %{name}
 
 %prep
 %setup -q -n jokosher-%version
+%patch1 -p1
 
 %build
 python setup.py build
@@ -126,6 +128,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Thu Feb 07 2008 - brian.cameron@sun.com.
+- Add jokosher-01-fixdesktop.diff file so package builds.
 * Wed Nov 14 2007 - daymobrew@users.sourceforge.net
 - Add l10n package.
 * Sat Sep 01 2007 - trisk@acm.jhu.edu

@@ -1,5 +1,10 @@
 2008-02-07 Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEjokosher.spec, patches/jokosher-01-fixdesktop.diff:  Fix
+	  desktop file so package installs.
+
+2008-02-07 Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEsetuptools.spec: Remove duplicate spec.
 	* SFEpython-setuptools.spec: Make some improvements based on
 	  the other spec.file.
