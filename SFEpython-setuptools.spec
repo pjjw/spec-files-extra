@@ -10,7 +10,7 @@
 %include Solaris.inc
 
 Name:            SFE%{name}
-Summary:         Python Distutils Enhancements
+Summary:         Download, build, install, upgrade, and uninstall Python packages easily
 URL:             http://peak.telecommunity.com/DevCenter/setuptools
 Version:         %{version}
 Source0:         http://cheeseshop.python.org/packages/source/s/%{oname}/%{oname}-%{version}.tar.gz
@@ -21,9 +21,6 @@ BuildRequires:   SUNWPython-devel
 %include default-depend.inc
 
 %define pythonver 2.4
-
-%description
-Extensions to python-distutils for large or complex distributions.
 
 %prep
 %setup -q -n %oname-%version

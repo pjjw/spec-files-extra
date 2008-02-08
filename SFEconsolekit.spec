@@ -102,6 +102,10 @@ rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 rm $RPM_BUILD_ROOT%{_libdir}/lib*.la
 
+# Create needed log directory.
+mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/log/ConsoleKit
+touch $RPM_BUILD_ROOT%{_localstatedir}/log/ConsoleKit/history
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -128,7 +132,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_sysconfdir}/dbus-1
 %dir %attr (0755, root, bin) %{_sysconfdir}/dbus-1/system.d
 %{_sysconfdir}/dbus-1/system.d/ConsoleKit.conf
-%attr (0755, root, sys) %dir %{_localstatedir}
+%dir %attr (0755, root, sys) %dir %{_localstatedir}
+%dir %attr (0755, root, sys) %{_localstatedir}/log
+%dir %attr (0755, root, root) %{_localstatedir}/log/ConsoleKit
+%attr (0644, root, root) %{_localstatedir}/log/ConsoleKit/history
 %{_localstatedir}/run/*
 
 %files devel

@@ -1,19 +1,33 @@
+2008-02-07 Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEsetuptools.spec: Remove duplicate spec.
+	* SFEpython-setuptools.spec: Make some improvements based on
+	  the other spec.file.
+	* SFEconsolekit.spec: Create needed log directory with a touched
+	  history file.  Otherwise ConsoleKit creates one with the
+	  wrong permissions.  This should go away in the next CK release.
+	* SFEpitivi.spec: Fix comment.
+
 2008-02-07 Pradhap Devarajan <pradhap (at) gmail.com
+
         * SFEopenmotif.spec
           - OpenMotif is the publicly licensed version of Motif,
             the industry standard user interface toolkit for UNIX systems
 
 2008-02-06 Ananth Shrinivas <ananth@sun.com>
+
 	* SFEsudo.spec: Bump to version 1.6.9p12
 	* SFEpython-psyco.spec: Bump to version 1.6
 
 2008-02-06 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEmikmod.spec:
 	  Add interactive text based module player based on libmikmod.
 	* SFElibmikmod.spec:
 	  Remove hard dependency on oss from devel package.
 
 2008-02-06 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFElbreakout2.spec:
 	* patches/lbreakout2-01-locale.diff:
 	* ext-sources/lbreakout2.desktop:

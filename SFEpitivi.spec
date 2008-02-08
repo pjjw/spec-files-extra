@@ -74,7 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Thu Jan 10 2008 - irene.huang@sun.com
-- Add two new requirements: SFEsetuptools and 
+- Add two new requirements: SFEpython-setuptools and 
   SFEzope-interface
 * Fri Nov 30 2007 - brian.cameron@sun.com
 - Bump to 0.11.1
