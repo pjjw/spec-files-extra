@@ -60,6 +60,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{pythonver}/vendor-packages/site.py
 
 %changelog
+* Thu Feb 07 2008 Brian Cameron  <brian.cameron@sun.com>
+- Cleanup
 * Fri Oct 05 2007 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.6c7
 * Tue Jul 10 2007 Brian Cameron  <brian.cameron@sun.com>

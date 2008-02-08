@@ -148,6 +148,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Feb 07 2008 - Brian.Cameron@sun.com
+- Add /var/log/ConsoleKit/history file to packaging.
 * Thu Jan 31 2008 - Brian.Cameron@sun.com
 - Bump to 0.2.7.  Remove two upstream patches added on January 25,
   2007.
