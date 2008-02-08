@@ -1,0 +1,70 @@
+--- openmotif-2.3.0/lib/Xm/Makefile.orig	Mon Apr  3 13:13:57 2006
++++ openmotif-2.3.0/lib/Xm/Makefile	Mon Apr  3 13:16:16 2006
+@@ -103,7 +103,7 @@
+ 	Picture.c DataFSel.c DataF.c MultiList.c I18List.c Paned.c \
+ 	FontS.c IconBox.c IconButton.c xmlist.c Hierarchy.c Outline.c \
+ 	TabBox.c TabList.c TabStack.c DrawUtils.c Tree.c DropDown.c \
+-	XmStrDefs.ht XmStrDefs22.ht XmStrDefs23.ht XmStrDefsI.ht \
++	XmStrDefs.ht XmStrDefs21.ht XmStrDefs22.ht XmStrDefs23.ht XmStrDefsI.ht \
+ 	Jpeg.c Png.c
+ am__objects_1 = XmStrDefs.lo ArrowB.lo ArrowBG.lo BulletinB.lo \
+ 	CallbackI.lo CascadeB.lo CascadeBG.lo Command.lo CutPaste.lo \
+@@ -376,7 +376,7 @@
+              MultiList.c I18List.c Paned.c FontS.c IconBox.c IconButton.c xmlist.c \
+              Hierarchy.c Outline.c TabBox.c TabList.c TabStack.c \
+              DrawUtils.c Tree.c DropDown.c \
+-             XmStrDefs.ht XmStrDefs22.ht XmStrDefs23.ht XmStrDefsI.ht
++             XmStrDefs.ht XmStrDefs21.ht XmStrDefs22.ht XmStrDefs23.ht XmStrDefsI.ht
+ 
+ SLIDE_HDRS = SlideC.h SlideCP.h
+ SLIDE_SRCS = SlideC.c
+@@ -511,7 +511,7 @@
+         TextP.h         TextStrSoP.h    ToggleB.h       ToggleBG.h \
+         ToggleBGP.h     ToggleBP.h      Xm.h            XmP.h \
+         BaseClassP.h    ManagerP.h      PrimitiveP.h    GadgetP.h \
+-        XmStrDefs.h     XmStrDefs22.h   XmStrDefs23.h \
++        XmStrDefs.h     XmStrDefs21.ht  XmStrDefs22.h   XmStrDefs23.h \
+         VaSimpleP.h     VirtKeys.h      VirtKeysP.h \
+         ExtObjectP.h    Display.h       DisplayP.h      Screen.h \
+         ScreenP.h       ShellEP.h       VendorS.h       VendorSP.h \
+@@ -592,7 +592,7 @@
+         $(TIP_SRCS) $(EDITRES_SRCS) $(EXTRA_SRCS) $(JPEG_SRCS) $(PNG_SRCS)
+ 
+ EXTRA_libXm_la_SOURCES = $(SLIDE_SRCS) $(TIP_SRCS)
+-STRING_FILES = XmStrDefs.h XmStrDefs22.h XmStrDefs23.h XmStrDefsI.h XmStrDefs.c
++STRING_FILES = XmStrDefs.h XmStrDefs21.ht XmStrDefs22.h XmStrDefs23.h XmStrDefsI.h XmStrDefs.c
+ BUILT_SOURCES = $(STRING_FILES) $(CAT_FILES)
+ #CAT_FILES = Xm.cat XmMsgCatI.h
+ all: $(BUILT_SOURCES) Xm.h
+@@ -1127,6 +1127,7 @@
+ $(STRING_FILES): Makefile $(XMSTRING_LIST) XmStrDefs.ht XmStrDefsI.ht XmStrDefs.ct $(top_builddir)/config/util/makestrs
+ 	test -f $(XMSTRING_LIST) || $(LN_S) $(srcdir)/$(XMSTRING_LIST) $(XMSTRING_LIST)
+ 	test -f XmStrDefs.ht || $(LN_S) $(srcdir)/XmStrDefs.ht XmStrDefs.ht
++	test -f XmStrDefs21.ht || $(LN_S) $(srcdir)/XmStrDefs21.ht XmStrDefs21.ht
+ 	test -f XmStrDefs22.ht || $(LN_S) $(srcdir)/XmStrDefs22.ht XmStrDefs22.ht
+ 	test -f XmStrDefs23.ht || $(LN_S) $(srcdir)/XmStrDefs23.ht XmStrDefs23.ht
+ 	test -f XmStrDefsI.ht || $(LN_S) $(srcdir)/XmStrDefsI.ht XmStrDefsI.ht
+--- openmotif-2.3.0/lib/Xm/xmstring.list.orig	Mon Apr  3 13:13:08 2006
++++ openmotif-2.3.0/lib/Xm/xmstring.list	Mon Apr  3 13:13:40 2006
+@@ -1289,8 +1289,11 @@
+ NframeChildType
+ CFrameChildType
+ 
++#file XmStrDefs21.h
+ #table _XmStrings21
++#htmpl XmStrDefs21.ht
+ 
++
+ NtextField
+ CTextField
+ NenableThinThickness
+--- openmotif-2.3.0/lib/Xm/Xm.h.orig	Mon Apr  3 13:19:15 2006
++++ openmotif-2.3.0/lib/Xm/Xm.h	Mon Apr  3 13:19:28 2006
+@@ -75,6 +75,7 @@
+ #include <X11/Xatom.h>
+ #include <X11/extensions/Print.h>
+ #include <Xm/XmStrDefs.h>
++#include <Xm/XmStrDefs21.h>
+ #include <Xm/XmStrDefs22.h>
+ #include <Xm/XmStrDefs23.h>
+ #include <Xm/VirtKeys.h>

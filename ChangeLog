@@ -1,3 +1,14 @@
+2008-02-08 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEopenmotif.spec:
+	* ext-sources/XmStrDefs21.ht:
+	* patches/openmotif-02-compatibility.diff:
+	  Rework to add compatibility with Solaris Motif.
+	  Add devel package.
+	  Change install prefix to /usr/X11
+	  Update dependencies.
+	* SFEtop.spec:
+	  Added Unix Top.
+
 2008-02-07 Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEjokosher.spec, patches/jokosher-01-fixdesktop.diff:  Fix
