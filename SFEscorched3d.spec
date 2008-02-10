@@ -11,6 +11,8 @@ Name:                    SFEscorched3d
 Summary:                 A 3D game based on the classic DOS game, Scorched Earth
 Version:                 41.3
 Source:                  http://downloads.sourceforge.net/scorched3d/Scorched3D-%{version}-src.tar.gz
+Source1:                 scorched3d.png
+Source2:                 scorched3d.desktop
 Patch1:                  scorched3d-01-securid.diff
 
 SUNW_BaseDir:            %{_basedir}
@@ -68,6 +70,13 @@ make -j$CPUS
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
 
+mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/pixmaps
+mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/applications
+
+cp %{SOURCE1} ${RPM_BUILD_ROOT}%{_datadir}/pixmaps
+cp %{SOURCE2} ${RPM_BUILD_ROOT}%{_datadir}/applications
+
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -75,6 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
+
+%defattr (-, root, other)
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/*
 

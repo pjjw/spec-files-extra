@@ -1,4 +1,10 @@
 2008-02-10 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEscorched3d.spec:
+	* ext-sources/scorched3d.desktop:
+	* ext-sources/scorched3d.png:
+	  Add Desktop entry for Scorched3D.
+
+2008-02-10 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEnicdrv.spec:
 	* patches/nicdrv-03-tu.diff:
 	* patches/nicdrv-02-rf.diff:
