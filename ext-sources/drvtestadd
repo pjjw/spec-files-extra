@@ -1,0 +1,76 @@
+#
+# CDDL HEADER START
+#
+# The contents of this file are subject to the terms of the
+# Common Development and Distribution License (the "License").
+# You may not use this file except in compliance with the License.
+#
+# You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+# or http://www.opensolaris.org/os/licensing.
+# See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL HEADER in each
+# file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+# If applicable, add the following below this CDDL HEADER, with the
+# fields enclosed by brackets "[]" replaced with your own identifying
+# information: Portions Copyright [yyyy] [name of copyright owner]
+#
+# CDDL HEADER END
+#
+#
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+DEVLIST=""
+count=0
+BASEDIR_OPT=""
+
+if [ "${BASEDIR:=/}" != "/" ]
+then
+	BASEDIR_OPT="-b $BASEDIR"
+fi
+
+test_get_dev_list() {
+	DEVLIST="'"
+	for i in "$@"
+	do
+		grep $i /etc/driver_aliases > /dev/null
+		if [ $? -ne 0 ]
+		then
+			DEVLIST="${DEVLIST}$i "
+		else
+			count=`expr $count + 1`
+		fi
+	done
+	DEVLIST="${DEVLIST}'"
+}
+
+cmd=""
+check_add_drv() {
+	cmd="/usr/sbin/add_drv ${BASEDIR_OPT} "
+	arg="$@"
+	if [ "$DEVLIST" != "''" ]
+	then
+		drv=$7
+		if [ $count -gt 0 ]
+		then
+			grep "$drv " ${BASEDIR:=/}/etc/driver_aliases > /dev/null
+			if [ $? -eq 0 ]
+			then
+				echo $arg > /tmp/cnt
+				cmd="/usr/sbin/update_drv ${BASEDIR_OPT} -a "
+				line=`sed 's/\-n//' /tmp/cnt`
+				cmd="${cmd} ${line}"
+			else
+				cmd="${cmd} ${arg}"
+			fi
+		else
+			cmd="${cmd} ${arg}"
+		fi
+		eval ${cmd}
+	else
+		echo "WARNING: Driver not added as all device aliases in use"
+	fi
+}

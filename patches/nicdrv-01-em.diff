@@ -1,0 +1,33 @@
+--- em-2.4.0/adddrv.sh.orig	2008-02-09 16:26:28.841459737 +0530
++++ em-2.4.0/adddrv.sh	2008-02-09 16:27:21.567595161 +0530
+@@ -62,28 +62,10 @@
+ set DEVLIST = ( $DEVLIST '"pci8086,10c5"' )	# ICH8 IFE G
+ set DEVLIST = ( $DEVLIST '"pci8086,104d"' )	# ICH8 IGP M
+ 
+-#echo $DEVLIST
+-
+-set DEVLIST2 = ( )
+-foreach i ($DEVLIST)
+-	set pcidev = `grep $i /etc/driver_aliases`
+-#	echo $pcidev
+-	if ("$pcidev" == "") then
+-		set DEVLIST2 = ( $DEVLIST2 "$i" )
+-	endif
+-end
+-
+-#echo $DEVLIST2
+-
+-if ("$DEVLIST2" == "") then
+-	echo nothing to do.
+-	exit 1
+-endif
+-
+ set existing = `grep "^em " /etc/driver_aliases`
+ if ("$existing" == "") then
+-	/usr/sbin/add_drv -n -v -m '* 0600 root sys' -i "$DEVLIST2" em
++	/usr/sbin/add_drv -n -v -m '* 0600 root sys' -i "$DEVLIST" em
+ else
+-	/usr/sbin/update_drv -a -v -m '* 0600 root sys' -i "$DEVLIST2" em
++	/usr/sbin/update_drv -a -v -m '* 0600 root sys' -i "$DEVLIST" em
+ endif
+ sync

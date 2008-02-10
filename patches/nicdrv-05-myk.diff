@@ -1,0 +1,32 @@
+--- myk-2.5.0/adddrv.sh.orig	2008-02-09 23:56:32.588167663 +0530
++++ myk-2.5.0/adddrv.sh	2008-02-09 23:57:21.818166028 +0530
+@@ -25,28 +25,5 @@
+ set DEVLIST = ( $DEVLIST '"pciex11ab,4362"' )
+ set DEVLIST = ( $DEVLIST '"pciex11ab,4363"' )
+ 
+-#echo $DEVLIST
+-
+-set DEVLIST2 = ( )
+-foreach i ($DEVLIST)
+-	set pcidev = `grep $i /etc/driver_aliases`
+-	echo $pcidev
+-	if ("$pcidev" == "") then
+-		set DEVLIST2 = ( $DEVLIST2 "$i" )
+-	endif
+-end
+-
+-#echo $DEVLIST2
+-if ("$DEVLIST2" == "") then
+-	echo nothing to do.
+-	exit 1
+-endif
+-
+-set existing = `grep "myk " /etc/driver_aliases`
+-echo $existing
+-if ("$existing" == "") then
+-	/usr/sbin/add_drv -n -v -m '* 0600 root sys' -i "$DEVLIST2" myk
+-else 
+-	/usr/sbin/update_drv -a -v -m '* 0600 root sys' -i "$DEVLIST2" myk
+-endif
++/usr/sbin/add_drv -n -v -m '* 0600 root sys' -i "$DEVLIST" myk
+ sync

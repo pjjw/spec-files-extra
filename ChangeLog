@@ -1,3 +1,23 @@
+2008-02-10 Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEnicdrv.spec:
+	* patches/nicdrv-03-tu.diff:
+	* patches/nicdrv-02-rf.diff:
+	* patches/nicdrv-07-tcfe.diff:
+	* patches/nicdrv-01-em.diff:
+	* patches/nicdrv-04-gani.diff:
+	* patches/nicdrv-06-ife.diff:
+	* patches/nicdrv-05-myk.diff:
+	* ext-sources/etc_system:
+	* ext-sources/build_add_drv:
+	* ext-sources/drvrm:
+	* ext-sources/drvtestadd:
+	  Add SPEC to generate packages for Masayuki Murayama's network drivers.
+	* SFEscorched3d.spec:
+	* patches/scorched3d-01-securid.diff:
+	  Add SPEC for the Scorched3D game.
+	* SFEsharutils.spec:
+	  Add GNU Sharutils.
+
 2008-02-10 Ananth Shrinivas <ananth@sun.com>
 
 	* SFEmatplotlib.spec: A plotting library for Python

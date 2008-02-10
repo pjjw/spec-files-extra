@@ -1,0 +1,38 @@
+--- scorched/src/net/SecureID.cpp.orig	2008-02-10 19:32:09.798176874 +0530
++++ scorched/src/net/SecureID.cpp	2008-02-10 19:49:01.902395952 +0530
+@@ -36,6 +36,10 @@
+ 
+ #else
+ 
++#if defined(__sun) || defined (__sun__)
++#include <sys/sockio.h>
++#endif
++
+ #include <sys/ioctl.h>
+ #include <net/if.h>
+ 
+@@ -73,7 +77,12 @@
+ 	if_freenameindex(NameList); //free the memory
+ 
+ 	strcpy (dev.ifr_name, InterfaceName.c_str()); //select from the name
++
++#if defined(__sun) || defined (__sun__)
++	if (ioctl(sock, SIOCGENADDR, &dev) < 0) //get the interface data
++#else
+ 	if (ioctl(sock, SIOCGIFHWADDR, &dev) < 0) //get the interface data
++#endif
+ 	{
+ 		close(sock);
+ 		return ""; //cannot list the interfaces
+@@ -81,7 +90,11 @@
+ 
+     for (int i=0; i<6; i++)
+     {
++#if defined(__sun) || defined (__sun__)
++	Key += (((unsigned int)dev.ifr_ifru.ifru_enaddr[i])&255);
++#else
+         Key += (((unsigned int)dev.ifr_hwaddr.sa_data[i])&255);
++#endif
+         if (i != 5) Key += ':';
+     }
+ 	close(sock);
