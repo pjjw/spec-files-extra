@@ -79,7 +79,9 @@ intltoolize --force --copy --automake
 aclocal $ACLOCAL_FLAGS -I m4
 automake -a -c -f
 autoconf
-./configure --prefix=%{_prefix}
+./configure \
+    --prefix=%{_prefix} \
+    --disable-scrollkeeper
 make prefix=%{_prefix} -j$CPUS 
 
 %install
@@ -128,6 +130,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Feb 11 2008 - laca@sun.com
+- add --disable-scrollkeeper configure option
 * Thu Nov 15 2007 - daymobrew@users.sourceforge.net
 - Add support for Indiana builds.
 * Wed Oct 17 2007 - laca@sun.com

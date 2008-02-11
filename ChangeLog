@@ -1,3 +1,8 @@
+2008-02-11  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEgimpfx-foundry.spec: (new) a bunch of useful gimp add-ons
+	* SFEgnome-commander.spec: add --disable-scrollkeeper configure option
+
 2008-02-10 Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEscorched3d.spec:
 	* ext-sources/scorched3d.desktop:
