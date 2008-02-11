@@ -12,8 +12,8 @@ License:             GPL
 Summary:             A library that allows access to Microsoft Word files (series 2)
 Version:             0.2.3
 URL:                 http://wvware.sourceforge.net/
-Source:              http://jaist.dl.sourceforge.net/sourceforge/wvware/wv2-%{version}.tar.bz2
-Source1:             http://jaist.dl.sourceforge.net/sourceforge/wvware/word_helper.h.diff
+Source:              %{sf_download}/wvware/wv2-%{version}.tar.bz2
+Source1:             %{sf_download}/wvware/word_helper.h.diff
 ## owner:halton date:2007-09-18 bugid:11195 type:bug
 #Patch1:              wv-01-solaris-iconv.diff
 ## owner:halton date:2007-09-18 bugid:11196 type:bug

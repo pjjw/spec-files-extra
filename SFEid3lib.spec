@@ -9,7 +9,7 @@
 Name:                    SFEid3lib
 Summary:                 id3lib  - a software library for manipulating ID3v1/v1.1 and ID3v2 tags
 Version:                 3.8.3
-Source:                  http://nchc.dl.sourceforge.net/sourceforge/id3lib/id3lib-%{version}.tar.gz
+Source:                  %{sf_download}/id3lib/id3lib-%{version}.tar.gz
 Patch1:                  id3lib-01-wall.diff
 Patch2:                  id3lib-02-uchar.diff
 SUNW_BaseDir:            %{_basedir}

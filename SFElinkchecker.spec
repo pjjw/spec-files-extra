@@ -5,7 +5,7 @@
 Name:                SFElinkchecker
 Summary:             URL link checker
 Version:             4.6
-Source:              http://superb-east.dl.sourceforge.net/sourceforge/linkchecker/linkchecker-4.6.tar.gz
+Source:              %{sf_download}/linkchecker/linkchecker-4.6.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

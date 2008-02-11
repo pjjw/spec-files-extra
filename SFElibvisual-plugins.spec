@@ -12,7 +12,7 @@ Name:                   SFElibvisual-plugins
 Summary:                Visualization plugins for the Libvisual library
 Version:                0.4.0
 URL:                    http://localhost.nl/~synap/libvisual-wiki/index.php/Main_Page
-Source:                 http://nchc.dl.sourceforge.net/sourceforge/libvisual/libvisual-plugins-%{version}.tar.bz2
+Source:                 %{sf_download}/libvisual/libvisual-plugins-%{version}.tar.bz2
 
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build

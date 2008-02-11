@@ -12,7 +12,7 @@
 Name:                    SFEperl-gtk2-sourceview
 Summary:                 Gtk2-SourceView-%{tarball_version} PERL module for GtkSourceView widget.
 Version:                 %{perl_version}.%{tarball_version}
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/gtk2-perl/Gtk2-SourceView-%{tarball_version}.tar.gz
+Source:                  %{sf_download}/gtk2-perl/Gtk2-SourceView-%{tarball_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

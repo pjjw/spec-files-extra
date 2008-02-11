@@ -8,7 +8,7 @@
 Name:                    SFEdvdauthor
 Summary:                 dvdauthor a program that will generate a DVD movie
 Version:                 0.6.11
-Source:                  http://nchc.dl.sourceforge.net/sourceforge/dvdauthor/dvdauthor-%{version}.tar.gz
+Source:                  %{sf_download}/dvdauthor/dvdauthor-%{version}.tar.gz
 Patch1:			 dvdauthor-01-types.diff
 Patch2:			 dvdauthor-02-wall.diff
 Patch3:			 dvdauthor-03-typo.diff

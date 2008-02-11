@@ -8,7 +8,7 @@
 Name:                SFEtk
 Summary:             Tk - TCL GUI Toolkit
 Version:             8.4.16
-Source:              http://prdownloads.sourceforge.net/tcl/tk%{version}-src.tar.gz
+Source:              %{sf_download}/tcl/tk%{version}-src.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

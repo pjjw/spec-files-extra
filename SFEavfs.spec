@@ -8,7 +8,7 @@
 Name:                SFEavfs
 Summary:             Library for accessing virtual files (compressed, archived, remote, etc)
 Version:             0.9.7
-Source:              http://%{sf_mirror}/sourceforge/avf/avfs-%{version}.tar.bz2
+Source:              %{sf_download}/avf/avfs-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

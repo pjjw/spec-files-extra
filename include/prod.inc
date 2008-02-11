@@ -19,6 +19,8 @@ Vendor:			   http://pkgbuild.sf.net/spec-files-extra
 %define                    pkg_prefix SFE
 %{?sf_mirror:#}%define sf_mirror easynews.dl.sourceforge.net
 
+%{?sf_download:#}%define sf_download http://downloads.sourceforge.net
+
 # ChangeLog:
 # 2007-03-16  Laszlo (Laca) Peter  <laca@sun.com>
 # - copied from the JDS spec-files and updated for SFE

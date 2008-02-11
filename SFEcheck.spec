@@ -8,7 +8,7 @@
 Name:                    SFEcheck
 Summary:                 Check - An unit testing framework for C
 Version:                 0.9.5
-Source:                  http://internap.dl.sourceforge.net/sourceforge/check/check-%{version}.tar.gz
+Source:                  %{sf_download}/check/check-%{version}.tar.gz
 Patch1:                  check-01-suncc-define.diff
 Patch2:                  check-02-suncc-fail.diff
 URL:                     http://check.sourceforge.net/

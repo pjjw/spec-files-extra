@@ -12,7 +12,7 @@ Name:                   SFElibvisual
 Summary:                Libvisual provides a convenient API for writing visualization plugins
 Version:                0.4.0
 URL:                    http://localhost.nl/~synap/libvisual-wiki/index.php/Main_Page
-Source:                 http://jaist.dl.sourceforge.net/sourceforge/libvisual/libvisual-%{version}.tar.bz2
+Source:                 %{sf_download}/libvisual/libvisual-%{version}.tar.bz2
 Patch1:                 libvisual-01-lv_types.diff
 
 SUNW_BaseDir:           %{_basedir}

@@ -8,7 +8,7 @@
 Name:                SFEkdiff3
 Summary:             Qt based diff -- compares or merges 2 or 3 files or directories
 Version:             0.9.91
-Source:              http://superb-west.dl.sourceforge.net/sourceforge/kdiff3/kdiff3-%{version}.tar.gz
+Source:              %{sf_download}/kdiff3/kdiff3-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

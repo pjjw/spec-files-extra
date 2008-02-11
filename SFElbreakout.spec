@@ -7,7 +7,7 @@
 Name:                    SFElbreakout
 Summary:                 LBreakout is a breakout-style arcade game in the manner of Arkanoid.
 Version:                 010315
-Source:                  http://prdownloads.sourceforge.net/lgames/lbreakout-%{version}.tar.gz
+Source:                  %{sf_download}/lgames/lbreakout-%{version}.tar.gz
 URL:                     http://lgames.sourceforge.net/index.php?project=LBreakout
 #SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build

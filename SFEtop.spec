@@ -12,7 +12,7 @@ License:             BSD Style
 Summary:             Top is a Unix utility that provides a rolling display of top cpu using processes
 Version:             3.7beta4
 URL:                 http://www.unixtop.org/
-Source:              http://downloads.sourceforge.net/unixtop/top-%{version}.tar.gz
+Source:              %{sf_download}/unixtop/top-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

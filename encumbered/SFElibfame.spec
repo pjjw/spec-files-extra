@@ -8,7 +8,7 @@
 Name:                    SFElibfame
 Summary:                 libfame  - a library for fast (real-time) MPEG video encoding
 Version:                 0.9.1
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/fame/libfame-%{version}.tar.gz
+Source:                  %{sf_download}/fame/libfame-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

@@ -12,7 +12,7 @@ License:      GPL
 Group:        System/GUI/GNOME
 Version:      0.4.0
 Release:      1
-Source:       http://kent.dl.sourceforge.net/sourceforge/gtkpod/libgpod-%{version}.tar.gz
+Source:       %{sf_download}/gtkpod/libgpod-%{version}.tar.gz
 #this is a workaround, for people using gcc which doesn't not support 
 #visibility attribute. the final solution is to change the G_GNUC_INTERNAL macro
 #definition in glib.

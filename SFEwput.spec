@@ -8,7 +8,7 @@
 Name:                SFEwput
 Summary:             File uploader with wget-like CLI interface
 Version:             0.5
-Source:              http://prdownloads.sourceforge.net/wput/wput-%{version}.tgz
+Source:              %{sf_download}/wput/wput-%{version}.tgz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

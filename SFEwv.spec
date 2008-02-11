@@ -14,7 +14,7 @@ License:             GPL
 Summary:             A library that allows access to Microsoft Word files
 Version:             1.2.4
 URL:                 http://wvware.sourceforge.net/
-Source:              http://easynews.dl.sourceforge.net/sourceforge/wvware/wv-%{version}.tar.gz
+Source:              %{sf_download}/wvware/wv-%{version}.tar.gz
 # owner:halton date:2007-09-18 bugid:11195 type:bug
 Patch1:              wv-01-solaris-iconv.diff
 # owner:halton date:2007-09-18 bugid:11196 type:bug

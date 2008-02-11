@@ -12,7 +12,7 @@ License:             GPL
 Summary:             NTFS Filesystems Utilities with full read-write support
 Version:             2.0.0
 URL:                 http://www.linux-ntfs.org/doku.php
-Source:              http://nchc.dl.sourceforge.net/sourceforge/linux-ntfs/ntfsprogs-%{version}.tar.bz2
+Source:              %{sf_download}/linux-ntfs/ntfsprogs-%{version}.tar.bz2
 Patch1:              ntfsprogs-01-ntfsclone.diff
 Patch2:              ntfsprogs-02-libntfs.diff
 

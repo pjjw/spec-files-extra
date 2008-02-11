@@ -9,7 +9,7 @@ Name:                    SFEwxSVG
 Summary:                 wxGTK a C++ library to create, manipulate and render SVG files
 Version:                 1.0.0.7
 %define tarball_version 1.0b7
-Source:                  http://nchc.dl.sourceforge.net/sourceforge/wxsvg/wxsvg-%{tarball_version}_1.tar.gz
+Source:                  %{sf_download}/wxsvg/wxsvg-%{tarball_version}_1.tar.gz
 Patch1:			 wxsvg-01-sqrt.diff
 Patch2:                  wxsvg-02-pango-deprecated.diff
 Patch3:                  wxsvg-03-1586173-append-void.diff

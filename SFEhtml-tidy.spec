@@ -33,7 +33,7 @@ Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	W3C license
 Group:          Application/Web
-Source:	        http://tidy.sourceforge.net/src/old/%{src_name}_src_%{src_version}.tgz
+Source:	        %{sf_download}/src/old/%{src_name}_src_%{src_version}.tgz
 Patch:        	tidy-01-051026.diff
 Vendor:       	Dave Raggett
 URL:            http://tidy.sourceforge.net

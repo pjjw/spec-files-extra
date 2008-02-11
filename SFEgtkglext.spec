@@ -29,7 +29,7 @@ Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	LGPL
 #Group:          
-Source:         http://%{sf_mirror}/sourceforge/gtkglext/%{src_name}-%{version}.tar.bz2
+Source:         %{sf_download}/gtkglext/%{src_name}-%{version}.tar.bz2
 Vendor:       	http://gtkglext.sourceforge.net
 URL:            http://gtkglext.sourceforge.net
 Packager:     	Shivakumar GN

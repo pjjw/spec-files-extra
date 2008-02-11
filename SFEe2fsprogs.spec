@@ -12,7 +12,7 @@ License:             GPL
 Summary:             Ext2 Filesystems Utilities
 Version:             1.40.5
 URL:                 http://e2fsprogs.sourceforge.net/
-Source:              http://nchc.dl.sourceforge.net/sourceforge/e2fsprogs/e2fsprogs-%{version}.tar.gz
+Source:              %{sf_download}/e2fsprogs/e2fsprogs-%{version}.tar.gz
 Source1:             ext2fs.pc
 
 SUNW_BaseDir:        %{_basedir}

@@ -9,7 +9,7 @@ Name:                    SFEdvdstyler
 Summary:                 a dvd building application
 Version:                 1.5.0.7
 %define tarball_version  1.5b7
-Source:                  http://nchc.dl.sourceforge.net/sourceforge/dvdstyler/DVDStyler-%{tarball_version}.tar.gz
+Source:                  %{sf_download}/dvdstyler/DVDStyler-%{tarball_version}.tar.gz
 Patch1:                  dvdstyler-01-wxwidgets-2.8.diff
 Patch2:			 dvdstyler-02-libs.diff
 Patch3:			 dvdstyler-03-array.diff

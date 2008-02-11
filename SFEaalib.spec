@@ -9,7 +9,7 @@
 Name:                SFEaalib
 Summary:             An ASCII art gfx library.
 Version:             1.4.0
-Source:              http://superb-east.dl.sourceforge.net/sourceforge/aa-project/aalib-%{tarball_version}.tar.gz
+Source:              %{sf_download}/aa-project/aalib-%{tarball_version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

@@ -9,7 +9,7 @@ Name:                    SFEsourcenav
 Summary:                 sourcenav - source code analysis tool
 Version:                 5.2
 %define tarball_version  5.2b2
-Source:                  http://kent.dl.sourceforge.net/sourceforge/sourcenav/sourcenav-%{tarball_version}.tar.gz
+Source:                  %{sf_download}/sourcenav/sourcenav-%{tarball_version}.tar.gz
 URL:                     http://sourcenav.sourceforge.net/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build

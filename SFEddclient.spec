@@ -8,7 +8,7 @@
 Name:                SFEddclient
 Summary:             update dynamic DNS entries for accounts on dynamic DNS providers
 Version:             3.7.0
-Source:              http://%{sf_mirror}/sourceforge/ddclient/ddclient-%{version}.tar.bz2
+Source:              %{sf_download}/ddclient/ddclient-%{version}.tar.bz2
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

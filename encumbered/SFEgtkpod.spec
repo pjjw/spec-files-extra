@@ -12,7 +12,7 @@ License:      GPL
 Group:        System/GUI/GNOME
 Version:      0.99.8
 Release:      1
-Source:       http://kent.dl.sourceforge.net/sourceforge/gtkpod/gtkpod-%{version}.tar.gz
+Source:       %{sf_download}/gtkpod/gtkpod-%{version}.tar.gz
 URL:          http://www.gtkpod.org
 SUNW_BaseDir: %{_prefix}
 BuildRoot:    %{_tmppath}/gtkpod-%{version}-build

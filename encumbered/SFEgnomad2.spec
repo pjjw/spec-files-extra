@@ -30,7 +30,7 @@ Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	GPLv2 license
 Group:          Multimedia/Audio Manager
-Source:         http://jaist.dl.sourceforge.net/sourceforge/gnomad2/%{src_name}-%{version}.tar.gz
+Source:         %{sf_download}/gnomad2/%{src_name}-%{version}.tar.gz
 Requires: 	SFElibnjb
 Requires:	SFElibid3tag
 Requires:   SFElibnjb

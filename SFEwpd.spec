@@ -12,7 +12,7 @@ License:             LGPL
 Summary:             A library for import/export to WordPerfect files.
 Version:             0.8.13
 URL:                 http://libwpd.sourceforge.net/
-Source:              http://jaist.dl.sourceforge.net/sourceforge/libwpd/libwpd-%{version}.tar.gz
+Source:              %{sf_download}/libwpd/libwpd-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

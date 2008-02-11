@@ -12,7 +12,7 @@
 Name:                SFEettercap
 Summary:             MITM LAN attack prevention suite; includes graphical (gtk) support
 Version:             0.7.3
-Source:              http://%{sf_mirror}/sourceforge/ettercap/ettercap-NG-%{version}.tar.gz
+Source:              %{sf_download}/ettercap/ettercap-NG-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

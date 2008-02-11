@@ -9,7 +9,7 @@ Name:                    SFElibmad
 Summary:                 libmad  - a high-quality MPEG audio decoder
 Version:                 0.15.1.2
 %define tarball_version  0.15.1b
-Source:                  http://kent.dl.sourceforge.net/sourceforge/mad/libmad-%{tarball_version}.tar.gz
+Source:                  %{sf_download}/mad/libmad-%{tarball_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

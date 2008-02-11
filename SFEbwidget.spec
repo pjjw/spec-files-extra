@@ -12,7 +12,7 @@ License:             LGPL
 Summary:             A suite of megawidgets for Tk
 Version:             1.8.0
 URL:                 http://tcllib.sourceforge.net/
-Source:              http://nchc.dl.sourceforge.net/sourceforge/tcllib/BWidget-%{version}.tar.bz2
+Source:              %{sf_download}/tcllib/BWidget-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

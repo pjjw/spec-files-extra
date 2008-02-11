@@ -8,7 +8,7 @@
 Name:                SFEganglia
 Summary:             Ganglia cluster monitor, monitoring daemon
 Version:             3.0.3
-Source:              http://%{sf_mirror}/sourceforge/ganglia/ganglia-%{version}.tar.gz
+Source:              %{sf_download}/ganglia/ganglia-%{version}.tar.gz
 Patch1:              ganglia-01-solaris.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

@@ -22,7 +22,7 @@ Summary:      	libpng - reference library for use in applications that create an
 Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	http://www.libpng.org/pub/png/src/libpng-LICENSE.txt
-Source:         http://jaist.dl.sourceforge.net/sourceforge/%{src_name}/%{src_name}-%{version}.tar.bz2
+Source:         %{sf_download}/%{src_name}/%{src_name}-%{version}.tar.bz2
 URL:            http://www.libpng.org
 Packager:     	Shivakumar GN
 BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build

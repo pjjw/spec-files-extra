@@ -10,7 +10,7 @@ Summary:      Libmhash - uniform interface to several hash algorithms
 License:      Other
 Group:        System/Libraries
 Version:      0.9.8.1
-Source:       http://prdownloads.sourceforge.net/mhash/mhash-%{version}.tar.bz2
+Source:       %{sf_download}/mhash/mhash-%{version}.tar.bz2
 Url:          http://mhash.sf.net/ 
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build

@@ -8,7 +8,7 @@
 Name:                    SFEliferea
 Summary:                 Liferea - aggregator for online news feeds
 Version:                 1.0.15
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/liferea/liferea-%{version}.tar.gz
+Source:                  %{sf_download}/liferea/liferea-%{version}.tar.gz
 Patch1:                  liferea-01-tail-n.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build

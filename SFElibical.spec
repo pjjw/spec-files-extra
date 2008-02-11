@@ -11,7 +11,7 @@
 Name:                   SFElibical
 Summary:                Libical is an Open Source implementation of the IETF's iCalendar Calendaring and Scheduling protocols
 Version:                0.27
-Source:                 http://nchc.dl.sourceforge.net/sourceforge/freeassociation/libical-%{version}.tar.gz
+Source:                 %{sf_download}/freeassociation/libical-%{version}.tar.gz
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

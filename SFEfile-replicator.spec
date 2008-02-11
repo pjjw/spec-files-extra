@@ -9,7 +9,7 @@
 Name:                    SFEfile-replicator
 Summary:                 File-synchronization GUI tool
 Version:                 1.0
-Source:                  http://osdn.dl.sourceforge.net/sourceforge/filereplicator/file-replicator-%{version}.tar.bz2
+Source:                  %{sf_download}/filereplicator/file-replicator-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 URL:                     https://sourceforge.net/projects/filereplicator
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build

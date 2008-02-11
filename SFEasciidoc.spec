@@ -10,7 +10,7 @@ Name:                    SFEasciidoc
 Summary:                 AsciiDoc - Text based document generation
 Version:                 8.2.5
 URL:                     http://www.methods.co.nz/asciidoc/
-Source:                  http://%{sf_mirror}/sourceforge/asciidoc/asciidoc-%{version}.tar.gz
+Source:                  %{sf_download}/asciidoc/asciidoc-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

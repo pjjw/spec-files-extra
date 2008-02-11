@@ -8,7 +8,7 @@
 Name:                SFEmpg321
 Summary:             A fully free clone of mpg123, a command-line mp3 player
 Version:             0.2.10
-Source:              http://%{sf_mirror}/sourceforge/mpg321/mpg321-%{version}.tar.gz
+Source:              %{sf_download}/mpg321/mpg321-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

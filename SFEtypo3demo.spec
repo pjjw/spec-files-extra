@@ -8,7 +8,7 @@
 Name:                SFEtypo3demo
 Summary:             Typo 3 Demo Site - needed to start new installations
 Version:             4.1
-Source:              http://prdownloads.sourceforge.net/typo3/dummy-%{version}.tar.gz
+Source:              %{sf_download}/typo3/dummy-%{version}.tar.gz
 SUNW_BaseDir:        /
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

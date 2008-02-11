@@ -9,7 +9,7 @@
 Name:                SFEngrep
 Summary:             network grep -- regexp matching against packets
 Version:             1.44
-Source:              http://%{sf_mirror}/sourceforge/ngrep/ngrep-%{tarball_version}.tar.bz2
+Source:              %{sf_download}/ngrep/ngrep-%{tarball_version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

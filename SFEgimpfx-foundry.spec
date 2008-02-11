@@ -10,7 +10,7 @@
 Name:                SFEgimpfx-foundry
 Summary:             Cross-platform development framework/toolkit
 Version:             20071219
-Source:              http://optusnet.dl.sourceforge.net/sourceforge/gimpfx-foundry/gimpfx-foundry-%{version}.tar.bz2
+Source:              %{sf_download}/gimpfx-foundry/gimpfx-foundry-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

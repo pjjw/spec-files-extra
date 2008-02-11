@@ -8,7 +8,7 @@
 Name:                    SFEopencity
 Summary:                 opencity - OpenCity Game
 Version:                 0.0.4stable
-Source:                  http://nchc.dl.sourceforge.net/sourceforge/opencity/opencity-%{version}.tar.bz2
+Source:                  %{sf_download}/opencity/opencity-%{version}.tar.bz2
 Patch1:			 opencity-01-makefile.diff
 Patch2:			 opencity-02-homedir.diff
 SUNW_BaseDir:            %{_basedir}

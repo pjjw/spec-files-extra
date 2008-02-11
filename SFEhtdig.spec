@@ -13,7 +13,7 @@
 Name:                   SFEhtdig
 Summary:                HTML Indexing and Search engine
 Version:                3.2.0b6
-Source:                 http://htdig.sourceforge.net/files/htdig-%{version}.tar.gz
+Source:                 %{sf_download}/files/htdig-%{version}.tar.gz
 URL:                    http://www.htdig.org/
 Patch1:                 htdig-01-debian.diff
 

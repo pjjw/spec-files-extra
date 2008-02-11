@@ -8,7 +8,7 @@
 Name:                SFEtcl
 Summary:             Tcl - Tool Command Language
 Version:             8.4.16
-Source:              http://prdownloads.sourceforge.net/tcl/tcl%{version}-src.tar.gz
+Source:              %{sf_download}/tcl/tcl%{version}-src.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

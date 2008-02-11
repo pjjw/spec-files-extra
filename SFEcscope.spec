@@ -9,7 +9,7 @@ Name:                    SFEcscope
 License:                 BSD
 Summary:                 Cscope - interactive source code examiner
 Version:                 15.6
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/cscope/cscope-%{version}.tar.gz
+Source:                  %{sf_download}/cscope/cscope-%{version}.tar.gz
 URL:                     http://cscope.sourceforge.net/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build

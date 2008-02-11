@@ -8,7 +8,7 @@
 Name:                SFEgimp-texturize
 Summary:             Cross-platform development framework/toolkit
 Version:             2.0
-Source:              http://internap.dl.sourceforge.net/sourceforge/gimp-texturize/gimp-texturize-%{version}.tgz
+Source:              %{sf_download}/gimp-texturize/gimp-texturize-%{version}.tgz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

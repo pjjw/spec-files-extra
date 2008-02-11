@@ -17,7 +17,7 @@ License:      GPL
 Group:        System/Libraries
 Version:      1.1.8
 Summary:      xine-lib - the core engine of the xine video player
-Source:       http://easynews.dl.sourceforge.net/sourceforge/xine/xine-lib-%{version}.tar.bz2
+Source:       %{sf_download}/xine/xine-lib-%{version}.tar.bz2
 #Patch1:       xine-lib-01-sysi86.diff
 Patch2:       xine-lib-02-asm-pic.diff
 Patch3:       xine-lib-03-gettext.diff

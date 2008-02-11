@@ -8,7 +8,7 @@
 Name:                SFEntop
 Summary:             A network traffic usage monitor
 Version:             3.2
-Source:              http://%{sf_mirror}/sourceforge/ntop/ntop-%{version}.tgz
+Source:              %{sf_download}/ntop/ntop-%{version}.tgz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

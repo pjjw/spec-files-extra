@@ -12,7 +12,7 @@
 Name:                    SFEperl-gtk2-gladexml
 Summary:                 Gtk2-GladeXML-%{tarball_version} PERL Module for libglade
 Version:                 %{perl_version}.%{tarball_version}
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/gtk2-perl/Gtk2-GladeXML-%{tarball_version}.tar.gz
+Source:                  %{sf_download}/gtk2-perl/Gtk2-GladeXML-%{tarball_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

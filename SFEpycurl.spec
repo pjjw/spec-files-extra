@@ -11,7 +11,7 @@ Name:			SFEpycurl
 Summary:		Python interface to libcurl
 License:		LGPL
 Version:		7.15.5.1
-Source:			http://pycurl.sourceforge.net/download/pycurl-%{version}.tar.gz
+Source:			%{sf_download}/download/pycurl-%{version}.tar.gz
 Patch1:                 pycurl-01-source-opts.diff
 URL:			http://pycurl.sourceforge.net/
 BuildRoot:		%{_tmppath}/%{name}-%{version}-build

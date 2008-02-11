@@ -8,7 +8,7 @@
 Name:         SFEcdcollect
 Version:      0.6.0
 Summary:      CDCollect -  a CD catalog application for gnome.
-Source:       http://downloads.sourceforge.net/cdcollect/cdcollect-%{version}.tar.bz2
+Source:       %{sf_download}/cdcollect/cdcollect-%{version}.tar.bz2
 URL:          http://cdcollect.sourceforge.net/index.php
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build

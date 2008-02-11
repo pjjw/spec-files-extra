@@ -9,7 +9,7 @@ Name:                    SFEfaad2
 Summary:                 faad2 - a high-quality MPEG audio decoder
 Group:                   libraries/multimedia
 Version:                 2.6.1
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/faac/faad2-%{version}.tar.gz
+Source:                  %{sf_download}/faac/faad2-%{version}.tar.gz
 URL:                     http://www.audiocoding.com/
 #Patch1:                  faad-01-makefile.diff
 Patch2:                  faad-02-inline.diff

@@ -10,7 +10,7 @@ Summary:      libmcrypt, replacement for Unix crypt under the GPL plus more algo
 License:      Other
 Group:        System/Libraries
 Version:      2.5.8
-Source:       http://prdownloads.sourceforge.net/mcrypt/libmcrypt-%{version}.tar.bz2
+Source:       %{sf_download}/mcrypt/libmcrypt-%{version}.tar.bz2
 Url:          http://sourceforge.net/projects/mcrypt
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build

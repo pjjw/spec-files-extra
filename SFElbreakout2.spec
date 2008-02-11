@@ -7,7 +7,7 @@
 Name:                    SFElbreakout2
 Summary:                 LBreakout2 is a successor to LBreakout a breakout-style arcade game
 Version:                 2.6beta-7
-Source:                  http://prdownloads.sourceforge.net/lgames/lbreakout2-%{version}.tar.gz
+Source:                  %{sf_download}/lgames/lbreakout2-%{version}.tar.gz
 Source1:                 lbreakout2.desktop
 Patch1:                  lbreakout2-01-locale.diff
 

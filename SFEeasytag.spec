@@ -26,7 +26,7 @@ Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	GPL
 Group:          Entertainment
-Source:         http://nchc.dl.sourceforge.net/sourceforge/easytag/%{src_name}-%{version}.tar.bz2
+Source:         %{sf_download}/easytag/%{src_name}-%{version}.tar.bz2
 Patch:        	easytag2.1-01-libnsl.diff
 Vendor:       	http://easytag.sourceforge.net
 URL:            http://easytag.sourceforge.net

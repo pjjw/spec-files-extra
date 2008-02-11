@@ -14,7 +14,7 @@ Summary:                 wxWidgets - Cross-Platform GUI Library (g++)
 URL:                     http://wxwidgets.org/
 Version:                 2.8.5
 %define tarball_version  2.8.5
-Source:			 http://easynews.dl.sourceforge.net/sourceforge/wxwindows/wxWidgets-%{tarball_version}.tar.bz2
+Source:			 %{sf_download}/wxwindows/wxWidgets-%{tarball_version}.tar.bz2
 Patch1:                  wxwidgets-01-msgfmt.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build

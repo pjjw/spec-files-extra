@@ -8,7 +8,7 @@
 Name:                SFEnasm
 Summary:             Portable, modular 80x86 assembler
 Version:             0.98.39
-Source:              http://%{sf_mirror}/sourceforge/nasm/nasm-%{version}.tar.bz2
+Source:              %{sf_download}/nasm/nasm-%{version}.tar.bz2
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

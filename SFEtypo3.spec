@@ -8,7 +8,7 @@
 Name:                SFEtypo3
 Summary:             Typo 3 
 Version:             4.1
-Source:              http://prdownloads.sourceforge.net/typo3/typo3_src-%{version}.tar.gz
+Source:              %{sf_download}/typo3/typo3_src-%{version}.tar.gz
 SUNW_BaseDir:        /
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

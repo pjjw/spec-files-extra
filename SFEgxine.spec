@@ -7,7 +7,7 @@ Name:                    SFEgxine
 Summary:                 gxine - GTK+-based media player
 URL:                     http://www.xinehq.de/index.php/releases
 Version:                 0.5.11
-Source:                  http://prdownloads.sourceforge.net/xine/gxine-%{version}.tar.bz2
+Source:                  %{sf_download}/xine/gxine-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

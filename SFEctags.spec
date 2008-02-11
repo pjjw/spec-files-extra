@@ -9,7 +9,7 @@
 Name:                SFEctags
 Summary:             Exuberant ctags
 Version:             5.6
-Source:              http://switch.dl.sourceforge.net/sourceforge/ctags/ctags-%{version}.tar.gz
+Source:              %{sf_download}/ctags/ctags-%{version}.tar.gz
 Patch1:		     ctags-01-destdir.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

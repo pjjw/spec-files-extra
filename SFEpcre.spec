@@ -25,7 +25,7 @@ Summary:      	PCRE - Perl Compatible Regular Expressions
 Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	BSD
-Source:         http://easynews.dl.sourceforge.net/sourceforge/pcre/%{src_name}-%{version}.tar.gz
+Source:         %{sf_download}/pcre/%{src_name}-%{version}.tar.gz
 Packager:     	Shivakumar GN
 BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
 Conflicts:      SUNWpcre

@@ -28,7 +28,7 @@ Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	BSD license
 Group:          Library
-Source:         http://nchc.dl.sourceforge.net/sourceforge/libnjb/%{src_name}-%{version}.tar.gz
+Source:         %{sf_download}/libnjb/%{src_name}-%{version}.tar.gz
 Patch:        	libnjb-01-2.2.6-p1-makefilechanges.diff
 Vendor:       	John Mechalas
 URL:            http://libnjb.sourceforge.net

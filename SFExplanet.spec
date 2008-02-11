@@ -20,7 +20,7 @@
 Name:                    SFExplanet
 Summary:                 XPlanet
 Version:                 1.2.0
-Source:                  http://kent.dl.sourceforge.net/sourceforge/xplanet/xplanet-%{version}.tar.gz         
+Source:                  %{sf_download}/xplanet/xplanet-%{version}.tar.gz         
 Patch1:                  xplanet-01-forte.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build

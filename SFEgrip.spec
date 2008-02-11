@@ -7,7 +7,7 @@ Name:                    SFEgrip
 Summary:                 Cd-player and cd-ripper for the Gnome desktop
 URL:                     http://nostatic.org/grip/
 Version:                 3.3.1
-Source:                  http://prdownloads.sourceforge.net/grip/grip-%{version}.tar.gz
+Source:                  %{sf_download}/grip/grip-%{version}.tar.gz
 Patch1:			 grip-01-i386.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build

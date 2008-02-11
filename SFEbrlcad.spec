@@ -8,7 +8,7 @@
 Name:                    SFEbrlcad
 Summary:                 The BRL-CAD package is a powerful Constructive Solid Geometry (CSG) solid modeling system with over 20 years development and production use by the U.S. military. 
 Version:                 7.10.4
-Source:                  http://prdownloads.sourceforge.net/brlcad/brlcad-%{version}.tar.bz2
+Source:                  %{sf_download}/brlcad/brlcad-%{version}.tar.bz2
 URL:                     http://brlcad.org
 Group:                   Productivity/Graphics/CAD
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build

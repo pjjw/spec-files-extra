@@ -14,7 +14,7 @@
 Name:                    SFEsarg
 Summary:                 Squid Analysis Report Generator
 Version:                 2.2.3.1
-Source:                  http://prdownloads.sourceforge.net/sarg/%{source_name}-%{version}.tar.gz
+Source:                  %{sf_download}/sarg/%{source_name}-%{version}.tar.gz
 URL:                     http://sarg.sourceforge.net/sarg.php
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{source_name}-%{version}-build

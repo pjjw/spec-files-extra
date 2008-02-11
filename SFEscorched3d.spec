@@ -10,7 +10,7 @@
 Name:                    SFEscorched3d
 Summary:                 A 3D game based on the classic DOS game, Scorched Earth
 Version:                 41.3
-Source:                  http://downloads.sourceforge.net/scorched3d/Scorched3D-%{version}-src.tar.gz
+Source:                  %{sf_download}/scorched3d/Scorched3D-%{version}-src.tar.gz
 Source1:                 scorched3d.png
 Source2:                 scorched3d.desktop
 Patch1:                  scorched3d-01-securid.diff

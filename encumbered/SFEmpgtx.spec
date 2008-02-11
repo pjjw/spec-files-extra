@@ -8,7 +8,7 @@
 Name:                    SFEmpgtx
 Summary:                 MPEG file toolbox, that slices and joins audio and video files
 Version:                 1.3
-Source:                  http://nchc.dl.sourceforge.net/sourceforge/mpgtx/mpgtx-%{version}.tgz
+Source:                  %{sf_download}/mpgtx/mpgtx-%{version}.tgz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

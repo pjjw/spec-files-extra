@@ -11,7 +11,7 @@
 Name:                SFEtls
 Summary:             Tcl - Tool Command Language
 Version:             %{major_version}.%{minor_version}
-Source:              http://dfn.dl.sourceforge.net/sourceforge/tls/tls1.5.0-src.tar.gz
+Source:              %{sf_download}/tls/tls1.5.0-src.tar.gz
 Patch1:              tls-01-destdir.diff
 URL:                 http://tls.sourceforge.net/
 SUNW_BaseDir:        %{_basedir}

@@ -8,7 +8,7 @@
 Name:                    SFEmjpegtools
 Summary:                 mjpegtools - MPEG tools
 Version:                 1.8.0
-Source:                  http://nchc.dl.sourceforge.net/sourceforge/mjpeg/mjpegtools-%{version}.tar.gz
+Source:                  %{sf_download}/mjpeg/mjpegtools-%{version}.tar.gz
 Patch1:			 mjpegtools-01-progname.diff
 Patch2:			 mjpegtools-02-alloca.diff
 Patch3:			 mjpegtools-03-quicktime.diff

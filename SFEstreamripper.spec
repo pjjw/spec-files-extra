@@ -27,7 +27,7 @@ Summary:      	streamripper : audio stream ripper
 Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	GPL
-Source:         http://nchc.dl.sourceforge.net/sourceforge/streamripper/%{src_name}-%{version}.tar.gz
+Source:         %{sf_download}/streamripper/%{src_name}-%{version}.tar.gz
 #Patch:        	yourpatch-name
 URL:            http://streamripper.sourceforge.net
 Packager:     	Shivakumar GN

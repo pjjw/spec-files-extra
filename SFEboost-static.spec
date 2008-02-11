@@ -27,7 +27,7 @@ Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	Boost Software License
 Group:          Developement
-Source:         http://jaist.dl.sourceforge.net/sourceforge/boost/%{src_name}_%{version}.tar.bz2
+Source:         %{sf_download}/boost/%{src_name}_%{version}.tar.bz2
 #Patch:        	yourpatch-name
 Vendor:       	http://www.boost.org
 URL:            http://www.boost.org

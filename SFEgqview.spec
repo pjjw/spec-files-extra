@@ -7,7 +7,7 @@ Name:                    SFEgqview
 Summary:                 GQview - Image browser
 URL:                     http://gqview.sourceforge.net/
 Version:                 2.0.4
-Source:                  http://surfnet.dl.sourceforge.net/sourceforge/gqview/gqview-%{version}.tar.gz
+Source:                  %{sf_download}/gqview/gqview-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

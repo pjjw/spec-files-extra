@@ -28,7 +28,7 @@ Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	GPLv2
 Group:          User Interface/Desktops
-Source:         http://nchc.dl.sourceforge.net/sourceforge/enlightenment/%{src_name}.%{version}.tar.gz
+Source:         %{sf_download}/enlightenment/%{src_name}.%{version}.tar.gz
 Vendor:       	Refer URL
 URL:            http://enlightenment.org
 Packager:     	SFE

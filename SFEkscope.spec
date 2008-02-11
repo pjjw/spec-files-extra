@@ -11,7 +11,7 @@ License:             GPL
 Summary:             A KDE Frontend to Cscope
 Version:             1.6.1
 URL:                 http://kscope.sourceforge.net/
-Source:              http://nchc.dl.sourceforge.net/sourceforge/kscope/kscope-%{version}.tar.gz
+Source:              %{sf_download}/kscope/kscope-%{version}.tar.gz
 Patch1:              kscope-01-config.diff
 
 SUNW_BaseDir:        %{_basedir}

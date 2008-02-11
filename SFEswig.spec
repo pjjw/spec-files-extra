@@ -12,7 +12,7 @@
 Name:                    SFEswig
 Summary:                 SWIG Interface compiler
 Version:                 1.3.33
-Source:                  http://%{sf_mirror}/sourceforge/swig/swig-%{version}.tar.gz
+Source:                  %{sf_download}/swig/swig-%{version}.tar.gz
 URL:                     http://www.swig.org/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build

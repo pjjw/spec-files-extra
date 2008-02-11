@@ -25,7 +25,7 @@ Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	GPLv2
 Group:          Development/Tools
-Source:         http://jaist.dl.sourceforge.net/sourceforge/mooedit/%{src_name}-%{src_version}.tar.bz2
+Source:         %{sf_download}/mooedit/%{src_name}-%{src_version}.tar.bz2
 Patch:		medit-01-0.8.9-solaris.sunstudio12.diff
 Vendor:       	medit
 URL:            http://mooedit.sourceforge.net

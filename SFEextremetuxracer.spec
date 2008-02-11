@@ -9,7 +9,7 @@
 Name:                    	SFEextremetuxracer
 Summary:                 	Fork from the original tux-racer
 Version:                 	0.35
-Source:                  	http://downloads.sourceforge.net/extremetuxracer/extreme-tuxracer-%{version}.tar.gz
+Source:                  	%{sf_download}/extremetuxracer/extreme-tuxracer-%{version}.tar.gz
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 %if %SUNWlibsdl

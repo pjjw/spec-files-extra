@@ -9,7 +9,7 @@ Name:                    SFEpython-mysql
 Summary:                 A MySQL database adapter for the Python programming language
 URL:                     http://sourceforge.net/projects/mysql-python
 Version:                 1.2.2
-Source:                  http://superb-east.dl.sourceforge.net/sourceforge/mysql-python/MySQL-python-%{version}.tar.gz
+Source:                  %{sf_download}/mysql-python/MySQL-python-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 

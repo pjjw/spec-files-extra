@@ -11,7 +11,7 @@ Name:                    SFEpython-numpy
 Summary:                 Numerical processing extensions to the python programming language
 URL:                     http://numpy.scipy.org/
 Version:                 %{version_long}
-Source:                  http://internap.dl.sourceforge.net/sourceforge/numpy/numpy-%{version_long}.tar.gz
+Source:                  %{sf_download}/numpy/numpy-%{version_long}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 

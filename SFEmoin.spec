@@ -10,7 +10,7 @@
 Name:                SFEmoin
 Summary:             Clone of WikiWiki
 Version:             1.5.7
-Source:              http://%{sf_mirror}/sourceforge/moin/moin-%{version}.tar.gz
+Source:              %{sf_download}/moin/moin-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

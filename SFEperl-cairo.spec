@@ -12,7 +12,7 @@
 Name:                    SFEperl-cairo
 Summary:                 Cairo-%{tarball_version} PERL bindings
 Version:                 %{perl_version}.%{tarball_version}
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/gtk2-perl/Cairo-%{tarball_version}.tar.gz
+Source:                  %{sf_download}/gtk2-perl/Cairo-%{tarball_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

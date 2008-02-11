@@ -8,7 +8,7 @@
 Name:                SFEgnome-subtitles
 Summary:             Video subtitling for the Gnome Desktop
 Version:             0.6
-Source:              http://downloads.sourceforge.net/gnome-subtitles/gnome-subtitles-%{version}.tar.gz
+Source:              %{sf_download}/gnome-subtitles/gnome-subtitles-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

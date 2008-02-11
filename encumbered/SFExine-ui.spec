@@ -11,7 +11,7 @@ License:      GPL
 Group:        System/Libraries
 Version:      0.99.5
 Summary:      xine-ui - Xlib based skinned front end for the xine video player
-Source:       http://prdownloads.sourceforge.net/xine/xine-ui-%{version}.tar.gz
+Source:       %{sf_download}.net/xine/xine-ui-%{version}.tar.gz
 #Patch1:       xine-ui-01-gettext.diff
 #Patch2:       xine-ui-02-glib-gettext-Makefile.diff
 #Patch3:       xine-ui-03-glibc-compat.diff

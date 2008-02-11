@@ -12,7 +12,7 @@
 Name:                    SFEinkscape
 Summary:                 Inkscape - vector graphics editor
 Version:                 0.45.1
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/inkscape/inkscape-%{version}.tar.gz
+Source:                  %{sf_download}/inkscape/inkscape-%{version}.tar.gz
 URL:                     http://www.inkscape.org
 Patch1:                  inkscape-01-no-ver-check.diff
 Patch2:                  inkscape-02-aclocal.diff

@@ -12,7 +12,7 @@ Summary:                 netpbm - network portable bitmap tools
 %if %{?_with_svn_code:0}%{?!_with_svn_code:1}
 # stable tarball build
 Version:                 10.26.46
-Source:                  http://%{sf_mirror}/sourceforge/netpbm/netpbm-%{version}.tgz
+Source:                  %{sf_download}/netpbm/netpbm-%{version}.tgz
 %else
 # svn code
 Version:                 10.35

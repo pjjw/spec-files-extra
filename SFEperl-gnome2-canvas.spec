@@ -12,7 +12,7 @@
 Name:                    SFEperl-gnome2-canvas
 Summary:                 Gnome2-Canvas-%{tarball_version} PERL Module for libgnomecanvas and libart.
 Version:                 %{perl_version}.%{tarball_version}
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/gtk2-perl/Gnome2-Canvas-%{tarball_version}.tar.gz
+Source:                  %{sf_download}/gtk2-perl/Gnome2-Canvas-%{tarball_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

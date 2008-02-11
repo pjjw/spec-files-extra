@@ -8,7 +8,7 @@
 Name:                    SFEufraw
 Summary:                 Ufraw - Raw Photo Converter
 Version:                 0.12.1
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/ufraw/ufraw-%{version}.tar.gz
+Source:                  %{sf_download}/ufraw/ufraw-%{version}.tar.gz
 URL:                     http://ufraw.sourceforge.net/
 Patch1:			 ufraw-01-ctime_r-fix.diff
 SUNW_BaseDir:            %{_basedir}

@@ -8,7 +8,7 @@
 Name:                SFElibast
 Summary:             Library of Assorted Spiffy Things
 Version:             0.7
-Source:              http://eterm.sourceforge.net/download/libast-%{version}.tar.gz
+Source:              %{sf_download}/download/libast-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

@@ -8,7 +8,7 @@
 Name:                    SFElibdvdnav
 Summary:                 libdvdnav  - DVD navigation library
 Version:                 0.1.10
-Source:                  http://easynews.dl.sourceforge.net/sourceforge/dvd/libdvdnav-%{version}.tar.gz
+Source:                  %{sf_download}/dvd/libdvdnav-%{version}.tar.gz
 Patch1:                  libdvdnav-01-Wall.diff
 SUNW_BaseDir:            %{_basedir}
 buildRoot:               %{_tmppath}/%{name}-%{version}-build

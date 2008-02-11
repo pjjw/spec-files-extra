@@ -12,7 +12,7 @@ License:             LGPL
 Summary:             RAW image data processing library for KDE
 Version:             0.1.3
 URL:                 http://extragear.kde.org/apps/kipi/
-Source:              http://jaist.dl.sourceforge.net/sourceforge/kipi/libkdcraw-%{version}.tar.bz2
+Source:              %{sf_download}/kipi/libkdcraw-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

@@ -10,8 +10,8 @@
 Name:                    SFEscourge
 Summary:                 S.C.O.U.R.G.E Game
 Version:                 0.17
-Source:                  http://nchc.dl.sourceforge.net/sourceforge/scourge/scourge-%{version}.src.tar.gz
-Source2:		 http://nchc.dl.sourceforge.net/sourceforge/scourge/scourge-%{version}.data.tar.gz
+Source:                  %{sf_download}/scourge/scourge-%{version}.src.tar.gz
+Source2:		 %{sf_download}/scourge/scourge-%{version}.data.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

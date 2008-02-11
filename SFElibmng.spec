@@ -8,7 +8,7 @@
 Name:                    SFElibmng
 Summary:                 libmng  - the MNG reference library
 Version:                 1.0.10
-Source:                  http://%{sf_mirror}/sourceforge/libmng/libmng-%{version}.tar.gz
+Source:                  %{sf_download}/libmng/libmng-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

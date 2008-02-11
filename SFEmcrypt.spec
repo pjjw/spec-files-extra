@@ -11,7 +11,7 @@ License:      Other
 Group:        System/Libraries
 Version:      2.6.5
 Summary:      mcrypt, libmcrypt, replacements for the old Unix crypt
-Source:       http://prdownloads.sourceforge.net/mcrypt/mcrypt-%{version}.tar.bz2
+Source:       %{sf_download}/mcrypt/mcrypt-%{version}.tar.bz2
 #Patch1:       mcrypt-include-mglobal-01.diff
 Patch2:	      mcrypt-Makefile-symlink-to-destdir-02.diff 
 

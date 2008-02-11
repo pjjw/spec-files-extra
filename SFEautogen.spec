@@ -9,7 +9,7 @@ Name:                SFEautogen
 Summary:             Templatized program/text generation system
 URL:                 http://autogen.sourceforge.net/
 Version:             5.9.4
-Source:              http://%{sf_mirror}/sourceforge/autogen/autogen-%{version}.tar.bz2
+Source:              %{sf_download}/autogen/autogen-%{version}.tar.bz2
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

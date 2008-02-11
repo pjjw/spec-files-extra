@@ -28,7 +28,7 @@ Version:      	%{src_version}
 Release:      	%{pkg_release}
 License:      	GPLv2
 Group:          User Interface/Desktops
-Source:         http://nchc.dl.sourceforge.net/sourceforge/fluxbox/%{src_name}-%{version}.tar.bz2
+Source:         %{sf_download}/fluxbox/%{src_name}-%{version}.tar.bz2
 Vendor:       	Refer URL
 URL:            http://fluxbox.sourceforge.net
 Packager:     	SFE

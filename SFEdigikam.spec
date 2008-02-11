@@ -8,7 +8,7 @@
 Name:                SFEdigikam
 Summary:             Advanced digital photo management application
 Version:             0.9.3
-Source:              http://nchc.dl.sourceforge.net/sourceforge/digikam/digikam-%{version}.tar.bz2
+Source:              %{sf_download}/digikam/digikam-%{version}.tar.bz2
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build

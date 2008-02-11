@@ -8,7 +8,7 @@
 Name:                SFElibrsync
 Summary:             Library for generating network deltas
 Version:             0.9.7
-Source:              http://internap.dl.sourceforge.net/sourceforge/librsync/librsync-%{version}.tar.gz
+Source:              %{sf_download}/librsync/librsync-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

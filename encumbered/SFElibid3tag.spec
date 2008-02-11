@@ -13,7 +13,7 @@ Group:        System/GUI/GNOME
 Version:      0.15.1.1
 %define tarball_version 0.15.1b
 Release:      1
-Source:       http://%{sf_mirror}/sourceforge/mad/libid3tag-%{tarball_version}.tar.gz
+Source:       %{sf_download}/mad/libid3tag-%{tarball_version}.tar.gz
 URL:          http://www.underbit.com/products/mad/
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%name-%{version}-build

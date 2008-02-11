@@ -8,7 +8,7 @@
 Name:                   SFEgraphicsmagick
 Summary:                GraphicsMagick - Image Manipulation Utilities and Libraries
 Version:                1.1.10
-Source:                 http://nchc.dl.sourceforge.net/sourceforge/graphicsmagick/GraphicsMagick-%{version}.tar.bz2
+Source:                 %{sf_download}/graphicsmagick/GraphicsMagick-%{version}.tar.bz2
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

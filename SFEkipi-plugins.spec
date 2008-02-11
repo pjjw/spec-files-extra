@@ -12,7 +12,7 @@ License:             LGPL
 Summary:             Plugins for KDE Image Plugin Interface Library
 Version:             0.1.5-rc1
 URL:                 http://extragear.kde.org/apps/kipi/
-Source:              http://nchc.dl.sourceforge.net/sourceforge/kipi/kipi-plugins-%{version}.tar.bz2
+Source:              %{sf_download}/kipi/kipi-plugins-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
