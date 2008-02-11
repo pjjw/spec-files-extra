@@ -23,6 +23,11 @@ Requires: SUNWcsu
 
 %build
 
+CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
+if test "x$CPUS" = "x" -o $CPUS = 0; then
+     CPUS=1
+fi
+
 bash autogen.sh
 
 LDFLAGS='-lnsl -lsocket' ./configure --prefix=%{_prefix} \
@@ -33,10 +38,10 @@ LDFLAGS='-lnsl -lsocket' ./configure --prefix=%{_prefix} \
             --sysconfdir=%{_sysconfdir} \
             --datadir=%{_datadir} \
 	        --with-ldflags='-lnsl -lsocket'
-gmake 
+make -j$CPUS
 
 %install
-gmake install DESTDIR=$RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
 DOC="$RPM_BUILD_ROOT/usr/share"
 cp "$RPM_BUILD_ROOT/usr/share/COPYING" "$DOC/doc"
 cp "$RPM_BUILD_ROOT/usr/share/AUTHORS" "$DOC/doc"

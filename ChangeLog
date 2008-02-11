@@ -1,4 +1,7 @@
 2008-02-11 Pradhap Devarajan < pradhap (at) gmail.com>
+	* SFEbrlcad.spec: add multi CPU support for compilation
+
+2008-02-11 Pradhap Devarajan < pradhap (at) gmail.com>
 	* SFEtin.spec: fixed rm issues
 
 2008-02-11 Pradhap Devarajan < pradhap (at) gmail.com>
