@@ -1,4 +1,7 @@
 2008-02-11 Pradhap Devarajan < pradhap (at) gmail.com>
+	* SFEtin.spec: fixed rm issues
+
+2008-02-11 Pradhap Devarajan < pradhap (at) gmail.com>
 	* inc/prod.inc: added sf_download macro
 	* Fixed 146 spec files to use sf_download
 	* Let Sourceforge decide best mirror 

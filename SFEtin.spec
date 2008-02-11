@@ -41,11 +41,11 @@ make -j$CPUS build
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-rm $RPM_BUILD_ROOT%{_bindir}/metamutt
+rm -f $RPM_BUILD_ROOT%{_bindir}/metamutt
 
 # conflict with SFEmutt
-rm $RPM_BUILD_ROOT%{_mandir}/man5/mbox.5
-rm $RPM_BUILD_ROOT%{_mandir}/man5/mmdf.5
+rm -f $RPM_BUILD_ROOT%{_mandir}/man5/mbox.5
+rm -f $RPM_BUILD_ROOT%{_mandir}/man5/mmdf.5
 
 %if %build_l10n
 %else
@@ -75,6 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Oct 11 2008 - pradhap(at)gmail.com
+- Fixed rm issues
 * Wed Oct 17 2007 - laca@sun.com
 - delete man pages that conflict with SFEmutt
 * Wed Mar 28 2007 - Eric Boutilier
