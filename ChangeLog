@@ -1,4 +1,11 @@
-2008-02-12 Pradhap Devarajan <pradhap (at) gmail.com>
+2008-02-12  simon.zheng  <simon.zheng@sun.com>
+
+        * SFEglibmm.spec:
+        * base-specs/glibmm.spec:
+	  Delete m4, pm and generate_extra_defs files.
+
+2008-02-12 Pradhap Devarajan <pradhap@gmail.com>
+
 	* Fixed links in
 	- SFEgtkpod.spec
 	- SFEaudacity.spec

@@ -1,7 +1,11 @@
 #
-# spec file for package SFEglibmm
+# spec file for package glibmm
 #
-# includes module(s): glibmm
+# Copyright 2008 Sun Microsystems, Inc.
+# This file and all modifications and additions to the pristine
+# package are under the same license as the package itself.
+#
+# Owner: simonzheng
 #
 %include Solaris.inc
 
@@ -16,19 +20,14 @@ Summary:                 glibmm - C++ Wrapper for the Glib2 Library
 URL:                     http://www.gtkmm.org/
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/glibmm/2.14/%{name}-%{version}.tar.bz2
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
-
-%include default-depend.inc
-Requires: SUNWgnome-base-libs
-BuildRequires: SUNWgnome-base-libs-devel
-Requires: SFEsigcpp
-BuildRequires: SFEsigcpp-devel
+BuildRequires:           libsigc++-devel >= 2.0.0
+BuildRequires:           glib2-devel >= 2.9.0
 
 %package devel
-Summary:                 %{summary} - development files
-SUNW_BaseDir:            %{_basedir}
-%include default-depend.inc
-Requires: %name
-Requires: SUNWgnome-base-libs-devel
+Summary:                 Headers for developing programs that will use %{name}.
+Group:                   System/Libraries
+Requires:                libsigc++-devel >= 1.2.0
+Requires:                glib2-devel >= 2.9.0
 
 %prep
 %setup -q -n glibmm-%version
@@ -78,8 +77,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
-* Thu Jau 31 2008 - simon.zheng@sun.com
-- Bump to 2.14.2.
-
 * Mon Jau 28 2008 - simon.zheng@sun.com
-- Create. Split from SFEglibmm.
+- Create. Split from SFEglibmm and bump to version 2.14.2.

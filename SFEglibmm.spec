@@ -54,6 +54,14 @@ rm -rf $RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 
+# Remove m4, pm and extra_gen_defs directory
+mv $RPM_BUILD_ROOT%{_libdir}/glibmm-2.4/proc/gmmproc $RPM_BUILD_ROOT%{_libdir}/glibmm-2.4/
+mv $RPM_BUILD_ROOT%{_libdir}/glibmm-2.4/proc/*.pl $RPM_BUILD_ROOT%{_libdir}/glibmm-2.4/
+rm -rf $RPM_BUILD_ROOT%{_libdir}/glibmm-2.4/proc
+rm -rf $RPM_BUILD_ROOT%{_libdir}/glibmm-2.4/include
+rm -rf $RPM_BUILD_ROOT%{_libdir}/libglibmm_generate_extra_defs*.so*
+rm -rf $RPM_BUILD_ROOT%{_includedir}/glibmm-2.4/glibmm_generate_extra_defs
+
 %if %build_l10n
 %else
 # REMOVE l10n FILES
@@ -104,6 +112,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %{_includedir}/*
 
 %changelog
+* Tue Feb 12 2008 - simon.zheng@sun.com
+- Delete m4, pm and generate_extra_defs files.
 * Mon Jau 28 2008 - simon.zheng@sun.com
 - Split into SFEglibmm.spec and glibmm.spec.
 - Change download URL to GNOME official website.
