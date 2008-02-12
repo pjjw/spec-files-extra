@@ -5,7 +5,7 @@
 #
 %include Solaris.inc
 
-%define src_url         http://%{sf_mirror}/sourceforge/matplotlib
+%define src_url         http://%{sf_download}/matplotlib
 %define src_name        matplotlib
 
 Name:                   SFEmatplotlib
@@ -56,5 +56,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{python_version}/vendor-packages
 
 %changelog
+* Tue Feb 11 2008 - Pradhap < pradhap (at) gmail.com >
+- Fixed links
 * Sun Feb 10 2008 - Ananth Shrinivas <ananth@sun.com>
 - Initial Version

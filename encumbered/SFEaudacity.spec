@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 %define	src_name audacity
-%define	src_url	http://nchc.dl.sourceforge.net/sourceforge/audacity
+%define	src_url	http://downloads.sourceforge.net/audacity
 
 Name:                SFEaudacity
 Summary:             manipulate digital audio waveforms
@@ -117,5 +117,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr (-, root, root) %{_datadir}/mime/*
 
 %changelog
+* Tue Feb 12 2008 - pradhap (at) gmail.com
+- Fix links
 * Sat Sep 22 2007 - dougs@truemail.co.th
 - Initial spec

@@ -7,7 +7,7 @@
 %include Solaris.inc
 
 %define src_name xmms2
-%define src_url	 http://nchc.dl.sourceforge.net/sourceforge/%{src_name}
+%define src_url	 %{sf_download}/%{src_name}
 
 Name:                    SFExmms2
 Summary:                 Client/server based media player system
@@ -92,6 +92,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Feb 12 2008 - pradhap(at)gmail.com
+- Fixed links
 * Sun Jan 06 2008 - moinak.ghosh@sun.com
 - Bumped version to 0.4DrKosmos, add SUNWsqlite dep, add patch to
 - build ruby plugin against ruby 1.9.0 (Ruby plugin patch submitted upstream).

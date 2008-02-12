@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 %define src_name	cabextract
-%define src_url		http://www.kyz.uklinux.net/downloads
+%define src_url		http://www.cabextract.org.uk
 
 Name:                   SFEcabextract
 Summary:                CAB file extractor
@@ -52,5 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}
 
 %changelog
+* Tue Feb 11 2008 - pradhap (at) gmail.com
+- Fixed links
 * Tue Apr 24 2006 - dougs@truemail.co.th
 - Initial version
