@@ -7,7 +7,7 @@
 
 %define src_name	libuninum
 %define src_url	    http://billposer.org/Software/Downloads
-%define src_version	2.5
+%define src_version	2.7
 %define pkg_release	1
 
 SUNW_Pkg: SFE%{src_name}
@@ -16,7 +16,7 @@ SUNW_BaseDir:	%{_basedir}
 
 Name:                   SFElibuninum
 Summary:                libuninum - A Library for converting Unicode strings to numbers and numbers to Unicode strings
-Version:                2.5
+Version:                2.7
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
@@ -61,6 +61,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Bumped up the version to 2.7
 * Sun Oct 14 2007 - laca@sun.com
 - fix _datadir permissions
 * Sat Aug 11 2007 - ananth@sun.com

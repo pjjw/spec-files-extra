@@ -8,7 +8,7 @@
 %include base.inc
 
 %define src_name        zfs-auto-backup
-%define src_url         http://mediacast.sun.com/share/timf/
+%define src_url         http://mediacast.sun.com/users/~timf/media
 
 
 Name:                   SFEzfs-auto-backup
@@ -137,6 +137,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Feb 12 2008 - <pradhap (at) gmail.com
+- Fixed links
 * Tue Oct 03 2007 - Thomas Wagner
 - shortened Summary
 - description: command for verbose mode corrected (thanks to Tim Foster)

@@ -7,7 +7,7 @@
 
 Name:                SFEstunnel
 Summary:             An SSL client/server encryption wrapper
-Version:             4.20
+Version:             4.21
 Source:              ftp://stunnel.mirt.net/stunnel/stunnel-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
@@ -75,6 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/stunnel/stunnel.conf-sample
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Bumped up the version to 4.21
 * Mon Mar 19 2007 - dougs@truemail.co.th
 - Fixed -fno-omit-frame-pointer flag
 * Sun Jan  7 2007 - laca@sun.com

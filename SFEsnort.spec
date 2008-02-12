@@ -7,8 +7,8 @@
 
 Name:                SFEsnort
 Summary:             Network intrusion prevention and detection system
-Version:             2.6.1.3
-Source:              http://snort.org/dl/current/snort-2.6.1.3.tar.gz
+Version:             2.8.0.1
+Source:              http://snort.org/dl/current/snort-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
@@ -74,6 +74,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/snort.8
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Bumped up the version to 2.8.0.1
 * Mon Mar 19 2007 - dougs@truemail.co.th
 - Fixed -fno-omit-frame-pointer flag
 * Sun Mar 04 2007 - Eric Boutilier

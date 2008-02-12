@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 %define src_name	ogre-linux_osx
-%define src_url		http://jaist.dl.sourcefogre.net/sourcefogre/ogre
+%define src_url		%{sf_download}/ogre
 
 Name:                   SFEogre
 Summary:                O-O Graphics Rendering Engine
@@ -93,5 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Fixed links
 * Mon May  7 2007 - dougs@truemail.co.th
 - Initial version

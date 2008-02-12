@@ -7,7 +7,7 @@
 
 %define src_name	lcab
 %define src_version 1.0b12
-%define src_url	    http://coding.wooyayhoopla.be/lcab/sources/
+%define src_url	    http://www.mirrorservice.org/sites/ftp.freebsd.org/pub/FreeBSD/distfiles
 
 # =========================================================================== 
 #                    SVR4 required definitions
@@ -51,6 +51,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Fixed links
 * Sat Aug 11 2007 - ananth@sun.com
 - Initial version
 

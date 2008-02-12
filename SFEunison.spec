@@ -7,7 +7,7 @@
 %include Solaris.inc
 Name:                    SFEunison
 Summary:                 unison - file synchronization tool
-Version:                 2.27.29
+Version:                 2.27.57
 Source:                  http://www.cis.upenn.edu/~bcpierce/unison/download/releases/beta/unison-%{version}.tar.gz
 #Patch1:                  unison-01-port-sol.diff
 #Patch2:                  unison-02-remote-shell.diff
@@ -57,6 +57,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Bumped up the version to 2.27.57
 * Tue Sep 18 2007 - flistellox@gmail.com
 - Version Bump to 2.27.29
 * Thu Aug 24 2006 - halton.huo@sun.com

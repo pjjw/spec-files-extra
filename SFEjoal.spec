@@ -10,7 +10,7 @@
 
 Name:                   SFEjoal
 Summary:                Java bindings for OpenAL
-Version:                1.1.1-pre-20070512
+Version:                1.1.2-pre-20080211
 Source:                 %{src_url}/%{src_name}-%{version}-src.zip
 Patch1:			joal-01-solaris.diff
 SUNW_BaseDir:           %{_basedir}
@@ -51,5 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Bumped up the version to 1.1.2-pre-20080211
 * Sun May 13 2007 - dougs@truemail.co.th
 - Initial version

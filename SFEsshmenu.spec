@@ -6,11 +6,11 @@
 %include Solaris.inc
 
 %define src_name	sshmenu
-%define src_url		http://www.mclean.net.nz/ruby/sshmenu/download
+%define src_url		%{sf_download}/sshmenu
 
 Name:                   SFEsshmenu
 Summary:                SSH menu panel applet
-Version:                3.13
+Version:                3.15
 Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build

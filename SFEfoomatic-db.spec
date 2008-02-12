@@ -11,7 +11,7 @@
 
 Name:		SFEfoomatic-db
 Summary:	Foomatic database
-Version:	20070710
+Version:	current
 License:	GPL
 Source:		%{src_url}/%{src_name}-%{src_ver}-%{version}.tar.gz
 SUNW_BaseDir:	%{_basedir}

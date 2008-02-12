@@ -6,7 +6,7 @@
 
 %define src_ver 0.103.0
 %define src_name jack-audio-connection-kit
-%define src_url http://nchc.dl.sourceforge.net/sourceforge/jackit
+%define src_url http://downloads.sourceforge.net/jackit
 
 Name:		jack
 Summary:	Jack Audio Connection Kit

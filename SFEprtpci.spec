@@ -14,7 +14,7 @@ Version:             1.11
 Patch1:              prtpci-01-etc.diff
 
 URL:                 http://blogs.sun.com/dmick/entry/prtpci_digest_and_display_prtconf
-Source:              ftp://playground.sun.com/pub/dmick/prtpci.tar.Z
+Source:              http://playground.sun.com/pub/dmick/prtpci.tar.Z
 Source1:             http://pciids.sourceforge.net/pci.ids
 
 SUNW_BaseDir:        /

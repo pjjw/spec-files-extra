@@ -28,7 +28,7 @@
 Name:                    SFEurxvt
 Summary:                 urxvt - X Terminal Client (+multiscreen Server) with unicode support, derived from rxvt
 URL:                     http://software.schmorp.de
-Version:                 8.4
+Version:                 9.02
 Source:                  http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
 Patch10:		 urxvt-10-terminfo_enacs.diff
 SUNW_BaseDir:            %{_basedir}
@@ -156,6 +156,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Bumped up the version to 0.92
 * Fri Nov 23 2007  - Thomas Wagner
 - refined, first version of terminfo/termcap
 - open issues see TODO - any ideas?

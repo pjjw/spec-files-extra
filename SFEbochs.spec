@@ -10,7 +10,7 @@
 
 Name:                   SFEbochs
 Summary:                IA32 emulator
-Version:                20070421
+Version:                20080209
 Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
@@ -68,5 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/bochs
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Bumped up the version to 20080209
 * Sat Apr 28 2006 - dougs@truemail.co.th
 - Initial version

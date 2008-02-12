@@ -6,7 +6,7 @@
 
 %define src_ver 1.0.0
 %define src_name libquicktime
-%define src_url http://nchc.dl.sourceforge.net/sourceforge/%{src_name}
+%define src_url http://downloads.sourceforge.net/%{src_name}
 
 Name:		libquicktime
 Summary:	Quicktime library
@@ -63,6 +63,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libquicktime/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Fixed links
 * Sun Jan 06 2008 - moinak.ghosh@sun.com
 - Add a patch to fix a compile failure with Sun Studio 11
 * Tue Sep  4 2007 - dougs@truemail.co.th

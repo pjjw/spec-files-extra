@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 %define src_name	msort
-%define src_url	    http://billposer.org/Software/Downloads
+%define src_url	    	http://dl.exactcode.de/t2/source/7.0/m
 %define src_version	8.40
 %define pkg_release	1
 

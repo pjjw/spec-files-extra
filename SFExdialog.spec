@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 %define src_name	Xdialog
-%define src_url		http://thgodef.nerim.net/xdialog
+%define src_url		http://xdialog.free.fr
 
 Name:                   SFExdialog
 Summary:                Xdialog is a X11 drop in replacement for cdialog
@@ -62,6 +62,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Fixed links
 * Mon Apr 30 2007 - dougs@truemail.co.th
 - Fixed src_url and Summary
 * Mon Apr 30 2007 - dougs@truemail.co.th

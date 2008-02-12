@@ -7,7 +7,7 @@
 
 %define	src_ver 0.0.20060920alpha
 %define	src_name libmspack
-%define	src_url	http://www.kyz.uklinux.net/downloads
+%define	src_url	http://www.cabextract.org.uk/libmspack
 
 Name:		SFElibmspack
 Summary:	A library for Microsoft compression formats

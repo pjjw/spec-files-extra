@@ -7,7 +7,7 @@
 %define module_version 1.2
 %define module_name Date-Pcalc
 %define module_name_major Date
-%define module_packages_name date-pcalc
+%define module_package_name date-pcalc
 #still unused: %define module_name_minor Pcalc
 
 %define perl_version 5.8.4
@@ -84,6 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Fixed links
 * Wed Nov 28 2007 - Thomas Wagner
 - renamed package and if necessary (Build-)Requires
 * Sat Nov 24 2007 - Thomas Wagner

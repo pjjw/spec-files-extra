@@ -7,7 +7,7 @@
 # Software specific variable definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %define src_name	astyle
-%define src_version	1.18
+%define src_version	1.21
 %define pkg_release	1
 %define src_tarball %{src_name}_%{src_version}__linux.tar.gz
 
@@ -91,4 +91,6 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Bumped up the version to 1.21
 * 2007.Aug.08 - <shivakumar dot gn at gmail dot com>

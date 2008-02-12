@@ -8,8 +8,8 @@
 Name:                    SFEslib
 Summary:                 SLIB - Portable librart for Scheme programming language
 URL:                     http://swissnet.ai.mit.edu/~jaffer/SLIB.html
-Version:                 3a4
-Source:                  http://swiss.csail.mit.edu/ftpdir/scm/slib%{version}.zip
+Version:                 3b1
+Source:                  http://swiss.csail.mit.edu/ftpdir/scm/slib-%{version}.zip
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -67,6 +67,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Bumped up the version to 3b1
 * Fri Nov 23 2007 - daymobrew@users.sourceforge.net
 - Install .scm files under guile directory:
   %{_datadir}/guile/%{guile_maj_version}/slib

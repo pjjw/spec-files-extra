@@ -7,7 +7,7 @@
 
 Name:                SFEraptor
 Summary:             RDF Parser Library - RDF parser utility
-Version:             1.4.12
+Version:             1.4.14
 Source:              http://download.librdf.org/source/raptor-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
@@ -77,6 +77,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtk-doc
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Bumped up the version to 1.4.14
 * Mon Nov 06 2006 - Eric Boutilier
 - Fixed attributes and created devel sub pkg
 * Wed Sep 27 2006 - Eric Boutilier

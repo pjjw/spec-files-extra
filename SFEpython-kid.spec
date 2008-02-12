@@ -7,12 +7,11 @@
 
 %define src_url         http://www.kid-templating.org/dist
 %define src_name        kid
-
 Name:                   SFEpython-kid
 Summary:                Kid is a simple template language for XML based vocabularies written in Python
 URL:                    http://www.kid-templating.org
 Version:                0.9.6
-Source:                 %{src_url}/%{version}/dist/%{src_name}-%{version}.tar.gz
+Source:                 %{src_url}/%{version}/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 

@@ -6,7 +6,7 @@
 
 %define src_ver 1.0.0
 %define src_name libdv
-%define src_url http://nchc.dl.sourceforge.net/sourceforge/libdv
+%define src_url http://downloads.sourceforge.net/libdv
 
 Name:		libdv
 Summary:	The Quasar DV codec
@@ -64,6 +64,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libdv/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Fixed links
 * Tue Nov 20 2007 - daymobrew@users.sourceforge.net
 - Change LDFLAGS to work for gcc.
 * Thu Aug 30 2007 - dougs@truemail.co.th

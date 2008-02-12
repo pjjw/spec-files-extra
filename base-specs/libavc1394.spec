@@ -6,7 +6,7 @@
 
 %define src_ver 0.5.3
 %define src_name libavc1394
-%define src_url http://nchc.dl.sourceforge.net/sourceforge/%{src_name}
+%define src_url http://downloads.sourceforge.net/%{src_name}
 
 Name:		libavc1394
 Summary:	Programming interface to the 1394 AV/C specification
@@ -56,5 +56,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Fixed links
 * Tue Sep  4 2007 - dougs@truemail.co.th
 - Initial base spec file

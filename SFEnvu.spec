@@ -15,7 +15,7 @@
 Name:          SFEnvu
 Summary:       Web authoring system based on Mozilla Composer
 Version:       1.0
-Source:        http://cvs.nvu.com/download/nvu-%{version}-sources.tar.bz2
+Source:        %{sf_download}/portablenvu/nvu-%{version}-sources.tar.bz2 
 URL:           http://www.nvu.com/
 Patch1:        nvu-01-moz_objdir.diff
 SUNW_BaseDir:  %{_basedir}
@@ -162,6 +162,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Tue Feb 12 2008 <pradhap (at) gmail.com>
+- Fixed links
 * Fri Jul  7 2006 - laca@sun.com
 - renamed to SFEnvu
 * Fri Feb  3 2006 - damien.carbery@sun.com

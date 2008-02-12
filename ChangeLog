@@ -1,3 +1,36 @@
+2008-02-12 Pradhap Devarajan <pradhap (at) gmail.com>
+        * Fixed links and bumped the version in various files
+        - SFEogre.spec
+        - SFEnvu.spec
+        - SFEglassfish.spec
+        - SFEbochs.spec
+        - base-specs/libavc1394.spec
+        - base-specs/libdv.spec
+        - base-specs/jack.spec
+        - base-specs/libquicktime.spec
+        - SFEprtpci.spec
+        - SFEmpfr.spec
+        - SFEsnort.spec
+        - SFEjoal.spec
+        - SFEperl-date-pcalc.spec
+        - SFEarts.spec
+        - SFExdialog.spec
+        - SFElibuninum.spec
+        - SFEurxvt.spec
+        - SFEraptor.spec
+        - SFEunison.spec
+        - SFElibmspack.spec
+        - SFEsshmenu.spec
+        - SFElcab.spec
+        - SFEzfs-auto-backup.spec
+        - SFEliveMedia.spec
+        - SFEpython-kid.spec
+        - SFEstunnel.spec
+        - SFEastyle.spec
+        - SFEmsort.spec
+        - SFEfoomatic-db.spec
+        - SFEslib.spec
+
 2008-02-12  simon.zheng  <simon.zheng@sun.com>
 
         * SFEglibmm.spec:
