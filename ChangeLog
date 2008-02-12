@@ -1,3 +1,6 @@
+2008-02-12 Ananth Shrinivas <ananth@sun.com>
+    * SFEgrsync - A GTK+ based front end for rsync
+
 2008-02-11 Pradhap Devarajan < pradhap (at) gmail.com>
 	* SFEbrlcad.spec: add multi CPU support for compilation
 
