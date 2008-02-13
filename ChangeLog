@@ -1,3 +1,9 @@
+2008-02-14  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* include/gconf-install.script: postrun script for installing GConf
+	  schemas.  %include it in %post root scripts as directed by your
+	  doctor (;
+
 2008-02-13  simon.zheng  <simon.zheng@sun.com>
 
 	* base-specs/gnome-power-manager.spec:
