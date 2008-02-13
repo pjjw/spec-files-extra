@@ -1,3 +1,11 @@
+2008-02-13  simon.zheng  <simon.zheng@sun.com>
+
+	* base-specs/gnome-power-manager.spec:
+	* patches/gnome-power-manager-18-screensaver.diff:
+	  Use XScreenSaver instead of gnome-screensaver, and
+	  provide an GUI configurable checkbox to disable/enable
+	  screen lock.
+
 2008-02-12 Pradhap Devarajan <pradhap (at) gmail.com>
         * Fixed links and bumped the version in various files
         - SFEogre.spec

@@ -12,20 +12,20 @@ Vendor:         Sun Microsystems, Inc.
 Summary:	GNOME Power Manager
 Source0:	http://ftp.gnome.org/pub/gnome/sources/gnome-power-manager/2.21/%{name}-%{version}.tar.bz2
 Patch1:         gnome-power-manager-01-build.diff
-# set gconf key "cpufreq_show" as "true" by default and define
-# gconf key "icon_policy" as "always" by default.
 Patch6:		gnome-power-manager-06-icon_plicy_and_cpufreq_show.diff
 Patch7:         gnome-power-manager-07-disable-sleep-configration.diff
 Patch8:		gnome-power-manager-08-brightness-applet-install.diff
 Patch9:		gnome-power-manager-09-scripts.diff
 Patch10:        gnome-power-manager-10-diable-suspend-button-configration.diff
-Patch11:        gnome-power-manager-11-authorization-checking.diff
+# Need to rework later
+#Patch11:        gnome-power-manager-11-authorization-checking.diff
 Patch12:        gnome-power-manager-12-crash.diff       
 Patch13:	gnome-power-manager-13-beep.diff
 Patch14:        gnome-power-manager-14-lid-shutdown.diff
 Patch15:        gnome-power-manager-15-disable-lid-beeping.diff
 Patch16:        gnome-power-manager-16-brightness-reduction.diff
 Patch17:        gnome-power-manager-17-interactive-cmd.diff
+Patch18:        gnome-power-manager-18-screensaver.diff
 URL:		http://www.gnome.org/projects/gnome-power-manager/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake
@@ -85,13 +85,14 @@ Uses of GNOME Power Manager infrastructure
 %patch8 -p0
 %patch9 -p0
 %patch10 -p0
-%patch11 -p0
+#%patch11 -p0
 %patch12 -p0
 %patch13 -p0
 %patch14 -p0
 %patch15 -p0
 %patch16 -p0
 %patch17 -p0
+%patch18 -p0
 
 %build
 %ifos linux
@@ -109,7 +110,6 @@ intltoolize --copy --force --automake
 autoheader
 autoconf
 ./configure --prefix=%{_prefix}			\
-	    --enable-policykit			\
 	    --libexecdir=%{_libexecdir}         \
             --sysconfdir=%{_sysconfdir}         \
 	    --mandir=%{_mandir}                 \
@@ -147,6 +147,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Feb 13 2008 -simon.zheng@sun.com
+- Add patch gnome-power-manager-18-screensaver.diff.
+
 * Mon Jau 28 2008 - simon.zheng@sun.com
 - Add patch gnome-power-manager-17-interactive-cmd.diff to
   set gnome-sys-suspend as power button interactive policy.

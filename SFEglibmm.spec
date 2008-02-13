@@ -55,10 +55,8 @@ find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 
 # Remove m4, pm and extra_gen_defs directory
-mv $RPM_BUILD_ROOT%{_libdir}/glibmm-2.4/proc/gmmproc $RPM_BUILD_ROOT%{_libdir}/glibmm-2.4/
-mv $RPM_BUILD_ROOT%{_libdir}/glibmm-2.4/proc/*.pl $RPM_BUILD_ROOT%{_libdir}/glibmm-2.4/
-rm -rf $RPM_BUILD_ROOT%{_libdir}/glibmm-2.4/proc
-rm -rf $RPM_BUILD_ROOT%{_libdir}/glibmm-2.4/include
+rm -rf $RPM_BUILD_ROOT%{_libdir}/glibmm-2.4/proc/m4
+rm -rf $RPM_BUILD_ROOT%{_libdir}/glibmm-2.4/proc/pm
 rm -rf $RPM_BUILD_ROOT%{_libdir}/libglibmm_generate_extra_defs*.so*
 rm -rf $RPM_BUILD_ROOT%{_includedir}/glibmm-2.4/glibmm_generate_extra_defs
 
