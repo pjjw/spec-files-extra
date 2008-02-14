@@ -1,0 +1,11 @@
+--- nas-1.9.1/lib/audio/Imakefile.orig	2008-02-14 12:47:04.956193811 +0530
++++ nas-1.9.1/lib/audio/Imakefile	2008-02-14 12:48:13.082731818 +0530
+@@ -150,7 +150,7 @@
+ XAULIB = -lXau
+ #endif
+ 
+-#if defined(LinuxArchitecture) || defined(GNUArchitecture) || defined(__FreeBSD_kernel__)
++#if defined(LinuxArchitecture) || defined(GNUArchitecture) || defined (SunArchitecture) || defined(__FreeBSD_kernel__)
+ REQUIREDLIBS = -L$(USRLIBDIR) -lXt $(XAULIB) -lm 
+ #endif
+ 

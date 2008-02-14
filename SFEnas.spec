@@ -20,6 +20,8 @@ Summary:	Network Audio System
 Version:	%{src_ver}
 License:	Free
 Source:		%{src_url}/%{src_name}-%{version}.src.tar.gz
+Patch1:         nas-01-libaudio.diff
+
 SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
@@ -49,6 +51,7 @@ SUNW_BaseDir:            /
 
 %prep
 %setup -q -n %{src_name}-%version
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -58,10 +61,11 @@ fi
 
 export CPPFLAGS="-I/usr/X11/include"
 export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags -lX11"
+export LDFLAGS="%_ldflags -lX11 -L%{openwinlib} -lXt"
 export PATH="${PATH}:%{openwinbin}"
 
 xmkmf
+
 make World
 
 %install
@@ -77,6 +81,7 @@ mv $RPM_BUILD_ROOT%{openwinlib}/lib*.so* $RPM_BUILD_ROOT%{_libdir}
 mv $RPM_BUILD_ROOT%{openwinbin} $RPM_BUILD_ROOT%{_bindir}
 mv $RPM_BUILD_ROOT%{openwininclude} $RPM_BUILD_ROOT%{_includedir}
 mv $RPM_BUILD_ROOT%{openwindata} $RPM_BUILD_ROOT%{_datadir}
+chmod a+x $RPM_BUILD_ROOT%{_libdir}/lib*.so*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -99,6 +104,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}
 
 %changelog
+* Thu Feb 14 2008 - moinak.ghosh@sun.com
+- Add patch to Imakefile to add proper linker flags for libaudio.
 * Fri Jan 11 2008 - moinak.ghosh@sun.com
 - Update source URL, bumped version to 1.9.1
 - Add openwinbin to PATH, use rm -f to quiesce rm

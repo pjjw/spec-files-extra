@@ -1,4 +1,9 @@
 2008-02-14 Moinak ghosh <moinak.ghosh@sun.com>
+	* SFEnas.spec:
+	* patches/nas-01-libaudio.diff:
+	  Add patch to Imakefile to add proper linker flags for libaudio.
+
+2008-02-14 Moinak ghosh <moinak.ghosh@sun.com>
 	* SFEsupertux.spec:
 	* patches/supertux-01-sprite.diff:
 	  Fix some kinks with latest SuperTux version.
