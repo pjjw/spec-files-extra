@@ -1,5 +1,11 @@
 2008-02-14  Petr Sobotka  <sobotkap@centrum.cz>
 
+	* SFExdelta.spec:
+	* patches/xdelta-01-fixmakefile.diff:
+	  Initial commit of xdelta 3.0 - beta version
+
+2008-02-14  Petr Sobotka  <sobotkap@centrum.cz>
+
 	* SFEwesnoth.spec: Bump to 1.3.16
 	* patches/wesnoth-05-fixconfigure.diff:
 	* patches/wesnoth-08-fixconst.diff:
