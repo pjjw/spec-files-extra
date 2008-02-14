@@ -1,3 +1,8 @@
+2008-02-14 Moinak ghosh <moinak.ghosh@sun.com>
+	* SFEsupertux.spec:
+	* patches/supertux-01-sprite.diff:
+	  Fix some kinks with latest SuperTux version.
+
 2008-02-14  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* include/gconf-install.script: postrun script for installing GConf

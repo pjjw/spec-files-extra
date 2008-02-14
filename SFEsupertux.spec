@@ -12,6 +12,8 @@ Name:                   SFEsupertux
 Summary:                Super Tux Game
 Version:                0.3.1
 Source:                 %{src_url}/%{src_name}-%{version}d.tar.bz2
+Patch1:                 supertux-01-sprite.diff
+
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -29,6 +31,7 @@ SUNW_BaseDir:            %{_prefix}
 
 %prep
 %setup -q -c -n %{name}-%{version}
+%patch1 -p0
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -110,5 +113,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Thu Feb 14 2008 - moinak.ghosh@sun.com
+- Fix some kinks with latest SuperTux version.
 * Sun May  6 2007 - dougs@truemail.co.th
 - Initial version

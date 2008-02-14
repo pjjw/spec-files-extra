@@ -1,0 +1,40 @@
+--- supertux-0.3.1/src/sprite/sprite.cpp.orig	2008-02-11 19:04:58.610983722 +0530
++++ supertux-0.3.1/src/sprite/sprite.cpp	2008-02-11 19:06:14.969051226 +0530
+@@ -144,13 +144,35 @@
+ int
+ Sprite::get_width() const
+ {
+-  return (int) action->surfaces[get_frame()]->get_width();
++  int frameidx = get_frame();
++  if(frameidx >= get_frames() || frameidx < 0) {
++#ifndef DEBUG
++    // in optimized mode we get some small rounding errors in floating point
++    // number sometimes...
++    log_warning << "frame out of range: " << frameidx << "/" << get_frames() << " at sprite: " << get_name
++() << "/" << get_action() << std::endl;
++#endif
++    frameidx = get_frames() - 1;
++  }
++
++  return (int) action->surfaces[frameidx]->get_width();
+ }
+ 
+ int
+ Sprite::get_height() const
+ {
+-  return (int) action->surfaces[get_frame()]->get_height();
++  int frameidx = get_frame();
++  if(frameidx >= get_frames() || frameidx < 0) {
++#ifndef DEBUG
++    // in optimized mode we get some small rounding errors in floating point
++    // number sometimes...
++    log_warning << "frame out of range: " << frameidx << "/" << get_frames() << " at sprite: " << get_name
++() << "/" << get_action() << std::endl;
++#endif
++    frameidx = get_frames() - 1;
++  }
++
++  return (int) action->surfaces[frameidx]->get_height();
+ }
+ 
+ float
