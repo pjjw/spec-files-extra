@@ -1,11 +1,14 @@
---- wesnoth-1.3.15/configure.ac.fixconfigure	2008-01-28 22:36:56.276969021 +0100
-+++ wesnoth-1.3.15/configure.ac	2008-01-28 22:37:25.465621031 +0100
-@@ -88,7 +88,7 @@
+--- wesnoth-1.3.16/configure.ac.fixconfigure	2008-02-13 22:14:53.397032177 +0100
++++ wesnoth-1.3.16/configure.ac	2008-02-13 22:17:47.758863523 +0100
+@@ -91,9 +91,9 @@
+ 
+ if test "x$debug" = "xyes"
  then
- 	CXXFLAGS="$CXXFLAGS -O0 -DDEBUG -ggdb3 -W -Wall -ansi"
+-	CXXFLAGS="$CXXFLAGS -O0 -DDEBUG -ggdb3 -W -Wall -ansi"
++	CXXFLAGS="$CXXFLAGS"
  else
 -	CXXFLAGS="-O2 -W -Wall -ansi $CXXFLAGS"
 +	CXXFLAGS="$CXXFLAGS"
  fi
  
- 
+ if test "x$profile" = "xyes"
