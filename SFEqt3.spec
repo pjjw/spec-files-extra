@@ -45,10 +45,12 @@ Requires: SUNWxwplt
 Requires: SUNWxwxft
 # The above also pulls in SUNWfreetype2
 Requires: SFEcups
+Requires: SFElibmng
 BuildRequires: SFEcups-devel
 BuildRequires: SUNWsqlite-devel
 BuildRequires: SUNWsfwhea
 BuildRequires: SUNWpostgr-devel
+BuildRequires: SFElibmng-devel
 
 %package devel
 Summary:        %{summary} - development files
@@ -178,6 +180,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Thu Feb 15 2008 - Thomas Wagner
+- add (Build-)Requires: SFElibmng(-devel)
 * Thu Jan 24 2008 - moinak.ghosh@sun.com
 - Create a compatibility doc link so that KDE and other software
 - can find QT documentation.
