@@ -14,7 +14,7 @@ Version:                 0.2.9
 Source:                  http://people.freedesktop.org/~mccann/dist/ConsoleKit-%{version}.tar.gz
 Patch1:                  ConsoleKit-01-nox11check.diff
 Patch2:                  ConsoleKit-02-emptystruct.diff
-Patch3:                  ConsoleKit-03-noheaderpaths.diff
+Patch3:                  ConsoleKit-03-paths.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -150,6 +150,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 15 2008 - brian.cameron@sun.com
+- Rework ConsoleKit-03-paths.diff so it makes better use of #ifdefs.
 * Fri Feb 15 2008 - simon.zheng@sun.com
 - Bump to 0.2.9. Add ConsoleKit-03-noheaderpaths.diff because there's not
   header paths.h on Solaris.

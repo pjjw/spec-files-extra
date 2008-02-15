@@ -1,4 +1,13 @@
+2008-02-14  Brian Cameron  <brian.cameron@sun.com>
+
+        * patches/ConsoleKit-03-paths.diff: Add patch needed to build.
+        * SUNWgnome-display-mgr.spec:  Bump to 2.21.7
+        * patches/gdm-01-fixcompile.diff:  Remove upstream patch.
+	* patches/gdm-02-sdtlogin.diff:  Remove for now, it is not
+	  working.
+
 2008-02-15  Jerry Yu <jijun.yu@sun.com>
+
 	* SFEpython-vojbect.spec: add a build dependency.
 	* base-specs/conduit.spec: bump to 0.3.7.
 
@@ -9,6 +18,7 @@
 	  exist on Solaris.
 
 2008-02-15  Thomas Wagner <tom68@users.sourceforge.net>
+
         * SFEqt3.spec: add (Build-)Requires: SFElibmng(-devel)
 
 2008-02-14  Petr Sobotka  <sobotkap@centrum.cz>
@@ -24,11 +34,13 @@
 	* patches/wesnoth-08-fixconst.diff:
 
 2008-02-14 Moinak ghosh <moinak.ghosh@sun.com>
+
 	* SFEnas.spec:
 	* patches/nas-01-libaudio.diff:
 	  Add patch to Imakefile to add proper linker flags for libaudio.
 
 2008-02-14 Moinak ghosh <moinak.ghosh@sun.com>
+
 	* SFEsupertux.spec:
 	* patches/supertux-01-sprite.diff:
 	  Fix some kinks with latest SuperTux version.
@@ -48,6 +60,7 @@
 	  screen lock.
 
 2008-02-12 Pradhap Devarajan <pradhap (at) gmail.com>
+
         * Fixed links and bumped the version in various files
         - SFEogre.spec
         - SFEnvu.spec
@@ -97,15 +110,19 @@
 	- SFEcabextract.spec  
 
 2008-02-12 Ananth Shrinivas <ananth@sun.com>
+
     	* SFEgrsync - A GTK+ based front end for rsync
 
 2008-02-11 Pradhap Devarajan < pradhap (at) gmail.com>
+
 	* SFEbrlcad.spec: add multi CPU support for compilation
 
 2008-02-11 Pradhap Devarajan < pradhap (at) gmail.com>
+
 	* SFEtin.spec: fixed rm issues
 
 2008-02-11 Pradhap Devarajan < pradhap (at) gmail.com>
+
 	* inc/prod.inc: added sf_download macro
 	* Fixed 146 spec files to use sf_download
 	* Let Sourceforge decide best mirror 
@@ -116,12 +133,14 @@
 	* SFEgnome-commander.spec: add --disable-scrollkeeper configure option
 
 2008-02-10 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEscorched3d.spec:
 	* ext-sources/scorched3d.desktop:
 	* ext-sources/scorched3d.png:
 	  Add Desktop entry for Scorched3D.
 
 2008-02-10 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEnicdrv.spec:
 	* patches/nicdrv-03-tu.diff:
 	* patches/nicdrv-02-rf.diff:
@@ -147,6 +166,7 @@
 	  which uses syntax similar to MATLAB
 
 2008-02-08 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEopenmotif.spec:
 	* ext-sources/XmStrDefs21.ht:
 	* patches/openmotif-02-compatibility.diff:
