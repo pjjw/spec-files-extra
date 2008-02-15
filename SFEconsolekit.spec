@@ -10,10 +10,11 @@
 
 Name:                    SFEconsolekit
 Summary:                 Framework for tracking users, login sessions, and seats.
-Version:                 0.2.7
+Version:                 0.2.9
 Source:                  http://people.freedesktop.org/~mccann/dist/ConsoleKit-%{version}.tar.gz
 Patch1:                  ConsoleKit-01-nox11check.diff
 Patch2:                  ConsoleKit-02-emptystruct.diff
+Patch3:                  ConsoleKit-03-noheaderpaths.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -60,6 +61,7 @@ Requires: %name
 %setup -q -n ConsoleKit-%version
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -148,6 +150,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 15 2008 - simon.zheng@sun.com
+- Bump to 0.2.9. Add ConsoleKit-03-noheaderpaths.diff because there's not
+  header paths.h on Solaris.
 * Thu Feb 07 2008 - Brian.Cameron@sun.com
 - Add /var/log/ConsoleKit/history file to packaging.
 * Thu Jan 31 2008 - Brian.Cameron@sun.com
