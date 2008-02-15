@@ -11,13 +11,13 @@
 Name:           conduit
 License:        GPL
 Group:          System/GUI/GNOME
-Version:        0.3.4
+Version:        0.3.7
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.conduit-project.org/
 Summary:        Synchronization for GNOME
-Source:         http://files.conduit-project.org/releases/%{name}-%{version}.tar.gz
+Source:         http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.3/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 BuildRequires:  dbus-devel >= 0.93
 BuildRequires:  pkgconfig
@@ -132,5 +132,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Fri Feb 15 2008 - jijun.yu@sun.com
+- Bump to 0.3.7
+- Modify the source.
 * Tue Dec 11 2007 - nonsea@users.sourceforge.net
 - Initial version

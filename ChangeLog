@@ -1,3 +1,7 @@
+2008-02-15  Jerry Yu <jijun.yu@sun.com>
+	* SFEpython-vojbect.spec: add a build dependency.
+	* base-specs/conduit.spec: bump to 0.3.7.
+
 2008-02-15  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEconsolekit.spec:

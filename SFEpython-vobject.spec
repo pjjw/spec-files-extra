@@ -20,6 +20,7 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 BuildRequires: SUNWPython-devel
+BuildRequires: SFEpython-setuptools
 Requires: SUNWPython
 
 %prep
@@ -49,5 +50,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Fri Feb 15 2008 - jijun.yu@sun.com 
+- add a build dependency: SFEpython-setuptools
 * Tue Dec 11 2007 - nonsea@users.sourceforge.net
 - Initial spec
