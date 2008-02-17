@@ -68,6 +68,8 @@
 %define picflags %gcc_picflags
 %define optflags64 %gcc_optflags64
 %define cxx_optflags64 %gcc_cxx_optflags64
+%define _gpp_version %(g++ --version | head -1 | cut -f3 -d' ')
+%define _cxx_libdir	   %{_prefix}/lib/g++/%{_gpp_version}/%{_arch64}
 
 %else
 # cc is not gcc
@@ -75,6 +77,7 @@
 %define picflags %suncc_picflags
 %define optflags64 %suncc_optflags64
 %define cxx_optflags64 %suncc_cxx_optflags64
+%define _cxx_libdir %{_prefix}/lib
 
 %endif
 
@@ -105,6 +108,8 @@
 %define xorg_lib_path   -L%xorg_lib -R%xorg_lib
 
 # ChangeLog:
+# 2008-02-17  Laszlo (Laca) Peter  <laca@sun.com>
+# - define _cxx_libdir and _gpp_version for building C++ libs
 # 2007-03-20  Doug Scott  <dougs@truemail.co.th>
 # added %_cc64_opt_level to suncc_optflags64
 # added standard directories definitions

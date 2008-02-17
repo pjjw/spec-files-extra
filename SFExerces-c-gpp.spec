@@ -6,12 +6,28 @@
 
 %include Solaris.inc
 
-Name:         SFExerces-c
+# don't build the sample code, it's built in the no-gpp spec file
+%define no_samples 1
+%define cc_is_gcc 1
+
+%ifarch amd64 sparcv9
+%include arch64.inc
+%define _libdir %{_cxx_libdir}
+%define rcopts -b 64
+%use xerces64 = xerces-c.spec
+%endif
+
+%include base.inc
+%define _libdir %{_cxx_libdir}
+%define rcopts -b 32
+%use xerces = xerces-c.spec
+
+Name:         SFExerces-c-gpp
 License:      Other
 Group:        System/Libraries
 Version:      2.8.0
 %define tarball_version 2_8_0
-Summary:      Xerces-C++ - validating XML parser
+Summary:      Xerces-C++ - validating XML parser - g++-built libraries
 Source:       http://www.apache.org/dist/xerces/c/sources/xerces-c-src_%{tarball_version}.tar.gz
 URL:          http://xerces.apache.org/index.html
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
@@ -34,63 +50,53 @@ code, samples and API documentation are provided with the parser. For
 portability, care has been taken to make minimal use of templates, no RTTI,
 and minimal use of #ifdefs.
 
-%package devel
-Summary:       %{summary} - development files
-SUNW_BaseDir:  %{_basedir}
-%include default-depend.inc
-Requires:      %name
-
 %prep
-%setup -q -n xerces-c-src_%{tarball_version}
+rm -rf %name-%version
+mkdir %name-%version
 
-%build
-# don't try to parallel build this
-CPUS=1
-
-# 32-bit build
-%define rcopts 32
-
-%if %cc_is_gcc
-%else
-export LDFLAGS="-norunpath"
+%ifarch amd64 sparcv9
+mkdir %name-%version/%_arch64
+%xerces64.prep -d %name-%version/%_arch64
 %endif
 
-export XERCESCROOT=`pwd`
-cd $XERCESCROOT/src/xercesc
-./runConfigure %{rcopts} -c `basename ${CC}` -x `basename ${CXX}` -p solaris -C \
-    --libdir="%{_libdir}" -minmem -nsocket -tnative -r pthread \
-    -P%{_prefix}
-make -j $CPUS DESTDIR=$RPM_BUILD_ROOT
-cd $XERCESCROOT/samples
-./runConfigure %{rcopts} -c ${CC} -x "${CXX}" -p solaris -r pthread
-make -j $CPUS DESTDIR=$RPM_BUILD_ROOT
+mkdir %name-%version/%{base_arch}
+%xerces.prep -d %name-%version/%{base_arch}
+
+%build
+export CC=gcc
+export CXX=g++
+
+%ifarch amd64 sparcv9
+%xerces64.build -d %name-%version/%_arch64
+%endif
+
+%xerces.build -d %name-%version/%{base_arch}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-export XERCESCROOT=`pwd`
-cd $XERCESCROOT/src/xercesc
-make DESTDIR=$RPM_BUILD_ROOT TARGET=$RPM_BUILD_ROOT install
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/bin
-#we don't want obj directory
-install `/usr/gnu/bin/find $XERCESCROOT/bin -maxdepth 1 -type f` \
-    $RPM_BUILD_ROOT%{_prefix}/bin
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/xerces-c
-/usr/gnu/bin/cp -a $XERCESCROOT/samples $RPM_BUILD_ROOT%{_datadir}/xerces-c
+%ifarch amd64 sparcv9
+%xerces64.install -d %name-%version/%_arch64
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{_arch64}
+mv $RPM_BUILD_ROOT%{_prefix}/lib/lib* $RPM_BUILD_ROOT%{_libdir}/%{_arch64}
+%endif
+
+%xerces.install -d %name-%version/%{base_arch}
+mkdir -p $RPM_BUILD_ROOT%{_libdir}
+mv $RPM_BUILD_ROOT%{_prefix}/lib/lib* $RPM_BUILD_ROOT%{_libdir}
+
+rm -rf $RPM_BUILD_ROOT%{_includedir}
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(0755, root, bin)
-%{_bindir}/*
 %{_libdir}/libxerces-*.so.*
 %{_libdir}/libxerces-*.so
-
-%files devel
-%defattr(-, root, bin)
-%{_includedir}
-%dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/xerces-c/samples
+%ifarch amd64 sparcv9
+%{_libdir}/%{_arch64}/libxerces-*.so.*
+%{_libdir}/%{_arch64}/libxerces-*.so
+%endif
 
 %changelog
 * Sun Feb 17 2008 - laca@sun.com

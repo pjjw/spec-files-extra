@@ -1,5 +1,19 @@
 2008-02-17  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFExerces-c-gpp.spec: (new) builds 32-bit and 64-bit Xerces-C
+	  with g++
+	* SFExerces-c.spec: disable parallel build
+	* base-specs/doxygen.spec: build using the C/C++ compiler specified
+	  by the CC/CXX env variables
+	* base-specs/xerces-c.spec: (new) base spec so that we can build
+	  32-bit and 64-bit variants easily
+	* include/arch64.inc: define _cxx_libdir and _gpp_version for
+	  building C++ libs
+	* include/base.inc: define _cxx_libdir and _gpp_version for
+	  building C++ libs
+
+2008-02-17  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFExalan-c.spec: Xalan-C XSLT processor
 	* SFExerces-c.spec: Xerces-C++ validating XML parser
 

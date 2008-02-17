@@ -56,6 +56,8 @@
 %define picflags %gcc_picflags
 %define optflags %gcc_optflags
 %define cxx_optflags %gcc_cxx_optflags
+%define _gpp_version %(g++ --version | head -1 | cut -f3 -d' ')
+%define _cxx_libdir	   %{_prefix}/lib/g++/%{_gpp_version}
 
 %else
 # cc is not gcc
@@ -63,6 +65,7 @@
 %define picflags %suncc_picflags
 %define optflags %suncc_optflags ${EXTRA_CFLAGS}
 %define cxx_optflags %suncc_cxx_optflags ${EXTRA_CXXFLAGS}
+%define _cxx_libdir %{_prefix}/lib
 
 %endif
 
@@ -87,6 +90,8 @@
 %define xorg_lib_path   -L%xorg_lib -R%xorg_lib
 
 # ChangeLog:
+# 2008-02-17  Laszlo (Laca) Peter  <laca@sun.com>
+# - define _cxx_libdir and _gpp_version for building C++ libs
 # 2007-06-09  Laszlo (Laca) Peter  <laca@sun.com>
 # - delete cc_is_gcc conditional when setting _gcc_opt_level,
 #   because we want this set anyway so it can be used in spec

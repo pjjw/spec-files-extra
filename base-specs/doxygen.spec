@@ -49,13 +49,20 @@ export CFLAGS="%optflags"
 export CXXFLAGS="%cxx_optflags"
 export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib"
 
+%if %cc_is_gcc
+%define platform solaris-g++
+%else
+%define platform solaris-cc
+export CXX="$CXX -norunpath"
+%endif
+
 ./configure --prefix %{_prefix}		\
-	    --platform solaris-g++	\
+	    --platform %platform	\
 	    --docdir %{_datadir}/doc	\
 	    --release			\
 	    --shared
 
-make -j $CPUS
+make -j $CPUS CC="$CC" CXX="$CXX"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -67,6 +74,8 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Sun Feb 17 2008 - laca@sun.com
+- build using the C/C++ compiler specified by the CC/CXX env variables
 * Fri Jan 18 2008 - moinak.ghosh@sun.com
 - Bump version to 1.5.4
 - Change build configuration to solaris-g++ since SUN Studio compiled doxygen

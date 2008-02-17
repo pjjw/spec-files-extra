@@ -1,13 +1,4 @@
-#
-# spec file for package SFExerces-c
-#
-# includes module(s): Xerces-C++
-#
-
-%include Solaris.inc
-
-Name:         SFExerces-c
-License:      Other
+Name:         xerces-c
 Group:        System/Libraries
 Version:      2.8.0
 %define tarball_version 2_8_0
@@ -18,21 +9,6 @@ BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
 SUNW_BaseDir: %{_basedir}
 Autoreqprov:  on
-%include default-depend.inc
-BuildRequires: SFEdoxygen
-BuildRequires: SFEfindutils
-BuildRequires: SUNWgnu-coreutils
-
-%description
-Xerces-C++ is a validating XML parser written in a portable subset of C++.
-Xerces-C++ makes it easy to give your application the ability to read and
-write XML data. A shared library is provided for parsing, generating,
-manipulating, and validating XML documents.
-
-The parser provides high performance, modularity, and scalability. Source
-code, samples and API documentation are provided with the parser. For
-portability, care has been taken to make minimal use of templates, no RTTI,
-and minimal use of #ifdefs.
 
 %package devel
 Summary:       %{summary} - development files
@@ -47,35 +23,36 @@ Requires:      %name
 # don't try to parallel build this
 CPUS=1
 
-# 32-bit build
-%define rcopts 32
-
-%if %cc_is_gcc
-%else
-export LDFLAGS="-norunpath"
-%endif
-
 export XERCESCROOT=`pwd`
+export CXXFLAGS="%{cxx_optflags}"
+export LDFLAGS="%_ldflags %{cxx_optflags}"
 cd $XERCESCROOT/src/xercesc
 ./runConfigure %{rcopts} -c `basename ${CC}` -x `basename ${CXX}` -p solaris -C \
     --libdir="%{_libdir}" -minmem -nsocket -tnative -r pthread \
     -P%{_prefix}
 make -j $CPUS DESTDIR=$RPM_BUILD_ROOT
+
+%if %{?no_samples:%no_samples}%{!?no_samples:0}
+%else
 cd $XERCESCROOT/samples
 ./runConfigure %{rcopts} -c ${CC} -x "${CXX}" -p solaris -r pthread
 make -j $CPUS DESTDIR=$RPM_BUILD_ROOT
+%endif
 
 %install
-rm -rf $RPM_BUILD_ROOT
 export XERCESCROOT=`pwd`
 cd $XERCESCROOT/src/xercesc
 make DESTDIR=$RPM_BUILD_ROOT TARGET=$RPM_BUILD_ROOT install
+
+%if %{?no_samples:%no_samples}%{!?no_samples:0}
+%else
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/bin
 #we don't want obj directory
 install `/usr/gnu/bin/find $XERCESCROOT/bin -maxdepth 1 -type f` \
     $RPM_BUILD_ROOT%{_prefix}/bin
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/xerces-c
 /usr/gnu/bin/cp -a $XERCESCROOT/samples $RPM_BUILD_ROOT%{_datadir}/xerces-c
+%endif
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
