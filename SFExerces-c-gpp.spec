@@ -25,10 +25,8 @@
 Name:         SFExerces-c-gpp
 License:      Other
 Group:        System/Libraries
-Version:      2.8.0
-%define tarball_version 2_8_0
+Version:      %{xerces.version}
 Summary:      Xerces-C++ - validating XML parser - g++-built libraries
-Source:       http://www.apache.org/dist/xerces/c/sources/xerces-c-src_%{tarball_version}.tar.gz
 URL:          http://xerces.apache.org/index.html
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
