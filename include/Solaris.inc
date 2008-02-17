@@ -70,7 +70,7 @@ SUNW_Copyright:            default-copyright.txt
 
 %include base.inc
 
-%define _basedir           /usr
+%define _basedir           %{?_basedir}%{?!_basedir:/usr}
 %define _subdir            
 %define _prefix		   %{_basedir}
 %define _sysconfdir	   /etc
@@ -79,6 +79,8 @@ SUNW_Copyright:            default-copyright.txt
 %define _pkg_config_path   %{_libdir}/pkgconfig
 
 # ChangeLog:
+# 2008-02-18  Laszlo (Laca) Peter  <laca@sun.com>
+# - allow user to redefine _basedir
 # 2007-09-28  Laszlo (Laca) Peter  <laca@sun.com>
 # - copy arch_ldadd definition from base.inc
 # 2007-09-27  Laszlo (Laca) Peter  <laca@sun.com>

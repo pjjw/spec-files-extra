@@ -1,3 +1,7 @@
+2008-02-18  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* include/Solaris.inc: allow user to redefine _basedir
+
 2008-02-17  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFExalan-c-gpp.spec: (new, unfinished) builds 32-bit and 64-bit
