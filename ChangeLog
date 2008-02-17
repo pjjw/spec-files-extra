@@ -1,5 +1,14 @@
 2008-02-17  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFExalan-c-gpp.spec: (new, unfinished) builds 32-bit and 64-bit
+	  Xalan C++ with g++.  Note: currently breaks with MsgCreator
+	  core dumping in 64-bit :(
+	* base-specs/xalan-c.spec: (new) base spec for building SFExalan-c-gpp.
+	* patches/xalan-c-01-sparcv9.diff: (new) patch that fixes runConfigure
+	  so that it won't try to use sparcv9 flags on amd64.
+
+2008-02-17  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFExerces-c-gpp.spec: (new) builds 32-bit and 64-bit Xerces-C
 	  with g++
 	* SFExerces-c.spec: disable parallel build

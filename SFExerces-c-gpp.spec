@@ -1,5 +1,5 @@
 #
-# spec file for package SFExerces-c
+# spec file for package SFExerces-c-gpp
 #
 # includes module(s): Xerces-C++
 #
