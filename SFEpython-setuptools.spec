@@ -5,7 +5,7 @@
 #
 %define oname setuptools
 %define name python-%oname
-%define version 0.6c7
+%define version 0.6c8
 
 %include Solaris.inc
 
@@ -60,6 +60,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{pythonver}/vendor-packages/site.py
 
 %changelog
+* Mon Feb 18 2008 - nonsea@users.sourceforge.net
+- Bump to 0.6c8
 * Thu Feb 07 2008 Brian Cameron  <brian.cameron@sun.com>
 - Cleanup
 * Fri Oct 05 2007 Brian Cameron  <brian.cameron@sun.com>

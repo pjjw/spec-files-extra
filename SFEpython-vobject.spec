@@ -13,7 +13,7 @@
 Name:                SFEpython-vobject
 URL:                 http://vobject.skyhouseconsulting.com/
 Summary:             vobject - a Python iCalendar library
-Version:             0.4.9
+Version:             0.5.0
 Source:              http://vobject.skyhouseconsulting.com/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -50,6 +50,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Mon Feb 18 2008 - nonsea@users.sourceforge.net
+- Bump to 0.5.0
 * Fri Feb 15 2008 - jijun.yu@sun.com 
 - add a build dependency: SFEpython-setuptools
 * Tue Dec 11 2007 - nonsea@users.sourceforge.net
