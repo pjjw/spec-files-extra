@@ -1,5 +1,10 @@
 2008-02-18  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* base-specs/libmtp.spec: fix libmtp.pc so that it works without
+	  libusb.pc which we don't have on Solaris
+
+2008-02-18  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* include/Solaris.inc: allow user to redefine _basedir
 
 2008-02-17  Laszlo (Laca) Peter  <laca@sun.com>

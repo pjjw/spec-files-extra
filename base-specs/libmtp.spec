@@ -60,6 +60,14 @@ make install DESTDIR=$RPM_BUILD_ROOT
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.*a
 rm -f $RPM_BUILD_ROOT%{_libdir}/libmtp/lib*.*a
 
+# FIXME: this hack works around that fact that libusb comes without
+# a pkgconfig .pc file on Solaris
+cd $RPM_BUILD_ROOT%{_libdir}/pkgconfig
+grep -v 'Requires: libusb' libmtp.pc > libmtp.pc.new
+sed -e 's,\(^Libs: .*\),\1 -L/usr/sfw/lib -R/usr/sfw/lib -lusb,' \
+    libmtp.pc.new > libmtp.pc
+rm libmtp.pc.new
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
