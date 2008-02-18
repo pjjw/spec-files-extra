@@ -1,0 +1,14 @@
+--- ConsoleKit-0.2.9/tools/ck-launch-session.c-orig	2008-02-14 17:28:10.755450000 -0600
++++ ConsoleKit-0.2.9/tools/ck-launch-session.c	2008-02-14 17:29:48.497010000 -0600
+@@ -33,7 +33,11 @@
+ 
+ #include <sys/types.h>
+ #include <sys/wait.h>
++#ifdef HAVE_PATHS_H
+ #include <paths.h>
++#else
++#define _PATH_BSHELL "/bin/sh"
++#endif
+ #include <stdlib.h>
+ #include <syslog.h>
+ #include <unistd.h>
