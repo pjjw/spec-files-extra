@@ -21,6 +21,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Requires:       SUNWbash
 Requires:       SUNWgnome-base-libs
 Requires:       SUNWPython
+Requires:       SUNWpysqlite
 Requires:       SFEpython-dateutil
 Requires:       SFEpython-vobject
 Requires:       SFEpygoocanvas
@@ -120,5 +121,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Feb 18 2007 - nonsea@users.sourceforge.net
+- Add Requires: SUNWpysqlite
 * Tue Dec 11 2007 - nonsea@users.sourceforge.net
 - Initial spec
