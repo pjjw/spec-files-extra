@@ -1,7 +1,7 @@
 #
 # spec file for package gnome-build
 #
-# Copyright (c) 2005 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -11,7 +11,7 @@
 Name:		gnome-build
 License:	GPL
 Group:		Development/Libraries
-Version:	0.2.0
+Version:	0.2.2
 Release:	1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -63,12 +63,15 @@ autoheader
 automake -a -c -f
 autoconf
 ./configure --prefix=%{_prefix} \
-    --bindir=%{_bindir} --mandir=%{_mandir} \
-    --localstatedir=%{_localstatedir} --libdir=%{_libdir} \
-    --datadir=%{_datadir} --includedir=%{_includedir} \
-    --sysconfdir=%{_sysconfdir}
+	    --bindir=%{_bindir} \
+	    --mandir=%{_mandir} \
+	    --libdir=%{_libdir} \
+	    --datadir=%{_datadir} \
+	    --includedir=%{_includedir} \
+	    --sysconfdir=%{_sysconfdir} \
+	    %gtk_doc_option
 
-make # -j $CPUS
+make
 
 %install
 [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
@@ -105,6 +108,8 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Feb 18 2008 - nonsea@users.sourceforge.net
+- Bump to 0.2.2.
 * Tue Oct 16 2007 - laca@sun.com
 - use IT_PROG_INTLTOOL instead of AC_PROG_INTLTOOL in configure.in
 * Mon Sep 10 2007 - nonsea@users.sourceforge.net

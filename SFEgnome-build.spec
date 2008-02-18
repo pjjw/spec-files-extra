@@ -58,6 +58,10 @@ export RPM_OPT_FLAGS="$CFLAGS"
 rm -rf $RPM_BUILD_ROOT
 %gbuild.install -d %name-%version
 
+%if %{!?_without_gtk_doc:0}%{?_without_gtk_doc:1}
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gtk-doc
+%endif
+
 %if %build_l10n
 %else
 # REMOVE l10n FILES
@@ -87,6 +91,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
+#%if %{!?_without_gtk_doc:1}%{?_without_gtk_doc:0}
+#%dir %attr (0755, root, sys) %{_datadir}
+#%{_datadir}/gtk-doc
+#%endif
 
 %if %build_l10n
 %files l10n

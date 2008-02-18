@@ -1,7 +1,7 @@
 #
 # spec file for package gdl
 #
-# Copyright (c) 2005 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -12,7 +12,7 @@
 Name:		gdl
 License:	GPL
 Group:		Development/Libraries
-Version:	0.7.7
+Version:	0.7.9
 Release:	1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -73,10 +73,13 @@ automake -a -c -f
 autoconf
 
 ./configure --prefix=%{_prefix} \
-    --bindir=%{_bindir} --mandir=%{_mandir} \
-    --localstatedir=%{_localstatedir} --libdir=%{_libdir} \
-    --datadir=%{_datadir} --includedir=%{_includedir} \
-    --sysconfdir=%{_sysconfdir}
+	    --bindir=%{_bindir} \
+	    --mandir=%{_mandir} \
+	    --libdir=%{_libdir} \
+	    --datadir=%{_datadir} \
+	    --includedir=%{_includedir} \
+	    --sysconfdir=%{_sysconfdir} \
+	    %gtk_doc_option
 
 make -j $CPUS
 
@@ -107,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/lib/pkgconfig/*
 
 %changelog
+* Mon Feb 18 2008 - nonsea@users.sourceforge.net
+- Bump to 0.7.9.
+
 * Sun Jun 30 2007 - nonsea@users.sourceforge.net
 - Bump to 0.7.7.
 - Remove upstreamed patch void0-suncc-error

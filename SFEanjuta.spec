@@ -13,7 +13,7 @@
 # or, depend on package SUNWevolution-bdb-devel, which is in jds spec-files/closed
 # now, use second way.
 Name:           SFEanjuta
-Version:        2.3.2
+Version:        2.3.4
 Summary:        GNOME IDE for C and C++
 Group:          Development/Tools
 License:        GPL
@@ -23,8 +23,6 @@ Source:         http://download.gnome.org/sources/anjuta/2.3/anjuta-%{version}.t
 Patch1:         anjuta-01-solaris-grep.diff
 # date:2007-05-14 owner:nonsea type:branding
 Patch2:         anjuta-02-ld-z-text.diff
-# date:2008-01-24 owner:nonsea type:branding
-Patch3:         anjuta-03-to-latest.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -287,6 +285,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Mon Feb 18 2008 - nonsea@users.sourceforge.net
+- Bump to 2.3.4.
 * Fri Nov 02 2007 - nonsea@users.sourceforge.net
 - Bump to 2.3.2
 - Add new package l10n.
