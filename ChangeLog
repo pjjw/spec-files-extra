@@ -1,3 +1,10 @@
+2008-02-19  simon.zheng  <simon.zheng@sun.com>
+
+	* SFEconsolekit.spec:
+	* patches/ConsoleKit-04-vt.diff:
+	  Add a patch. Use Solaris-specific synchronous event 
+	  notification in STREAMS to monitor VT activation. 
+
 2008-02-18  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEconduit.spec: Add SUNWpysqlite depend.

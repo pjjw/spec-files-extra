@@ -15,6 +15,7 @@ Source:                  http://people.freedesktop.org/~mccann/dist/ConsoleKit-%
 Patch1:                  ConsoleKit-01-nox11check.diff
 Patch2:                  ConsoleKit-02-emptystruct.diff
 Patch3:                  ConsoleKit-03-paths.diff
+Patch4:                  ConsoleKit-04-vt.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -62,6 +63,7 @@ Requires: %name
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -150,6 +152,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Feb 19 2008 - simon.zheng@sun.com
+- Add patch ConsoleKit-04-vt.diff. Use sysnchronous event notification
+  in STREAMS to monitor VT activation. 
 * Fri Feb 15 2008 - brian.cameron@sun.com
 - Rework ConsoleKit-03-paths.diff so it makes better use of #ifdefs.
 * Fri Feb 15 2008 - simon.zheng@sun.com
