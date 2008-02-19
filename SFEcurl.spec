@@ -59,12 +59,13 @@ export CPPFLAGS="-I/usr/sfw/include"
 export MSGFMT="/usr/bin/msgfmt"
 
 %ifarch amd64 sparcv9
+%include arch64.inc
 export CFLAGS="%optflags -m64 -I/usr/sfw/include -DANSICPP -L/usr/sfw/lib/%_arch64"
 export RPM_OPT_FLAGS="$CFLAGS"
 export LDFLAGS="-m64 -L/usr/sfw/lib/%_arch64 -R/usr/sfw/lib/%_arch64"
 %curl64.build -d %name-%version/%_arch64
 %endif
-
+%include base.inc
 export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib"
 export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP -L/usr/sfw/lib"
 export RPM_OPT_FLAGS="$CFLAGS"
