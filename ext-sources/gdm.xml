@@ -38,6 +38,22 @@
 		<service_fmri value='svc:/application/font/fc-cache'/>
 	</dependency>
 
+        <dependency
+            name='dbus'
+            type='service'
+            grouping='require_all'
+            restart_on='none'>
+                <service_fmri value='svc:/system/dbus' />
+        </dependency>
+
+	<dependency
+	    name='consolekit'
+	    grouping='require_all'
+	    restart_on='none'
+	    type='service'>
+		<service_fmri value='svc:/system/consolekit'/>
+	</dependency>
+
 	<exec_method
 	    type='method'
 	    name='start'

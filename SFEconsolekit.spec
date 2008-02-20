@@ -12,6 +12,7 @@ Name:                    SFEconsolekit
 Summary:                 Framework for tracking users, login sessions, and seats.
 Version:                 0.2.9
 Source:                  http://people.freedesktop.org/~mccann/dist/ConsoleKit-%{version}.tar.gz
+Source1:                 consolekit.xml
 Patch1:                  ConsoleKit-01-nox11check.diff
 Patch2:                  ConsoleKit-02-emptystruct.diff
 Patch3:                  ConsoleKit-03-paths.diff
@@ -98,17 +99,15 @@ autoconf
             --enable-rbac-shutdown=solaris.system.shutdown
 
 make
-# Not sure why this is breaking the build, commenting out for now.
-#make -j$CPUS 
+make -j$CPUS 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 rm $RPM_BUILD_ROOT%{_libdir}/lib*.la
 
-# Create needed log directory.
-mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/log/ConsoleKit
-touch $RPM_BUILD_ROOT%{_localstatedir}/log/ConsoleKit/history
+install -d $RPM_BUILD_ROOT/var/svc/manifest/system
+install --mode=0444 %SOURCE1 $RPM_BUILD_ROOT/var/svc/manifest/system
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -137,6 +136,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_sysconfdir}/dbus-1/system.d
 %{_sysconfdir}/dbus-1/system.d/ConsoleKit.conf
 %dir %attr (0755, root, sys) %dir %{_localstatedir}
+# don't use %_localstatedir here, because this is an absolute path
+# defined by another package, so it has to be /var/svc even if this
+# package's %_localstatedir is redefined
+/var/svc/*
 %dir %attr (0755, root, sys) %{_localstatedir}/log
 %dir %attr (0755, root, root) %{_localstatedir}/log/ConsoleKit
 %attr (0644, root, root) %{_localstatedir}/log/ConsoleKit/history

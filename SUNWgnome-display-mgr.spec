@@ -16,6 +16,11 @@ Name:                    SUNWgnome-display-mgr
 Version:                 2.21.7
 Release:                 1
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.21/gdm-%{version}.tar.bz2
+# This patch is a hack to work around the fact that the gio function
+# g_file_info_get_attribute_string is returning a NULL on Solaris, causing
+# the GDM GUI to crash.  This patch should be removed when gio is fixed to
+# work properly on Solaris.
+Patch1:                  gdm-01-fixgio.diff
 Source1:                 gdm.xml
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -71,6 +76,7 @@ Requires:                %{name}
 
 %prep
 %setup -q -n gdm-%version
+%patch1 -p1
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"

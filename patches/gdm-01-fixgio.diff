@@ -1,0 +1,21 @@
+--- gdm-2.21.7/gui/simple-greeter/gdm-user.c-orig	2008-02-20 11:21:02.404988000 -0600
++++ gdm-2.21.7/gui/simple-greeter/gdm-user.c	2008-02-20 11:22:07.951274000 -0600
+@@ -678,6 +678,10 @@ render_icon_from_home (GdmUser *user,
+                 }
+                 filesystem_type = g_file_info_get_attribute_string (file_info,
+                                                                     G_FILE_ATTRIBUTE_FILESYSTEM_TYPE);
++
++                if (filesystem_type == NULL) {
++                        is_local = TRUE;
++                } else {
+                 is_local = ((strcmp (filesystem_type, "nfs") != 0) &&
+                             (strcmp (filesystem_type, "afs") != 0) &&
+                             (strcmp (filesystem_type, "autofs") != 0) &&
+@@ -685,6 +689,7 @@ render_icon_from_home (GdmUser *user,
+                             (strcmp (filesystem_type, "ncpfs") != 0));
+                 g_object_unref (file_info);
+                 g_object_unref (file);
++                }
+         }
+ 
+         /* only look at local home directories so we don't try to
