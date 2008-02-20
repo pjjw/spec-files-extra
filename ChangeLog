@@ -1,5 +1,10 @@
 2008-02-20  Halton Huo <nonsea@users.sourceforge.net>
 
+	* SFEcups.spec: Bump to 1.3.6, move locale into -l10n pkg.
+	* patches/cups-01-gss.diff: rework
+
+2008-02-20  Halton Huo <nonsea@users.sourceforge.net>
+
 	* SFEfontforge.spec: Bump to 20080203, update files for -devel
 	* patches/fontforge-01-destdir.diff: remove upstreamed patch
 

@@ -5,7 +5,7 @@
 #
 %include Solaris.inc
 
-%define	src_ver 1.3.0
+%define	src_ver 1.3.6
 %define	src_name cups
 %define	src_url	http://ftp.easysw.com/pub/%{src_name}/%{src_ver}
 
@@ -21,6 +21,7 @@ Name:		SFEcups
 Summary:	Common Unix Printing System
 Version:	%{src_ver}
 License:	GPL/LGPL
+URL:            http://www.cups.org/
 Source:		%{src_url}/%{src_name}-%{version}-source.tar.bz2
 Patch1:		cups-01-gss.diff
 SUNW_BaseDir:	%{_basedir}
@@ -54,6 +55,14 @@ Summary:                 %{summary} - Documentation
 SUNW_BaseDir:            %{_prefix}
 %include default-depend.inc
 Requires: %name
+
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
 
 %prep
 %setup -q -n %{src_name}-%version
@@ -116,6 +125,12 @@ mkdir -p $RPM_BUILD_ROOT%{_bindir}
   ln -s ../cups/sbin/cupsdisable disable-cups
 )
 
+%if %build_l10n
+%else
+# REMOVE l10n FILES
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -128,7 +143,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/cups
-%{_libdir}/locale
 %{_libdir}/lib*.so*
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, sys) %{cupsdata}
@@ -144,7 +158,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files root
 %defattr (-, root, sys)
-%{_sysconfdir}
+%dir %attr (0755, root, sys) %{_sysconfdir}
+%{_sysconfdir}/cups
+%{_sysconfdir}/init.d
+%dir %attr (0755, root, bin) %{_sysconfdir}/dbus-1
+%dir %attr (0755, root, bin) %{_sysconfdir}/dbus-1/system.d
+%attr (0755, root, bin) %{_sysconfdir}/dbus-1/system.d/cups.conf
 %dir %attr (0755, root, sys) %{_localstatedir}
 %dir %attr (0755, root, bin) %{_localstatedir}/spool
 %dir %attr (0644, %{cups_user}, %{cups_group}) %{_localstatedir}/spool/cups
@@ -163,7 +182,17 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
 
+%if %build_l10n
+%files l10n
+%defattr (-, root, bin)
+%dir %attr (0755, root, sys) %{_datadir}
+%attr (-, root, other) %{_datadir}/locale
+%endif
+
+
 %changelog
+* Wed Feb 20 2008 - halton.huo@sun.com
+- Bump to 1.3.6, move locale into -l10n pkg.
 * Wed Aug 15 2007 - dougs@truemail.co.th
 - bump to 1.3.0, added --disable-gssapi
 * Fri Aug  3 2007 - dougs@truemail.co.th
