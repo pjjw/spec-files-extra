@@ -1,7 +1,7 @@
 #
 # spec file for package vinagre
 #
-# Copyright (c) 2008 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -12,15 +12,15 @@
 Name:           vinagre
 License:        GPL
 Group:          Development/Libraries
-Version:        0.4
+Version:        0.4.91
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.gnome.org/projects/vinagre
 Summary:        A VCN client for the GNOME Desktop
 Source:         http://download.gnome.org/sources/%{name}/0.4/%{name}-%{version}.tar.bz2
-# date:2007-12-13 bugzilla:503358 owner:halton type:bug
-Patch1:         %{name}-01-wall.diff
+# date:2008-02-20 bugzilla:517603 owner:halton type:bug
+Patch1:         %{name}-01-gthread.diff
 BuildRoot:     %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires: gtk2-devel
@@ -85,6 +85,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lib*.so.*
 
 %changelog
+* Wed Feb 20 2008 - nonsea@users.sourceforge.net
+- Bump to 0.4.91
+- Remove upstreamed patch wall.diff
+- Add new patch gthread.diff to fix bugzilla #517603.
 * Thu Dec 13 2007 - nonsea@users.sourceforge.net
 - Bump to 0.4
 - Add patch wall.diff to fix build problem on Solaris.

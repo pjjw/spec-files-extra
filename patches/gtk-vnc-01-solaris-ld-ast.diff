@@ -1,32 +1,27 @@
-# HG changeset patch
-# User halton@judo
-# Date 1199961469 -28800
-# Node ID d4f21f3312210a0f9fd825449f38411121e52cec
-# Parent  95f570fc49e149cee35466c39837e0df2d821663
-2008-01-10  Halton Huo <halton.huo@sun.com>
-
-        * src/Makefile.am: Use -export-symbols-regex to mark with symbols
-        to export instead of a GNU LD --version-script. This allows us to
-        build on Solaris' linker.
-
-diff -r 95f570fc49e1 -r d4f21f331221 ChangeLog
---- a/ChangeLog	Wed Jan 09 23:54:24 2008 -0500
-+++ b/ChangeLog	Thu Jan 10 18:37:49 2008 +0800
-@@ -1,3 +1,10 @@ 2007-12-28  Anthony Liguori  <anthony@co
-+2008-01-10  Halton Huo <halton.huo@sun.com>
-+
-+	* src/Makefile.am: Use -export-symbols-regex to mark with symbols
-+	to export instead of a GNU LD --version-script. This allows us to 
-+	build on Solaris' linker.
-+
-+
- 2007-12-28  Anthony Liguori  <anthony@codemonkey.ws>
+--- gtk-vnc-0.3.3/src/Makefile.am.orig	2008-02-20 14:42:27.280036000 +0800
++++ gtk-vnc-0.3.3/src/Makefile.am	2008-02-20 14:43:22.158831000 +0800
+@@ -1,14 +1,14 @@
  
- 	* configure.ac, gtk-vnc.spec.in, src/blt.h, src/gvnc.c,
-diff -r 95f570fc49e1 -r d4f21f331221 configure.ac
---- a/configure.ac	Wed Jan 09 23:54:24 2008 -0500
-+++ b/configure.ac	Thu Jan 10 18:37:49 2008 +0800
-@@ -122,6 +122,26 @@ AC_DEFINE_UNQUOTED(WITH_UCONTEXT,[$WITH_
+-EXTRA_DIST = libgtk-vnc_sym.version vncmarshal.txt
++EXTRA_DIST = vncmarshal.txt
+ 
+ lib_LTLIBRARIES = libgtk-vnc-1.0.la
+ 
+-libgtk_vnc_1_0_la_LIBADD = @GTK_LIBS@ @GNUTLS_LIBS@ @GTHREAD_LIBS@
+-libgtk_vnc_1_0_la_CFLAGS = @GTK_CFLAGS@ @GNUTLS_CFLAGS@ @GTHREAD_CFLAGS@ \
++libgtk_vnc_1_0_la_LIBADD = @GTK_LIBS@ @GNUTLS_LIBS@ @GTHREAD_LIBS@ @AST_LIBS@
++libgtk_vnc_1_0_la_CFLAGS = @GTK_CFLAGS@ @GNUTLS_CFLAGS@ @GTHREAD_CFLAGS@ @AST_CFLAGS@ \
+ 			   @WARNING_CFLAGS@ \
+                            -DSYSCONFDIR=\""$(sysconfdir)"\" \
+                            @DEBUG_CFLAGS@
+-libgtk_vnc_1_0_la_LDFLAGS = -Wl,--version-script=$(srcdir)/libgtk-vnc_sym.version \
++libgtk_vnc_1_0_la_LDFLAGS = -export-symbols-regex 'vnc_display_' \
+                             -version-info 0:1:0
+ 
+ gtk_vnc_includedir = $(includedir)/gtk-vnc-1.0/
+--- gtk-vnc-0.3.3/configure.ac.orig	2008-02-20 14:42:18.552035000 +0800
++++ gtk-vnc-0.3.3/configure.ac	2008-02-20 14:45:13.728867000 +0800
+@@ -122,6 +122,26 @@
  AC_DEFINE_UNQUOTED(WITH_UCONTEXT,[$WITH_UCONTEXT], [Whether to use ucontext coroutine impl])
  AM_CONDITIONAL(WITH_UCONTEXT, [test "$WITH_UCONTEXT" != "0"])
  
@@ -53,25 +48,3 @@ diff -r 95f570fc49e1 -r d4f21f331221 configure.ac
  if test "$WITH_PYTHON" = "yes"; then
    PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= $PYGTK_REQUIRED)
    AC_SUBST(PYGTK_CFLAGS)
-diff -r 95f570fc49e1 -r d4f21f331221 src/Makefile.am
---- a/src/Makefile.am	Wed Jan 09 23:54:24 2008 -0500
-+++ b/src/Makefile.am	Thu Jan 10 18:37:49 2008 +0800
-@@ -1,14 +1,14 @@
- 
--EXTRA_DIST = libgtk-vnc_sym.version vncmarshal.txt
-+EXTRA_DIST = vncmarshal.txt
- 
- lib_LTLIBRARIES = libgtk-vnc-1.0.la
- 
--libgtk_vnc_1_0_la_LIBADD = @GTK_LIBS@ @GNUTLS_LIBS@ @GTHREAD_LIBS@
--libgtk_vnc_1_0_la_CFLAGS = @GTK_CFLAGS@ @GNUTLS_CFLAGS@ @GTHREAD_CFLAGS@ \
-+libgtk_vnc_1_0_la_LIBADD = @GTK_LIBS@ @GNUTLS_LIBS@ @GTHREAD_LIBS@ @AST_LIBS@
-+libgtk_vnc_1_0_la_CFLAGS = @GTK_CFLAGS@ @GNUTLS_CFLAGS@ @GTHREAD_CFLAGS@ @AST_CFLAGS@ \
- 			   @WARNING_CFLAGS@ \
-                            -DSYSCONFDIR=\""$(sysconfdir)"\" \
-                            @DEBUG_CFLAGS@
--libgtk_vnc_1_0_la_LDFLAGS = -Wl,--version-script=$(srcdir)/libgtk-vnc_sym.version \
-+libgtk_vnc_1_0_la_LDFLAGS = -export-symbols-regex 'vnc_display_' \
-                             -version-info 0:1:0
- 
- gtk_vnc_includedir = $(includedir)/gtk-vnc-1.0/

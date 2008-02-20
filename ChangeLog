@@ -1,3 +1,14 @@
+2008-02-20  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEvinagre.spec: Add -root package, add %post and %preun
+	  -root package, update files according updated version.
+	* base-specs/gtk-vnc.spec: Bump to 0.3.3.
+	* base-specs/vinagre.spec: Bump to 0.4.91.
+	* patches/gtk-vnc-01-solaris-ld-ast.diff: rework.
+	* patches/gtk-vnc-02-suncc-range-case.diff: remove upstreamed patch.
+	* patches/vinagre-01-gthread.diff: new patch to fix bugzilla #517603.
+	* patches/vinagre-01-wall.diff: remove upstreamed patch.
+
 2008-02-19  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEconsolekit.spec:

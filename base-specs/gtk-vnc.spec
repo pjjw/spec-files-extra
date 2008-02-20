@@ -1,7 +1,7 @@
 #
 # spec file for package gtk-vnc
 #
-# Copyright (c) 2008 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -12,7 +12,7 @@
 Name:           gtk-vnc
 License:        LGPL
 Group:          Development/Libraries
-Version:        0.3.2
+Version:        0.3.3
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -21,8 +21,6 @@ Summary:        A GTK widget for VNC clients
 Source:         http://%{sf_mirror}/sourceforge/%{name}/%{name}-%{version}.tar.gz
 # date:2007-12-13 bugzilla:503359,503360 owner:halton type:bug
 Patch1:        %{name}-01-solaris-ld-ast.diff
-# date:2008-01-10 bugzilla:508488 owner:halton type:bug
-Patch2:        %{name}-02-suncc-range-case.diff
 BuildRoot:     %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires: gtk2-devel pygtk2-devel python-devel
@@ -58,7 +56,6 @@ A module allowing use of the GTK-VNC widget from python
 %prep
 %setup -q
 %patch1 -p1
-%patch2 -p1
 
 %build
 %ifos linux
@@ -129,6 +126,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python*/site-packages/gtkvnc.so
 
 %changelog
+* Wed Feb 20 2008 - nonsea@users.sourceforge.net
+- Bump to 0.3.3
+- Remove upstreamed patch suncc-range-case.diff
 * Thu Jan 10 2008 - nonsea@users.sourceforge.net
 - Bump to 0.3.2
 - Add patch suncc-range-case.diff to fix build issue.

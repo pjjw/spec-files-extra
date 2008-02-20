@@ -63,6 +63,12 @@ SUNW_BaseDir:            %{_basedir}
 Requires:                %{name}
 %endif
 
+%package root
+Summary:       %{summary} - / filesystem
+SUNW_BaseDir:            /
+%include default-depend.inc
+Requires: SUNWpostrun-root
+
 %prep
 rm -rf %name-%version
 mkdir -p %name-%version
@@ -82,10 +88,31 @@ rm -rf $RPM_BUILD_ROOT
 %else
 # REMOVE l10n FILES
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+rm -r $RPM_BUILD_ROOT%{_datadir}/gnome/help/vinagre/[a-z][a-z]
+rm $RPM_BUILD_ROOT%{_datadir}/omf/vinagre/vinagre-[a-z][a-z].omf
 %endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post root
+%include gconf-install.script
+
+%preun root
+test -x $BASEDIR/var/lib/postrun/postrun || exit 0
+( echo 'test -x $PKG_INSTALL_ROOT/usr/bin/gconftool-2 || {';
+  echo '  echo "WARNING: gconftool-2 not found; not uninstalling gconf schemas"';
+  echo '  exit 0';
+  echo '}';
+  echo 'umask 0022';
+  echo 'GCONF_CONFIG_SOURCE=xml:merged:$BASEDIR/etc/gconf/gconf.xml.defaults';
+  echo 'GCONF_BACKEND_DIR=$PKG_INSTALL_ROOT/usr/lib/GConf/2';
+  echo 'LD_LIBRARY_PATH=$PKG_INSTALL_ROOT/usr/lib';
+  echo 'export GCONF_CONFIG_SOURCE GCONF_BACKEND_DIR LD_LIBRARY_PATH';
+  echo 'SDIR=$BASEDIR%{_sysconfdir}/gconf/schemas';
+  echo 'schemas="$SDIR/vinagre.schemas"';
+  echo '$PKG_INSTALL_ROOT/usr/bin/gconftool-2 --makefile-uninstall-rule $schemas > /dev/null'
+) | $BASEDIR/var/lib/postrun/postrun -i -c JDS_wait -a
 
 %files
 %defattr (-, root, bin)
@@ -100,19 +127,36 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/*
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/*/apps
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/*/mimetypes
+%dir %attr (0755, root, other) %{_datadir}/gnome
+%{_datadir}/gnome/help/vinagre/C
+%{_datadir}/omf/vinagre/vinagre-C.omf
 %{_datadir}/icons/hicolor/*/apps/*
 %{_datadir}/icons/hicolor/*/mimetypes/*
 %dir %attr (-, root, other) %{_datadir}/doc
 %{_datadir}/doc/vinagre
 %ghost %attr (-, root, root) %{_datadir}/mime
+%dir %attr(0755, root, bin) %{_mandir}
+%dir %attr(0755, root, bin) %{_mandir}/*
+%{_mandir}/*/*
 
 %if %build_l10n
 %files l10n
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) %{_datadir}
-%attr (-, root, other) %{_datadir}/locale
+%{_datadir}/omf/vinagre/vinagre-[a-z][a-z].omf
+%dir %attr (0755, root, other) %{_datadir}/gnome
+%{_datadir}/gnome/help/vinagre/[a-z][a-z]
 %endif
 
+%files root
+%defattr (-, root, sys)
+%attr (0755, root, sys) %dir %{_sysconfdir}
+%{_sysconfdir}/gconf/schemas/vinagre.schemas
+
+
 %changelog
+* Wed Feb 20 2008 - nonsea@users.sourceforge.net
+- Add -root package, add %post and %preun -root package.
+- Update files according updated version.
 * Fri Nov 30 2007 - nonsea@users.sourceforge.net
 - Initial spec
