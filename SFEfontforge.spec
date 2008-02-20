@@ -6,13 +6,11 @@
 %include Solaris.inc
 
 %define src_name	fontforge
-%define src_url		http://jaist.dl.sourceforge.net/sourceforge/%{src_name}
 
 Name:                   SFEfontforge
 Summary:                An outline font editor
-Version:                20070312
-Source:                 %{src_url}/%{src_name}_full-%{version}.tar.bz2
-Patch1:			fontforge-01-destdir.diff
+Version:                20080203
+Source:                 http://%{sf_mirror}/sourceforge/%{src_name}/%{src_name}_full-%{version}.tar.bz2
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -25,16 +23,18 @@ Requires: %name
 
 %prep
 %setup -q -n %{src_name}-%{version}
-%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CFLAGS="%{optflags}"
 export LDFLAGS="%{_ldflags}"
+aclocal -I%{_datadir}/aclocal -I.
+libtoolize --force
+intltoolize --force --automake
+autoconf
 ./configure --prefix=%{_prefix}		\
 	    --bindir=%{_bindir}		\
 	    --mandir=%{_mandir}		\
@@ -43,7 +43,8 @@ export LDFLAGS="%{_ldflags}"
             --libexecdir=%{_libexecdir} \
             --sysconfdir=%{_sysconfdir} \
             --enable-shared		\
-	    --disable-static		
+	    --disable-static		\
+	    --with-freetype-src=no
 
 make -j$CPUS 
 
@@ -89,10 +90,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Wed Feb 20 2008 - halton.huo@sun.com
+- Bump to 20080203, remove upstreamed patch destdir.diff.
+- Update files for -devel 
 * Mon Apr 23 2006 - dougs@truemail.co.th
 - Initial version

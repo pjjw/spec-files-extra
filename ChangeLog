@@ -1,5 +1,10 @@
 2008-02-20  Halton Huo <nonsea@users.sourceforge.net>
 
+	* SFEfontforge.spec: Bump to 20080203, update files for -devel
+	* patches/fontforge-01-destdir.diff: remove upstreamed patch
+
+2008-02-20  Halton Huo <nonsea@users.sourceforge.net>
+
 	* SFEvinagre.spec: Add -root package, add %post and %preun
 	  -root package, update files according updated version.
 	* base-specs/gtk-vnc.spec: Bump to 0.3.3.
