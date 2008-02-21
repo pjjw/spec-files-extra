@@ -8,18 +8,35 @@
 %include usr-gnu.inc
 
 %define using_gld %(gcc -v 2>&1 | /usr/xpg4/bin/grep -q with-gnu-ld && echo 1 || echo 0)
+%define SUNWlibsdl      %(/usr/bin/pkginfo -q SUNWlibsdl && echo 1 || echo 0)
 
 Name:                    SFEwxwidgets-gnu
 Summary:                 wxWidgets - Cross-Platform GUI Library (g++)
 URL:                     http://wxwidgets.org/
-Version:                 2.8.5
-%define tarball_version  2.8.5
+Version:                 2.8.7
+%define tarball_version  2.8.7
 Source:			 %{sf_download}/wxwindows/wxWidgets-%{tarball_version}.tar.bz2
 Patch1:                  wxwidgets-01-msgfmt.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:      SUNWgnome-libs
+Requires:      SUNWgnome-vfs
+%if %SUNWlibsdl
+Requires:      SUNWlibsdl
+%else
+Requires:      SFEsdl
+%endif
+BuildRequires: SUNWgnome-libs-devel
+BuildRequires: SUNWgnome-vfs-devel
+%ifarch i386 amd64
+BuildRequires: SUNWxorg-mesa
+%endif
+%if %SUNWlibsdl
+BuildRequires: SUNWlibsdl-devel
+%else
+BuildRequires: SFEsdl-devel
+%endif
 
 %package devel
 Summary:		 %{summary} - development files
@@ -60,17 +77,25 @@ export CXXFLAGS="%{gcc_cxx_optflags}"
   export LD_OPTIONS="-i -L%{_libdir} -L/usr/X11/lib -R%{_libdir}:/usr/X11/lib"
 %endif
 
+# keep PATH from being mangled by SDL check (breaks grep -E and tr A-Z a-z)
+perl -pi -e 's,PATH=".*\$PATH",:,' configure
 ./configure --prefix=%{_prefix}			\
 	    --bindir=%{_bindir}			\
 	    --includedir=%{_includedir}		\
             --libdir=%{_libdir}			\
-	    --with-gtk				\
-	    --enable-gtk2			\
+            --enable-gtk2			\
             --enable-unicode			\
-            --enable-mimetype                   \
-            --with-sdl                          \
+            --enable-mimetype			\
+            --enable-gui			\
+            --enable-xrc			\
+            --with-gtk				\
+            --with-subdirs			\
             --without-expat                     \
-            --with-gnomeprint
+            --with-sdl                          \
+            --with-gnomeprint			\
+            --with-gnomevfs			\
+            --with-opengl			\
+            --without-libmspack
 
 make -j$CPUS
 cd contrib
@@ -130,6 +155,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Feb 21, 2008 - trisk@acm.jhu.edu
+- Bump to 2.8.7
+- Add SFEsdl dependency, add --with-gnomevfs, fix building subdirs
 * Sat Sep 22 2007 - dougs@truemail.co.th
 - Modified for GNU ld with gcc
 * Tue Sep 18 2007 - brian.cameron@sun.com

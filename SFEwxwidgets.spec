@@ -6,21 +6,36 @@
 
 %include Solaris.inc
 
+%define SUNWlibsdl       %(/usr/bin/pkginfo -q SUNWlibsdl && echo 1 || echo 0)
+
 Name:                    SFEwxwidgets
 Summary:                 wxWidgets - Cross-Platform GUI Library
 URL:                     http://wxwidgets.org/
-Version:                 2.8.5
-%define tarball_version  2.8.5
+Version:                 2.8.7
+%define tarball_version  2.8.7
 Source:			 %{sf_download}/wxwindows/wxWidgets-%{tarball_version}.tar.bz2
 Patch1:                  wxwidgets-01-msgfmt.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:      SUNWgnome-libs
+Requires:      SUNWgnome-vfs
 Requires:      SUNWlibC
+%if %SUNWlibsdl
 Requires:      SUNWlibsdl
+%else
+Requires:      SFEsdl
+%endif
 BuildRequires: SUNWgnome-libs-devel
+BuildRequires: SUNWgnome-vfs-devel
+%ifarch i386 amd64
+BuildRequires: SUNWxorg-mesa
+%endif
+%if %SUNWlibsdl
 BuildRequires: SUNWlibsdl-devel
+%else
+BuildRequires: SFEsdl-devel
+%endif
 Conflicts:     SFEwxGTK
 
 %package devel
@@ -38,8 +53,7 @@ Requires:                %{name}
 %endif
 
 %prep
-rm -rf %name-%version
-%setup -q -n wxWidgets-%tarball_version
+%setup -q -n wxWidgets-%{tarball_version}
 %patch1 -p1
 
 %build
@@ -47,31 +61,38 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-export CFLAGS="%optflags -I/usr/gnu/include"
+export CFLAGS="%optflags"
 export LD=/usr/ccs/bin/ld
-export LDFLAGS="-lCrun -lCstd -L/usr/gnu/lib -R/usr/gnu/lib"
+export LDFLAGS="-lCrun -lCstd"
 %if %cc_is_gcc
 %else
-export CXX="${CXX} -norunpath"
+export CXX="${CXX}"
 %endif
-export CXXFLAGS="%cxx_optflags -xlibmil -xlibmopt -features=tmplife -I/usr/gnu/include"
+export CXXFLAGS="%cxx_optflags -norunpath -xlibmil -xlibmopt -features=tmplife"
+
+# keep PATH from being mangled by SDL check (breaks grep -E and tr A-Z a-z)
+perl -pi -e 's,PATH=".*\$PATH",:,' configure
 ./configure --prefix=%{_prefix}				\
 			--bindir=%{_bindir}				\
-			--includedir=%{_includedir}		\
+			--includedir=%{_includedir}			\
 			--libdir=%{_libdir}				\
-			--with-gtk						\
 			--enable-gtk2					\
 			--enable-unicode				\
 			--enable-mimetype				\
 			--enable-gui					\
 			--enable-xrc					\
+			--with-gtk					\
+			--with-subdirs					\
 			--with-expat					\
-			--with-sdl						\
-			--with-gnomeprint
+			--with-sdl					\
+			--with-gnomeprint				\
+			--with-gnomevfs					\
+			--with-opengl					\
+			--without-libmspack
 
 make -j$CPUS
 cd contrib
-make -j$CPUS
+make -j$CPUSs ~/packages/BUILD/wxWidgets-2.8.7/configure.in 
 cd ..
 cd locale
 make allmo
@@ -126,6 +147,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Feb 21, 2008 - trisk@acm.jhu.edu
+- Bump to 2.8.7
+- Add SFEsdl dependency, add --with-gnomevfs, fix building subdirs
 * Tue Oct 16 2007 - laca@sun.com
 - add /usr/gnu to search paths for the indiana build
 * Tue Sep 18 2007 - brian.cameron@sun.com

@@ -1,3 +1,10 @@
+2008-02-21  Albert Lee <trisk@acm.jhu.edu>
+
+	* SFEpython-wx.spec: *NEW* Python bindings for wxWidgets
+	* SFEwxwidgets.spec, SFEwxwidgets-gnu.spec: Bump to 2.8.7, add SFEsdl
+	  dependency, add --with-gnomevfs, fix building subdirs
+	* patches/wxpython-01-interface.diff: Fix return in interface definition
+
 2008-02-21  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEwine.spec: Bump to 0.9.55, use gcc under /usr/sfw/bin

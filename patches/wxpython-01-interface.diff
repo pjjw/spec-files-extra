@@ -1,0 +1,22 @@
+--- wxPython-src-2.8.7.1/wxPython/src/_graphics.i.orig	2007-11-28 19:14:31.000000000 -0500
++++ wxPython-src-2.8.7.1/wxPython/src/_graphics.i	2008-02-21 05:59:02.366673750 -0500
+@@ -218,7 +218,7 @@
+     virtual void ResetClip() {}
+     virtual void * GetNativeContext() { return NULL; }
+     virtual int GetLogicalFunction() const { return 0; }
+-    virtual bool SetLogicalFunction(int ) {}    
++    virtual bool SetLogicalFunction(int ) { return false; }    
+     virtual void Translate( wxDouble , wxDouble ) {}
+     virtual void Scale( wxDouble , wxDouble ) {}
+     virtual void Rotate( wxDouble ) {}
+--- wxPython-src-2.8.7.1/wxPython/src/gtk/_gdi_wrap.cpp.orig	2007-11-28 19:14:40.000000000 -0500
++++ wxPython-src-2.8.7.1/wxPython/src/gtk/_gdi_wrap.cpp	2008-02-21 06:10:36.008792868 -0500
+@@ -3854,7 +3854,7 @@
+     virtual void ResetClip() {}
+     virtual void * GetNativeContext() { return NULL; }
+     virtual int GetLogicalFunction() const { return 0; }
+-    virtual bool SetLogicalFunction(int ) {}    
++    virtual bool SetLogicalFunction(int ) { return false; }    
+     virtual void Translate( wxDouble , wxDouble ) {}
+     virtual void Scale( wxDouble , wxDouble ) {}
+     virtual void Rotate( wxDouble ) {}
