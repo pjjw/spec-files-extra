@@ -15,8 +15,10 @@
 
 Name:                SFEgit
 Summary:             GIT - the stupid content tracker
-Version:             1.5.3.7
+Version:             1.5.4.2
+URL:                 http://git.or.cz/
 Source:              http://www.kernel.org/pub/software/scm/git/git-%{version}.tar.bz2
+Patch1:              git-01-solaris-shell.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
@@ -43,6 +45,7 @@ BuildRequires: SFEcurl-devel
 
 %prep
 %setup -q -n git-%version
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -54,12 +57,14 @@ export CC=gcc
 export CXX=g++
 export CFLAGS="-O4"
 export LDFLAGS="%arch_ldadd %ldadd ${EXTRA_LDFLAGS}"
+export PATH=$PATH:%{_builddir}/git-%version
+export NO_MSGFMT=1
 make configure
 ./configure \
     --prefix=%{_prefix} \
     --mandir=%{_mandir} \
     --with-perl=/usr/perl5/bin/perl
-make -j$CPUS all doc
+make all doc
 
 # fix path to wish (tk shell)
 perl -pi -e 's,exec wish ,exec /usr/sfw/bin/wish8.3,' gitk
@@ -102,6 +107,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/git*
 %dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/gitk
 %dir %{_datadir}/git-core
 %dir %{_datadir}/git-core/templates
 %{_datadir}/git-core/templates/branches
@@ -123,6 +129,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/perl5/vendor_perl/%{perl_version}/*
 
 %changelog
+* Thu Feb 21 2008 - nonsea@users.sourceforge.net
+- Bump to 1.5.4.2
 * Thu Dec 06 2007 - brian.cameron@sun.com
 - Bump to 1.5.3.7.
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net

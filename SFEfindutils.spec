@@ -10,7 +10,7 @@
 
 Name:                SFEfindutils
 Summary:             GNU find, locate, and xargs
-Version:             4.2.31
+Version:             4.2.33
 URL:                 http://www.gnu.org/software/findutils/
 Source:              http://ftp.gnu.org/pub/gnu/findutils/findutils-%{version}.tar.gz
 
@@ -81,6 +81,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Feb 21 2008 - nonsea@users.sourceforge.net
+- Bump to 4.2.33
 * Thu Nov 15 2007 - daymobrew@users.sourceforge.net
 - Correct path to charset.alias file.
 * Sun Oct 14 2007 - laca@sun.com

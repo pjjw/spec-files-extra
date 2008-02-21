@@ -1,0 +1,67 @@
+--- git-1.5.4.2/git-gui/GIT-VERSION-GEN.orig	2008-02-21 15:36:15.765867000 +0800
++++ git-1.5.4.2/git-gui/GIT-VERSION-GEN	2008-02-21 16:05:11.234436000 +0800
+@@ -10,10 +10,10 @@
+ {
+ 	head=$1
+ 	tree=$2
+-	for p in $(git rev-list --parents --max-count=1 $head 2>/dev/null)
++	for p in `git rev-list --parents --max-count=1 $head 2>/dev/null`
+ 	do
+-		test $tree = $(git rev-parse $p^{tree} 2>/dev/null) &&
+-		vn=$(git describe --abbrev=4 $p 2>/dev/null) &&
++		test $tree = `git rev-parse $p^{tree} 2>/dev/null` &&
++		vn=`git describe --abbrev=4 $p 2>/dev/null` &&
+ 		case "$vn" in
+ 		gitgui-[0-9]*) echo $vn; break;;
+ 		esac
+@@ -35,32 +35,32 @@
+ # try looking for a gitgui-* tag.
+ 
+ if test -f version &&
+-   VN=$(cat version)
++   VN=`cat version`
+ then
+ 	: happy
+-elif prefix="$(git rev-parse --show-prefix 2>/dev/null)"
++elif prefix="`git rev-parse --show-prefix 2>/dev/null`"
+    test -n "$prefix" &&
+-   head=$(git rev-list --max-count=1 HEAD -- . 2>/dev/null) &&
+-   tree=$(git rev-parse --verify "HEAD:$prefix" 2>/dev/null) &&
+-   VN=$(tree_search $head $tree)
++   head=`git rev-list --max-count=1 HEAD -- . 2>/dev/null` &&
++   tree=`git rev-parse --verify "HEAD:$prefix" 2>/dev/null` &&
++   VN=`tree_search $head $tree`
+    case "$VN" in
+    gitgui-[0-9]*) : happy ;;
+    *) (exit 1) ;;
+    esac
+ then
+-	VN=$(echo "$VN" | sed -e 's/^gitgui-//;s/-/./g');
+-elif VN=$(git describe --abbrev=4 HEAD 2>/dev/null) &&
++	VN=`echo "$VN" | sed -e 's/^gitgui-//;s/-/./g'`;
++elif VN=`git describe --abbrev=4 HEAD 2>/dev/null` &&
+    case "$VN" in
+    gitgui-[0-9]*) : happy ;;
+    *) (exit 1) ;;
+    esac
+ then
+-	VN=$(echo "$VN" | sed -e 's/^gitgui-//;s/-/./g');
++	VN=`echo "$VN" | sed -e 's/^gitgui-//;s/-/./g'`;
+ else
+ 	VN="$DEF_VER"
+ fi
+ 
+-dirty=$(sh -c 'git diff-index --name-only HEAD' 2>/dev/null) || dirty=
++dirty=`sh -c 'git diff-index --name-only HEAD' 2>/dev/null` || dirty=
+ case "$dirty" in
+ '')
+ 	;;
+@@ -70,7 +70,7 @@
+ 
+ if test -r $GVF
+ then
+-	VC=$(sed -e 's/^GITGUI_VERSION = //' <$GVF)
++	VC=`sed -e 's/^GITGUI_VERSION = //' <$GVF`
+ else
+ 	VC=unset
+ fi

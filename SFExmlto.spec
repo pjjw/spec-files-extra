@@ -8,8 +8,8 @@
 
 Name:                    SFExmlto
 Summary:                 xmlto - converts an XML file into a specified format
-Version:                 0.0.18
-URL:                     http://directory.fsf.org/all/xmlto.html
+Version:                 0.0.20
+URL:                     http://cyberelk.net/tim/software/xmlto/
 Source:                  http://cyberelk.net/tim/data/xmlto/stable/xmlto-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -59,5 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Thu Feb 21 2008 - nonsea@users.sourceforge.net
+- Bump to 0.0.20
 * Tue Feb 13 2007 - laca@sun.com
 - create
