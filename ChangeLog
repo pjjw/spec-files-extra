@@ -1,5 +1,13 @@
 2008-02-21  Halton Huo <nonsea@users.sourceforge.net>
 
+	* SFEwine.spec: Bump to 0.9.55, use gcc under /usr/sfw/bin
+	* patches/wine-05-add-wine_list.h_includes.diff: removed upstreamed
+	  patch and reorder
+	* patches/wine-06-change_functions_structs_named_list_asterisk.sh.d
+	iff: 
+
+2008-02-21  Halton Huo <nonsea@users.sourceforge.net>
+
 	* SFEcurl.spec: Bump to 7.18.0
 	* SFEfindutils.spec: Bump to 4.2.33
 	* SFEgit.spec: Bump to 1.5.4.2

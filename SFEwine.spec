@@ -10,14 +10,14 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                0.9.50
+Version:                0.9.55
+URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
 Patch2:			wine-02-configure.diff
 Patch3:			wine-03-shell.diff
 #Patch4: 		wine-04-winegcc.diff
-Patch5:			wine-05-add-wine_list.h_includes.diff
-Patch6:			wine-06-change_functions_structs_named_list_asterisk.sh.diff
+Patch5:			wine-05-change_functions_structs_named_list_asterisk.sh.diff
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -30,8 +30,7 @@ Requires:	SUNWdbus
 Requires:	SUNWxorg-clientlibs
 BuildRequires:	SFEfontforge-devel
 Requires:	SFEfontforge
-BuildRequires:	SFEfreetype-devel
-Requires:	SFEfreetype
+Requires:	SUNWfreetype2
 BuildRequires:	SFElcms-devel
 Requires:	SFElcms
 BuildRequires:	SFEcups-devel
@@ -52,7 +51,6 @@ Requires: %name
 %patch3 -p1
 #%patch4 -p1
 %patch5 -p1
-%patch6 -p1
 
 # change all occurences of duplicate functions/structs named "list"*
 bash change_functions_structs_named_list_asterisk.sh
@@ -67,10 +65,10 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 X11LIB="-L/usr/X11/lib -R/usr/X11/lib"
-SFWLIB="-L/usr/SFW/lib -R/usr/SFW/lib"
+SFWLIB="-L/usr/sfw/lib -R/usr/sfw/lib"
 GNULIB="-L/usr/gnu/lib -R/usr/gnu/lib"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export CC=/usr/gnu/bin/gcc
+export CC=/usr/sfw/bin/gcc
 export CPPFLAGS="-I/usr/X11/include -I/usr/gnu/include -I/usr/gnu/include/ncurses -I/usr/sfw/include"
 export CFLAGS="-O4 -fno-omit-frame-pointer -fpic -Dpic"
 export LDFLAGS="$X11LIB $GNULIB $SFWLIB"
@@ -134,6 +132,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Thu Feb 21 2008 - nonsea@users.sourceforge.net
+- Bump to 0.9.55
+- Remove upstreamed patch add-wine_list.h_includes.diff and reorder
+- Use gcc /usr/sfw/bin (there is no gcc under /usr/gnu/bin)
 * Mon Nov 30 2007 - trisk@acm.jhu.edu
 - Bump to 0.9.50
 * Mon Nov 26 2007 - Thomas Wagner
