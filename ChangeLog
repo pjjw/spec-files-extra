@@ -1,3 +1,7 @@
+2008-02-22  Jijun Yu <jijun.yu@sun.com>
+	
+	* SFEconduit.spec: Modify a dependecny from SUNWpysqlite to SFEpysqlite.
+
 2008-02-21  Albert Lee <trisk@acm.jhu.edu>
 
 	* SFEpython-wx.spec: *NEW* Python bindings for wxWidgets
