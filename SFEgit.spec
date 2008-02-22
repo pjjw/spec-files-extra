@@ -19,6 +19,7 @@ Version:             1.5.4.2
 URL:                 http://git.or.cz/
 Source:              http://www.kernel.org/pub/software/scm/git/git-%{version}.tar.bz2
 Patch1:              git-01-solaris-shell.diff
+Patch2:              git-02-fixshell.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
@@ -46,6 +47,7 @@ BuildRequires: SFEcurl-devel
 %prep
 %setup -q -n git-%version
 %patch1 -p1
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -129,6 +131,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/perl5/vendor_perl/%{perl_version}/*
 
 %changelog
+* Fri feb 22 2008 - brian.cameron@sun.com
+- Add patch git-02-fixshell.diff to fix a build problem caused
+  by a script that requires bash.
 * Thu Feb 21 2008 - nonsea@users.sourceforge.net
 - Bump to 1.5.4.2
 * Thu Dec 06 2007 - brian.cameron@sun.com

@@ -1,3 +1,27 @@
+2008-02-23 Brian Cameron  <brian.cameron@sun.com>
+
+	* SUNWgit.spec, patches/git-02-fixshell.diff:  Add a patch to fix
+	  a build problem caused by a script that requires bash.
+	* SUNWgnome-display-mgr.spec, patches/gdm-02-sdtlogin-devperm.diff:
+	  This patch is not being applied yet, but it applies to SVN head.
+	  It adds SDTLOGIN and devperm processing.  I will add this patch
+	  when the next 2.21 release of GDM comes out.
+	* SFEconsolekit.spec:  Added the following patches
+	* patches/ConsoleKit-05-devname.diff:  Simon Zheng wrote this
+	  patch to fix ConsoleKit so it properly maps devices to major/minor
+	  numbers.
+	* patches/ConsoleKit-06-fixvt.diff:  This fixes patch 4 so that
+	  it builds on machines without VT.  Since patch 4 is already
+	  upstream I am keeping this as a separate patch.
+	* patches/ConsoleKit-07-fixactiveconsole.diff:  This fixes
+	  the Active device so it is set to "/dev/console" when not using
+	  VT.
+	* patches/ConsoleKit-08-fixseat.diff: Fix a crashing bug caused
+	  by a NULL string in a printf.
+	* patches/ConsoleKit-09-novt.diff:  This patch fixes ConsoleKit
+	  so it sets x11-display-device to "/dev/console" when not using
+	  VT.
+
 2008-02-23 Ananth Shrinivas <ananth@sun.com>
 
 	* SFEtastymenu.spec: *NEW* A K-Menu replacement for KDE 3.x

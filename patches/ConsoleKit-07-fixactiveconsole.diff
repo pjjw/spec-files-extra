@@ -1,0 +1,17 @@
+--- ConsoleKit-0.2.9/src/ck-sysdeps-solaris.c-orig	2008-02-22 13:44:47.957782000 -0600
++++ ConsoleKit-0.2.9/src/ck-sysdeps-solaris.c	2008-02-22 13:45:02.270964000 -0600
+@@ -479,8 +479,12 @@ ck_get_active_console_num (int    consol
+                 *num = active;
+         }
+ #else
+-        res = ERROR;
+-        errno = ENOTSUP;
++        /*
++         * If not using VT, not really an active number, but return 1,
++         * which maps to "/dev/console".
++         */
++        ret  = TRUE;
++        *num = 1;
+ #endif
+ 
+         return ret;

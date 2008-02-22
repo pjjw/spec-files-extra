@@ -17,6 +17,11 @@ Patch1:                  ConsoleKit-01-nox11check.diff
 Patch2:                  ConsoleKit-02-emptystruct.diff
 Patch3:                  ConsoleKit-03-paths.diff
 Patch4:                  ConsoleKit-04-vt.diff
+Patch5:                  ConsoleKit-05-devname.diff
+Patch6:                  ConsoleKit-06-fixvt.diff
+Patch7:                  ConsoleKit-07-fixactiveconsole.diff
+Patch8:                  ConsoleKit-08-fixseat.diff
+Patch9:                  ConsoleKit-09-novt.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -65,6 +70,11 @@ Requires: %name
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -155,6 +165,15 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 22 2008 - brian.cameron@sun.com
+- Add the patch ConsoleKit-05-devname.diff that Simon wrote, patch
+  ConsoleKit-06-fixvt.diff so that patch 4 builds properly when you
+  do not have VT installed, patch ConsoleKit-07-fixactiveconsole.diff
+  so that Active device is set to "/dev/console" when not using VT,
+  ConsoleKit-08-fixseat.diff to correct a crash due to a NULL string
+  in a printf, and ConsoleKit-09-novt.diff to fix ConsoleKit so that
+  it sets x11-display-device to "/dev/console" when not using
+  VT.
 * Tue Feb 19 2008 - simon.zheng@sun.com
 - Add patch ConsoleKit-04-vt.diff. Use sysnchronous event notification
   in STREAMS to monitor VT activation. 

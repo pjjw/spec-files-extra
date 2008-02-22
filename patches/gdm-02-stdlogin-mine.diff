@@ -1,0 +1,183 @@
+Index: daemon/gdm-server.c
+===================================================================
+--- daemon/gdm-server.c	(revision 5828)
++++ daemon/gdm-server.c	(working copy)
+@@ -34,6 +34,11 @@
+ #include <signal.h>
+ #include <sys/resource.h>
+ 
++#ifdef __sun
++#include <sys/param.h>
++#define SDTLOGIN_DIR "/var/dt/sdtlogin"
++#endif
++
+ #include <glib.h>
+ #include <glib/gi18n.h>
+ #include <glib/gstdio.h>
+@@ -621,6 +626,25 @@
+                 _exit (SERVER_ABORT);
+         }
+ 
++#if __sun
++        {
++                /* Remove old communication pipe, if present */
++                char old_pipe[MAXPATHLEN];
++                char *p, *tmp;
++                int display_num;
++
++                if ((tmp = strstr (server->priv->display_name, ":")) != NULL) {
++                        tmp++;
++                        display_num = g_ascii_strtod (tmp, &p);
++
++                        if (errno == 0) {
++                                sprintf (old_pipe, "%s/%d", SDTLOGIN_DIR, display_num);
++                                g_unlink (old_pipe);
++                        }
++                }
++        }
++#endif
++
+         env = get_server_environment (server);
+ 
+         freeme = g_strjoinv (" ", argv);
+Index: daemon/gdm-session-worker.c
+===================================================================
+--- daemon/gdm-session-worker.c	(revision 5828)
++++ daemon/gdm-session-worker.c	(working copy)
+@@ -32,6 +32,11 @@
+ #include <grp.h>
+ #include <pwd.h>
+ 
++#if __sun
++#include <sys/param.h>
++#define SDTLOGIN_DIR "/var/dt/sdtlogin"
++#endif
++
+ #include <security/pam_appl.h>
+ 
+ #include <glib.h>
+@@ -143,6 +148,112 @@
+ 
+ G_DEFINE_TYPE (GdmSessionWorker, gdm_session_worker, G_TYPE_OBJECT)
+ 
++#ifdef __sun
++void
++solaris_xserver_cred (char *username, const char *x11_display_name)
++{
++        struct passwd *pwent;
++        struct stat statbuf;
++        struct group *gr;
++        gid_t  groups[NGROUPS_UMAX];
++        char *home, *disp, *tmp, *p, pipe[MAXPATHLEN], info[MAXPATHLEN];
++        int display_number = 0;
++        int retval, fd, i, nb;
++        int ngroups;
++
++        pwent  = getpwnam (username);
++
++        if (g_access (pwent->pw_dir, F_OK) != 0) {
++                g_debug ("solaris_xserver_cred: no HOME dir access\n");
++                return;
++        }
++
++        /*
++         * Handshake with server. Make sure it created a pipe.
++         * Open and write.
++         */
++        if ((tmp = strstr (x11_display_name, ":")) != NULL) {
++                tmp++;
++                display_number = g_ascii_strtod (tmp, &p);
++
++                if (errno != 0) {
++                        g_debug ("solaris_xserver_cred: problem getting display number\n");
++                        return;
++                }
++        }
++
++        sprintf (pipe, "%s/%d", SDTLOGIN_DIR, display_number);
++
++        if (g_stat (SDTLOGIN_DIR, &statbuf) == 0) {
++                if (! statbuf.st_mode & S_IFDIR) {
++                        g_debug ("solaris_xserver_cred: %s is not a directory\n",
++                                 SDTLOGIN_DIR);
++                        return;
++                }
++        } else {
++                g_debug ("solaris_xserver_cred: %s does not exist\n", SDTLOGIN_DIR);
++                return;
++        }
++
++        fd = open (pipe, O_RDWR);
++        g_unlink (pipe);
++
++        if (fd < 0) {
++                g_debug ("solaris_xserver_cred: could not open %s\n", pipe);
++                return;
++        }
++        if (fstat (fd, &statbuf) == 0 ) {
++                if ( ! statbuf.st_mode & S_IFIFO) {
++                        close (fd);
++                        g_debug ("solaris_xserver_cred: %s is not a pipe\n", pipe);
++                        return;
++                }
++        } else {
++                close (fd);
++                g_debug ("solaris_xserver_cred: %s does not exist\n", pipe);
++                return;
++        }
++
++        sprintf (info, "GID=\"%d\"; ", pwent->pw_gid);
++        nb = write (fd, info, strlen (info));
++        g_debug ("solaris_xserver_cred: %s\n", info);
++
++        if (initgroups (username, pwent->pw_gid) == -1) {
++                ngroups = 0;
++        } else {
++                ngroups = getgroups (NGROUPS_UMAX, groups);
++        }
++
++        for (i=0; i < ngroups; i++) {
++                sprintf (info, "G_LIST_ID=\"%u\" ", groups[i]);
++                nb = write (fd, info, strlen (info));
++                g_debug ("solaris_xserver_cred: %s\n", info);
++        }
++
++        if (ngroups > 0) {
++                sprintf (info, ";");
++                write (fd, info, strlen (info));
++        }
++
++        sprintf (info, " HOME=\"%s\" ", pwent->pw_dir);
++        nb = write (fd, info, strlen (info));
++        g_debug ("solaris_xserver_cred: %s\n", info);
++
++        sprintf (info, " UID=\"%d\" EOF=\"\";", pwent->pw_uid);
++        nb = write (fd, info, strlen (info));
++        g_debug ("solaris_xserver_cred: %s\n", info);
++
++        /*
++         * Handshake with server. Make sure it read the pipe.
++         *
++         * Close file descriptor.
++         */
++        close (fd);
++
++        return;
++}
++#endif
++
+ GQuark
+ gdm_session_worker_error_quark (void)
+ {
+@@ -1814,6 +1925,11 @@
+         send_dbus_int_method (worker->priv->connection,
+                               "SessionStarted",
+                               (int)worker->priv->child_pid);
++
++#ifdef __sun
++        solaris_xserver_cred (worker->priv->username,
++                              worker->priv->x11_display_name);
++#endif
+ }
+ 
+ static const char *

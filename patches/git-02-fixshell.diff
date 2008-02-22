@@ -1,0 +1,19 @@
+--- git-1.5.4.2/Documentation/technical/api-index.sh-orig	2008-02-22 12:12:24.759357000 -0600
++++ git-1.5.4.2/Documentation/technical/api-index.sh	2008-02-22 12:11:59.773214000 -0600
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ (
+ 	c=////////////////////////////////////////////////////////////////
+--- git-1.5.4.2/Documentation/Makefile-orig	2008-02-22 12:20:07.338972000 -0600
++++ git-1.5.4.2/Documentation/Makefile	2008-02-22 12:22:42.743621000 -0600
+@@ -174,7 +174,7 @@ user-manual.xml: user-manual.txt user-ma
+ 
+ technical/api-index.txt: technical/api-index-skel.txt \
+ 	technical/api-index.sh $(patsubst %,%.txt,$(API_DOCS))
+-	cd technical && sh ./api-index.sh
++	cd technical && bash ./api-index.sh
+ 
+ $(patsubst %,%.html,$(API_DOCS) technical/api-index): %.html : %.txt
+ 	$(ASCIIDOC) -b xhtml11 -f asciidoc.conf \
