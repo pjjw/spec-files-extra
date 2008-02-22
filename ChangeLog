@@ -1,3 +1,7 @@
+2008-02-23 Ananth Shrinivas <ananth@sun.com>
+
+	* SFEtastymenu.spec: *NEW* A K-Menu replacement for KDE 3.x
+
 2008-02-22  Jijun Yu <jijun.yu@sun.com>
 	
 	* SFEconduit.spec: Modify a dependecny from SUNWpysqlite to SFEpysqlite.
