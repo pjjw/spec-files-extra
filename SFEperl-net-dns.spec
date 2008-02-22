@@ -22,10 +22,10 @@ Source:                  http://www.cpan.org/modules/by-module/%{module_name_maj
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:                SUNWperl584core
-Requires:                SFEperl-IO-Socket-INET6
+Requires:                SFEperl-io-socket-inet6
 BuildRequires:           SUNWperl584core
 BuildRequires:           SUNWsfwhea
-BuildRequires:           SFEperl-IO-Socket-INET6
+BuildRequires:           SFEperl-io-socket-inet6
 
 #TODO# re-work perl specific prerequisites...
 #prerequisites from the modules README
@@ -91,6 +91,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Thu Feb 21 2008 - Thomas Wagner
+- (Build-)Requires corrected to be lowercase (SFEperl-io-socket-inet6)
 * Wed Nov 28 2007 - Thomas Wagner
 - renamed package and if necessary (Build-)Requires
 * Sat Nov 24 2007 - Thomas Wagner
