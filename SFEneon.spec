@@ -75,6 +75,14 @@ rm -rf $RPM_BUILD_ROOT%{_infodir}
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.exp
 
+%if %(test -f %{_mandir}/man1/neon-config.1 && echo 1 || echo 0)
+rm $RPM_BUILD_ROOT%{_mandir}/man1/neon-config.1
+rmdir $RPM_BUILD_ROOT%{_mandir}/man1
+rm $RPM_BUILD_ROOT%{_mandir}/man3/*
+rmdir $RPM_BUILD_ROOT%{_mandir}/man3
+rmdir $RPM_BUILD_ROOT%{_mandir}
+%endif
+
 %if %build_l10n
 %else
 # REMOVE l10n FILES
@@ -88,10 +96,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
+%if %(test ! -f %{_mandir}/man1/neon-config.1 && echo 1 || echo 0)
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*
+%endif
 
 %files devel
 %defattr (-, root, bin)
@@ -103,9 +113,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 %dir %attr (0755, root, sys) %{_datadir}
+%if %(test ! -f %{_mandir}/man1/neon-config.1 && echo 1 || echo 0)
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man3
 %{_mandir}/man3/*
+%endif
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
 
@@ -117,6 +129,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Feb 25 2008 - laca@sun.com
+- make installing man pages conditional to avoid conflict with
+  SUNWsfwman, helps on indiana
 * Sat Jan 26 2008 - moinakg.ghosh@sun.com
 - Fixed typo in conflict tag.
 * Sat Jan 13 2008 - moinak.ghosh@sun.com

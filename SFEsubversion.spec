@@ -30,8 +30,11 @@ Requires: SUNWzlib
 Requires: SUNWpostrun
 Requires: SUNWopenssl-libraries
 Requires: SUNWlexpt
-#Requires: SFEneon
+%if %(pkginfo -q SUNWneon && echo 1 || echo 0)
 Requires: SUNWneon
+%else
+Requires: SFEneon
+%endif
 Requires: SFElibapr
 Requires: SFEaprutil
 BuildRequires: SUNWPython
@@ -173,6 +176,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Feb 25 2008 - laca@sun.com
+- build against either SUNWneon or SFEneon
 * Tue Jan 22 2008 - moinak.ghosh@sun.com
 - Major rework to install in /usr/gnu and avoid conflict with SUNWsvn
 - Depends on two new package SFElibapr and SFEaprutil. Having svn to depend on whole

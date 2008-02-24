@@ -1,3 +1,10 @@
+2008-02-25  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEgmp.spec: fix sparcv9 build
+	* SFEneon.spec: conditionally install man pages to avoid conflicts
+	  with SUNWsfwman
+	* SFEsubversion.spec: build against either SUNWneon or SFEneon
+
 2008-02-14  Moinak Ghosh <moinak.ghosh@sun.com>
 	* SFEsyslog-ng.spec:
 	* patches/syslog-ng-01-loggen.diff:

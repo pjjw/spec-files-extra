@@ -59,9 +59,8 @@ export LDFLAGS64="%_ldflags"
 %ifarch sparcv9
 export CC=${CC64:-$CC}
 export CXX=${CXX64:-$CXX}
-export CFLAGS="$CFLAGS64"
-export CXXFLAGS="$CXXFLAGS64"
 export LDFLAGS="$LDFLAGS64"
+%define host --host=sparcv9-sun-solaris2.11
 %endif
 
 %ifarch amd64
@@ -89,7 +88,7 @@ export ABI=64
             --infodir=%{_infodir}			\
             --libexecdir=%{_libexecdir}/%{_arch64}      \
             --sysconfdir=%{_sysconfdir}      		\
-            --disable-cxx
+            --disable-cxx %{?host}
 make -j$CPUS 
 cd ..
 %endif
@@ -169,6 +168,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Mon Feb 25 2008 - laca@sun.com
+- fix sparcv9 build
 * Fri Nov 02 2007 - nonsea@users.sourceforge.net
 - Remove Requires/BuildRequires to SFEreadline
 * Fri Aug 17 2007 - trisk@acm.jhu.edu
