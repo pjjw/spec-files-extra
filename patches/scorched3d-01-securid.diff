@@ -1,6 +1,6 @@
 --- scorched/src/net/SecureID.cpp.orig	2008-02-10 19:32:09.798176874 +0530
 +++ scorched/src/net/SecureID.cpp	2008-02-10 19:49:01.902395952 +0530
-@@ -36,6 +36,10 @@
+@@ -36,6 +36,11 @@
  
  #else
  
@@ -8,10 +8,11 @@
 +#include <sys/sockio.h>
 +#endif
 +
++#include <unistd.h>
  #include <sys/ioctl.h>
  #include <net/if.h>
  
-@@ -73,7 +77,12 @@
+@@ -73,7 +78,12 @@
  	if_freenameindex(NameList); //free the memory
  
  	strcpy (dev.ifr_name, InterfaceName.c_str()); //select from the name
@@ -24,7 +25,7 @@
  	{
  		close(sock);
  		return ""; //cannot list the interfaces
-@@ -81,7 +90,11 @@
+@@ -81,7 +91,11 @@
  
      for (int i=0; i<6; i++)
      {

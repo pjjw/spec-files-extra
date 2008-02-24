@@ -1,0 +1,22 @@
+--- scorched/src/wxdialogs/Display.cpp.orig	Thu Dec  6 10:43:53 2007
++++ scorched/src/wxdialogs/Display.cpp	Fri Feb 22 16:45:17 2008
+@@ -146,16 +146,13 @@
+ 	loadSizer->Add(new wxStaticText(parent, -1, wxT("Load the normal starting settings for Scorched3D. (FAST machines)")),
+ 		0, wxALL, 2);
+ 	loadSizer->Add(IDC_LOADMEDIUM_CTRL, 0, wxALL, 2);
+-	loadSizer->Add(new wxStaticText(parent, -1, wxT("Load a faster set of settings for Scorched3D. (MEDIUM machines)\n"
+-		"Note: This will result in a slightly reduced graphical experience.")),
++	loadSizer->Add(new wxStaticText(parent, -1, wxT("Load a faster set of settings for Scorched3D. (MEDIUM machines)\nNote: This will result in a slightly reduced graphical experience.")),
+ 		0, wxALL, 2);
+ 	loadSizer->Add(IDC_LOADFASTEST_CTRL, 0, wxALL, 2);
+-	loadSizer->Add(new wxStaticText(parent, -1, wxT("Load the fastest settings for Scorched3D. (SLOW machines)\n"
+-		"Note: This will result in a greatly reduced graphical and audio experience.")),
++	loadSizer->Add(new wxStaticText(parent, -1, wxT("Load the fastest settings for Scorched3D. (SLOW machines)\nNote: This will result in a greatly reduced graphical and audio experience.")),
+ 		0, wxALL, 2);
+ 	loadSizer->Add(IDC_LOADSAFE_CTRL, 0, wxALL, 2);
+-	loadSizer->Add(new wxStaticText(parent, -1, wxT("Load the safest settings for Scorched3D.\n"
+-		"Note: This will result in a greatly reduced overall experience but may prevent crashes.")),
++	loadSizer->Add(new wxStaticText(parent, -1, wxT("Load the safest settings for Scorched3D.\nNote: This will result in a greatly reduced overall experience but may prevent crashes.")),
+ 		0, wxALL, 2);
+ 
+ 	speedSizer->Add(loadSizer, 0, wxGROW);

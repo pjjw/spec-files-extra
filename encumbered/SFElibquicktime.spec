@@ -20,8 +20,11 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SFEffmpeg-devel
 Requires: SFEffmpeg
-BuildRequires: SFEogg-vorbis-devel
-Requires: SFEogg-vorbis
+BuildRequires: SUNWgnome-base-libs-devel
+%ifarch amd64 sparcv9
+BuildRequires: SUNWogg-vorbis-devel
+Requires: SUNWogg-vorbis-devel
+%endif
 
 %package devel
 Summary:         %{summary} - development files
@@ -107,6 +110,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/aclocal
 %{_datadir}/aclocal/*
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
 %ifarch amd64 sparcv9
 %dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
 %dir %attr (0755, root, other) %{_libdir}/%{_arch64}/pkgconfig
@@ -114,5 +119,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Feb 22 2007 - trisk@acm.jhu.edu
+- Use SUNWogg-vorbis dependency (disabled for 64-bit)
 * Tue Sep  4 2007 - dougs@truemail.co.th
 - Initial version

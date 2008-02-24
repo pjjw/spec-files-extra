@@ -1,0 +1,87 @@
+--- scorched/src/server/ServerNewGameState.cpp.orig	Wed Dec 26 19:44:53 2007
++++ scorched/src/server/ServerNewGameState.cpp	Fri Feb 22 17:17:34 2008
+@@ -573,7 +573,7 @@
+ 			{
+ 				unsigned int startTime = (unsigned int)
+ 					current->getScore().getStartTime();
+-				ais_.insert(std::pair<unsigned int, unsigned int>
++				ais_.insert(std::pair<const unsigned int, unsigned int>
+ 					(startTime, current->getPlayerId()));
+ 			}
+ 		}
+@@ -585,7 +585,7 @@
+ 		{
+ 			if (aiItor != ais_.rend())
+ 			{
+-				std::pair<unsigned int, unsigned int> item = *aiItor;
++				std::pair<const unsigned int, unsigned int> item = *aiItor;
+ 				ServerMessageHandler::instance()->destroyPlayer(
+ 					item.second, "Auto-kick");
+ 				aiItor++;
+@@ -606,7 +606,7 @@
+ 			Tank *current = (*mainitor).second;
+ 			if (current->getDestinationId() == 0)
+ 			{
+-				ais_.insert(std::pair<std::string, unsigned int>
++				ais_.insert(std::pair<const std::string, unsigned int>
+ 					(current->getTankAI()->getName(), 
+ 					current->getPlayerId()));
+ 			}
+--- scorched/src/tankai/TankAICurrentTarget.cpp.orig	Sun Sep  2 18:48:52 2007
++++ scorched/src/tankai/TankAICurrentTarget.cpp	Fri Feb 22 17:36:36 2008
+@@ -179,20 +179,20 @@
+ 
+ 		if (damageTaken_.find(currentTank) != damageTaken_.end())
+ 		{
+-			damageTakenSorted.insert(std::pair<float, Tank *>(
++			damageTakenSorted.insert(std::pair<const float, Tank *>(
+ 				damageTaken_[currentTank], currentTank));
+ 		}
+ 		if (damageGiven_.find(currentTank) != damageGiven_.end())
+ 		{
+-			damageGivenSorted.insert(std::pair<float, Tank *>(
++			damageGivenSorted.insert(std::pair<const float, Tank *>(
+ 				damageGiven_[currentTank], currentTank));
+ 		}
+ 		if (shotAt_.find(currentTank) != shotAt_.end())
+ 		{
+-			shotAtSorted.insert(std::pair<float, Tank *>(
++			shotAtSorted.insert(std::pair<const float, Tank *>(
+ 				shotAt_[currentTank], currentTank));
+ 		}
+-		distanceSorted.insert(std::pair<float, Tank *>(
++		distanceSorted.insert(std::pair<const float, Tank *>(
+ 			((currentTank->getPosition().getTankPosition() - 
+ 			thisTank->getPosition().getTankPosition()).Magnitude()).asFloat(), currentTank));
+ 	}
+@@ -233,7 +233,7 @@
+ 			damagetakenScore * damagetaken_ +
+ 			damagedoneScore * damagedone_ +
+ 			distanceScore * distance_;
+-		weightedTanks.insert(std::pair<float, Tank *>(weight, currentTank));
++		weightedTanks.insert(std::pair<const float, Tank *>(weight, currentTank));
+ 	}
+ 
+ 	// Form the final list
+--- scorched/src/tankai/TankAIWeaponSets.cpp.orig	Sat Oct  6 18:49:04 2007
++++ scorched/src/tankai/TankAIWeaponSets.cpp	Fri Feb 22 17:38:23 2008
+@@ -113,7 +113,7 @@
+ 			if (weapon.weaponValid(tank, lastRound))
+ 			{
+ 				potentialWeapons.insert(
+-					std::pair<unsigned int, WeaponSetEntry *>
++					std::pair<const unsigned int, WeaponSetEntry *>
+ 						(weapon.prioritybuy, &weapon));
+ 			}
+ 		}
+--- scorched/src/landscapemap/HeightMap.cpp.orig	Sun Sep  2 18:48:51 2007
++++ scorched/src/landscapemap/HeightMap.cpp	Fri Feb 22 18:54:37 2008
+@@ -39,7 +39,7 @@
+ 	delete [] backupMap_;
+ }
+ 
+-void HeightMap::create(const int width, const int height)
++void HeightMap::create(int width, int height)
+ {
+ 	width_ = width; 
+ 	height_ = height;

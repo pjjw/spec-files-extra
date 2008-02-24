@@ -1,0 +1,11 @@
+--- scorched/src/landscapemap/HeightMap.h.orig	Sun Sep  2 18:48:51 2007
++++ scorched/src/landscapemap/HeightMap.h	Fri Feb 22 17:25:32 2008
+@@ -60,7 +60,7 @@
+ 	fixed getInterpHeight(fixed w, fixed h);
+ 
+ 	// Get normal functions
+-	inline FixedVector &getNormal(int w, int h);
++	FixedVector &getNormal(int w, int h);
+ 	void getInterpNormal(fixed w, fixed h, FixedVector &normal);
+ 
+ 	bool getIntersect(Line &direction, Vector &intersect);

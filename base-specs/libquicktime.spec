@@ -4,7 +4,7 @@
 # includes module(s): libquicktime
 #
 
-%define src_ver 1.0.0
+%define src_ver 1.0.2
 %define src_name libquicktime
 %define src_url http://downloads.sourceforge.net/%{src_name}
 
@@ -12,15 +12,11 @@ Name:		libquicktime
 Summary:	Quicktime library
 Version:	%{src_ver}
 Source:		%{src_url}/%{src_name}-%{version}.tar.gz
-Patch1:		libquicktime-01-configure.diff
-Patch2:		libquicktime-02-gtk.diff
 Patch3:		libquicktime-03-rtjpeg.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
 %prep
 %setup -q -n %{src_name}-%{version}
-%patch1 -p1
-%patch2 -p1
 %patch3 -p1
 
 %build
@@ -63,6 +59,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libquicktime/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Feb 22 2008 - trisk@acm.jhu.edu
+- Bump to 1.0.2, drop patch1, patch2
 * Tue Feb 12 2008 <pradhap (at) gmail.com>
 - Fixed links
 * Sun Jan 06 2008 - moinak.ghosh@sun.com

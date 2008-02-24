@@ -1,3 +1,22 @@
+2008-02-24  Albert Lee <trisk@acm.jhu.edu>
+
+	* SFEeasytag.spec: Replace patch1, update build rules
+	* SFEscorched3d.spec: Use SFEwxwidgets instead of SFEwxwidgets-gnu, fix
+	  linking, add patch2, patch3, patch4
+	* base-specs/libquicktime.spec: Bump to 1.0.2, drop patch1, patch2
+	* encumbered/SFElibquicktime.spec: Use SUNWogg-vorbis dependency
+	  (disabled for 64-bit)
+	* patches/easytag-01-solaris.diff: Patch configure to detect need for
+	  various libraries while preserving portability
+	* patches/easytag-01-stdc++.diff: Dropped patch, superceded
+	* patches/easytag2.1-01-libnsl.diff: Dropped ugly patch
+	* patches/libquicktime-01-configure.diff: Dropped patch, unnecessary
+	* patches/libquicktime-02-gtk.diff: Dropped patch, unnecessary
+	* patches/scorched3d-01-securid.diff: Add missing include to patch
+	* patches/scorched3d-02-sunpro.diff: Studio compatibility
+	* patches/scorched3d-03-const.diff: Fix const-ness inconcistencies
+	* patches/scorched3d-04-prototype.diff: Fix function prototype
+
 2008-02-23 Brian Cameron  <brian.cameron@sun.com>
 
 	* SUNWgit.spec, patches/git-02-fixshell.diff:  Add a patch to fix

@@ -27,7 +27,7 @@ Release:      	%{pkg_release}
 License:      	GPL
 Group:          Entertainment
 Source:         %{sf_download}/easytag/%{src_name}-%{version}.tar.bz2
-Patch:        	easytag2.1-01-libnsl.diff
+Patch1:        	easytag-01-solaris.diff
 Vendor:       	http://easytag.sourceforge.net
 URL:            http://easytag.sourceforge.net
 Packager:     	Shivakumar GN
@@ -58,9 +58,24 @@ EasyTAG - Tag editor for MP3, Ogg Vorbis files and more
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %prep 
 %setup -q -n %{src_name}-%{version}
+%patch1 -p 1
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+# Build-Section 
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+%build
+CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
+if test "x$CPUS" = "x" -o $CPUS = 0; then
+  CPUS=1
+fi
+
+export CFLAGS="%optflags"
+export LDFLAGS="%{_ldflags}"
 %if %option_with_gnu_iconv
 export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
 %endif
+autoconf
+
 ./configure --prefix=%{_prefix} \
             --mandir=%{_mandir} \
             --datadir=%{_datadir} \
@@ -68,20 +83,16 @@ export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
             --bindir=%{_bindir} \
             --sysconfdir=%{_sysconfdir}
 
-%patch0 -p 1
-
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-# Build-Section 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-%build
-make
+make -j$CPUS
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Install-Section 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
+make DESTDIR=$RPM_BUILD_ROOT install
+rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
 
 %if %build_l10n
 %else
@@ -118,6 +129,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Feb 24 2008 - trisk@acm.jhu.edu
+- Replace patch1, update build rules
 * Mon Dec 31 2007 - markwright@internode.on.net
 - Added -f option to line rm -rf $RPM_BUILD_ROOT%{_datadir}/locale 
 
