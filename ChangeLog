@@ -1,3 +1,6 @@
+2008-02-24  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEgmpc.spec: take back stupid test typo for a "svn diff"
+
 2008-02-25  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEgmp.spec: fix sparcv9 build

@@ -55,7 +55,7 @@ export LDFLAGS="-lX11"
 export CC=/usr/sfw/bin/gcc
 export CXX=/usr/sfw/bin/g++
 %if %option_with_gnu_iconv
-export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl aalallal"
+export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
 %endif
 
 #TODO: check --disable-sm 
