@@ -1,0 +1,17 @@
+--- syslog-ng-2.0.8/tests/loggen/loggen.c.orig	2008-02-24 19:51:45.222128914 +0530
++++ syslog-ng-2.0.8/tests/loggen/loggen.c	2008-02-24 19:53:53.478372615 +0530
+@@ -25,6 +25,14 @@
+ #define USEC_PER_SEC     10e6
+ #define MIN(a, b)    ((a) < (b) ? (a) : (b))
+ 
++int allow_severity = 0;
++int deny_severity = 0;
++
++int
++yylex(void)
++{
++}
++
+ static inline unsigned long
+ time_val_diff(struct timeval *t1, struct timeval *t2)
+ {

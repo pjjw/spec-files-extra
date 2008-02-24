@@ -1,3 +1,13 @@
+2008-02-14  Moinak Ghosh <moinak.ghosh@sun.com>
+	* SFEsyslog-ng.spec:
+	* patches/syslog-ng-01-loggen.diff:
+	  Bump version to 2.0.8.
+	  Add dependency on required eventlog library.
+	  Add bindir to files to get additional programs.
+	  Add patch to work around broken configure when using --enable-dynamic-linking.
+	* SFEeventlog.spec:
+	  Initial spec. This is needed by SFEsyslog-ng.
+
 2008-02-24  Albert Lee <trisk@acm.jhu.edu>
 
 	* SFEeasytag.spec: Replace patch1, update build rules

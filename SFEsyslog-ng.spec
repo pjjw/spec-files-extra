@@ -12,15 +12,18 @@
 
 Name:                SFEsyslog-ng
 Summary:             Syslog-ng tries to fill the gaps original syslogd's were lacking
-Version:             2.0.5
+Version:             2.0.8
 Source:              http://www.balabit.com/downloads/files/syslog-ng/sources/stable/src/syslog-ng-%{version}.tar.gz
+Patch1:              syslog-ng-01-loggen.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+Requires:            SFEeventlog
 
 %prep
 %setup -q -n syslog-ng-%version
+%patch1 -p1
 
 %build
 
@@ -38,8 +41,9 @@ export LDFLAGS="%_ldflags"
 
 ./configure --prefix=%{_prefix}  \
             --sysconfdir=%{_sysconfdir} \
-            --enable-full-dynamic \
-            --mandir=%{_mandir}
+            --enable-dynamic-linking \
+            --mandir=%{_mandir} \
+            --enable-dynamic-linking
 
 make -j$CPUS
 
@@ -53,6 +57,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/*
 %dir %attr (0755, root, bin) %{_sbindir}
 %{_sbindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
@@ -63,6 +69,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/syslog-ng.8
 
 %changelog
+* Sun Feb 24 2008 - Moinak Ghosh
+- Bump version to 2.0.8.
+- Add dependency on required eventlog library.
+- Add bindir to files to get additional programs.
+- Add patch to work around broken configure when using --enable-dynamic-linking.
 * Wed Oct 17 2007 - laca@sun.com
 - bump to 2.0.5
 * Mon Mar 19 2007 - dougs@truemail.co.th
