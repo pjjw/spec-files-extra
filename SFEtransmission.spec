@@ -6,7 +6,7 @@
 
 Name:                    SFEtransmission
 Summary:                 Transmission - GTK and console BitTorrent client
-Version:                 0.91
+Version:                 1.05
 Source:                  http://download.m0k.org/transmission/files/transmission-%{version}.tar.bz2
 URL:                     http://transmission.m0k.org/
 Patch1:                  transmission-01-sunpro.diff
@@ -90,6 +90,25 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/16x16
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/16x16/apps
+%{_datadir}/icons/hicolor/16x16/apps/transmission.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/22x22
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/22x22/apps
+%{_datadir}/icons/hicolor/22x22/apps/transmission.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/24x24
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/24x24/apps
+%{_datadir}/icons/hicolor/24x24/apps/transmission.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/32x32
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/32x32/apps
+%{_datadir}/icons/hicolor/32x32/apps/transmission.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/48x48
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/48x48/apps
+%{_datadir}/icons/hicolor/48x48/apps/transmission.png
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/scalable
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/scalable/apps
+%{_datadir}/icons/hicolor/scalable/apps/transmission.svg
 
 %if %build_l10n
 %files l10n
@@ -99,6 +118,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Feb 26 2008 - markwright@internode.on.net
+- Bump to 1.05, bump patch1, add icons.
 * Thu Nov 22 2007 - daymobrew@users.sourceforge.net
 - Enable building on Indiana systems.
 * Thu Nov 01 2007 - trisk@acm.jhu.edu

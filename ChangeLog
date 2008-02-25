@@ -1,3 +1,8 @@
+2008-02-26 Mark Wright <markwright@internode.on.net>
+	* SFEtransmission.spec
+	* patches/transmission-01-sunpro.diff
+	  Bump to 1.05, bump patch1, add icons.
+
 2008-02-25  simon.zheng  <simon.zheng@sun.com>
 
 	* patches/ConsoleKit-06-fixvt.diff:
