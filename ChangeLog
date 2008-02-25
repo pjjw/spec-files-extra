@@ -1,3 +1,8 @@
+2008-02-25  simon.zheng  <simon.zheng@sun.com>
+
+	* patches/ConsoleKit-06-fixvt.diff:
+	  Rework patch for macro definition. 
+
 2008-02-25  Albert Lee <trisk@acm.jhu.edu>
 
 	SFEdosbox.spec: Bump to 0.72, update dependencies, replace patch1

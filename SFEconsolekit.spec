@@ -165,6 +165,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Feb 25 2008 - simon.zheng@sun.com
+- Rework ConsoleKit-06-fixvt.diff for better macro definition.
 * Fri Feb 22 2008 - brian.cameron@sun.com
 - Add the patch ConsoleKit-05-devname.diff that Simon wrote, patch
   ConsoleKit-06-fixvt.diff so that patch 4 builds properly when you
