@@ -1,7 +1,6 @@
-diff -ur dosbox-0.70-orig/configure.in dosbox-0.70/configure.in
---- dosbox-0.70-orig/configure.in	2007-03-01 02:56:16.000000000 +0700
-+++ dosbox-0.70/configure.in	2007-04-26 16:54:48.480120877 +0700
-@@ -292,6 +292,11 @@
+--- dosbox-0.72/configure.in.orig	Thu Aug 23 06:24:49 2007
++++ dosbox-0.72/configure.in	Mon Feb 25 01:19:36 2008
+@@ -371,6 +371,11 @@
    AC_MSG_WARN([Can't find libSDL_sound, libSDL_sound support disabled])
  fi
  
@@ -13,42 +12,24 @@ diff -ur dosbox-0.70-orig/configure.in dosbox-0.70/configure.in
  dnl Check for mprotect. Needed for 64 bits linux 
  AH_TEMPLATE(C_HAVE_MPROTECT,[Define to 1 if you have the mprotect function])
  AC_CHECK_HEADER([sys/mman.h], [
-diff -ur dosbox-0.70-orig/src/hardware/serialport/misc_util.cpp dosbox-0.70/src/hardware/serialport/misc_util.cpp
---- dosbox-0.70-orig/src/hardware/serialport/misc_util.cpp	2007-02-19 20:28:47.000000000 +0700
-+++ dosbox-0.70/src/hardware/serialport/misc_util.cpp	2007-04-26 16:43:00.778432189 +0700
-@@ -6,7 +6,7 @@
- // C++ SDLnet wrapper
+@@ -407,6 +412,9 @@
+        LIBS="$LIBS -framework AudioUnit"
+        AC_DEFINE(C_DIRECTSERIAL, 1, [ Define to 1 if you want serial passthrough support (Win32, Posix and OS/2).])
+        ;;
++    *-*-solaris*)
++       AC_DEFINE(C_DIRECTSERIAL, 1, [ Define to 1 if you want serial passthrough support (Win32, Posix and OS/2).])
++       ;;
+     *-*-linux*)
+        AC_DEFINE(LINUX, 1, [Compiling on GNU/Linux])
+        AC_DEFINE(C_DIRECTSERIAL, 1, [ Define to 1 if you want serial passthrough support (Win32, Posix and OS/2).])
+--- dosbox-0.72/src/hardware/serialport/directserial_posix.cpp.orig	Sun Aug 26 13:19:46 2007
++++ dosbox-0.72/src/hardware/serialport/directserial_posix.cpp	Mon Feb 25 01:16:56 2008
+@@ -23,7 +23,7 @@
+ #if C_DIRECTSERIAL
  
- // Socket inheritance
--#if defined LINUX || defined OS2
-+#if defined LINUX || defined OS2 
- #define CAPWORD (NETWRAPPER_TCP|NETWRAPPER_TCP_NATIVESOCKET)
- #ifdef OS2
- typedef int     socklen_t;
-@@ -28,6 +28,13 @@
- #include <netinet/in.h>
- #define SOCKET socklen_t
+ // Posix version
+-#if defined (LINUX) || defined (MACOSX)
++#if defined (LINUX) || defined (MACOSX) || defined (_sun)
  
-+#elif defined sun
-+#define CAPWORD (NETWRAPPER_TCP|NETWRAPPER_TCP_NATIVESOCKET)
-+#include <sys/types.h>
-+#include <sys/socket.h>
-+#include <netinet/in.h>
-+#define SOCKET socklen_t
-+
- #else
- #define CAPWORD NETWRAPPER_TCP
- #endif
-diff -ur dosbox-0.70-orig/src/hardware/serialport/misc_util.h dosbox-0.70/src/hardware/serialport/misc_util.h
---- dosbox-0.70-orig/src/hardware/serialport/misc_util.h	2007-02-19 20:28:47.000000000 +0700
-+++ dosbox-0.70/src/hardware/serialport/misc_util.h	2007-04-26 16:43:28.714907896 +0700
-@@ -12,6 +12,9 @@
- #elif defined WIN32 
- #define NATIVESOCKETS
- 
-+#elif defined sun
-+#define NATIVESOCKETS
-+
- #else
- #endif
- 
+ #include "serialport.h"
+ #include "directserial_posix.h"
