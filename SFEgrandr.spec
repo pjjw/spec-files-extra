@@ -11,6 +11,7 @@ Version:                 0.1
 Source:                  http://xorg.freedesktop.org/archive/individual/app/grandr-%{version}.tar.bz2
 Patch1:                  grandr-01-gconf.diff
 Patch2:                  grandr-02-desktop-file.diff
+Patch3:                  grandr-03-iterator.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -23,6 +24,7 @@ BuildRequires: SUNWxorg-headers
 %setup -q -n grandr-%version
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -77,5 +79,7 @@ test -x $BASEDIR/lib/postrun || exit 0
 %{_datadir}/applications/*
 
 %changelog
+* Tue Feb 26 2008 - trisk@acm.jhu.edu
+- Add patch3 from Debian - fixes long-standing crash
 * Sun Sep 16 2007 - trisk@acm.jhu.edu
 - Initial spec

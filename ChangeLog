@@ -1,3 +1,8 @@
+2008-02-26  Albert Lee <trisk@acm.jhu.edu>
+
+	SFEgrandr.spec: Add patch3 from Debian - fixes long-standing crash
+	patches/grandr-03-iterator.diff: Patch for crash when selecting output
+
 2008-02-26 Brian Cameron  <brian.cameron@sun.com>
 
 	* SUNWgnome-display-mgr.spec, patches/gdm-03-fixcrash.diff:

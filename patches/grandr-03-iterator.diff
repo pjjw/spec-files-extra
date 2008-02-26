@@ -1,0 +1,16 @@
+--- grandr-0.1/src/callbacks.c	2007-06-19 15:22:41.000000000 +0200
++++ grandr-0.1~/src/callbacks.c	2007-12-04 14:30:54.000000000 +0100
+@@ -158,9 +158,12 @@
+ 	GtkTreeModel *model;
+ 	GtkTreeIter iter;
+ 	int mode_id;
++	gboolean iter_ok;
+ 	
+ 	model = gtk_combo_box_get_model (combobox);
+-	gtk_combo_box_get_active_iter (combobox, &iter);
++	iter_ok = gtk_combo_box_get_active_iter (combobox, &iter);
++	if(!iter_ok) return;
++
+   	gtk_tree_model_get (model, &iter,
+ 		      COL_MODE_ID, &mode_id,
+ 		      -1);
