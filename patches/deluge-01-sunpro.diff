@@ -1,5 +1,5 @@
---- deluge-torrent-0.5.8-orig/setup.py	2007-12-29 17:55:55.000000000 +0000
-+++ deluge-torrent-0.5.8/setup.py	2007-12-31 05:45:28.039896946 +0000
+--- deluge-torrent-0.5.8.4-orig/setup.py	2008-02-14 04:08:27.000000000 +0000
++++ deluge-torrent-0.5.8.4/setup.py	2008-02-26 00:15:48.615422011 +0000
 @@ -98,12 +98,12 @@
  #    it has been removed to prevent confusion.
  
@@ -17,7 +17,7 @@
  
 @@ -150,7 +150,7 @@
      librariestype = [boost_filesystem, boost_date_time,
-             boost_thread, 'z', 'pthread', 'ssl']
+             boost_thread, 'z', 'pthread', 'ssl', 'rt', 'crypto']
      
 -    removals = ['-g', '-Wstrict-prototypes']
 +    removals = ['-g', '-Wstrict-prototypes', '-OPT:Olimit=0']
@@ -34,8 +34,8 @@
 +    sysconfig.get_config_vars()["BASECFLAGS"] = ' '.join(cv_opt.split())
  else:
      EXTRA_COMPILE_ARGS = [  '-O2', '-DBOOST_WINDOWS',
-                             '-Wno-missing-braces',
-@@ -209,7 +213,8 @@
+                             '-fno-strict-aliasing',
+@@ -212,7 +216,8 @@
                      libraries = librariestype,
                      extra_compile_args = EXTRA_COMPILE_ARGS,
                      extra_link_args = EXTRA_LINK_ARGS,
@@ -45,8 +45,8 @@
  
  # Thanks to Iain Nicol for code to save the location for installed prefix
  # At runtime, we need to know where we installed the data to.
---- deluge-torrent-0.5.8-orig/libtorrent/include/libtorrent/xml_parse.hpp	2007-12-29 17:52:01.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/include/libtorrent/xml_parse.hpp	2007-12-31 05:45:28.040294540 +0000
+--- deluge-torrent-0.5.8.4-orig/libtorrent/include/libtorrent/xml_parse.hpp	2008-02-13 05:40:56.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/include/libtorrent/xml_parse.hpp	2008-02-26 00:15:48.615818630 +0000
 @@ -128,7 +128,7 @@
  				*(p-1) = '?';
  				tag_end = p - 1;
@@ -56,8 +56,8 @@
  			{
  				start += 3;
  				*(p-2) = 0;
---- deluge-torrent-0.5.8-orig/libtorrent/include/libtorrent/asio/detail/socket_ops.hpp	2007-11-15 05:55:47.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/include/libtorrent/asio/detail/socket_ops.hpp	2007-12-31 05:45:28.041543284 +0000
+--- deluge-torrent-0.5.8.4-orig/libtorrent/include/libtorrent/asio/detail/socket_ops.hpp	2008-02-13 01:02:31.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/include/libtorrent/asio/detail/socket_ops.hpp	2008-02-26 00:15:48.617570506 +0000
 @@ -197,7 +197,10 @@
  #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
    b.buf = static_cast<char*>(data);
@@ -82,9 +82,9 @@
    b.iov_base = const_cast<void*>(data);
    b.iov_len = size;
  #endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
---- deluge-torrent-0.5.8-orig/libtorrent/include/libtorrent/asio/impl/error_code.ipp	2007-11-15 05:55:48.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/include/libtorrent/asio/impl/error_code.ipp	2007-12-31 05:45:28.041797102 +0000
-@@ -81,16 +81,16 @@
+--- deluge-torrent-0.5.8.4-orig/libtorrent/include/libtorrent/asio/impl/error_code.ipp	2008-02-13 01:02:30.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/include/libtorrent/asio/impl/error_code.ipp	2008-02-26 00:15:48.617979966 +0000
+@@ -83,16 +83,16 @@
    if (category() != error::get_system_category())
      return "asio error";
  #if defined(__sun) || defined(__QNX__)
@@ -104,8 +104,8 @@
  #endif
  #endif // defined(BOOST_WINDOWS)
  }
---- deluge-torrent-0.5.8-orig/libtorrent/src/http_stream.cpp	2007-12-29 17:52:03.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/src/http_stream.cpp	2007-12-31 05:45:28.042027784 +0000
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/http_stream.cpp	2008-02-13 05:40:57.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/http_stream.cpp	2008-02-26 00:15:48.618350727 +0000
 @@ -130,7 +130,7 @@
  		if (found_end)
  		{
@@ -124,9 +124,9 @@
  			if (code != 200)
  			{
  				(*h)(asio::error::operation_not_supported);
---- deluge-torrent-0.5.8-orig/libtorrent/src/piece_picker.cpp	2007-12-29 17:52:03.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/src/piece_picker.cpp	2007-12-31 05:45:28.042840440 +0000
-@@ -535,7 +535,7 @@
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/piece_picker.cpp	2008-02-13 05:40:57.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/piece_picker.cpp	2008-02-26 00:15:48.619341717 +0000
+@@ -536,7 +536,7 @@
  		{
  			// find a random position in the destination vector where we will place
  			// this entry.
@@ -135,7 +135,7 @@
  			
  			// copy the entry at that position to the back
  			m_piece_map[m_piece_info[priority][dst_index]].index
-@@ -607,7 +607,7 @@
+@@ -608,7 +608,7 @@
  		{
  			// find a random position in the destination vector where we will place
  			// this entry.
@@ -144,7 +144,7 @@
  			
  			// copy the entry at that position to the back
  			m_piece_map[m_piece_info[new_priority][dst_index]].index
-@@ -1188,7 +1188,7 @@
+@@ -1189,7 +1189,7 @@
  			// we're not using rarest first (only for the first
  			// bucket, since that's where the currently downloading
  			// pieces are)
@@ -153,8 +153,8 @@
  
  			// if we have suggested pieces, try to find one of those instead
  			for (std::vector<int>::const_iterator i = suggested_pieces.begin()
---- deluge-torrent-0.5.8-orig/libtorrent/src/session.cpp	2007-12-29 17:52:03.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/src/session.cpp	2007-12-31 05:45:28.043150871 +0000
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/session.cpp	2008-02-13 05:40:57.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/session.cpp	2008-02-26 00:15:48.619783468 +0000
 @@ -77,7 +77,6 @@
  using boost::shared_ptr;
  using boost::weak_ptr;
@@ -163,8 +163,8 @@
  using libtorrent::aux::session_impl;
  
  namespace libtorrent
---- deluge-torrent-0.5.8-orig/libtorrent/src/session_impl.cpp	2007-12-29 17:52:03.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/src/session_impl.cpp	2007-12-31 05:45:28.044432102 +0000
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/session_impl.cpp	2008-02-13 08:50:18.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/session_impl.cpp	2008-02-26 00:15:48.621625280 +0000
 @@ -98,7 +98,6 @@
  using boost::shared_ptr;
  using boost::weak_ptr;
@@ -245,7 +245,7 @@
  		// abort the checker thread
  		m_checker_impl.m_abort = true;
  
-@@ -1645,7 +1644,7 @@
+@@ -1657,7 +1656,7 @@
  	std::vector<torrent_handle> session_impl::get_torrents()
  	{
  		mutex_t::scoped_lock l(m_mutex);
@@ -254,7 +254,7 @@
  		std::vector<torrent_handle> ret;
  		for (std::deque<boost::shared_ptr<aux::piece_checker_data> >::iterator i
  			= m_checker_impl.m_torrents.begin()
-@@ -1697,7 +1696,7 @@
+@@ -1709,7 +1708,7 @@
  
  		// lock the session and the checker thread (the order is important!)
  		mutex_t::scoped_lock l(m_mutex);
@@ -263,7 +263,7 @@
  
  //		INVARIANT_CHECK;
  
-@@ -1773,7 +1772,7 @@
+@@ -1785,7 +1784,7 @@
  		TORRENT_ASSERT(!save_path.empty());
  		{
  			// lock the checker_thread
@@ -272,7 +272,7 @@
  
  			// is the torrent currently being checked?
  			if (m_checker_impl.find_torrent(info_hash))
-@@ -1873,7 +1872,7 @@
+@@ -1885,7 +1884,7 @@
  
  		if (h.m_chk)
  		{
@@ -281,7 +281,7 @@
  
  			aux::piece_checker_data* d = m_checker_impl.find_torrent(h.m_info_hash);
  			if (d != 0)
-@@ -2181,7 +2180,7 @@
+@@ -2197,7 +2196,7 @@
  		// destructed and then the invariant will be broken).
  
  		{
@@ -290,8 +290,8 @@
  			// abort the checker thread
  			m_checker_impl.m_abort = true;
  
---- deluge-torrent-0.5.8-orig/libtorrent/src/sha1.cpp	2007-12-29 17:52:03.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/src/sha1.cpp	2007-12-31 05:45:28.044936330 +0000
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/sha1.cpp	2008-02-13 05:40:57.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/sha1.cpp	2008-02-26 00:15:48.622323109 +0000
 @@ -20,20 +20,19 @@
  // #include <stdint.h>
  
@@ -405,8 +405,8 @@
  	{
  		digest[i] = static_cast<unsigned char>(
  			(context->state[i>>2] >> ((3-(i & 3)) * 8) ) & 255);
---- deluge-torrent-0.5.8-orig/libtorrent/src/torrent.cpp	2007-12-29 17:52:03.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/src/torrent.cpp	2007-12-31 05:45:28.046251515 +0000
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/torrent.cpp	2008-02-13 05:40:57.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/torrent.cpp	2008-02-26 00:15:48.623892924 +0000
 @@ -79,7 +79,6 @@
  using boost::tuples::get;
  using boost::tuples::make_tuple;
@@ -415,8 +415,8 @@
  using libtorrent::aux::session_impl;
  
  namespace
---- deluge-torrent-0.5.8-orig/libtorrent/src/torrent_handle.cpp	2007-12-29 17:52:03.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/src/torrent_handle.cpp	2007-12-31 05:45:28.046929607 +0000
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/torrent_handle.cpp	2008-02-13 05:40:57.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/torrent_handle.cpp	2008-02-26 00:15:48.624879426 +0000
 @@ -75,7 +75,6 @@
  #endif
  
@@ -513,9 +513,9 @@
 -		mutex::scoped_lock l2(m_chk->m_mutex);
 +		boost::mutex::scoped_lock l2(m_chk->m_mutex);
  
- 		boost::shared_ptr<torrent> t = m_ses->find_torrent(m_info_hash).lock();
+ 		torrent* t = find_torrent(m_ses, m_chk, m_info_hash);
  		if (!t || !t->valid_metadata())
-@@ -656,7 +655,7 @@
+@@ -659,7 +658,7 @@
  			// the torrent is being checked. Add the peer to its
  			// peer list. The entries in there will be connected
  			// once the checking is complete.
@@ -524,9 +524,9 @@
  
  			aux::piece_checker_data* d = m_chk->find_torrent(m_info_hash);
  			if (d == 0)
---- deluge-torrent-0.5.8-orig/libtorrent/src/udp_tracker_connection.cpp	2007-12-29 17:52:03.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/src/udp_tracker_connection.cpp	2007-12-31 05:45:28.047251142 +0000
-@@ -188,7 +188,7 @@
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/udp_tracker_connection.cpp	2008-02-13 05:40:57.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/udp_tracker_connection.cpp	2008-02-26 00:15:48.628030206 +0000
+@@ -187,7 +187,7 @@
  		char* ptr = send_buf;
  
  		if (m_transaction_id == 0)
@@ -535,7 +535,7 @@
  
  		// connection_id
  		detail::write_uint32(0x417, ptr);
-@@ -293,7 +293,7 @@
+@@ -292,7 +292,7 @@
  	void udp_tracker_connection::send_udp_announce()
  	{
  		if (m_transaction_id == 0)
@@ -544,7 +544,7 @@
  
  		if (!m_socket.is_open()) return; // the operation was aborted
  
-@@ -353,7 +353,7 @@
+@@ -352,7 +352,7 @@
  	void udp_tracker_connection::send_udp_scrape()
  	{
  		if (m_transaction_id == 0)
@@ -553,9 +553,9 @@
  
  		if (!m_socket.is_open()) return; // the operation was aborted
  
---- deluge-torrent-0.5.8-orig/libtorrent/src/upnp.cpp	2007-12-29 17:52:03.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/src/upnp.cpp	2007-12-31 05:45:28.047704427 +0000
-@@ -586,14 +586,14 @@
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/upnp.cpp	2008-02-13 05:40:57.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/upnp.cpp	2008-02-26 00:15:48.628649801 +0000
+@@ -614,14 +614,14 @@
  		if (type == xml_start_tag)
  		{
  			if ((!state.top_tag.empty() && state.top_tag == "service")
@@ -572,7 +572,7 @@
  			{
  				state.top_tag.clear();
  				if (state.found_service) state.exit = true;
-@@ -605,7 +605,7 @@
+@@ -633,7 +633,7 @@
  		{
  			if (state.top_tag == "serviceType")
  			{
@@ -581,7 +581,7 @@
  					state.found_service = true;
  			}
  			else if (state.top_tag == "controlURL")
-@@ -727,7 +727,7 @@
+@@ -755,7 +755,7 @@
  	void find_error_code(int type, char const* string, error_code_parse_state& state)
  	{
  		if (state.exit) return;
@@ -590,9 +590,9 @@
  		{
  			state.in_error_code = true;
  		}
---- deluge-torrent-0.5.8-orig/libtorrent/src/kademlia/node.cpp	2007-12-29 17:52:02.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/src/kademlia/node.cpp	2007-12-31 05:45:28.047992439 +0000
-@@ -420,7 +420,7 @@
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/kademlia/node.cpp	2008-02-13 05:40:57.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/kademlia/node.cpp	2008-02-26 00:15:48.629066668 +0000
+@@ -426,7 +426,7 @@
  	int num = (std::min)((int)v.peers.size(), m_settings.max_peers_reply);
  	peers.clear();
  	peers.reserve(num);
@@ -601,8 +601,8 @@
  		, boost::make_transform_iterator(v.peers.end(), &get_endpoint)
  		, std::back_inserter(peers), num);
  
---- deluge-torrent-0.5.8-orig/libtorrent/src/kademlia/rpc_manager.cpp	2007-12-29 17:52:02.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/src/kademlia/rpc_manager.cpp	2007-12-31 05:45:28.048263257 +0000
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/kademlia/rpc_manager.cpp	2008-02-13 05:40:57.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/kademlia/rpc_manager.cpp	2008-02-26 00:15:48.629410788 +0000
 @@ -82,7 +82,7 @@
  	if (--o->m_refs == 0)
  	{
@@ -621,8 +621,8 @@
  	, m_oldest_transaction_id(m_next_transaction_id)
  	, m_incoming(f)
  	, m_send(sf)
---- deluge-torrent-0.5.8-orig/libtorrent/src/web_peer_connection.cpp	2007-12-29 17:52:03.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/src/web_peer_connection.cpp	2007-12-31 05:45:28.048583172 +0000
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/web_peer_connection.cpp	2008-02-13 05:40:57.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/web_peer_connection.cpp	2008-02-26 00:15:48.629784810 +0000
 @@ -467,7 +467,7 @@
  			else
  			{
@@ -632,8 +632,8 @@
  				if (range_end == -1)
  				{
  					// we should not try this server again.
---- deluge-torrent-0.5.8-orig/libtorrent/include/libtorrent/asio/detail/resolver_service.hpp	2007-10-19 08:02:37.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/include/libtorrent/asio/detail/resolver_service.hpp	2007-12-31 05:45:28.048850401 +0000
+--- deluge-torrent-0.5.8.4-orig/libtorrent/include/libtorrent/asio/detail/resolver_service.hpp	2008-02-13 01:02:31.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/include/libtorrent/asio/detail/resolver_service.hpp	2008-02-26 00:15:48.630191309 +0000
 @@ -329,7 +329,7 @@
    void start_work_thread()
    {
@@ -643,8 +643,8 @@
      {
        work_thread_.reset(new asio::detail::thread(
              work_io_service_runner(*work_io_service_)));
---- deluge-torrent-0.5.8-orig/libtorrent/src/lsd.cpp	2007-12-29 17:52:03.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/src/lsd.cpp	2007-12-31 05:45:28.049041126 +0000
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/lsd.cpp	2008-02-13 05:40:57.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/lsd.cpp	2008-02-26 00:15:48.630413636 +0000
 @@ -166,7 +166,7 @@
  	sha1_hash ih(0);
  	std::istringstream ih_sstr(ih_str);
@@ -654,8 +654,8 @@
  
  	if (!ih.is_all_zeros() && port != 0)
  	{
---- deluge-torrent-0.5.8-orig/libtorrent/src/http_tracker_connection.cpp	2007-12-29 17:52:03.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/src/http_tracker_connection.cpp	2007-12-31 05:45:28.049441089 +0000
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/http_tracker_connection.cpp	2008-02-13 05:40:57.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/http_tracker_connection.cpp	2008-02-26 00:15:48.631687934 +0000
 @@ -704,7 +704,7 @@
  
  		if (m_parser.header_finished())
@@ -665,8 +665,8 @@
  			if (cl > m_settings.tracker_maximum_response_length)
  			{
  				fail(-1, "content-length is greater than maximum response length");
---- deluge-torrent-0.5.8-orig/libtorrent/src/enum_net.cpp	2007-12-29 17:52:03.000000000 +0000
-+++ deluge-torrent-0.5.8/libtorrent/src/enum_net.cpp	2007-12-31 05:51:56.791989742 +0000
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/enum_net.cpp	2008-02-13 08:50:18.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/enum_net.cpp	2008-02-26 00:15:48.632041229 +0000
 @@ -43,6 +43,7 @@
  #endif
  
@@ -675,3 +675,13 @@
  
  namespace libtorrent
  {
+--- deluge-torrent-0.5.8.4-orig/libtorrent/src/identify_client.cpp	2008-02-13 05:40:57.000000000 +0000
++++ deluge-torrent-0.5.8.4/libtorrent/src/identify_client.cpp	2008-02-26 02:18:18.696540565 +0000
+@@ -34,6 +34,7 @@
+ 
+ #include <cctype>
+ #include <algorithm>
++#include <stdio.h>
+ 
+ #ifdef _MSC_VER
+ #pragma warning(push, 1)

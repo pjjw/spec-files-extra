@@ -7,7 +7,7 @@
 
 Name:                SFEdeluge
 Summary:             Deluge - BitTorrent client
-Version:             0.5.8
+Version:             0.5.8.4
 Source:              http://download.deluge-torrent.org/tarball/%{version}/deluge-%{version}.tar.gz
 Patch1:              deluge-01-sunpro.diff
 #Patch2:              deluge-02-path.diff
@@ -165,6 +165,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Feb 26 2008 - markwright@internode.on.net
+- Bump to 0.5.8.4.
 * Mon Dec 31 2007 - markwright@internode.on.net
 - Bump to 0.5.8, bump patch1, comment patch 2 and 3.
 * Mon Sep 17 2007 - trisk@acm.jhu.edu
