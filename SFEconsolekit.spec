@@ -10,18 +10,11 @@
 
 Name:                    SFEconsolekit
 Summary:                 Framework for tracking users, login sessions, and seats.
-Version:                 0.2.9
+Version:                 0.2.10
 Source:                  http://people.freedesktop.org/~mccann/dist/ConsoleKit-%{version}.tar.gz
 Source1:                 consolekit.xml
 Patch1:                  ConsoleKit-01-nox11check.diff
 Patch2:                  ConsoleKit-02-emptystruct.diff
-Patch3:                  ConsoleKit-03-paths.diff
-Patch4:                  ConsoleKit-04-vt.diff
-Patch5:                  ConsoleKit-05-devname.diff
-Patch6:                  ConsoleKit-06-fixvt.diff
-Patch7:                  ConsoleKit-07-fixactiveconsole.diff
-Patch8:                  ConsoleKit-08-fixseat.diff
-Patch9:                  ConsoleKit-09-novt.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -68,13 +61,6 @@ Requires: %name
 %setup -q -n ConsoleKit-%version
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -152,8 +138,7 @@ rm -rf $RPM_BUILD_ROOT
 /var/svc/*
 %dir %attr (0755, root, sys) %{_localstatedir}/log
 %dir %attr (0755, root, root) %{_localstatedir}/log/ConsoleKit
-%attr (0644, root, root) %{_localstatedir}/log/ConsoleKit/history
-%{_localstatedir}/run/*
+%dir %attr (0755, root, root) %{_localstatedir}/run/ConsoleKit
 
 %files devel
 %defattr (-, root, bin)
@@ -165,6 +150,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Feb 25 2008 - brian.cameron@sun.com
+- Bump release to 0.2.10.  Worked with the maintainer to get seven
+  recent patches upstream.
 * Mon Feb 25 2008 - simon.zheng@sun.com
 - Rework ConsoleKit-06-fixvt.diff for better macro definition.
 * Fri Feb 22 2008 - brian.cameron@sun.com
