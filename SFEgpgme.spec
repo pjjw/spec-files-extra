@@ -40,7 +40,6 @@ make -j$CPUS
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 rm ${RPM_BUILD_ROOT}%{_libdir}/libgpgme-pthread.la
-rm ${RPM_BUILD_ROOT}%{_libdir}/libgpgme-pth.la
 rm ${RPM_BUILD_ROOT}%{_libdir}/libgpgme.la
 rm ${RPM_BUILD_ROOT}%{_datadir}/info/dir
 
@@ -84,6 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/common-lisp
 
 %changelog
+* Tue Feb 26 2008 - jijun.yu@sun.com
+- Remove a file.
 * Wed Jan 02 2008 - jijun.yu@sun.com
 - Remove the unused file. 
 * Mon Dec 17 2007 - jijun.yu@sun.com

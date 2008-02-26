@@ -1,3 +1,7 @@
+2008-02-26 Jerry Yu <jijun.yu@sun.com>
+	
+	* SFEgpgme.spec: remove a file.
+
 2008-02-26 Mark Wright <markwright@internode.on.net>
 
 	* SFEdeluge.spec: Bump to 0.5.8.4.
