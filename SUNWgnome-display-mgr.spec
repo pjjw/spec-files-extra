@@ -13,15 +13,20 @@
 
 Summary:                 GNOME display manager
 Name:                    SUNWgnome-display-mgr
-Version:                 2.21.7
+Version:                 2.21.8
 Release:                 1
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.21/gdm-%{version}.tar.bz2
-# This patch is a hack to work around the fact that the gio function
+# Patch1 is a hack to work around the fact that the gio function
 # g_file_info_get_attribute_string is returning a NULL on Solaris, causing
 # the GDM GUI to crash.  This patch should be removed when gio is fixed to
 # work properly on Solaris.
 Patch1:                  gdm-01-fixgio.diff
+# Patch2 adds SDTLOGIN interface, which drops the Xserver to user
+# perms rather than running as root, for added security on Solaris.
 Patch2:                  gdm-02-sdtlogin-devperm.diff
+# Patch3 is probably not the right fix, but it seems that trying to set the
+# default language to "C" is causing the GDM greeter to crash.
+Patch3:                  gdm-03-fixcrash.diff
 Source1:                 gdm.xml
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -78,18 +83,8 @@ Requires:                %{name}
 %prep
 %setup -q -n gdm-%version
 %patch1 -p1
-
-# Patch2 adds SDTLOGIN interface, which drops the Xserver to user
-# perms rather than running as root, for added security on Solaris.
-#
-# This patch does not work in GDM 2.21.7 due to bugs in how
-# XAUTHORITY files are handled.  If you build with this patch, you
-# can login once, but if you logout then GDM will crash over and 
-# over.  This issue has been fixed in GDM SVN head, and if you apply
-# the patch to there, then it works fine.  For now, do not apply this
-# patch, but when GDM 2.21.8 is released this patch should be
-# enabled.
-#patch2 -p0
+%patch2 -p0
+%patch3 -p0
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -268,6 +263,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Mon Feb 25 2008 - brian.cameron@sun.com
+- Bump to 2.21.8.
 * Wed Feb 20 2008 - brian.cameron@sun.com
 - Add information about SDTLOGIN patch, which is currently
   not enabled.

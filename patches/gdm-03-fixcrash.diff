@@ -1,0 +1,24 @@
+Index: gui/simple-greeter/gdm-greeter-panel.c
+===================================================================
+--- gui/simple-greeter/gdm-greeter-panel.c	(revision 5874)
++++ gui/simple-greeter/gdm-greeter-panel.c	(working copy)
+@@ -604,8 +604,10 @@
+                                                    normalized_language_name);
+         }
+ 
++        if (normalized_language_name != NULL && strcmp(normalized_language_name, "C") != 0) {
+         gdm_option_widget_set_default_item (GDM_OPTION_WIDGET (panel->priv->language_option_widget),
+                                             normalized_language_name);
++        }
+ 
+         g_free (normalized_language_name);
+ }
+@@ -623,6 +625,8 @@
+                 return;
+         }
+ 
++        if (session_name != NULL) {
+         gdm_option_widget_set_default_item (GDM_OPTION_WIDGET (panel->priv->session_option_widget),
+                                             session_name);
++        }
+ }

@@ -1,3 +1,8 @@
+2008-02-26 Brian Cameron  <brian.cameron@sun.com>
+
+	* SUNWgnome-display-mgr.spec, patches/gdm-03-fixcrash.diff:
+	  Bump to 2.21.8.  Add patch to fix crashing issue.
+
 2008-02-26 Jerry Yu <jijun.yu@sun.com>
 	
 	* SFEgpgme.spec: remove a file.
