@@ -1,3 +1,7 @@
+2008-02-29 Mark Wright <markwright@internode.on.net>
+
+	* SFEgcc: Bump to 4.2.3.  Remove patch for 32787 (upstreamed).
+
 2008-02-29  simon.zheng  <simon.zheng@sun.com>
 
 	* SUNWgnome-display-mgr.spec:
