@@ -1,3 +1,9 @@
+2008-02-29  simon.zheng  <simon.zheng@sun.com>
+
+	* SUNWgnome-display-mgr.spec:
+	* patches/gdm-04-logo-name.diff:
+	Add patch 04-logo-icon.diff to fix greeter crach.
+
 2008-02-26  Albert Lee <trisk@acm.jhu.edu>
 
 	SFEgrandr.spec: Add patch3 from Debian - fixes long-standing crash
