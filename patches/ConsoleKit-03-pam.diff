@@ -1,0 +1,71 @@
+--- ConsoleKit-0.2.10/pam-ck-connector/Makefile.am.orig	2008-02-29 18:25:18.863551000 +0800
++++ ConsoleKit-0.2.10/pam-ck-connector/Makefile.am	2008-02-29 18:28:23.977169000 +0800
+@@ -22,6 +22,7 @@
+ 
+ man_MANS = pam_ck_connector.8
+ 
++if CK_COMPILE_LINUX
+ noinst_PROGRAMS = 				\
+ 	test-pam				\
+ 	$(NULL)
+@@ -34,6 +35,7 @@
+ 	$(PAM_LIBS)				\
+ 	-lpam_misc				\
+ 	$(NULL)
++endif
+ 
+ endif
+ 
+--- ConsoleKit-0.2.10/pam-ck-connector/pam-ck-connector.c.orig	2008-02-29 17:17:53.678070000 +0800
++++ ConsoleKit-0.2.10/pam-ck-connector/pam-ck-connector.c	2008-02-29 17:32:45.238695000 +0800
+@@ -51,8 +51,16 @@
+ 
+ #define PAM_SM_SESSION
+ 
+-#include <security/pam_modules.h>
++#ifdef __sun
++#include <security/pam_appl.h>
++#define PATH_MAX 256
++#define PAM_EXTERN 
++#define LOG_INFO LOG_ERR  /*Debugging*/
++#define LOG_DEBUG LOG_ERR
++#else
+ #include <security/_pam_macros.h>
++#endif
++#include <security/pam_modules.h>
+ #ifdef HAVE_SECURITY_PAM_MODUTIL_H
+ #include <security/pam_modutil.h>
+ #endif
+@@ -152,6 +160,7 @@
+ }
+ 
+ 
++#ifndef __sun
+ PAM_EXTERN int
+ pam_sm_authenticate (pam_handle_t *pamh,
+                      int           flags,
+@@ -169,6 +178,7 @@
+ {
+         return PAM_IGNORE;
+ }
++#endif
+ 
+ static uid_t
+ _util_name_to_uid (const char *username,
+@@ -185,10 +195,16 @@
+ 
+         bufsize = sysconf (_SC_GETPW_R_SIZE_MAX);
+         buf = calloc (sizeof (char), bufsize);
++#ifdef __sun
++        pwdp = getpwnam_r (username, &pwd, buf, bufsize);
++	if (pwdp == NULL)
++		goto out;
++#else
+         rc = getpwnam_r (username, &pwd, buf, bufsize, &pwdp);
+         if (rc != 0 || pwdp == NULL) {
+                 goto out;
+         }
++#endif
+ 
+         res = pwdp->pw_uid;
+         if (default_gid != NULL) {

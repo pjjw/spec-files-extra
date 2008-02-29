@@ -15,6 +15,10 @@ Source:                  http://people.freedesktop.org/~mccann/dist/ConsoleKit-%
 Source1:                 consolekit.xml
 Patch1:                  ConsoleKit-01-nox11check.diff
 Patch2:                  ConsoleKit-02-emptystruct.diff
+# Patch for install pam-ck-connector to Soalris /usr/lib/security.
+# Please note you need to add manually an entry to /etc/pam.conf
+# "other   session requisite       pam_ck_connector.so debug"
+Patch3:                  ConsoleKit-03-pam.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -61,6 +65,7 @@ Requires: %name
 %setup -q -n ConsoleKit-%version
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -92,6 +97,8 @@ autoconf
             --libexecdir=%{_libexecdir}             \
             --localstatedir=%{_localstatedir}       \
             --sysconfdir=%{_sysconfdir}             \
+	    --enable-pam-module			    \
+	    --with-pam-module-dir=/usr/lib/security	\
             --enable-rbac-shutdown=solaris.system.shutdown
 
 make
@@ -101,6 +108,7 @@ make -j$CPUS
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 rm $RPM_BUILD_ROOT%{_libdir}/lib*.la
+rm $RPM_BUILD_ROOT%{_libdir}/security/pam*.la
 
 install -d $RPM_BUILD_ROOT/var/svc/manifest/system
 install --mode=0444 %SOURCE1 $RPM_BUILD_ROOT/var/svc/manifest/system
@@ -117,6 +125,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %{_libdir}/ConsoleKit
+%{_libdir}/security/pam*.so*
 %{_libexecdir}/ck-collect-session-info
 %{_libexecdir}/ck-get-x11-server-pid
 %{_libexecdir}/ck-get-x11-display-device
@@ -150,6 +159,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 29 2008 - simon.zheng@sun.com
+- Add a patch 03-pam.diff to install library pam-ck-connector which 
+  serves for simple text logins, such as login, telnet.
 * Mon Feb 25 2008 - brian.cameron@sun.com
 - Bump release to 0.2.10.  Worked with the maintainer to get seven
   recent patches upstream.
