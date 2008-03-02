@@ -8,7 +8,7 @@
 Name:                    SFEgtkspell
 Summary:                 Gtkspell provides word-processor-style highlighting and replacement of misspelled words in a GtkTextView widget.
 Version:                 2.0.11
-Source:                  %{sf_download}/download/gtkspell-%{version}.tar.gz
+Source:                  http://gtkspell.sourceforge.net/download/gtkspell-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -94,5 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Mar 02 2008 - Petr Sobotka
+- Source tar file was moved
 * Wed July 26 2006 - lin.ma@sun.com
 - Initial spec file

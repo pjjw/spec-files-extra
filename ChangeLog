@@ -1,3 +1,7 @@
+2008-03-02  Petr Sobotka  <sobotkap@centrum.cz>
+
+	* SFEgtkspell.spec: Source tar file was moved to another location.
+
 2008-03-02 Mark Wright <markwright@internode.on.net>
 
 	* SFEgcc.spec:
