@@ -8,6 +8,17 @@
 # build with dbus support unless --without-dbus is used
 %define with_dbus %{?_without_dbus:0}%{?!_without_dbus:1}
 
+# Option to decide whether or not build library pam_ck_connector,
+# which implements pam_sm_open_session(3PAM) and pam_sm_close_session(3PAM).
+# By default, we don't build it.
+#
+# Note: To enable this pam module, you have to manually add 
+# an entry to /etc/pam.conf after installing SFEconsolekit-pam,
+# like this.
+# "login   session required       pam_ck_connector.so debug"
+#
+%define build_pam_module 0
+
 Name:                    SFEconsolekit
 Summary:                 Framework for tracking users, login sessions, and seats.
 Version:                 0.2.10
@@ -15,9 +26,7 @@ Source:                  http://people.freedesktop.org/~mccann/dist/ConsoleKit-%
 Source1:                 consolekit.xml
 Patch1:                  ConsoleKit-01-nox11check.diff
 Patch2:                  ConsoleKit-02-emptystruct.diff
-# Patch for install pam-ck-connector to Soalris /usr/lib/security.
-# Please note you need to add manually an entry to /etc/pam.conf
-# "other   session requisite       pam_ck_connector.so debug"
+# patch to fix Soalris build issue
 Patch3:                  ConsoleKit-03-pam.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -61,6 +70,14 @@ SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
 
+%if %build_pam_module
+%package pam
+Summary:		 %{summary} - PAM module to register simple text logins. 
+SUNW_BaseDir:		 %{_basedir}
+%include default-depend.inc
+Requires: %name
+%endif
+
 %prep
 %setup -q -n ConsoleKit-%version
 %patch1 -p1
@@ -92,13 +109,16 @@ aclocal $ACLOCAL_FLAGS
 autoheader
 automake -a -c -f 
 autoconf
-./configure --prefix=%{_prefix} --mandir=%{_mandir} \
+./configure --prefix=%{_prefix}                     \
             --libdir=%{_libdir}                     \
             --libexecdir=%{_libexecdir}             \
             --localstatedir=%{_localstatedir}       \
             --sysconfdir=%{_sysconfdir}             \
+	    --mandir=%{_mandir}			    \
+%if %build_pam_module
 	    --enable-pam-module			    \
-	    --with-pam-module-dir=/usr/lib/security	\
+	    --with-pam-module-dir=%{_libdir}/security	\
+%endif
             --enable-rbac-shutdown=solaris.system.shutdown
 
 make
@@ -107,8 +127,13 @@ make -j$CPUS
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-rm $RPM_BUILD_ROOT%{_libdir}/lib*.la
-rm $RPM_BUILD_ROOT%{_libdir}/security/pam*.la
+find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
+find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
+%if %build_pam_module
+%else
+# delete useless directory /usr/man/man8 which stores pam_ck_connector.8 
+rm -rf $RPM_BUILD_ROOT/%{_mandir}
+%endif
 
 install -d $RPM_BUILD_ROOT/var/svc/manifest/system
 install --mode=0444 %SOURCE1 $RPM_BUILD_ROOT/var/svc/manifest/system
@@ -118,20 +143,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
-%dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
-%dir %attr (0755, root, bin) %{_sbindir}
 %{_sbindir}/*
-%dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %{_libdir}/ConsoleKit
-%{_libdir}/security/pam*.so*
 %{_libexecdir}/ck-collect-session-info
 %{_libexecdir}/ck-get-x11-server-pid
 %{_libexecdir}/ck-get-x11-display-device
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/dbus-1
-%{_mandir}/man8
 
 %files root
 %defattr (-, root, sys)
@@ -151,17 +171,24 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr (-, root, bin)
-%dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
-%dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 
+%if %build_pam_module
+%files pam
+%defattr (-, root, bin)
+%{_libdir}/security/pam*.so*
+%dir %attr (0755, root, sys) %{_datadir}
+%{_mandir}/man8/*
+%endif
 
 %changelog
-* Fri Feb 29 2008 - simon.zheng@sun.com
-- Add a patch 03-pam.diff to install library pam-ck-connector which 
-  serves for simple text logins, such as login, telnet.
+* Sat Mar 01 2008 - simon.zheng@sun.com
+- Add a patch 03-pam.diff to build pam module library 
+  pam-ck-connector that registers text login session into 
+  ConsoleKit. And this library is packed as a separate 
+  package called SFEconsolekit-pam.
 * Mon Feb 25 2008 - brian.cameron@sun.com
 - Bump release to 0.2.10.  Worked with the maintainer to get seven
   recent patches upstream.

@@ -1,9 +1,27 @@
-2008-02-29  simon.zheng  <simon.zheng@sun.com>
+2008-03-02  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEconsolekit.spec:
 	* patches/ConsoleKit-03-pam.diff:
-	Add a patch 03-pam.diff to install library pam-ck-connector which
-        serves for simple text logins, such as login, telnet.
+	  Add patch 03-pam.diff to build pam module library
+	  pam-ck-connector that registers text login session into
+	  ConsoleKit. And this library is packed as a separate
+	  package called SFEconsolekit-pam.
+	* SFExmlto.spec:
+	  By default, Solaris has already installed package
+	  SUNWgnugetopt. Let's depend on it instead of
+	  SFEgetopt.
+	* SFEgegl.spec:
+	* SFEglibmm.spec:
+	* SFEgnome-device-manager.spec:
+	* SFEgnome-power-manager.spec:
+	* SFEgnome-scan.spec:
+	* SFEsane-backends.spec:
+	* SFExsane.spec:
+	  Correct package version number. Use module version instead
+	  of %default_pkg_version.
+	* base-specs/sane-backends.spec:
+	* patches/sane-backends-02-build.diff:
+	  Bump to version 1.0.19. Add patch 02-build.diff
 
 2008-02-29 Mark Wright <markwright@internode.on.net>
 

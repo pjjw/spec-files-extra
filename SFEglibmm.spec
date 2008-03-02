@@ -8,7 +8,7 @@
 
 Name:                    SFEglibmm
 Summary:                 glibmm - C++ Wrapper for the Glib2 Library
-Version:                 %{default_pkg_version}
+Version:                 %{glibmm.version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 

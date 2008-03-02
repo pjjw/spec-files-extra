@@ -5,14 +5,15 @@
 Name:         sane-backends
 License:      GPL
 Group:        Hardware/Other
-Version:      1.0.18
+Version:      1.0.19
 Release:      1
 Distribution: Java Desktop System
 Vendor:       Sun Microsystems, Inc.
 Summary:      SANE - Scanner Access Now Easy - backends
-Source:	      http://alioth.debian.org/frs/download.php/1669/sane-backends-%{version}.tar.gz
+Source:	      ftp://ftp.sane-project.org/pub/sane/sane-backends-1.0.19/%{name}-%{version}.tar.gz
 # date:2007-02-25 bugzilla: owner:xz159989 type:feature
 Patch1:       sane-backends-01-disable-saned.diff
+Patch2:       sane-backends-02-build.diff
 URL:          http://www.sane-project.org
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 DocDir:       %{_defaultdocdir}/sane
@@ -25,6 +26,7 @@ Requires:     %name
 %prep
 %setup -q
 %patch1 -p1
+%patch2 -p0
 
 %build
 %ifos linux
@@ -71,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sun Mar 02 2008 - simon.zheng@sun.com
+- Bump to Version 1.0.19.
+- Add patch sane-backends-02-build.diff.
 * Wed Jan 16 2008 - moinak.ghosh@sun.com
 - Added localstatedir to properly create /var instead of /usr/var
 * Tue Mar 20 2007 - simon.zheng@sun.com

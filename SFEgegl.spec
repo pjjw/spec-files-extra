@@ -8,7 +8,7 @@
 
 Name:                    SFEgegl
 Summary:                 GEGL (Generic Graphics Library) is a graph based image processing framework.
-Version:                 %{default_pkg_version}
+Version:                 %{gegl.version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -93,5 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Mar 02 2008 - simon.zheng@sun.com
+- Correct package version numbers.
 * Fri Dec 14 2007 - simon.zheng@sun.com
 - Create

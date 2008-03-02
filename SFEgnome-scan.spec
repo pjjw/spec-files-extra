@@ -8,7 +8,7 @@
 
 Name:                    SFEgnome-scan
 Summary:                 Scanner client for the GNOME desktop
-Version:                 %{default_pkg_version}
+Version:                 %{gs.version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -104,6 +104,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Mar 02 2008 - simon.zheng@sun.com
+- Correct package version numbers.
+
 * Fri Dec 14 2007 - simon.zheng@sun.com
 - Rename SFEgnomescan.spec as SFEgnome-scan.spec.
   Add dependency on SFEgegl.

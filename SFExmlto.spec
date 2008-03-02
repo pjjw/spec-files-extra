@@ -16,7 +16,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlxsl
 Requires: SUNWgnome-xml-share
-Requires: SFEgetopt
+Requires: SUNWgnugetopt
 Requires: SFEfindutils
 
 %prep
@@ -59,6 +59,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Sun Mar 02 2008 - simon.zheng@sun.com
+- By default, Solaris has already installed package 
+  SUNWgnugetopt. Let's depend on it instead of
+  SFEgetopt.
 * Thu Feb 21 2008 - nonsea@users.sourceforge.net
 - Bump to 0.0.20
 * Tue Feb 13 2007 - laca@sun.com

@@ -8,7 +8,7 @@
 
 Name:                    SFExsane
 Summary:                 Graphical scanning frontend for the SANE scanner interface.
-Version:                 %{default_pkg_version}
+Version:                 %{xsane.version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -85,6 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Mar 02 2008 - simon.zheng@sun.com
+- Correct package version numbers.
 * Wed Oct 17 2007 - laca@sun.com
 - add /usr/gnu to CFLAGS/LDFLAGS
 * Mon Apr 02 2007 - daymobrew@users.sourceforge.net

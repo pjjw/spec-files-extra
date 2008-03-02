@@ -1,0 +1,52 @@
+--- ./sanei/sanei_tcp.c.orig	2008-02-19 14:27:47.325025000 +0800
++++ ./sanei/sanei_tcp.c	2008-02-19 14:33:03.253044000 +0800
+@@ -66,7 +66,7 @@
+ 	struct hostent *h;
+ 
+ 	DBG_INIT();
+-	DBG(1, "%s: host = %s, port = %d\n", __FUNCTION__, host, port);
++	DBG(1, "%s: host = %s, port = %d\n", __func__, host, port);
+ 
+ 	h = gethostbyname(host);
+ 
+--- ./backend/epson2_scsi.c.orig	2008-02-19 14:34:38.876220000 +0800
++++ ./backend/epson2_scsi.c	2008-02-19 14:34:59.287433000 +0800
+@@ -29,7 +29,7 @@
+ 
+ 	if (result[0] && result[0] != 0x70) {
+ 		DBG(2, "%s: sense code = 0x%02x\n",
+-			__FUNCTION__, result[0]);
++			__func__, result[0]);
+ 		return SANE_STATUS_IO_ERROR;
+ 	} else {
+ 		return SANE_STATUS_GOOD;
+--- ./backend/epson2_net.c.orig	2008-02-19 14:35:23.602446000 +0800
++++ ./backend/epson2_net.c	2008-02-19 14:36:05.061495000 +0800
+@@ -43,6 +43,7 @@
+ 
+ #include <string.h>		/* for memset and memcpy */
+ #include <stdio.h>
++#define __FUNCTION__ __func__
+ 
+ int
+ sanei_epson_net_read_raw(Epson_Scanner *s, unsigned char *buf, size_t wanted,
+--- ./backend/hp5590_cmds.c.orig	2008-02-19 14:37:22.822378000 +0800
++++ ./backend/hp5590_cmds.c	2008-02-19 14:38:01.253479000 +0800
+@@ -56,6 +56,7 @@
+ #include "hp5590_low.h"
+ #include "hp5590_cmds.h"
+ 
++#define __FUNCTION__ __func__
+ struct hp5590_model
+ {
+   enum hp_scanner_types	scanner_type;
+--- ./backend/hp5590.c.orig	2008-02-19 14:38:23.931944000 +0800
++++ ./backend/hp5590.c	2008-02-19 14:39:19.146508000 +0800
+@@ -55,6 +55,7 @@
+ #include "hp5590_cmds.c"
+ #include "hp5590_low.c"
+ 
++#define __FUNCTION__ __func__
+ /* Debug levels */
+ #define	DBG_err		0
+ #define	DBG_proc	10

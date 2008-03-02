@@ -8,7 +8,7 @@
 
 Name:                    SFEgnome-power-manager
 Summary:                 GNOME Power Manager
-Version:                 %{default_pkg_version}
+Version:                 %{gpm.version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 

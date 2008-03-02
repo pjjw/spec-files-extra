@@ -8,7 +8,7 @@
 
 Name:                    SFEsane-backends
 Summary:                 SANE - Scanner Access Now Easy - backends
-Version:                 %{default_pkg_version}
+Version:                 %{backends.version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -103,6 +103,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Mar 02 2008 - simon.zheng@sun.com
+- Correct package version numbers.
 * Wed Jan 16 2008 - moinak.ghosh@sun.com
 - Added localstatedir to properly create /var instead of /usr/var
 * Tue Mar 20 2007 - simon.zheng@sun.com

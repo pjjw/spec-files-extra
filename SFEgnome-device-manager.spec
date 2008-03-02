@@ -9,7 +9,7 @@
 
 Name:                    SFEgnome-device-manager
 Summary:                 GNOME Device Manager
-Version:                 %{default_pkg_version}
+Version:                 %{gdm.version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -119,6 +119,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Mar 02 2008 - simon.zheng@sun.com
+- Correct package version numbers.
 * Wed Oct 17 2007 - laca@sun.com
 - add /usr/gnu to search paths
 * Fri Aug 31 2007 - simon.zheng@sun.com
