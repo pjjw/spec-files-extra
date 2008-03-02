@@ -11,6 +11,7 @@ Name:                SFEgccruntime
 Summary:             GNU gcc runtime libraries required by applications
 Version:             4.2.3
 Source:              ftp://ftp.gnu.org/pub/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.bz2
+Patch1:              gcc-01-libtool-rpath.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -49,6 +50,7 @@ Requires:                %{name}
 %setup -q -c -n %{name}-%version
 mkdir gcc
 cd gcc-%{version}
+%patch1 -p1 -b .patch01
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -198,7 +200,11 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Tue Feb 29 2008 - Mark Wright <markwright@internode.on.net>
+* Sun Mar 2 2008 - Mark Wright <markwright@internode.on.net>
+- Add gcc-01-libtool-rpath.diff patch for a problem where
+- the old, modified libtool 1.4 in gcc 4.2.3 drops
+- -rpath /usr/gnu/lib when building libstdc++.so.6.0.9.
+* Fri Feb 29 2008 - Mark Wright <markwright@internode.on.net>
 - Bump to 4.2.3.  Remove patch for 32787 as it is upstreamed into gcc 4.2.3.
 * Sat Jan 26 2008 - Moinak Ghosh <moinak.ghosh@sun.com>
 - Refactor package to have SFEgcc and SFEgccruntime.

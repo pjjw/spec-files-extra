@@ -7,7 +7,7 @@
 
 Name:                SFElibtool
 Summary:             Generic library support script
-Version:             1.5.24
+Version:             1.5.26
 Source:              http://ftp.gnu.org/gnu/libtool/libtool-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -82,6 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/libtool/*
 
 %changelog
+* Sun Mar 2 2008 - Mark Wright <markwright@internode.on.net>
+- Bump to 1.5.26.
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Bump to 1.5.24
 - Use http url in Source.

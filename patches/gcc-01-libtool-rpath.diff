@@ -1,0 +1,46 @@
+--- gcc-4.2.3-orig/ltcf-c.sh	2005-11-18 22:53:08.000000000 +0000
++++ gcc-4.2.3/ltcf-c.sh	2008-03-02 02:27:01.286515021 +0000
+@@ -576,7 +576,9 @@
+ 		  $LD -G${allow_undefined_flag} -M $lib.exp -h $soname -o $lib $libobjs $deplibs $linker_flags~$rm $lib.exp'
+     fi
+     hardcode_libdir_flag_spec='-R$libdir'
+-    hardcode_shlibpath_var=no
++    hardcode_shlibpath_var=yes
++    hardcode_minus_L=yes
++    hardcode_direct=yes
+     case $host_os in
+     solaris2.[0-5] | solaris2.[0-5].*) ;;
+     *) # Supported since Solaris 2.6 (maybe 2.5.1?)
+--- gcc-4.2.3-orig/ltcf-cxx.sh	2005-07-16 02:30:53.000000000 +0000
++++ gcc-4.2.3/ltcf-cxx.sh	2008-03-02 02:29:45.391494091 +0000
+@@ -618,7 +618,9 @@
+         $CC -G${allow_undefined_flag} -nolib ${wl}-M ${wl}$lib.exp -h$soname -o $lib $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags~$rm $lib.exp'
+ 
+         hardcode_libdir_flag_spec='-R$libdir'
+-        hardcode_shlibpath_var=no
++        hardcode_shlibpath_var=yes
++        hardcode_minus_L=yes
++        hardcode_direct=yes
+         case $host_os in
+           solaris2.[0-5] | solaris2.[0-5].*) ;;
+           *)
+@@ -682,6 +684,9 @@
+ 
+           hardcode_libdir_flag_spec='${wl}-R $wl$libdir'
+         fi
++        hardcode_shlibpath_var=yes
++        hardcode_minus_L=yes
++        hardcode_direct=yes
+         ;;
+     esac
+     ;;
+--- gcc-4.2.3-orig/ltmain.sh	2006-07-06 23:24:51.000000000 +0000
++++ gcc-4.2.3/ltmain.sh	2008-03-02 05:12:36.295492229 +0000
+@@ -3117,7 +3117,6 @@
+ 	  # Hardcode the library paths
+ 	  hardcode_libdirs=
+ 	  dep_rpath=
+-	  rpath="$finalize_rpath"
+ 	  test "$mode" != relink && rpath="$compile_rpath$rpath"
+ 	  for libdir in $rpath; do
+ 	    if test -n "$hardcode_libdir_flag_spec"; then

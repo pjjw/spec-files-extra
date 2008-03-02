@@ -8,7 +8,7 @@
 Name:			SFEautomake
 Summary:                GNU automake
 %define minmaj          1.10
-Version:		%{minmaj}
+Version:		%{minmaj}.1
 Vendor:			Sun Microsystems, Inc.
 Source:			ftp://ftp.gnu.org/pub/gnu/automake/automake-%{version}.tar.bz2
 SUNW_BaseDir:		%{_basedir}
@@ -91,6 +91,8 @@ rm -rf $RPM_BUILD_ROOT
 # %{_datadir}/aclocal/*
 
 %changelog
+* Sun Mar 2 2008 - Mark Wright <markwright@internode.on.net>
+- Bump to 1.10.1.
 * Wed Oct 17 2007 - laca@sun.com
 - add support for building with either SFEm4 or SUNWgm4
 * Wed Jul 24 2007 - markwright@internode.on.net

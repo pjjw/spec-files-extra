@@ -1,3 +1,13 @@
+2008-03-02 Mark Wright <markwright@internode.on.net>
+
+	* SFEgcc.spec:
+	* patches/gcc-01-libtool-rpath.diff:
+	Add gcc-01-libtool-rpath.diff patch for a problem where
+	the old, modified libtool 1.4 in gcc 4.2.3 drops
+	-rpath /usr/gnu/lib when building libstdc++.so.6.0.9.
+	* SFEautomake.spec: Bump to 1.10.1.
+	* SFElibtool.spec: Bump to 1.5.26.
+
 2008-03-02  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEconsolekit.spec:
