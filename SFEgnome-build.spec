@@ -3,7 +3,7 @@
 #
 # includes module(s): gnome-build
 #
-# Copyright (c) 2004 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -21,6 +21,7 @@ SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:           SFEgdl
+Requires:           SFEperl-gettext
 Requires:           SUNWgnome-base-libs
 Requires:           SUNWgnome-libs
 Requires:           SUNWgnome-vfs
@@ -104,5 +105,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Mar 03 2008 - nonsea@users.sourceforge.net
+- Add SFEperl-gettext to Requires for upgrading.
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Initial spec

@@ -1,7 +1,7 @@
 #
 # spec file for package gdl
 #
-# Copyright (c) 2008 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -12,7 +12,7 @@
 Name:		gdl
 License:	GPL
 Group:		Development/Libraries
-Version:	0.7.9
+Version:	0.7.10
 Release:	1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -110,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/lib/pkgconfig/*
 
 %changelog
+* Mon Mar 03 2008 - nonsea@users.sourceforge.net
+- Bump to 0.7.10.
+
 * Mon Feb 18 2008 - nonsea@users.sourceforge.net
 - Bump to 0.7.9.
 

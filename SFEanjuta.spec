@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2008 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -13,7 +13,7 @@
 # or, depend on package SUNWevolution-bdb-devel, which is in jds spec-files/closed
 # now, use second way.
 Name:           SFEanjuta
-Version:        2.3.4
+Version:        2.3.5
 Summary:        GNOME IDE for C and C++
 Group:          Development/Tools
 License:        GPL
@@ -285,6 +285,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Mon Mar 03 2008 - nonsea@users.sourceforge.net
+- Bump to 2.3.5.
 * Mon Feb 18 2008 - nonsea@users.sourceforge.net
 - Bump to 2.3.4.
 * Fri Nov 02 2007 - nonsea@users.sourceforge.net

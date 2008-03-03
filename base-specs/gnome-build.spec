@@ -1,7 +1,7 @@
 #
 # spec file for package gnome-build
 #
-# Copyright (c) 2008 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -11,7 +11,7 @@
 Name:		gnome-build
 License:	GPL
 Group:		Development/Libraries
-Version:	0.2.2
+Version:	0.2.3
 Release:	1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -108,6 +108,8 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Mar 03 2008 - nonsea@users.sourceforge.net
+- Bump to 0.2.3.
 * Mon Feb 18 2008 - nonsea@users.sourceforge.net
 - Bump to 0.2.2.
 * Tue Oct 16 2007 - laca@sun.com
