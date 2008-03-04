@@ -1,3 +1,8 @@
+2008-03-04  simon.zheng  <simon.zheng@sun.com>
+
+	* SFEconsolekit.spec:
+	* patches/ConsoleKit-04-ck-history.diff: Add patch to fix crash.
+
 2008-03-04  Halton Huo <nonsea@users.sourceforge.net>
 
 	* base-specs/vinagre.spec: Bump to 0.4.92

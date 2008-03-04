@@ -1,0 +1,79 @@
+--- ConsoleKit-0.2.10/tools/ck-history.c.orig	2008-03-04 16:41:19.612116000 +0800
++++ ConsoleKit-0.2.10/tools/ck-history.c	2008-03-04 16:37:04.292891000 +0800
+@@ -62,6 +62,11 @@
+ 
+ static GList *all_events = NULL;
+ 
++static void
++print_last_report_record (GList      *list,
++                          CkLogEvent *event,
++                          gboolean    legacy_compat);
++
+ static gboolean
+ process_event_line (const char *line)
+ {
+@@ -220,6 +225,38 @@
+                          const char *seat,
+                          const char *session_type)
+ {
++        GList      *oldest;
++        CkLogEvent *oldest_event;
++        GList      *l;
++
++        for (l = g_list_first (all_events); l != NULL; l = l->next) {
++                CkLogEvent *event = l->data;
++
++                if (event->type == CK_LOG_EVENT_SEAT_SESSION_ADDED) {
++                        CkLogSeatSessionAddedEvent *e;
++                        e = (CkLogSeatSessionAddedEvent *)event;
++
++                        if (uid >= 0 && e->session_unix_user != uid) {
++                                continue;
++                        }
++
++                        if (seat != NULL && e->seat_id != NULL && strcmp (e->seat_id, seat) != 0) {
++                                continue;
++                        }
++
++                        if (session_type != NULL && e->session_type != NULL && strcmp (e->session_type, session_type) != 0) {
++                                continue;
++                        }
++                }
++
++                print_last_report_record (l, event, FALSE);
++        }
++
++        oldest = g_list_last (all_events);
++        if (oldest != NULL) {
++                oldest_event = oldest->data;
++                g_print ("\nLog ends %s", ctime (&oldest_event->timestamp.tv_sec));
++        }
+ }
+ 
+ static CkLogEvent *
+@@ -474,14 +511,14 @@
+         if (legacy_compat) {
+                 g_string_printf (str,
+                                  "%-8.8s %-12.12s %-16.16s %-16.16s",
+-                                 username,
++                                 username != NULL ? username : "",
+                                  utline != NULL ? utline : "",
+                                  host != NULL ? host : "",
+                                  addedtime);
+         } else {
+                 g_string_printf (str,
+                                  "%-8.8s %12s %-10.10s %-7.7s %-12.12s %-16.16s %-16.16s",
+-                                 username,
++                                 username != NULL ? username : "",
+                                  session_type,
+                                  session_id,
+                                  seat_id,
+@@ -725,7 +762,7 @@
+                 data = user_counts->data;
+ 
+                 username = get_user_name_for_uid (data->uid);
+-                g_print ("%-8.8s %u\n", username, data->count);
++                g_print ("%-8.8s %u\n", username != NULL ? username : "", data->count);
+                 g_free (data);
+                 user_counts = g_list_delete_link (user_counts, user_counts);
+                 g_free (username);

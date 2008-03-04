@@ -1,5 +1,16 @@
---- ConsoleKit-0.2.10/pam-ck-connector/Makefile.am.orig	2008-02-29 18:25:18.863551000 +0800
-+++ ConsoleKit-0.2.10/pam-ck-connector/Makefile.am	2008-02-29 18:28:23.977169000 +0800
+--- ConsoleKit-0.2.10/configure.ac.orig	2008-03-04 15:23:40.479007000 +0800
++++ ConsoleKit-0.2.10/configure.ac	2008-03-04 15:24:26.757612000 +0800
+@@ -212,7 +212,7 @@
+ AC_SUBST(HAVE_PAM)
+ AC_SUBST(PAM_LIBS)
+ 
+-AC_CHECK_HEADERS([security/pam_modutil.h security/pam_ext.h])
++AC_CHECK_HEADERS([security/pam_modutil.h security/pam_ext.h security/pam_macro.h])
+ AC_CHECK_LIB(pam, pam_syslog, [AC_DEFINE(HAVE_PAM_SYSLOG, [], [Define to 1 if you have the pam_syslog function])])
+ 
+ # Check if we should build the PAM module
+--- ConsoleKit-0.2.10/pam-ck-connector/Makefile.am.orig	2008-03-04 14:35:03.648181000 +0800
++++ ConsoleKit-0.2.10/pam-ck-connector/Makefile.am	2008-03-04 14:42:51.367637000 +0800
 @@ -22,6 +22,7 @@
  
  man_MANS = pam_ck_connector.8
@@ -16,35 +27,38 @@
  
  endif
  
---- ConsoleKit-0.2.10/pam-ck-connector/pam-ck-connector.c.orig	2008-02-29 17:17:53.678070000 +0800
-+++ ConsoleKit-0.2.10/pam-ck-connector/pam-ck-connector.c	2008-02-29 17:32:45.238695000 +0800
-@@ -51,8 +51,16 @@
+--- ConsoleKit-0.2.10/pam-ck-connector/pam-ck-connector.c.orig	2008-03-04 17:51:04.718537000 +0800
++++ ConsoleKit-0.2.10/pam-ck-connector/pam-ck-connector.c	2008-03-04 17:46:23.996292000 +0800
+@@ -51,8 +51,18 @@
  
  #define PAM_SM_SESSION
  
 -#include <security/pam_modules.h>
-+#ifdef __sun
-+#include <security/pam_appl.h>
-+#define PATH_MAX 256
++#ifndef PATH_MAX
++#define PATH_MAX 4096
++#endif
++#ifndef PAM_EXTERN
 +#define PAM_EXTERN 
-+#define LOG_INFO LOG_ERR  /*Debugging*/
-+#define LOG_DEBUG LOG_ERR
-+#else
++#endif
++
++#ifdef HAVE_SECURITY_PAM_MACROS_H
  #include <security/_pam_macros.h>
 +#endif
++#include <security/pam_appl.h>
 +#include <security/pam_modules.h>
  #ifdef HAVE_SECURITY_PAM_MODUTIL_H
  #include <security/pam_modutil.h>
  #endif
-@@ -152,6 +160,7 @@
+@@ -151,7 +161,7 @@
+         }
  }
  
- 
+-
 +#ifndef __sun
  PAM_EXTERN int
  pam_sm_authenticate (pam_handle_t *pamh,
                       int           flags,
-@@ -169,6 +178,7 @@
+@@ -169,6 +179,7 @@
  {
          return PAM_IGNORE;
  }
@@ -52,7 +66,7 @@
  
  static uid_t
  _util_name_to_uid (const char *username,
-@@ -185,10 +195,16 @@
+@@ -185,10 +196,16 @@
  
          bufsize = sysconf (_SC_GETPW_R_SIZE_MAX);
          buf = calloc (sizeof (char), bufsize);

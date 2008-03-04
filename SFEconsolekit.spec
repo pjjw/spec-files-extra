@@ -17,7 +17,7 @@
 # like this.
 # "login   session required       pam_ck_connector.so debug"
 #
-%define build_pam_module 0
+%define build_pam_module 1
 
 Name:                    SFEconsolekit
 Summary:                 Framework for tracking users, login sessions, and seats.
@@ -28,6 +28,7 @@ Patch1:                  ConsoleKit-01-nox11check.diff
 Patch2:                  ConsoleKit-02-emptystruct.diff
 # patch to fix Soalris build issue
 Patch3:                  ConsoleKit-03-pam.diff
+Patch4:                  ConsoleKit-04-ck-history.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -83,6 +84,7 @@ Requires: %name
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -184,8 +186,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Mar 04 2008 - simon.zheng@sun.com
+- Add patch 04-ck-history.diff to fix crash.
 * Sat Mar 01 2008 - simon.zheng@sun.com
-- Add a patch 03-pam.diff to build pam module library 
+- Add patch 03-pam.diff to build pam module library 
   pam-ck-connector that registers text login session into 
   ConsoleKit. And this library is packed as a separate 
   package called SFEconsolekit-pam.
