@@ -12,15 +12,13 @@
 Name:           vinagre
 License:        GPL
 Group:          Development/Libraries
-Version:        0.4.91
+Version:        0.4.92
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.gnome.org/projects/vinagre
 Summary:        A VCN client for the GNOME Desktop
 Source:         http://download.gnome.org/sources/%{name}/0.4/%{name}-%{version}.tar.bz2
-# date:2008-02-20 bugzilla:517603 owner:halton type:bug
-Patch1:         %{name}-01-gthread.diff
 BuildRoot:     %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires: gtk2-devel
@@ -30,7 +28,6 @@ vinagre is  a VCN client for the GNOME Desktop
 
 %prep
 %setup -q
-%patch1 -p1
 
 %build
 %ifos linux
@@ -85,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lib*.so.*
 
 %changelog
+* Tue Mar 04 2008 - nonsea@users.sourceforge.net
+- Bump to 0.4.92
+- Remove upstreamed patch gthread.diff
 * Wed Feb 20 2008 - nonsea@users.sourceforge.net
 - Bump to 0.4.91
 - Remove upstreamed patch wall.diff

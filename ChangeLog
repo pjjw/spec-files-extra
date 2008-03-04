@@ -1,3 +1,8 @@
+2008-03-04  Halton Huo <nonsea@users.sourceforge.net>
+
+	* base-specs/vinagre.spec: Bump to 0.4.92
+	* patches/vinagre-01-gthread.diff: remove upstreamed patch.
+
 2008-03-03  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEanjuta.spec: Bump to 2.3.5
