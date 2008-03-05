@@ -5,6 +5,7 @@
 #
 
 %include Solaris.inc
+%define with_SUNWgnugetopt %(pkginfo -q SUNWgnugetopt && echo 1 || echo 0)
 
 Name:                    SFExmlto
 Summary:                 xmlto - converts an XML file into a specified format
@@ -16,7 +17,11 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlxsl
 Requires: SUNWgnome-xml-share
+%if %with_SUNWgnugetopt
 Requires: SUNWgnugetopt
+%else
+Requires: SFEgetopt
+%endif
 Requires: SFEfindutils
 
 %prep

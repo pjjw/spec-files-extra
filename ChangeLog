@@ -1,3 +1,31 @@
+2008-03-05  simon.zheng  <simon.zheng@sun.com>
+
+	* SFEcairomm.spec:
+	* SFEglibmm.spec:
+	* SFEgnome-power-manager.spec:
+	* SFEgtkmm.spec:
+	* SFEsigcpp.spec:
+	* base-specs/glibmm.spec:
+	* base-specs/gnome-power-manager.spec:
+	* patches/gnome-power-manager-01-build.diff:
+	* patches/gnome-power-manager-06-icon_plicy_and_cpufreq_show.diff:
+	* patches/gnome-power-manager-07-disable-sleep-configration.diff:
+	* patches/gnome-power-manager-08-brightness-applet-install.diff:
+	* patches/gnome-power-manager-09-scripts.diff:
+	* patches/gnome-power-manager-10-diable-suspend-button-configration
+	.diff:
+	* patches/gnome-power-manager-11-authorization-checking.diff:
+	* patches/gnome-power-manager-12-crash.diff:
+	* patches/gnome-power-manager-13-beep.diff:
+	* patches/gnome-power-manager-14-lid-shutdown.diff:
+	* patches/gnome-power-manager-15-disable-lid-beeping.diff:
+	* patches/gnome-power-manager-16-brightness-reduction.diff:
+	* patches/gnome-power-manager-17-interactive-cmd.diff:
+	* patches/gnome-power-manager-18-screensaver.diff:
+	  Delete gnome-power-manager, sigcpp, glibmm, gtkmm, cairomm spec
+	  files and its patches since they're moved to spec-file repository
+	  on opensolaris.org.
+
 2008-03-04  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEconsolekit.spec:
