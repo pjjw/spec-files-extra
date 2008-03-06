@@ -53,7 +53,7 @@ Requires:       libgcrypt >= %{libgcrypt_version}
 
 %prep
 %setup  -q -n %{name}-%{version}
-#%patch1 -p1
+%patch1 -p1
 bash -x %SOURCE1
 
 %build
