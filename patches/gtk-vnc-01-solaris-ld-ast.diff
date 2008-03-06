@@ -1,31 +1,10 @@
---- gtk-vnc-0.3.3/src/Makefile.am.orig	2008-02-20 14:42:27.280036000 +0800
-+++ gtk-vnc-0.3.3/src/Makefile.am	2008-02-20 14:43:22.158831000 +0800
-@@ -1,14 +1,14 @@
- 
--EXTRA_DIST = libgtk-vnc_sym.version vncmarshal.txt
-+EXTRA_DIST = vncmarshal.txt
- 
- lib_LTLIBRARIES = libgtk-vnc-1.0.la
- 
--libgtk_vnc_1_0_la_LIBADD = @GTK_LIBS@ @GNUTLS_LIBS@ @GTHREAD_LIBS@
--libgtk_vnc_1_0_la_CFLAGS = @GTK_CFLAGS@ @GNUTLS_CFLAGS@ @GTHREAD_CFLAGS@ \
-+libgtk_vnc_1_0_la_LIBADD = @GTK_LIBS@ @GNUTLS_LIBS@ @GTHREAD_LIBS@ @AST_LIBS@
-+libgtk_vnc_1_0_la_CFLAGS = @GTK_CFLAGS@ @GNUTLS_CFLAGS@ @GTHREAD_CFLAGS@ @AST_CFLAGS@ \
- 			   @WARNING_CFLAGS@ \
-                            -DSYSCONFDIR=\""$(sysconfdir)"\" \
-                            @DEBUG_CFLAGS@
--libgtk_vnc_1_0_la_LDFLAGS = -Wl,--version-script=$(srcdir)/libgtk-vnc_sym.version \
-+libgtk_vnc_1_0_la_LDFLAGS = -export-symbols-regex 'vnc_display_' \
-                             -version-info 0:1:0
- 
- gtk_vnc_includedir = $(includedir)/gtk-vnc-1.0/
---- gtk-vnc-0.3.3/configure.ac.orig	2008-02-20 14:42:18.552035000 +0800
-+++ gtk-vnc-0.3.3/configure.ac	2008-02-20 14:45:13.728867000 +0800
-@@ -122,6 +122,26 @@
+diff -r 02bc30c3e8f6 configure.ac
+--- a/configure.ac	Wed Mar 05 19:21:36 2008 -0600
++++ b/configure.ac	Fri Mar 07 00:24:40 2008 +0800
+@@ -168,6 +168,24 @@ AC_DEFINE_UNQUOTED(WITH_UCONTEXT,[$WITH_
  AC_DEFINE_UNQUOTED(WITH_UCONTEXT,[$WITH_UCONTEXT], [Whether to use ucontext coroutine impl])
  AM_CONDITIONAL(WITH_UCONTEXT, [test "$WITH_UCONTEXT" != "0"])
  
-+
 +case $host in
 +  *-*-solaris* | *-*-sunos*)
 +       AC_CHECK_LIB(ast, _ast_printf,
@@ -44,7 +23,40 @@
 +       AC_SUBST(AST_LIBS) ;;
 +esac
 +
-+
  if test "$WITH_PYTHON" = "yes"; then
    PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= $PYGTK_REQUIRED)
    AC_SUBST(PYGTK_CFLAGS)
+diff -r 02bc30c3e8f6 src/Makefile.am
+--- a/src/Makefile.am	Wed Mar 05 19:21:36 2008 -0600
++++ b/src/Makefile.am	Fri Mar 07 00:24:40 2008 +0800
+@@ -1,15 +1,15 @@
+ 
+-EXTRA_DIST = libgtk-vnc_sym.version vncmarshal.txt
++EXTRA_DIST = vncmarshal.txt
+ 
+ lib_LTLIBRARIES = libgtk-vnc-1.0.la
+ 
+ libgtk_vnc_1_0_la_LIBADD = @GTK_LIBS@ @GTKGLEXT_LIBS@ @GNUTLS_LIBS@ \
+-			   @GTHREAD_LIBS@
++			   @GTHREAD_LIBS@ @AST_LIBS@
+ libgtk_vnc_1_0_la_CFLAGS = @GTK_CFLAGS@ @GTKGLEXT_CFLAGS@ @GNUTLS_CFLAGS@ \
+-			   @GTHREAD_CFLAGS@ @WARNING_CFLAGS@ \
++			   @GTHREAD_CFLAGS@ @AST_CFLAGS@ @WARNING_CFLAGS@ \
+ 			   -DSYSCONFDIR=\""$(sysconfdir)"\" \
+                            @DEBUG_CFLAGS@
+-libgtk_vnc_1_0_la_LDFLAGS = -Wl,--version-script=$(srcdir)/libgtk-vnc_sym.version \
++libgtk_vnc_1_0_la_LDFLAGS = -export-symbols-regex 'vnc_display_' \
+                             -version-info 0:1:0
+ 
+ gtk_vnc_includedir = $(includedir)/gtk-vnc-1.0/
+diff -r 02bc30c3e8f6 src/vncdisplay.c
+--- a/src/vncdisplay.c	Wed Mar 05 19:21:36 2008 -0600
++++ b/src/vncdisplay.c	Fri Mar 07 00:24:40 2008 +0800
+@@ -24,6 +24,7 @@
+ #include <sys/stat.h>
+ #include <unistd.h>
+ #include <pwd.h>
++#include <endian.h>
+ 
+ #if WITH_GTKGLEXT
+ #include <gtk/gtkgl.h>

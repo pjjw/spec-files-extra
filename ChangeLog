@@ -1,5 +1,10 @@
 2008-03-07  Halton Huo <nonsea@users.sourceforge.net>
 
+	* base-specs/gtk-vnc.spec: Bump to 0.3.4
+	* patches/gtk-vnc-01-solaris-ld-ast.diff: rework
+
+2008-03-07  Halton Huo <nonsea@users.sourceforge.net>
+
 	* base-specs/gnutls.spec: Update bugdb and bugid
 
 2008-03-06  Halton Huo <nonsea@users.sourceforge.net>

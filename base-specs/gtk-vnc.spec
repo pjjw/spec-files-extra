@@ -12,7 +12,7 @@
 Name:           gtk-vnc
 License:        LGPL
 Group:          Development/Libraries
-Version:        0.3.3
+Version:        0.3.4
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -126,6 +126,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python*/site-packages/gtkvnc.so
 
 %changelog
+* Fri Mar 07 2008 - nonsea@users.sourceforge.net
+- Bump to 0.3.4
 * Wed Feb 20 2008 - nonsea@users.sourceforge.net
 - Bump to 0.3.3
 - Remove upstreamed patch suncc-range-case.diff
