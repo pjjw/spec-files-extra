@@ -1,0 +1,11 @@
+--- gnutls-2.2.2/guile/src/utils.c.orig	2008-03-04 13:36:15.301971000 +0800
++++ gnutls-2.2.2/guile/src/utils.c	2008-03-04 13:48:24.053859000 +0800
+@@ -54,7 +54,7 @@
+ 
+   if (EXPECT_FALSE (c_usage != 0))
+     /* XXX: We failed to interpret one of the usage flags.  */
+-    scm_gnutls_error (GNUTLS_E_UNIMPLEMENTED_FEATURE, __FUNCTION__);
++    scm_gnutls_error (GNUTLS_E_UNIMPLEMENTED_FEATURE, __func__);
+ 
+ #undef MATCH_USAGE
+ 

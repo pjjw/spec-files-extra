@@ -1,3 +1,27 @@
+2008-03-06  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEfilezilla.spec: Update %files cause version upgrade, add pkg -l10n,
+	  repleace Requires/BuildRequires from SFElibidn to SUNWgnu-idn
+	* SFElibidn.spec: Bump to 1.5
+	* base-specs/gnutls.spec, SUNWgnutls.spec:
+	  Copied from spec-files for it is not allowed upgrade to 2.x
+	* base-specs/filezilla.spec: Bump to 3.0.7.1,
+	  removed upstreamed patches, add new patches
+	* patches/filezilla-01-autogen.diff,
+	  patches/filezilla-02-vector-begin.diff,
+	  patches/filezilla-03-strrchr.diff,
+	  patches/filezilla-04-socket.diff,
+	  patches/filezilla-05-po-error.diff,
+	  patches/filezilla-06-vector-begin-more.diff:
+	  Remove upstreamed patches
+	* patches/filezilla-01-iter++.diff,
+	  patches/filezilla-02-SetActive.diff,
+	  patches/filezilla-03-msgfmt.diff,
+	  patches/filezilla-04-locale.diff:
+	  Add new patches
+	* patches/gnutls-01-__FUNCTION__.diff:
+	  Add new patch for gnutls 2.x build on Solaris.
+
 2008-03-05  simon.zheng  <simon.zheng@sun.com>
 
 	* SFEcairomm.spec:

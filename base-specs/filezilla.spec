@@ -4,21 +4,24 @@
 # package are under the same license as the package itself.
 #
 # Owner: halton
+# bugdb: http://sourceforge.net/tracker/index.php?func=detail&group_id=21558&atid=372241&aid=
 #
 
-%define version_str 3.0.0-beta11_src
+%define version_str 3.0.7.1_src
 Name:		filezilla
 Summary:	FileZilla FTP client
-Version:	3.0.0
+Version:	3.0.7.1
 License:	GPL
 URL:		http://filezilla.sourceforge.net/
 Source:	    http://superb-east.dl.sourceforge.net/sourceforge/filezilla/FileZilla_%{version_str}.tar.bz2
-Patch1:     %{name}-01-autogen.diff
-Patch2:     %{name}-02-vector-begin.diff
-Patch3:     %{name}-03-strrchr.diff
-Patch4:     %{name}-04-socket.diff
-Patch5:     %{name}-05-po-error.diff
-Patch6:     %{name}-06-vector-begin-more.diff
+# date:2008-03-06 owner:halton type:bug bugid:1908772
+Patch1:     %{name}-01-iter++.diff
+# date:2008-03-06 owner:halton type:bug bugid:1908807
+Patch2:     %{name}-02-SetActive.diff
+# date:2008-03-06 owner:halton type:bug bugid:1908796
+Patch3:     %{name}-03-msgfmt.diff
+# date:2008-03-06 owner:halton type:bug state:upstream
+Patch4:     %{name}-04-locale.diff
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -26,13 +29,11 @@ FileZilla is a fast and reliable FTP client and server with lots of
 useful features and an intuitive interface.
 
 %prep
-%setup -q -n %{name}-3.0.0-beta11
+%setup -q -n %{name}-%{version}
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
 
 %build
 %ifos linux
@@ -76,5 +77,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Mar 06 2008 - nonsea@users.sourceforge.net
+- Bump to 3.0.7.1.
+- Remove upstreamed patches: autogen.diff, vector-begin.diff,
+  strrchr.diff, socket.diff, po-error.diff and vector-begin-more.diff
+- Add patches iter++.diff, SetActive.diff, msgfmt.diff and locale.diff
 * Mon Aug 06 2006 - nonsea@users.sourceforge.net
 - Initial version

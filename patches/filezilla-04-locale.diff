@@ -1,0 +1,10 @@
+--- filezilla-3.0.7.1/src/interface/locale_initializer.cpp.orig	2008-03-06 22:03:09.480068000 +0800
++++ filezilla-3.0.7.1/src/interface/locale_initializer.cpp	2008-03-06 22:03:31.324859000 +0800
+@@ -2,6 +2,7 @@
+ #include "locale_initializer.h"
+ #include "../tinyxml/tinyxml.h"
+ #include <string>
++#include <locale.h>
+ 
+ #ifdef ENABLE_BINRELOC
+ 	#define BR_PTHREADS 0

@@ -1,0 +1,13 @@
+Index: trunk/locales/Makefile.am
+===================================================================
+--- trunk/locales/Makefile.am	(revision 2163)
++++ trunk/locales/Makefile.am	(working copy)
+@@ -36,7 +36,7 @@
+ # ----------------------------------------------------------------------------
+ 
+ # the programs we use (TODO: use configure to detect them)
+-MSGFMT=@msgfmt@ -c --verbose
++MSGFMT=@msgfmt@ --verbose
+ MSGMERGE=@msgmerge@
+ XGETTEXT=@xgettext@
+ 
