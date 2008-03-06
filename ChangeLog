@@ -1,3 +1,7 @@
+2008-03-07  Halton Huo <nonsea@users.sourceforge.net>
+
+	* base-specs/gnutls.spec: Update bugdb and bugid
+
 2008-03-06  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEfilezilla.spec: Update %files cause version upgrade, add pkg -l10n,

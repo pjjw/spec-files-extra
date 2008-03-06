@@ -4,7 +4,7 @@
 # package are under the same license as the package itself.
 #
 # Owner: jefftsai
-# bugdb: https://savannah.gnu.org
+# bugdb: https://savannah.gnu.org/bugs/index.php?
 #
 Name:     	gnutls
 Version: 	2.2.2
@@ -17,7 +17,7 @@ Docdir:         %{_datadir}/doc
 Autoreqprov:    on
 URL:		http://www.gnutls.org
 Source: 	ftp://ftp.gnutls.org/pub/gnutls/%{name}-%{version}.tar.bz2
-# date:2008-03-06 owner:halton type:bug
+# date:2008-03-06 owner:halton type:bug bugid:22504
 Patch1:		%{name}-01-__FUNCTION__.diff
 Source1: 	l10n-configure.sh
 
@@ -53,7 +53,7 @@ Requires:       libgcrypt >= %{libgcrypt_version}
 
 %prep
 %setup  -q -n %{name}-%{version}
-%patch1 -p1
+#%patch1 -p1
 bash -x %SOURCE1
 
 %build
