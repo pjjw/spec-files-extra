@@ -8,7 +8,7 @@
 
 Name:          SFEseamonkey
 Summary:       seamonkey - all-in-one internet application suite
-Version:       1.1.4
+Version:       1.1.8
 Source:        http://releases.mozilla.org/pub/mozilla.org/seamonkey/releases/%{version}/seamonkey-%{version}.source.tar.bz2
 URL:           http://www.mozilla.org/projects/seamonkey/
 SUNW_BaseDir:  %{_basedir}
@@ -30,13 +30,6 @@ Requires:      %name
 %prep
 %setup -q -n %name-%version -c
 cd mozilla
-
-sed -e 's/5\.10/5.11/g' -e 's/5_10/5_11/g' -e 's/2_10/2_11/' \
-      security/coreconf/SunOS5.10.mk \
-    > security/coreconf/SunOS5.11.mk
-sed -e 's/5\.10/5.11/g' -e 's/5_10/5_11/g' -e 's/2_10/2_11/' \
-      security/coreconf/SunOS5.10_i86pc.mk \
-    > security/coreconf/SunOS5.11_i86pc.mk
 
 %build
 cd mozilla
@@ -86,6 +79,7 @@ ac_add_options --disable-tests
 ac_add_options --disable-debug
 ac_add_options --disable-auto-deps
 ac_add_options --with-xprint
+ac_add_options --enable-system-cairo
 mk_add_options MOZ_CO_PROJECT=suite
 mk_add_options BUILD_OFFICIAL=1
 mk_add_options MOZILLA_OFFICIAL=1
@@ -135,6 +129,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Thu Mar 6 2007 - alfred.peng@sun.com
+- bump to 1.1.8
+- add --enable-system-cairo to option to resolve the dependency of pango on cairo
+- This could be removed when the seamonkey tree cairo is upgraded.
 * Wed Oct 17 2007 - laca@sun.com
 - bump to 1.1.4
 - add /usr/gnu and /usr/X11 to search paths
