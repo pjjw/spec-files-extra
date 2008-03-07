@@ -1,11 +1,12 @@
 #
 # spec file for package libopensync-plugin-gcal
 #
-# Copyright 2007 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-# owner jeryyu
+# Owner: jerryyu
+# bugdb: http://www.opensync.org/ticket/
 #
 
 %define real_name libopensync-plugin-google-calendar

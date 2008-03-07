@@ -3,11 +3,12 @@
 #
 # includes module(s): wbxml2
 #
-# Copyright (c) 2006 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
 # Owner: jerryyu
+# bugdb: http://libwbxml.aymerick.com/ticket/
 #
 
 %define name	wbxml2

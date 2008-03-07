@@ -3,6 +3,13 @@
 #
 # includes module(s): httplib2
 #
+# Copyright 2008 Sun Microsystems, Inc.
+# This file and all modifications and additions to the pristine
+# package are under the same license as the package itself.
+#
+# Owner: halton
+# bugdb: http://code.google.com/p/httplib2/issues/detail?id=
+#
 
 %define real_name httplib2
 %define python_version 2.4

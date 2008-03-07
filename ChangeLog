@@ -1,5 +1,37 @@
 2008-03-07  Halton Huo <nonsea@users.sourceforge.net>
 
+	* SFEcmake.spec: Bump to 2.4.8
+	* SFElibsyncml.spec: Update %files caused by upgrading
+	* base-specs/libsyncml.spec: Bump to 0.4.6, use cmake to build,
+	remove upstreamed patch, add new patches.
+	* SFElibopensync-plugin.spec: remove unused spec
+	* patches/libsyncml-01-printf-null.diff: remove upstreamed patch
+	* patches/libsyncml-01-void-func-return.diff: added
+	* patches/libsyncml-02-TCSBRKP.diff: added
+	* patches/libsyncml-03-strcasestr.diff: added
+	Update Copyright, Owner and bugdb info for following specs
+	* SFElibopensync-plugin-evo2.spec:
+	* SFElibopensync-plugin-file.spec:
+	* SFElibopensync-plugin-gcal.spec:
+	* SFElibopensync-plugin-palm.spec:
+	* SFElibopensync-plugin-sml.spec:
+	* SFElibopensync-plugin-vfmt.spec:
+	* SFElibopensync.spec:
+	* SFEopenobex.spec:
+	* SFEpylibs-httplib2.spec:
+	* SFEwbxml.spec:
+	* base-specs/libopensync-plugin-evo2.spec:
+	* base-specs/libopensync-plugin-file.spec:
+	* base-specs/libopensync-plugin-gcal.spec:
+	* base-specs/libopensync-plugin-palm.spec:
+	* base-specs/libopensync-plugin-syncml.spec:
+	* base-specs/libopensync-plugin-vfmt.spec:
+	* base-specs/libopensync.spec:
+	* base-specs/openobex.spec:
+	* base-specs/wbxml2.spec:
+
+2008-03-07  Halton Huo <nonsea@users.sourceforge.net>
+
 	* base-specs/gtk-vnc.spec: Bump to 0.3.4
 	* patches/gtk-vnc-01-solaris-ld-ast.diff: rework
 

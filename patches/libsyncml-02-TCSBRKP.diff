@@ -1,0 +1,18 @@
+Index: libsyncml-trunk/libsyncml/transports/obex_client.c
+===================================================================
+--- libsyncml-trunk/libsyncml/transports/obex_client.c	(revision 402)
++++ libsyncml-trunk/libsyncml/transports/obex_client.c	(working copy)
+@@ -144,7 +144,13 @@
+ 	SmlTransportObexClientEnv *userdata = (SmlTransportObexClientEnv *) ud;
+ 	if (userdata->fd >= 0) {
+ 		// Send a break to get out of OBEX-mode
++#ifdef TCSBRKP
+ 		if(ioctl(userdata->fd, TCSBRKP, 0) < 0) {
++#elif defined(TCSBRK)
++		if(ioctl(userdata->fd, TCSBRK, 0) < 0) {
++#else
++		if(tcsendbreak(userdata->fd, 0) < 0) {
++#endif /* TCSBRKP */
+ 			smlTrace(TRACE_INTERNAL, "Unable to send break!\n");
+ 		}
+ 

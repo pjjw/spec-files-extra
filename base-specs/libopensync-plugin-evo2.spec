@@ -1,9 +1,12 @@
 #
 # spec file for package libopensync-plugin-evo2
 #
-# Copyright (c) 2005 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
+#
+# Owner: jerryyu
+# bugdb: http://www.opensync.org/ticket/
 #
 
 %define real_name libopensync-plugin-evolution2

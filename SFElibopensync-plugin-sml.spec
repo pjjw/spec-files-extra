@@ -3,11 +3,11 @@
 #
 # includes module(s): libopensync-plugin-syncml
 #
-# Copyright (c) 2007 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-# owner: halton
+# Owner: halton
 #
 
 %include Solaris.inc
@@ -15,7 +15,7 @@
 
 Name:               SFElibopensync-plugin-sml
 Summary:            %syncml.summary
-Version:            %{default_pkg_version}
+Version:            %{syncml.version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

@@ -3,11 +3,11 @@
 #
 # includes module(s): libopensync
 #
-# Copyright (c) 2004 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-# owner jerryyu
+# Owner: jerryyu
 #
 
 %include Solaris.inc
@@ -16,7 +16,7 @@
 
 Name:               SFElibopensync
 Summary:            OpenSync - libopensync - A data synchronization framework
-Version:            %{default_pkg_version}
+Version:            %{libopensync.version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -26,12 +26,12 @@ Requires: SUNWPython
 Requires: SUNWgnome-base-libs
 Requires: SUNWlxml
 Requires: SUNWzlib
-Requires: SUNWsqlite
+Requires: SUNWsqlite3
 Requires: SFEswig
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SFEcmake
 BuildRequires: SFEcheck
-BuildRequires: SUNWsqlite-devel
+BuildRequires: SUNWsqlite3-devel
 
 %package devel
 Summary:       %{summary} - development files

@@ -1,0 +1,13 @@
+Index: libsyncml-trunk/libsyncml/sml_elements.c
+===================================================================
+--- libsyncml-trunk/libsyncml/sml_elements.c	(revision 402)
++++ libsyncml-trunk/libsyncml/sml_elements.c	(working copy)
+@@ -679,7 +679,7 @@
+ /* FIXME: DEPRECATED */
+ void smlCredFree(SmlCred *cred)
+ {
+-	return smlCredUnref(cred);
++	smlCredUnref(cred);
+ }
+ 
+ void smlChalFree(SmlChal *chal)

@@ -3,11 +3,11 @@
 #
 # includes module(s): libopensync-plugin-gcal
 #
-# Copyright (c) 2004 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-# owner jerryyu
+# Owner: jerryyu
 #
 
 %include Solaris.inc
@@ -16,7 +16,7 @@
 
 Name:               SFElibopensync-plugin-gcal
 Summary:            %gcal.summary
-Version:            %{default_pkg_version}
+Version:            %{gcal.version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -53,10 +53,11 @@ rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 
 %files
+%defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/*
+%{_libdir}/opensync*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/opensync-1.0
+%{_datadir}/opensync*
 
 %changelog
 * Wed Jan 30 2007 - jijun.yu@sun.com

@@ -3,11 +3,11 @@
 #
 # includes module(s): libsyncml
 #
-# Copyright (c) 2004 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-#owner jerryyu
+# Owner: jerryyu
 #
 
 %include Solaris.inc
@@ -16,13 +16,14 @@
 
 Name:               SFElibsyncml
 Summary:            libsyncml - C library implementation of the SyncML protocol
-Version:            %{default_pkg_version}
+Version:            %{libsyncml.version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:      SUNWevolution-libs
 Requires:      SFEopenobex
 Requires:      SFEwbxml
+BuildRequires: SFEcmake
 BuildRequires: SUNWevolution-libs-devel
 BuildRequires: SFEopenobex-devel
 BuildRequires: SFEwbxml-devel
@@ -74,10 +75,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*.so*
-%dir %attr (0755, root, sys) %{_datadir}
-%dir %attr(0755, root, bin) %{_mandir}
-%dir %attr(0755, root, bin) %{_mandir}/*
-%{_mandir}/*/*
 
 %files devel
 %defattr (-, root, bin)
@@ -95,9 +92,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Mar 07 2008 - nonsea@users.sourceforge.net
+- Update %files caused by upgrading.
 * Fri Oct 19 2007 - jijun.yu@sun.com
 - Remove the optimum cflags.
-
 * Wed Oct 17 2007 - nonsea@users.sourceforge.net
 - Add SUNWevolution-libs to Requires, add SUNWevolution-libs-devel
   to BuildRequires, because libsyncml using libsoup

@@ -3,25 +3,30 @@
 #
 # includes module(s): libsyncml
 #
-# Copyright (c) 2004 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-#owner jerryyu
+# Owner: jerryyu
+# bugdb: http://libsyncml.opensync.org/ticket/
 #
 
 Name:			libsyncml
-Version:		0.4.5
+Version:		0.4.6
 Release:		1
 License:		LGPL
 Group:			Development/Libraries
 Distribution:	Java Desktop System
 Vendor:			Sun Microsystems, Inc.
 Summary:		C library implementation of the SyncML protocol
-URL:			libsyncml.opensync.org
-#Source:			http://libsyncml.opensync.org/attachment/wiki/download/%{name}-%{version}.tar.bz2?format=raw
-Source:			%{name}-%{version}.tar.bz2
-Patch1:			libsyncml-01-printf-null.diff
+URL:			http://libsyncml.opensync.org
+Source:			http://libsyncml.opensync.org/download/releases/%{version}/%{name}-%{version}.tar.bz2
+# date:2008-03-07 owner:halton type:bug bugid:135
+Patch1:                 %{name}-01-void-func-return.diff 
+# date:2008-03-07 owner:halton type:bug bugid:136
+Patch2:                 %{name}-02-TCSBRKP.diff 
+# date:2008-03-07 owner:halton type:bug state:upstream
+Patch3:                 %{name}-03-strcasestr.diff 
 BuildRoot:		%{_tmppath}/%{name}-%{version}-root
 Requires:		wbxml2 libsoup >= 2.2.91 
 BuildRequires:		wbxml2-devel libsoup-devel >= 2.2.91 
@@ -42,6 +47,8 @@ you will need to install %{name}-devel.
 %prep
 %setup -q
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 %ifos linux
@@ -55,23 +62,15 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-libtoolize --force
-aclocal $ACLOCAL_FLAGS -I .
-autoheader
-automake -a -c -f
-autoconf
-./configure --prefix=%{_prefix}                 \
-            --libexecdir=%{_libexecdir}         \
-            --sysconfdir=%{_sysconfdir}         \
-            --mandir=%{_mandir}                 \
-	    --enable-http                       \
-	    --enable-obex
+mkdir build && cd build
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr ..
 
-make -j $CPUS
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
+cd build
 make -i install DESTDIR=$RPM_BUILD_ROOT
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
@@ -115,6 +114,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Mar 07 2008 - nonsea@users.sourceforge.net
+- Bump to 0.4.6.
+- Use cmake to build
+- Remove upstreamed patch printf-null.diff
+- Add patch void-func-return.diff, TCSBRKP.diff and strcasestr.diff
 * Wed Oct 17 2007 - nonsea@users.sourceforge.net
 - Bump to 0.4.5.
 - Remove upstreamed patch 01-Makefile.diff, 02-define-func.diff

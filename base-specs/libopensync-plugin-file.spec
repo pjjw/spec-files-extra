@@ -1,11 +1,12 @@
 #
 # spec file for package libopensync-plugin-file
 #
-# Copyright (c) 2005 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-# owner jerryyu
+# Owner: jerryyu
+# bugdb: http://www.opensync.org/ticket/
 #
 
 

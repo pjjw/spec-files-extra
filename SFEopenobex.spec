@@ -3,7 +3,7 @@
 #
 # includes module(s): openobex
 #
-# Copyright 2007 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
