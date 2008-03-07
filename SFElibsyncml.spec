@@ -20,10 +20,12 @@ Version:            %{libsyncml.version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+Requires:      SUNWgnome-base-libs
 Requires:      SUNWevolution-libs
 Requires:      SFEopenobex
 Requires:      SFEwbxml
 BuildRequires: SFEcmake
+BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWevolution-libs-devel
 BuildRequires: SFEopenobex-devel
 BuildRequires: SFEwbxml-devel

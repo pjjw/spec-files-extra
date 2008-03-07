@@ -1,5 +1,27 @@
 2008-03-07  Halton Huo <nonsea@users.sourceforge.net>
 
+	Add debug option when --with-debug, update Requires/BuildRequires
+	* SFElibopensync-plugin-evo2.spec:
+	* SFElibopensync-plugin-file.spec:
+	* SFElibopensync-plugin-gcal.spec:
+	* SFElibopensync-plugin-palm.spec:
+	* SFElibopensync-plugin-sml.spec:
+	* SFElibopensync-plugin-vfmt.spec:
+	* SFElibsyncml.spec:
+	* SFEmsynctool.spec:
+	* SFEopenobex.spec:
+	* base-specs/libopensync-plugin-evo2.spec:
+	* base-specs/libopensync-plugin-file.spec:
+	* base-specs/libopensync-plugin-gcal.spec:
+	* base-specs/libopensync-plugin-palm.spec:
+	* base-specs/libopensync-plugin-syncml.spec:
+	* base-specs/libopensync-plugin-vfmt.spec:
+	* base-specs/libopensync.spec:
+	* base-specs/libsyncml.spec:
+	* base-specs/msynctool.spec:
+
+2008-03-07  Halton Huo <nonsea@users.sourceforge.net>
+
 	* SFElibopensync-plugin-gcal.spec: s/SFEpylibs-httplib2/SFEpython-httplib
 	* SFEpylibs-httplib2.spec: Rename to SFEpython-httplib
 	* SFEpython-httplib.spec: Bump to 0.4.0

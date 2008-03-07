@@ -54,7 +54,11 @@ fi
 mkdir build
 cd build
 
+%if %debug_build
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Debug ../
+%else
 cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr ../
+%endif
 
 make
 

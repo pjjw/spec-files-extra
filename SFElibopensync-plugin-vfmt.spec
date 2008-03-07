@@ -22,7 +22,9 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 
 Requires: SUNWgnome-base-libs
 Requires: SFElibopensync
-BuildRequires:      SFElibopensync-devel
+BuildRequires: SUNWgnome-base-libs-devel
+BuildRequires: SFElibopensync-devel
+BuildRequires: SFEcmake
 
 %prep
 rm -rf %name-%version

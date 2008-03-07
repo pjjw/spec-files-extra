@@ -20,12 +20,13 @@ Version:            %{gcal.version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-
 Requires: SUNWgnome-base-libs
 Requires: SUNWlxml
 Requires: SFElibopensync
 Requires: SFEpython-httplib
-BuildRequires:      SFElibopensync-devel
+BuildRequires: SUNWgnome-base-libs-devel
+BuildRequires: SFElibopensync-devel
+BuildRequires: SFEcmake
 
 %package devel
 Summary:       %{summary} - development files

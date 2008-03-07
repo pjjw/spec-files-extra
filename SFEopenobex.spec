@@ -65,7 +65,6 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri. Otc 19 2007 - jijun.yu@sun.com
 - Remove the optimum cflag.
-
 * Fri Sept 21 2007 - jijun.yu@sun.com
 - add debug flags.
 * Mon Apr  2 2007 - laca@sun.com

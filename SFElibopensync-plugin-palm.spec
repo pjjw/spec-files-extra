@@ -19,12 +19,13 @@ Version:            %{palm.version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-
 Requires: SUNWgnome-base-libs
 Requires: SUNWpilot-link
 Requires: SFElibopensync
-BuildRequires:    SUNWpilot-link-devel
-BuildRequires:    SFElibopensync-devel
+BuildRequires: SUNWgnome-base-libs-devel
+BuildRequires: SUNWpilot-link-devel
+BuildRequires: SFElibopensync-devel
+BuildRequires: SFEcmake
 
 %prep
 rm -rf %name-%version

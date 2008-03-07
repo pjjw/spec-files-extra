@@ -19,12 +19,13 @@ Version:            %{syncml.version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-
 Requires: SUNWgnome-base-libs
 Requires: SFElibopensync
 Requires: SFElibsyncml
-BuildRequires:      SFElibopensync-devel
-BuildRequires:      SFElibsyncml-devel
+BuildRequires: SUNWgnome-base-libs-devel
+BuildRequires: SFElibopensync-devel
+BuildRequires: SFElibsyncml-devel
+BuildRequires: SFEcmake
 
 %prep
 rm -rf %name-%version

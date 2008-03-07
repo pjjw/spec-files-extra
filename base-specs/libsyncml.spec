@@ -63,9 +63,13 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 mkdir build && cd build
+%if %debug_build
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Debug ..
+%else
 cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr ..
+%endif
 
-make
+make -j $CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT

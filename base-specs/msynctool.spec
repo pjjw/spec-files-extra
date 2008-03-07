@@ -48,9 +48,13 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr 
+%if %debug_build
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Debug
+%else
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr
+%endif
 
-make
+make -j $CPUS
 
 %install
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1

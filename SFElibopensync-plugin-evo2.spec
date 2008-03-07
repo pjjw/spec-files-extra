@@ -19,11 +19,13 @@ Version:            %{evo2.version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-
 Requires: SUNWevolution-data-server
 Requires: SUNWgnome-base-libs
 Requires: SFElibopensync
-BuildRequires:      SFElibopensync-devel
+BuildRequires: SUNWevolution-data-server-devel
+BuildRequires: SUNWgnome-base-libs-devel
+BuildRequires: SFElibopensync-devel
+BuildRequires: SFEcmake
 
 %prep
 rm -rf %name-%version

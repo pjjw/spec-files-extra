@@ -52,7 +52,12 @@ fi
 
 mkdir build
 cd build
+
+%if %debug_build
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Debug ../
+%else
 cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr ../
+%endif
 
 make -j $CPUS
 
@@ -81,7 +86,5 @@ rm -rf $RPM_BUILD_ROOT
 - Bump to 0.35, change the build tool to cmake.
 * Tue Oct 16 2007 - nonsea@users.sourceforge.net
 - Bump to 0.33, change Source to full URL.
-
 * Mon Aug 06 2007 - jijun.yu@sun.com
 - Initial version
-
