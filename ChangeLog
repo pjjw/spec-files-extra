@@ -9,8 +9,9 @@
 
 2008-03-06  Halton Huo <nonsea@users.sourceforge.net>
 
-	* SFEfilezilla.spec: Update %files cause version upgrade, add pkg -l10n,
-	  repleace Requires/BuildRequires from SFElibidn to SUNWgnu-idn
+	* SFEfilezilla.spec: Update %files cause version upgrade, add pkg
+	  -l10n, repleace Requires/BuildRequires from SFElibidn to
+          SUNWgnu-idn
 	* SFElibidn.spec: Bump to 1.5
 	* base-specs/gnutls.spec, SUNWgnutls.spec:
 	  Copied from spec-files for it is not allowed upgrade to 2.x
