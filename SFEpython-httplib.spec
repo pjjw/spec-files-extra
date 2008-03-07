@@ -1,5 +1,5 @@
 #
-# spec file for package SFEpylibs-httplib
+# spec file for package SFEpython-httplib
 #
 # includes module(s): httplib2
 #
@@ -15,10 +15,11 @@
 %define python_version 2.4
 
 %include Solaris.inc
-Name:                    SFEpylibs-httplib2
+Name:                    SFEpython-httplib
+License:                 MIT
 Summary:                 A comprehensive HTTP client library for Python.
 URL:                     http://code.google.com/p/httplib2
-Version:                 0.3.0
+Version:                 0.4.0
 Source:                  http://httplib2.googlecode.com/files/%{real_name}-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -44,9 +45,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python?.?/vendor-packages
 
 %changelog
+* Fri Mar 07 2008 - nonsea@users.sourceforge.net
+- Bump to 0.4.0
+- Rename to SFEpython-httplib
 * Tue Aug 07 2007 - jijun.yu@sun.com
 - Bump to 0.3.0
 - Modify the webpage and download link.
-
 * Tue Nov 14 2006 - halton.huo@sun.com
 - Initial spec file

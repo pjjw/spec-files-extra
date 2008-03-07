@@ -24,7 +24,7 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 Requires: SUNWgnome-base-libs
 Requires: SUNWlxml
 Requires: SFElibopensync
-Requires: SFEpylibs-httplib2
+Requires: SFEpython-httplib
 BuildRequires:      SFElibopensync-devel
 
 %package devel

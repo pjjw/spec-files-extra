@@ -1,5 +1,11 @@
 2008-03-07  Halton Huo <nonsea@users.sourceforge.net>
 
+	* SFElibopensync-plugin-gcal.spec: s/SFEpylibs-httplib2/SFEpython-httplib
+	* SFEpylibs-httplib2.spec: Rename to SFEpython-httplib
+	* SFEpython-httplib.spec: Bump to 0.4.0
+
+2008-03-07  Halton Huo <nonsea@users.sourceforge.net>
+
 	* SFEcmake.spec: Bump to 2.4.8
 	* SFElibsyncml.spec: Update %files caused by upgrading
 	* base-specs/libsyncml.spec: Bump to 0.4.6, use cmake to build,
