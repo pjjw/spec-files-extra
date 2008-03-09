@@ -17,18 +17,31 @@ Name:                SFEaudacity
 Summary:             manipulate digital audio waveforms
 Version:             1.3.3
 Source:              %{src_url}/%{src_name}-src-%{version}.tar.gz
+# bug 1910678
 Patch1:		     audacity-01-solaris.diff
+# bug 1910680
 Patch2:		     audacity-02-portaudio.diff
+# bug 1910681
 Patch3:		     audacity-03-alloca.diff
+# bug 1910683
 Patch4:		     audacity-04-twolame.diff
+# bug 1910685
 Patch5:              audacity-05-fixsed.diff
+# bug 1910686
 Patch6:              audacity-06-noopt.diff
+# bug 1910687
 Patch7:              audacity-07-nowall.diff
+# bug 1910688
 Patch8:              audacity-08-fixSoundTouch.diff
+# bug 1910692
 Patch9:              audacity-09-nogccdetect.diff
+# bug 1910693
 Patch10:             audacity-10-fixconstint.diff
+# bug 1910688
 Patch11:             audacity-11-fixmatrix.diff
+# bug 1910699
 Patch12:             audacity-12-addgtklibs.diff
+# bug 1910700
 Patch13:             audacity-13-fix-pa-makefile.diff
 Patch14:             audacity-14-no-pa-threads.diff
 Patch15:             audacity-15-locale.diff
