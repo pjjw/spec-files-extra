@@ -1,6 +1,8 @@
 #
 # package are under the same license as the package itself.
 #
+# bugdb: www.pulseaudio.org/report/
+#
 
 %include Solaris.inc
 
@@ -11,11 +13,15 @@ Name:		SFEpulseaudio
 Summary:	pulseaudio - stream audio to clients
 Version:	0.9.5
 Source:		%{src_url}/%{src_name}-%{version}.tar.gz
+# bug 253
 Patch1:		pulseaudio-01-ioctl.diff
 Patch2:		pulseaudio-02-default.pa.diff
+# bug 254
 Patch3:		pulseaudio-03-esdcompat.diff
+# bug 255
 Patch4:		pulseaudio-04-devname.diff
 Patch5:		pulseaudio-05-dirty_hack_IP_MULTICAST_LOOP-module-rtp-send.c
+# bug 256
 Patch6:         pulseaudio-06-null-argument.diff
 SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
