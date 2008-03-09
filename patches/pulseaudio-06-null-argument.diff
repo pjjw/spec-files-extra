@@ -1,0 +1,11 @@
+--- pulseaudio-0.9.5/src/utils/pactl.c.orig	Mon Aug 21 18:37:14 2006
++++ pulseaudio-0.9.5/src/utils/pactl.c	Tue Mar  4 15:26:55 2008
+@@ -272,7 +272,7 @@
+            "Auto unload: %s\n",
+            i->index,
+            i->name,
+-           i->argument,
++           i->argument ? i->argument : "(null)",
+            i->n_used != PA_INVALID_INDEX ? t : "n/a",
+            i->auto_unload ? "yes" : "no");
+ }

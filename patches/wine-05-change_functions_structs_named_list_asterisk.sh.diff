@@ -28,10 +28,10 @@
 +#/usr/bin/perl -c -w -pi.bak_wine -e "\
 +
 +/usr/bin/perl -w -pi.bak_wine -e "\
-+ s/(list_)(next|prev|head|tail|empty|init|count|remove)/wine_\1\2/g  ;\
++ s/\\b(list_)(next|prev|head|tail|empty|init|count|remove)/wine_\1\2/g  ;\
 + s/(struct *)(list)/\1wine_\2\3/g  ;\
-+ s/(list_add_)(before|after|head|tail)/wine_\1\2/g  ;\
-+ s/(list_move_)(head|tail)/wine_\1\2/g ;\
++ s/\\b(list_add_)(before|after|head|tail)/wine_\1\2/g  ;\
++ s/\\b(list_move_)(head|tail)/wine_\1\2/g ;\
 + s/(^#include *\"wine\/)(list.h\")/\1wine_\2/ ;\
 + s/(\"wine\/)(list.h\" =)/\1wine_\2/ ;\
 + s/(^#include \<wine\/)(list.h\>)/\1wine_\2/ ;\

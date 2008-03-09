@@ -1,3 +1,18 @@
+2008-03-09  Albert Lee <trisk@acm.jhu.edu>
+
+	* SFEpulseaudio.spec: Add patch6 to fix pactl crash
+	* SFEmixer.spec: *NEW* Command line audio mixer
+	* SFEsudo.spec: Bump to 1.6.9p14, add URL
+	* SFEtransmission.spec: Bump to 1.06, add patch2 (fixed upstream)
+	* SFEwine.spec: Bump to 0.9.57, add -D__C99FEATURES__ for isinf (can we
+	  do -std=c99?)
+	* patches/wine-05-change_functions_structs_named_list_asterisk.sh.diff:
+	  Update patch5 to not mangle gp_list_* functions
+	* patches/pulseaudio-06-null-argument.diff: Fix pactl crash when
+	  argument list is a null pointer
+	* patches/transmission-02-translation.diff: Fix DOS newlines in pt_BR
+	  translation
+
 2008-03-07  Halton Huo <nonsea@users.sourceforge.net>
 
 	Add debug option when --with-debug, update Requires/BuildRequires

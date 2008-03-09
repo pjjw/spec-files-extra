@@ -4,12 +4,13 @@
 # package are under the same license as the package itself.
 
 %include Solaris.inc
-%define tarball_version 1.6.9p12
+%define tarball_version 1.6.9p14
 
 Name:                SFEsudo
 Summary:             Provides limited super user privs to specific users
+URL:                 http://www.sudo.ws/sudo/
 Version:             1.6.9
-Source:              http://www.courtesan.com/sudo/dist/sudo-%{tarball_version}.tar.gz
+Source:              http://www.sudo.ws/sudo/dist/sudo-%{tarball_version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -71,6 +72,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/sudoers
 
 %changelog
+* Fri Mar 07 2008 - trisk@acm.jhu.edu
+- Bump to 1.6.9p14, add URL
 * Wed Feb 06 2008 - Ananth Shrinivas <ananth@sun.com>
 - updated to sudo 1.6.9p12
 * Sat Dec 15 2007 - Ananth Shrinivas <ananth@sun.com>

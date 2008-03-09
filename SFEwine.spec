@@ -10,7 +10,7 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                0.9.55
+Version:                0.9.57
 URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
@@ -30,7 +30,7 @@ Requires:	SUNWdbus
 Requires:	SUNWxorg-clientlibs
 BuildRequires:	SFEfontforge-devel
 Requires:	SFEfontforge
-Requires:	SUNWfreetype2
+Requires:	SFEfreetype
 BuildRequires:	SFElcms-devel
 Requires:	SFElcms
 BuildRequires:	SFEcups-devel
@@ -70,7 +70,7 @@ GNULIB="-L/usr/gnu/lib -R/usr/gnu/lib"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CC=/usr/sfw/bin/gcc
 export CPPFLAGS="-I/usr/X11/include -I/usr/gnu/include -I/usr/gnu/include/ncurses -I/usr/sfw/include"
-export CFLAGS="-O4 -fno-omit-frame-pointer -fpic -Dpic"
+export CFLAGS="-O4 -fno-omit-frame-pointer -fpic -Dpic -D__C99FEATURES__"
 export LDFLAGS="$X11LIB $GNULIB $SFWLIB"
 export LD=/usr/ccs/bin/ld
 ./configure --prefix=%{_prefix}		\
@@ -132,6 +132,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Sun Mar 09 2008 - trisk@acm.jhu.edu
+- Bump to 0.9.57
+- Add -D__C99FEATURES__ for isinf (can we do -std=c99?)
+- Update patch5 to not mangle gp_list_* functions
 * Thu Feb 21 2008 - nonsea@users.sourceforge.net
 - Bump to 0.9.55
 - Remove upstreamed patch add-wine_list.h_includes.diff and reorder
