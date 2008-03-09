@@ -1,0 +1,11 @@
+--- audacity-src-1.3.3-beta/src/Makefile.in-orig	2008-03-08 17:23:52.712796000 -0600
++++ audacity-src-1.3.3-beta/src/Makefile.in	2008-03-08 17:25:43.927838000 -0600
+@@ -223,7 +223,7 @@ libaudacity.a: $(LIBAUDACITY_OBJS)
+ 	ar rcs libaudacity.a $(LIBAUDACITY_OBJS)
+ 
+ ../audacity: $(OBJS) $(LOCAL_LIBS:%=$(top_builddir)/lib-src/%) $(EXTRAOBJS) libaudacity.a Makefile
+-	$(CCC) -o ../audacity $(OBJS) $(LOCAL_LIBS:%=$(top_builddir)/lib-src/%) $(EXTRAOBJS) libaudacity.a $(LIBS)
++	$(CCC) -o ../audacity $(OBJS) $(LOCAL_LIBS:%=$(top_builddir)/lib-src/%) $(EXTRAOBJS) libaudacity.a $(LIBS) `pkg-config --libs gtk+-2.0`
+ 	@AFTERBUILD@
+ 
+ $(DIRS):

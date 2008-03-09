@@ -19,18 +19,18 @@ diff -ur ladspa_sdk-orig/src/applyplugin.c ladspa_sdk/src/applyplugin.c
  #include <math.h>
  #include <stdlib.h>
 diff -ur ladspa_sdk-orig/src/makefile ladspa_sdk/src/makefile
---- ladspa_sdk-orig/src/makefile	2002-07-07 00:34:20.000000000 +0700
-+++ ladspa_sdk/src/makefile	2007-05-15 22:05:02.015344934 +0700
-@@ -5,19 +5,17 @@
- # Change these if you want to install somewhere else. In particularly
- # you may wish to remove the middle "local/" part of each entry.
+--- ladspa_sdk/src/makefile-orig	2008-03-09 15:18:36.847511000 -0500
++++ ladspa_sdk/src/makefile	2008-03-09 15:18:24.661697000 -0500
+@@ -4,19 +4,17 @@
+ #
+ # Change these if you want to install somewhere else.
  
--INSTALL_PLUGINS_DIR	=	/usr/local/lib/ladspa/
+-INSTALL_PLUGINS_DIR	=	/usr/lib/ladspa/
 -INSTALL_INCLUDE_DIR	=	/usr/include/
--INSTALL_BINARY_DIR	=	/usr/local/bin/
-+INSTALL_PLUGINS_DIR	=	$(libexecdir)/ladspa
-+INSTALL_INCLUDE_DIR	=	$(includedir)
-+INSTALL_BINARY_DIR	=	$(bindir)
+-INSTALL_BINARY_DIR	=	/usr/bin/
++INSTALL_PLUGINS_DIR   =       $(libexecdir)/ladspa
++INSTALL_INCLUDE_DIR   =       $(includedir)
++INSTALL_BINARY_DIR    =       $(bindir)
  
  ###############################################################################
  #
@@ -46,7 +46,7 @@ diff -ur ladspa_sdk-orig/src/makefile ladspa_sdk/src/makefile
  PLUGINS		=	../plugins/amp.so				\
  			../plugins/delay.so				\
  			../plugins/filter.so				\
-@@ -26,8 +24,6 @@
+@@ -25,8 +23,6 @@ PLUGINS		=	../plugins/amp.so				\
  PROGRAMS	=	../bin/analyseplugin				\
  			../bin/applyplugin 				\
  			../bin/listplugins
@@ -55,7 +55,7 @@ diff -ur ladspa_sdk-orig/src/makefile ladspa_sdk/src/makefile
  
  ###############################################################################
  #
-@@ -35,19 +31,21 @@
+@@ -34,19 +30,21 @@ CPP		=	c++
  #
  
  ../plugins/%.so:	plugins/%.c ladspa.h
@@ -82,28 +82,29 @@ diff -ur ladspa_sdk-orig/src/makefile ladspa_sdk/src/makefile
  	@echo ---------------------------------------------
  	@echo First listen to the white noise input signal:
  	@echo ---------------------------------------------
-@@ -58,13 +56,13 @@
- 	@echo Should be a noise band around 6000Hz, repeated quietly after 1s.
- 	play /tmp/test.wav
+@@ -58,13 +56,14 @@ test:	/tmp/test.wav ../snd/noise.wav alw
+ 	-sndfile-play /tmp/test.wav
+ 	@echo Test complete.
  
 -install:	targets
--	-mkdirhier	$(INSTALL_PLUGINS_DIR)				\
--			$(INSTALL_INCLUDE_DIR)				\
--			$(INSTALL_BINARY_DIR)
+-	-mkdirhier $(INSTALL_PLUGINS_DIR)
+-	-mkdirhier $(INSTALL_INCLUDE_DIR)
+-	-mkdirhier $(INSTALL_BINARY_DIR)
 -	cp ../plugins/* $(INSTALL_PLUGINS_DIR)
 -	cp ladspa.h $(INSTALL_INCLUDE_DIR)
 -	cp ../bin/* $(INSTALL_BINARY_DIR)
 +install: targets
-+	-mkdir -p	$(DESTDIR)$(INSTALL_PLUGINS_DIR)	\
-+			$(DESTDIR)$(INSTALL_INCLUDE_DIR)	\
-+			$(DESTDIR)$(INSTALL_BINARY_DIR)
++	-mkdir -p       $(DESTDIR)$(INSTALL_PLUGINS_DIR)	\
++                      $(DESTDIR)$(INSTALL_INCLUDE_DIR)		\
++                      $(DESTDIR)$(INSTALL_BINARY_DIR)
 +	cp ../plugins/* $(DESTDIR)$(INSTALL_PLUGINS_DIR)
 +	cp ladspa.h $(DESTDIR)$(INSTALL_INCLUDE_DIR)
 +	cp ../bin/* $(DESTDIR)$(INSTALL_BINARY_DIR)
++
  
  /tmp/test.wav:	targets ../snd/noise.wav
  	../bin/listplugins
-@@ -90,17 +88,17 @@
+@@ -90,17 +89,17 @@ targets:	$(PLUGINS) $(PROGRAMS)
  #
  
  ../bin/applyplugin:	applyplugin.o load.o default.o

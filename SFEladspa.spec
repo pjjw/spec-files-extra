@@ -10,7 +10,7 @@
 
 Name:                   SFEladspa
 Summary:                Linux Audio Developers Simple Plugin API
-Version:                1.12
+Version:                1.13
 Source:                 %{src_url}/%{src_name}_%{version}.tgz
 Patch1:			ladspa-01-solaris.diff
 SUNW_BaseDir:           %{_basedir}
@@ -64,5 +64,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Sun Mar  9 2008 - brian.cameron@sun.com
+- Bump to 1.13.
 * Tue Jun  5 2007 - dougs@truemail.co.th
 - Initial version

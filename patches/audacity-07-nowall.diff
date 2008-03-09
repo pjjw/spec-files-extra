@@ -1,0 +1,55 @@
+--- audacity-src-1.3.3-beta/lib-src/dlcompat/Makefile.in-orig	2008-03-07 21:28:20.944977000 -0600
++++ audacity-src-1.3.3-beta/lib-src/dlcompat/Makefile.in	2008-03-07 21:32:59.008388000 -0600
+@@ -37,7 +37,7 @@ DEBUG=0
+ CC=@CC@
+ OPT=@OPT@
+ DEBUGOPT=-g -O0
+-CFLAGS=-Wall -Wstrict-prototypes -Wmissing-prototypes $(OPT)
++CFLAGS=$(OPT)
+ AR=ar cru
+ RANLIB=@RANLIB@
+ INSTALL=/usr/bin/install
+--- audacity-src-1.3.3-beta/lib-src/FileDialog/Makefile.in-orig	2008-03-07 21:29:00.707362000 -0600
++++ audacity-src-1.3.3-beta/lib-src/FileDialog/Makefile.in	2008-03-07 21:29:06.359423000 -0600
+@@ -5,7 +5,7 @@ CXX      = @CXX@
+ AR       = @AR@
+ RANLIB   = @RANLIB@
+ 
+-CPPFLAGS += -Wall -I. @CPPFLAGS@ 
++CPPFLAGS += -I. @CPPFLAGS@ 
+ CXXFLAGS += @CXXFLAGS@
+ 
+ OBJS     = FileDialog.o @EXTRAOBJS@
+--- audacity-src-1.3.3-beta/lib-src/libresample/Makefile.in-orig	2008-03-07 21:29:26.512940000 -0600
++++ audacity-src-1.3.3-beta/lib-src/libresample/Makefile.in	2008-03-07 21:29:36.235267000 -0600
+@@ -4,7 +4,7 @@
+ # working Makefile.
+ 
+ CC = @CC@
+-CFLAGS = @CFLAGS@ -Wall
++CFLAGS = @CFLAGS@
+ 
+ LIBS = @LIBS@ -lm
+ 
+--- audacity-src-1.3.3-beta/src/Makefile.in-orig	2008-03-07 21:31:20.516889000 -0600
++++ audacity-src-1.3.3-beta/src/Makefile.in	2008-03-07 21:31:30.890191000 -0600
+@@ -34,7 +34,7 @@ override CFLAGS += @CFLAGS@
+ override CXXFLAGS += @CXXFLAGS@
+ 
+ # CPPFLAGS are for both C and C++.
+-override CPPFLAGS += -Wall -fno-strict-aliasing -I$(srcdir)/include -I. @CPPFLAGS@ 
++override CPPFLAGS += -fno-strict-aliasing -I$(srcdir)/include -I. @CPPFLAGS@ 
+ 
+ 
+ ########################################
+--- audacity-src-1.3.3-beta/tests/Makefile.in-orig	2008-03-07 21:31:37.618121000 -0600
++++ audacity-src-1.3.3-beta/tests/Makefile.in	2008-03-07 21:31:43.341952000 -0600
+@@ -9,7 +9,7 @@ override CFLAGS += @CFLAGS@
+ override CXXFLAGS += @CXXFLAGS@
+ 
+ # CPPFLAGS are for both C and C++.
+-override CPPFLAGS += -Wall -I../src @CPPFLAGS@ 
++override CPPFLAGS += -I../src @CPPFLAGS@ 
+ 
+ all: run_tests
+ check: run_tests

@@ -1,3 +1,26 @@
+2008-03-09  Brian Cameron <brian.cameron@sun.com>
+
+	* SFEaudacity.spec: Add new patches to allow building with Sun
+	  Studio.  Fix so that libmad, libid3tag, and libtwolame are only
+	  included if they are already installed, so this spec doesn't 
+	  build with any encumbered dependencies unless already installed
+	  on the system.  So moving this spec out of the encumbered
+	  directory.  Also, add patch to build without GNU gettext if it is
+	  not already installed on the system.
+	* audacity-05-fixsed.diff,
+	  audacity-06-noopt.diff,
+	  audacity-07-nowall.diff,
+	  audacity-08-fixSoundTouch.diff,
+	  audacity-09-nogccdetect.diff,
+	  audacity-10-fixconstint.diff,
+	  audacity-11-fixmatrix.diff,
+	  audacity-12-addgtklibs.diff,
+	  audacity-13-fix-pa-makefile.diff,
+	  audacity-14-no-pa-threads.diff,
+	  audacity-15-locale.diff,
+	* SFEladspa.spec, patches/ladspa-01-solaris.spec:  Bump to 1.13,
+	  update patch so it works with the latest version.
+
 2008-03-09  Albert Lee <trisk@acm.jhu.edu>
 
 	* SFEpulseaudio.spec: Add patch6 to fix pactl crash
@@ -37,7 +60,8 @@
 
 2008-03-07  Halton Huo <nonsea@users.sourceforge.net>
 
-	* SFElibopensync-plugin-gcal.spec: s/SFEpylibs-httplib2/SFEpython-httplib
+	* SFElibopensync-plugin-gcal.spec:
+	  s/SFEpylibs-httplib2/SFEpython-httplib
 	* SFEpylibs-httplib2.spec: Rename to SFEpython-httplib
 	* SFEpython-httplib.spec: Bump to 0.4.0
 
