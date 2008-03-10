@@ -12,7 +12,7 @@
 Name:		gdl
 License:	GPL
 Group:		Development/Libraries
-Version:	0.7.10
+Version:	0.7.11
 Release:	1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -110,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/lib/pkgconfig/*
 
 %changelog
+* Mon Mar 10 2008 - nonsea@users.sourceforge.net
+- Bump to 0.7.11.
+
 * Mon Mar 03 2008 - nonsea@users.sourceforge.net
 - Bump to 0.7.10.
 

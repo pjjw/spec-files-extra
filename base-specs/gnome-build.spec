@@ -108,6 +108,8 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Mar 10 2008 - nonsea@users.sourceforge.net
+- Bump to 0.2.4.
 * Mon Mar 03 2008 - nonsea@users.sourceforge.net
 - Bump to 0.2.3.
 * Mon Feb 18 2008 - nonsea@users.sourceforge.net
