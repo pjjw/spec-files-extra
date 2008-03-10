@@ -1,3 +1,10 @@
+2008-03-10  Petr Sobotka  <sobotkap@centrum.cz>
+
+	* SFEwesnoth.spec: Bump to 1.4
+					   This is stable version so preferenced directory was
+					   changes so later I will create SFEwesnoth-dev for dev
+					   releases.
+
 2008-03-10  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEgnucash.spec: Bump to 2.2.4

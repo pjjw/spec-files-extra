@@ -16,7 +16,7 @@
 
 Name:                    	SFEwesnoth
 Summary:                 	Battle for Wesnoth is a fantasy turn-based strategy game
-Version:                 	1.3.19
+Version:                 	1.4
 Source:                  	%{sf_download}/wesnoth/wesnoth-%{version}.tar.bz2
 #Patch1:                         wesnoth-01-fixheaders.diff
 #Patch2:                         wesnoth-02-fixgccextension.diff
@@ -25,7 +25,7 @@ Patch4:                         wesnoth-04-fixlocale.diff
 Patch5:                         wesnoth-05-fixconfigure.diff
 #Patch6:                         wesnoth-06-fixundefsymbol.diff
 #Patch7:                         wesnoth-07-fixundef2.diff
-Patch8:                          wesnoth-08-fixconst.diff
+#Patch8:                          wesnoth-08-fixconst.diff
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 %if %SUNWlibsdl
@@ -55,7 +55,7 @@ Requires:		SUNWPython
 %patch5 -p1
 #%patch6 -p1
 #%patch7 -p1
-%patch8 -p1
+#%patch8 -p1
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
@@ -65,7 +65,7 @@ fi
 export CXXFLAGS="-O3 -library=stlport4 -staticlib=stlport4 -norunpath -features=tmplife -features=tmplrefstatic -features=extensions"
 #export CXXFLAGS="%cxx_optflags"
 #export LDFLAGS="%_ldflags -lsocket -lnsl"
-export LDFLAGS="%_ldflags -library=stlport4 -staticlib=stlport4 -lsocket -lnsl -lboost_iostreams"
+export LDFLAGS="-library=stlport4 -staticlib=stlport4 -lsocket -lnsl -lboost_iostreams -L. -R."
 
 # Cause configure script check for C compilers, but the build doesn't use any
 #  of C compilers and cc doesn't eat -library=stlport4 and other options.
@@ -82,10 +82,9 @@ autoconf
             --mandir=%{_mandir}				\
             --libdir=%{_libdir}				\
             --htmldir=%{_docdir}			\
-            --with-localedir=%{_localedir}		\
-            --enable-shared				\
             --enable-editor                     	\
-            --with-preferences-dir=".wesnoth-dev" 	\
+			--enable-shared						\
+            --with-preferences-dir=".wesnoth" 	\
             --enable-python-install     \
     	    --disable-static
 
@@ -124,6 +123,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Mar 10 2008 - Petr Sobotka <sobotkap@centrum.cz>
+- Bump to 1.4 stable version.
+- Changed preferences dir to ~/.wesnoth from ~/.wesnoth-dev which will 
+	be used for development releases in future.
 * Sun Feb 24 2008 - Petr Sobotka <sobotkap@centrum.cz>
 - Bump to 1.3.19 (last rc release before 1.4)
 * Tue Feb 19 2008 - Petr Sobotka <sobotkap@centrum.cz>
