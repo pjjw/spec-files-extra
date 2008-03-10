@@ -1,0 +1,12 @@
+diff -PNur audacity-src-1.3.3-beta.orig/src/AudioIO.cpp audacity-src-1.3.3-beta/src/AudioIO.cpp
+--- audacity-src-1.3.3-beta.orig/src/AudioIO.cpp	2007-05-17 22:55:57.000000000 -0600
++++ audacity-src-1.3.3-beta/src/AudioIO.cpp	2008-03-07 15:02:15.422536300 -0700
+@@ -89,7 +89,7 @@
+ int audacityAudioCallback(const void *inputBuffer, void *outputBuffer,
+                           unsigned long framesPerBuffer,
+                           const PaStreamCallbackTimeInfo *timeInfo,
+-                          const PaStreamCallbackFlags statusFlags, void *userData );
++                          PaStreamCallbackFlags statusFlags, void *userData );
+ #else
+ int audacityAudioCallback(void *inputBuffer, void *outputBuffer,
+                           unsigned long framesPerBuffer,

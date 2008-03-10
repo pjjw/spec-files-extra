@@ -45,6 +45,8 @@ Patch12:             audacity-12-addgtklibs.diff
 Patch13:             audacity-13-fix-pa-makefile.diff
 Patch14:             audacity-14-no-pa-threads.diff
 Patch15:             audacity-15-locale.diff
+# bug 1911499
+Patch16:             audacity-16-AudioIO.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -78,10 +80,10 @@ Requires: SFElibmad
 
 %if %with_wxw_gcc
 BuildRequires: SFElibid3tag-gnu-devel
-Requires: SFElibid3tag-gnu-devel
+Requires: SFElibid3tag-gnu
 %else
 BuildRequires: SFElibid3tag-devel
-Requires: SFElibid3tag-devel
+Requires: SFElibid3tag
 %endif
 %endif
 
@@ -112,6 +114,7 @@ Requires SFEtwolame
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
+%patch16 -p1
 %endif
 
 # If using GNU Gettext, don't need this patch

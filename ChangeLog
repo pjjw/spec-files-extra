@@ -1,9 +1,16 @@
+2008-03-10  Brian Cameron <brian.cameron@sun.com>
+
+	* SFEaudacity.spec, patches/audacity-10-fixconstint.diff,
+	  patches/audacity-16-AudioIO.diff:  Add new patch #16 to fix
+	  problem building with Sun Studio 12.  Updated patch #10 so it
+	  is smarter.
+
 2008-03-10  Petr Sobotka  <sobotkap@centrum.cz>
 
 	* SFEwesnoth.spec: Bump to 1.4
-					   This is stable version so preferenced directory was
-					   changes so later I will create SFEwesnoth-dev for dev
-					   releases.
+	  This is stable version so preferenced directory was
+	  changes so later I will create SFEwesnoth-dev for dev
+	  releases.
 
 2008-03-10  Halton Huo <nonsea@users.sourceforge.net>
 
