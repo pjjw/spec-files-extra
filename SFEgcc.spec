@@ -153,6 +153,7 @@ rm -rf $RPM_BUILD_ROOT
   echo 'exit 0' ) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -c SFE
 
 %files
+%defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_prefix}
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
@@ -200,7 +201,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Sun Mar 2 2008 - Mark Wright <markwright@internode.on.net>
+* Mon Mar 10 2008 - laca@sun.com
+- add missing defattr
+* Sun Mar  2 2008 - Mark Wright <markwright@internode.on.net>
 - Add gcc-01-libtool-rpath.diff patch for a problem where
 - the old, modified libtool 1.4 in gcc 4.2.3 drops
 - -rpath /usr/gnu/lib when building libstdc++.so.6.0.9.

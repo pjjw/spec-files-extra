@@ -56,7 +56,7 @@ autoheader
 automake -a -c -f 
 autoconf
 export CFLAGS="-O4 -fPIC -DPIC -I/usr/X11/include -I/usr/openwin/include -D_LARGEFILE64_SOURCE -I/usr/gnu/include -mcpu=pentiumpro -mtune=pentiumpro -msse2 -mfpmath=sse "
-export LDFLAGS="%{gcc_ldflags} -L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/lib"
+export LDFLAGS="-L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/lib"
 ./configure --prefix=%{_prefix} \
 	    --libdir=%{_libdir}
 
