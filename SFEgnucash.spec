@@ -6,7 +6,7 @@
 Name:                    SFEgnucash
 Summary:                 gnucash - Financial-accounting software
 URL:                     http://www.gnucash.org/
-Version:                 2.2.1
+Version:                 2.2.4
 Source:                  http://www.gnucash.org/pub/gnucash/sources/stable/gnucash-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -85,6 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Mar 10 2008 - nonsea@users.sourceforge.net
+- Bump to 2.2.4
 * Tue Sep 04 2007  - Thomas Wagner
 - bump to 0.15.1, add %{version} to Download-Dir (might change again)
 - conditional !%build_l10n rmdir $RPM_BUILD_ROOT/%{_datadir}/locale

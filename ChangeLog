@@ -1,5 +1,9 @@
 2008-03-10  Halton Huo <nonsea@users.sourceforge.net>
 
+	* SFEgnucash.spec: Bump to 2.2.4
+
+2008-03-10  Halton Huo <nonsea@users.sourceforge.net>
+
 	* base-specs/gdl.spec: Bump to 0.7.11
 	* base-specs/gnome-build.spec: Bump to 0.2.4
 
