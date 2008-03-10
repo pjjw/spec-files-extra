@@ -1,3 +1,7 @@
+2008-03-10  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEslib.spec: fix build error
+
 2008-03-10  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEgcc.spec: add missing defattr

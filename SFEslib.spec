@@ -15,15 +15,16 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SFEguile-devel
 Requires: SFEguile
+Requires: SFEslib
 
 
 %prep
 %setup -q -n slib
 for i in *; do
   cp -f ${i} ${i}.orig
-  sed -s "s,/usr/local/lib,%{_datadir}/guile/%{guile_maj_ver},g" < ${i} > ${i}.orig
-  sed -s "s,/usr/lib,%{_datadir},g" < ${i}.orig > ${i}
-  sed -s "s,/usr/local,/usr,g" < ${i}.orig > ${i}
+  sed "s,/usr/local/lib,%{_datadir}/guile/%{guile_maj_ver},g" < ${i} > ${i}.orig
+  sed "s,/usr/lib,%{_datadir},g" < ${i}.orig > ${i}
+  sed "s,/usr/local,/usr,g" < ${i}.orig > ${i}
   rm -f ${i}.orig
 done
 
@@ -37,8 +38,8 @@ mkdir -p ${RPM_BUILD_ROOT}%{_bindir}
 cp *.scm *.init *.xyz *.txt grapheps.ps Makefile ${RPM_BUILD_ROOT}%{_datadir}/guile/%{guile_maj_ver}/slib
 mkdir -p ${RPM_BUILD_ROOT}%{_infodir}
 install -m644 slib.info.gz ${RPM_BUILD_ROOT}%{_infodir}
-make    prefix=${RPM_BUILD_ROOT}%{prefix}/ \
-        mandir=${RPM_BUILD_ROOT}%{_mandir}/ \
+make    prefix=${RPM_BUILD_ROOT}%{_prefix}/ \
+        man1dir=${RPM_BUILD_ROOT}%{_mandir}/man1 \
         infodir=${RPM_BUILD_ROOT}%{_infodir}/ \
         pinstall
 
@@ -63,10 +64,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_infodir}/*
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/man1
-%{_mandir}/man*/*
+%{_mandir}/man1/*
 
 
 %changelog
+* Mon Mar 10 2008 - nonsea@users.sourceforge.net
+- sed has no option '-s', fix this buidl error
+- use man1dir instead of mandir
 * Tue Feb 12 2008 <pradhap (at) gmail.com>
 - Bumped up the version to 3b1
 * Fri Nov 23 2007 - daymobrew@users.sourceforge.net
