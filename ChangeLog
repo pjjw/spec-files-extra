@@ -1,3 +1,8 @@
+2008-03-11  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEanjuta.spec: Bump to 2.4.0
+	* base-specs/vinagre.spec: Bump to 0.5.0
+
 2008-03-10  Albert Lee <trisk@acm.jhu.edu>
 
 	* SFElibaudioio.spec: *NEW* LibAudioIO - audio foundation library
