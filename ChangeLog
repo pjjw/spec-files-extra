@@ -1,3 +1,8 @@
+2008-03-11  Brian Cameron  <brian.cameron@sun.com>
+
+	* ext-sources/gdm.xml: Add multi-user and sysconfig to GDM
+	  service dependencies.
+
 2008-03-11  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEanjuta.spec: Bump to 2.4.0
