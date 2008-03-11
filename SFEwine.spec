@@ -37,6 +37,8 @@ BuildRequires:	SFEcups-devel
 Requires:	SFEcups
 BuildRequires:	SFEncurses-devel
 Requires:	SFEncurses
+BuildRequires:	SFElibaudioio-devel
+Requires:	SFElibaudioio
 
 %package devel
 Summary:                 wine - developer files, /usr
@@ -132,6 +134,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Mon Mar 10 2008 - trisk@acm.jhu.edu
+- Add SFElibaudioio dependency for Sun audio
 * Sun Mar 09 2008 - trisk@acm.jhu.edu
 - Bump to 0.9.57
 - Add -D__C99FEATURES__ for isinf (can we do -std=c99?)

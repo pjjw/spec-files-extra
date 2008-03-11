@@ -1,3 +1,9 @@
+2008-03-10  Albert Lee <trisk@acm.jhu.edu>
+
+	* SFElibaudioio.spec: *NEW* LibAudioIO - audio foundation library
+	* SFEwine.spec: Add SFElibaudioio dependency for Sun audio
+	* patches/libaudioio-01-sunpro.diff: Allow building with Studio
+
 2008-03-10  Brian Cameron <brian.cameron@sun.com>
 
 	* SFEaudacity.spec, patches/audacity-10-fixconstint.diff,

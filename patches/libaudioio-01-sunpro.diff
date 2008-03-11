@@ -1,0 +1,246 @@
+--- libaudioio-0.6.1alpha/Makefile.in.orig	Tue Aug 26 17:29:48 2003
++++ libaudioio-0.6.1alpha/Makefile.in	Mon Mar 10 19:04:01 2008
+@@ -2,14 +2,11 @@
+ # Copyright (C) 2000 Robert Lunnon .
+ # Distributed Under the GPL
+  
+-INSTALL_DIR=@prefix@
++DESTDIR=
++INSTALL_DIR=${DESTDIR}@prefix@
+ INSTALL_INCLUDES=${INSTALL_DIR}/include
+-CXX=g++
+-CC=gcc
+-CXXFLAGS=-O3 -fPIC -DALGORITHM_COMPRESS -shared 
+-CFLAGS=-O3 -fPIC -shared
+ 
+-CPP=$(CC) -E
++CPPFLAGS=-DALGORITHM_COMPRESS
+ 
+ VER=0.6
+ LIBS=-lm
+@@ -22,22 +19,24 @@
+ all:    libaudioio.so audiotest
+ 
+ audiotest:  audiotest.o  libaudioio.so
+-	${CXX} -o $@ -DTEST  audiotest.cc -L.  -laudioio
++	${CXX} -o $@ -DTEST audiotest.cc ${CXXFLAGS} ${LDFLAGS} -L. -laudioio
+ 
+-libaudioio.so: libaudioio.${VER}.so
++libaudioio.so: libaudioio.so.${VER}
+ 	rm -f $@
+-	ln -sf libaudioio.${VER}.so $@
++	ln -sf libaudioio.so.${VER} $@
+ 
+-libaudioio.${VER}.so:${OBJS}
+-	${CXX} -o $@ ${CXXFLAGS} ${OBJS} ${LIBS}
++libaudioio.so.${VER}: ${OBJS}
++	${CXX} -o $@ -G -h $@ ${CXXFLAGS} ${LDFLAGS} ${OBJS} ${LIBS}
+ 
+ version.o: version.c version.h
+ 	${CC} ${CFLAGS} -c -o $@ version.c
+  
+-install: libaudioio.${VER}.so libaudioio.h
++install: libaudioio.so.${VER} libaudioio.h
+ 	rm -f ${INSTALL_DIR}/lib/libaudioio.so
+-	./install-sh -c libaudioio.${VER}.so ${INSTALL_DIR}/lib
+-	ln -sf ${INSTALL_DIR}/lib/libaudioio.${VER}.so ${INSTALL_DIR}/lib/libaudioio.so
++	./install-sh -d ${INSTALL_DIR}/lib
++	./install-sh -c libaudioio.so.${VER} ${INSTALL_DIR}/lib
++	ln -sf libaudioio.so.${VER} ${INSTALL_DIR}/lib/libaudioio.so
++	./install-sh -d ${INSTALL_INCLUDES}
+ 	./install-sh -c libaudioio.h ${INSTALL_INCLUDES}
+ clean:
+ 	rm -f *.o audiotest *.so core *~ 
+@@ -45,7 +44,7 @@
+ 	rm -f config.log config.cache config.status
+ 
+ tarball: 
+-	tar cvf /tmp/${ARCHIVE_NAME} ${INSTALL_DIR}/lib/libaudioio.${VER}.so ${INSTALL_DIR}/lib/libaudioio.so ${INSTALL_DIR}/include/libaudioio.h
++	tar cvf /tmp/${ARCHIVE_NAME} ${INSTALL_DIR}/lib/libaudioio.so.${VER} ${INSTALL_DIR}/lib/libaudioio.so ${INSTALL_DIR}/include/libaudioio.h
+ 
+ # DO NOT DELETE THIS LINE -- make depend depends on it.
+ 
+--- libaudioio-0.6.1alpha/audioconvert.cc.orig	2001-02-24 19:35:27.000000000 -0500
++++ libaudioio-0.6.1alpha/audioconvert.cc	2008-03-10 16:53:03.577055251 -0400
+@@ -110,7 +110,7 @@
+ 
+     Spec[HARDWARE_RECORD] = GetAudioSystemSettings (RECORD);
+ 
+-
++	return 0;
+ }
+ 
+ int
+@@ -126,6 +126,7 @@
+     fprintf (stderr, "\nCPUendian = %d", Setting.CPUEndian);
+     fprintf (stderr, "\nInitialised = %ld\n", Setting.initialised);
+ 
++	return 0;
+ }
+ 
+ 
+@@ -143,6 +144,7 @@
+ 
+       }
+ 
++	return 0;
+ }
+ int
+ AudioConvert::SignConvert (INT_16 * buffer, size_t size)
+@@ -155,6 +157,7 @@
+ 
+       }
+ 
++	return 0;
+ }
+ int
+ AudioConvert::SignConvert (char *buffer, size_t size)
+@@ -167,6 +170,7 @@
+ 
+       }
+ 
++	return 0;
+ }
+ 
+ // Given the current settings, for a given input data size how big does the output buffer need
+--- libaudioio-0.6.1alpha/system/sys_i386solaris2.9.cc.orig	2003-06-21 19:32:50.000000000 -0400
++++ libaudioio-0.6.1alpha/system/sys_i386solaris2.9.cc	2008-03-10 16:55:57.872695070 -0400
+@@ -291,6 +291,8 @@
+     ctl->position = 0;
+     ctl->size = 0;
+     ctl->thread_count--;
++
++	return NULL;
+ }
+ 
+ 
+@@ -318,6 +320,7 @@
+ LIBENTRY AudioIOSetBlockLimit (size_t blocklimit)
+ {
+     audioctl.blocklimit = blocklimit;
++	return 0;
+ }
+ 
+ 
+@@ -388,6 +391,8 @@
+   fprintf(stderr,"inf.record.mod_ports=%d\n",inf.record.mod_ports);
+ 
+ close(fd);
++
++	return 0;
+ }
+ static void
+ audiot_rports (int ports)
+@@ -635,7 +640,7 @@
+ {
+     forced = force;
+     fprintf (stderr, "Settiing up force\n");
+-
++	return 0;
+ }
+ #endif
+ 
+@@ -944,6 +949,8 @@
+     audioctl.fd = 0;
+     delete audioctl.Conversion;
+     audioctl.Conversion = NULL;
++
++	return 0;
+ }
+ 
+ 
+@@ -972,6 +979,8 @@
+     ReadDefaultSettings.type = signing;
+     ReadDefaultSettings.channels = channels;
+     ReadDefaultSettings.rate = rate;
++
++	return 0;
+ }
+ 
+ int
+@@ -999,6 +1008,8 @@
+     WriteDefaultSettings.endian = endian;
+     WriteDefaultSettings.rate = rate;
+     WriteDefaultSettings.max_blocks = max_blocks;
++
++	return 0;
+ }
+ 
+ /* Checks to see if a new block can be written
+@@ -1293,6 +1304,7 @@
+ 
+ int LIBENTRY AudioIOFlush(){
+ 	audiot_flush();
++	return 0;
+ }
+ 
+ int LIBENTRY AudioIOCheckUnderrun(){
+@@ -1418,7 +1430,7 @@
+ int sys_balance = balance *AUDIO_MID_BALANCE/100 +AUDIO_MID_BALANCE;
+ audiot_setbalance(sys_balance);
+ 
+-
++	return 0;
+ }
+ int LIBENTRY AudioIOSetFoldbackVolume(int volume){
+ 
+@@ -1444,7 +1456,7 @@
+ int sys_balance = balance *AUDIO_MID_BALANCE/100 +AUDIO_MID_BALANCE;
+ audiot_rsetbalance(sys_balance);
+ 
+-
++	return 0;
+ }
+ 
+ 
+@@ -1467,10 +1479,12 @@
+ 
+ int LIBENTRY AudioIOPlaybackResume(){
+ 	audiot_resume();
++	return 0;
+ }
+ 
+ int LIBENTRY AudioIORecordingResume(){
+ 	audiot_rresume();
++	return 0;
+ }
+ 
+ 
+--- libaudioio-0.6.1alpha/audiotest.cc.orig	2003-08-26 17:29:48.000000000 -0400
++++ libaudioio-0.6.1alpha/audiotest.cc	2008-03-10 19:11:09.784072685 -0400
+@@ -47,7 +47,7 @@
+ 
+ // Generate a sine wave in a character (8 Bit signed) format
+ // format=0 for signed 0 for unsigned;
+-int
++void
+ Sine8 (char *buffer, long size, int format)
+ {
+     long i;
+@@ -68,7 +68,7 @@
+       }
+ }
+ 
+-int
++void
+ Sine16 (int16_t * buffer, long size, int format, int swap)
+ {
+ // Size is in bytes, convert to number of elements
+@@ -95,7 +95,7 @@
+ }
+ 
+ 
+-int
++void
+ Sine32 (INT_32 * buffer, size_t size, int format, int swap)
+ {
+     INT_32 i, tempword;
+@@ -112,7 +112,7 @@
+ 	      tempword = (INT_32) (sin (0.01 * (i + 1)) * 2147483647.0);
+ 
+ 	  if (format == DUNSIGNED)
+-	      ((UINT_32) tempword) = tempword + (2147483647 / 2);
++	      tempword = (INT_32) (((UINT_32)tempword) + (2147483647 / 2));
+ 
+	  if (swap)
+ 	      tempword =
