@@ -13,7 +13,7 @@
 
 Summary:                 GNOME display manager
 Name:                    SUNWgnome-display-mgr
-Version:                 2.21.8
+Version:                 2.21.9
 Release:                 1
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.21/gdm-%{version}.tar.bz2
 # Patch1 is a hack to work around the fact that the gio function
@@ -27,7 +27,6 @@ Patch2:                  gdm-02-sdtlogin-devperm.diff
 # Patch3 is probably not the right fix, but it seems that trying to set the
 # default language to "C" is causing the GDM greeter to crash.
 Patch3:                  gdm-03-fixcrash.diff
-Patch4:                  gdm-04-logo-name.diff
 Source1:                 gdm.xml
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -86,7 +85,6 @@ Requires:                %{name}
 %patch1 -p1
 %patch2 -p0
 %patch3 -p0
-%patch4 -p1
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -265,6 +263,9 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Tue Mar 11 2008 - brian.cameron@sun.com
+- Bump to 2.21.9.  Remove upstream gdm-04-logo-name.diff
+  patch.
 * Fri Feb 29 2008 - simon.zheng@sun.com
 - Add patch 04-logo-icon.diff to fix greeter crach.
 * Mon Feb 25 2008 - brian.cameron@sun.com

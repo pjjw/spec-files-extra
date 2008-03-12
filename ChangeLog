@@ -1,5 +1,11 @@
 2008-03-11  Brian Cameron  <brian.cameron@sun.com>
 
+	* SUNWgnome-display-mgr.spec, patches/gdm-04-logo-name.diff:
+	  Bump to 2.21.9 and remove upstream patch.
+	* SFEconsolekit.spec: Some minor cleanup.
+
+2008-03-11  Brian Cameron  <brian.cameron@sun.com>
+
 	* ext-sources/gdm.xml: Add multi-user and sysconfig to GDM
 	  service dependencies.
 

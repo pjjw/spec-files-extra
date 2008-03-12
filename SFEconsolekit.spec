@@ -26,28 +26,31 @@ Source:                  http://people.freedesktop.org/~mccann/dist/ConsoleKit-%
 Source1:                 consolekit.xml
 Patch1:                  ConsoleKit-01-nox11check.diff
 Patch2:                  ConsoleKit-02-emptystruct.diff
-# patch to fix Soalris build issue
+# patch to fix Solaris build issue
 Patch3:                  ConsoleKit-03-pam.diff
 Patch4:                  ConsoleKit-04-ck-history.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
+
 BuildRequires: SUNWgnome-libs-devel
 BuildRequires: CBEbison
 BuildRequires: SUNWPython
-BuildRequires: SUNWdbus-devel
 BuildRequires: SUNWdbus-devel
 BuildRequires: SUNWdbus-bindings-devel
 Requires: SUNWgnome-libs
 Requires: SUNWdbus
 Requires: SUNWdbus-bindings
 Requires: %name-root
+
 %if %option_with_gnu_iconv
 Requires: SUNWgnu-libiconv
 Requires: SUNWgnu-gettext
 %else
 Requires: SUNWuiu8
 %endif
+
 %if %option_with_fox
 Requires: FSWxorg-clientlibs
 Requires: FSWxwrtl
@@ -186,6 +189,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Mar 11 2008 - brian.cameron@sun.com
+- Minor cleanup
 * Tue Mar 04 2008 - simon.zheng@sun.com
 - Add patch 04-ck-history.diff to fix crash.
 * Sat Mar 01 2008 - simon.zheng@sun.com
