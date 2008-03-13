@@ -28,7 +28,7 @@ Requires: SUNWzlib
 Requires: SUNWsshu
 Requires: SUNWopenssl-libraries
 Requires: SUNWlexpt
-Requires: SFEcurl
+Requires: SUNWcurl
 Requires: SUNWperl584core
 Requires: SUNWPython
 Requires: SUNWbash
@@ -42,7 +42,6 @@ Requires: SUNWTk
 %define perl_version 5.8.4
 BuildRequires: SFEasciidoc
 BuildRequires: SFExmlto
-BuildRequires: SFEcurl-devel
 
 %prep
 %setup -q -n git-%version
@@ -131,6 +130,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/perl5/vendor_perl/%{perl_version}/*
 
 %changelog
+* Thu Mar 13 2008 - nonsea@users.sourceforge.net
+- s/SFEcurl/SUNWcrul
 * Fri feb 22 2008 - brian.cameron@sun.com
 - Add patch git-02-fixshell.diff to fix a build problem caused
   by a script that requires bash.
