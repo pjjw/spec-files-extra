@@ -131,7 +131,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Thu Mar 13 2008 - nonsea@users.sourceforge.net
-- s/SFEcurl/SUNWcrul
+- s/SFEcurl/SUNWcurl
 * Fri feb 22 2008 - brian.cameron@sun.com
 - Add patch git-02-fixshell.diff to fix a build problem caused
   by a script that requires bash.
