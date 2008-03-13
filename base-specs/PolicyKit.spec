@@ -10,6 +10,7 @@ Group:		Libraries
 Source0:	http://hal.freedesktop.org/releases/%{name}-%{version}.tar.gz
 Patch1:		PolicyKit-01-solaris.diff
 Patch2:		PolicyKit-02-dirfd.diff
+Patch3:		PolicyKit-03-rbac.diff
 URL:		http://people.freedesktop.org/~david/polkit-spec.html
 BuildRequires:	autoconf >= 2.60
 BuildRequires:	automake >= 1:1.7
@@ -105,6 +106,7 @@ Statyczne biblioteki PolicyKit.
 %setup -q
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %ifos linux
@@ -135,7 +137,9 @@ automake
 	--disable-tests \
 	--with-polkit-user=polkitu \
 	--with-polkit-group=polkitg \
-	--with-os-type=solaris
+	--with-os-type=solaris \
+	--with-auth-source=rbac \
+	--enable-rbac-root
 make -j $CPUS
 
 %install

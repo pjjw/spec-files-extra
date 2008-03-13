@@ -1,3 +1,8 @@
+2008-03-13  Jim Li <jim.li@sun.com>
+
+	* base-specs/PolicyKit.spec,patches/PolicyKit-03-rbac.diff:
+	  add RBAC support for PolicyKit
+
 2008-03-13  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEgit.spec: s/SFEcurl/SUNWcrul

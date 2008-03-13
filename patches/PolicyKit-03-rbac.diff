@@ -1,0 +1,474 @@
+--- PolicyKit-0.7.orig/configure.in	2008-03-13 17:23:10.413262000 +0800
++++ PolicyKit-0.7/configure.in	2008-03-12 19:16:49.972672000 +0800
+@@ -33,7 +33,12 @@
+ AC_ARG_ENABLE(tests, AS_HELP_STRING([--enable-tests],[enable unit test code]),enable_tests=$enableval,enable_tests=$USE_MAINTAINER_MODE)
+ AC_ARG_ENABLE(gcov, AS_HELP_STRING([--enable-gcov],[compile with coverage profiling instrumentation (gcc only)]),enable_gcov=$enableval,enable_gcov=no)
+ AC_ARG_ENABLE(man-pages,        [  --enable-man-pages      build manual pages],enable_man_pages=$enableval,enable_man_pages=yes)
++AC_ARG_ENABLE(rbac-root, AS_HELP_STRING([--enable-rbac-root],[support root authorization (Solaris only)]),enable_rbac_root=$enableval,enable_rbac_root=no)
+ 
++AM_CONDITIONAL(POLKIT_RBAC_ROOT, test x$enable_rbac_root = xyes)
++if test x$enable_rbac_root = xyes; then
++    AC_DEFINE(POLKIT_RBAC_ROOT,1,[support root authorization])
++fi
+ AM_CONDITIONAL(KIT_BUILD_TESTS, test x$enable_tests = xyes)
+ AM_CONDITIONAL(POLKIT_BUILD_TESTS, test x$enable_tests = xyes)
+ if test x$enable_tests = xyes; then
+@@ -288,6 +293,39 @@
+ 
+ 
+ dnl ---------------------------------------------------------------------------
++dnl - Select what authorization source to use
++dnl ---------------------------------------------------------------------------
++
++AC_ARG_WITH([authsoruce],
++            AS_HELP_STRING([--with-auth-source=<name>],
++                           [Authorization source (default/rbac)]))
++if ! test -z "$with_auth_source" ; then
++  POLKIT_AUTH_SOURCE=$with_auth_source
++else
++  POLKIT_AUTH_SOURCE=default
++fi
++
++AC_SUBST(POLKIT_AUTH_SOURCE)
++AC_DEFINE_UNQUOTED(POLKIT_AUTH_SOURCE,"$POLKIT_AUTH_SOURCE", [Authorization Source to use])
++
++case $POLKIT_AUTH_SOURCE in
++  rbac)
++    AC_DEFINE(POLKIT_AUTH_SOURCE_RBAC, 1, [If using the soalris rbac authorization source])
++    ;;
++
++  default)
++    AC_DEFINE(POLKIT_AUTH_SOURCE_DEFAULT, 1, [If using the default authorization source])
++    ;;
++
++  *)
++    AC_MSG_ERROR([Unknown Authorization SOURCE: $POLKIT_AUTH_SOURCE])
++    ;;
++esac
++
++AM_CONDITIONAL(POLKIT_AUTH_SOURCE_RBAC, [test x$POLKIT_AUTH_SOURCE = xrbac], [Using solaris rbac authorization soruce]) 
++AM_CONDITIONAL(POLKIT_AUTH_SOURCE_DEFAULT, [test x$POLKIT_AUTH_SOURCE = xdefault], [Using default authorization source])
++
++dnl ---------------------------------------------------------------------------
+ dnl - Check for dirfd
+ dnl ---------------------------------------------------------------------------
+ 
+--- PolicyKit-0.7.orig/src/polkit/Makefile.am	2007-11-26 04:41:21.000000000 +0800
++++ PolicyKit-0.7/src/polkit/Makefile.am	2008-03-11 17:43:02.426034000 +0800
+@@ -56,7 +56,7 @@
+ 	polkit-policy-default.h			polkit-policy-default.c			\
+ 	polkit-debug.h				polkit-debug.c				\
+ 	polkit-utils.h				polkit-utils.c				\
+-	polkit-config.h				polkit-config.c				\
++	polkit-config.h									\
+ 	polkit-authorization.h			polkit-authorization.c			\
+ 	polkit-authorization-constraint.h	polkit-authorization-constraint.c	\
+ 	polkit-authorization-db.h
+@@ -70,10 +70,19 @@
+ libpolkit_la_SOURCES +=                                					\
+ 						polkit-authorization-db.c
+ endif
++if POLKIT_AUTH_SOURCE_RBAC
++libpolkit_la_SOURCES +=                                                                 \
++                                                polkit-config-rbac.c
++endif
++
++if POLKIT_AUTH_SOURCE_DEFAULT
++libpolkit_la_SOURCES +=                                                                 \
++                                                polkit-config.c
++endif
+ 
+ libpolkit_la_LIBADD = @EXPAT_LIBS@ $(top_builddir)/src/kit/libkit.la
+ 
+-libpolkit_la_LDFLAGS = -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) @R_DYNAMIC_LDFLAG@
++libpolkit_la_LDFLAGS = -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) -lsecdb @R_DYNAMIC_LDFLAG@
+ 
+ ## note that TESTS has special meaning (stuff to use in make check)
+ ## so if adding tests not to be run in make check, don't add them to 
+--- PolicyKit-0.7.orig/src/polkit/polkit-config-rbac.c	1970-01-01 08:00:00.000000000 +0800
++++ PolicyKit-0.7/src/polkit/polkit-config-rbac.c	2008-03-13 17:13:44.913231000 +0800
+@@ -0,0 +1,352 @@
++/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*- */
++/***************************************************************************
++ *
++ * polkit-config.h : Configuration file
++ *
++ * Copyright (C) 2007 David Zeuthen, <david@fubar.dk>
++ *
++ * Permission is hereby granted, free of charge, to any person
++ * obtaining a copy of this software and associated documentation
++ * files (the "Software"), to deal in the Software without
++ * restriction, including without limitation the rights to use, copy,
++ * modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be
++ * included in all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
++ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
++ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
++ * DEALINGS IN THE SOFTWARE.
++ *
++ **************************************************************************/
++
++#ifdef HAVE_CONFIG_H
++#  include <config.h>
++#endif
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/types.h>
++#include <pwd.h>
++#include <grp.h>
++#include <unistd.h>
++#include <errno.h>
++#ifdef HAVE_SOLARIS
++#include <port.h>
++#include <sys/stat.h>
++#include <auth_attr.h>
++#include <exec_attr.h>
++#include <user_attr.h>
++#include <secdb.h>
++#else
++#include <sys/inotify.h>
++#endif
++#include <regex.h>
++#include <syslog.h>
++#include <regex.h>
++
++#include <expat.h>
++
++#include "polkit-config.h"
++#include "polkit-debug.h"
++#include "polkit-error.h"
++#include "polkit-private.h"
++#include "polkit-test.h"
++
++/**
++ * SECTION:polkit-config
++ * @title: Configuration
++ * @short_description: Represents the system-wide <literal>/etc/PolicyKit/PolicyKit.conf</literal> file.
++ *
++ * This class is used to represent the /etc/PolicyKit/PolicyKit.conf
++ * configuration file. Applications using PolicyKit should never use
++ * this class; it's only here for integration with other PolicyKit
++ * components.
++ **/
++
++enum {
++        STATE_NONE,
++        STATE_UNKNOWN_TAG,
++        STATE_IN_CONFIG,
++        STATE_IN_MATCH,
++        STATE_IN_RETURN,
++        STATE_IN_DEFINE_ADMIN_AUTH,
++};
++
++
++/**
++ * PolKitConfig:
++ *
++ * This class represents the system-wide configuration file for
++ * PolicyKit. Applications using PolicyKit should never use this
++ * class; it's only here for integration with other PolicyKit
++ * components.
++ **/
++struct _PolKitConfig
++{
++        int refcount;
++};
++
++/**
++ * polkit_config_new:
++ * @path: Path to configuration, typically /etc/PolicyKit/PolicyKit.conf is passed.
++ * @error: return location for error
++ * 
++ * Load and parse a PolicyKit configuration file.
++ * 
++ * Returns: the configuration file object
++ **/
++PolKitConfig *
++polkit_config_new (const char *path, PolKitError **error)
++{
++        PolKitConfig *pk_config;
++
++        /* load and parse the configuration file */
++        pk_config = NULL;
++
++
++        pk_config = kit_new0 (PolKitConfig, 1);
++        pk_config->refcount = 1;
++
++        return pk_config;
++
++error:
++        return NULL;
++}
++
++/**
++ * polkit_config_ref:
++ * @pk_config: the object
++ * 
++ * Increase reference count.
++ * 
++ * Returns: the object
++ **/
++PolKitConfig *
++polkit_config_ref (PolKitConfig *pk_config)
++{
++        kit_return_val_if_fail (pk_config != NULL, pk_config);
++        pk_config->refcount++;
++        return pk_config;
++}
++
++/**
++ * polkit_config_unref:
++ * @pk_config: the object
++ * 
++ * Decreases the reference count of the object. If it becomes zero,
++ * the object is freed. Before freeing, reference counts on embedded
++ * objects are decresed by one.
++ **/
++void
++polkit_config_unref (PolKitConfig *pk_config)
++{
++        kit_return_if_fail (pk_config != NULL);
++        pk_config->refcount--;
++        if (pk_config->refcount > 0) 
++                return;
++
++        kit_free (pk_config);
++}
++
++
++static PolKitResult
++config_rbac_test (PolKitAction *action,
++            PolKitCaller *caller,
++            PolKitSession *session,
++	    PolKitConfigAdminAuthType *out_admin_auth_type,
++            const char **out_data)
++{
++        char *str;
++        char *username;
++        char *actionid;
++        uid_t uid;
++        PolKitResult result;
++
++#ifdef POLKIT_RBAC_ROOT
++        result = POLKIT_RESULT_ONLY_VIA_ADMIN_AUTH;
++#else
++	result = POLKIT_RESULT_NO;
++#endif
++        username = NULL;
++        actionid = NULL;
++
++        if (!polkit_action_get_action_id (action, &str))
++                 goto out;
++        actionid = kit_strdup (str);
++
++        if (caller != NULL) {
++                 if (!polkit_caller_get_uid (caller, &uid))
++                          goto out;
++        } else if (session != NULL) {
++                 if (!polkit_session_get_uid (session, &uid))
++                          goto out;
++        } else
++                        goto out;
++
++        struct passwd pd;
++        struct passwd* pwdptr=&pd;
++        struct passwd* tempPwdPtr;
++        char pwdbuffer[256];
++        int  pwdlinelen = sizeof(pwdbuffer);
++
++        if ((getpwuid_r (uid, pwdptr, pwdbuffer, pwdlinelen, &tempPwdPtr)) !=0 )
++                    goto out;
++        username = kit_strdup (pd.pw_name);
++
++        if (actionid != NULL  && username != NULL) {
++                _pk_debug ("actionid = %s, username = %s", actionid, username);
++                if (chkauthattr(actionid, username) == 1)
++                        result = POLKIT_RESULT_YES;
++                else {
++			char *rolelist = NULL;
++			char *rolename;
++			userattr_t *user;
++			user = getusernam (username);
++			if (user != NULL) {
++				rolelist = kva_match (user->attr, USERATTR_ROLES_KW);
++				_pk_debug ("user = %s, rolelist = %s",username, rolelist);
++
++				rolename = strtok (rolelist, ",");
++				while (rolename) {
++					_pk_debug ("rolename1 = %s", rolename);
++					if (chkauthattr(actionid, rolename) == 1) {
++						_pk_debug ("rolename = %s", rolename);
++						if ( out_data != NULL ) {
++							if ( *out_data != NULL )
++								*out_data = kit_str_append(*out_data, "|");
++							*out_data = kit_str_append(*out_data, rolename);
++							_pk_debug ("*out_data = %s", *out_data);
++						} else {
++							_pk_debug ("out_data is NULL");
++							result = POLKIT_RESULT_ONLY_VIA_ADMIN_AUTH;
++							break;
++						}
++					}
++					rolename = strtok(NULL, ",");
++				}
++				if ( out_data != NULL && *out_data !=NULL) {
++					*out_admin_auth_type = POLKIT_CONFIG_ADMIN_AUTH_TYPE_USER;
++					result = POLKIT_RESULT_ONLY_VIA_ADMIN_AUTH;
++				}	
++			}
++		}
++        }
++
++out:
++        kit_free (username);
++        kit_free (actionid);
++	return result;
++}
++
++/**
++ * polkit_config_can_session_do_action:
++ * @pk_config: the PolicyKit context
++ * @action: the type of access to check for
++ * @session: the session in question
++ *
++ * Determine if the /etc/PolicyKit/PolicyKit.conf configuration file
++ * says that a given session can do a given action. 
++ *
++ * Returns: A #PolKitResult - returns #POLKIT_RESULT_UNKNOWN if there
++ * was no match in the configuration file.
++ */
++PolKitResult
++polkit_config_can_session_do_action (PolKitConfig   *pk_config,
++                                     PolKitAction   *action,
++                                     PolKitSession  *session)
++{
++	PolKitConfigAdminAuthType   admin_auth_type;
++	const char		    *data;
++
++       _pk_debug ("In polkit_config_can_session_do_action"); 
++	PolKitResult result;
++        result = config_rbac_test ( action, NULL, session, &admin_auth_type, &data);
++        return result;
++}
++
++/**
++ * polkit_config_can_caller_do_action:
++ * @pk_config: the PolicyKit context
++ * @action: the type of access to check for
++ * @caller: the caller in question
++ *
++ * Determine if the /etc/PolicyKit/PolicyKit.conf configuration file
++ * says that a given caller can do a given action.
++ *
++ * Returns: A #PolKitResult - returns #POLKIT_RESULT_UNKNOWN if there
++ * was no match in the configuration file.
++ */
++PolKitResult
++polkit_config_can_caller_do_action (PolKitConfig   *pk_config,
++                                    PolKitAction   *action,
++                                    PolKitCaller   *caller)
++{
++        PolKitConfigAdminAuthType   admin_auth_type;
++        const char                  *data = NULL;
++
++       _pk_debug ("In polkit_config_can_caller_do_action");
++
++        PolKitResult result;
++        result = config_rbac_test (action, caller, NULL, &admin_auth_type, &data);
++	if ( data != NULL ) _pk_debug (" data = %s", data);
++        return result;
++}
++
++/**
++ * polkit_config_determine_admin_auth_type:
++ * @pk_config: the PolicyKit context
++ * @action: the type of access to check for
++ * @caller: the caller in question
++ * @out_admin_auth_type: return location for the authentication type
++ * @out_data: return location for the match value of the given
++ * authentication type. Caller shall not manipulate or free this
++ * string.
++ *
++ * Determine what "Authenticate as admin" means for a given caller and
++ * a given action. This basically returns the result of the
++ * "define_admin_auth" in the configuration file when drilling down
++ * for a specific caller / action.
++ *
++ * Returns: TRUE if value was returned
++ */
++polkit_bool_t
++polkit_config_determine_admin_auth_type (PolKitConfig                *pk_config,
++                                         PolKitAction                *action,
++                                         PolKitCaller                *caller,
++                                         PolKitConfigAdminAuthType   *out_admin_auth_type,
++                                         const char                 **out_data)
++{
++	PolKitResult result;
++	result = config_rbac_test ( action, caller, NULL, out_admin_auth_type, out_data);
++	if (result == POLKIT_RESULT_ONLY_VIA_ADMIN_AUTH || *out_admin_auth_type == POLKIT_CONFIG_ADMIN_AUTH_TYPE_USER) {
++		return TRUE;
++	} else {
++		return FALSE;
++	}
++}
++
++#ifdef POLKIT_BUILD_TESTS
++
++static polkit_bool_t
++_run_test (void)
++{
++        return TRUE;
++}
++
++KitTest _test_config = {
++        "polkit_config",
++        NULL,
++        NULL,
++        _run_test
++};
++
++#endif /* POLKIT_BUILD_TESTS */
+--- PolicyKit-0.7.orig//src/polkit-grant/polkit-grant-helper.c	2008-03-13 17:23:05.419376000 +0800
++++ PolicyKit-0.7/src/polkit-grant/polkit-grant-helper.c	2008-03-13 17:47:35.839740000 +0800
+@@ -61,7 +61,7 @@
+  * sensitive information.
+  */
+ #undef PGH_DEBUG
+-/* #define PGH_DEBUG */
++#define PGH_DEBUG
+ 
+ /* synopsis: polkit-grant-helper <pid> <action-name>
+  *
+@@ -317,7 +317,7 @@
+             *out_result == POLKIT_RESULT_ONLY_VIA_ADMIN_AUTH_KEEP_ALWAYS) {
+                 PolKitConfig *pk_config;
+                 PolKitConfigAdminAuthType admin_auth_type;
+-                const char *admin_auth_data;
++                const char *admin_auth_data = NULL;
+ 
+                 pk_config = polkit_context_get_config (pol_ctx, NULL);
+                 /* if the configuration file is malformed, bail out */
+@@ -334,8 +334,10 @@
+ #endif /* PGH_DEBUG */
+                         switch (admin_auth_type) {
+                         case POLKIT_CONFIG_ADMIN_AUTH_TYPE_USER:
+-                                if (admin_auth_data != NULL)
++                                if (admin_auth_data != NULL) {
+                                         *out_admin_users = g_strsplit (admin_auth_data, "|", 0);
++					kit_free (admin_auth_data);
++				}
+                                 break;
+                         case POLKIT_CONFIG_ADMIN_AUTH_TYPE_GROUP:
+                                 if (admin_auth_data != NULL) {
