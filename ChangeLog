@@ -1,3 +1,10 @@
+2008-03-13  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEportaudio.spec: Bump to the latest v19_20071207
+          version.
+	* patches/portaudio-01-pthread.diff:  Renamed from 02.
+	* patches/portaudio-01-oss.diff:  Removed upstream patch.
+
 2008-03-13  Jim Li <jim.li@sun.com>
 
 	* base-specs/PolicyKit.spec,patches/PolicyKit-03-rbac.diff:

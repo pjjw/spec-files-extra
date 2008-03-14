@@ -10,10 +10,9 @@
 
 Name:                   SFEportaudio
 Summary:                Portable cross-platform Audio API
-Version:                v19_061121
+Version:                v19_20071207
 Source:                 %{src_url}/pa_stable_%{version}.tar.gz
-Patch1:			portaudio-01-oss.diff
-Patch2:			portaudio-02-pthread.diff
+Patch1:			portaudio-01-pthread.diff
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -27,7 +26,6 @@ SUNW_BaseDir:            %{_prefix}
 %prep
 %setup -q -n %{src_name}
 %patch1 -p1
-%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -78,6 +76,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Mar 14 2008 - brian.cameron@sun.com
+- Bump to the new 20071207 version.  Remove upstream portaudio-01-oss.diff.
 * Sat Sep 22 2007 - dougs@truemail.co.th
 - disabled building with jack audio
 * Sun May 13 2007 - dougs@truemail.co.th
