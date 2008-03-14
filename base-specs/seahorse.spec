@@ -3,13 +3,13 @@
 #
 
 Name:		seahorse
-Version: 	2.21.4
+Version: 	2.22.0
 Release: 	0
 Summary: 	GNOME2 interface for gnupg
 License: 	GPL
 Group: 		Applications/Cryptography
 URL:		http://live.gnome.org/Seahorse
-Source: 	http://ftp.gnome.org/pub/GNOME/sources/seahorse/2.21/%{name}-%{version}.tar.gz
+Source: 	http://ftp.gnome.org/pub/GNOME/sources/seahorse/2.22/%{name}-%{version}.tar.gz
 Patch1:		%{name}-01-cryptui.diff
 Patch2:		%{name}-02-open.diff
 Patch3:		%{name}-03-ldap.diff
@@ -28,11 +28,14 @@ It uses gpgme as the backend.
 %patch4 -p0
 
 %build
+autoreconf -sfi
 ./configure --prefix=%{_prefix}  \
             --libexecdir=%{_libexecdir} \
             --mandir=%{_mandir} \
+	    --enable-hkp   \
 	    --disable-update-mime-database     \
-	    --disable-update-desktop
+	    --disable-update-desktop        \
+	    --disable-scrollkeeper
 
 make 
 
@@ -65,6 +68,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %doc AUTHORS COPYING NEWS README TODO
 
 %changelog
+* Fri Mar 14 2008 jijun.yu@sun.com
+- Bump to 2.22.0
+
 * Tue Dec 18 2007 jijun.yu@sun.com
 - Bump to 2.21.4
 
