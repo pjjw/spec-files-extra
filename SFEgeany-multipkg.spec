@@ -7,7 +7,7 @@
 # Software specific variable definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %define src_name	geany
-%define src_version	0.11
+%define src_version	0.13
 %define pkg_release	1
 
 # %{_topdir} is by default set to RPM_BUILD_ROOT
@@ -31,11 +31,10 @@ Release:      	%{pkg_release}
 License:      	GPLv2
 Group:          Development/Tools
 Source:         http://files.uvena.de/geany/%{src_name}-%{version}.tar.bz2
-Patch:        	geany-01-V0.11.sunpro.diff
 Vendor:       	Enrico Troger,Nick Treleaven,Frank Lanitz
 URL:            http://geany.uvena.de/
 Packager:     	Shivakumar GN
-BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
+BuildRoot:	%{_tmppath}/%{src_name}-%{version}-build
 
 #Ideally these should be included for requires: glib2, gtk2, pango
 #Requires:      
@@ -60,27 +59,29 @@ Some features:
 %package -n SFEgeany-l10n
 Summary:                 %{summary} - l10n files
 SUNW_BaseDir:            %{_basedir}
-Requires:                %{name}
+#Requires:                %{name}
 
 %package -n SFEgeany-docs
 Summary:                 %{summary} - documentation, man pages
 SUNW_BaseDir:            %{_basedir}
-Requires:                %{name}
+#Requires:                %{name}
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Prep-Section 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %prep 
 %setup -q -n %{src_name}-%{version}
+CC=gcc
+CXX=g++
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/gnu/lib
 ./configure --prefix=%{_prefix}
 
-%patch0 -p 1
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Build-Section 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %build
-
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/gnu/lib
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
@@ -88,7 +89,7 @@ fi
 
 export CFLAGS="%optflags"
 export CXXFLAGS="%cxx_optflags"
-export LDFLAGS="%_ldflags"
+export LDFLAGS="%_ldflags -lintl"
 
 make -j$CPUS
 
@@ -102,10 +103,13 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(0755,root,bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
+%dir %attr (0755, root, bin) %{_libdir}/%{src_name}
+%{_libdir}/%{src_name}/*
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/applications
 %{_datadir}/geany
 %{_datadir}/pixmaps
+%{_datadir}/icons
 
 %files -n SFEgeany-l10n
 %defattr (-, root, bin)
@@ -120,6 +124,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* 2008.Mar.17 - <shivakumar dot gn at gmail dot com>
+- Bumped to V0.13
+- Compile with gcc since that works out of the box
 * 2007.Aug.08 - <shivakumar dot gn at gmail dot com>
 - Use of %package & %files for sub-package creation
   (base pkg, doc pkg, l10n pkg)
