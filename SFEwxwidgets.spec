@@ -92,7 +92,7 @@ perl -pi -e 's,PATH=".*\$PATH",:,' configure
 
 make -j$CPUS
 cd contrib
-make -j$CPUSs ~/packages/BUILD/wxWidgets-2.8.7/configure.in 
+make -j$CPUSs %{_builddir}/wxWidgets-%{tarball_version}/configure.in 
 cd ..
 cd locale
 make allmo
@@ -147,7 +147,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Thu Feb 21, 2008 - trisk@acm.jhu.edu
+* Mon Mar 17 2008 - laca@sun.com
+- use %_builddir instead of ~/packages
+* Thu Feb 21 2008 - trisk@acm.jhu.edu
 - Bump to 2.8.7
 - Add SFEsdl dependency, add --with-gnomevfs, fix building subdirs
 * Tue Oct 16 2007 - laca@sun.com

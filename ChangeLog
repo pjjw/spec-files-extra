@@ -1,3 +1,7 @@
+2008-03-17  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEwxwidgets.spec: use %_builddir instead of ~/packages
+
 2008-03-13  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEportaudio.spec: Bump to the latest v19_20071207
