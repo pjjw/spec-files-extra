@@ -11,7 +11,7 @@
 %include Solaris.inc
 
 Name:                SFEpygoocanvas
-URL:                 https://developer.berlios.de/projects/pygoocanvas/
+URL:                 http://developer.berlios.de/projects/pygoocanvas/
 Summary:             pygoocanvas - GooCanvas python bindings
 Version:             0.9.0
 Source:              http://download.berlios.de/%{src_name}/%{src_name}-%{version}.tar.gz
@@ -78,6 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Mar 17 2008 - jijun.yu@sun.com
+- Correct the URL.
 * Thu Jan 24 2008 - nonsea@users.sourceforge.net
 - Add _without_gtk_doc control
 * Tue Dec 11 2007 - nonsea@users.sourceforge.net

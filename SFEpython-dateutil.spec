@@ -13,7 +13,7 @@
 Name:                SFEpython-dateutil
 URL:                 http://labix.org/python-dateutil
 Summary:             dateutil - A python module provides powerful extensions to the standard datetime
-Version:             1.3
+Version:             1.4
 Source:              http://labix.org/download/%{src_name}/%{src_name}-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -47,5 +47,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Mon Mar 17 2007 - jijun.yu@sun.com
+- Bump to 1.4
 * Tue Dec 11 2007 - nonsea@users.sourceforge.net
 - Initial spec

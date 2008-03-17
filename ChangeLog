@@ -1,3 +1,10 @@
+2008-03-17 Jerry Yu <jijun.yu@sun.com>
+	
+	* SFEpython-vojbect.spec: bump to 0.6.0, add a patch.
+	* SFEpython-dateutil.spec: bump to 1.4.
+	* SFEpygoocanvas.spec: correct the URL.
+	* patches/python-vobject-01-ez_setup.diff: added.
+
 2008-03-17  Irene Huang  <sh162551@users.sourceforge.net>
 
 	* SFEpysqlite.spec: change the download URL
