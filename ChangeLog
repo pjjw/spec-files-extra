@@ -1,3 +1,9 @@
+2008-03-17  Irene Huang  <sh162551@users.sourceforge.net>
+
+	* SFEpysqlite.spec: change the download URL
+	* SFEwbxml.spec: libexpat has been moved to /usr/lib
+	changing the LDFLAG and CFLAG to find libexpat.so
+
 2008-03-17  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEwxwidgets.spec: use %_builddir instead of ~/packages

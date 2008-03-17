@@ -40,8 +40,8 @@ mkdir -p %name-%version
 %build
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CFLAGS="%optflags"
-export CPPFLAGS="-I/usr/sfw/include"
-export LDFLAGS="-L/usr/sfw/lib -R/usr/sfw/lib"
+export CPPFLAGS="-I/usr/include"
+export LDFLAGS="-L/usr/lib -R /usr/lib"
 export RPM_OPT_FLAGS="$CFLAGS"
 %wbxml2.build -d %name-%version
 
@@ -71,6 +71,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Mon Mar 17 2008 - sh162551@users.sourceforge.net
+- Change the LDFLAGS and CFLAGS since libexpat has
+been moved to /usr/lib
 * Wed Mar 21 2007 - daymobrew@users.sourceforge.net
 - Add devel package and correct file permissions.
 
