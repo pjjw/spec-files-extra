@@ -1,0 +1,11 @@
+--- swh-plugins-0.4.15/imp_1199.c-orig	2008-03-18 03:31:02.059525000 -0500
++++ swh-plugins-0.4.15/imp_1199.c	2008-03-18 03:31:14.276697000 -0500
+@@ -70,7 +70,7 @@ inline void impulse2freq(int id, float *
+ fft_plan plan_rc[IMPULSES],
+          plan_cr[IMPULSES];
+ 
+-static fftw_real *real_in, *real_out, *comp_in, *comp_out;
++extern fftw_real *real_in, *real_out, *comp_in, *comp_out;
+ 
+ unsigned int fft_length[IMPULSES];
+ 

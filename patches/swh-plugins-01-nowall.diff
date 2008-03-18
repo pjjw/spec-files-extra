@@ -1,0 +1,20 @@
+--- swh-plugins-0.4.15/configure.in-orig	2008-03-18 03:20:22.695032000 -0500
++++ swh-plugins-0.4.15/configure.in	2008-03-18 03:20:39.149695000 -0500
+@@ -104,14 +104,14 @@ else
+   if test ${build_cpu} = "powerpc64"; then MACHINE=""; fi
+   if test ${build_cpu} = "x86_64"; then MACHINE=""; fi
+ 
+-  CFLAGS="$CFLAGS -Wall -O3 -fomit-frame-pointer -fstrength-reduce -funroll-loops -ffast-math -fPIC -DPIC ${MACHINE} ${USE_SSE} ${DARWIN_CFLAGS}"
++  CFLAGS="$CFLAGS -xO3 -fomit-frame-pointer -fstrength-reduce -funroll-loops -ffast-math -fPIC -DPIC ${MACHINE} ${USE_SSE} ${DARWIN_CFLAGS}"
+ 
+   dnl For Intel's C compiler use:
+   dnl CC="icc"
+-  dnl CFLAGS="$CFLAGS -O2 -rcd -tpp6 -xiMK -KPIC -DPIC"
++  dnl CFLAGS="$CFLAGS -xO2 -rcd -tpp6 -xiMK -KPIC -DPIC"
+   
+   dnl For debugging use:
+-  dnl CFLAGS="$CFLAGS -Wall -g -ffast-math -fPIC -DPIC"
++  dnl CFLAGS="$CFLAGS -g -ffast-math -fPIC -DPIC"
+ fi
+ 
+ AC_PROG_LD

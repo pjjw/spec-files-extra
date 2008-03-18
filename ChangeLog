@@ -1,5 +1,12 @@
 2008-03-18 Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEswh-plugins.spec:  Add package to build LADSPA plugins.
+	* patches/swh-plugins-01-nowall.diff,
+	  patches/swh-plugins-02-fixinline.diff:  Patches needed to build.
+	* SFEaudacity.spec:  Add SFEswh-plugins as a required module.
+
+2008-03-18 Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEaudacity.spec:  Bump to
 	* patches/audacity*: Update patches to build against new version.
 	  Some patches were addressed upstream and removed, and some new
@@ -19,7 +26,7 @@
 
 	* SFEpysqlite.spec: change the download URL
 	* SFEwbxml.spec: libexpat has been moved to /usr/lib
-	changing the LDFLAG and CFLAG to find libexpat.so
+	  changing the LDFLAG and CFLAG to find libexpat.so
 
 2008-03-17  Laszlo (Laca) Peter  <laca@sun.com>
 

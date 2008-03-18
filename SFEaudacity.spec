@@ -50,6 +50,7 @@ BuildRequires: SFEportaudio-devel
 Requires: SFEportaudio
 BuildRequires: SFEladspa-devel
 Requires: SFEladspa
+Requires: SFEswh-plugins
 BuildRequires: SFEsoundtouch-devel
 Requires: SFEsoundtouch
 
