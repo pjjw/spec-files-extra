@@ -60,11 +60,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
-%dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, bin) %{_libdir}
-%dir %attr (0755, root, bin) %dir %{_libdir}
 %dir %attr (0755, root, bin) %dir %{_libdir}/ladspa
-%{_libdir}/ladspa/lib*.so*
+%{_libdir}/ladspa/*.so
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %dir %{_datadir}/ladspa
 %{_datadir}/ladspa/*
