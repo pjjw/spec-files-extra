@@ -26,8 +26,11 @@ Patch4:		     audacity-04-fixconfigure.diff
 # bug 1910685
 Patch5:              audacity-05-fixsed.diff
 # bug 1910687
+# This patch is wrong, but it gets the code to compile.
+Patch6:              audacity-06-fixvamp.diff
 Patch7:              audacity-07-nowall.diff
 # bug 1910688
+Patch8:              audacity-08-ImportMP3.diff
 Patch9:              audacity-09-fixmatrix.diff
 # bug 1910699
 Patch10:             audacity-10-addgtklibs.diff
@@ -37,9 +40,6 @@ Patch12:             audacity-12-no-pa-threads.diff
 Patch13:             audacity-13-locale.diff
 # bug 1911499
 Patch14:             audacity-14-AudioIO.diff
-Patch15:             audacity-15-importmp3.diff
-# This patch is wrong, but it gets the code to compile.
-Patch16:             audacity-16-fixvamp.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -106,15 +106,15 @@ Requires:                %{name}
 %if %with_wxw_gcc
 %else
 %patch4 -p1
+%patch6 -p1
 %patch7 -p1
+%patch8 -p1
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
-%patch15 -p1
-%patch16 -p1
 %endif
 
 # If using GNU Gettext, don't need this patch
