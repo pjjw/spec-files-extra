@@ -14,39 +14,32 @@
 %define	src_url	http://downloads.sourceforge.net/audacity
 
 Name:                SFEaudacity
-Summary:             manipulate digital audio waveforms
-Version:             1.3.3
-Source:              %{src_url}/%{src_name}-src-%{version}.tar.gz
+Summary:             Free, Cross-Platform Sound Editor
+Version:             1.3.4
+Source:              %{src_url}/%{src_name}-src-%{version}.tar.bz2
 # bug 1910678
 Patch1:		     audacity-01-solaris.diff
-# bug 1910680
-Patch2:		     audacity-02-portaudio.diff
+Patch2:		     audacity-02-float.diff
 # bug 1910681
 Patch3:		     audacity-03-alloca.diff
-# bug 1910683
-Patch4:		     audacity-04-twolame.diff
+Patch4:		     audacity-04-fixconfigure.diff
 # bug 1910685
 Patch5:              audacity-05-fixsed.diff
-# bug 1910686
-Patch6:              audacity-06-noopt.diff
 # bug 1910687
 Patch7:              audacity-07-nowall.diff
 # bug 1910688
-Patch8:              audacity-08-fixSoundTouch.diff
-# bug 1910692
-Patch9:              audacity-09-nogccdetect.diff
-# bug 1910693
-Patch10:             audacity-10-fixconstint.diff
-# bug 1910688
-Patch11:             audacity-11-fixmatrix.diff
+Patch9:              audacity-09-fixmatrix.diff
 # bug 1910699
-Patch12:             audacity-12-addgtklibs.diff
+Patch10:             audacity-10-addgtklibs.diff
 # bug 1910700
-Patch13:             audacity-13-fix-pa-makefile.diff
-Patch14:             audacity-14-no-pa-threads.diff
-Patch15:             audacity-15-locale.diff
+Patch11:             audacity-11-fix-pa-makefile.diff
+Patch12:             audacity-12-no-pa-threads.diff
+Patch13:             audacity-13-locale.diff
 # bug 1911499
-Patch16:             audacity-16-AudioIO.diff
+Patch14:             audacity-14-AudioIO.diff
+Patch15:             audacity-15-importmp3.diff
+# This patch is wrong, but it gets the code to compile.
+Patch16:             audacity-16-fixvamp.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -57,6 +50,8 @@ BuildRequires: SFEportaudio-devel
 Requires: SFEportaudio
 BuildRequires: SFEladspa-devel
 Requires: SFEladspa
+BuildRequires: SFEsoundtouch-devel
+Requires: SFEsoundtouch
 
 # Check whether the user has installed the Sun Studio or GCC
 # version of wxWidgets, and build with GCC if using the GCC
@@ -93,36 +88,41 @@ BuildRequires SFEtwolame-devel
 Requires SFEtwolame
 %endif
 
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+
 %prep
 %setup -q -n %{src_name}-src-%{version}-beta
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 %patch5 -p1
 
 # Sun Studio specific patches
 #
 %if %with_wxw_gcc
 %else
-%patch6 -p1
+%patch4 -p1
 %patch7 -p1
-%patch8 -p1
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
+%patch15 -p1
 %patch16 -p1
 %endif
 
 # If using GNU Gettext, don't need this patch
 #
-%if %with_gnu_gettext
-%else
-%patch15 -p1
-%endif
+#%if %with_gnu_gettext
+#%else
+#%patch13 -p1
+#%endif
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -230,7 +230,17 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (-, root, root) %{_datadir}/mime
 %attr (-, root, root) %{_datadir}/mime/*
 
+%files l10n
+%defattr (-, root, bin)
+%dir %attr (0755, root, sys) %{_datadir}
+%attr (-, root, other) %{_datadir}/locale
+
 %changelog
+* Mon Mar 18 2008 - brian.cameron@sun.com
+- Bump to 1.3.4.  Many changes to the patches to get this new version
+  working.  SoundTouch was removed from the audacity release, so I added
+  a separate spec-file to build SoundTouch, and made this package depend
+  on it.
 * Sun Mar  9 2008 - brian.cameron@sun.com
 - Bump to 1.3.3.  Add new patches to allow building with Sun Studio.
   Fix so that libmad, libid3tag, and libtwolame support is only included if

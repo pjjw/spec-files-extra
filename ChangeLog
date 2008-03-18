@@ -1,3 +1,13 @@
+2008-03-18 Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEaudacity.spec:  Bump to
+	* patches/audacity*: Update patches to build against new version.
+	  Some patches were addressed upstream and removed, and some new
+	  patches added.
+	* SFEsoundtouch.spec:  Add new spec file to build SoundTouch
+	* patches/soundtouch*: Add four new patches needed to build 
+	  Sound Touch on Solaris.
+
 2008-03-17 Jerry Yu <jijun.yu@sun.com>
 	
 	* SFEpython-vojbect.spec: bump to 0.6.0, add a patch.
