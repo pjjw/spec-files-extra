@@ -25,12 +25,12 @@ Patch3:		     audacity-03-alloca.diff
 Patch4:		     audacity-04-fixconfigure.diff
 # bug 1910685
 Patch5:              audacity-05-fixsed.diff
-# bug 1910687
 # This patch is wrong, but it gets the code to compile.
 Patch6:              audacity-06-fixvamp.diff
+# bug 1910687
 Patch7:              audacity-07-nowall.diff
-# bug 1910688
 Patch8:              audacity-08-ImportMP3.diff
+# bug 1910688 - upstream
 Patch9:              audacity-09-fixmatrix.diff
 # bug 1910699
 Patch10:             audacity-10-addgtklibs.diff
@@ -38,7 +38,7 @@ Patch10:             audacity-10-addgtklibs.diff
 Patch11:             audacity-11-fix-pa-makefile.diff
 Patch12:             audacity-12-no-pa-threads.diff
 Patch13:             audacity-13-locale.diff
-# bug 1911499
+# bug 1911499 - upstream
 Patch14:             audacity-14-AudioIO.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
