@@ -1,3 +1,8 @@
+2008-03-19  Nicolas Doualot <nicolas@slubman.info>
+
+	* SFEsynergy.spec: Add new module
+	* patches/synergy-01-suncc-compilation.diff: Lets synergy compile with SunCC
+
 2008-03-19  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEdcraw.spec, SFEccsm.spec, SFElcms.spec,

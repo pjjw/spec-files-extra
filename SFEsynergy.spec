@@ -33,6 +33,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 
+export CXXFLAGS="%cxx_optflags"
 ./configure --prefix=/usr
 make -j$CPUS
 
@@ -56,6 +57,8 @@ rm -rf $RPM_BUILD_ROOT
 #%config(noreplace) %attr (0755, root, root) %{_sysconfdir}/synergy.conf
 
 %changelog
+* Wed Mar 19 2008 Doualot Nicolas <nicolas@slubman.info>
+- export CXXFLAGS before calling configure script
 * Wed Mar 19 2008 Doualot Nicolas <nicolas@slubman.info>
 - Initial import
 
