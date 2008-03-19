@@ -1,3 +1,13 @@
+2008-03-19  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEwine.spec: Add patch8. Use autoconf. Pause patch2 - -shared works,
+	  and the configure.ac part is broken.
+	* encumbered/SFEffmpeg.spec: Add patch5.
+	* patches/ffmpeg-05-mlib.diff: Fix green tint with mediaLib, contributed
+	  by James Cheng
+	* patches/wine-06-iphlpapi.diff: Implement network statistics in
+	  iphlpapi.
+
 2008-03-18 Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEswh-plugins.spec:  Add package to build LADSPA plugins.

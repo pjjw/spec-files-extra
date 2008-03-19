@@ -14,10 +14,11 @@ Version:                0.9.57
 URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
-Patch2:			wine-02-configure.diff
+#Patch2:			wine-02-configure.diff
 Patch3:			wine-03-shell.diff
 #Patch4: 		wine-04-winegcc.diff
 Patch5:			wine-05-change_functions_structs_named_list_asterisk.sh.diff
+Patch6:			wine-06-iphlpapi.diff
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -49,10 +50,11 @@ Requires: %name
 %prep
 %setup -q -n %{src_name}-%{version}
 %patch1 -p1
-%patch2 -p1
+#%patch2 -p1
 %patch3 -p1
 #%patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 # change all occurences of duplicate functions/structs named "list"*
 bash change_functions_structs_named_list_asterisk.sh
@@ -72,9 +74,12 @@ GNULIB="-L/usr/gnu/lib -R/usr/gnu/lib"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CC=/usr/sfw/bin/gcc
 export CPPFLAGS="-I/usr/X11/include -I/usr/gnu/include -I/usr/gnu/include/ncurses -I/usr/sfw/include"
-export CFLAGS="-O4 -fno-omit-frame-pointer -fpic -Dpic -D__C99FEATURES__"
+export CFLAGS="%gcc_optflags -O3 -fno-omit-frame-pointer -fpic -Dpic -D__C99FEATURES__"
 export LDFLAGS="$X11LIB $GNULIB $SFWLIB"
 export LD=/usr/ccs/bin/ld
+
+autoconf -f
+autoheader
 ./configure --prefix=%{_prefix}		\
 	    --bindir=%{_bindir}		\
 	    --mandir=%{_mandir}		\
@@ -134,6 +139,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Tue Mar 18 2008 - trisk@acm.jhu.edu
+- Add patch8 to implement network statistics in iphlpapi
+- Use autoconf
+- Pause patch2 - -shared works, and the configure.ac part is broken
 * Mon Mar 10 2008 - trisk@acm.jhu.edu
 - Add SFElibaudioio dependency for Sun audio
 * Sun Mar 09 2008 - trisk@acm.jhu.edu

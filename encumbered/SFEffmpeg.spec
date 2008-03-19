@@ -21,6 +21,7 @@ Patch1:                  ffmpeg-01-BE_16.diff
 Patch2:                  ffmpeg-02-configure.diff
 Patch3:                  ffmpeg-03-v4l2.diff
 Patch4:                  ffmpeg-04-options.diff
+Patch5:                  ffmpeg-05-mlib.diff
 SUNW_BaseDir:            %{_basedir}
 URL:                     http://ffmpeg.mplayerhq.hu/index.html
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -79,6 +80,7 @@ Requires: %name
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -162,6 +164,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/postproc
 
 %changelog
+* Tue Mar 18 2008 - trisk@acm.jhu.edu
+- Add patch5 to fix green tint with mediaLib, contributed by James Cheng
 * Sat Aug 11 2007 - trisk@acm.jhu.edu
 - Disable mediaLib support on non-sparc (conflicts with MMX)
 - Enable x11grab for X11 recording
