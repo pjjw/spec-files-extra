@@ -1,0 +1,214 @@
+diff -aur synergy-1.3.1/lib/arch/CArchConsoleUnix.cpp synergy-1.3.1.suncc/lib/arch/CArchConsoleUnix.cpp
+--- synergy-1.3.1/lib/arch/CArchConsoleUnix.cpp	2006-03-13 05:24:50.000000000 +0100
++++ synergy-1.3.1.suncc/lib/arch/CArchConsoleUnix.cpp	2008-03-18 11:44:23.720353000 +0100
+@@ -14,6 +14,7 @@
+ 
+ #include "CArchConsoleUnix.h"
+ #include <cstdio>
++#include <stdio.h>
+ 
+ //
+ // CArchConsoleUnix
+diff -aur synergy-1.3.1/lib/platform/CXWindowsClipboard.cpp synergy-1.3.1.suncc/lib/platform/CXWindowsClipboard.cpp
+--- synergy-1.3.1/lib/platform/CXWindowsClipboard.cpp	2006-04-02 03:47:03.000000000 +0200
++++ synergy-1.3.1.suncc/lib/platform/CXWindowsClipboard.cpp	2008-03-18 12:16:58.682367000 +0100
+@@ -750,7 +750,10 @@
+ 		}
+ 
+ 		// save it
+-		motifFormats.insert(std::make_pair(motifFormat->m_type, data));
++		// SunCC workaround
++		//motifFormats.insert(std::make_pair(motifFormat->m_type, data));
++		motifFormats.insert(std::pair<const Atom, CString>(motifFormat->m_type, data));
++		// End of SunCC workaround
+ 	}
+ 	//const UInt32 numMotifFormats = motifFormats.size();
+ 
+diff -aur synergy-1.3.1/lib/platform/CXWindowsKeyState.cpp synergy-1.3.1.suncc/lib/platform/CXWindowsKeyState.cpp
+--- synergy-1.3.1/lib/platform/CXWindowsKeyState.cpp	2006-04-02 21:16:39.000000000 +0200
++++ synergy-1.3.1.suncc/lib/platform/CXWindowsKeyState.cpp	2008-03-18 12:17:55.626195000 +0100
+@@ -468,7 +468,10 @@
+ 
+ 			// add key
+ 			keyMap.addKeyEntry(item);
+-			m_keyCodeFromKey.insert(std::make_pair(item.m_id, keycode));
++			// SunCC workaround
++			//m_keyCodeFromKey.insert(std::make_pair(item.m_id, keycode));
++			m_keyCodeFromKey.insert(std::pair<const KeyID, KeyCode>(item.m_id, keycode));
++			// End of SunCC workaround
+ 
+ 			// add other ways to synthesize the key
+ 			if ((j & 1) != 0) {
+@@ -714,9 +717,15 @@
+ 
+ 						if (group == 0) {
+ 							m_keyCodeFromKey.insert(
+-									std::make_pair(lKeyID, keycode));
++									// SunCC workaround
++									//std::make_pair(lKeyID, keycode));
++									std::pair<const KeyID, KeyCode>(lKeyID, keycode));
++									// End of SunCC workaround
+ 							m_keyCodeFromKey.insert(
+-									std::make_pair(uKeyID, keycode));
++									// SunCC workaround
++									//std::make_pair(uKeyID, keycode));
++									std::pair<const KeyID, KeyCode>(uKeyID, keycode));
++									// End of SunCC workaround
+ 						}
+ 						continue;
+ 					}
+@@ -726,7 +735,10 @@
+ 				item.m_id = CXWindowsUtil::mapKeySymToKeyID(keysym);
+ 				keyMap.addKeyEntry(item);
+ 				if (group == 0) {
+-					m_keyCodeFromKey.insert(std::make_pair(item.m_id, keycode));
++					// SunCC workaround
++					//m_keyCodeFromKey.insert(std::make_pair(item.m_id, keycode));
++					m_keyCodeFromKey.insert(std::pair<const KeyID, KeyCode>(item.m_id, keycode));
++					// End of SunCC workaround
+ 				}
+ 			}
+ 		}
+diff -aur synergy-1.3.1/lib/platform/CXWindowsScreen.cpp synergy-1.3.1.suncc/lib/platform/CXWindowsScreen.cpp
+--- synergy-1.3.1/lib/platform/CXWindowsScreen.cpp	2006-04-02 21:16:39.000000000 +0200
++++ synergy-1.3.1.suncc/lib/platform/CXWindowsScreen.cpp	2008-03-18 12:36:48.045003000 +0100
+@@ -600,7 +600,10 @@
+ 						XGrabKey(m_display, code, modifiers2, m_root,
+ 									False, GrabModeAsync, GrabModeAsync);
+ 						if (!err) {
+-							hotKeys.push_back(std::make_pair(code, modifiers2));
++							// SunCC workaround
++							//hotKeys.push_back(std::make_pair(code, modifiers2));
++							hotKeys.push_back(std::make_pair(static_cast<int>(code), modifiers2));
++							// End of SunCC workaround
+ 							m_hotKeyToIDMap[CHotKeyItem(code, modifiers2)] = id;
+ 						}
+ 					}
+@@ -647,7 +650,10 @@
+ 					XGrabKey(m_display, *j, tmpModifiers, m_root,
+ 										False, GrabModeAsync, GrabModeAsync);
+ 					if (!err) {
+-						hotKeys.push_back(std::make_pair(*j, tmpModifiers));
++						// SunCC workaround
++						//hotKeys.push_back(std::make_pair(*j, tmpModifiers));
++						hotKeys.push_back(std::make_pair(static_cast<int>(*j), tmpModifiers));
++						// End of SunCC workaround
+ 						m_hotKeyToIDMap[CHotKeyItem(*j, tmpModifiers)] = id;
+ 					}
+ 				}
+diff -aur synergy-1.3.1/lib/server/CConfig.cpp synergy-1.3.1.suncc/lib/server/CConfig.cpp
+--- synergy-1.3.1/lib/server/CConfig.cpp	2006-03-22 06:40:27.000000000 +0100
++++ synergy-1.3.1.suncc/lib/server/CConfig.cpp	2008-03-18 12:34:07.730181000 +0100
+@@ -44,7 +44,10 @@
+ 	}
+ 
+ 	// add cell
++	// SunCC workaround
++	//m_map.insert(std::make_pair(name, CCell()));
+ 	m_map.insert(std::make_pair(name, CCell()));
++	// End of SunCC workaround
+ 
+ 	// add name
+ 	m_nameToCanonicalName.insert(std::make_pair(name, name));
+@@ -1739,7 +1742,10 @@
+ 								index != config.m_nameToCanonicalName.end();
+ 								++index) {
+ 			if (index->first != index->second) {
+-				aliases.insert(std::make_pair(index->second, index->first));
++				// SunCC workaround
++				//aliases.insert(std::make_pair(index->second, index->first));
++				aliases.insert(std::pair<const std::string, std::string>(index->second, index->first));
++				// End of SunCC workaround
+ 			}
+ 		}
+ 
+diff -aur synergy-1.3.1/lib/server/CConfig.h synergy-1.3.1.suncc/lib/server/CConfig.h
+--- synergy-1.3.1/lib/server/CConfig.h	2006-02-20 22:00:04.000000000 +0100
++++ synergy-1.3.1.suncc/lib/server/CConfig.h	2008-03-18 12:46:55.462668000 +0100
+@@ -25,6 +25,7 @@
+ #include "stdset.h"
+ #include "IPlatformScreen.h"
+ #include <iosfwd>
++#include <iterator>
+ 
+ class CConfig;
+ class CConfigReadContext;
+@@ -38,6 +39,9 @@
+ 	typedef CString*					pointer;
+ 	typedef CString&					reference;
+ };
++// SunCC workaround
++typedef iterator_traits<CConfig> CConfig_iterator_traits;
++// End of SunCC workaround
+ };
+ 
+ //! Server configuration
+@@ -142,7 +146,10 @@
+ 	typedef CCell::const_iterator link_const_iterator;
+ 	typedef CCellMap::const_iterator internal_const_iterator;
+ 	typedef CNameMap::const_iterator all_const_iterator;
+-	class const_iterator : std::iterator_traits<CConfig> {
++	// SunCC workaround
++	//class const_iterator : std::iterator_traits<CConfig> {
++	class const_iterator : std::CConfig_iterator_traits {
++	// End of SunCC workaround
+ 	public:
+ 		explicit const_iterator() : m_i() { }
+ 		explicit const_iterator(const internal_const_iterator& i) : m_i(i) { }
+diff -aur synergy-1.3.1/lib/synergy/CKeyMap.cpp synergy-1.3.1.suncc/lib/synergy/CKeyMap.cpp
+--- synergy-1.3.1/lib/synergy/CKeyMap.cpp	2006-03-22 06:40:27.000000000 +0100
++++ synergy-1.3.1.suncc/lib/synergy/CKeyMap.cpp	2008-03-18 12:55:42.548124000 +0100
+@@ -966,7 +966,10 @@
+ 		if (keyItem.m_generates != 0) {
+ 			if (!keyItem.m_lock || (currentState & keyItem.m_generates) == 0) {
+ 				// add modifier key and activate modifier
+-				activeModifiers.insert(std::make_pair(
++				// SunCC workaround
++				//activeModifiers.insert(std::make_pair(
++				activeModifiers.insert(std::pair<const KeyModifierMask, CKeyMap::KeyItem>(
++				// End of SunCC workoaround
+ 									keyItem.m_generates, keyItem));
+ 				currentState |= keyItem.m_generates;
+ 			}
+@@ -1039,8 +1042,12 @@
+ 		else {
+ 			// release all the keys that generate the modifier that are
+ 			// currently down
+-			std::pair<ModifierToKeys::const_iterator,
+-						ModifierToKeys::const_iterator> range =
++			// SunCC workaround
++			//std::pair<ModifierToKeys::const_iterator,
++			//			ModifierToKeys::const_iterator> range =
++			std::pair<ModifierToKeys::iterator,
++						ModifierToKeys::iterator> range =
++			// End of SunCC workaround
+ 				activeModifiers.equal_range(keyItem.m_generates);
+ 			for (ModifierToKeys::const_iterator i = range.first;
+ 								i != range.second; ++i) {
+@@ -1050,7 +1057,10 @@
+ 		}
+ 
+ 		if (type == kKeystrokeModify) {
+-			activeModifiers.insert(std::make_pair(
++			// SunCC workaround
++			//activeModifiers.insert(std::make_pair(
++			activeModifiers.insert(std::pair<const KeyModifierMask, CKeyMap::KeyItem>(
++			// End of SunCC workaround
+ 								keyItem.m_generates, keyItem));
+ 			currentState |= keyItem.m_generates;
+ 		}
+diff -aur synergy-1.3.1/lib/synergy/CKeyState.cpp synergy-1.3.1.suncc/lib/synergy/CKeyState.cpp
+--- synergy-1.3.1/lib/synergy/CKeyState.cpp	2006-04-01 22:53:08.000000000 +0200
++++ synergy-1.3.1.suncc/lib/synergy/CKeyState.cpp	2008-03-18 11:45:26.758937000 +0100
+@@ -500,7 +500,10 @@
+ 		reinterpret_cast<CAddActiveModifierContext*>(vcontext);
+ 	if (group == context->m_activeGroup &&
+ 		(keyItem.m_generates & context->m_mask) != 0) {
+-		context->m_activeModifiers.insert(std::make_pair(
++		// SunCC workaround
++		//context->m_activeModifiers.insert(std::make_pair(
++		context->m_activeModifiers.insert(std::pair<const KeyModifierMask, CKeyMap::KeyItem>(
++		// End of SunCC workaround
+ 								keyItem.m_generates, keyItem));
+ 	}	
+ }
