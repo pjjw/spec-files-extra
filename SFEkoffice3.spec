@@ -49,8 +49,8 @@ Requires: SUNWPython
 BuildRequires: SUNWPython
 BuildRequires: SUNWpostgr-devel
 BuildRequires: SUNWmysqlu
-Requires: SFElcms
-BuildRequires: SFElcms-devel
+Requires: SUNWlcms
+BuildRequires: SUNWlcms-devel
 Requires: SUNWlibexif
 BuildRequires: SUNWlibexif-devel
 Requires: SFEgraphviz
@@ -73,7 +73,7 @@ Requires: SFEwpd-devel
 Requires: SUNWPython
 Requires: SUNWpostgr-devel
 Requires: SUNWmysqlu
-Requires: SFElcms-devel
+Requires: SUNWlcms-devel
 Requires: SUNWlibexif-devel
 Requires: SFEgraphviz-devel
 Requires: SUNWimagick

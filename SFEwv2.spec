@@ -27,10 +27,10 @@ Requires:            SUNWzlib
 Requires:            SUNWlibmsr
 Requires:            SUNWbzip
 Requires:            SUNWcslr
-Requires:            SFElibgsf
+Requires:            SUNWdesktop-search-libs
 BuildRequires:       SUNWgnome-base-libs-devel
 BuildRequires:       SUNWlxml-devel
-BuildRequires:       SFElibgsf-devel
+BuildRequires:       SUNWdesktop-search-libs-devel
 %if %sunw_gnu_iconv
 Requires: SUNWgnu-libiconv
 Requires: SUNWgnu-gettext

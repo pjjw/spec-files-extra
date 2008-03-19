@@ -23,7 +23,7 @@ BuildRequires: SUNWgnome-media-devel
 BuildRequires: SUNWgnome-cd-burner-devel
 BuildRequires: SFEmono-devel
 BuildRequires: SFEgtk-sharp
-BuildRequires: SUNWsqlite-devel
+BuildRequires: SUNWsqlite3
 BuildRequires: SFElibmusicbrainz3-devel
 BuildRequires: SFEmonodoc
 BuildRequires: SFEavahi-sharp
@@ -34,7 +34,7 @@ Requires: SUNWgnome-cd-burner
 Requires: SUNWhal
 Requires: SFEmono
 Requires: SFEgtk-sharp
-Requires: SUNWsqlite
+Requires: SUNWsqlite3
 Requires: SFElibmusicbrainz3
 Requires: SFEdbus-sharp
 Requires: SFEavahi-sharp

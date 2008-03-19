@@ -12,8 +12,8 @@ Source:                  %{sf_download}/libmng/libmng-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires: SFElcms-devel
-Requires: SFElcms
+BuildRequires: SUNWlcms-devel
+Requires: SUNWlcms
 
 %package devel
 Summary:                 %{summary} - development files

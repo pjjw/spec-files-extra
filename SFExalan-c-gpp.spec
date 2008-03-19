@@ -33,7 +33,7 @@ SUNW_BaseDir: %{_basedir}
 Autoreqprov:  on
 %include default-depend.inc
 Requires:     SFExerces-c
-BuildRequires: SFEgetopt
+BuildRequires: SUNWgnugetopt
 
 %package devel
 Summary:       %{summary} - development files

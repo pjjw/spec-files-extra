@@ -14,9 +14,9 @@ Patch1:			 ufraw-01-ctime_r-fix.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires: SFElcms-devel
+BuildRequires: SUNWlcms-devel
 BuildRequires: SUNWgnome-libs-devel
-Requires: SFElcms
+Requires: SUNWlcms
 Requires: SUNWgnome-libs
 Requires: SUNWgnome-base-libs
 Requires: SUNWgnome-img-editor

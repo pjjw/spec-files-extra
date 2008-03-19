@@ -22,14 +22,14 @@ BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWgnome-media-devel
 BuildRequires: SFEmono-devel
 BuildRequires: SFEgtk-sharp
-BuildRequires: SFElibsexy-devel
+BuildRequires: SUNWlibsexy-devel
 Requires: SUNWgnome-base-libs
 Requires: SUNWgnome-libs
 Requires: SUNWgnome-media
 Requires: SFEmono
 Requires: SFEgtk-sharp
 Requires: SFEdbus-sharp
-Requires: SFElibsexy
+Requires: SUNWlibsexy
 
 %package root
 Summary:                 %{summary} - / filesystem

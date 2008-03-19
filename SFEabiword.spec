@@ -32,8 +32,8 @@ Requires:           SUNWgnome-character-map
 Requires:           SUNWgnome-print
 Requires:           SUNWfontconfig
 Requires:           SUNWperl584core
+Requires:           SUNWdesktop-search-libs
 Requires:           SFElibfribidi
-Requires:           SFElibgsf
 BuildRequires:      SUNWgnome-base-libs-devel
 BuildRequires:      SUNWpng-devel
 BuildRequires:      SUNWlxml-devel
@@ -41,8 +41,8 @@ BuildRequires:      SUNWlibpopt-devel
 BuildRequires:      SUNWgnome-spell-devel
 BuildRequires:      SUNWgnome-character-map-devel
 BuildRequires:      SUNWgnome-print-devel
+BuildRequires:      SUNWdesktop-search-libs-devel
 BuildRequires:      SFElibfribidi-devel
-BuildRequires:      SFElibgsf-devel
 %if %SUNWaspell
 Requires:           SUNWaspell
 BuildRequires:      SUNWaspell-devel

@@ -33,7 +33,7 @@ Requires: SUNWlibpopt
 Requires: SUNWlxml
 Requires: SUNWlxsl
 Requires: SUNWzlib
-Requires: SFElibgsf
+Requires: SUNWdesktop-search-libs
 BuildRequires: SUNWgnome-component-devel
 BuildRequires: SUNWgnome-config-devel
 BuildRequires: SUNWgnome-vfs-devel
@@ -41,7 +41,7 @@ BuildRequires: SUNWgnome-python-libs-devel
 BuildRequires: SUNWgnome-print-devel
 BuildRequires: SUNWlibpopt-devel
 BuildRequires: SUNWPython-devel
-BuildRequires: SFElibgsf-devel
+BuildRequires: SUNWdesktop-search-libs-devel
 Requires: SUNWpostrun
 
 %package root

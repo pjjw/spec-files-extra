@@ -36,8 +36,8 @@ BuildRequires: SUNWgnome-common-devel
 BuildRequires: SFEdoxygen
 Requires: SFEgraphviz
 BuildRequires: SFEgraphviz-devel
-Requires: SUNWsqlite
-BuildRequires: SUNWsqlite-devel
+Requires: SUNWsqlite3
+BuildRequires: SUNWsqlite3
 Requires: SFElibmusicbrainz3
 BuildRequires: SFElibmusicbrainz3-devel
 Requires: SFElibtunepimp

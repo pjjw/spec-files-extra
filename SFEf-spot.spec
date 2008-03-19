@@ -17,14 +17,14 @@ Docdir:	      %{_defaultdocdir}/doc
 Autoreqprov:  on
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SFEmono-devel
-BuildRequires: SFElcms-devel
+BuildRequires: SUNWlcms-devel
 BuildRequires: SFEgtk-sharp
-BuildRequires: SUNWsqlite-devel
+BuildRequires: SUNWsqlite3
 Requires: SUNWgnome-base-libs
 Requires: SFEmono
-Requires: SFElcms
+Requires: SUNWlcms
 Requires: SFEgtk-sharp
-Requires: SUNWsqlite
+Requires: SUNWsqlite3
 Requires: SFEdbus-sharp
 
 %if %build_l10n

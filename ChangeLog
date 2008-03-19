@@ -1,3 +1,30 @@
+2008-03-19  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEdcraw.spec, SFEccsm.spec, SFElcms.spec,
+	  SFEpysqlite.spec, SFEpython-imaging.spec, SFEpython-mysql.spec,
+	  SFEpython-setuptools.spec, SFEpython-twisted.spec, SFEpython-xdg.spec,
+	  SFEpython-zope-interface.spec, SFEgetopt.spec, SFElibsexy.spec,
+	  SFExdg-utils.spec, SFErdesktop.spec, SFErrdtool.spec,
+	  SFEccsm.spec, SFEsexy-python.spec, SFEid3lib.spec:
+	  Removed since they are in spec-files-other now.
+	* SFElibgsf.spec, base-specs/libgsf.spec, SFEnotification-daemon.spec:
+	  Removed since they are in spec-files now.
+	* SFEabiword.spec, SFEamarok1.spec, SFEaprutil.spec,
+	  SFEbanshee.spec, SFEbeagle.spec, SFEcdcollect.spec,
+	  SFEconduit.spec, SFEcyrus-sasl.spec, SFEdeluge.spec,
+	  SFEdigikam.spec, SFEelisa.spec, SFEf-spot.spec,
+	  SFEgajim.spec, SFEgmediaserver.spec, SFEgourmet.spec,
+	  SFEinkscape.spec, SFEjabberd.spec, SFEkoffice3.spec,
+	  SFElast-exit.spec, SFElibdevil.spec, SFElibmng.spec,
+	  SFElibopensync.spec, SFEmediatomb.spec, SFEmsynctool.spec,
+	  SFEpitivi.spec, SFEpolicykit-gnome.spec, SFEpostr.spec,
+	  SFEpython-mako.spec, SFEpython-vobject.spec, SFEqt3.spec,
+	  SFEufraw.spec, SFEwine.spec, SFEwv.spec,
+	  SFEwv2.spec, SFExalan-c-gpp.spec, SUNWgnome-project.spec:
+	  Update Requires/BuildRequires in related specs.
+	* base-specs/msynctool.spec: Remove comment lines.
+	* base-specs/conduit.spec: Bump to 0.3.9
+
 2008-03-19  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEwine.spec: Add patch8. Use autoconf. Pause patch2 - -shared works,

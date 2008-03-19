@@ -32,8 +32,8 @@ Requires:	SUNWxorg-clientlibs
 BuildRequires:	SFEfontforge-devel
 Requires:	SFEfontforge
 Requires:	SFEfreetype
-BuildRequires:	SFElcms-devel
-Requires:	SFElcms
+BuildRequires:	SUNWlcms-devel
+Requires:	SUNWlcms
 BuildRequires:	SFEcups-devel
 Requires:	SFEcups
 BuildRequires:	SFEncurses-devel

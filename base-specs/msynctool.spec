@@ -18,7 +18,6 @@ Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
 Summary:        OpenSync data synchronization command line programs
 Source:	        http://www.opensync.org/download/releases/%{version}/%{name}-%{version}.tar.bz2
-#Patch1:         %{name}-01-forte-wall.diff
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Docdir:         %{_defaultdocdir}/doc
@@ -34,7 +33,6 @@ This package contains command line program to use OpenSync framework.
 
 %prep
 %setup -q
-#%patch1 -p1
 
 %build
 %ifos linux

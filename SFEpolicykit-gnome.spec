@@ -17,12 +17,12 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 BuildRequires: SUNWdbus-devel
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWgnome-vfs-devel
-BuildRequires: SFElibsexy-devel
+BuildRequires: SUNWlibsexy-devel
 BuildRequires: SFEpolicykit-devel
 Requires: SUNWdbus
 Requires: SUNWgnome-base-libs
 Requires: SUNWgnome-vfs
-Requires: SFElibsexy
+Requires: SUNWlibsexy
 Requires: SFEpolicykit
 
 %include default-depend.inc

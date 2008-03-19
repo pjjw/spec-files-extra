@@ -18,8 +18,8 @@ BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SFElibmng-devel
 Requires: SFElibmng
-BuildRequires: SFElcms-devel
-Requires: SFElcms
+BuildRequires: SUNWlcms-devel
+Requires: SUNWlcms
 
 %package devel
 Summary:                 %{summary} - development files

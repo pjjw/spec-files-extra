@@ -17,8 +17,8 @@ Patch2:		     gmediaserver-02-solaris.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires: SFEid3lib-devel
-Requires: SFEid3lib
+BuildRequires: SUNWid3lib-devel
+Requires: SUNWid3lib
 BuildRequires: SFElibupnp-devel
 Requires: SFElibupnp
 Requires: SFEfile

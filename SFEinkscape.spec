@@ -25,14 +25,14 @@ Requires:      SUNWgnome-libs
 Requires:      SFEgtkmm
 Requires:      SFEglibmm
 Requires:      SFEsigcpp
-Requires:      SFElcms
+Requires:      SUNWlcms
 BuildRequires: SFEgtkmm-devel
 BuildRequires: SFEglibmm-devel
 BuildRequires: SFEsigcpp-devel
 BuildRequires: SUNWlibgc-devel
 BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWPython
-BuildRequires: SFElcms-devel
+BuildRequires: SUNWlcms-devel
 
 %if %build_l10n
 %package l10n

@@ -21,7 +21,8 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Requires:       SUNWbash
 Requires:       SUNWgnome-base-libs
 Requires:       SUNWPython
-Requires:       SFEpysqlite
+Requires:       SUNWsqlite3
+Requires:       SUNWpysqlite
 Requires:       SFEpython-dateutil
 Requires:       SFEpython-vobject
 Requires:       SFEpygoocanvas

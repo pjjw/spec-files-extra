@@ -26,7 +26,7 @@ Requires: SUNWPython
 Requires: SUNWopenssl-libraries
 Requires: SUNWzlib
 Requires: SFEboost
-Requires: SFEpython-xdg
+Requires: SUNWpython-xdg
 
 %include default-depend.inc
 

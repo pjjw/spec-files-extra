@@ -15,8 +15,8 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 BuildRequires:           SFEgnonlin
 BuildRequires:           SFEgnome-python-extras
 BuildRequires:           SFEgst-python
-Requires:                SFEpython-zope-interface
-Requires:                SFEpython-setuptools
+Requires:                SUNWpython-zope-interface
+Requires:                SUNWpython-setuptools
 
 %include default-depend.inc
 

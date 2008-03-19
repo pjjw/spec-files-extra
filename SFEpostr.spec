@@ -21,7 +21,7 @@ Requires: SUNWgnome-base-libs
 Requires: SUNWgnome-file-mgr
 Requires: SUNWgnome-python-libs
 Requires: SUNWPython
-Requires: SFEpython-twisted
+Requires: SUNWpython-twisted
 
 %include default-depend.inc
 

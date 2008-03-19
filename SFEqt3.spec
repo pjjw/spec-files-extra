@@ -46,8 +46,9 @@ Requires: SUNWxwxft
 # The above also pulls in SUNWfreetype2
 Requires: SFEcups
 Requires: SFElibmng
+Requires: SUNWsqlite3
 BuildRequires: SFEcups-devel
-BuildRequires: SUNWsqlite-devel
+BuildRequires: SUNWsqlite3
 BuildRequires: SUNWsfwhea
 BuildRequires: SUNWpostgr-devel
 BuildRequires: SFElibmng-devel

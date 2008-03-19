@@ -26,8 +26,8 @@ Requires: SFElibkdcraw
 BuildRequires: SFElibkdcraw-devel
 Requires: SUNWTiff
 Requires: SFEimlib2
-Requires: SUNWsqlite
-BuildRequires: SUNWsqlite-devel
+Requires: SUNWsqlite3
+BuildRequires: SUNWsqlite3
 
 %package devel
 Summary:        %{summary} - development files

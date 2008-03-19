@@ -19,14 +19,14 @@ Autoreqprov:  on
 BuildRequires: SFEmono-devel
 BuildRequires: SFEgtk-sharp
 BuildRequires: SFEgnome-sharp
-BuildRequires: SUNWgmime-devel
-BuildRequires: SUNWsqlite-devel
+BuildRequires: SUNWlibgmime-devel
+BuildRequires: SUNWsqlite3
 Requires: %name-root
 Requires: SFEmono
 Requires: SFEgtk-sharp
 Requires: SFEgnome-sharp
-Requires: SUNWgmime
-Requires: SUNWsqlite
+Requires: SUNWlibgmime
+Requires: SUNWsqlite3
 
 %package root
 Summary:       %{summary} - / filesystem

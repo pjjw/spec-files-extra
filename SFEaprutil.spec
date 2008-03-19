@@ -17,9 +17,10 @@ Requires: SUNWcsl
 Requires: SUNWcsr
 Requires: SFEgawk
 Requires: SFElibapr
+Requires: SUNWsqlite3
 BuildRequires: SFElibapr-devel
 BuildRequires: SUNWpostgr-devel
-BuildRequires: SUNWsqlite-devel
+BuildRequires: SUNWsqlite3
 BuildRequires: SUNWsfwhea
 
 %description
@@ -37,7 +38,7 @@ Requires:                %{name}
 Requires:                SUNWhea
 Requires:                SFElibapr-devel
 Requires:                SUNWpostgr-devel
-Requires:                SUNWsqlite-devel
+Requires:                SUNWsqlite3
 Requires:                SUNWsfwhea
 
 %prep

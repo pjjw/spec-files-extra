@@ -31,7 +31,7 @@ Requires: SFEswig
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SFEcmake
 BuildRequires: SFEcheck
-BuildRequires: SUNWsqlite3-devel
+BuildRequires: SUNWsqlite3
 
 %package devel
 Summary:       %{summary} - development files

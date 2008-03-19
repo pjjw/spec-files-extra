@@ -16,8 +16,8 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-Requires: SUNWsqlite
-BuildRequires: SUNWsqlite-devel
+Requires: SUNWsqlite3
+BuildRequires: SUNWsqlite3
 Requires: SUNWopenssl-libraries
 BuildRequires: SUNWopenssl-include
 Requires: SFElibntlm

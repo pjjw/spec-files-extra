@@ -22,14 +22,14 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 Requires: SUNWgnome-base-libs
-Requires: SUNWsqlite3 
+Requires: SUNWsqlite3
 Requires: SUNWlxml
 Requires: SUNWmlib
 Requires: SUNWzlib
 Requires: SFElibopensync
 Requires: SFEswig
 BuildRequires: SUNWgnome-base-libs-devel 
-BuildRequires: SUNWsqlite3-devel 
+BuildRequires: SUNWsqlite3
 BuildRequires: SFElibopensync-devel 
 BuildRequires: SFEcmake
 BuildRequires: SFEcheck

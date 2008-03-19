@@ -15,7 +15,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:                SUNWPython
 Requires:                SUNWgnome-python-libs
 Requires:                SFEmetakit-python
-Requires:                SFEpython-imaging
+Requires:                SUNWpython-imaging
 Requires:                SFEpython-pyrtf
 Requires:                SFEpython-reportlab
 BuildRequires:           SUNWPython-devel

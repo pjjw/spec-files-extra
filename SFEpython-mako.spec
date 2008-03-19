@@ -18,9 +18,9 @@ BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
 Requires:               SUNWPython
-Requires:               SFEpython-setuptools
+Requires:               SUNWpython-setuptools
 BuildRequires:          SUNWPython-devel
-BuildRequires:          SFEpython-setuptools
+BuildRequires:          SUNWpython-setuptools
 
 %define python_version  2.4
 
