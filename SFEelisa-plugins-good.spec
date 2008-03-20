@@ -9,7 +9,7 @@
 %include Solaris.inc
 
 Name:              SFE%{name}
-Summary:           Bad plugins for Elisa
+Summary:           Good plugins for Elisa
 URL:               http://elisa.fluendo.com/
 Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-plugins-good-%{version}.tar.gz
