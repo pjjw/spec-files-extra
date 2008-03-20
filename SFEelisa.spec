@@ -3,20 +3,13 @@
 #
 # includes module(s): elisa
 #
-# Note that elisa does not run properly when you run the installed
-# version.  You need to download elisa from SVN head and run the
-# following command from the top-level directory to see elisa 
-# working.
-#
-# python elisa.py sample_config/poblenou.conf
-# 
-# You may also need to add the following line to /etc/mime.types for
+# You may need to add the following line to /etc/mime.types for
 # the sample OGG files to be visible in elisa.
 #
 # application/ogg ogg
 #
 %define name elisa
-%define version 0.3.3
+%define version 0.3.5
 
 %include Solaris.inc
 
@@ -25,7 +18,6 @@ Summary:           Media center written in Python
 URL:               http://elisa.fluendo.com/
 Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-%{version}.tar.gz
-Patch1:            elisa-01-fixps.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
 BuildRequires:     SUNWPython-devel
@@ -35,9 +27,16 @@ BuildRequires:     SUNWsqlite3
 BuildRequires:     SUNWpysqlite
 BuildRequires:     SFEgnome-python-extras
 BuildRequires:     SFEpigment-devel
+<<<<<<< .mine
 BuildRequires:     SUNWpython-imaging
 BuildRequires:     SUNWpython-setuptools
 BuildRequires:     SUNWpython-twisted
+BuildRequires:     SUNWpysqlite
+=======
+BuildRequires:     SUNWpython-imaging
+BuildRequires:     SUNWpython-setuptools
+BuildRequires:     SUNWpython-twisted
+>>>>>>> .r998
 BuildRequires:     SFEpigment-python
 Requires:          SUNWPython
 Requires:          SUNWPython-extra
@@ -48,9 +47,16 @@ Requires:          SUNWsqlite3
 Requires:          SUNWpysqlite
 Requires:          SFEgnome-python-extras
 Requires:          SFEpigment
+<<<<<<< .mine
 Requires:          SUNWpython-imaging
 Requires:          SUNWpython-setuptools
 Requires:          SUNWpython-twisted
+Requires:          SUNWpysqlite
+=======
+Requires:          SUNWpython-imaging
+Requires:          SUNWpython-setuptools
+Requires:          SUNWpython-twisted
+>>>>>>> .r998
 Requires:          SFEpigment-python
 
 %include default-depend.inc
@@ -68,7 +74,6 @@ systems.
 
 %prep
 %setup -q -n elisa-%version
-%patch1 -p1
 
 %build
 
@@ -110,11 +115,19 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %defattr(-,root,bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/elisa
+%{_bindir}/elisa-get
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/python%{pythonver}/vendor-packages/elisa
 %{_libdir}/python%{pythonver}/vendor-packages/elisa-%{version}-py%{pythonver}.egg-info
+%{_libdir}/python%{pythonver}/vendor-packages/elisa-%{version}-py%{pythonver}-nspkg.pth
+%{_libdir}/python%{pythonver}/vendor-packages/elisa_generic_setup.py
+%{_libdir}/python%{pythonver}/vendor-packages/elisa_generic_setup.pyc
+%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_core_setup.py
+%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_core_setup.pyc
 
 %changelog
+* Wed Mar 19 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.3.5.
 * Wed Jan 16 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.3.3.  Add SFEpigment-python as a new dependency.
 * Thu Oct 25 2007 Brian Cameron  <brian.cameron@sun.com>

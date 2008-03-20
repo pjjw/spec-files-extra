@@ -1,7 +1,18 @@
+2008-03-19  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEelisa.spec: Bump to 0.3.5
+	* SFEelisa-plugins-good.spec, SFEelisa-plugins-bad.spec:  New
+	  spec files with version 0.3.5.
+	* SFEpigment.spec: Updated to 0.3.5.
+	* SFEpigment-python.spec: Updated to 0.3.3.
+	* patches/pigment-python-01-fixlink.diff, patches/elisa-01-fixps.diff:
+	  Remove upstream patches.
+
 2008-03-19  Nicolas Doualot <nicolas@slubman.info>
 
 	* SFEsynergy.spec: Add new module
-	* patches/synergy-01-suncc-compilation.diff: Lets synergy compile with SunCC
+	* patches/synergy-01-suncc-compilation.diff: Lets synergy compile with
+	  SunCC
 
 2008-03-19  Halton Huo <nonsea@users.sourceforge.net>
 

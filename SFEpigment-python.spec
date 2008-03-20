@@ -4,7 +4,7 @@
 # includes module(s): pigment-python
 #
 %define name pigment-python
-%define version 0.3.2
+%define version 0.3.3
 %define pythonver 2.4
 
 %include Solaris.inc
@@ -14,7 +14,6 @@ Name:            SFE%{name}
 Version:         %{version}
 URL:             https://core.fluendo.com/pigment/trac
 Source0:         http://elisa.fluendo.com/static/download/pigment/pigment-python-%{version}.tar.bz2
-Patch1:          pigment-python-01-fixlink.diff
 SUNW_BaseDir:    %{_basedir}
 BuildRoot:       %{_tmppath}/%{name}-%{version}-build
 BuildRequires:   SUNWPython-devel
@@ -22,13 +21,13 @@ BuildRequires:   SUNWgnome-common-devel
 BuildRequires:   SUNWgnome-media-devel
 BuildRequires:   SUNWgnome-base-libs-devel
 BuildRequires:   SUNWgnome-python-libs-devel
-BuildRequires:   SFEgst-python
+BuildRequires:   SUNWgst-python
 BuildRequires:   SFEpigment-devel
 Requires:        SUNWgnome-base-libs
 Requires:        SUNWgnome-media
 Requires:        SUNWgnome-python-libs
 Requires:        SFEpigment
-Requires:        SFEgst-python
+Requires:        SUNWgst-python
 
 %include default-depend.inc
 
@@ -41,7 +40,6 @@ the Fluendo Media Center project.
 
 %prep
 %setup -q -n pigment-python-%version
-%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -86,6 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pigment-python
 
 %changelog
+* Wed Mar 19 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.3.3
 * Wed Feb 06 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.3.2.
 * Wed Jan 16 2008 Brian Cameron  <brian.cameron@sun.com>
