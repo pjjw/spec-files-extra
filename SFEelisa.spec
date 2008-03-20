@@ -27,16 +27,10 @@ BuildRequires:     SUNWsqlite3
 BuildRequires:     SUNWpysqlite
 BuildRequires:     SFEgnome-python-extras
 BuildRequires:     SFEpigment-devel
-<<<<<<< .mine
 BuildRequires:     SUNWpython-imaging
 BuildRequires:     SUNWpython-setuptools
 BuildRequires:     SUNWpython-twisted
 BuildRequires:     SUNWpysqlite
-=======
-BuildRequires:     SUNWpython-imaging
-BuildRequires:     SUNWpython-setuptools
-BuildRequires:     SUNWpython-twisted
->>>>>>> .r998
 BuildRequires:     SFEpigment-python
 Requires:          SUNWPython
 Requires:          SUNWPython-extra
@@ -47,16 +41,10 @@ Requires:          SUNWsqlite3
 Requires:          SUNWpysqlite
 Requires:          SFEgnome-python-extras
 Requires:          SFEpigment
-<<<<<<< .mine
 Requires:          SUNWpython-imaging
 Requires:          SUNWpython-setuptools
 Requires:          SUNWpython-twisted
 Requires:          SUNWpysqlite
-=======
-Requires:          SUNWpython-imaging
-Requires:          SUNWpython-setuptools
-Requires:          SUNWpython-twisted
->>>>>>> .r998
 Requires:          SFEpigment-python
 
 %include default-depend.inc
