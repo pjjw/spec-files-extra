@@ -6,7 +6,8 @@
 
 %define src_ver 4.1.4
 %define src_name giflib
-%define src_url http://%{sf_mirror}/libungif
+#%define src_url http://%{sf_mirror}/libungif
+%define src_url http://%{sf_mirror}/giflib
 
 Name:		giflib
 Summary:	GIF-manipulation library
@@ -60,5 +61,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/giflib/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Mar 21 2008 - Thomas Wagner
+- adjust download URL
 * Thu Sep  6 2007 - dougs@truemail.co.th
 - Initial base spec file

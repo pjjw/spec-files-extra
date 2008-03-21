@@ -3,62 +3,75 @@
 #
 # includes module(s): libmng
 #
+
 %include Solaris.inc
+
+%ifarch amd64 sparcv9
+%include arch64.inc
+##FIXME##%define arch_ldadd -Wl,-znolazyload -Wl,-L/usr/sfw/lib/%{_arch64} -R/usr/sfw/lib/%{_arch64}
+%use libmng64 = libmng.spec
+%endif
+
+%include base.inc
+%use libmng = libmng.spec
 
 Name:                    SFElibmng
 Summary:                 libmng  - the MNG reference library
-Version:                 1.0.10
+Version:                 %{libmng.version}
 Source:                  %{sf_download}/libmng/libmng-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires: SUNWlcms-devel
-Requires: SUNWlcms
+BuildRequires: SFElcms-devel
+##FIXME## SFElcms need to be a 64bit version for full 64-bit support, create test on lib/amd64/liblcms.so*
+Requires: SFElcms
+
 
 %package devel
-Summary:                 %{summary} - development files
-SUNW_BaseDir:            %{_basedir}
+Summary:       %{summary} - development files
+SUNW_BaseDir:  %{_basedir}
 %include default-depend.inc
-Requires: %name
+Requires:      %name
 
 %prep
-%setup -q -n libmng-%version
+rm -rf %name-%version
+mkdir %name-%version
+
+%ifarch amd64 sparcv9
+mkdir %name-%version/%_arch64
+%libmng64.prep -d %name-%version/%_arch64
+%endif
+
+mkdir %name-%version/%{base_arch}
+%libmng.prep -d %name-%version/%{base_arch}
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-    CPUS=1
-fi
-cp makefiles/configure.in .
-cp makefiles/Makefile.am .
-for f in *.[ch]; do dos2unix -ascii $f $f; done
-libtoolize --force
-aclocal $ACLOCAL_FLAGS
-autoconf
-automake -a -c -f
-export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags"
-./configure --prefix=%{_prefix} --mandir=%{_mandir} \
-            --libdir=%{_libdir}              \
-            --libexecdir=%{_libexecdir}      \
-            --sysconfdir=%{_sysconfdir}      \
-            --enable-shared		     \
-	    --disable-static
 
-make -j$CPUS 
+%ifarch amd64 sparcv9
+%libmng64.build -d %name-%version/%_arch64
+%endif
+
+%libmng.build -d %name-%version/%{base_arch}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
+%ifarch amd64 sparcv9
+%libmng64.install -d %name-%version/%_arch64
+%endif
 
-%clean
+%libmng.install -d %name-%version/%{base_arch}
+
+
+%clean 
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
+%ifarch amd64 sparcv9
+%{_libdir}/%{_arch64}/lib*.so*
+%endif
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man5
@@ -73,11 +86,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_mandir}/man3
 %{_mandir}/man3/*
 
-%changelog
-* Sun Nov 4 2007 - markwright@internode.on.net
-- Bump to 1.1.10
-* Fri Mar 30 2007 - daymobrew@users.sourceforge.net
-- Change source URL to one working sourceforge mirror
 
-* Sun Jan  7 2007 - laca@sun.com
-- create
+%changelog
+* Wed Mar  5 2008 - Thomas Wagner
+- create 64bit spec, move old spec to base-spec/libmng.spec

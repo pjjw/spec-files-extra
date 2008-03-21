@@ -1,3 +1,7 @@
+2008-03-21  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEgiflib.spec: base-specs/giflib.spec, adjust downlaod URL
+        * SFElibmng.spec: add base-specs/libmng.spec - add 64-bit build 
+
 2008-03-21  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFElibast.spec: Fix Source error
