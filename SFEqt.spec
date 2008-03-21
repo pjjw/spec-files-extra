@@ -1,14 +1,19 @@
 #
-# Copyright (c) 2006 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 
 %include Solaris.inc
 
+%define tarball_version 4.4.0-beta1
+
 Name:                SFEqt
 Summary:             Cross-platform development framework/toolkit
-Version:             4.2.3
-Source:              ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
+URL:                 http://trolltech.com/products/qt
+License:             GPL v2
+Version:             4.4.0
+Source:              ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{tarball_version}.tar.gz
+Patch1:              qt-01-time.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -30,7 +35,8 @@ SUNW_BaseDir:   %{_basedir}
 Requires: %name
 
 %prep
-%setup -q -n qt-x11-opensource-src-%version
+%setup -q -n qt-x11-opensource-src-%tarball_version
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -74,22 +80,28 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %{_libdir}/lib*.prl
-%{_libdir}/*.pc
 %dir %attr (0755, root, bin) %{_libdir}/qt
 %{_libdir}/qt/*
+%dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/qt
+
 
 %files devel
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
 %dir %attr (0755, root, other) %{_includedir}/qt
 %{_includedir}/qt/*
+%dir %attr (0755, root, bin) %dir %{_libdir} 
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig 
+%{_libdir}/pkgconfig/*
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, other) %{_datadir}/qt
-%{_datadir}/qt/*
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
 
 %changelog
+* Fri Mar 21 2008 - nonsea@users.sourceforge.net
+- Bump to 4.4.0-beta1, and update %files
+- Add patch time.diff
 * Mon Mar 19 2007 - dougs@truemail.co.th
 - Fixed -fno-omit-frame-pointer flag
 - Bump to 4.2.3

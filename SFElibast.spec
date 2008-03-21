@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 
@@ -8,7 +8,7 @@
 Name:                SFElibast
 Summary:             Library of Assorted Spiffy Things
 Version:             0.7
-Source:              %{sf_download}/download/libast-%{version}.tar.gz
+Source:              http://eterm.org/download/libast-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -75,6 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Fri Mar 21 2008 - nonsea@users.sourceforge.net
+- Fix Source error.
 * Thu Nov 15 2007 - daymobrew@users.sourceforge.net
 - Add support for Indiana builds.
 * Mon Mar 19 2007 - dougs@truemail.co.th

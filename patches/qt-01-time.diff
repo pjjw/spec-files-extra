@@ -1,0 +1,10 @@
+--- qt-x11-opensource-src-4.4.0-beta1/src/corelib/kernel/qeventdispatcher_unix.cpp.orig	2008-03-20 18:31:37.115860000 +0800
++++ qt-x11-opensource-src-4.4.0-beta1/src/corelib/kernel/qeventdispatcher_unix.cpp	2008-03-20 18:32:13.156924000 +0800
+@@ -55,6 +55,7 @@
+ #include <errno.h>
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <sys/times.h>
+ 
+ #if (_POSIX_MONOTONIC_CLOCK-0 <= 0) || defined(QT_BOOTSTRAP)
+ #  include <sys/times.h>

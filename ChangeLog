@@ -1,7 +1,13 @@
+2008-03-21  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFElibast.spec: Fix Source error
+	* SFEqt.spec: Bump to 4.4.0-beta1, and update %files
+	* patches/qt-01-time.diff: Added patch
+
 2008-03-21  Jim Li <jim.li@sun.com>
 
-        * patches/PolicyKit-03-rbac.diff: add mapping function between
-          PolicyKit's ActionID and RBAC authorization
+	* patches/PolicyKit-03-rbac.diff: add mapping function between
+	  PolicyKit's ActionID and RBAC authorization
 
 2008-03-19  Brian Cameron  <brian.cameron@sun.com>
 
