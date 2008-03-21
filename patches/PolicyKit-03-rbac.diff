@@ -86,8 +86,8 @@
  ## note that TESTS has special meaning (stuff to use in make check)
  ## so if adding tests not to be run in make check, don't add them to 
 --- PolicyKit-0.7.orig/src/polkit/polkit-config-rbac.c	1970-01-01 08:00:00.000000000 +0800
-+++ PolicyKit-0.7/src/polkit/polkit-config-rbac.c	2008-03-13 17:13:44.913231000 +0800
-@@ -0,0 +1,352 @@
++++ PolicyKit-0.7/src/polkit/polkit-config-rbac.c	2008-03-21 15:11:48.830523000 +0800
+@@ -0,0 +1,400 @@
 +/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*- */
 +/***************************************************************************
 + *
@@ -171,6 +171,7 @@
 +        STATE_IN_DEFINE_ADMIN_AUTH,
 +};
 +
++#define BUF_SIZE 1024
 +
 +/**
 + * PolKitConfig:
@@ -183,6 +184,7 @@
 +struct _PolKitConfig
 +{
 +        int refcount;
++	KitHash *id_map_auth;
 +};
 +
 +/**
@@ -198,17 +200,56 @@
 +polkit_config_new (const char *path, PolKitError **error)
 +{
 +        PolKitConfig *pk_config;
++	FILE *fp;
++	char buf[BUF_SIZE];
++	char *buf_tmp;
++	char **tokens;
++	size_t num_tokens, off;
 +
 +        /* load and parse the configuration file */
 +        pk_config = NULL;
 +
-+
 +        pk_config = kit_new0 (PolKitConfig, 1);
 +        pk_config->refcount = 1;
++        pk_config->id_map_auth = kit_hash_new (kit_hash_str_hash_func,
++                                                kit_hash_str_equal_func,
++                                                kit_hash_str_copy,
++                                                kit_hash_str_copy,
++                                                kit_free,
++                                                kit_free);
++
++	_pk_debug (" Open Map File %s", path);
++	if (path != NULL && (fp = fopen (path, "rF")) != NULL) {
++		while (fgets (buf, BUF_SIZE, fp)) {
++			if ( *buf == '#')  /* skip commnet line */
++				continue;
++			for (buf_tmp=buf; *buf_tmp == ' '; buf_tmp++)
++				;
++			off = strlen (buf_tmp) - 1;
++			if (buf_tmp[off] == '\n')
++				buf_tmp[off] = '\0';
++			else
++				break;   /* line too long */
++
++			tokens = kit_strsplit (buf_tmp, '=', &num_tokens);
++			if (num_tokens != 2) {
++				kit_strfreev (tokens);
++				continue;
++			}
++			
++			_pk_debug ("Actionid = %s, auth = %s", tokens[0], tokens[1]);		
++			kit_hash_insert (pk_config->id_map_auth, kit_strdup(tokens[0]), kit_strdup(tokens[1]));
++			kit_strfreev (tokens);	
++		}
++		fclose (fp);	
++	}
++
 +
 +        return pk_config;
 +
 +error:
++	if (pk_config != NULL)
++		polkit_config_unref (pk_config);
 +        return NULL;
 +}
 +
@@ -244,18 +285,20 @@
 +        if (pk_config->refcount > 0) 
 +                return;
 +
++	kit_hash_unref (pk_config->id_map_auth);
 +        kit_free (pk_config);
 +}
 +
 +
 +static PolKitResult
-+config_rbac_test (PolKitAction *action,
++config_rbac_test (KitHash *map,
++	    PolKitAction *action,
 +            PolKitCaller *caller,
 +            PolKitSession *session,
 +	    PolKitConfigAdminAuthType *out_admin_auth_type,
 +            const char **out_data)
 +{
-+        char *str;
++        char *str, *str_tmp;
 +        char *username;
 +        char *actionid;
 +        uid_t uid;
@@ -271,7 +314,12 @@
 +
 +        if (!polkit_action_get_action_id (action, &str))
 +                 goto out;
-+        actionid = kit_strdup (str);
++
++	str_tmp = kit_hash_lookup (map, str, NULL); 
++        if ( str_tmp == NULL )
++		actionid = kit_strdup (str);
++	else
++		actionid = kit_strdup (str_tmp);
 +
 +        if (caller != NULL) {
 +                 if (!polkit_caller_get_uid (caller, &uid))
@@ -359,7 +407,7 @@
 +
 +       _pk_debug ("In polkit_config_can_session_do_action"); 
 +	PolKitResult result;
-+        result = config_rbac_test ( action, NULL, session, &admin_auth_type, &data);
++        result = config_rbac_test ( pk_config->id_map_auth, action, NULL, session, &admin_auth_type, &data);
 +        return result;
 +}
 +
@@ -386,7 +434,7 @@
 +       _pk_debug ("In polkit_config_can_caller_do_action");
 +
 +        PolKitResult result;
-+        result = config_rbac_test (action, caller, NULL, &admin_auth_type, &data);
++        result = config_rbac_test (pk_config->id_map_auth, action, caller, NULL, &admin_auth_type, &data);
 +	if ( data != NULL ) _pk_debug (" data = %s", data);
 +        return result;
 +}
@@ -416,8 +464,8 @@
 +                                         const char                 **out_data)
 +{
 +	PolKitResult result;
-+	result = config_rbac_test ( action, caller, NULL, out_admin_auth_type, out_data);
-+	if (result == POLKIT_RESULT_ONLY_VIA_ADMIN_AUTH || *out_admin_auth_type == POLKIT_CONFIG_ADMIN_AUTH_TYPE_USER) {
++	result = config_rbac_test ( pk_config->id_map_auth, action, caller, NULL, out_admin_auth_type, out_data);
++	if (result == POLKIT_RESULT_ONLY_VIA_ADMIN_AUTH && *out_admin_auth_type == POLKIT_CONFIG_ADMIN_AUTH_TYPE_USER) {
 +		return TRUE;
 +	} else {
 +		return FALSE;
@@ -440,6 +488,22 @@
 +};
 +
 +#endif /* POLKIT_BUILD_TESTS */
+--- PolicyKit-0.7.orig/src/polkit/polkit-context.c	Thu Mar 13 17:23:05 2008
++++ PolicyKit-0.7/src/polkit/polkit-context.c	Thu Mar 20 17:59:17 2008
+@@ -923,8 +923,13 @@
+                 else
+                         pk_error = &pk_error2;
+ 
++#if POLKIT_AUTH_SOURCE_RBAC
++                _pk_debug ("loading mapping file");
++                pk_context->config = polkit_config_new (PACKAGE_SYSCONF_DIR "/security/auth_map.conf", pk_error);
++#else
+                 _pk_debug ("loading configuration file");
+                 pk_context->config = polkit_config_new (PACKAGE_SYSCONF_DIR "/PolicyKit/PolicyKit.conf", pk_error);
++#endif
+                 /* if configuration file was bad, log it */
+                 if (pk_context->config == NULL) {
+                         kit_warning ("failed to load configuration file: %s", 
 --- PolicyKit-0.7.orig//src/polkit-grant/polkit-grant-helper.c	2008-03-13 17:23:05.419376000 +0800
 +++ PolicyKit-0.7/src/polkit-grant/polkit-grant-helper.c	2008-03-13 17:47:35.839740000 +0800
 @@ -61,7 +61,7 @@

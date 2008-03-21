@@ -1,3 +1,8 @@
+2008-03-13  Jim Li <jim.li@sun.com>
+
+        * patches/PolicyKit-03-rbac.diff: add mapping function between
+          PolicyKit's ActionID and RBAC authorization
+
 2008-03-19  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEelisa.spec: Bump to 0.3.5
