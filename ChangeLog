@@ -1,3 +1,12 @@
+2008-03-21  Thomas Wagner <tom68@users.sourceforge.net>
+   
+        * SFElibmng.spec, base-spec/libmng.spec: *add* 64-bit support,
+          depend on SUNWlcms in 64-bit
+        * SUNWlcms.spec, base-spec/lcms.spec: *add* 32/64-bit version,
+          the exception here is: SUNWlcms should dissapear from spec-files-extra
+          once integrated in Nevada/others and general availability. 
+          Expect further development for SUNWlcms in spec-files-other.
+
 2008-03-21  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEespeak.spec: Fix so it can be built with either PortAudio

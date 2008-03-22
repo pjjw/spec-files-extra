@@ -11,8 +11,9 @@ Source:                  %{sf_download}/libmng/libmng-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires: SFElcms-devel
-Requires: SFElcms
+BuildRequires: SUNWlcms-devel
+#note: needs 64-bit version of SUNWlcms
+Requires: SUNWlcms
 
 %package devel
 Summary:                 %{summary} - development files
@@ -74,6 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sat Mar 22 2008 - Thomas Wagner
+- (Build-)Requires: SUNWlcms(-devel)  (was: SFElcms)
 * Wed Mar  5 2008 - Thomas Wagner
 - add 64bit support, move to base-spec, new SFElibmng.spec
 * Sun Nov 4 2007 - markwright@internode.on.net

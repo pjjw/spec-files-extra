@@ -22,9 +22,12 @@ Source:                  %{sf_download}/libmng/libmng-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires: SFElcms-devel
-##FIXME## SFElcms need to be a 64bit version for full 64-bit support, create test on lib/amd64/liblcms.so*
-Requires: SFElcms
+BuildRequires: SUNWlcms-devel
+BuildRequires: SUNWjpg-devel
+##FIXME## SFElcms/SUNWlcms need to be a 64bit version for full 64-bit support, create test on lib/amd64/liblcms.so*
+##FIXME## SUNWlcms from spec-files-extra is now 32/64bit
+Requires: SUNWlcms
+Requires: SUNWjpg
 
 
 %package devel
@@ -88,5 +91,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Mar 22 2008 - Thomas Wagner
+- change to (Build-)Requires: SUNWlcms(-devel) from spec-files-extra which is 32/64bit, 
+  note1: spec-files-extra/SUNWlcms.spec should replace the already moved file spec-files-other/SUNWlcms.spec (32bit only!)
+  note2: pls don't delete spec-files-extra/SUNWlcms.spec base-specs/lcms.spec now
 * Wed Mar  5 2008 - Thomas Wagner
-- create 64bit spec, move old spec to base-spec/libmng.spec
+- create 64bit spec, move ancestor spec to base-spec/libmng.spec
+- add (Build-)Requires: SUNWjpg(-devel)
