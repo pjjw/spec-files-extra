@@ -50,7 +50,7 @@ BuildRequires: SFEportaudio-devel
 Requires: SFEportaudio
 BuildRequires: SFEladspa-devel
 Requires: SFEladspa
-Requires: SFEswh-plugins
+Requires: SFEladspa-swh-plugins
 BuildRequires: SFEsoundtouch-devel
 Requires: SFEsoundtouch
 
@@ -114,16 +114,15 @@ Requires:                %{name}
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
-%patch13 -p1
 %patch14 -p1
 %endif
 
 # If using GNU Gettext, don't need this patch
 #
-#%if %with_gnu_gettext
-#%else
-#%patch13 -p1
-#%endif
+%if %with_gnu_gettext
+%else
+%patch13 -p1
+%endif
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -172,8 +171,8 @@ cd ../..
 
 libtoolize -f -c
 aclocal
-autoconf -f
 autoheader
+autoconf -f
 
 ./configure --prefix=%{_prefix}         \
             --bindir=%{_bindir}         \

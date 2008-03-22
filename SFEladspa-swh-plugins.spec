@@ -1,12 +1,12 @@
 #
-# spec file for package SFEswh-plugins
+# spec file for package SFEladspa-swh-plugins
 #
 # includes module(s): swh-plugins
 #
 
 %include Solaris.inc
-Name:                    SFEswh-plugins
-Summary:                 LADSPA plugins
+Name:                    SFEladspa-swh-plugins
+Summary:                 LADSPA SWH plugins
 URL:                     http://plugin.org.uk/
 Version:                 0.4.15
 Source:                  http://plugin.org.uk/releases/%{version}/swh-plugins-%{version}.tar.gz

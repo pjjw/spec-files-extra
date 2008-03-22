@@ -1,4 +1,22 @@
+2008-03-21  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEespeak.spec: Fix so it can be built with either PortAudio
+	  and PulseAudio.  Fix so it builds with Sun Studio rather than
+	  GCC.
+	* patches/espeak-01-solaris.diff:  Remove, and change into the
+	  following two patches.
+	* patches/espeak-01-makefile.diff: This patch makes the changes
+	  needed to Makefile to build with Sun Studio on Solaris.
+	* patches/espeak-02-pulseaudio.diff:  This patch contains only the
+	  changes needed to make the code build with PulseAudio instead of
+	  PortAudio.
+	* SFEladspa-swh-plugins.spec: Rename from SFEswh-plugins.spec
+	  to make it more clear these are LADSPA plugins.
+	* SFEaudacity.spec: Minor cleanup, refer to SFEladspa-swh-plugins
+	  as a dependency.
+
 2008-03-21  Thomas Wagner <tom68@users.sourceforge.net>
+
         * SFEgiflib.spec: base-specs/giflib.spec, adjust downlaod URL
         * SFElibmng.spec: add base-specs/libmng.spec - add 64-bit build 
 
