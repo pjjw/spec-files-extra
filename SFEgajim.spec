@@ -7,18 +7,17 @@
 %include Solaris.inc
 Name:                    SFEgajim
 Summary:                 Gajim Jabber client
-Version:                 0.10.1
+Version:                 0.11.4
 Source:                  http://www.gajim.org/downloads/gajim-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
-Patch1:                  gajim-01-build-fix.diff
+Patch2:                  gajim-02-logger.diff
 %include default-depend.inc
 Requires:                SUNWPython
 Requires:                SUNWsqlite3
 Requires:                SUNWpysqlite
-Requires:                SFEgtkspell
 BuildRequires:           SUNWPython-devel
-BuildRequires:           SUNWsqlite3
+BuildRequires:           SUNWsqlite3-devel
 BuildRequires:           SUNWpysqlite
 BuildRequires:           SFEgtkspell-devel
 
@@ -32,7 +31,7 @@ Requires:                %{name}
 
 %prep
 %setup -q -n gajim-%version
-%patch1 -p1
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -44,6 +43,14 @@ export CFLAGS="%optflags"
 export CPPFLAGS="%optflags"
 export CXXFLAGS="%cxx_optflags"
 export LDFLAGS="%_ldflags"
+
+
+./configure --prefix=%{_prefix}			\
+	    --mandir=%{_mandir}			\
+            --libdir=%{_libdir}			\
+            --libexecdir=%{_libexecdir}		\
+            --sysconfdir=%{_sysconfdir}
+
 make -j$CPUS
 
 
@@ -56,6 +63,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 # REMOVE l10n FILES
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 %endif
+
+# REMOVE doc FILES
+rm -rf $RPM_BUILD_ROOT%{_datadir}/doc
 
 
 %clean
@@ -89,6 +99,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Mar 23 2008 - nicolas@slubman.info
+- Bumped version
 * Wed Oct 11 2006 - laca@sun.com
 - add gtkspell deps
 * Wed Jul 26 2006 - lin.ma@sun.com

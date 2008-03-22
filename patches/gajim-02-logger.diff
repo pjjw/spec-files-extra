@@ -1,0 +1,11 @@
+--- gajim-0.11.4/src/common/logger.py	2007-08-31 09:49:31.000000000 +0200
++++ gajim-0.11.4.patched/src/common/logger.py	2008-02-24 14:34:13.845923000 +0100
+@@ -30,7 +30,7 @@ except ImportError:
+ 		raise exceptions.PysqliteNotAvailable
+ 
+ import configpaths
+-LOG_DB_PATH = configpaths.gajimpaths['LOG_DB']
++LOG_DB_PATH = str(configpaths.gajimpaths['LOG_DB'])
+ LOG_DB_FOLDER, LOG_DB_FILE = os.path.split(LOG_DB_PATH)
+ 
+ class Constants:
