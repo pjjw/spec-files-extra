@@ -7,7 +7,7 @@
 # Software specific variable definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %define src_name	medit
-%define src_version	0.8.9
+%define src_version	0.9.3
 %define pkg_release	1
 
 # =========================================================================== 
@@ -26,11 +26,10 @@ Release:      	%{pkg_release}
 License:      	GPLv2
 Group:          Development/Tools
 Source:         %{sf_download}/mooedit/%{src_name}-%{src_version}.tar.bz2
-Patch:		medit-01-0.8.9-solaris.sunstudio12.diff
 Vendor:       	medit
 URL:            http://mooedit.sourceforge.net
 Packager:     	Komala, Jayanthi
-BuildRoot:		%{_tmppath}/%{name}-%{version}-build
+BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 #BuildRoot:     %{_builddir}/%{name}-root
 
 %description 
@@ -51,18 +50,31 @@ Requires:                %{name}
 %setup -q
 CC=gcc
 export CC
+LDFLAGS="-L/usr/gnu/lib"
+LIBS="-lintl"
+export LDFLAGS LIBS
+
 ./configure --prefix=%{_prefix} \
             --bindir=%{_bindir} \
             --mandir=%{_mandir} \
             --libdir=%{_libdir}
 
-%patch0 -p 1
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Build-Section 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %build
-make
+CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
+if test "x$CPUS" = "x" -o $CPUS = 0; then
+     CPUS=1
+fi
+
+export CFLAGS="%optflags"
+export CXXFLAGS="%cxx_optflags"
+export LDFLAGS="%_ldflags -lintl"
+
+make -j$CPUS
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -110,6 +122,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
+%{_datadir}/doc/%{name}/*
 %attr (0755, root, other) %{_datadir}/icons
 %{_datadir}/moo
 %{_datadir}/man
@@ -127,8 +140,11 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Mar 23 2008 - Shivakumar GN
+- Bumped from V0.8.9 to V0.9.3 
 * Sun Oct 14 2007 - laca@sun.com
 - add l10n subpkg
 - fix packaging
 * Sat Aug 11 2007 - By Komala, Jayanthi
 - Initial spec
+
