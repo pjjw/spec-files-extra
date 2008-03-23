@@ -1,3 +1,11 @@
+2008-03-22  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEwine.spec: Bump to 0.9.58, update patch1, update source URL.
+	* SFEnicdrv.spec: Add patch8, use newer gem code for drivers, build
+	  GLDv3 versions when available, update compiler options.
+	* patches/nicdrv-08-alta.diff: Fix GLDv3 compilation
+	* patches/wine-01-nameconfict.diff: Bump for 0.9.58
+
 2008-03-21  Thomas Wagner <tom68@users.sourceforge.net>
    
         * SFElibmng.spec, base-spec/libmng.spec: *add* 64-bit support,

@@ -6,11 +6,11 @@
 %include Solaris.inc
 
 %define src_name	wine
-%define src_url		http://jaist.dl.sourceforge.net/sourceforge/%{src_name}
+%define src_url		%{sf_download}/%{src_name}
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                0.9.57
+Version:                0.9.58
 URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
@@ -139,8 +139,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Sat Mar 22 2008 - trisk@acm.jhu.edu
+- Bump to 0.9.58
+- Update patch1
+- Update source URL
 * Tue Mar 18 2008 - trisk@acm.jhu.edu
-- Add patch8 to implement network statistics in iphlpapi
+- Add patch6 to implement network statistics in iphlpapi
 - Use autoconf
 - Pause patch2 - -shared works, and the configure.ac part is broken
 * Mon Mar 10 2008 - trisk@acm.jhu.edu

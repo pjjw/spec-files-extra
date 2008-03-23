@@ -20,12 +20,15 @@ Source1:             http://homepage2.nifty.com/mrym3/taiyodo/rf-2.4.0.tar.gz
 Source2:             http://homepage2.nifty.com/mrym3/taiyodo/ni-0.8.11.tar.gz
 Source3:             http://homepage2.nifty.com/mrym3/taiyodo/alta-2.6.0.tar.gz
 
-# Remove dnet driver for tu. Dnet is not 64bit while tu is
+# Replaces dnet which is still missing on sparc
+# dnet had a number of other updates since this was written, though
 Source4:             http://homepage2.nifty.com/mrym3/taiyodo/tu-2.6.0b.tar.gz
 Source5:             http://homepage2.nifty.com/mrym3/taiyodo/bfe-2.6.0a.tar.gz
 Source6:             http://homepage2.nifty.com/mrym3/taiyodo/tne-2.4.0a.tar.gz
+# Replaces spwr
 Source7:             http://homepage2.nifty.com/mrym3/taiyodo/epfe-2.4.0.tar.gz
 Source8:             http://homepage2.nifty.com/mrym3/taiyodo/mtd-2.4.0.tar.gz
+# Replaces pcn
 Source9:             http://homepage2.nifty.com/mrym3/taiyodo/ae-2.6.0a.tar.gz
 Source10:            http://homepage2.nifty.com/mrym3/taiyodo/gani-2.4.4.tar.gz
 Source11:            http://homepage2.nifty.com/mrym3/taiyodo/vel-2.4.0.tar.gz
@@ -35,8 +38,11 @@ Source14:            http://homepage2.nifty.com/mrym3/taiyodo/myk-2.5.0.tar.gz
 Source15:            http://homepage2.nifty.com/mrym3/taiyodo/urf-0.8.2.tar.gz
 Source16:            http://homepage2.nifty.com/mrym3/taiyodo/axf-0.8.2.tar.gz
 Source17:            http://homepage2.nifty.com/mrym3/taiyodo/upf-0.8.2.tar.gz
+# Replaces iprb
 Source18:            http://homepage2.nifty.com/mrym3/taiyodo/ife-2.6.0a.tar.gz
+# Replaces elxl
 Source19:            http://homepage2.nifty.com/mrym3/taiyodo/tcfe-2.4.0.tar.gz
+# Replaces e1000g
 Source20:            http://homepage2.nifty.com/mrym3/taiyodo/em-2.4.0.tar.gz
 
 # Template script used to generate post-install scripts for each driver.
@@ -51,6 +57,9 @@ Source102:           drvrm
 # Template etc/system file needed by the Makefiles when installing to
 # alternate DESTDIR.
 Source103:           etc_system
+
+# Headers for building GLDv3 drivers outside of ON tree.
+Source104:           http://trisk.acm.jhu.edu/gldv3-headers-0.1.tar.bz2
 Patch1:              nicdrv-01-em.diff
 Patch2:              nicdrv-02-rf.diff
 Patch3:              nicdrv-03-tu.diff
@@ -58,6 +67,7 @@ Patch4:              nicdrv-04-gani.diff
 Patch5:              nicdrv-05-myk.diff
 Patch6:              nicdrv-06-ife.diff
 Patch7:              nicdrv-07-tcfe.diff
+Patch8:              nicdrv-08-alta.diff
 
 URL:                 http://homepage2.nifty.com/mrym3/taiyodo/eng/
 SUNW_BaseDir:        /
@@ -275,6 +285,7 @@ Requires: SUNWcnetr
 %setup -T -D -a 18
 %setup -T -D -a 19
 %setup -T -D -a 20
+%setup -T -D -a 104
 %patch1 -p0
 %patch2 -p0
 %patch3 -p0
@@ -282,6 +293,29 @@ Requires: SUNWcnetr
 %patch5 -p0
 %patch6 -p0
 %patch7 -p0
+%patch8 -p0
+
+for src in %{SOURCE0} %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} \
+	%{SOURCE6} %{SOURCE7} %{SOURCE8} %{SOURCE9} %{SOURCE10} %{SOURCE11} \
+	%{SOURCE12} %{SOURCE13} %{SOURCE14} %{SOURCE15} %{SOURCE16} %{SOURCE17} \
+	%{SOURCE18} %{SOURCE19} %{SOURCE20}
+do
+	drvdir=`basename ${src} | sed 's/\.tar\.gz//'`
+	# use newest 2.6 gem code from alta if possible, else 2.4 from em
+	case "$drvdir" in
+		alta-*|em-*|myk-*) #myk has an incompatible interface
+		;;
+		rf-*|tne-*|epfe-*|mtd-*|gani-*|vel-*|icpt-*|tcfe-*)
+		# uses outdated gem interface, consider updating
+		rm -f $drvdir/gem.c $drvdir/gem.h
+		cp em-*/gem.c em-*/gem.h $drvdir
+		;;
+		*)
+		rm -f $drvdir/gem.c $drvdir/gem.h
+		cp alta-*/gem.c alta-*/gem.h $drvdir
+		;;
+	esac
+done
 
 %build
 
@@ -290,6 +324,13 @@ then
 	ccext="suncc"
 else
 	ccext="gcc"
+fi
+
+if [ "x`uname -r`" = "x5.10" ]
+then
+	gld="2"
+else
+	gld="3"
 fi
 
 #
@@ -304,13 +345,22 @@ do
 	drvdir=`basename ${src} | sed 's/\.tar\.gz//'`
 	cd $drvdir
 	rm Makefile
+	if [ -f Makefile.config_gld3 -a "$gld" = "3" ]; then
+		rm -f Makefile.config
+		cat Makefile.config_gld3 | sed "s,/home/mrym/opensolaris/usr/src/uts/common,`pwd`/../gldv3-headers/common,g" > Makefile.config
+	fi
+		
 
 	# Patch Makefile to remove hard dependency on a file in /etc
 	# to allow specifying an alternate DESTDIR later.
 	#
 	cat Makefile.%{_arch64}_${ccext} | sed 's/\/etc\/system/system/g' > Makefile
 	make clean
-	make
+	make \
+	 ONUTSDIR="`pwd`/../gldv3-headers" \
+	 OFLAGS_GCC="-O2 -march=pentium -D__INLINE__=inline" \
+	 OFLAGS_SUNCC="-xO4 -xprefetch=auto -D__INLINE__=inline" \
+	 AFLAGS_SUNCC_AMD64="-m64 -Di86pc -xchip=opteron -Wu,-xmodel=kernel"
 
 	#
 	# Patch all the adddrv.sh scripts. We change all the calls to add_drv
@@ -738,5 +788,10 @@ ${BASEDIR}%{_localstatedir}/nicdrv/scripts/drvrm ${BASEDIR} em
 %attr (0644, root, bin) %{_localstatedir}/nicdrv/scripts/em.postinst
 
 %changelog
+* Sat Mar 22 2008 - trisk@acm.jhu.edu
+- Add patch8 to fix GLDv3 compilation
+- Use newer gem code for drivers
+- Build GLDv3 versions when available
+- Update compiler options
 * Sun Feb 10 2008 - moinak.ghosh@sun.com
 - Initial spec.

@@ -1,6 +1,5 @@
-diff -ur wine-0.9.47.orig/dlls/gdiplus/image.c wine-0.9.47/dlls/gdiplus/image.c
---- wine-0.9.47.orig/dlls/gdiplus/image.c	2007-10-12 22:12:57.000000000 +0700
-+++ wine-0.9.47/dlls/gdiplus/image.c	2007-10-18 09:09:05.581703964 +0700
+--- wine-0.9.58.orig/dlls/gdiplus/image.c	Fri Mar 21 11:41:33 2008
++++ wine-0.9.58/dlls/gdiplus/image.c	Sat Mar 22 17:57:03 2008
 @@ -36,12 +36,12 @@
  
  #define PIXELFORMATBPP(x) ((x) ? ((x) >> 8) & 255 : 24)
@@ -16,7 +15,7 @@ diff -ur wine-0.9.47.orig/dlls/gdiplus/image.c wine-0.9.47/dlls/gdiplus/image.c
  
      hdcref = GetDC(0);
  
-@@ -52,12 +52,12 @@
+@@ -51,12 +51,12 @@
      return y;
  }
  
@@ -31,7 +30,7 @@ diff -ur wine-0.9.47.orig/dlls/gdiplus/image.c wine-0.9.47/dlls/gdiplus/image.c
  
      hdcref = GetDC(0);
  
-@@ -659,21 +659,21 @@
+@@ -728,7 +728,7 @@
  
  GpStatus WINGDIPAPI GdipLoadImageFromStream(IStream* stream, GpImage **image)
  {
@@ -40,6 +39,7 @@ diff -ur wine-0.9.47.orig/dlls/gdiplus/image.c wine-0.9.47/dlls/gdiplus/image.c
      short type;
  
      if(!stream || !image)
+@@ -735,12 +735,12 @@
          return InvalidParameter;
  
      if(OleLoadPicture(stream, 0, FALSE, &IID_IPicture,
@@ -49,14 +49,12 @@ diff -ur wine-0.9.47.orig/dlls/gdiplus/image.c wine-0.9.47/dlls/gdiplus/image.c
          return GenericError;
      }
  
-     IStream_AddRef(stream);
- 
 -    IPicture_get_Type(pic, &type);
 +    IPicture_get_Type(ipic, &type);
  
      if(type == PICTYPE_BITMAP){
          BITMAPINFO bmi;
-@@ -685,12 +685,12 @@
+@@ -752,12 +752,12 @@
          if(!*image) return OutOfMemory;
          (*image)->type = ImageTypeBitmap;
  
@@ -73,7 +71,7 @@ diff -ur wine-0.9.47.orig/dlls/gdiplus/image.c wine-0.9.47/dlls/gdiplus/image.c
  
          bmch = (BITMAPCOREHEADER*) (&bmi.bmiHeader);
          bmch->bcSize = sizeof(BITMAPCOREHEADER);
-@@ -720,7 +720,7 @@
+@@ -787,7 +787,7 @@
          (*image)->type = ImageTypeUnknown;
      }
  
@@ -82,7 +80,6 @@ diff -ur wine-0.9.47.orig/dlls/gdiplus/image.c wine-0.9.47/dlls/gdiplus/image.c
  
      return Ok;
  }
-Only in wine-0.9.47/dlls/gdiplus: image.c.orig
 diff -ur wine-0.9.47.orig/dlls/msi/dialog.c wine-0.9.47/dlls/msi/dialog.c
 --- wine-0.9.47.orig/dlls/msi/dialog.c	2007-10-12 22:12:57.000000000 +0700
 +++ wine-0.9.47/dlls/msi/dialog.c	2007-10-18 09:09:05.576110820 +0700
