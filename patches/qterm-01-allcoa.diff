@@ -1,0 +1,12 @@
+Index: qterm-qt4/src/qtermsocket.cpp
+===================================================================
+--- qterm-qt4/src/qtermsocket.cpp	(revision 465)
++++ qterm-qt4/src/qtermsocket.cpp	(working copy)
+@@ -11,6 +11,7 @@
+ #include <malloc.h>
+ #endif
+ #include <stdlib.h>
++#include <alloca.h>
+ 
+ #include <ctype.h>
+ 

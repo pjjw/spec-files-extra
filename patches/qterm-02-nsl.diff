@@ -1,0 +1,13 @@
+--- qterm-0.5.1/src/CMakeLists.txt.orig	2008-03-04 13:17:32.000000000 +0800
++++ qterm-0.5.1/src/CMakeLists.txt	2008-03-24 12:10:38.342695000 +0800
+@@ -102,7 +102,9 @@
+ ${QT_QTCORE_LIBRARY}
+ ${QT_QTGUI_LIBRARY}
+ ${QT_QTNETWORK_LIBRARY}
+-${optionalLibs})
++${optionalLibs}
++-lnsl
++)
+ install(TARGETS qterm DESTINATION bin)
+ install(FILES ${qterm_MISC} DESTINATION share/qterm)
+ add_subdirectory(pic)

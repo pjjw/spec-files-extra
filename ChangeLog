@@ -1,3 +1,10 @@
+2008-03-24  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEqterm.spec: (new) BBS client 
+	* base-specs/qterm.spec: (new) BBS client
+	* patches/qterm-01-allcoa.diff: (added) patch
+	* patches/qterm-02-nsl.diff: (added) patch
+
 2008-03-22  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEwine.spec: Bump to 0.9.58, update patch1, update source URL.
@@ -7,13 +14,13 @@
 	* patches/wine-01-nameconfict.diff: Bump for 0.9.58
 
 2008-03-21  Thomas Wagner <tom68@users.sourceforge.net>
-   
-        * SFElibmng.spec, base-spec/libmng.spec: *add* 64-bit support,
-          depend on SUNWlcms in 64-bit
-        * SUNWlcms.spec, base-spec/lcms.spec: *add* 32/64-bit version,
-          the exception here is: SUNWlcms should dissapear from spec-files-extra
-          once integrated in Nevada/others and general availability. 
-          Expect further development for SUNWlcms in spec-files-other.
+
+	* SFElibmng.spec, base-spec/libmng.spec: *add* 64-bit support,
+	  depend on SUNWlcms in 64-bit
+	* SUNWlcms.spec, base-spec/lcms.spec: *add* 32/64-bit version,
+	  the exception here is: SUNWlcms should dissapear from spec-files-extra
+	  once integrated in Nevada/others and general availability. 
+	  Expect further development for SUNWlcms in spec-files-other.
 
 2008-03-21  Brian Cameron  <brian.cameron@sun.com>
 
@@ -34,8 +41,8 @@
 
 2008-03-21  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEgiflib.spec: base-specs/giflib.spec, adjust downlaod URL
-        * SFElibmng.spec: add base-specs/libmng.spec - add 64-bit build 
+	* SFEgiflib.spec: base-specs/giflib.spec, adjust downlaod URL
+	* SFElibmng.spec: add base-specs/libmng.spec - add 64-bit build 
 
 2008-03-21  Halton Huo <nonsea@users.sourceforge.net>
 
