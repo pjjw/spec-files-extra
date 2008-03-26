@@ -1,5 +1,5 @@
---- deluge-torrent-0.5.8.4-orig/setup.py	2008-02-14 04:08:27.000000000 +0000
-+++ deluge-torrent-0.5.8.4/setup.py	2008-02-26 00:15:48.615422011 +0000
+--- deluge-torrent-0.5.8.5.orig/setup.py	2008-02-28 01:54:06.000000000 -0500
++++ deluge-torrent-0.5.8.5/setup.py	2008-03-02 22:44:23.914991996 -0500
 @@ -98,12 +98,12 @@
  #    it has been removed to prevent confusion.
  
@@ -15,16 +15,20 @@
      if ARCH == "x64":
          EXTRA_COMPILE_ARGS.append("-DAMD64")
  
-@@ -150,7 +150,7 @@
+@@ -150,10 +150,10 @@
      librariestype = [boost_filesystem, boost_date_time,
-             boost_thread, 'z', 'pthread', 'ssl', 'rt', 'crypto']
+             boost_thread, 'z', 'pthread', 'ssl', 'crypto']
+ 
+-    if os == "linux":
++    if OS == "nix" or OS == "linux":
+         librariestype += ['rt']
      
 -    removals = ['-g', '-Wstrict-prototypes']
 +    removals = ['-g', '-Wstrict-prototypes', '-OPT:Olimit=0']
  
      if python_version == '2.5':
          cv_opt = sysconfig.get_config_vars()["CFLAGS"]
-@@ -162,6 +162,10 @@
+@@ -165,6 +165,10 @@
          for removal in removals:
              cv_opt = cv_opt.replace(removal, " ")
          sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
@@ -35,7 +39,7 @@
  else:
      EXTRA_COMPILE_ARGS = [  '-O2', '-DBOOST_WINDOWS',
                              '-fno-strict-aliasing',
-@@ -212,7 +216,8 @@
+@@ -215,7 +219,8 @@
                      libraries = librariestype,
                      extra_compile_args = EXTRA_COMPILE_ARGS,
                      extra_link_args = EXTRA_LINK_ARGS,
@@ -665,16 +669,16 @@
  			if (cl > m_settings.tracker_maximum_response_length)
  			{
  				fail(-1, "content-length is greater than maximum response length");
---- deluge-torrent-0.5.8.4-orig/libtorrent/src/enum_net.cpp	2008-02-13 08:50:18.000000000 +0000
-+++ deluge-torrent-0.5.8.4/libtorrent/src/enum_net.cpp	2008-02-26 00:15:48.632041229 +0000
-@@ -43,6 +43,7 @@
- #endif
+--- deluge-torrent-0.5.8.5.orig/libtorrent/src/enum_net.cpp	2008-02-28 01:39:28.000000000 -0500
++++ deluge-torrent-0.5.8.5/libtorrent/src/enum_net.cpp	2008-03-02 22:25:30.035627513 -0500
+@@ -31,6 +31,7 @@
+ */
  
- #include "libtorrent/enum_net.hpp"
+ #include "libtorrent/config.hpp"
 +#include "asio/ip/host_name.hpp"
  
- namespace libtorrent
- {
+ #if defined TORRENT_BSD || defined TORRENT_LINUX
+ #include <sys/ioctl.h>
 --- deluge-torrent-0.5.8.4-orig/libtorrent/src/identify_client.cpp	2008-02-13 05:40:57.000000000 +0000
 +++ deluge-torrent-0.5.8.4/libtorrent/src/identify_client.cpp	2008-02-26 02:18:18.696540565 +0000
 @@ -34,6 +34,7 @@

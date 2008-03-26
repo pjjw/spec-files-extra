@@ -7,11 +7,12 @@
 
 Name:                SFEdeluge
 Summary:             Deluge - BitTorrent client
-Version:             0.5.8.4
-Source:              http://download.deluge-torrent.org/tarball/%{version}/deluge-%{version}.tar.gz
+Version:             0.5.8.6
+Source:              http://download.deluge-torrent.org/source/%{version}/deluge-%{version}.tar.gz
 Patch1:              deluge-01-sunpro.diff
 #Patch2:              deluge-02-path.diff
 #Patch3:              deluge-03-sparsefile.diff
+Patch4:              deluge-04-sockaddr.diff
 URL:                 http://deluge-torrent.org/
 
 SUNW_BaseDir:        %{_basedir}
@@ -45,6 +46,7 @@ Requires:                %{name}
 %patch1 -p1
 #%patch2 -p1
 #%patch3 -p1
+%patch4 -p1
 rm "plugins/WebUi/lib/webpy022/Dependency-not-really part of webui.txt"
 # patch prefix before building
 ed -s src/common.py <<'/EOF/' >/dev/null
@@ -119,6 +121,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/deluge.desktop
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
+%dir %attr (0755, root, other) %{_datadir}/icons
 %dir %attr (-, root, other) %{_datadir}/icons/hicolor
 %dir %attr (-, root, other) %{_datadir}/icons/hicolor/128x128
 %dir %attr (-, root, other) %{_datadir}/icons/hicolor/128x128/apps
@@ -165,6 +168,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Mar 26 2008 - trisk@acm.jhu.edu
+- Bump to 0.5.8.6, bump patch1, add patch4
 * Tue Feb 26 2008 - markwright@internode.on.net
 - Bump to 0.5.8.4.
 * Mon Dec 31 2007 - markwright@internode.on.net
