@@ -359,8 +359,8 @@ do
 	make \
 	 ONUTSDIR="`pwd`/../gldv3-headers" \
 	 OFLAGS_GCC="-O2 -march=pentium -D__INLINE__=inline" \
-	 OFLAGS_SUNCC="-xO4 -xprefetch=auto -D__INLINE__=inline" \
-	 AFLAGS_SUNCC_AMD64="-m64 -Di86pc -xchip=opteron -Wu,-xmodel=kernel"
+	 OFLAGS_SUNCC="-xO4 -xprefetch=auto -D__INLINE__=inline -Wu,-xmodel=kernel" \
+	 AFLAGS_SUNCC_AMD64="-m64 -Di86pc -xchip=opteron -xmodel=kernel"
 
 	#
 	# Patch all the adddrv.sh scripts. We change all the calls to add_drv
@@ -788,6 +788,8 @@ ${BASEDIR}%{_localstatedir}/nicdrv/scripts/drvrm ${BASEDIR} em
 %attr (0644, root, bin) %{_localstatedir}/nicdrv/scripts/em.postinst
 
 %changelog
+* Tue Mar 26 2008 - trisk@acm.jhu.edu
+- Fix compilation on amd64
 * Sat Mar 22 2008 - trisk@acm.jhu.edu
 - Add patch8 to fix GLDv3 compilation
 - Use newer gem code for drivers

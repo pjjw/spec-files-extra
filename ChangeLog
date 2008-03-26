@@ -1,3 +1,7 @@
+2008-03-26  Albert Lee <trisk@acm.jhu.edu>
+
+	* SFEnicdrv.spec: Fix compilation on amd64
+
 2008-03-24  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEqterm.spec: (new) BBS client 
