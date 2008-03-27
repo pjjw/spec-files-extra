@@ -1,14 +1,14 @@
---- deluge-torrent-0.5.8.5.orig/libtorrent/src/enum_net.cpp	Wed Mar 26 01:29:40 2008
-+++ deluge-torrent-0.5.8.5/libtorrent/src/enum_net.cpp	Wed Mar 26 01:50:02 2008
-@@ -37,6 +37,7 @@
- #include <sys/ioctl.h>
- #include <netinet/in.h>
- #include <net/if.h>
+--- deluge-torrent-0.5.8.7.orig/libtorrent/src/enum_net.cpp	Thu Mar 27 07:58:06 2008
++++ deluge-torrent-0.5.8.7/libtorrent/src/enum_net.cpp	Thu Mar 27 08:00:47 2008
+@@ -34,6 +34,7 @@
+ #include "asio/ip/host_name.hpp"
+ 
+ #if defined TORRENT_BSD || defined TORRENT_LINUX
 +#include <string.h>
- #elif defined TORRENT_WINDOWS
- #ifndef WIN32_LEAN_AND_MEAN
- #define WIN32_LEAN_AND_MEAN
-@@ -155,9 +156,9 @@
+ #include <sys/ioctl.h>
+ #include <sys/socket.h>
+ #include <netinet/in.h>
+@@ -156,9 +157,9 @@
  				ret.push_back(iface);
  			}
  
