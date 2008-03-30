@@ -131,6 +131,9 @@ export LD_LIBRARY_PATH="/usr/lib:/usr/X11/lib:/usr/gnu/lib:/usr/sfw/lib:%{_build
            -L/usr/sfw/lib -R/usr/sfw/lib \
            -v
 
+perl -pi -e 's,^(QMAKE_INCDIR_QT\s*=).*,$1 \$(QTDIR)/include/qt3,'pkgto \
+    mkspecs/solaris-*/qmake.conf
+
 make -j$CPUS
 
 %install
@@ -181,6 +184,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Sat Mar 29 2008 - laca@sun.com
+- fix qmake conf files to point to the correct include dir
 * Thu Feb 15 2008 - Thomas Wagner
 - add (Build-)Requires: SFElibmng(-devel)
 * Thu Jan 24 2008 - moinak.ghosh@sun.com

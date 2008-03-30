@@ -1,0 +1,65 @@
+--- hplip-2.8.2/prnt/hpijs/hpijsfax.cpp.orig	2008-03-29 00:34:57.202195263 +1300
++++ hplip-2.8.2/prnt/hpijs/hpijsfax.cpp	2008-03-29 00:35:38.817011575 +1300
+@@ -588,6 +588,8 @@
+ 	}
+ 
+ 	exit(status);
++
++        return 0;
+ }
+ 
+ // GrayLevel = (5/16)R + (9/16)G + (2/16)B
+--- hplip-2.8.2/prnt/hpijs/registry.cpp.orig	2008-03-29 00:32:42.848972780 +1300
++++ hplip-2.8.2/prnt/hpijs/registry.cpp	2008-03-29 00:33:56.284227931 +1300
+@@ -275,10 +275,10 @@
+             device = eDJ3320;
+             match = TRUE;
+         }
+-		char	*cmdStr = strstr ((const char *) DevIDBuffer+2, "CMD:");
++		char	*cmdStr = (char *)strstr ((const char *) DevIDBuffer+2, "CMD:");
+ 		if (!cmdStr)
+ 		{
+-			cmdStr = strstr ((const char *) DevIDBuffer+2, "COMMAND SET:");
++			cmdStr = (char *)strstr ((const char *) DevIDBuffer+2, "COMMAND SET:");
+ 		}
+ 		if (!match && cmdStr && (strstr ((const char *) cmdStr+4, "POSTSCRIPT") || 
+ 			                     strstr ((const char *) cmdStr+4, "PostScript") || 
+--- hplip-2.8.2/prnt/hpijs/dj3320.cpp.orig	2008-03-29 00:34:19.952713372 +1300
++++ hplip-2.8.2/prnt/hpijs/dj3320.cpp	2008-03-29 00:34:41.524517285 +1300
+@@ -429,7 +429,7 @@
+             pLDLEncap->bNewStatus = FALSE;
+ 
+             // First 10 bytes of m_pbyReadBuff are packet header.  Status query from printer has $S:
+-            if ((pcStr = strstr((const char*)pLDLEncap->byStatusBuff + 10, "$S:")) == NULL)
++            if ((pcStr = (char *)strstr((const char*)pLDLEncap->byStatusBuff + 10, "$S:")) == NULL)
+             {
+                 m_dsCurrentStatus = DISPLAY_COMM_PROBLEM;
+                 return DISPLAY_COMM_PROBLEM;
+--- hplip-2.8.2/scan/sane/hpaio.c.orig	2008-03-29 00:31:08.415810472 +1300
++++ hplip-2.8.2/scan/sane/hpaio.c	2008-03-29 00:32:06.332902531 +1300
+@@ -2280,8 +2280,10 @@
+     
+     hpaioScanner_t hpaio = (hpaioScanner_t) handle;
+ 
+-    if (strcmp(*((char **)handle), "SOAP") == 0)
+-        return soap_close(handle);
++    if (strcmp(*((char **)handle), "SOAP") == 0) {
++        soap_close(handle);
++	return;
++    }
+ 
+     DBG(8, "sane_hpaio_close(): %s %d\n", __FILE__, __LINE__); 
+ 
+@@ -3224,8 +3226,10 @@
+ {
+     hpaioScanner_t hpaio = ( hpaioScanner_t ) handle;
+ 
+-    if (strcmp(*((char **)handle), "SOAP") == 0)
+-        return soap_cancel(handle);
++    if (strcmp(*((char **)handle), "SOAP") == 0) {
++        soap_cancel(handle);
++	return;
++    }
+ 
+     DBG(8, "sane_hpaio_cancel(): %s %d\n", __FILE__, __LINE__); 
+ 

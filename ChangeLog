@@ -1,3 +1,19 @@
+2008-03-30  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEhplip.spec: (new): HP linux printing sw
+	* SFEpyqt.spec: (new): python bindings for Qt
+	* SFEqt3.spec: fix qmake conf files to point to the correct include dir
+	* SFEsip.spec: (new): Python binding creator for C++ libraries
+	* archive/SUNWgnu-gettext.spec: (new): moved from JDS spec-files
+	* archive/SUNWgnu-libiconv.spec: (new): moved from JDS spec-files
+	* archive/SUNWimagick.spec: (new): moved from JDS spec files
+	* patches/gettext-01-fixlink.diff: (new): moved from JDS spec files
+	* patches/hplip-01-build.diff: (new): moved from JDS spec files
+	* patches/imagemagick-01-ltdl.diff: (new): moved from JDS spec files
+	* patches/libiconv-01-fix-runpath.diff: (new): moved from JDS spec
+	  files
+	* patches/libiconv-02-646.diff: (new): moved from JDS spec files
+
 2008-03-27 Pradhap Devarajan   <pradhap (at) gmail.com>
 	* SFEdictd.spec intial spec
 

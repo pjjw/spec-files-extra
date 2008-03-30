@@ -1,0 +1,10 @@
+--- libiconv-1.11/lib/encodings.def.orig	2007-08-30 11:39:45.027263000 -0400
++++ libiconv-1.11/lib/encodings.def	2007-08-30 11:40:07.858352000 -0400
+@@ -38,6 +38,7 @@
+ 
+ DEFENCODING(( "US-ASCII",               /* IANA */
+               "ASCII",                  /* IANA, JDK 1.1 */
++              "646",                    /* Solaris */
+               "ISO646-US",              /* IANA */
+               "ISO_646.IRV:1991",       /* IANA */
+               "ISO-IR-6",               /* IANA */
