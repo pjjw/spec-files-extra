@@ -1,3 +1,6 @@
+2008-03-31  Pradhap Devarajan < pradhap (at) sun.com>
+	* SFErecode.spec: fix error undef symbol issue (recode.01.diff)
+
 2008-03-30  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEhplip.spec: (new): HP linux printing sw

@@ -11,6 +11,7 @@ Version:             3.6
 Source:              ftp://ftp.gnu.org/pub/gnu/recode/recode-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
+Patch1:		     recode.01.diff
 %include default-depend.inc
 Requires: SUNWpostrun
 
@@ -30,6 +31,7 @@ Requires: %name
 
 %prep
 %setup -q -n recode-%version
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -121,5 +123,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * 
+* Mon Mar 31 2008 - Pradhap Devarajan < pradhap (at) sun.com>
+- fix error undef symbol issue (recode.01.diff)
 * Sun Mar 04 2007 - Eric Boutilier
 - Initial spec
