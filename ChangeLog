@@ -1,4 +1,9 @@
 2008-03-31  Pradhap Devarajan < pradhap (at) sun.com>
+	* SFEfortune.spec: (new) : Provides fortune cookies on demand
+	* patches/fortune.01.diff: convert linux type variables
+	* patches/fortune.02.diff: when recode_string() fails print in ascii
+
+2008-03-31  Pradhap Devarajan < pradhap (at) sun.com>
 	* SFErecode.spec: fix error undef symbol issue (recode.01.diff)
 
 2008-03-30  Laszlo (Laca) Peter  <laca@sun.com>

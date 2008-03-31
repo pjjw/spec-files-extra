@@ -1,0 +1,23 @@
+diff -ur fortune-mod-1.99.1/fortune/fortune.c fortune-mod-1.99.1.mod/fortune/fortune.c
+--- fortune-mod-1.99.1/fortune/fortune.c	2004-03-05 18:59:56.000000000 +0530
++++ fortune-mod-1.99.1.mod/fortune/fortune.c	2008-03-31 18:46:19.321411981 +0530
+@@ -1627,13 +1627,16 @@
+ 	    }
+ 	}
+ 	if(fp->utf8_charset) {
+-	    char *output;
++	    char *output = NULL;
+ 	    output = recode_string (request, line);
+-	    fputs(output, stdout);
++	    if (output)
++		  fputs(line,stdout);
+ 	    free(output);
+ 	}
+ 	else
+-	    fputs(line, stdout);
++	{
++	  fprintf (stdout, line);
++	}
+     }
+     fflush(stdout);
+ 

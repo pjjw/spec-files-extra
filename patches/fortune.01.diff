@@ -1,0 +1,34 @@
+diff -ur fortune-mod-1.99.1/util/strfile.h fortune-mod-1.99.1.mod/util/strfile.h
+--- fortune-mod-1.99.1/util/strfile.h	2004-03-05 18:59:57.000000000 +0530
++++ fortune-mod-1.99.1.mod/util/strfile.h	2008-03-31 12:23:03.460235454 +0530
+@@ -41,6 +41,24 @@
+ #define	STR_ENDSTRING(line,tbl) \
+ 	((line)[0] == (tbl).str_delim && (line)[1] == '\n')
+ 
++
++#ifdef __sun
++
++typedef struct {				/* information table */
++#define	VERSION		2
++	int	str_version;		/* version number */
++	int	str_numstr;		/* # of strings in the file */
++	int	str_longlen;		/* length of longest string */
++	int	str_shortlen;		/* length of shortest string */
++#define	STR_RANDOM	0x1			/* randomized pointers */
++#define	STR_ORDERED	0x2			/* ordered pointers */
++#define	STR_ROTATED	0x4			/* rot-13'd text */
++	int	str_flags;		/* bit field for flags */
++	short	stuff[4];		/* long aligned space */
++#define	str_delim	stuff[0]		/* delimiting character */
++} STRFILE;
++#else
++
+ typedef struct {				/* information table */
+ #define	VERSION		2
+ 	u_int32_t	str_version;		/* version number */
+@@ -54,3 +72,5 @@
+ 	u_int8_t	stuff[4];		/* long aligned space */
+ #define	str_delim	stuff[0]		/* delimiting character */
+ } STRFILE;
++
++#endif
