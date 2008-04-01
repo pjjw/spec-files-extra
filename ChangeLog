@@ -1,9 +1,17 @@
+2008-04-01  Damien Carbery <damien.carbery@sun.com>
+
+	* SUNWgnome-screensaver.spec, base-specs/gnome-screensaver.spec,
+	  patches/gnome-screensaver-01-gthread.diff: (new): Moved from JDS
+	  spec files.
+
 2008-03-31  Pradhap Devarajan < pradhap (at) sun.com>
+
 	* SFEfortune.spec: (new) : Provides fortune cookies on demand
 	* patches/fortune.01.diff: convert linux type variables
 	* patches/fortune.02.diff: when recode_string() fails print in ascii
 
 2008-03-31  Pradhap Devarajan < pradhap (at) sun.com>
+
 	* SFErecode.spec: fix error undef symbol issue (recode.01.diff)
 
 2008-03-30  Laszlo (Laca) Peter  <laca@sun.com>
@@ -23,6 +31,7 @@
 	* patches/libiconv-02-646.diff: (new): moved from JDS spec files
 
 2008-03-27 Pradhap Devarajan   <pradhap (at) gmail.com>
+
 	* SFEdictd.spec intial spec
 
 2008-03-27  Albert Lee  <trisk@acm.jhu.edu>
