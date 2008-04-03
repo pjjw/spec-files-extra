@@ -1,3 +1,6 @@
+2008-04-03  Thomas Wagner <tom68@users.sourceforge.net>
+	* SFEurxvt.spec: reworked patch 10, added patch 11 remove "tic" vom doc/Makfile
+
 2008-04-03  Damien Carbery <damien.carbery@sun.com>
 
 	* archive/SUNWpcre.spec: (new): moved from JDS spec-files.

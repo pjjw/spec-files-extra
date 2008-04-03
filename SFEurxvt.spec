@@ -31,6 +31,7 @@ URL:                     http://software.schmorp.de
 Version:                 9.02
 Source:                  http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
 Patch10:		 urxvt-10-terminfo_enacs.diff
+Patch11:		 urxvt-11-remove-tic.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -47,6 +48,7 @@ backgrounds (unmodified or shaded background inside the Terminal window)
 %prep
 %setup -q -n rxvt-unicode-%{version}
 %patch10 -p1
+%patch11 -p1
 
 
 %build
@@ -156,6 +158,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Mar 15 2008 Thomas Wagner
+- reworked patch 10
+- added patch 11 remove "tic" vom doc/Makfile 
 * Tue Feb 12 2008 <pradhap (at) gmail.com>
 - Bumped up the version to 0.92
 * Fri Nov 23 2007  - Thomas Wagner

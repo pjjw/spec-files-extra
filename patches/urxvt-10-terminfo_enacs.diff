@@ -1,13 +1,11 @@
-See README.FAQ how to use the terminfo
-
---- rxvt-unicode-8.4/doc/etc/rxvt-unicode.terminfo.orig	Di Jan 24 18:03:34 2006
-+++ rxvt-unicode-8.4/doc/etc/rxvt-unicode.terminfo	Do Nov 15 22:08:34 2007
-@@ -41,7 +41,7 @@
+--- rxvt-unicode-9.02/doc/etc/rxvt-unicode.terminfo.orig	2007-12-24 00:25:39.000000000 +0100
++++ rxvt-unicode-9.02/doc/etc/rxvt-unicode.terminfo	2008-03-15 22:25:50.783535025 +0100
+@@ -108,7 +108,7 @@
  	rs1=\Ec,
- 	rs2=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;3;4;6l\E[4l\E>, 
- 	sgr0=\E[m\017, 
--	enacs=, smacs=\E(0, rmacs=\E(B,
-+	enacs=\E[0@, smacs=\E(0, rmacs=\E(B,
- 	smso=\E[7m, smul=\E[4m, tbc=\E[3g, 
- 	vpa=\E[%i%p1%dd, 
- 	colors#88, pairs#256, btns#5, lm#0,
+ 	rs2=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;3;4;6l\E[4l\E>,
+ 	sgr0=\E[m\017,
+-	enacs=,
++	enacs=\E[0@,
+ 	smacs=\E(0,
+ 	rmacs=\E(B,
+ 	smso=\E[7m,
