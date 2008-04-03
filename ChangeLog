@@ -1,3 +1,7 @@
+2008-04-03  Damien Carbery <damien.carbery@sun.com>
+
+	* archive/SUNWpcre.spec: (new): moved from JDS spec-files.
+
 2008-04-01  Damien Carbery <damien.carbery@sun.com>
 
 	* SUNWgnome-screensaver.spec, base-specs/gnome-screensaver.spec,
