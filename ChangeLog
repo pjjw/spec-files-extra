@@ -1,3 +1,7 @@
+2008-04-06  Pradhap Devarajan < pradhap (at) sun.com>
+
+	* SFEtorsmo.spec: (new) : Tyopoyta ORvelo System MOnitor
+
 2008-04-03  Thomas Wagner <tom68@users.sourceforge.net>
 	* SFEurxvt.spec: reworked patch 10, added patch 11 remove "tic" vom doc/Makfile
 
