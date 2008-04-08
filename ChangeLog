@@ -1,3 +1,9 @@
+2008-04-08  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEperl-encode-detect.spec: *NEW* Encode-Detect PERL module
+	* SFEperl-extutils-cbuilder.spec: *NEW* ExtUtils-CBuilder PERL module
+	* patches/encode-detect-01-sunpro.diff: Workaround for CC and perl.h
+
 2008-04-07  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEelisa.spec, SFEpitivi.spec, SFEgnochm.spec: Change 
