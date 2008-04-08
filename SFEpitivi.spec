@@ -13,7 +13,7 @@ Source:                  http://ftp.gnome.org/pub/GNOME/sources/pitivi/0.11/piti
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 BuildRequires:           SFEgnonlin
-BuildRequires:           SFEgnome-python-extras
+BuildRequires:           SUNWgnome-python-extras
 BuildRequires:           SFEgst-python
 Requires:                SUNWpython-zope-interface
 Requires:                SUNWpython-setuptools
@@ -73,6 +73,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Apr 07 2008 - brian.cameron@sun.com
+- Change SFEgnome-python-extras to SUNWgnome-python-extras.
 * Thu Jan 10 2008 - irene.huang@sun.com
 - Add two new requirements: SFEpython-setuptools and 
   SFEzope-interface

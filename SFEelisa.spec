@@ -25,7 +25,7 @@ BuildRequires:     SUNWPython-extra
 BuildRequires:     SUNWimagick
 BuildRequires:     SUNWsqlite3
 BuildRequires:     SUNWpysqlite
-BuildRequires:     SFEgnome-python-extras
+BuildRequires:     SUNWgnome-python-extras
 BuildRequires:     SFEpigment-devel
 BuildRequires:     SUNWpython-imaging
 BuildRequires:     SUNWpython-setuptools
@@ -39,7 +39,7 @@ Requires:          SUNWdbus-bindings
 Requires:          SUNWimagick
 Requires:          SUNWsqlite3
 Requires:          SUNWpysqlite
-Requires:          SFEgnome-python-extras
+Requires:          SUNWgnome-python-extras
 Requires:          SFEpigment
 Requires:          SUNWpython-imaging
 Requires:          SUNWpython-setuptools
@@ -114,6 +114,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_core_setup.pyc
 
 %changelog
+* Mon Apr 07 2008 Brian Cameron  <brian.cameron@sun.com>
+- Change SFEgnome-python-extras to SUNWgnome-python-extras.
 * Wed Mar 19 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.3.5.
 * Wed Jan 16 2008 Brian Cameron  <brian.cameron@sun.com>

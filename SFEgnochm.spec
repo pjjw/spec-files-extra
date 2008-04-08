@@ -16,7 +16,7 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SFEchmlib
-Requires: SFEgnome-python-extras
+Requires: SUNWgnome-python-extras
 Requires: SFEpychm
 
 %package root
@@ -142,5 +142,7 @@ test -x $BASEDIR/lib/postrun || exit 0
 %{_sysconfdir}
 
 %changelog
+* Mon Apr 07 2008 - brian.cameron@sun.com
+- Change SFEgnome-python-extras to SUNWgnome-python-extras
 * Fri Jul 27 2007 - dougs@truemail.co.th
 - Initial spec

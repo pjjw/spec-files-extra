@@ -1,9 +1,15 @@
+2008-04-07  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEelisa.spec, SFEpitivi.spec, SFEgnochm.spec: Change 
+	  SFEgnome-python-extras to SUNWgnome-python-extras.
+
 2008-04-06  Pradhap Devarajan < pradhap (at) sun.com>
 
 	* SFEtorsmo.spec: (new) : Tyopoyta ORvelo System MOnitor
 
 2008-04-03  Thomas Wagner <tom68@users.sourceforge.net>
-	* SFEurxvt.spec: reworked patch 10, added patch 11 remove "tic" vom doc/Makfile
+	* SFEurxvt.spec: reworked patch 10, added patch 11 remove "tic" vom
+	  doc/Makfile
 
 2008-04-03  Damien Carbery <damien.carbery@sun.com>
 
