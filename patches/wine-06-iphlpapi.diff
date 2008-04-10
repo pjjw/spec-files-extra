@@ -1,6 +1,11 @@
---- wine-0.9.57.orig/configure.ac	Fri Mar  7 09:24:24 2008
-+++ wine-0.9.57/configure.ac	Tue Mar 18 03:02:58 2008
-@@ -234,6 +234,7 @@
+diff -ur wine-0.9.59.orig/configure.ac wine-0.9.59/configure.ac
+--- wine-0.9.59.orig/configure.ac	Fri Apr  4 10:55:13 2008
++++ wine-0.9.59/configure.ac	Thu Apr 10 12:39:48 2008
+@@ -242,9 +242,11 @@
+ 	fontconfig/fontconfig.h \
+ 	getopt.h \
+ 	ieeefp.h \
++	inet/ip.h \
  	io.h \
  	jack/jack.h \
  	jpeglib.h \
@@ -8,7 +13,15 @@
  	lber.h \
  	lcms.h \
  	lcms/lcms.h \
-@@ -308,9 +309,11 @@
+@@ -288,6 +290,7 @@
+ 	soundcard.h \
+ 	stdint.h \
+ 	strings.h \
++	stropts.h \
+ 	sys/asoundlib.h \
+ 	sys/cdio.h \
+ 	sys/elf32.h \
+@@ -319,11 +322,14 @@
  	sys/sockio.h \
  	sys/soundcard.h \
  	sys/statvfs.h \
@@ -19,24 +32,53 @@
 +	sys/tihdr.h \
  	sys/time.h \
  	sys/times.h \
++	sys/tiuser.h \
  	sys/uio.h \
-@@ -911,6 +914,14 @@
+ 	sys/un.h \
+ 	sys/vm86.h \
+@@ -922,6 +928,39 @@
           RESOLVLIBS="-lresolv"])
  fi
  
++dnl **** Check for Solaris kstat library ***
 +AC_SUBST(KSTATLIBS,"")
 +if test "$ac_cv_header_kstat_h" = "yes"
 +then
 +    AC_CHECK_LIB(kstat, kstat_open,
-+        [AC_DEFINE(HAVE_KSTAT, 1, [Define if you have the kstat library and header])
++        [AC_DEFINE(HAVE_KSTAT, 1, [Define if you have the Solaris kstat library and header])
 +         KSTATLIBS="-lkstat"])
++fi
++
++dnl **** Check for STREAMS Transport Provider Interface (TPI) ***
++if test "$ac_cv_header_stropts_h" = "yes" -a "$ac_cv_header_sys_stream_h" = "yes" -a \
++    "$ac_cv_header_sys_tihdr_h" = "yes" -a "$ac_cv_header_sys_tiuser_h" = "yes" -a \
++    "$ac_cv_header_inet_ip_h" = "yes"
++then
++    AC_CACHE_CHECK([for the STREAMS Transport Provider Interface (TPI)],
++        ac_cv_c_streams_tpi,
++        AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
++#include <stropts.h>
++#include <sys/stream.h>
++#include <sys/tihdr.h>
++#include <sys/tiuser.h>
++#include <inet/ip.h>
++struct T_optmgmt_req *tor = (struct T_optmgmt_req *)NULL;
++        ]], [[ioctl(1, I_PUSH, NULL)]])], [ac_cv_c_streams_tpi=yes],[ac_cv_c_streams_tpi=no])
++   )
++
++   if test "$ac_cv_c_streams_tpi" = "yes"
++   then
++      AC_DEFINE(HAVE_STREAMS_TPI, 1,
++                [Define if you have the STREAMS Transport Provider Interface (TPI)])
++   fi
 +fi
 +
  dnl **** Check for LittleCMS ***
  AC_SUBST(LCMSLIBS,"")
  if test "$ac_cv_header_lcms_h" = "yes" -o "$ac_cv_header_lcms_lcms_h" = "yes"
---- wine-0.9.57.orig/dlls/iphlpapi/Makefile.in	Fri Mar  7 09:24:24 2008
-+++ wine-0.9.57/dlls/iphlpapi/Makefile.in	Tue Mar 18 16:26:28 2008
+diff -ur wine-0.9.59.orig/dlls/iphlpapi/Makefile.in wine-0.9.59/dlls/iphlpapi/Makefile.in
+--- wine-0.9.59.orig/dlls/iphlpapi/Makefile.in	Fri Apr  4 10:55:13 2008
++++ wine-0.9.59/dlls/iphlpapi/Makefile.in	Thu Apr 10 12:39:48 2008
 @@ -5,7 +5,7 @@
  MODULE    = iphlpapi.dll
  IMPORTLIB = iphlpapi
@@ -46,8 +88,9 @@
  
  C_SRCS = \
  	ifenum.c \
---- wine-0.9.57.orig/dlls/iphlpapi/ipstats.c	Fri Mar  7 09:24:24 2008
-+++ wine-0.9.57/dlls/iphlpapi/ipstats.c	Wed Mar 19 00:40:07 2008
+diff -ur wine-0.9.59.orig/dlls/iphlpapi/ipstats.c wine-0.9.59/dlls/iphlpapi/ipstats.c
+--- wine-0.9.59.orig/dlls/iphlpapi/ipstats.c	Fri Apr  4 10:55:13 2008
++++ wine-0.9.59/dlls/iphlpapi/ipstats.c	Thu Apr 10 12:39:48 2008
 @@ -1,6 +1,22 @@
  /* Copyright (C) 2003,2006 Juan Lang
   * Copyright (C) 2007 TransGaming Technologies Inc.
@@ -71,40 +114,53 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
-@@ -16,10 +32,20 @@
+@@ -16,10 +32,11 @@
   * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   *
   * This file implements statistics getting using the /proc filesystem exported
 - * by Linux, and maybe other OSes.
-+ * by Linux, BSD sysctls, Solaris libkstat, and DLPI on Solaris and others.
++ * by Linux, BSD sysctls, Solaris libkstat, and TPI on platforms with STREAMS.
   */
  
  #include "config.h"
 +
-+/* To prevent redefining ERR macro, place these includes before wine/debug.h */
-+#if defined(HAVE_SYS_STREAM_H) && defined(HAVE_SYS_TIHDR_H)
-+#include <sys/stream.h>
-+#include <stropts.h>
-+#include <sys/tihdr.h>
-+#include <inet/mib2.h>
-+#include <inet/ip.h>
-+#endif
-+
  #include "wine/port.h"
  #include "wine/debug.h"
  
-@@ -70,6 +96,10 @@
+@@ -70,6 +87,32 @@
  #include <sys/sysctl.h>
  #endif
  
-+#ifdef HAVE_KSTAT
++#ifdef HAVE_KSTAT_H
 +#include <kstat.h>
++#endif
++
++#ifdef HAVE_STROPTS_H
++#include <stropts.h>
++#ifdef HAVE_SYS_STREAM_H
++#include <sys/stream.h>
++#endif
++#ifdef HAVE_SYS_TIHDR_H
++#include <sys/tihdr.h>
++#endif
++#ifdef HAVE_SYS_TIUSER_H
++#include <sys/tiuser.h>
++#endif
++#ifdef HAVE_INET_IP_H
++#include <inet/ip.h>
++#ifndef IRE_CACHETABLE
++#define IRE_CACHETABLE (IRE_CACHE|IRE_BROADCAST|IRE_LOCAL|IRE_LOOPBACK)
++#endif
++/* To work around redefined ERR macro */
++#undef ERR
++#define ERR WINE_ERR
++#endif
 +#endif
 +
  #ifndef ROUNDUP
  #define ROUNDUP(a) \
  	((a) > 0 ? (1 + (((a) - 1) | (sizeof(long) - 1))) : sizeof(long))
-@@ -100,9 +130,182 @@
+@@ -100,9 +143,200 @@
  
  WINE_DEFAULT_DEBUG_CHANNEL(iphlpapi);
  
@@ -115,7 +171,7 @@
 +};
 +#endif
 +
-+#if defined(HAVE_SYS_STREAM_H) && defined(HAVE_SYS_TIHDR_H)
++#ifdef HAVE_STREAMS_TPI
 +typedef struct mib_item_s {
 +  struct mib_item_s *next_item;
 +  long group;
@@ -133,7 +189,8 @@
 +static int mibopen(void)
 +{
 +   int sd;
-+   if ((sd = open(mib_dev, O_RDWR)) < 0) {
++   if ((sd = open(mib_dev, O_RDWR)) < 0)
++   {
 +     return -1;
 +   }
 +
@@ -148,7 +205,7 @@
 +}
 +
 +static mib_item_t *
-+mibget (int sd)
++mibget(int sd)
 +{
 +  char buf[512];
 +  int flags;
@@ -162,42 +219,44 @@
 +  mib_item_t    *last_item  = NULL;
 +  mib_item_t    *temp;
 +
++#ifdef T_SVR4_OPTMGMT_REQ
++  tor->PRIM_type = T_SVR4_OPTMGMT_REQ;
++#else
 +  tor->PRIM_type = T_OPTMGMT_REQ;
++#endif
 +  tor->OPT_offset = sizeof(struct T_optmgmt_req);
 +  tor->OPT_length = sizeof(struct opthdr);
 +  tor->MGMT_flags = T_CURRENT;
-+  req = (struct opthdr *)&tor[1];
-+  req->level = MIB2_IP;    /* any MIB2_xxx value ok here */
-+  req->name  = 0;
-+  req->len   = 0;
++
++  req = (struct opthdr *)(tor + 1);
++  req->level = MIB2_IP;
++  req->name = req->len = 0;
 +
 +  ctlbuf.buf = buf;
++  ctlbuf.maxlen = sizeof(buf);
 +  ctlbuf.len = tor->OPT_length + tor->OPT_offset;
 +  flags = 0;
-+  if (putmsg(sd, &ctlbuf, (struct strbuf *)NULL, flags) == -1) {
-+    ERR ("mibget: putmsg(ctl) failed\n");
++  if (putmsg(sd, &ctlbuf, (struct strbuf *)NULL, flags) == -1)
++  {
++    ERR ("mibget putmsg(ctl) failed\n");
 +    goto error_exit;
 +  }
-+  /*
-+   * each reply consists of a ctl part for one fixed structure
-+   * or table, as defined in mib2.h.  The format is a T_OPTMGMT_ACK,
-+   * containing an opthdr structure.  level/name identify the entry,
-+   * len is the size of the data part of the message.
-+   */
-+  req = (struct opthdr *)&toa[1];
-+  ctlbuf.maxlen = sizeof(buf);
-+  for (j=1; ; j++) {
++
++  req = (struct opthdr *)(toa + 1);
++  for (j=1; ; j++)
++  {
 +    flags = 0;
 +    getcode = getmsg(sd, &ctlbuf, (struct strbuf *)NULL, &flags);
-+    if (getcode == -1) {
++    if (getcode == -1)
++    {
 +      ERR ("mibget getmsg(ctl) failed\n");
 +      goto error_exit;
 +    }
 +    if (getcode == 0
-+    && ctlbuf.len >= sizeof(struct T_optmgmt_ack)
-+    && toa->PRIM_type == T_OPTMGMT_ACK
-+    && toa->MGMT_flags == T_SUCCESS
-+    && req->len == 0) {
++        && ctlbuf.len >= sizeof(struct T_optmgmt_ack)
++        && toa->PRIM_type == T_OPTMGMT_ACK
++        && toa->MGMT_flags == T_SUCCESS
++        && req->len == 0) {
 +      return first_item;    /* this is EOD msg */
 +    }
 +
@@ -210,9 +269,10 @@
 +    }
 +
 +    if (getcode != MOREDATA
-+    || ctlbuf.len < sizeof(struct T_optmgmt_ack)
-+    || toa->PRIM_type != T_OPTMGMT_ACK
-+    || toa->MGMT_flags != T_SUCCESS) {
++        || ctlbuf.len < sizeof(struct T_optmgmt_ack)
++        || toa->PRIM_type != T_OPTMGMT_ACK
++        || toa->MGMT_flags != T_SUCCESS)
++    {
 +      ERR (
 +      "mibget getmsg(ctl) %d returned %d, ctlbuf.len = %d, PRIM_type = %ld\n",
 +         j, getcode, ctlbuf.len, toa->PRIM_type);
@@ -224,7 +284,8 @@
 +    }
 +
 +    temp = (mib_item_t *)HeapAlloc(GetProcessHeap(), 0, sizeof(mib_item_t));
-+    if (!temp) {
++    if (!temp)
++    {
 +      ERR ("mibget malloc failed\n");
 +      goto error_exit;
 +    }
@@ -244,10 +305,12 @@
 +    databuf.len    = 0;
 +    flags = 0;
 +    getcode = getmsg(sd, (struct strbuf *)NULL, &databuf, &flags);
-+    if (getcode == -1) {
++    if (getcode == -1)
++    {
 +      ERR ("mibget getmsg(data) failed\n");
 +      goto error_exit;
-+    } else if (getcode != 0) {
++    } else if (getcode != 0)
++    {
 +      ERR (
 +      "mibget getmsg(data) returned %d, databuf.maxlen = %d, databuf.len = %d\n",
 +         getcode, databuf.maxlen, databuf.len);
@@ -278,6 +341,17 @@
  DWORD getInterfaceStatsByName(const char *name, PMIB_IFROW entry)
  {
 +#if defined(HAVE_KSTAT)
++  static const struct kstat_mib_map ifrow_map[] =
++  {
++    { "rbytes", offsetof(MIB_IFROW, dwInOctets) },
++    { "norcvbuf", offsetof(MIB_IFROW, dwInDiscards) },
++    { "ierrors", offsetof(MIB_IFROW, dwInErrors) },
++    { "unknowns", offsetof(MIB_IFROW, dwInUnknownProtos) },
++    { "obytes", offsetof(MIB_IFROW, dwOutOctets) },
++    { "noxmtbuf", offsetof(MIB_IFROW, dwOutDiscards) },
++    { "oerrors", offsetof(MIB_IFROW, dwOutErrors) },
++    { NULL, 0 },
++  };
 +  kstat_ctl_t *kc;
 +  kstat_t *ksp, *mac_ksp;
 +  kstat_named_t *knp;
@@ -287,7 +361,7 @@
  
    if (!name)
      return ERROR_INVALID_PARAMETER;
-@@ -109,6 +312,54 @@
+@@ -109,6 +343,48 @@
    if (!entry)
      return ERROR_INVALID_PARAMETER;
  
@@ -296,11 +370,19 @@
 +     no outQLen */
 +  kc = kstat_open();
 +  ksp = kstat_lookup(kc, NULL, -1, (char *)name);
-+  if (ksp) { /* Check if the interface has a MAC, and use that instead */
++  if (ksp)
++  { /* Check if the interface has a MAC, and use that instead */
++    int i;
 +    if ((mac_ksp = kstat_lookup(kc, ksp->ks_module, ksp->ks_instance, (char *)"mac")) != NULL)
 +      ksp = mac_ksp;
 +    kstat_read(kc, ksp, NULL);
-+    if ((knp = kstat_data_lookup(ksp, (char *)"ifspeed")) != NULL) {
++    for (i = 0; ifrow_map[i].name != NULL; i++)
++    {
++      if ((knp = kstat_data_lookup(ksp, (char *)ifrow_map[i].name)) != NULL)
++        *(DWORD *)((char *)entry + ifrow_map[i].offset) = knp->value.ui32;
++    }
++    if ((knp = kstat_data_lookup(ksp, (char *)"ifspeed")) != NULL)
++    {
 +      entry->dwSpeed = knp->value.ui64;
 +      /* Windows doesn't believe in 10G Ethernet */
 +      if (knp->value.ui64 >= ((unsigned long)-1))
@@ -309,32 +391,18 @@
 +    if ((knp = kstat_data_lookup(ksp, (char *)"link_up")) != NULL)
 +      entry->dwOperStatus = knp->value.ui32 ?
 +        MIB_IF_OPER_STATUS_OPERATIONAL : MIB_IF_OPER_STATUS_DISCONNECTED;
-+    if ((knp = kstat_data_lookup(ksp, (char *)"rbytes")) != NULL)
-+      entry->dwInOctets = knp->value.ui32;
 +    if ((knp = kstat_data_lookup(ksp, (char *)"multircv")) != NULL)
 +      entry->dwInNUcastPkts = knp->value.ui32;
 +    if ((knp = kstat_data_lookup(ksp, (char *)"brdcstrcv")) != NULL)
 +      entry->dwInNUcastPkts += knp->value.ui32;
 +    if ((knp = kstat_data_lookup(ksp, (char *)"ipackets")) != NULL)
 +      entry->dwInUcastPkts = knp->value.ui32 - entry->dwInNUcastPkts;
-+    if ((knp = kstat_data_lookup(ksp, (char *)"norcvbuf")) != NULL)
-+      entry->dwInDiscards = knp->value.ui32;
-+    if ((knp = kstat_data_lookup(ksp, (char *)"ierrors")) != NULL)
-+      entry->dwInErrors = knp->value.ui32;
-+    if ((knp = kstat_data_lookup(ksp, (char *)"unknowns")) != NULL)
-+      entry->dwInUnknownProtos = knp->value.ui32;
-+    if ((knp = kstat_data_lookup(ksp, (char *)"obytes")) != NULL)
-+      entry->dwOutOctets = knp->value.ui32;
 +    if ((knp = kstat_data_lookup(ksp, (char *)"multixmt")) != NULL)
 +      entry->dwOutNUcastPkts = knp->value.ui32;
 +    if ((knp = kstat_data_lookup(ksp, (char *)"brdcstxmt")) != NULL)
 +      entry->dwOutNUcastPkts += knp->value.ui32;
 +    if ((knp = kstat_data_lookup(ksp, (char *)"opackets")) != NULL)
 +      entry->dwOutUcastPkts = knp->value.ui32 - entry->dwOutNUcastPkts;
-+    if ((knp = kstat_data_lookup(ksp, (char *)"noxmtbuf")) != NULL)
-+      entry->dwOutDiscards = knp->value.ui32;
-+    if ((knp = kstat_data_lookup(ksp, (char *)"oerrors")) != NULL)
-+      entry->dwOutErrors = knp->value.ui32;
 +    kstat_close(kc);
 +  }
 +  else
@@ -342,7 +410,7 @@
    /* get interface stats from /proc/net/dev, no error if can't
       no inUnknownProtos, outNUcastPkts, outQLen */
    fp = fopen("/proc/net/dev", "r");
-@@ -182,7 +433,11 @@
+@@ -182,7 +458,11 @@
      fclose(fp);
    }
    else
@@ -354,45 +422,41 @@
       ERR ("unimplemented!\n");
       return ERROR_NOT_SUPPORTED;
    }
-@@ -190,14 +445,66 @@
-   return NO_ERROR;
- }
+@@ -192,12 +472,64 @@
  
-+#ifdef HAVE_KSTAT
-+static struct kstat_mib_map icmp_map[] = {
-+  { "inMsgs", offsetof(MIB_ICMP, stats.icmpInStats.dwMsgs) },
-+  { "inErrors", offsetof(MIB_ICMP, stats.icmpInStats.dwErrors) },
-+  { "inDestUnreachs", offsetof(MIB_ICMP, stats.icmpInStats.dwDestUnreachs) },
-+  { "inTimeExcds", offsetof(MIB_ICMP, stats.icmpInStats.dwTimeExcds) },
-+  { "inParmProbs", offsetof(MIB_ICMP, stats.icmpInStats.dwParmProbs) },
-+  { "inSrcQuenchs", offsetof(MIB_ICMP, stats.icmpInStats.dwSrcQuenchs) },
-+  { "inRedirects", offsetof(MIB_ICMP, stats.icmpInStats.dwRedirects) },
-+  { "inEchos", offsetof(MIB_ICMP, stats.icmpInStats.dwEchos) },
-+  { "inEchoReps", offsetof(MIB_ICMP, stats.icmpInStats.dwEchoReps) },
-+  { "inTimestamps", offsetof(MIB_ICMP, stats.icmpInStats.dwTimestamps) },
-+  { "inTimestampReps", offsetof(MIB_ICMP, stats.icmpInStats.dwTimestampReps) },
-+  { "inAddrMasks", offsetof(MIB_ICMP, stats.icmpInStats.dwAddrMasks) },
-+  { "inAddrMaskReps", offsetof(MIB_ICMP, stats.icmpInStats.dwAddrMaskReps) },
-+  { "outMsgs", offsetof(MIB_ICMP, stats.icmpOutStats.dwMsgs) },
-+  { "outErrors", offsetof(MIB_ICMP, stats.icmpOutStats.dwErrors) },
-+  { "outDestUnreachs", offsetof(MIB_ICMP, stats.icmpOutStats.dwDestUnreachs) },
-+  { "outTimeExcds", offsetof(MIB_ICMP, stats.icmpOutStats.dwTimeExcds) },
-+  { "outParmProbs", offsetof(MIB_ICMP, stats.icmpOutStats.dwParmProbs) },
-+  { "outSrcQuenchs", offsetof(MIB_ICMP, stats.icmpOutStats.dwSrcQuenchs) },
-+  { "outRedirects", offsetof(MIB_ICMP, stats.icmpOutStats.dwRedirects) },
-+  { "outEchos", offsetof(MIB_ICMP, stats.icmpOutStats.dwEchos) },
-+  { "outEchoReps", offsetof(MIB_ICMP, stats.icmpOutStats.dwEchoReps) },
-+  { "outTimestamps", offsetof(MIB_ICMP, stats.icmpOutStats.dwTimestamps) },
-+  { "outTimestampReps", offsetof(MIB_ICMP, stats.icmpOutStats.dwTimestampReps) },
-+  { "outAddrMasks", offsetof(MIB_ICMP, stats.icmpOutStats.dwAddrMasks) },
-+  { "outAddrMaskReps", offsetof(MIB_ICMP, stats.icmpOutStats.dwAddrMaskReps) },
-+  { NULL, 0 }
-+};
-+#endif
-+
  DWORD getICMPStats(MIB_ICMP *stats)
  {
 +#if defined(HAVE_KSTAT)
++  static const struct kstat_mib_map icmp_map[] =
++  {
++    { "inMsgs", offsetof(MIB_ICMP, stats.icmpInStats.dwMsgs) },
++    { "inErrors", offsetof(MIB_ICMP, stats.icmpInStats.dwErrors) },
++    { "inDestUnreachs", offsetof(MIB_ICMP, stats.icmpInStats.dwDestUnreachs) },
++    { "inTimeExcds", offsetof(MIB_ICMP, stats.icmpInStats.dwTimeExcds) },
++    { "inParmProbs", offsetof(MIB_ICMP, stats.icmpInStats.dwParmProbs) },
++    { "inSrcQuenchs", offsetof(MIB_ICMP, stats.icmpInStats.dwSrcQuenchs) },
++    { "inRedirects", offsetof(MIB_ICMP, stats.icmpInStats.dwRedirects) },
++    { "inEchos", offsetof(MIB_ICMP, stats.icmpInStats.dwEchos) },
++    { "inEchoReps", offsetof(MIB_ICMP, stats.icmpInStats.dwEchoReps) },
++    { "inTimestamps", offsetof(MIB_ICMP, stats.icmpInStats.dwTimestamps) },
++    { "inTimestampReps", offsetof(MIB_ICMP, stats.icmpInStats.dwTimestampReps) },
++    { "inAddrMasks", offsetof(MIB_ICMP, stats.icmpInStats.dwAddrMasks) },
++    { "inAddrMaskReps", offsetof(MIB_ICMP, stats.icmpInStats.dwAddrMaskReps) },
++    { "outMsgs", offsetof(MIB_ICMP, stats.icmpOutStats.dwMsgs) },
++    { "outErrors", offsetof(MIB_ICMP, stats.icmpOutStats.dwErrors) },
++    { "outDestUnreachs", offsetof(MIB_ICMP, stats.icmpOutStats.dwDestUnreachs) },
++    { "outTimeExcds", offsetof(MIB_ICMP, stats.icmpOutStats.dwTimeExcds) },
++    { "outParmProbs", offsetof(MIB_ICMP, stats.icmpOutStats.dwParmProbs) },
++    { "outSrcQuenchs", offsetof(MIB_ICMP, stats.icmpOutStats.dwSrcQuenchs) },
++    { "outRedirects", offsetof(MIB_ICMP, stats.icmpOutStats.dwRedirects) },
++    { "outEchos", offsetof(MIB_ICMP, stats.icmpOutStats.dwEchos) },
++    { "outEchoReps", offsetof(MIB_ICMP, stats.icmpOutStats.dwEchoReps) },
++    { "outTimestamps", offsetof(MIB_ICMP, stats.icmpOutStats.dwTimestamps) },
++    { "outTimestampReps", offsetof(MIB_ICMP, stats.icmpOutStats.dwTimestampReps) },
++    { "outAddrMasks", offsetof(MIB_ICMP, stats.icmpOutStats.dwAddrMasks) },
++    { "outAddrMaskReps", offsetof(MIB_ICMP, stats.icmpOutStats.dwAddrMaskReps) },
++    { NULL, 0 }
++  };
 +  kstat_ctl_t *kc;
 +  kstat_t *ksp;
 +  kstat_named_t *knp;
@@ -408,9 +472,11 @@
 +#if defined(HAVE_KSTAT)
 +  kc = kstat_open();
 +  ksp = kstat_lookup(kc, (char *)"ip", 0, (char *)"icmp");
-+  if (ksp) {
++  if (ksp)
++  {
 +    kstat_read(kc, ksp, NULL);
-+    for (i = 0; icmp_map[i].name != NULL; i++) {
++    for (i = 0; icmp_map[i].name != NULL; i++)
++    {
 +      if ((knp = kstat_data_lookup(ksp, (char *)icmp_map[i].name)) != NULL)
 +        *(DWORD *)((char *)stats + icmp_map[i].offset) = knp->value.ui32;
 +    }
@@ -421,7 +487,7 @@
    /* get most of these stats from /proc/net/snmp, no error if can't */
    fp = fopen("/proc/net/snmp", "r");
    if (fp) {
-@@ -315,7 +622,11 @@
+@@ -315,7 +647,11 @@
      fclose(fp);
    }
    else
@@ -433,39 +499,35 @@
       ERR ("unimplemented!\n");
       return ERROR_NOT_SUPPORTED;
    }
-@@ -323,9 +634,42 @@
-   return NO_ERROR;
- }
+@@ -325,7 +661,38 @@
  
-+#ifdef HAVE_KSTAT
-+static struct kstat_mib_map ipstats_map[] = {
-+  { "forwarding", offsetof(MIB_IPSTATS, dwForwarding) },
-+  { "defaultTTL", offsetof(MIB_IPSTATS, dwDefaultTTL) },
-+  { "inReceives", offsetof(MIB_IPSTATS, dwInReceives) },
-+  { "inHdrErrors", offsetof(MIB_IPSTATS, dwInHdrErrors) },
-+  { "inAddrErrors", offsetof(MIB_IPSTATS, dwInAddrErrors) },
-+  { "forwDatagrams", offsetof(MIB_IPSTATS, dwForwDatagrams) },
-+  { "inUnknownProtos", offsetof(MIB_IPSTATS, dwInUnknownProtos) },
-+  { "inDiscards", offsetof(MIB_IPSTATS, dwInDiscards) },
-+  { "inDelivers", offsetof(MIB_IPSTATS, dwInDelivers) },
-+  { "outRequests", offsetof(MIB_IPSTATS, dwOutRequests) },
-+  { "routingDiscards", offsetof(MIB_IPSTATS, dwRoutingDiscards) },
-+  { "outDiscards", offsetof(MIB_IPSTATS, dwOutDiscards) },
-+  { "outNoRoutes", offsetof(MIB_IPSTATS, dwOutNoRoutes) },
-+  { "reasmTimeout", offsetof(MIB_IPSTATS, dwReasmTimeout) },
-+  { "reasmReqds", offsetof(MIB_IPSTATS, dwReasmReqds) },
-+  { "reasmOks", offsetof(MIB_IPSTATS, dwReasmOks) },
-+  { "reasmFails", offsetof(MIB_IPSTATS, dwReasmFails) },
-+  { "fragOks", offsetof(MIB_IPSTATS, dwFragOks) },
-+  { "fragFails", offsetof(MIB_IPSTATS, dwFragFails) },
-+  { "fragCreates", offsetof(MIB_IPSTATS, dwFragCreates) },
-+  { NULL, 0 }
-+};
-+#endif
-+
  DWORD getIPStats(PMIB_IPSTATS stats)
  {
 +#if defined(HAVE_KSTAT)
++  static const struct kstat_mib_map ipstats_map[] =
++  {
++    { "forwarding", offsetof(MIB_IPSTATS, dwForwarding) },
++    { "defaultTTL", offsetof(MIB_IPSTATS, dwDefaultTTL) },
++    { "inReceives", offsetof(MIB_IPSTATS, dwInReceives) },
++    { "inHdrErrors", offsetof(MIB_IPSTATS, dwInHdrErrors) },
++    { "inAddrErrors", offsetof(MIB_IPSTATS, dwInAddrErrors) },
++    { "forwDatagrams", offsetof(MIB_IPSTATS, dwForwDatagrams) },
++    { "inUnknownProtos", offsetof(MIB_IPSTATS, dwInUnknownProtos) },
++    { "inDiscards", offsetof(MIB_IPSTATS, dwInDiscards) },
++    { "inDelivers", offsetof(MIB_IPSTATS, dwInDelivers) },
++    { "outRequests", offsetof(MIB_IPSTATS, dwOutRequests) },
++    { "routingDiscards", offsetof(MIB_IPSTATS, dwRoutingDiscards) },
++    { "outDiscards", offsetof(MIB_IPSTATS, dwOutDiscards) },
++    { "outNoRoutes", offsetof(MIB_IPSTATS, dwOutNoRoutes) },
++    { "reasmTimeout", offsetof(MIB_IPSTATS, dwReasmTimeout) },
++    { "reasmReqds", offsetof(MIB_IPSTATS, dwReasmReqds) },
++    { "reasmOks", offsetof(MIB_IPSTATS, dwReasmOks) },
++    { "reasmFails", offsetof(MIB_IPSTATS, dwReasmFails) },
++    { "fragOks", offsetof(MIB_IPSTATS, dwFragOks) },
++    { "fragFails", offsetof(MIB_IPSTATS, dwFragFails) },
++    { "fragCreates", offsetof(MIB_IPSTATS, dwFragCreates) },
++    { NULL, 0 }
++  };
 +  kstat_ctl_t *kc;
 +  kstat_t *ksp;
 +  kstat_named_t *knp;
@@ -476,16 +538,18 @@
  
    if (!stats)
      return ERROR_INVALID_PARAMETER;
-@@ -334,6 +678,19 @@
+@@ -334,6 +701,21 @@
    stats->dwNumIf = stats->dwNumAddr = getNumInterfaces();
    stats->dwNumRoutes = getNumRoutes();
  
 +#if defined(HAVE_KSTAT)
 +  kc = kstat_open();
 +  ksp = kstat_lookup(kc, (char *)"ip", 0, (char *)"ip");
-+  if (ksp) {
++  if (ksp)
++  {
 +    kstat_read(kc, ksp, NULL);
-+    for (i = 0; ipstats_map[i].name != NULL; i++) {
++    for (i = 0; ipstats_map[i].name != NULL; i++)
++    {
 +      if ((knp = kstat_data_lookup(ksp, (char *)ipstats_map[i].name)) != NULL)
 +        *(DWORD *)((char *)stats + ipstats_map[i].offset) = knp->value.ui32;
 +    }
@@ -496,7 +560,7 @@
    /* get most of these stats from /proc/net/snmp, no error if can't */
    fp = fopen("/proc/net/snmp", "r");
    if (fp) {
-@@ -432,7 +789,11 @@
+@@ -432,7 +814,11 @@
      fclose(fp);
    }
    else
@@ -508,33 +572,29 @@
       ERR ("unimplemented!\n");
       return ERROR_NOT_SUPPORTED;
    }
-@@ -440,9 +801,36 @@
-   return NO_ERROR;
- }
+@@ -442,7 +828,32 @@
  
-+#ifdef HAVE_KSTAT
-+static struct kstat_mib_map tcpstats_map[] = {
-+  { "rtoAlgorithm", offsetof(MIB_TCPSTATS, dwRtoAlgorithm) },
-+  { "rtoMin", offsetof(MIB_TCPSTATS, dwRtoMin) },
-+  { "rtoMax", offsetof(MIB_TCPSTATS, dwRtoMax) },
-+  { "maxConn", offsetof(MIB_TCPSTATS, dwMaxConn) },
-+  { "activeOpens", offsetof(MIB_TCPSTATS, dwActiveOpens) },
-+  { "passiveOpens", offsetof(MIB_TCPSTATS, dwPassiveOpens) },
-+  { "attemptFails", offsetof(MIB_TCPSTATS, dwAttemptFails) },
-+  { "estabResets", offsetof(MIB_TCPSTATS, dwEstabResets) },
-+  { "currEstab", offsetof(MIB_TCPSTATS, dwCurrEstab) },
-+  { "inSegs", offsetof(MIB_TCPSTATS, dwInSegs) },
-+  { "outSegs", offsetof(MIB_TCPSTATS, dwOutSegs) },
-+  { "retransSegs", offsetof(MIB_TCPSTATS, dwRetransSegs) },
-+  { "inErrs", offsetof(MIB_TCPSTATS, dwInErrs) },
-+  { "outRsts", offsetof(MIB_TCPSTATS, dwOutRsts) },
-+  { NULL, 0 }
-+};
-+#endif
-+
  DWORD getTCPStats(MIB_TCPSTATS *stats)
  {
 +#if defined(HAVE_KSTAT)
++  static const struct kstat_mib_map tcpstats_map[] =
++  {
++    { "rtoAlgorithm", offsetof(MIB_TCPSTATS, dwRtoAlgorithm) },
++    { "rtoMin", offsetof(MIB_TCPSTATS, dwRtoMin) },
++    { "rtoMax", offsetof(MIB_TCPSTATS, dwRtoMax) },
++    { "maxConn", offsetof(MIB_TCPSTATS, dwMaxConn) },
++    { "activeOpens", offsetof(MIB_TCPSTATS, dwActiveOpens) },
++    { "passiveOpens", offsetof(MIB_TCPSTATS, dwPassiveOpens) },
++    { "attemptFails", offsetof(MIB_TCPSTATS, dwAttemptFails) },
++    { "estabResets", offsetof(MIB_TCPSTATS, dwEstabResets) },
++    { "currEstab", offsetof(MIB_TCPSTATS, dwCurrEstab) },
++    { "inSegs", offsetof(MIB_TCPSTATS, dwInSegs) },
++    { "outSegs", offsetof(MIB_TCPSTATS, dwOutSegs) },
++    { "retransSegs", offsetof(MIB_TCPSTATS, dwRetransSegs) },
++    { "inErrs", offsetof(MIB_TCPSTATS, dwInErrs) },
++    { "outRsts", offsetof(MIB_TCPSTATS, dwOutRsts) },
++    { NULL, 0 }
++  };
 +  kstat_ctl_t *kc;
 +  kstat_t *ksp;
 +  kstat_named_t *knp;
@@ -545,16 +605,18 @@
  
    if (!stats)
      return ERROR_INVALID_PARAMETER;
-@@ -449,6 +837,19 @@
+@@ -449,6 +860,21 @@
  
    memset(stats, 0, sizeof(MIB_TCPSTATS));
  
 +#if defined(HAVE_KSTAT)
 +  kc = kstat_open();
 +  ksp = kstat_lookup(kc, (char *)"tcp", 0, (char *)"tcp");
-+  if (ksp) {
++  if (ksp)
++  {
 +    kstat_read(kc, ksp, NULL);
-+    for (i = 0; tcpstats_map[i].name != NULL; i++) {
++    for (i = 0; tcpstats_map[i].name != NULL; i++)
++    {
 +      if ((knp = kstat_data_lookup(ksp, (char *)tcpstats_map[i].name)) != NULL)
 +        *(DWORD *)((char *)stats + tcpstats_map[i].offset) = knp->value.ui32;
 +    }
@@ -565,7 +627,7 @@
    /* get from /proc/net/snmp, no error if can't */
    fp = fopen("/proc/net/snmp", "r");
    if (fp) {
-@@ -528,7 +929,11 @@
+@@ -528,7 +954,11 @@
      fclose(fp);
    }
    else
@@ -577,7 +639,7 @@
       ERR ("unimplemented!\n");
       return ERROR_NOT_SUPPORTED;
    }
-@@ -538,7 +943,13 @@
+@@ -538,7 +968,13 @@
  
  DWORD getUDPStats(MIB_UDPSTATS *stats)
  {
@@ -591,14 +653,15 @@
  
    if (!stats)
      return ERROR_INVALID_PARAMETER;
-@@ -545,6 +956,21 @@
+@@ -545,6 +981,22 @@
  
    memset(stats, 0, sizeof(MIB_UDPSTATS));
  
 +#if defined(HAVE_KSTAT)
 +  kc = kstat_open();
 +  ksp = kstat_lookup(kc, (char *)"udp", 0, (char *)"udp");
-+  if (ksp) {
++  if (ksp)
++  {
 +    kstat_read(kc, ksp, NULL);
 +    if ((knp = kstat_data_lookup(ksp, (char *)"inDatagrams")) != NULL)
 +      stats->dwInDatagrams = knp->value.ui32;
@@ -613,7 +676,7 @@
    /* get from /proc/net/snmp, no error if can't */
    fp = fopen("/proc/net/snmp", "r");
    if (fp) {
-@@ -587,7 +1013,11 @@
+@@ -587,7 +1039,11 @@
      fclose(fp);
    }
    else
@@ -625,7 +688,7 @@
       ERR ("unimplemented!\n");
       return ERROR_NOT_SUPPORTED;
    }
-@@ -595,6 +1025,7 @@
+@@ -595,6 +1051,7 @@
    return NO_ERROR;
  }
  
@@ -633,7 +696,7 @@
  static DWORD getNumWithOneHeader(const char *filename)
  {
  #if defined(HAVE_SYS_SYSCTL_H) && defined(HAVE_NETINET_IN_PCB_H)
-@@ -715,6 +1146,7 @@
+@@ -715,6 +1172,7 @@
    return ret;
  #endif
  }
@@ -641,35 +704,38 @@
  
  DWORD getNumRoutes(void)
  {
-@@ -763,8 +1195,43 @@
+@@ -763,8 +1221,46 @@
  
     HeapFree (GetProcessHeap (), 0, buf);
     return RouteCount;
 -#else
-+#elif defined(HAVE_SYS_STREAM_H) && defined(HAVE_SYS_TIHDR_H)
++#elif defined(HAVE_STREAMS_TPI)
 +   DWORD RouteCount = 0;
 +   int sd;
 +   mib_item_t *head, *item;
 +   mib2_ipRouteEntry_t *rp;
 +
-+   if ((sd = mibopen()) < 0) {
++   if ((sd = mibopen()) < 0)
++   {
 +     ERR ("Unable to open %s to count routes!\n", mib_dev);
 +     return 0;
 +   }
 +
-+   if ((head = mibget(sd)) == NULL) {
++   if ((head = mibget(sd)) == NULL)
++   {
 +     close(sd);
 +     return 0;
 +   }
 +
-+   for (item = head; item; item = item->next_item) {
++   for (item = head; item; item = item->next_item)
++   {
 +     if ((item->group != MIB2_IP) || (item->mib_id != MIB2_IP_21))
 +       continue;
 +
-+       for (rp = (mib2_ipRouteEntry_t *)item->valp;
-+            (char *)rp < (char *)item->valp + item->length; rp++) {
-+       if (rp->ipRouteInfo.re_ire_type == IRE_CACHE ||
-+         rp->ipRouteInfo.re_ire_type == IRE_BROADCAST)
++     for (rp = (mib2_ipRouteEntry_t *)item->valp;
++          (char *)rp < (char *)item->valp + item->length; rp++)
++     {
++       if ((rp->ipRouteInfo.re_ire_type & IRE_CACHETABLE) != 0)
 +         continue;
 +
 +       RouteCount++;
@@ -686,7 +752,7 @@
  #endif
  }
  
-@@ -793,7 +1260,7 @@
+@@ -793,7 +1289,7 @@
         if (sysctl (mib, 6, NULL, &needed, NULL, 0) < 0)
         {
            ERR ("sysctl 1 failed!\n");
@@ -695,7 +761,7 @@
            return NO_ERROR;
         }
  
-@@ -800,7 +1267,7 @@
+@@ -800,7 +1296,7 @@
         buf = HeapAlloc (GetProcessHeap (), 0, needed);
         if (!buf)
         {
@@ -704,7 +770,7 @@
            return ERROR_OUTOFMEMORY;
         }
  
-@@ -807,7 +1274,7 @@
+@@ -807,7 +1303,7 @@
         if (sysctl (mib, 6, buf, &needed, NULL, 0) < 0)
         {
            ERR ("sysctl 2 failed!\n");
@@ -713,30 +779,33 @@
            HeapFree (GetProcessHeap (), 0, buf);
            return NO_ERROR;
         }
-@@ -898,7 +1365,74 @@
+@@ -898,7 +1394,76 @@
  
         HeapFree (GetProcessHeap (), 0, buf);
         ret = NO_ERROR;
 -#else
-+#elif defined(HAVE_SYS_STREAM_H) && defined(HAVE_SYS_TIHDR_H)
++#elif defined(HAVE_STREAMS_TPI)
 +       DWORD RouteCount = 0;
 +       int sd;
 +       mib_item_t *head, *item;
 +       mib2_ipRouteEntry_t *rp;
 +
-+       if ((sd = mibopen()) < 0) {
++       if ((sd = mibopen()) < 0)
++       {
 +         ERR ("Unable to open %s to list routes!\n", mib_dev);
 +         HeapFree(heap, 0, table);
 +         return ERROR_NOT_SUPPORTED;
 +       }
 +
-+       if ((head = mibget(sd)) == NULL) {
++       if ((head = mibget(sd)) == NULL)
++       {
 +         HeapFree(heap, 0, table);
 +         close(sd);
 +         return ERROR_NOT_SUPPORTED;
 +       }
 +
-+       for (item = head; item; item = item->next_item) {
++       for (item = head; item; item = item->next_item)
++       {
 +         if ((item->group != MIB2_IP) || (item->mib_id != MIB2_IP_21))
 +           continue;
 +
@@ -749,8 +818,7 @@
 +           if (RouteCount == numRoutes) /* in case of race */
 +             break;
 +
-+           if (rp->ipRouteInfo.re_ire_type == IRE_CACHE ||
-+             rp->ipRouteInfo.re_ire_type == IRE_BROADCAST)
++           if ((rp->ipRouteInfo.re_ire_type & IRE_CACHETABLE) != 0)
 +             continue;
 +
 +           memset(&table->table[RouteCount], 0, sizeof(MIB_IPFORWARDROW));
@@ -789,7 +857,7 @@
        FILE *fp;
  
        ret = NO_ERROR;
-@@ -983,6 +1517,9 @@
+@@ -983,6 +1548,9 @@
          ERR ("unimplemented!\n");
          return ERROR_NOT_SUPPORTED;
        }
@@ -799,17 +867,18 @@
  #endif
      }
      else
-@@ -993,7 +1530,40 @@
+@@ -993,7 +1561,41 @@
  
  DWORD getNumArpEntries(void)
  {
-+#if defined(HAVE_SYS_STREAM_H) && defined(HAVE_SYS_TIHDR_H)
++#ifdef HAVE_STREAMS_TPI
 +   DWORD ArpCount = 0;
 +   int sd;
 +   mib_item_t *head, *item;
 +   mib2_ipNetToMediaEntry_t *np;
 +
-+   if ((sd = mibopen()) < 0) {
++   if ((sd = mibopen()) < 0)
++   {
 +     ERR ("Unable to open %s to count ARP entries!\n", mib_dev);
 +     return 0;
 +   }
@@ -819,14 +888,14 @@
 +     return 0;
 +   }
 +
-+   for (item = head; item; item = item->next_item) {
++   for (item = head; item; item = item->next_item)
++   {
 +     if ((item->group != MIB2_IP) || (item->mib_id != MIB2_IP_MEDIA))
 +       continue;
 +
 +     for (np = (mib2_ipNetToMediaEntry_t *)item->valp;
-+            (char *)np < (char *)item->valp + item->length; np++) {
++            (char *)np < (char *)item->valp + item->length; np++)
 +       ArpCount++;
-+     }
 +   }
 +
 +   mibfree(head);
@@ -840,7 +909,7 @@
  }
  
  DWORD getArpTable(PMIB_IPNETTABLE *ppIpNetTable, HANDLE heap, DWORD flags)
-@@ -1000,11 +1570,84 @@
+@@ -1000,11 +1602,87 @@
  {
    DWORD ret;
  
@@ -848,7 +917,7 @@
 -  ERR ("unimplemented!\n");
 -  return ERROR_NOT_SUPPORTED;
 -#endif
-+#if defined(HAVE_SYS_STREAM_H) && defined(HAVE_SYS_TIHDR_H)
++#ifdef HAVE_STREAMS_TPI
 +  if (!ppIpNetTable)
 +    ret = ERROR_INVALID_PARAMETER;
 +  else {
@@ -859,26 +928,29 @@
 +    if (numEntries > 1)
 +      size += (numEntries - 1) * sizeof(MIB_IPNETROW);
 +    table = HeapAlloc(heap, flags, size);
-+    if (table) {
-+
++    if (table)
++    {
 +      DWORD ArpCount = 0;
 +      int sd;
 +      mib_item_t *head, *item;
 +      mib2_ipNetToMediaEntry_t *np;
 +
-+      if ((sd = mibopen()) < 0) {
++      if ((sd = mibopen()) < 0)
++      {
 +        ERR ("Unable to open %s to count ARP entries!\n", mib_dev);
 +        HeapFree(heap, 0, table);
 +        return ERROR_NOT_SUPPORTED;
 +      }
 +
-+      if ((head = mibget(sd)) == NULL) {
++      if ((head = mibget(sd)) == NULL)
++      {
 +        HeapFree(heap, 0, table);
 +        close(sd);
 +        return ERROR_NOT_SUPPORTED;
 +      }
 +
-+      for (item = head; item; item = item->next_item) {
++      for (item = head; item; item = item->next_item)
++      {
 +        if ((item->group != MIB2_IP) || (item->mib_id != MIB2_IP_MEDIA))
 +          continue;
 +
@@ -929,7 +1001,7 @@
    if (!ppIpNetTable)
      ret = ERROR_INVALID_PARAMETER;
    else {
-@@ -1092,11 +1735,50 @@
+@@ -1092,11 +1770,53 @@
        ret = ERROR_OUTOFMEMORY;
    }
    return ret;
@@ -944,23 +1016,26 @@
 -  return getNumWithOneHeader("/proc/net/udp");
 +#if defined(HAVE_SYS_SYSCTL_H) && defined(HAVE_NETINET_IN_PCB_H)
 +   return getNumWithOneHeader ("net.inet.udp.pcblist");
-+#elif defined(HAVE_SYS_STREAM_H) && defined(HAVE_SYS_TIHDR_H)
++#elif defined(HAVE_STREAMS_TPI)
 +   DWORD UdpCount = 0;
 +   int sd;
 +   mib_item_t *head, *item;
 +   mib2_udpEntry_t *ude;
 +
-+   if ((sd = mibopen()) < 0) {
++   if ((sd = mibopen()) < 0)
++   {
 +     ERR ("Unable to open %s to count UDP entries!\n", mib_dev);
 +     return 0;
 +   }
 +
-+   if ((head = mibget(sd)) == NULL) {
++   if ((head = mibget(sd)) == NULL)
++   {
 +     close(sd);
 +     return 0;
 +   }
 +
-+   for (item = head; item; item = item->next_item) {
++   for (item = head; item; item = item->next_item)
++   {
 +     if ((item->group != MIB2_UDP) || (item->mib_id != MIB2_UDP_ENTRY))
 +       continue;
 +
@@ -981,7 +1056,7 @@
  }
  
  DWORD getUdpTable(PMIB_UDPTABLE *ppUdpTable, HANDLE heap, DWORD flags)
-@@ -1103,11 +1785,67 @@
+@@ -1103,11 +1823,71 @@
  {
    DWORD ret;
  
@@ -989,7 +1064,7 @@
 -  ERR ("unimplemented!\n");
 -  return ERROR_NOT_SUPPORTED;
 -#endif
-+#if defined(HAVE_SYS_STREAM_H) && defined(HAVE_SYS_TIHDR_H)
++#ifdef HAVE_STREAMS_TPI
 +  if (!ppUdpTable)
 +    ret = ERROR_INVALID_PARAMETER;
 +  else {
@@ -1000,31 +1075,35 @@
 +    if (numEntries > 1)
 +      size += (numEntries - 1) * sizeof(MIB_IPNETROW);
 +    table = HeapAlloc(heap, flags, size);
-+    if (table) {
-+
++    if (table)
++    {
 +      DWORD UdpCount = 0;
 +      int sd;
 +      mib_item_t *head, *item;
 +      mib2_udpEntry_t *ude;
 +
-+      if ((sd = mibopen()) < 0) {
++      if ((sd = mibopen()) < 0)
++      {
 +        ERR ("Unable to open %s to list UDP entries!\n", mib_dev);
 +        HeapFree(heap, 0, table);
 +        return ERROR_NOT_SUPPORTED;
 +      }
 +
-+      if ((head = mibget(sd)) == NULL) {
++      if ((head = mibget(sd)) == NULL)
++      {
 +        HeapFree(heap, 0, table);
 +        close(sd);
 +        return ERROR_NOT_SUPPORTED;
 +      }
 +
-+      for (item = head; item; item = item->next_item) {
++      for (item = head; item; item = item->next_item)
++      {
 +        if ((item->group != MIB2_UDP) || (item->mib_id != MIB2_UDP_ENTRY))
 +          continue;
 +
 +        for (ude = (mib2_udpEntry_t *)item->valp;
-+               (char *)ude < (char *)item->valp + item->length; ude++) {
++               (char *)ude < (char *)item->valp + item->length; ude++)
++        {
 +
 +          if (UdpCount == numEntries) /* in case of race */
 +            break;
@@ -1053,7 +1132,7 @@
    if (!ppUdpTable)
      ret = ERROR_INVALID_PARAMETER;
    else {
-@@ -1165,6 +1903,10 @@
+@@ -1165,6 +1945,10 @@
        ret = ERROR_OUTOFMEMORY;
    }
    return ret;
@@ -1064,35 +1143,37 @@
  }
  
  
-@@ -1172,8 +1914,39 @@
+@@ -1172,8 +1956,41 @@
  {
  #if defined(HAVE_SYS_SYSCTL_H) && defined(HAVE_NETINET_IN_PCB_H)
     return getNumWithOneHeader ("net.inet.tcp.pcblist");
 -#else
-+#elif defined(HAVE_SYS_STREAM_H) && defined(HAVE_SYS_TIHDR_H)
++#elif defined(HAVE_STREAMS_TPI)
 +   DWORD TcpCount = 0;
 +   int sd;
 +   mib_item_t *head, *item;
 +   mib2_tcpConnEntry_t *tp;
 +
-+   if ((sd = mibopen()) < 0) {
++   if ((sd = mibopen()) < 0)
++   {
 +     ERR ("Unable to open %s to count TCP entries!\n", mib_dev);
 +     return 0;
 +   }
 +
-+   if ((head = mibget(sd)) == NULL) {
++   if ((head = mibget(sd)) == NULL)
++   {
 +     close(sd);
 +     return 0;
 +   }
 +
-+   for (item = head; item; item = item->next_item) {
++   for (item = head; item; item = item->next_item)
++   {
 +     if ((item->group != MIB2_TCP) || (item->mib_id != MIB2_TCP_CONN))
 +       continue;
 +
 +     for (tp = (mib2_tcpConnEntry_t *)item->valp;
-+            (char *)tp < (char *)item->valp + item->length; tp++) {
++            (char *)tp < (char *)item->valp + item->length; tp++)
 +       TcpCount++;
-+     }
 +   }
 +
 +   mibfree(head);
@@ -1105,7 +1186,7 @@
  #endif
  }
  
-@@ -1180,6 +1953,7 @@
+@@ -1180,6 +1997,7 @@
  
  /* Why not a lookup table? Because the TCPS_* constants are different
     on different platforms */
@@ -1113,7 +1194,7 @@
  static DWORD TCPStateToMIBState (int state)
  {
     switch (state)
-@@ -1198,6 +1972,7 @@
+@@ -1198,6 +2016,7 @@
        case TCPS_CLOSED: return MIB_TCP_STATE_CLOSED;
     }
  }
@@ -1121,12 +1202,12 @@
  
  
  DWORD getTcpTable(PMIB_TCPTABLE *ppTcpTable, DWORD maxEntries, HANDLE heap,
-@@ -1209,7 +1984,12 @@
+@@ -1209,7 +2028,12 @@
     size_t Len = 0;
     char *Buf;
     struct xinpgen *pXIG, *pOrigXIG;
 -#else
-+#elif defined(HAVE_SYS_STREAM_H) && defined(HAVE_SYS_TIHDR_H)
++#elif defined(HAVE_STREAMS_TPI)
 +   DWORD TcpCount = 0;
 +   int sd;
 +   mib_item_t *head, *item;
@@ -1135,24 +1216,27 @@
     FILE *fp;
     char buf[512] = { 0 }, *ptr;
  #endif
-@@ -1320,7 +2100,44 @@
+@@ -1320,7 +2144,47 @@
     }
  
     HeapFree (GetProcessHeap (), 0, Buf);
 -#else
-+#elif defined(HAVE_SYS_STREAM_H) && defined(HAVE_SYS_TIHDR_H)
++#elif defined(HAVE_STREAMS_TPI)
 +
-+   if ((sd = mibopen()) < 0) {
++   if ((sd = mibopen()) < 0)
++   {
 +     ERR ("Unable to open %s to list TCP entries!\n", mib_dev);
 +     return ERROR_NOT_SUPPORTED;
 +   }
 +
-+   if ((head = mibget(sd)) == NULL) {
++   if ((head = mibget(sd)) == NULL)
++   {
 +     close(sd);
 +     return ERROR_NOT_SUPPORTED;
 +   }
 +
-+   for (item = head; item; item = item->next_item) {
++   for (item = head; item; item = item->next_item)
++   {
 +     if ((item->group != MIB2_TCP) || (item->mib_id != MIB2_TCP_CONN))
 +       continue;
 +
@@ -1181,7 +1265,7 @@
     /* get from /proc/net/tcp, no error if can't */
     fp = fopen("/proc/net/tcp", "r");
     if (!fp)
-@@ -1371,6 +2188,9 @@
+@@ -1371,6 +2235,9 @@
        }
     }
     fclose(fp);
