@@ -1,3 +1,16 @@
+2008-04-10  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEwine.spec: Bump to 0.9.59, add patch7. Update dependencies
+	  (SFEfontforge is only used for build)
+	* patches/wine-06-iphlpapi.diff: Clean up, improve autoconf checks
+	* patches/wine-07-makefile.diff: Fix build problem introduced with bump
+
+2008-04-10  Alfred Peng <alfred.peng@sun.com>
+
+	* SFEsongbird.spec: *NEW* The desktop media player mashed-up with the
+	  Web.
+	  Currently, it only works on x86.
+
 2008-04-08  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEperl-encode-detect.spec: *NEW* Encode-Detect PERL module
