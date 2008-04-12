@@ -1,3 +1,8 @@
+2008-04-12  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEjokosher.spec, SFEpitivi.spec: Change SFEgst-python to
+	  SUNWgst-python in Requires.
+
 2008-04-10  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEwine.spec: Bump to 0.9.59, add patch7. Update dependencies

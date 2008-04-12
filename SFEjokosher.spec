@@ -18,10 +18,10 @@ BuildRoot:      %{_tmppath}/jokosher-%{version}-build
 Requires:	SUNWgnome-python-libs
 Requires:	SUNWdbus-bindings
 Requires:	SUNWgnome-media
-Requires:	SFEgst-python
+Requires:	SUNWgst-python
 Requires:	SFEgnonlin
 BuildRequires:	SUNWPython-devel >= %{pythonver}
-BuildRequires:	SFEgst-python
+BuildRequires:	SUNWgst-python
 BuildRequires:	SFEgnonlin
 
 %include default-depend.inc
@@ -128,6 +128,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Thu Apr 10 2008 - brian.cameron@sun.com
+- Change SFEgst-python to SUNWgst-python.
 * Thu Feb 07 2008 - brian.cameron@sun.com.
 - Add jokosher-01-fixdesktop.diff file so package builds.
 * Wed Nov 14 2007 - daymobrew@users.sourceforge.net

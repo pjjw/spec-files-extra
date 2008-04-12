@@ -14,7 +14,7 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 BuildRequires:           SFEgnonlin
 BuildRequires:           SUNWgnome-python-extras
-BuildRequires:           SFEgst-python
+BuildRequires:           SUNWgst-python
 Requires:                SUNWpython-zope-interface
 Requires:                SUNWpython-setuptools
 
@@ -73,6 +73,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Apr 10 2008 - brian.cameron@sun.com
+- Change SFEgst-python to SUNWgst-python.
 * Mon Apr 07 2008 - brian.cameron@sun.com
 - Change SFEgnome-python-extras to SUNWgnome-python-extras.
 * Thu Jan 10 2008 - irene.huang@sun.com
