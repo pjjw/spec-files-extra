@@ -1,3 +1,14 @@
+2008-04-13  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEurxvt.spec: add missing patch urxvt-11-remove-tic.diff
+        * experimental: add place to drop highly experimental specs e.g.
+          as a quick way to share early results between developers
+          NOTE: experimental is not searched by pkgtool|pkgbuild
+              o place patches into normal patches/with-different-number-or-name.diff
+              o place base-specs into nomal base-specs/program-experimental.spec
+              o once going public, adjust to normal directories/nameing conventions
+                to be SFEprogram.spec, patches/program-nn-meaning.diff, base-specs/program.spec
+              o read the upcoming wiki page for examples
+
 2008-04-12  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEjokosher.spec, SFEpitivi.spec: Change SFEgst-python to

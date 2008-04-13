@@ -1,0 +1,11 @@
+--- rxvt-unicode-9.02/doc/Makefile.in.orig	2008-01-29 12:11:14.000000000 +0100
++++ rxvt-unicode-9.02/doc/Makefile.in	2008-03-15 22:36:24.709658233 +0100
+@@ -99,7 +99,7 @@
+ 	$(INSTALL_DATA) rxvt.7.man  $(DESTDIR)$(man7dir)/$(RXVTNAME).$(man7ext)
+ @IF_PERL@	$(INSTALL) -d $(DESTDIR)$(man3dir)
+ @IF_PERL@	$(INSTALL_DATA) rxvtperl.3.man $(DESTDIR)$(man3dir)/$(RXVTNAME)perl.$(man3ext)
+-	@TIC@ $(srcdir)/etc/rxvt-unicode.terminfo
++#do this later in the package's postinstall script	@TIC@ $(srcdir)/etc/rxvt-unicode.terminfo
+ 
+ distdepend: alldoc
+ 
