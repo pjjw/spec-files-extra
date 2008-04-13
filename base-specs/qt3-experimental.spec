@@ -156,7 +156,10 @@ echo "_docdir " %{_docdir}
              ${CFLAGSPG} \
              ${CFLAGSQT} \
              ${LDLIBS} \
+%if %{cc_is_gcc}
+%else
              -lCrun -lCstd \
+%endif
              -v
 
 
