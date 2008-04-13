@@ -12,6 +12,10 @@
 # default: non-debug build
 %define with_debug %{?_with_debug:1}%{?!_with_debug:0}
 
+# use --without-vendor-binary to build your own XULRunner/zlib/taglib.
+# default: build with vendor binary
+%define without_vendor_binary %{?_without_vendor_binary:1}%{?!_without_vendor_binary:0}
+
 %if %with_debug
 %define build_type debug
 %else
@@ -21,8 +25,16 @@
 Name:          SFEsongbird
 Summary:       The desktop media player mashed-up with the Web.
 Version:       0.5
-Source:        http://releases.mozilla.com/sun/xulrunner-20080211-for-songbird-05.tar.bz2
-Source1:       http://releases.mozilla.com/sun/songbird-%{version}-solaris-patched.tar.bz2
+Source:        http://releases.mozilla.com/sun/songbird-%{version}-solaris-patched.tar.bz2
+%if %without_vendor_binary
+Source1:       http://releases.mozilla.com/sun/xulrunner-20080211-for-songbird-05.tar.bz2
+%else
+%if %with_debug
+Source1:       http://releases.mozilla.com/sun/solaris-vendor-binaries/songbird-vendor-binary-solaris-i386-20080211-for-05-debug.tar.bz2
+%else
+Source1:       http://releases.mozilla.com/sun/solaris-vendor-binaries/songbird-vendor-binary-solaris-i386-20080211-for-05.tar.bz2
+%endif
+%endif
 URL:           http://www.songbirdnest.com/
 SUNW_BaseDir:  %{_basedir}
 BuildRoot:     %{_tmppath}/%{name}-%{version}-build
@@ -35,6 +47,10 @@ Songbird provides a public playground for Web media mash-ups by providing develo
 
 %prep
 %setup -q -n %name-%version -c -a1
+%if %without_vendor_binary
+%else
+mv solaris-i386 songbird%version/dependencies/
+%endif
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -47,14 +63,15 @@ fi
 export CXX="${CXX} -norunpath"
 %endif
 
+%if %without_vendor_binary
 # Build the vendor libraries(zlib, taglib)
 cd songbird%version/dependencies/vendor/zlib
 ./songbird_zlib_make.sh
 cd ../taglib/
 ./songbird_taglib_make.sh
 cd ../../../../mozilla
+%endif
 
-# Build XULRunner
 export LDFLAGS="-z ignore -L%{_libdir} -L/usr/sfw/lib -R'\$\$ORIGIN:\$\$ORIGIN/..' -R%{_libdir}/mps"
 export CFLAGS="-xlibmil"
 export CXXFLAGS="-norunpath -xlibmil -xlibmopt -features=tmplife -lCrun -lCstd"
@@ -69,6 +86,8 @@ export CXXFLAGS="$CXXFLAGS -xO4"
 %endif
 %endif
 
+%if %without_vendor_binary
+# Build XULRunner
 cat << "EOF" > .mozconfig
 MOZILLA_OFFICIAL=1
 export MOZILLA_OFFICIAL
@@ -117,6 +136,9 @@ cd tools/scripts
 ./make-xulrunner-tarball.sh ../../../mozilla/compiled/xulrunner/dist/bin ../../dependencies/solaris-i386/xulrunner/%build_type xulrunner.tar.gz
 
 cd ../../
+%else
+cd songbird%version
+%endif
 
 # Build Songbird
 %if %with_debug
@@ -160,5 +182,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/songbird-%{version}
 
 %changelog
+* Sun Apr 13 2008 - alfred.peng@sun.com
+- add option --without-vendor-binary. use the vendor binary by default
+  to speed the build process.
 * Thu Apr 10 2008 - alfred.peng@sun.com
 - created
