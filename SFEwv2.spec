@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2008 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -27,10 +27,10 @@ Requires:            SUNWzlib
 Requires:            SUNWlibmsr
 Requires:            SUNWbzip
 Requires:            SUNWcslr
-Requires:            SUNWdesktop-search-libs
+Requires:            SUNWlibgsf
 BuildRequires:       SUNWgnome-base-libs-devel
 BuildRequires:       SUNWlxml-devel
-BuildRequires:       SUNWdesktop-search-libs-devel
+BuildRequires:       SUNWlibgsf-devel
 %if %sunw_gnu_iconv
 Requires: SUNWgnu-libiconv
 Requires: SUNWgnu-gettext
@@ -94,5 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Mon Apr 14 2008 - nonsea@users.sourceforge.net
+- s/SUNWdesktop-search-libs/SUNWlibgsf cause the pkg name change.
 * Sat Jan 26 2008 - moinak.ghosh@sun.com
 - Initial spec.

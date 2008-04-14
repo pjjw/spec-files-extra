@@ -1,3 +1,11 @@
+2008-04-14  Halton Huo <nonsea@users.sourceforge.net>
+
+	s/SUNWdesktop-search-libs/SUNWlibgsf cause the pkg name change.
+	* SFEabiword.spec:
+	* SFEwv.spec:
+	* SFEwv2.spec:
+	* SUNWgnome-project.spec:
+
 2008-04-14  simon.zheng  <simon.zheng@sun.com>
 
 	* SUNWgnome-display-mgr.spec:
@@ -6,22 +14,22 @@
 
 2008-04-13  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * experimental/SFEqt3.spec base-specs/qt3-experimental.spec:
-              build in 32 + 64 bit, build with sunstudio plus gcc/g++,
-              selectable installation-root (default /usr/qt/3 and /usr/qtgcc/3),
-              no changes in patches
+	* experimental/SFEqt3.spec base-specs/qt3-experimental.spec:
+	  build in 32 + 64 bit, build with sunstudio plus gcc/g++,
+	  selectable installation-root (default /usr/qt/3 and /usr/qtgcc/3),
+	  no changes in patches
 
 2008-04-13  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEurxvt.spec: add missing patch urxvt-11-remove-tic.diff
-        * experimental: add place to drop highly experimental specs e.g.
-          as a quick way to share early results between developers
-          NOTE: experimental is not searched by pkgtool|pkgbuild
-              o place patches into normal patches/with-different-number-or-name.diff
-              o place base-specs into nomal base-specs/program-experimental.spec
-              o once going public, adjust to normal directories/nameing conventions
-                to be SFEprogram.spec, patches/program-nn-meaning.diff, base-specs/program.spec
-              o read the upcoming wiki page for examples
+	* SFEurxvt.spec: add missing patch urxvt-11-remove-tic.diff
+	* experimental: add place to drop highly experimental specs e.g.
+	  as a quick way to share early results between developers
+	  NOTE: experimental is not searched by pkgtool|pkgbuild
+	      o place patches into normal patches/with-different-number-or-name.diff
+	      o place base-specs into nomal base-specs/program-experimental.spec
+	      o once going public, adjust to normal directories/nameing conventions
+		to be SFEprogram.spec, patches/program-nn-meaning.diff, base-specs/program.spec
+	      o read the upcoming wiki page for examples
 
 2008-04-12  Brian Cameron  <brian.cameron@sun.com>
 
@@ -262,7 +270,7 @@
 2008-03-13  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEportaudio.spec: Bump to the latest v19_20071207
-          version.
+	  version.
 	* patches/portaudio-01-pthread.diff:  Renamed from 02.
 	* patches/portaudio-01-oss.diff:  Removed upstream patch.
 
@@ -442,7 +450,7 @@
 
 	* SFEfilezilla.spec: Update %files cause version upgrade, add pkg
 	  -l10n, repleace Requires/BuildRequires from SFElibidn to
-          SUNWgnu-idn
+	  SUNWgnu-idn
 	* SFElibidn.spec: Bump to 1.5
 	* base-specs/gnutls.spec, SUNWgnutls.spec:
 	  Copied from spec-files for it is not allowed upgrade to 2.x
@@ -578,7 +586,7 @@
 
 2008-02-25 Brian Cameron  <brian.cameron@sun.com>
 
-        * SFEconsolekit.spec: Bump to 0.2.10.  Remove upstream patches.
+	* SFEconsolekit.spec: Bump to 0.2.10.  Remove upstream patches.
 
 2008-02-25  Petr Sobotka  <sobotkap@centrum.cz>
 
@@ -603,7 +611,7 @@
 	patches/dosbox-01-socket.diff: Rework patch
 
 2008-02-24  Thomas Wagner <tom68@users.sourceforge.net>
-        * SFEgmpc.spec: take back stupid test typo for a "svn diff"
+	* SFEgmpc.spec: take back stupid test typo for a "svn diff"
 
 2008-02-25  Laszlo (Laca) Peter  <laca@sun.com>
 
@@ -792,9 +800,9 @@
 
 2008-02-14  Brian Cameron  <brian.cameron@sun.com>
 
-        * patches/ConsoleKit-03-paths.diff: Add patch needed to build.
-        * SUNWgnome-display-mgr.spec:  Bump to 2.21.7
-        * patches/gdm-01-fixcompile.diff:  Remove upstream patch.
+	* patches/ConsoleKit-03-paths.diff: Add patch needed to build.
+	* SUNWgnome-display-mgr.spec:  Bump to 2.21.7
+	* patches/gdm-01-fixcompile.diff:  Remove upstream patch.
 	* patches/gdm-02-sdtlogin.diff:  Remove for now, it is not
 	  working.
 
@@ -811,7 +819,7 @@
 
 2008-02-15  Thomas Wagner <tom68@users.sourceforge.net>
 
-        * SFEqt3.spec: add (Build-)Requires: SFElibmng(-devel)
+	* SFEqt3.spec: add (Build-)Requires: SFElibmng(-devel)
 
 2008-02-14  Petr Sobotka  <sobotkap@centrum.cz>
 
@@ -853,42 +861,42 @@
 
 2008-02-12 Pradhap Devarajan <pradhap (at) gmail.com>
 
-        * Fixed links and bumped the version in various files
-        - SFEogre.spec
-        - SFEnvu.spec
-        - SFEglassfish.spec
-        - SFEbochs.spec
-        - base-specs/libavc1394.spec
-        - base-specs/libdv.spec
-        - base-specs/jack.spec
-        - base-specs/libquicktime.spec
-        - SFEprtpci.spec
-        - SFEmpfr.spec
-        - SFEsnort.spec
-        - SFEjoal.spec
-        - SFEperl-date-pcalc.spec
-        - SFEarts.spec
-        - SFExdialog.spec
-        - SFElibuninum.spec
-        - SFEurxvt.spec
-        - SFEraptor.spec
-        - SFEunison.spec
-        - SFElibmspack.spec
-        - SFEsshmenu.spec
-        - SFElcab.spec
-        - SFEzfs-auto-backup.spec
-        - SFEliveMedia.spec
-        - SFEpython-kid.spec
-        - SFEstunnel.spec
-        - SFEastyle.spec
-        - SFEmsort.spec
-        - SFEfoomatic-db.spec
-        - SFEslib.spec
+	* Fixed links and bumped the version in various files
+	- SFEogre.spec
+	- SFEnvu.spec
+	- SFEglassfish.spec
+	- SFEbochs.spec
+	- base-specs/libavc1394.spec
+	- base-specs/libdv.spec
+	- base-specs/jack.spec
+	- base-specs/libquicktime.spec
+	- SFEprtpci.spec
+	- SFEmpfr.spec
+	- SFEsnort.spec
+	- SFEjoal.spec
+	- SFEperl-date-pcalc.spec
+	- SFEarts.spec
+	- SFExdialog.spec
+	- SFElibuninum.spec
+	- SFEurxvt.spec
+	- SFEraptor.spec
+	- SFEunison.spec
+	- SFElibmspack.spec
+	- SFEsshmenu.spec
+	- SFElcab.spec
+	- SFEzfs-auto-backup.spec
+	- SFEliveMedia.spec
+	- SFEpython-kid.spec
+	- SFEstunnel.spec
+	- SFEastyle.spec
+	- SFEmsort.spec
+	- SFEfoomatic-db.spec
+	- SFEslib.spec
 
 2008-02-12  simon.zheng  <simon.zheng@sun.com>
 
-        * SFEglibmm.spec:
-        * base-specs/glibmm.spec:
+	* SFEglibmm.spec:
+	* base-specs/glibmm.spec:
 	  Delete m4, pm and generate_extra_defs files.
 
 2008-02-12 Pradhap Devarajan <pradhap@gmail.com>

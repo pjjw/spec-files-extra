@@ -1,9 +1,9 @@
 #
-# Copyright (c) 2007 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-# owner: nonsea
+# owner: halton
 # bugdb: bugzilla.abisource.com
 #
 
@@ -28,10 +28,10 @@ Requires:            SUNWzlib
 Requires:            SUNWlibmsr
 Requires:            SUNWbzip
 Requires:            SUNWcslr
-Requires:            SUNWdesktop-search-libs
+Requires:            SUNWlibgsf
 BuildRequires:       SUNWgnome-base-libs-devel
 BuildRequires:       SUNWlxml-devel
-BuildRequires:       SUNWdesktop-search-libs-devel
+BuildRequires:       SUNWlibgsf-devel
 
 %package devel
 Summary:                 %{summary} - development files
@@ -93,6 +93,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Apr 14 2008 - nonsea@users.sourceforge.net
+- s/SUNWdesktop-search-libs/SUNWlibgsf cause the pkg name change.
 * Tue Sep 18 2007 - nonsea@users.sourceforge.net
 - Add patch w3m-dump to use w3m convert html to txt
 - Remove Requires SFElinks

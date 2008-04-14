@@ -3,7 +3,7 @@
 #
 # includes module(s): gnome-project
 #
-# Copyright (c) 2004 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -33,7 +33,7 @@ Requires: SUNWlibpopt
 Requires: SUNWlxml
 Requires: SUNWlxsl
 Requires: SUNWzlib
-Requires: SUNWdesktop-search-libs
+Requires: SUNWlibgsf
 BuildRequires: SUNWgnome-component-devel
 BuildRequires: SUNWgnome-config-devel
 BuildRequires: SUNWgnome-vfs-devel
@@ -41,7 +41,7 @@ BuildRequires: SUNWgnome-python-libs-devel
 BuildRequires: SUNWgnome-print-devel
 BuildRequires: SUNWlibpopt-devel
 BuildRequires: SUNWPython-devel
-BuildRequires: SUNWdesktop-search-libs-devel
+BuildRequires: SUNWlibgsf-devel
 Requires: SUNWpostrun
 
 %package root
@@ -183,6 +183,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %endif
 
 %changelog
+* Mon Apr 14 2008 - nonsea@users.sourceforge.net
+- s/SUNWdesktop-search-libs/SUNWlibgsf cause the pkg name change.
 * Fri May 04 2007 - nonsea@users.sourceforge.net
 - Move libgsf thing into SFElibgsf.spec
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net

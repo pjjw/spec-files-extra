@@ -3,7 +3,7 @@
 #
 # includes module(s): abiword
 #
-# Copyright (c) 2007 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -32,7 +32,7 @@ Requires:           SUNWgnome-character-map
 Requires:           SUNWgnome-print
 Requires:           SUNWfontconfig
 Requires:           SUNWperl584core
-Requires:           SUNWdesktop-search-libs
+Requires:           SUNWlibgsf
 Requires:           SFElibfribidi
 BuildRequires:      SUNWgnome-base-libs-devel
 BuildRequires:      SUNWpng-devel
@@ -41,7 +41,7 @@ BuildRequires:      SUNWlibpopt-devel
 BuildRequires:      SUNWgnome-spell-devel
 BuildRequires:      SUNWgnome-character-map-devel
 BuildRequires:      SUNWgnome-print-devel
-BuildRequires:      SUNWdesktop-search-libs-devel
+BuildRequires:      SUNWlibgsf-devel
 BuildRequires:      SFElibfribidi-devel
 %if %SUNWaspell
 Requires:           SUNWaspell
@@ -112,6 +112,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Apr 14 2008 - nonsea@users.sourceforge.net
+- s/SUNWdesktop-search-libs/SUNWlibgsf cause the pkg name change.
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net
 - Enable building with either SUNWaspell or SFEaspell. Also add support for
   building on Indiana systems.
