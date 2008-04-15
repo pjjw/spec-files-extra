@@ -12,7 +12,8 @@ License:             GPL+exception
 Summary:             OpenSource TrueType fonts from RedHat
 Version:             0.2
 URL:                 https://www.redhat.com/promo/fonts/
-Source:              http://www.redhat.com/f/fonts/liberation-fonts-ttf-3.tar.gz
+#Source:              http://www.redhat.com/f/fonts/liberation-fonts-ttf-3.tar.gz
+Source:              http://www.redhat.com/f/fonts/liberation-fonts.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -43,5 +44,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/*
 
 %changelog
+* Mon Apr 14 2008 - shivakumar.gn@gmail.com
+- The source location of the tarball has changed
 * Sun Feb 03 2008 - moinak.ghosh@sun.com
 - Initial spec.
