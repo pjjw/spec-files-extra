@@ -6,19 +6,36 @@
 Name:                    SFEgoffice
 Summary:                 goffice - Document centric set of APIs
 URL:                     http://www.gnome.org/
-Version:                 0.5.3
-Source:                  http://ftp.gnome.org/pub/GNOME/sources/goffice/0.5/goffice-%{version}.tar.gz
+Version:                 0.6.2
+Source:                  http://ftp.gnome.org/pub/GNOME/sources/goffice/0.6/goffice-%{version}.tar.gz
 Patch1:                  goffice-01-no-sunmath-lib.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+Requires: SUNWlxml
+BuildRequires: SUNWlxml-devel
+Requires: SUNWpcre
+Requires: SUNWlibms
+Requires: SUNWgnome-base-libs
+BuildRequires: SUNWgnome-base-libs
+Requires: SUNWgnome-python-libs
+BuildRequires: SUNWgnome-python-libs-devel
+Requires: SUNWgnome-libs
+BuildRequires: SUNWgnome-libs-devel
+Requires: SUNWzlib
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
+Requires: SUNWuiu8
+%endif
 
 %package devel
 Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
-
+BuildRequires: SUNWgnome-libs-devel
 
 %if %build_l10n
 %package l10n
@@ -34,10 +51,11 @@ Requires:                %{name}
 
 %build
 export CFLAGS="%optflags"
+export CPPFLAGS="-I/usr/include/pcre"
 %if %option_with_gnu_iconv
 export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
 %endif
-export LDFLAGS="-lX11"
+export LDFLAGS="%_ldflags"
 
 ./configure --prefix=%{_prefix}
 make
@@ -49,7 +67,7 @@ rm -r $RPM_BUILD_ROOT/%{_libdir}/*.la
 
 %if %{build_l10n}
 %else
-rmdir $RPM_BUILD_ROOT/%{_datadir}/locale
+rm -rf $RPM_BUILD_ROOT/%{_datadir}/locale
 %endif
 
 %clean
@@ -87,6 +105,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Apr 14 2008 - trisk@acm.jhu.edu
+- Bump to 0.6.2, update dependencies
 * Tue Sep 04 2007  - Thomas Wagner
 - bump to 0.15.1, add %{version} to Download-Dir (might change again)
 - conditional !%build_l10n rmdir $RPM_BUILD_ROOT/%{_datadir}/locale

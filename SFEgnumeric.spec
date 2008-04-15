@@ -6,20 +6,32 @@
 Name:                    SFEgnumeric
 Summary:                 gnumeric - Spreadsheet for GNOME
 URL:                     http://www.gnome.org/projects/gnumeric/
-Version:                 1.7.90
-Source:                  http://ftp.gnome.org/pub/GNOME/sources/gnumeric/1.7/gnumeric-%{version}.tar.gz
+Version:                 1.8.2
+Source:                  http://ftp.gnome.org/pub/GNOME/sources/gnumeric/1.8/gnumeric-%{version}.tar.gz
 Patch1:                  gnumeric-01-solaris.diff
+Patch2:                  gnumeric-02-528222-struct.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-BuildRequires: SFEgoffice-devel
+Requires: SUNWgnome-base-libs
+BuildRequires: SUNWgnome-base-libs-devel
+Requires: SUNWgnome-libs
+BuildRequires: SUNWgnome-libs-devel
 Requires: SFEgoffice
+BuildRequires: SFEgoffice-devel
+%if %option_with_gnu_iconv
+Requires: SUNWgnu-libiconv
+Requires: SUNWgnu-gettext
+%else
+Requires: SUNWuiu8
+%endif
 
 %package devel
 Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
+Requires: SUNWgnome-libs-devel
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -38,13 +50,14 @@ Requires:                %{name}
 %prep
 %setup -q -n gnumeric-%version
 %patch1 -p1
+%patch2 -p1
 
 %build
 export CFLAGS="%optflags -I/usr/include/libgoffice-0.5"
 %if %option_with_gnu_iconv
 export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
 %endif
-export LDFLAGS="-lX11"
+export LDFLAGS="%_ldflags"
 
 ./configure --prefix=%{_prefix} \
             --mandir=%{_mandir} \
@@ -62,7 +75,7 @@ rm -r $RPM_BUILD_ROOT%{_prefix}/var
 
 %if %{build_l10n}
 %else
-rmdir $RPM_BUILD_ROOT/%{_datadir}/locale
+rm -rf $RPM_BUILD_ROOT/%{_datadir}/locale
 %endif
 
 %clean
@@ -144,6 +157,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 
 
 %changelog
+* Mon Apr 14 2008 - trisk@acm.jhu.edu
+- Bump to 1.8.2, add patch2
 * Tue Sep 04 2007  - Thomas Wagner
 - bump to 0.15.1, add %{version} to Download-Dir (might change again)
 - conditional !%build_l10n rmdir $RPM_BUILD_ROOT/%{_datadir}/locale

@@ -1,3 +1,9 @@
+2008-04-15  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEgoffice.spec: Bump to 0.6.2, update dependencies
+	* SFEgnumeric.spec: Bump to 1.8.2, add patch2
+	* patches/gnumeric-02-528222-struct.diff: Fix for bug #528222
+
 2008-04-14  Halton Huo <nonsea@users.sourceforge.net>
 
 	s/SUNWdesktop-search-libs/SUNWlibgsf cause the pkg name change.
