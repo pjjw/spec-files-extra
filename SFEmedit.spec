@@ -32,6 +32,10 @@ Packager:     	Komala, Jayanthi
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 #BuildRoot:     %{_builddir}/%{name}-root
 
+# Package dependencies are specified below
+#Requires:
+BuildRequires: SFEgettext
+
 %description 
 GNU auotool
 
