@@ -246,7 +246,7 @@ rm -rf $RPM_BUILD_ROOT
   Fix so that libmad, libid3tag, and libtwolame support is only included if
   they are already installed, so this spec doesn't build with any encumbered
   dependencies unless they are already installed on the system.  Also
-  add patch to allow building without GNU gettext if it is not alrady
+  add patch to allow building without GNU gettext if it is not already
   installed on the system.
 * Tue Feb 12 2008 - pradhap (at) gmail.com
 - Fix links
