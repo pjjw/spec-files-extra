@@ -131,8 +131,7 @@ export LD_LIBRARY_PATH="/usr/lib:/usr/X11/lib:/usr/gnu/lib:/usr/sfw/lib:%{_build
            -L/usr/sfw/lib -R/usr/sfw/lib \
            -v
 
-perl -pi -e 's,^(QMAKE_INCDIR_QT\s*=).*,$1 \$(QTDIR)/include/qt3,'pkgto \
-    mkspecs/solaris-*/qmake.conf
+perl -pi -e 's,^(QMAKE_INCDIR_QT\s*=).*,$1 \$(QTDIR)/include/qt3,' mkspecs/solaris-*/qmake.conf
 
 make -j$CPUS
 
