@@ -1,3 +1,12 @@
+2008-04-16 Willie Walker <william.walker@sun.com>
+
+        * SFEespeak.spec:
+        Adapt to use direct SADA support that is now in eSpeak.
+        Remove dependencies on PulseAudio and/or PortAudio.
+
+        * patches/espeak-02-pulseaudio.diff:
+        Remove since we're now using direct SADA support.
+
 2008-04-17  simon.zheng  <simon.zheng@sun.com>
 
 	* patches/gdm-04-dynamic-display.diff: Update
