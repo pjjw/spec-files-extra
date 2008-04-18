@@ -1,0 +1,80 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 10_maintain_times.dpatch by David Frey <david@eos.lugs.ch>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Maintain modification times.
+
+@DPATCH@
+diff -urNad rzip-2.1~/main.c rzip-2.1/main.c
+--- rzip-2.1~/main.c	2006-02-14 00:38:23.000000000 +0000
++++ rzip-2.1/main.c	2006-03-13 15:52:17.000000000 +0000
+@@ -128,6 +128,8 @@
+ {
+ 	int fd_in, fd_out = -1, fd_hist = -1;
+ 	off_t expected_size;
++	struct stat sb;
++	struct utimbuf utb;
+ 
+ 	if (control->outname) {
+ 		control->outfile = strdup(control->outname);
+@@ -143,6 +145,8 @@
+ 		control->outfile[strlen(control->infile) - strlen(control->suffix)] = 0;
+ 	}
+ 
++	stat(control->infile,&sb);
++
+ 	fd_in = open(control->infile,O_RDONLY);
+ 	if (fd_in == -1) {
+ 		fatal("Failed to open %s: %s\n", 
+@@ -190,6 +194,10 @@
+ 		}
+ 	}
+ 
++	utb.actime=sb.st_atime;
++	utb.modtime=sb.st_mtime;
++	utime(control->outfile,&utb);
++
+ 	free(control->outfile);
+ }
+ 
+@@ -199,6 +207,8 @@
+ static void compress_file(struct rzip_control *control)
+ {
+ 	int fd_in, fd_out;
++	struct stat sb;
++	struct utimbuf utb;
+ 
+ 	if (strlen(control->suffix) <= strlen(control->infile) &&
+ 	    strcmp(control->suffix, control->infile + strlen(control->infile) - strlen(control->suffix)) == 0) {
+@@ -218,6 +228,8 @@
+ 		strcat(control->outfile, control->suffix);
+ 	}
+ 
++	stat(control->infile,&sb);
++	
+ 	fd_in = open(control->infile,O_RDONLY);
+ 	if (fd_in == -1) {
+ 		fatal("Failed to open %s: %s\n", control->infile, strerror(errno));
+@@ -248,6 +260,10 @@
+ 		}
+ 	}
+ 
++	utb.actime=sb.st_atime;
++	utb.modtime=sb.st_mtime;
++	utime(control->outfile,&utb);
++
+ 	free(control->outfile);
+ }
+ 
+diff -urNad rzip-2.1~/rzip.h rzip-2.1/rzip.h
+--- rzip-2.1~/rzip.h	2006-02-14 00:38:23.000000000 +0000
++++ rzip-2.1/rzip.h	2006-03-13 15:44:26.000000000 +0000
+@@ -33,6 +33,8 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <netinet/in.h>
++#include <utime.h>
++#include <sys/stat.h>
+ 
+ #ifdef HAVE_STRING_H
+ #include <string.h>

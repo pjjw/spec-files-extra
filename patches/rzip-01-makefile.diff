@@ -1,0 +1,26 @@
+--- rzip-2.1.orig/Makefile.in	Mon Feb 13 19:38:23 2006
++++ rzip-2.1/Makefile.in	Thu Apr 17 22:44:37 2008
+@@ -3,8 +3,10 @@
+ 
+ prefix=@prefix@
+ exec_prefix=@exec_prefix@
+-INSTALL_BIN=$(exec_prefix)/bin
+-INSTALL_MAN=$(prefix)/man
++bindir=@bindir@
++mandir=@mandir@
++INSTALL_BIN=${DESTDIR}${bindir}
++INSTALL_MAN=${DESTDIR}${mandir}
+ 
+ LIBS=@LIBS@
+ CC=@CC@
+@@ -33,8 +35,10 @@
+ install: all
+ 	-mkdir -p ${INSTALL_BIN}
+ 	${INSTALLCMD} -m 755 rzip ${INSTALL_BIN}
++	ln ${INSTALL_BIN}/rzip ${INSTALL_BIN}/runzip
+ 	-mkdir -p ${INSTALL_MAN}/man1
+ 	${INSTALLCMD} -m 644 $(srcdir)/rzip.1 ${INSTALL_MAN}/man1/
++	ln ${INSTALL_MAN}/man1/rzip.1 ${INSTALL_MAN}/man1/runzip.1
+ 
+ rzip: $(OBJS)
+ 	$(CC) $(CFLAGS) -o rzip $(OBJS) $(LIBS)

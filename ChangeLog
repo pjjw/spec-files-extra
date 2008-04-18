@@ -1,11 +1,18 @@
-2008-04-16 Willie Walker <william.walker@sun.com>
+2008-04-17  Albert Lee  <trisk@acm.jhu.edu>
 
-        * SFEespeak.spec:
-        Adapt to use direct SADA support that is now in eSpeak.
-        Remove dependencies on PulseAudio and/or PortAudio.
+	* SFErzip.spec: *NEW* rzip, a compression program using extremely large
+	  windows
+	* patches/rzip-01-makefile.diff: Install with DESTDIR and add runzip
+	* patches/rzip-02-maintain_times.diff: Keep file times (from Debian)
 
-        * patches/espeak-02-pulseaudio.diff:
-        Remove since we're now using direct SADA support.
+2008-04-16  Willie Walker  <william.walker@sun.com>
+
+	* SFEespeak.spec:
+	Adapt to use direct SADA support that is now in eSpeak.
+	Remove dependencies on PulseAudio and/or PortAudio.
+
+	* patches/espeak-02-pulseaudio.diff:
+	Remove since we're now using direct SADA support.
 
 2008-04-17  simon.zheng  <simon.zheng@sun.com>
 
