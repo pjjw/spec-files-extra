@@ -10,16 +10,14 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                0.9.59
+Version:                0.9.60
 URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
-#Patch2:			wine-02-configure.diff
 Patch3:			wine-03-shell.diff
 #Patch4: 		wine-04-winegcc.diff
 Patch5:			wine-05-change_functions_structs_named_list_asterisk.sh.diff
 Patch6:			wine-06-iphlpapi.diff
-Patch7:			wine-07-makefile.diff
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -51,12 +49,10 @@ Requires: %name
 %prep
 %setup -q -n %{src_name}-%{version}
 %patch1 -p1
-#%patch2 -p1
 %patch3 -p1
 #%patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 
 # change all occurences of duplicate functions/structs named "list"*
 bash change_functions_structs_named_list_asterisk.sh
@@ -141,6 +137,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Mon Apr 21 2008 - trisk@acm.jhu.edu
+- Bump to 0.9.60, drop patch7, patch2
 * Wed Apr 09 2008 - trisk@acm.jhu.edu
 - Bump to 0.9.59, add patch7, update patch6
 - Update dependencies (SFEfontforge is only used for build)

@@ -1,3 +1,9 @@
+2008-04-21  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEwine.spec: Bump to 0.9.60, drop patch7, patch2
+	* patches/wine-02-configure.diff: Drop unused patch
+	* patches/wine-07-makefile.diff: Drop, fixed upstream
+
 2008-04-21  Alfred Peng <alfred.peng@sun.com>
 
 	* SFEsongbird.spec: Add support for SPARC platform.
