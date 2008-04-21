@@ -5,15 +5,14 @@
 
 %include Solaris.inc
 
-%define tarball_version 4.4.0-beta1
+%define tarball_version 4.4.0-rc1
 
 Name:                SFEqt
 Summary:             Cross-platform development framework/toolkit
 URL:                 http://trolltech.com/products/qt
 License:             GPL v2
 Version:             4.4.0
-Source:              ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{tarball_version}.tar.gz
-Patch1:              qt-01-time.diff
+Source:              ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{tarball_version}.tar.bz2
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -36,7 +35,6 @@ Requires: %name
 
 %prep
 %setup -q -n qt-x11-opensource-src-%tarball_version
-%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -99,6 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Fri Mar 21 2008 - nonsea@users.sourceforge.net
+- Bump to 4.4.0-rc1
+- Remove upstreamed patch time.diff
 * Fri Mar 21 2008 - nonsea@users.sourceforge.net
 - Bump to 4.4.0-beta1, and update %files
 - Add patch time.diff

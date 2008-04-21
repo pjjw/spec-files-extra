@@ -1,3 +1,8 @@
+2008-04-21  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEqt.spec: Bump to 4.4.0-rc1
+	* patches/qt-01-time.diff: Romove upstreamed patch
+
 2008-04-18  Evan Yan  <evan.yan@sun.com>
 
 	* SFEseamonkey.spec: Bump to 1.1.9
