@@ -1,3 +1,7 @@
+2008-04-21  Alfred Peng <alfred.peng@sun.com>
+
+	* SFEsongbird.spec: Add support for SPARC platform.
+
 2008-04-21  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEqt.spec: Bump to 4.4.0-rc1

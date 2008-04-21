@@ -22,6 +22,12 @@
 %define build_type release
 %endif
 
+%ifarch sparc
+%define arch sparc
+%else
+%define arch i386
+%endif
+
 Name:          SFEsongbird
 Summary:       The desktop media player mashed-up with the Web.
 Version:       0.5
@@ -30,9 +36,9 @@ Source:        http://releases.mozilla.com/sun/songbird-%{version}-solaris-patch
 Source1:       http://releases.mozilla.com/sun/xulrunner-20080211-for-songbird-05.tar.bz2
 %else
 %if %with_debug
-Source1:       http://releases.mozilla.com/sun/solaris-vendor-binaries/songbird-vendor-binary-solaris-i386-20080211-for-05-debug.tar.bz2
+Source1:       http://releases.mozilla.com/sun/solaris-vendor-binaries/songbird-vendor-binary-solaris-%{arch}-20080211-for-05-debug.tar.bz2
 %else
-Source1:       http://releases.mozilla.com/sun/solaris-vendor-binaries/songbird-vendor-binary-solaris-i386-20080211-for-05.tar.bz2
+Source1:       http://releases.mozilla.com/sun/solaris-vendor-binaries/songbird-vendor-binary-solaris-%{arch}-20080211-for-05.tar.bz2
 %endif
 %endif
 URL:           http://www.songbirdnest.com/
@@ -49,7 +55,7 @@ Songbird provides a public playground for Web media mash-ups by providing develo
 %setup -q -n %name-%version -c -a1
 %if %without_vendor_binary
 %else
-mv solaris-i386 songbird%version/dependencies/
+mv solaris-%arch songbird%version/dependencies/
 %endif
 
 %build
@@ -128,12 +134,12 @@ make -f client.mk build_all
 # Package XULRunner
 cd ../songbird%version
 
-mkdir -p dependencies/solaris-i386/mozilla/%build_type
-mkdir -p dependencies/solaris-i386/xulrunner/%build_type
+mkdir -p dependencies/solaris-%arch/mozilla/%build_type
+mkdir -p dependencies/solaris-%arch/xulrunner/%build_type
 
 cd tools/scripts
-./make-mozilla-sdk.sh ../../../mozilla ../../../mozilla/compiled/xulrunner ../../dependencies/solaris-i386/mozilla/%build_type
-./make-xulrunner-tarball.sh ../../../mozilla/compiled/xulrunner/dist/bin ../../dependencies/solaris-i386/xulrunner/%build_type xulrunner.tar.gz
+./make-mozilla-sdk.sh ../../../mozilla ../../../mozilla/compiled/xulrunner ../../dependencies/solaris-%arch/mozilla/%build_type
+./make-xulrunner-tarball.sh ../../../mozilla/compiled/xulrunner/dist/bin ../../dependencies/solaris-%arch/xulrunner/%build_type xulrunner.tar.gz
 
 cd ../../
 %else
@@ -182,6 +188,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/songbird-%{version}
 
 %changelog
+* Mon Apr 21 2008 - alfred.peng@sun.com
+- add support for SPARC platform.
 * Sun Apr 13 2008 - alfred.peng@sun.com
 - add option --without-vendor-binary. use the vendor binary by default
   to speed the build process.
