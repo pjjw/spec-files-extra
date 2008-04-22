@@ -11,7 +11,7 @@
 Name:		gnome-build
 License:	GPL
 Group:		Development/Libraries
-Version:	0.2.3
+Version:	0.2.4
 Release:	1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -108,7 +108,7 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
-* Mon Mar 10 2008 - nonsea@users.sourceforge.net
+* Tue Apr 22 2008 - nonsea@users.sourceforge.net
 - Bump to 0.2.4.
 * Mon Mar 03 2008 - nonsea@users.sourceforge.net
 - Bump to 0.2.3.

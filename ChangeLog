@@ -1,3 +1,11 @@
+2008-04-22  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEanjuta.spec: Bump to 2.4.1.
+	* base-specs/gnome-build.spec: Bump to 0.2.4
+	* base-specs/gtk-vnc.spec: Bump to 0.3.5
+	* base-specs/qterm.spec: Fix URL
+	* patches/gtk-vnc-01-solaris-ld-ast.diff: rework
+
 2008-04-21  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEwine.spec: Bump to 0.9.60, drop patch7, patch2

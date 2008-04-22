@@ -13,7 +13,7 @@
 # or, depend on package SUNWevolution-bdb-devel, which is in jds spec-files/closed
 # now, use second way.
 Name:           SFEanjuta
-Version:        2.4.0
+Version:        2.4.1
 Summary:        GNOME IDE for C and C++
 Group:          Development/Tools
 License:        GPL
@@ -285,6 +285,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Tue Apr 22 2008 - nonsea@users.sourceforge.net
+- Bump to 2.4.1.
 * Tue Mar 10 2008 - nonsea@users.sourceforge.net
 - Bump to 2.4.0.
 * Mon Mar 03 2008 - nonsea@users.sourceforge.net

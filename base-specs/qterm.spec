@@ -16,10 +16,10 @@ Version:		0.5.1
 Release:		1
 License:		GPL
 Group:			Development/Libraries
-Distribution:	Java Desktop System
+Distribution:           Java Desktop System
 Vendor:			Sun Microsystems, Inc.
 Summary:		BBS client based on Qt library
-URL:			http://sourceforge.net/project/qterm
+URL:			http://sourceforge.net/projects/qterm/
 Source:			http://%{sf_mirror}/%{name}/%{name}-%{version}.tar.bz2
 # date:2008-03-24 owner:halton type:bug bugid:1922334
 Patch1:                 %{name}-01-allcoa.diff 
