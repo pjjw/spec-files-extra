@@ -1,0 +1,11 @@
+--- glibmm-2.15.5/scripts/macros.m4.orig	2008-02-18 14:34:39.211723600 +0000
++++ glibmm-2.15.5/scripts/macros.m4	2008-02-18 15:08:36.396434600 +0000
+@@ -10,7 +10,7 @@
+ 
+ if test "$M4" = "m4"; then
+   AC_MSG_CHECKING(whether m4 is GNU m4)
+-  if $M4 --version </dev/null 2>/dev/null | grep '^GNU [Mm]4 ' >/dev/null ; then
++  if $M4 --version </dev/null 2>/dev/null | grep -i '^GNU M4 ' >/dev/null ; then
+     AC_MSG_RESULT(yes)
+   else
+     AC_MSG_RESULT(no)

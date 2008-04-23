@@ -1,5 +1,11 @@
 2008-04-23  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEglibmm-gpp.spec: (new) g++-build glibmm
+	* base-specs/glibmm.spec: (new) base spec for glibmm
+	* patches/glibmm-01-m4-macro.diff: (new) copied from the JDS spec-files
+
+2008-04-23  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEsigcpp-gpp.spec: (new) g++-build libsigcpp
 	* base-specs/sigcpp.spec: (new) base spec for libsigcpp
 
