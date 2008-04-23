@@ -1,0 +1,23 @@
+--- gtkmm-2.12.4/tools/Makefile.am.orig	2008-02-13 14:16:20.355643000 +0800
++++ gtkmm-2.12.4/tools/Makefile.am	2008-02-13 14:16:37.105667000 +0800
+@@ -1,7 +1,7 @@
+ 
+ include $(top_srcdir)/tools/Makefile_list_of_sources.am_fragment
+ 
+-SUBDIRS = m4 extra_defs_gen
++SUBDIRS = m4 
+ 
+ EXTRA_DIST = Makefile_list_of_sources.am_fragment README TODO
+ 
+--- gtkmm-2.12.4/configure.in.orig	2008-02-13 14:15:41.931217000 +0800
++++ gtkmm-2.12.4/configure.in	2008-02-13 14:16:00.032913000 +0800
+@@ -530,8 +530,7 @@
+       pango/pangomm/private/Makefile
+ 
+   tools/Makefile
+-    tools/m4/Makefile
+-    tools/extra_defs_gen/Makefile
++    tools/m4/Makefile   
+ ])
+ 
+ AC_CONFIG_FILES([

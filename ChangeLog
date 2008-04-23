@@ -1,5 +1,18 @@
 2008-04-23  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEgtkmm-gpp.spec: (new) g++-build gtkmm
+	* base-specs/gtkmm.spec: (new) base spec for gtkmm
+	* patches/gtkmm-01-ignore-defs.diff: (new) copied from JDS spec-files
+	* patches/gtkmm-01-tooltips.diff: (delete) undef'd patch
+	* patches/gtkmm-02-demo.diff: (new) copied from JDS spec-files
+	* patches/gtkmm-02-getc_unlocked.diff: (delete) undef'd patch
+	* patches/gtkmm-03-demo-installation.diff: (new) copied from JDS
+
+2008-04-23  Laszlo (Laca) Peter  <laca@sun.com>
+
+
+2008-04-23  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEcairomm-gpp.spec: (new) g++-build cairomm
 	* base-specs/cairomm.spec: (new) base spec for cairomm
 

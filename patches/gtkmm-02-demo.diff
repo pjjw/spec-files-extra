@@ -1,0 +1,131 @@
+--- gtkmm-2.12.4/demos/gtk-demo/demowindow.cc.orig	2008-02-13 15:55:23.109710000 +0800
++++ gtkmm-2.12.4/demos/gtk-demo/demowindow.cc	2008-02-13 16:01:08.123892000 +0800
+@@ -31,6 +31,7 @@
+ #include <cctype>
+ #include <cerrno>
+ #include <stdio.h>
++#include <demo-common.h>
+ 
+ #ifdef NEED_FLOCKFILE_PROTO
+ extern "C" void flockfile (FILE *);
+@@ -276,7 +277,7 @@
+     FILE* file = fopen (filename.c_str(), "r");
+     if (!file)
+     {
+-      std::string installed = /* DEMOCODEDIR + G_DIR_SEPARATOR_S + */ filename;
++      std::string installed = demo_find_file(filename);
+       file = fopen (installed.c_str(), "r");
+     }
+ 
+--- gtkmm-2.12.4/demos/gtk-demo/example_images.cc.orig	2008-02-13 16:04:38.385202000 +0800
++++ gtkmm-2.12.4/demos/gtk-demo/example_images.cc	2008-02-13 16:07:01.986048000 +0800
+@@ -13,6 +13,7 @@
+  */
+ 
+ #include <gtkmm.h>
++#include "demo-common.h"
+ 
+ class Example_Images : public Gtk::Window
+ {
+@@ -71,7 +72,7 @@
+   m_Alignment_Image.add(m_Frame_Image);
+   m_VBox.pack_start(m_Alignment_Image, Gtk::PACK_SHRINK);
+ 
+-  Gtk::Image* pImage = Gtk::manage(new Gtk::Image("gtk-logo-rgb.gif"));
++  Gtk::Image* pImage = Gtk::manage(new Gtk::Image(demo_find_file("gtk-logo-rgb.gif")));
+   m_Frame_Image.add(*pImage);
+ 
+   /* Animation */
+@@ -87,7 +88,7 @@
+   m_Alignment_Animation.add(m_Frame_Animation);
+   m_VBox.pack_start(m_Alignment_Animation, Gtk::PACK_SHRINK);
+ 
+-  pImage = Gtk::manage(new Gtk::Image("floppybuddy.gif"));
++  pImage = Gtk::manage(new Gtk::Image(demo_find_file("floppybuddy.gif")));
+   m_Frame_Animation.add(*pImage);
+ 
+   /* Progressive */
+@@ -254,13 +255,13 @@
+     #ifdef GLIBMM_EXCEPTIONS_ENABLED
+     try
+     {
+-      m_image_stream = Glib::IOChannel::create_from_file("alphatest.png", "r");
++      m_image_stream = Glib::IOChannel::create_from_file(demo_find_file("alphatest.png"), "r");
+     }
+     catch(const Glib::Error& error)
+     {
+     #else
+     std::auto_ptr<Glib::Error> error;
+-    m_image_stream = Glib::IOChannel::create_from_file("alphatest.png", "r", error);
++    m_image_stream = Glib::IOChannel::create_from_file(demo_find_file("alphatest.png)", "r", error);
+     if(error.get())
+     {
+     #endif //GLIBMM_EXCEPTIONS_ENABLED
+--- gtkmm-2.12.4/demos/gtk-demo/example_pixbufs.cc.orig	2008-02-13 16:07:58.605417000 +0800
++++ gtkmm-2.12.4/demos/gtk-demo/example_pixbufs.cc	2008-02-13 16:10:11.517893000 +0800
+@@ -17,6 +17,7 @@
+ #include <gtkmm.h>
+ #include <stdlib.h>
+ #include <math.h>
++#include "demo-common.h"
+ 
+ #define FRAME_DELAY 50
+ 
+@@ -109,10 +110,10 @@
+   std::string filename_background = BACKGROUND_NAME;
+ 
+   #ifdef GLIBMM_EXCEPTIONS_ENABLED
+-  m_refPixbuf_Background = Gdk::Pixbuf::create_from_file(filename_background);
++  m_refPixbuf_Background = Gdk::Pixbuf::create_from_file(demo_find_file(filename_background));
+   #else
+   std::auto_ptr<Glib::Error> error;
+-  m_refPixbuf_Background = Gdk::Pixbuf::create_from_file(filename_background, error);
++  m_refPixbuf_Background = Gdk::Pixbuf::create_from_file(demo_find_file(filename_background), error);
+   #endif //GLIBMM_EXCEPTIONS_ENABLED
+ 
+   m_back_width = m_refPixbuf_Background->get_width();
+@@ -123,10 +124,10 @@
+     std::string filename = image_names[i];
+ 
+     #ifdef GLIBMM_EXCEPTIONS_ENABLED
+-    Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(filename);
++    Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(demo_find_file(filename));
+     #else
+     std::auto_ptr<Glib::Error> error;
+-    Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(filename, error);
++    Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(demo_find_file(filename), error);
+     #endif //GLIBMM_EXCEPTIONS_ENABLED
+ 
+     m_images[i] = pixbuf;
+--- gtkmm-2.12.4/demos/gtk-demo/example_textview.cc.orig	2008-02-13 16:13:08.027949000 +0800
++++ gtkmm-2.12.4/demos/gtk-demo/example_textview.cc	2008-02-13 16:14:55.252060000 +0800
+@@ -10,6 +10,7 @@
+ #include "gtkmm.h"
+ #include "gtk/gtkstock.h"
+ #include "gtk/gtk.h"
++#include "demo-common.h"
+ 
+ class Window_EasterEgg : public Gtk::Window
+ {
+@@ -237,10 +238,10 @@
+ void Example_TextView::insert_text(Glib::RefPtr<Gtk::TextBuffer>& refBuffer)
+ {
+   #ifdef GLIBMM_EXCEPTIONS_ENABLED
+-  Glib::RefPtr<Gdk::Pixbuf> refPixbuf = Gdk::Pixbuf::create_from_file("./gtk-logo-rgb.gif");
++  Glib::RefPtr<Gdk::Pixbuf> refPixbuf = Gdk::Pixbuf::create_from_file(demo_find_file("gtk-logo-rgb.gif"));
+   #else
+   std::auto_ptr<Glib::Error> error;
+-  Glib::RefPtr<Gdk::Pixbuf> refPixbuf = Gdk::Pixbuf::create_from_file("./gtk-logo-rgb.gif", error);
++  Glib::RefPtr<Gdk::Pixbuf> refPixbuf = Gdk::Pixbuf::create_from_file(demo_find_file("gtk-logo-rgb.gif"), error);
+   #endif //GLIBMM_EXCEPTIONS_ENABLED
+ 
+   if(!refPixbuf)
+@@ -474,7 +475,7 @@
+     }
+     else if (i == 3)
+       {
+-        pWidget = Gtk::manage( new Gtk::Image("./floppybuddy.gif") );
++        pWidget = Gtk::manage( new Gtk::Image(demo_find_file("floppybuddy.gif")) );
+       }
+     else if (i == 4)
+     {
