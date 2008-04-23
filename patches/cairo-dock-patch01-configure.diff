@@ -1,0 +1,14 @@
+--- ./configure.ac.orig	2008-04-08 02:04:02.000000000 +0200
++++ ./configure.ac	2008-04-21 16:46:19.018277000 +0200
+@@ -37,8 +37,9 @@
+ AM_CONDITIONAL(COMPIL_WITH_GLITZ, test x$enable_glitz = xyes)
+ 
+ 
+-PKG_CHECK_MODULES(PACKAGE, "gtk+-2.0 gthread-2.0 cairo librsvg-2.0 glitz dbus-1 dbus-glib-1 libxml-2.0")
+-PKG_CHECK_MODULES(GLITZ, "glitz-glx")
++PKG_CHECK_MODULES(PACKAGE, "gtk+-2.0 gthread-2.0 cairo librsvg-2.0 dbus-1 dbus-glib-1 libxml-2.0")
++#PKG_CHECK_MODULES(PACKAGE, "gtk+-2.0 gthread-2.0 cairo librsvg-2.0 glitz dbus-1 dbus-glib-1 libxml-2.0")
++#PKG_CHECK_MODULES(GLITZ, "glitz-glx")
+ 
+ AC_CONFIG_FILES([Makefile
+ 		cairo-dock.pc

@@ -1,3 +1,9 @@
+2008-04-23  Gilles Dauphin <gilles.dauphin@enst.fr>
+
+	* SFEcairo-dock.spec: new
+	* patches/cairo-dock-patch-01-configure.diff: new
+	* patches/cairo-dock-patch02-Makefile.diff: new
+
 2008-04-23  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEboost-gpp.spec: (new) g++-built boost, based on SFEboost.spec

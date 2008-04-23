@@ -1,0 +1,12 @@
+--- src/Makefile.am.orig	2008-04-22 14:40:20.191601000 +0200
++++ src/Makefile.am	2008-04-22 14:40:57.970125000 +0200
+@@ -39,9 +39,6 @@
+ 	-Wno-unused-parameter
+ #	-Wall -Wunreachable-code -Wstrict-prototypes -Wextra -Wwrite-strings -Wuninitialized -Werror-implicit-function-declaration
+ 
+-cairo_dock_LDFLAGS = \
+-	-Wl,--export-dynamic
+-
+ cairo_dock_LDADD = \
+ 	$(glitz_libs) \
+ 	$(PACKAGE_LIBS)
