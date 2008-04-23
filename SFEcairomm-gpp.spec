@@ -34,6 +34,7 @@ SUNW_BaseDir:            %{_basedir}
 Requires: %name
 Requires: SUNWgnome-base-libs-devel
 Requires: SUNWsigcpp-devel
+Requires: SFEsigcpp-gpp-devel
 
 %prep
 rm -rf %name-%version
@@ -80,17 +81,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_cxx_libdir}/pkgconfig/*
 
 %changelog
-* Mon Mar 03 2008 - damien.carbery@sun.com
-- Use base spec version for package version.
-* Tue Feb 19 2008 - ghee.teo@sun.com
-- Updated after review.
-* Fri Jan 08 2008 - ghee.teo@sun.com
-- Modified SFEcairomm.spec to make SUNWcairomm.spec and cairomm.spec
-* Mon Nov 12 2007 - daymobrew@users.sourceforge.net
-- Bump to 1.4.6.
-* Wed Sep 19 2007 - trisk@acm.jhu.edu
-- Bump to 1.4.4
-* Fri Aug 17 2007 - trisk@acm.jhu.edu
-- Bump to 1.4.2
-* Sun Feb 25 2007 - laca@sun.com
-- create
+* Wed Apr 23 2008 - laca@sun.com
+- create, re-work from SUNWcairomm.spec to build with g++

@@ -33,6 +33,8 @@ SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
 Requires: SUNWgnome-base-libs-devel
+Requires: SFEsigcpp-gpp-devel
+Requires: SUNWsigcpp-devel
 
 %prep
 rm -rf %name-%version
@@ -85,34 +87,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_cxx_libdir}/glibmm*
 
 %changelog
-* Thu Mar 27 2008 - simon.zheng@sun.com
-- Add SUNWglibmm.copyright.
-* Sun Mar 02 2008 - simon.zheng@sun.com
-- Correct package version number.
-* Fri 29 2008 - simon.zheng@sun.com
-- Pack devhelp index file. 
-* Wed Feb 15 2008 - simon.zheng@sun.com
-- Pack file /usr/lib/giomm-2.4/giommconfig.h.
-* Thu Feb 14 2008 - simon.zheng@sun.com
-- Remove useless m4, pm and extra_gen_defs files.
-* Mon Jau 28 2008 - simon.zheng@sun.com
-- Split into SUNWglibmm.spec and glibmm.spec.
-- Change download URL to GNOME official website.
-* Fri Aug 17 2007 - trisk@acm.jhu.edu
-- Bump to 2.12.10
-* Tue Apr 17 2007 - daymobrew@users.sourceforge.net
-- Bump to 2.12.8.
-* Fri Mar 16 2007 - laca@sun.com
-- bump to 2.12.7
-* Wed Jan 03 2007 - daymobrew@users.sourceforge.net
-- Bump to 2.12.4
-* Fri Jun 23 2006 - laca@sun.com
-- rename to SFEglibmm
-- update permissions
-- bump to 2.10.4
-* Fri May 12 2006 - damien.carbery@sun.com
-- Bump to 2.10.2.
-* Fri Mar 10 2006 - damien.carbery@sun.com
-- Bump to 2.10.0.
-* Thu Nov 17 2005 - laca@sun.com
-- create
+* Wed Apr 23 2008 - laca@sun.com
+- create, re-work from SUNWglibmm.spec to build with g++
