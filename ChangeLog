@@ -1,3 +1,8 @@
+2008-04-23  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEsigcpp-gpp.spec: (new) g++-build libsigcpp
+	* base-specs/sigcpp.spec: (new) base spec for libsigcpp
+
 2008-04-22  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEanjuta.spec: Bump to 2.4.1.
