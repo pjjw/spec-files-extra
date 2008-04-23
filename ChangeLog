@@ -1,5 +1,10 @@
 2008-04-23  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEcairomm-gpp.spec: (new) g++-build cairomm
+	* base-specs/cairomm.spec: (new) base spec for cairomm
+
+2008-04-23  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEglibmm-gpp.spec: (new) g++-build glibmm
 	* base-specs/glibmm.spec: (new) base spec for glibmm
 	* patches/glibmm-01-m4-macro.diff: (new) copied from the JDS spec-files
