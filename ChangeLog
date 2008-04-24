@@ -1,5 +1,12 @@
 2008-04-24  Laszlo (Laca) Peter  <laca@sun.com>
 
+	* SFEpoppler-gpp.spec: (new) poppler built with g++
+	* base-specs/poppler.spec: (new) copied from JDS spec-files
+	* patches/poppler-01-uninstalled.pc.diff: (new) copied from JDS
+	  spec-files
+
+2008-04-24  Laszlo (Laca) Peter  <laca@sun.com>
+
 	* SFEinkscape.spec: bump to 0.46, delete unnecessary patches,
 	  add new ones, make it use SFE*-gpp g++-build C++ libs
 	* patches/inkscape-01-no-ver-check.diff: delete
