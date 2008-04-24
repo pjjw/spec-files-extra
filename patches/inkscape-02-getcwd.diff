@@ -1,0 +1,11 @@
+--- inkscape-0.46/src/ui/dialog/filedialogimpl-gtkmm.cpp.orig	2008-04-24 17:59:00.425667954 +1200
++++ inkscape-0.46/src/ui/dialog/filedialogimpl-gtkmm.cpp	2008-04-24 17:59:19.686345874 +1200
+@@ -810,7 +810,7 @@
+ {
+     Glib::ustring s = Glib::filename_to_utf8 (get_current_folder());
+     if (s.length() == 0)
+-        s = getcwd (NULL, 0);
++        s = Glib::ustring (getcwd (NULL, MAXPATHLEN));
+     set_current_folder(Glib::filename_from_utf8(s)); //hack to force initial dir listing
+     set_modal (TRUE);                      //Window
+     sp_transientize((GtkWidget *)gobj());  //Make transient

@@ -1,3 +1,15 @@
+2008-04-24  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEinkscape.spec: bump to 0.46, delete unnecessary patches,
+	  add new ones, make it use SFE*-gpp g++-build C++ libs
+	* patches/inkscape-01-no-ver-check.diff: delete
+	* patches/inkscape-01-open.diff: (new) use appropriate includes
+	  for open() prototype
+	* patches/inkscape-02-aclocal.diff: delete.
+	* patches/inkscape-02-getcwd.diff: use MAXPATHLEN instead of 0
+	  otherwise getcwd() returns NULL on Solaris and inkscape crashes
+	* patches/inkscape-03-isnormal.diff: delete.
+
 2008-04-23  Gilles Dauphin <gilles.dauphin@enst.fr>
 
 	* SFEcairo-dock.spec: new

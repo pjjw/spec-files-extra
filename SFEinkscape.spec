@@ -8,31 +8,39 @@
 # includes module(s): inkscape
 #
 %include Solaris.inc
+%use poppler = poppler.spec
+
+%define cc_is_gcc 1
+%include base.inc
 
 Name:                    SFEinkscape
 Summary:                 Inkscape - vector graphics editor
-Version:                 0.45.1
+Version:                 0.46
 Source:                  %{sf_download}/inkscape/inkscape-%{version}.tar.gz
 URL:                     http://www.inkscape.org
-Patch1:                  inkscape-01-no-ver-check.diff
-Patch2:                  inkscape-02-aclocal.diff
-Patch3:                  inkscape-03-isnormal.diff
+Patch1:                  inkscape-01-open.diff
+Patch2:                  inkscape-02-getcwd.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:      SUNWlibgc
 Requires:      SUNWgnome-libs
-Requires:      SFEgtkmm
-Requires:      SFEglibmm
-Requires:      SFEsigcpp
+Requires:      SFEgtkmm-gpp
+Requires:      SFEglibmm-gpp
+Requires:      SFEsigcpp-gpp
 Requires:      SUNWlcms
-BuildRequires: SFEgtkmm-devel
-BuildRequires: SFEglibmm-devel
-BuildRequires: SFEsigcpp-devel
+Requires:      SFEboost-gpp
+BuildRequires: SFEgtkmm-gpp-devel
+BuildRequires: SFEglibmm-gpp-devel
+BuildRequires: SFEsigcpp-gpp-devel
 BuildRequires: SUNWlibgc-devel
 BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWPython
 BuildRequires: SUNWlcms-devel
+BuildRequires: SUNWgtkmm-devel
+BuildRequires: SUNWglibmm-devel
+BuildRequires: SUNWsigcpp-devel
+BuildRequires: SFEboost-devel
 
 %if %build_l10n
 %package l10n
@@ -47,7 +55,8 @@ Requires:                %{name}
 cd inkscape-%{version}
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
+cd ../..
+%poppler.prep -d %name-%version
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -55,23 +64,14 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 
-# doesn't currently build with Forte
-%if %cc_is_gcc
-%else
-echo this version of inkscape uses gcc specific code
-#exit 1
-%endif
-
-export CFLAGS="%optflags"
-export CXXFLAGS="%cxx_optflags -D__C99FEATURES__"
-
-%if %cc_is_gcc
-%else
-export CXX="${CXX} -norunpath"
-%endif
+export CC=gcc
+export CXX=g++
+export CFLAGS="%optflags -I%{_builddir}/%name-%version/poppler-%{poppler.version} -I%{_builddir}/%name-%version/poppler-%{poppler.version}/poppler"
+export CXXFLAGS="%gcc_cxx_optflags -D__C99FEATURES__ -I%{_builddir}/%name-%version/poppler-%{poppler.version} -I%{_builddir}/%name-%version/poppler-%{poppler.version}/poppler"
+export PKG_CONFIG_PATH="%{_cxx_libdir}/pkgconfig"
 # we need -L/usr/lib so that /usr/lib/libgc.so is picked up instead of
 # SUNWspro's own libgc.so
-export LDFLAGS="%{_ldflags} -L/usr/lib"
+export LDFLAGS="%{_ldflags} -L%{_cxx_libdir} -R%{_cxx_libdir} -L/usr/lib"
 cd inkscape-%{version}
 glib-gettextize -f 
 libtoolize --copy --force
@@ -122,6 +122,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Apr 23 2008 - laca@sun.com
+- bump to 0.46
+- update deps to build with SFE*-gpp
 * Sat Feb  2 2008 - laca@sun.com
 - bump to 0.45.1
 - add patches aclocal.diff and isnormal.diff both fix build issues

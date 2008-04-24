@@ -1,0 +1,13 @@
+--- inkscape-0.46/src/color-profile.cpp.orig	2008-04-23 21:25:57.678152524 +1200
++++ inkscape-0.46/src/color-profile.cpp	2008-04-23 21:29:35.346655974 +1200
+@@ -3,7 +3,9 @@
+ //#define DEBUG_LCMS
+ 
+ #include <glib/gstdio.h>
+-#include <sys/fcntl.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++#include <fcntl.h>
+ #include <gdkmm/color.h>
+ 
+ #ifdef DEBUG_LCMS
