@@ -1,3 +1,8 @@
+2008-04-24  simon.zheng  <simon.zheng@sun.com>
+
+	* SUNWgnome-display-mgr.spec:
+	  Install greeter schema files in section %post root.
+
 2008-04-24  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEpoppler-gpp.spec: (new) poppler built with g++

@@ -180,6 +180,16 @@ rm -rf $RPM_BUILD_ROOT
 ) | $BASEDIR/lib/postrun -b -u -c JDS
 
 %post root
+( echo 'test -x /usr/bin/gconftool-2 || {';
+  echo '  echo "ERROR: gconftool-2 not found"';
+  echo '  exit 1';
+  echo '}';
+  echo 'umask 0022';
+  echo 'GCONF_CONFIG_SOURCE=xml:merged:/etc/gconf/gconf.xml.defaults';
+  echo 'export GCONF_CONFIG_SOURCE';
+  echo '/usr/bin/gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/*.schemas > /dev/null'
+) | $BASEDIR/var/lib/postrun/postrun -u -c JDS_wait
+
 cat >> $BASEDIR/var/svc/profile/upgrade <<\EOF
 
 # We changed gdm's FMRI.  If the old service exists and is enabled,
@@ -210,6 +220,22 @@ test -x $BASEDIR/lib/postrun || exit 0
 ( echo 'test -x /usr/bin/scrollkeeper-update || exit 0';
   echo '/usr/bin/scrollkeeper-update'
 ) | $BASEDIR/lib/postrun -b -u -c JDS
+
+%preun root
+test -x $BASEDIR/var/lib/postrun/postrun || exit 0
+( echo 'test -x $PKG_INSTALL_ROOT/usr/bin/gconftool-2 || {';
+  echo '  echo "WARNING: gconftool-2 not found; not uninstalling gconf schemas"';
+  echo '  exit 0';
+  echo '}';
+  echo 'umask 0022';
+  echo 'GCONF_CONFIG_SOURCE=xml:merged:$BASEDIR/etc/gconf/gconf.xml.defaults';
+  echo 'GCONF_BACKEND_DIR=$PKG_INSTALL_ROOT/usr/lib/GConf/2';
+  echo 'LD_LIBRARY_PATH=$PKG_INSTALL_ROOT/usr/lib';
+  echo 'export GCONF_CONFIG_SOURCE GCONF_BACKEND_DIR LD_LIBRARY_PATH';
+  echo 'SDIR=$BASEDIR%{_sysconfdir}/gconf/schemas';
+  echo 'schemas="$SDIR/gdm-simple-greeter.schemas"';
+  echo '$PKG_INSTALL_ROOT/usr/bin/gconftool-2 --makefile-uninstall-rule $schemas > /dev/null'
+) | $BASEDIR/var/lib/postrun/postrun -i -c JDS_wait -a
 
 %files
 %defattr (-, root, bin)
@@ -266,6 +292,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Thu Apr 24 2008 - simon.zheng@sun.com
+- Install greeter schema files in section %post root.
 * Mon Apr 14 2008 - simon.zheng@sun.com
 - Add 04-dynamic-display.diff. Try to manage display
   on the fly.
