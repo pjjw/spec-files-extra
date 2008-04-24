@@ -1,3 +1,7 @@
+2008-04-24  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEgst-plugins-bad.spec:  Add new spec-file.
+
 2008-04-24  simon.zheng  <simon.zheng@sun.com>
 
 	* SUNWgnome-display-mgr.spec:
@@ -98,11 +102,11 @@
 2008-04-16  Willie Walker  <william.walker@sun.com>
 
 	* SFEespeak.spec:
-	Adapt to use direct SADA support that is now in eSpeak.
-	Remove dependencies on PulseAudio and/or PortAudio.
+	  Adapt to use direct SADA support that is now in eSpeak.
+	  Remove dependencies on PulseAudio and/or PortAudio.
 
 	* patches/espeak-02-pulseaudio.diff:
-	Remove since we're now using direct SADA support.
+	  Remove since we're now using direct SADA support.
 
 2008-04-17  simon.zheng  <simon.zheng@sun.com>
 
@@ -145,10 +149,13 @@
 	* experimental: add place to drop highly experimental specs e.g.
 	  as a quick way to share early results between developers
 	  NOTE: experimental is not searched by pkgtool|pkgbuild
-	      o place patches into normal patches/with-different-number-or-name.diff
-	      o place base-specs into nomal base-specs/program-experimental.spec
-	      o once going public, adjust to normal directories/nameing conventions
-		to be SFEprogram.spec, patches/program-nn-meaning.diff, base-specs/program.spec
+	      o place patches into normal
+	        patches/with-different-number-or-name.diff
+	      o place base-specs into normal
+	        base-specs/program-experimental.spec
+	      o once going public, adjust to normal directories/nameing
+	        conventions to be SFEprogram.spec,
+	        patches/program-nn-meaning.diff, base-specs/program.spec
 	      o read the upcoming wiki page for examples
 
 2008-04-12  Brian Cameron  <brian.cameron@sun.com>
@@ -263,9 +270,10 @@
 	* SFElibmng.spec, base-spec/libmng.spec: *add* 64-bit support,
 	  depend on SUNWlcms in 64-bit
 	* SUNWlcms.spec, base-spec/lcms.spec: *add* 32/64-bit version,
-	  the exception here is: SUNWlcms should dissapear from spec-files-extra
-	  once integrated in Nevada/others and general availability. 
-	  Expect further development for SUNWlcms in spec-files-other.
+	  the exception here is: SUNWlcms should dissapear from
+	  spec-files-extra once integrated in Nevada/others and general
+	  availability. Expect further development for SUNWlcms in
+	  spec-files-other.
 
 2008-03-21  Brian Cameron  <brian.cameron@sun.com>
 
@@ -348,8 +356,8 @@
 	* SFEwine.spec: Add patch8. Use autoconf. Pause patch2 - -shared works,
 	  and the configure.ac part is broken.
 	* encumbered/SFEffmpeg.spec: Add patch5.
-	* patches/ffmpeg-05-mlib.diff: Fix green tint with mediaLib, contributed
-	  by James Cheng
+	* patches/ffmpeg-05-mlib.diff: Fix green tint with mediaLib,
+	  contributed by James Cheng
 	* patches/wine-06-iphlpapi.diff: Implement network statistics in
 	  iphlpapi.
 
@@ -530,13 +538,13 @@
 	* SFEcmake.spec: Bump to 2.4.8
 	* SFElibsyncml.spec: Update %files caused by upgrading
 	* base-specs/libsyncml.spec: Bump to 0.4.6, use cmake to build,
-	remove upstreamed patch, add new patches.
+	  remove upstreamed patch, add new patches.
 	* SFElibopensync-plugin.spec: remove unused spec
 	* patches/libsyncml-01-printf-null.diff: remove upstreamed patch
 	* patches/libsyncml-01-void-func-return.diff: added
 	* patches/libsyncml-02-TCSBRKP.diff: added
 	* patches/libsyncml-03-strcasestr.diff: added
-	Update Copyright, Owner and bugdb info for following specs
+	  Update Copyright, Owner and bugdb info for following specs
 	* SFElibopensync-plugin-evo2.spec:
 	* SFElibopensync-plugin-file.spec:
 	* SFElibopensync-plugin-gcal.spec:
@@ -605,8 +613,7 @@
 	* patches/gnome-power-manager-07-disable-sleep-configration.diff:
 	* patches/gnome-power-manager-08-brightness-applet-install.diff:
 	* patches/gnome-power-manager-09-scripts.diff:
-	* patches/gnome-power-manager-10-diable-suspend-button-configration
-	.diff:
+	* patches/gnome-power-manager-10-diable-suspend-button-configration.diff:
 	* patches/gnome-power-manager-11-authorization-checking.diff:
 	* patches/gnome-power-manager-12-crash.diff:
 	* patches/gnome-power-manager-13-beep.diff:
@@ -644,9 +651,9 @@
 
 	* SFEgcc.spec:
 	* patches/gcc-01-libtool-rpath.diff:
-	Add gcc-01-libtool-rpath.diff patch for a problem where
-	the old, modified libtool 1.4 in gcc 4.2.3 drops
-	-rpath /usr/gnu/lib when building libstdc++.so.6.0.9.
+	  Add gcc-01-libtool-rpath.diff patch for a problem where
+	  the old, modified libtool 1.4 in gcc 4.2.3 drops
+	  -rpath /usr/gnu/lib when building libstdc++.so.6.0.9.
 	* SFEautomake.spec: Bump to 1.10.1.
 	* SFElibtool.spec: Bump to 1.5.26.
 
@@ -683,12 +690,13 @@
 
 	* SUNWgnome-display-mgr.spec:
 	* patches/gdm-04-logo-name.diff:
-	Add patch 04-logo-icon.diff to fix greeter crach.
+	  Add patch 04-logo-icon.diff to fix greeter crach.
 
 2008-02-26  Albert Lee <trisk@acm.jhu.edu>
 
-	SFEgrandr.spec: Add patch3 from Debian - fixes long-standing crash
-	patches/grandr-03-iterator.diff: Patch for crash when selecting output
+	* SFEgrandr.spec: Add patch3 from Debian - fixes long-standing crash
+	  patches/grandr-03-iterator.diff: Patch for crash when selecting
+	  output
 
 2008-02-26 Brian Cameron  <brian.cameron@sun.com>
 
@@ -725,10 +733,10 @@
 
 2008-02-25  Albert Lee <trisk@acm.jhu.edu>
 
-	SFEdosbox.spec: Bump to 0.72, update dependencies, replace patch1
-	SFEsdl-sound.spec: *NEW* SDL Sound Decoding library
-	base-specs/sdl-sound.spec: *NEW* base spec for SFEsdl-sound
-	patches/dosbox-01-socket.diff: Rework patch
+	* SFEdosbox.spec: Bump to 0.72, update dependencies, replace patch1
+	* SFEsdl-sound.spec: *NEW* SDL Sound Decoding library
+	* base-specs/sdl-sound.spec: *NEW* base spec for SFEsdl-sound
+	* patches/dosbox-01-socket.diff: Rework patch
 
 2008-02-24  Thomas Wagner <tom68@users.sourceforge.net>
 	* SFEgmpc.spec: take back stupid test typo for a "svn diff"
@@ -814,8 +822,7 @@
 	* SFEwine.spec: Bump to 0.9.55, use gcc under /usr/sfw/bin
 	* patches/wine-05-add-wine_list.h_includes.diff: removed upstreamed
 	  patch and reorder
-	* patches/wine-06-change_functions_structs_named_list_asterisk.sh.d
-	iff: 
+	* patches/wine-06-change_functions_structs_named_list_asterisk.sh.diff: 
 
 2008-02-21  Halton Huo <nonsea@users.sourceforge.net>
 
@@ -1031,7 +1038,7 @@
 
 2008-02-12 Ananth Shrinivas <ananth@sun.com>
 
-    	* SFEgrsync - A GTK+ based front end for rsync
+	* SFEgrsync - A GTK+ based front end for rsync
 
 2008-02-11 Pradhap Devarajan < pradhap (at) gmail.com>
 
@@ -1573,10 +1580,10 @@
 2008-01-24  Halton Huo <halton.huo@sun.com>
 
 	* SUNWsqlite.spec, base-specs/sqlite.spec:
-	Remove from SFE dock since it is already in vermillion dock.
+	  Remove from SFE dock since it is already in vermillion dock.
 	* ext-sources/tracker-thunderbird.xpi, 
 	  ext-sources/tracker-firefox-history-xesam.xpi:
-	Remove two more files for MetaTracker projects.
+	  Remove two more files for MetaTracker projects.
 
 2008-01-24  Halton Huo <halton.huo@sun.com>
 
@@ -1729,8 +1736,8 @@
 
 	* encumbered/SFEogle.spec:
 	* patches/ogle-01-mmx.diff:
-	  Fixed ogle build to include libdvdcontrol, add missing dirs to package
-	  Patch to fix MediaLib and MMX usage
+	  Fixed ogle build to include libdvdcontrol, add missing dirs to
+	  package.  Patch to fix MediaLib and MMX usage
 
 2008-01-21 Moinak Ghosh <moinak.ghosh@sun.com>
 
@@ -1809,7 +1816,7 @@
 	  Added doxygen,graphviz as buildrequires
 	* base-specs/doxygen.spec:
 	* patches/doxygen-02-nameconflict.diff:
- 	* patches/doxygen-04-tmake-g++.diff
+	* patches/doxygen-04-tmake-g++.diff
 	  Bump version to 1.5.4
 	  Change build configuration to solaris-g++ since SUN Studio compiled
 	  doxygen dumps core while building documentation for SFEcppunit.
@@ -1819,14 +1826,15 @@
 	* patches/libtunepimp-01-statvfs.diff:
 	  Add libtunepimp needed by kdemultimedia
 	* SFElibofa.spec:
-	  Add OFA (Open Fingerprint Architecture) library needed by libtunepimp.
+	  Add OFA (Open Fingerprint Architecture) library needed by
+	  libtunepimp.
 
 2008-01-17 Michal Pryc <michal dot pryc at sun dot com>
 
 	* ext-sources/tracker-thunderbird.xpi: 
-	Patch from Mathieu Dimanche <mdimanche at free dot fr>
-	Fixed character encoding problems between Thunderbird
-	and trackerd, a.k.a. UTF-8 encoded TMS files
+	  Patch from Mathieu Dimanche <mdimanche at free dot fr>
+	  Fixed character encoding problems between Thunderbird
+	  and trackerd, a.k.a. UTF-8 encoded TMS files
 
 2008-01-17 Michal Pryc <michal.pryc@sun.com>
 
@@ -1850,8 +1858,8 @@
 	  Add SFEgraphviz dependency.
 	* SFEgraphviz.spec:
 	  Do not disable perl.
-	  Prevent sys/mode.h from being pulled in via perl.h by defining _SYS_MODE_H. This
-	  allows the perl plugin to be built.
+	  Prevent sys/mode.h from being pulled in via perl.h by defining
+	  _SYS_MODE_H. This allows the perl plugin to be built.
 	* SFEakode.spec:
 	  Add audio decoding framework package.
 
@@ -1864,8 +1872,8 @@
 
 	* SFEkdelibs3.spec:
 	* SFEarts.spec:
-	  Get rid of custom kde3-prefixed datadir and includedir. Unsettles KDE3.
-	  Fix copyright year.
+	  Get rid of custom kde3-prefixed datadir and includedir. Unsettles
+	  KDE3.  Fix copyright year.
 	  Handle setting setuid attributes for non-root builds.
 	* SFEkdebase3.spec:
 	* ext-sources/kde.desktop:
@@ -1883,8 +1891,8 @@
 	* patches/graphviz-02-gd-ldflags.diff:
 	* patches/graphviz-01-arith-h.diff:
 	  Bump version to 2.16.1
-	  Remove SUNWfontconfig-devel from BuildRequires. SUNWfontconfig package
-	  includes devel components.
+	  Remove SUNWfontconfig-devel from BuildRequires. SUNWfontconfig
+	  package includes devel components.
 	  Changed SFElibtool dep to SUNWlibtool.
 	  Remove unneeded patches.
 	* SFEkdegraphics3.spec:
@@ -2013,7 +2021,7 @@
 	* SFEdcraw.spec:
 	  Incorporated patch which casts unsigned ints so Solaris forte build 
 	  works.
-    	* patches/dcraw-01-solaris.diff:
+	* patches/dcraw-01-solaris.diff:
 	  Caste swab parameter so it builds under Forte.
 
 2008-01-06 Moinak Ghosh <moinak.ghosh@sun.com>
@@ -2162,7 +2170,8 @@
 	* SFEdeluge.spec Bump to 0.5.8, bump patch1, comment patch 2 and 3.
 	* patches/deluge-01-sunpro.diff Bump to 0.5.8.
 	* base-specs/libmtp.spec Bump to 0.2.4
-	* encumbered/SFEgnomad2.spec Bump to 2.9.0. mkdtemp patch for Solaris 10.
+	* encumbered/SFEgnomad2.spec Bump to 2.9.0. mkdtemp patch for
+	  Solaris 10.
 	* patches/gnomad2-02-2.9.0_p2_mkdtemp.diff mkdtemp for Solaris 10.
 	* encumbered/SFElibnjb.spec bump to 2.2.6
 	* patches/libnjb-01-2.2.6-p1-makefilechanges.diff Bump to 2.2.6
@@ -2216,7 +2225,8 @@
 	* SFEpython-feedparser.spec: *NEW* Python feedparser library
 	* SFEpython-eyed3.spec: *NEW* Python module and program for processing
 	  ID3 tags
-	* SFEpython-mutagen.spec: *NEW* A Python module to handle audio metadata
+	* SFEpython-mutagen.spec: *NEW* A Python module to handle audio
+	  metadata
 	* SFEglpk.spec: *NEW* The GNU Linear Programming Kit library
 	* SFEpython-cherrypy.spec: Fixed errors in spec file
 	* SFEleafpad.spec: Cleaned up spec file
@@ -2306,8 +2316,8 @@
 2007-12-19  simon.zheng  <simon.zheng@sun.com>
 
 	* base-specs/gnome-power-manager.spec:
-	* patches/gnome-power-manager-10-diable-suspend-button-configration
-	.diff: Added.
+	* patches/gnome-power-manager-10-diable-suspend-button-configration.diff:
+	  Added.
 
 2007-12-18 jerry yu <jijun.yu@sun.com>
 
@@ -2766,8 +2776,8 @@
 	  to build.
 	* SFEabiword.spec: Enable building with either SUNWaspell or SFEaspell.
 	  Also add support for building on Indiana systems.
-	* SFErdesktop.spec: Remove SUNWopenssl-commands dependency to get module
-	  to build.
+	* SFErdesktop.spec: Remove SUNWopenssl-commands dependency to get
+	  module to build.
 	* SFEtracker.spec: Add support for building on Indiana systems.
 	* SFEircii.spec: Fix %files.
 	* SFEgnome-power-manager.spec: Fix %files.
@@ -2969,8 +2979,8 @@
 
 2007-11-09  Damien Carbery <daymobrew@users.sourceforge.net>
 
-	* base-specs/gvfs.spec: Add patch 02-solaris2 to include header files to
-	  fix 'implicit function declaration' warnings.
+	* base-specs/gvfs.spec: Add patch 02-solaris2 to include header files
+	  to fix 'implicit function declaration' warnings.
 	* patches/gvfs-02-solaris2.diff: Added.
 
 2007-11-09  Halton Huo <nonsea@users.sourceforge.net>
@@ -3070,7 +3080,8 @@
 
 2007-11-04 Ananth Shrinivas <ananth@sun.com>
 
-	* SFEgsl.spec: *NEW* The GNU Scientific Library for numerical processing
+	* SFEgsl.spec: *NEW* The GNU Scientific Library for numerical
+	  processing
 	* SFEpython-gsl.spec: *NEW* Python bindings for the GNU Scientific
 	  Library
 	* SFEpython-parallel.spec: *NEW* Python module for parallel processing
@@ -3157,13 +3168,14 @@
 	* patches/compiz-bcop-01-solaris-port.pc: Update for 0.6.0
 	* patches/compiz-fusion-extra-01-solaris-port.diff: Update for 0.6.0,
 	  remove need for support code
-	* patches/compiz-fusion-main-01-solaris-port.diff: Replace dodgy support
-	  code with MIT-licenced code
+	* patches/compiz-fusion-main-01-solaris-port.diff: Replace dodgy
+	  support code with MIT-licenced code
 	* patches/compiz-fusion-unsupported-01-solaris-port.diff: Update for
 	  0.6.0
-	* patches/compizconfig-backend-gconf-01-solaris-port.diff: Replace dodgy
-	  support code with MIT-licenced code
-	* patches/gst-plugins-bad-01-sunpro.diff: Patch for Studio compatibility
+	* patches/compizconfig-backend-gconf-01-solaris-port.diff: Replace
+	  dodgy support code with MIT-licenced code
+	* patches/gst-plugins-bad-01-sunpro.diff: Patch for Studio
+	  compatibility
 	* patches/gst-plugins-bad-02-vmnc.diff: Fix argument order in vmnc
 	* patches/gst-plugins010-01-gettext.diff: Patch for gettext support
 	* patches/libcompizconfig-01-solaris-port.diff: Replace dodgy support
@@ -3280,7 +3292,7 @@
 	* SFEopenobex.spec : remove the optimum cflag.
 	* base-specs/openobex.spec: enable debug option and add the 4th patch.
 	* patches/openobex-04-func.diff: added.
- 
+
 2007-10-19  Halton Huo <nonsea@users.sourceforge.net>
 
 	* base-specs/gnome-sync.spec: Change Source URL to a usable one.
@@ -4108,7 +4120,8 @@
 
 2007-09-08  Albert Lee  <trisk@acm.jhu.edu>
 
-	* SFEccsm.spec: Correct rules, remove -root, fix Python library location
+	* SFEccsm.spec: Correct rules, remove -root, fix Python library
+	  location
 
 2007-09-08  Albert Lee  <trisk@acm.jhu.edu>
 
@@ -4122,9 +4135,11 @@
 	* SFEcompiz-fusion-extra.spec: Fix rules
 	* SFEcompiz-fusion-main.spec: Fix rules, add patch2
 	* SFEcompiz-fusion-unsup.spec: Fix rules
-	* SFEcompiz.spec: Updated to coexist with newer X consolidation packages
+	* SFEcompiz.spec: Updated to coexist with newer X consolidation
+	  packages
 	* SFEcompizconfig-backend-gconf.spec: Update rules
-	* SFEcompizconfig-python.spec: Update rules, fix Python library location
+	* SFEcompizconfig-python.spec: Update rules, fix Python library
+	  location
 	* SFElibcompizconfig.spec: Update rules
 	* patches/compiz-bcop-01-solaris-port.pc: Fix XSLT rules
 	* patches/compiz-fusion-main-02-sunpro.diff: Changes for Studio compat.
@@ -4259,7 +4274,7 @@
 
 	* SFElibraw1394.spec: *NEW* Interface to IEEE-1394 subsystem
 	   - requires raw1394 driver for Solaris (in progress)
-	* SFEdvgrab.spec: *NEW*	DV grabbing utility
+	* SFEdvgrab.spec: *NEW* DV grabbing utility
 	* SFElibavc1394.spec: *NEW* interface to the 1394 AV/C specification
 	* SFElibiec61883.spec: *NEW* Streaming library for IEEE1394
 	* SFEdocbook-utils.spec: Fixed typo
@@ -4310,7 +4325,8 @@
 
 2007-09-01  Albert Lee  <trisk@acm.jhu.edu>
 
-	* patches/banshee-03-solaris.diff: Fix gettext calls (libc, not libintl)
+	* patches/banshee-03-solaris.diff: Fix gettext calls (libc, not
+	  libintl)
 
 2007-09-01  Albert Lee  <trisk@acm.jhu.edu>
 
@@ -4336,8 +4352,10 @@
 
 	* SFEcompiz-bcop.spec: Fix dir attributes
 	* SFEdeluge.spec: *NEW* Deluge - BitTorrent client
-	* SFEpython-xdg.spec: Python library to access freedesktop.org standards
-	* patches/deluge-01-sunpro.diff: Numerous fixes for Studio compatibility
+	* SFEpython-xdg.spec: Python library to access freedesktop.org
+	  standards
+	* patches/deluge-01-sunpro.diff: Numerous fixes for Studio
+	  compatibility
 	* patches/deluge-02-path.diff: Use vendor-packages path
 
 2007-08-31  simon.zheng  <simon.zheng@sun.com>
@@ -4351,7 +4369,8 @@
 2007-08-31 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* SFElibcompizconfig.spec: added default to gconf
-	* patches/libcompizconfig-01-solaris-port.diff : global default to gconf
+	* patches/libcompizconfig-01-solaris-port.diff : global default to
+	  gconf
 
 2007-08-30  Albert Lee  <trisk@acm.jhu.edu>
 
@@ -4376,7 +4395,8 @@
 	* SFEcompiz-settings.spec : removed (old version for compiz 0.5.0)
 	* patches/compiz-settings-solaris.2-3-7.diff : ditto
 	* SFElibcompizconfig.spec : *.*a clean up
-	* patches/compiz-01-solaris-port.diff : ported to 0.5.2 (and configured)
+	* patches/compiz-01-solaris-port.diff : ported to 0.5.2 (and
+	  configured)
 	* patches/compiz-fusion-main-01-solaris-port.diff : ported to solaris
 	* patches/compiz-fusion-extra-01-solaris-port.diff : ditto  
 	* patches/compiz-fusion-unsupported-01-solaris-port.diff : ditto
@@ -4428,8 +4448,8 @@
 2007-08-24 Erwann Chenede - <erwann.chenede@sun.com>
 
 	* SFElibcompizconfig.spec: added patch
-	* patches/libcompizconfig-01-solaris-port.diff: ported missing functions 
-	  to Solaris
+	* patches/libcompizconfig-01-solaris-port.diff: ported missing
+	  functions to Solaris
 
 2007-08-23  Brian Cameron  <brian.cameron@sun.com>
 
@@ -4686,7 +4706,8 @@
 	* patches/alsa-lib-01-configure.diff: Add autoconf rules
 	* patches/alsa-plugins-01-configure.diff: Add autoconf rules
 	* patches/alsa-lib-03-alloca.diff: Add alloca.h
-	* include/byteswap-compat.h: Hack to create <byteswap.h> - needs work :)
+	* include/byteswap-compat.h: Hack to create <byteswap.h> - needs
+	  work :)
 	* include/endian-compat.h: Hack to create <endian.h> - needs work :)
 	* include/asound.conf: Sample asound.conf to enable alsa to use OSS
 
@@ -4782,8 +4803,7 @@
 2007-08-04  Thomas Wagner <tom68@users.sourceforge.net>
 
 	* SFEx86info.spec: *NEW* x86 CPU-Info from snapshot/tarball,
-	    inspired by http://blogs.sun.com/gbrunett/entry/solaris_non_executable_stack_concluded#comment-1186009029000
-	    
+	  inspired by http://blogs.sun.com/gbrunett/entry/solaris_non_executable_stack_concluded#comment-1186009029000
 
 2007-08-30  Doug Scott  <dougs@truemail.co.th>
 
@@ -4877,7 +4897,8 @@
 2007-07-30  Mark Wright <markwright@internode.on.net>
 
 	* SFEsqlite.spec: bump to 3.4.1.
-	* SFEdoxygen.spec: bump to 1.5.3, remove patch1 as already applied, bump patch3.
+	* SFEdoxygen.spec: bump to 1.5.3, remove patch1 as already applied,
+	  bump patch3.
 
 2007-07-29  Doug Scott  <dougs@truemail.co.th>
 
@@ -5005,7 +5026,8 @@
 
 	* SFEautomake.spec: Bump to 1.10.
 	* SFEemacs.spec: Bump to 22.1, change CPP="cc -E -Xs", add
-	 --with-gcc=no --with-x-toolkit=motif, add %{_localstatedir}/games/emacs
+	  --with-gcc=no --with-x-toolkit=motif,
+	  add %{_localstatedir}/games/emacs
 	* SFEgcc.spec: Bump to 4.2.1, add patch for gcc bug 32787.
 	
 2007-07-24  Halton Huo <nonsea@users.sourceforge.net>
@@ -5137,8 +5159,10 @@
 	  The stable version 4.6.1 has some nasty bugs.
 
 2007-07-12  Jerry Yu <jijun.yu@sun.com>
-	*linux-specs/msynctool.spec: Disable the configuration option enable_rpath.
-	*patches/msynctool-02-ld-rpath.diff: Removed.	
+
+	* linux-specs/msynctool.spec: Disable the configuration option
+	  enable_rpath.
+	* patches/msynctool-02-ld-rpath.diff: Removed.	
 
 2007-07-11  Dick Hoogendijk <dick@nagual.nl>
 
@@ -5187,14 +5211,14 @@
 2007-07-03  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFEliveMedia.spec: Update the URL - should probably
-	be the '-latest' link instead, but I don't know anything
-	about this project to make that call.
+	  be the '-latest' link instead, but I don't know anything
+	  about this project to make that call.
 
 2007-07-02  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFElibnotify.spec: Conflicts with SUNWgnome-panel
-	in GNOME 2.20 branch of spec-files on opensolaris.org.
-	Remove.
+	  in GNOME 2.20 branch of spec-files on opensolaris.org.
+	  Remove.
 
 2007-07-02  Glynn Foster  <glynn.foster@sun.com>
 
@@ -5261,19 +5285,20 @@
 	* patches/gnome-commander-01-Wall.diff: Update with better solution to
 	  removing -Wall (use configure.in check and Makefile.am variables).
 	* patches/gnome-commander-08-warnx.diff,
-	  patches/gnome-commander-09-other.diff: Added to fix more build issues.
+	  patches/gnome-commander-09-other.diff: Added to fix more build
+	  issues.
 
 2007-06-11  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEgnome-commander.spec: Added, along with multiple patches.
 	* patches/gnome-commander-01-Wall.diff,
-	patches/gnome-commander-02-empty-struct.diff,
-	patches/gnome-commander-03-fnmatch-extension.diff
-	patches/gnome-commander-04-obsolete-mmap-opt.diff
-	patches/gnome-commander-05-void-return.diff
-	patches/gnome-commander-06-bad-ternary-code.diff
-	patches/gnome-commander-07-typedef-comma.diff: Added for bugzilla
-	365227 and 446361. Doesn't fully build because of C++ template issue.
+	  patches/gnome-commander-02-empty-struct.diff,
+	  patches/gnome-commander-03-fnmatch-extension.diff
+	  patches/gnome-commander-04-obsolete-mmap-opt.diff
+	  patches/gnome-commander-05-void-return.diff
+	  patches/gnome-commander-06-bad-ternary-code.diff
+	  patches/gnome-commander-07-typedef-comma.diff: Added for bugzilla
+	  365227 and 446361. Doesn't fully build because of C++ template issue.
 
 2007-06-10  Halton Huo  <nonsea@users.sourceforge.net>
 
@@ -5467,7 +5492,7 @@
 
 	* SFEmplayer-plugin: Bump to v3.40 and up
 	  Patchfiles changed to support newest code
-  	  mpplugin-01-makefile.diff ADDED
+	  mpplugin-01-makefile.diff ADDED
 	  mpplugin-02-strings_h.diff ADDED
 	  mpplugin-03-strstr.diff ADDED
 	  mpplugin-04-ndelay.diff ADDED
@@ -5559,7 +5584,7 @@
 	* SFEgnome-power-manager.spec:
 	* linux-specs/gnome-power-manager.spec:
 	* patches/gnome-power-manager-01-build.diff:
-	Bumped gnome-power-manager to version 2.9.1, reworked the patch.
+	  Bumped gnome-power-manager to version 2.9.1, reworked the patch.
 
 2007-05-07  Doug Scott  <dougs@truemail.co.th>
 
@@ -5623,7 +5648,8 @@
 
 	* SFEtracker.spec: Add Requires to SFEsqlite, 
 	  Add conditional Requires to SFEwv
-	* SFEwv.spec: (new) A library that allows access to Microsoft Word files
+	* SFEwv.spec: (new) A library that allows access to Microsoft Word
+	  files
 
 2007-05-04  Halton Huo  <nonsea@users.sourceforge.net>
 
@@ -5730,7 +5756,7 @@
 
 	* linux-specs/gnome-power-manager.spec:
 	* patches/gnome-power-manager-01-build.diff:
-	Bump to version 2.18.2. Rework the patch.
+	  Bump to version 2.18.2. Rework the patch.
 
 2007-04-26  Thomas Wagner <tom68@users.sourceforge.net>
 
@@ -5901,7 +5927,6 @@
 2007-04-16  Laszlo (Laca) Peter  <laca@sun.com>
 
 	(update from the JDS spec-files repo)
-
 	* include/Solaris.inc: fix _ldflags so that it includes the
 	  architecture specific flags
 	* include/base.inc: fix cxx_optflags: use EXTRA_CXXFLAGS and not
@@ -5915,7 +5940,7 @@
 2007-04-08  Thomas Wagner <tom68@users.sourceforge.net>
 
 	* SFEirssi.spec: bump to 0.8.11-rc1
-     
+
 2007-04-07  Thomas Wagner <tom68@users.sourceforge.net>
 
 	* SFEgmpc.spec: Gnome Music Player Client (great frontend to SFEmpd)
@@ -6028,7 +6053,7 @@
 	* SFEgetmail.spec: (new) Python App: Fetchmail replacement, plus add'l
 	  features
 	* SFElinkchecker.spec: (new) "    URL link checker
-	* SFEmoin.spec: (new)	"    Clone of WikiWiki
+	* SFEmoin.spec: (new) "    Clone of WikiWiki
 	* SFEofflineimap.spec: (new) "    Two-way sync of IMAP/Maildir email
 	  boxes
 	* SFEdenyhosts.spec: (new)   "    Help thwart ssh server attacks
@@ -6283,7 +6308,7 @@
 2007-03-22  Lin Ma  <Lin.Ma@Sun.COM>
 
 	* SFEnotification-daemon.spec: Missing default attribute in the
-	section "files"
+	  section "files"
 
 2007-03-21  Damien Carbery <daymobrew@users.sourceforge.net>
 
@@ -6321,11 +6346,11 @@
 2007-03-20  Doug Scott  <dougs@truemail.co.th>
 
 	* include/arch64.inc: added %_cc64_opt_level to suncc_optflags64
-	- added standard directories definitions
+	  - added standard directories definitions
 	* include/base.inc: added standard directories definitions
 	* include/x86_sse2.inc: added standard directories definitions
 	* SFElame.spec: Moved build of lame and toolame into base specs
-	- Added 64bit and x86_sse2 optimised builds
+	  - Added 64bit and x86_sse2 optimised builds
 	* SFEgcc.spec: Added LD_OPTION to find libstdc and libgcc
 	* .pkgtoolrc: added base-specs to the search path
 	* base-specs/lame.spec: Split from SFElame.spec
@@ -6386,8 +6411,9 @@
 2007-03-18  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFElsof.spec: (new) List open files
- 	* SFEsfind.spec: (new) Schily implementation of the find utility
-	* SFErdiff-backup.spec: (new) Transparent local/remote mirror, incremental backup
+	* SFEsfind.spec: (new) Schily implementation of the find utility
+	* SFErdiff-backup.spec: (new) Transparent local/remote mirror,
+	  incremental backup
 
 2007-03-17  Laszlo (Laca) Peter  <laca@sun.com>
 
@@ -6423,7 +6449,7 @@
 2007-03-16  Irene Huang <sh162551@users.sourceforge.net> 
 
 	* SFEgrip.spec: New spec for grip the cd player and cd ripper
-	for GNOME desktop.
+	  for GNOME desktop.
 	* linux-specs/grip.spec: linux spec for grip
 	* patches/grip-01-i386.diff: patch for grip to build on Solaris.
 
@@ -6451,7 +6477,7 @@
 	* linux-specs/aspell.spec: added.
 	* linux-specs/aspell-en.spec: added.
 	* patches/aspell-01-forte.diff: added.
-	Move aspell from opensolaris.
+	  Move aspell from opensolaris.
 
 2007-03-08  Halton Huo  <nonsea@users.sourceforge.net>
 
@@ -6629,9 +6655,9 @@
 
 	* SFEgnome-python-extras.spec: New spec for gnome-python-extras
 	* SFEgst-python.spec: bump to version 0.10.7, add patch
-	gst-python-01.
+	  gst-python-01.
 	* patches/gst-python-01-crash.diff: new patch for gst-python
-	core dump on Solaris.
+	  core dump on Solaris.
 
 2007-02-08  Damien Carbery <daymobrew@users.sourceforge.net>
 
@@ -6670,7 +6696,7 @@
 2007-01-25  Glynn Foster  <glynn.foster@sun.com>
 
 	* KNOWN_ISSUES: Remove syncit from this list since it's been moved to
-	file-replicator.
+	  file-replicator.
 
 2007-01-24  Damien Carbery <daymobrew@users.sourceforge.net>
 
@@ -6782,7 +6808,6 @@
 2007-01-14  Mike Kiedrowski  <lakeside at cybrzn dot com>
 
 	Perl GNOME2 modules.
-	
 	* SFEperl-cairo.spec: (new)
 	* SFEperl-extutils-dep.spec: (new)
 	* SFEperl-extutils-pkgs.spec: (new)
@@ -7124,8 +7149,8 @@
 2006-12-06  Irene Huang <irene.huang@sun.com>
 
 	* SFElibgpod.spec: Change the compiler to be gcc. 
-	Removed the old patches libgpod-01-fixwall.diff and 
-	libgpod-02-fixcompile.diff add patch -01-hidden.diff
+	  Removed the old patches libgpod-01-fixwall.diff and 
+	  libgpod-02-fixcompile.diff add patch -01-hidden.diff
 	* patches/libgpod-01-hidden.diff: new patch
 	* patches/libgpod-01-fixwall.diff: removed
 	* patches/libgpod-02-fixcompile: removed
@@ -7192,12 +7217,12 @@
 	  linux-specs/libopensync-plugin-palm.spec:
 	  patches/libopensync-plugin-file-01-forte-wall.diff:
 	  patches/libopensync-plugin-palm-01-forte-wall.diff:
-	Add new plugin: file and palm
+	  Add new plugin: file and palm
 	* SFEpylibs-httplib.spec, SFEpylibs-httplib2.spec:
-	Change name to SFEpylibs-httplib2.spec
+	  Change name to SFEpylibs-httplib2.spec
 	* linux-specs/libopensync-plugin-evo2.spec:
 	  linux-specs/libopensync-plugin-gcal.spec:
-	Add BuildRoot
+	  Add BuildRoot
 
 2006-11-15  Eric Boutilier  <eric.boutilier@sun.com>
 
@@ -7288,7 +7313,7 @@
 2006-11-07  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFEbdb.spec: Add new package for Berkeley DB. Seems to work
-	ok.
+	  ok.
 
 2006-11-06  Laszlo (Laca) Peter  <laca@sun.com>
 
@@ -7436,15 +7461,15 @@
 	* SFEntop.spec:      (new) A network traffic usage monitor
 	* SFEnetcat.spec:    (new) Read and write data across network
 	  connections
-	* SFEgd.spec:	(new) library for the dynamic creation of images
-	* SFEnut.spec:	(new) Network UPS Tools
+	* SFEgd.spec:   (new) library for the dynamic creation of images
+	* SFEnut.spec:  (new) Network UPS Tools
 	* SFEimposter.spec:  (new) Standalone OO presentations viewer using
 	  GTK2
 
 2006-09-27  Eric Boutilier  <eric.boutilier@sun.com>
 
 	* SFEfltk.spec:      (new) A C++ user interface toolkit
-	* SFElzo.spec:	(new) Lossless data compression library
+	* SFElzo.spec: (new) Lossless data compression library
 	* SFElzop.spec:      (new) File compressor -- similar to, but faster
 	  than gzip
 	* SFEraptor.spec:    (new) RDF Parser Library - RDF parser utility
