@@ -1,5 +1,9 @@
 2008-04-24  Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEpyyaml.spec, SFEnotify-python.spec:  Add new spec files.
+
+2008-04-24  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEgst-plugins-bad.spec:  Add new spec-file.
 
 2008-04-24  simon.zheng  <simon.zheng@sun.com>
