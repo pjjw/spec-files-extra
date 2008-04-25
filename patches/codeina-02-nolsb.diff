@@ -1,0 +1,38 @@
+--- codeina-0.10.2.1/codeina/check.py-orig	2008-04-24 18:55:55.050009000 -0500
++++ codeina-0.10.2.1/codeina/check.py	2008-04-24 19:02:27.626356000 -0500
+@@ -306,21 +306,25 @@ def find_system_details():
+         ARCH_NAME = "i386"
+ 
+   # Find distro name
+-    DISTRO_NAME = _get_distro_id_from_lsb_release()
++  # DISTRO_NAME = _get_distro_id_from_lsb_release()
++    DISTRO_NAME = "solaris"
+ 
+-    if not DISTRO_NAME:
+-        DISTRO_NAME = _get_distro_id_from_release_file()
++  # if not DISTRO_NAME:
++  #     DISTRO_NAME = _get_distro_id_from_release_file()
+ 
+-    if not DISTRO_NAME:
+-        DISTRO_NAME = 'generic'
++  # if not DISTRO_NAME:
++  #     DISTRO_NAME = 'generic'
+ 
+   # Munge distro name to our liking (e.g. lsb-release will return 'fedoracore')
+-    if DISTRO_NAME.startswith('fedora'):
+-        DISTRO_NAME = 'fedora'
++  # if DISTRO_NAME.startswith('fedora'):
++  #     DISTRO_NAME = 'fedora'
++
++  # DISTRO_VERSION = _get_distro_version_from_lsb_release ()
++  # if not DISTRO_VERSION:
++  #     DISTRO_VERSION = 'any'
++
++    DISTRO_VERSION = 'any'
+ 
+-    DISTRO_VERSION = _get_distro_version_from_lsb_release ()
+-    if not DISTRO_VERSION:
+-        DISTRO_VERSION = 'any'
+   # Find out current GStreamer core version
+ 
+     GST_CORE_VERSION = Version(_version_to_string(gst.version()))

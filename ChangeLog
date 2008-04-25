@@ -1,5 +1,11 @@
 2008-04-24  Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEcodeina.spec, patches/codeina-01-fixpython.diff,
+	  patches/codeina-02-nolsb.diff:  Patches to get codeina
+	  to run better.
+
+2008-04-24  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEpyyaml.spec, SFEnotify-python.spec:  Add new spec files.
 
 2008-04-24  Brian Cameron  <brian.cameron@sun.com>
