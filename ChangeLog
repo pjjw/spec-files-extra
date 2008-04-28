@@ -1,3 +1,10 @@
+2008-04-28  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEgit.spec: Add patch3 to fix bisect problem with non-GNU tr
+	* SFEopentf.spec: *NEW* Client and associated assemblies for Team
+	  Foundation
+	* patches/git-03-tr.diff: Fix bisect problem with non-GNU tr
+
 2008-04-28  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEpyopenssl.spec:  Add new spec file.

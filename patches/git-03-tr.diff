@@ -1,0 +1,29 @@
+--- git-1.5.4.2.orig/git-bisect.sh	Sun Feb 17 03:53:46 2008
++++ git-1.5.4.2/git-bisect.sh	Wed Apr 23 20:31:30 2008
+@@ -279,7 +279,7 @@
+ 	if expr "$_tried" : ".*[|].*" > /dev/null ; then
+ 		echo "There are only 'skip'ped commit left to test."
+ 		echo "The first bad commit could be any of:"
+-		echo "$_tried" | tr '[|]' '[\012]'
++		echo "$_tried" | tr '|' '\012'
+ 		echo "We cannot bisect more!"
+ 		exit 2
+ 	fi
+@@ -291,7 +291,7 @@
+ 	bisect_next_check good
+ 
+ 	skip=$(git for-each-ref --format='%(objectname)' \
+-		"refs/bisect/skip-*" | tr '[\012]' ' ') || exit
++		"refs/bisect/skip-*" | tr '\012' ' ') || exit
+ 
+ 	BISECT_OPT=''
+ 	test -n "$skip" && BISECT_OPT='--bisect-all'
+@@ -298,7 +298,7 @@
+ 
+ 	bad=$(git rev-parse --verify refs/bisect/bad) &&
+ 	good=$(git for-each-ref --format='^%(objectname)' \
+-		"refs/bisect/good-*" | tr '[\012]' ' ') &&
++		"refs/bisect/good-*" | tr '\012' ' ') &&
+ 	eval="git rev-list --bisect-vars $BISECT_OPT $good $bad --" &&
+ 	eval="$eval $(cat "$GIT_DIR/BISECT_NAMES")" &&
+ 	eval=$(filter_skipped "$eval" "$skip") &&

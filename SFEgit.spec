@@ -20,6 +20,7 @@ URL:                 http://git.or.cz/
 Source:              http://www.kernel.org/pub/software/scm/git/git-%{version}.tar.bz2
 Patch1:              git-01-solaris-shell.diff
 Patch2:              git-02-fixshell.diff
+Patch3:              git-03-tr.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
@@ -47,6 +48,7 @@ BuildRequires: SFExmlto
 %setup -q -n git-%version
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -130,6 +132,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/perl5/vendor_perl/%{perl_version}/*
 
 %changelog
+* Wed Apr 23 2008 - trisk@acm.jhu.edu
+- Add patch3 to fix bisect problem with non-GNU tr
 * Thu Mar 13 2008 - nonsea@users.sourceforge.net
 - s/SFEcurl/SUNWcurl
 * Fri feb 22 2008 - brian.cameron@sun.com
