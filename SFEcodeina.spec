@@ -3,21 +3,20 @@
 #
 # includes module(s): codeina
 #
-# Note that codeina does not seem to work on Solaris.  This may because
-# my two patches hack the code in bad ways, or because OpenSSL is not
-# present, or perhaps the code needs further work to be functional on
-# Solaris.  However, I wanted to make this spec file available so that
-# people could build the code and hopefully help get it working.
+# Note that codeina does not seem to work fully on Solaris.  Running
+# codeina does start up a dialog asking me if I want to buy various
+# Fluendo plugins, but it does not seem to be aware of the fact that
+# on Solaris there are only a subset of plugins available.  Also,
+# when I set GST_INSTALL_PLUGINS_HELPER=/usr/bin/codeina, run a
+# program like totem, and try to play a file that has a Fluendo
+# plugin, it says "No products found to install".  Again I think
+# codeina needs some work to recognize that it is running on Solaris.
 #
 # Note there has not been a codeina tarball release, so downloading
-# from the URL will fail.  You need to build a tarball by hand from SVN,
-# change the autogen.sh to start with "#!/bin/bash" instead # of
-# "#!/bin/sh", and run autogen.sh.  Then run "make dist" to create a
-# tarball to build with.
-#
-# Note that Solaris does not have the OpenSSL module which codeina 
-# requires.  Just to get codeina to build, I commented it out of the
-# configure.ac file before running autogen.sh.
+# from the URL specified in this spec-file will fail.  You need to
+# build a tarball by hand from SVN, change the autogen.sh to start
+# with "#!/bin/bash" instead of "#!/bin/sh", and run autogen.sh.
+# Then run "make dist" to create a tarball to build with.
 #
 # To access codeina from subversion:
 #
@@ -42,12 +41,14 @@ BuildRoot:      %{_tmppath}/codeina-%{version}-build
 Requires:	SUNWgnome-python-libs
 Requires:	SUNWgnome-media
 Requires:	SUNWgst-python
+Requires:	SFEpyopenssl
 Requires:	SFEpyyaml
 Requires:	SFEnotify-python
 BuildRequires:	SUNWPython-devel >= %{pythonver}
 BuildRequires:	SUNWgst-python
 BuildRequires:	SFEpyyaml
 BuildRequires:	SFEnotify-python
+BuildRequires:	SFEpyopenssl
 
 %include default-depend.inc
 
