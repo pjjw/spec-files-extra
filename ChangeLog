@@ -1,5 +1,15 @@
 2008-04-28  Albert Lee  <trisk@acm.jhu.edu>
 
+	* SFEwine.spec: Drop patch4 and patch5, add fix for long-standing
+	  problem with non-contiguous library mappings, add patch2
+	* patches/wine-02-xim-workaround.diff: Use immediate XIM to work around
+	  pre-snv_85 XRegisterIMInstantiateCallback crash
+	* patches/wine-04-winegcc.diff: Drop, no longer relevant
+	* patches/wine-05-change_functions_structs_named_list_asterisk.sh.diff:
+	  Drop, fixed upstream
+
+2008-04-28  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEgit.spec: Add patch3 to fix bisect problem with non-GNU tr
 	* SFEopentf.spec: *NEW* Client and associated assemblies for Team
 	  Foundation

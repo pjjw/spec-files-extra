@@ -1,0 +1,29 @@
+--- wine-0.9.60.orig/dlls/winex11.drv/xim.c	Fri Apr 18 11:47:52 2008
++++ wine-0.9.60/dlls/winex11.drv/xim.c	Mon Apr 28 23:38:20 2008
+@@ -369,9 +369,11 @@
+     TRACE("xim = %p, p = %p\n", xim, p);
+     thread_data->xim = NULL;
+     ximStyle = 0;
++#if !(defined(__svr4__) && defined(__sun))
+     wine_tsx11_lock();
+-    XRegisterIMInstantiateCallback( thread_data->display, NULL, NULL, NULL, X11DRV_OpenIM, NULL );
++    XRegisterIMInstantiateCallback( thread_data->display, NULL, NULL, NULL, X11DRV_OpenIM, thread_data->display );
+     wine_tsx11_unlock();
++#endif
+ }
+ 
+ /***********************************************************************
+@@ -483,9 +485,13 @@
+ 
+ void X11DRV_SetupXIM(void)
+ {
++#if !(defined(__svr4__) && defined(__sun))
+     wine_tsx11_lock();
+     XRegisterIMInstantiateCallback(thread_display(), NULL, NULL, NULL, X11DRV_OpenIM, NULL);
+     wine_tsx11_unlock();
++#else
++    X11DRV_OpenIM(thread_display(), NULL, NULL);
++#endif
+ }
+ 
+ static BOOL X11DRV_DestroyIC(XIC xic, XPointer p, XPointer data)

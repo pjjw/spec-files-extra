@@ -14,9 +14,8 @@ Version:                0.9.60
 URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
+Patch2:			wine-02-xim-workaround.diff
 Patch3:			wine-03-shell.diff
-#Patch4: 		wine-04-winegcc.diff
-Patch5:			wine-05-change_functions_structs_named_list_asterisk.sh.diff
 Patch6:			wine-06-iphlpapi.diff
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
@@ -49,17 +48,24 @@ Requires: %name
 %prep
 %setup -q -n %{src_name}-%{version}
 %patch1 -p1
+%patch2 -p1
 %patch3 -p1
-#%patch4 -p1
-%patch5 -p1
 %patch6 -p1
 
 # change all occurences of duplicate functions/structs named "list"*
-bash change_functions_structs_named_list_asterisk.sh
+#bash change_functions_structs_named_list_asterisk.sh
 
 # see above, cleanup concurrency with /usr/include/sys/list.h
-mv include/wine/list.h include/wine/wine_list.h
+#mv include/wine/list.h include/wine/wine_list.h
 
+# Wine assumes libraries are mapped to contiguous memory regions.
+# Use less restrictive alignment for data section to avoid "holes" between
+# sections that the OS is allowed to use for an anonymous mmap:
+# http://opensolaris.org/jive/message.jspa?messageID=229817#229799
+cat > map.relaxalign <<EOF
+# ABI says alignment is 0x10000
+data = A0x1000;
+EOF
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -68,12 +74,12 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 X11LIB="-L/usr/X11/lib -R/usr/X11/lib"
 SFWLIB="-L/usr/sfw/lib -R/usr/sfw/lib"
-GNULIB="-L/usr/gnu/lib -R/usr/gnu/lib"
+RELAX_ALIGN="-Wl,-M -Wl,`pwd`/map.relaxalign"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CC=/usr/sfw/bin/gcc
-export CPPFLAGS="-I/usr/X11/include -I/usr/gnu/include -I/usr/gnu/include/ncurses -I/usr/sfw/include"
-export CFLAGS="%gcc_optflags -O3 -fno-omit-frame-pointer -fpic -Dpic -D__C99FEATURES__"
-export LDFLAGS="$X11LIB $GNULIB $SFWLIB"
+export CPPFLAGS="-I/usr/X11/include -I%{gnu_inc} -I%{gnu_inc}/ncurses -I/usr/sfw/include -D__C99FEATURES__"
+export CFLAGS="%gcc_optflags -march=i686 -O3 -fno-omit-frame-pointer -fpic -Dpic"
+export LDFLAGS="$X11LIB %{gnu_lib_path} $SFWLIB $RELAX_ALIGN"
 export LD=/usr/ccs/bin/ld
 
 autoconf -f
@@ -137,6 +143,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Mon Apr 28 2008 - trisk@acm.jhu.edu
+- Drop patch4 and patch5
+- Add fix for long-standing problem with non-contiguous library mappings
+- Add new patch2 to work around pre-snv_85 XRegisterIMInstantiateCallback
 * Mon Apr 21 2008 - trisk@acm.jhu.edu
 - Bump to 0.9.60, drop patch7, patch2
 * Wed Apr 09 2008 - trisk@acm.jhu.edu
