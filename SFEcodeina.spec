@@ -22,6 +22,8 @@
 #
 # svn co https://core.fluendo.com/gstreamer/svn/codeina/trunk/ codeina
 #
+# bugdb: https://core.fluendo.com/gstreamer/trac/
+#
 %define pythonver 2.4
 
 %include Solaris.inc
@@ -34,7 +36,11 @@ URL:		http://fedoraproject.org/wiki/Multimedia/Codeina
 # See instructions at the top of the spec-file.
 #
 Source0:	http://fedoraproject.org/wiki/Multimedia/Codeina/codeina-%{version}.tar.bz2
+# According to the codeina developers, GTK+ mozembed crashes when using Python
+# 2.4 on some distros.  Hopefully this problem doesn't exist on Solaris.  For
+# now I will just patch the code to use our existing Python 2.4.
 Patch1:         codeina-01-fixpython.diff
+# This patch is reported upstream as bug #132.
 Patch2:         codeina-02-nolsb.diff
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/codeina-%{version}-build

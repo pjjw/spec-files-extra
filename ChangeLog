@@ -1,5 +1,11 @@
 2008-04-28  Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEcodeina.spec, patches/codeina-02-nolsb.diff:  Update patch
+	  based on comments from the codeina maintainer, and also update
+	  some comments.
+
+2008-04-28  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEgdata-python.spec: Add new spec file for Google Data python
 	  module.
 	* SFEpyopenssl.spec: Fix comment.

@@ -1,12 +1,31 @@
---- codeina-0.10.2.1/codeina/check.py-orig	2008-04-24 18:55:55.050009000 -0500
-+++ codeina-0.10.2.1/codeina/check.py	2008-04-24 19:02:27.626356000 -0500
-@@ -306,21 +306,25 @@ def find_system_details():
+--- codeina-0.10.2.1/codeina/check.py-orig	2008-04-29 12:42:00.538098000 -0500
++++ codeina-0.10.2.1/codeina/check.py	2008-04-29 12:47:47.217251000 -0500
+@@ -297,8 +297,17 @@ def find_system_details():
+     global GST_PLUGINS_BASE_VERSION
+ 
+     u = os.uname()
+-    OS_NAME = u[0]
+-    ARCH_NAME = u[4]
++#   OS_NAME = u[0]
++#   ARCH_NAME = u[4]
++# os.uname() returns "SunOS" for OS_NAME and "i386pc" for ARCH_NAME
++# on my i386 box.
++#
++# However, to work with the Fluendo store we need ARCH_NAME to be
++# intel or sparc, and OS_NAME needs to be "solaris".  So just
++# hardcode.
++#
++    OS_NAME = "solaris"
++    ARCH_NAME = "intel"
+ 
+   # for now munge everything x86 to i386
+ 
+@@ -306,21 +315,27 @@ def find_system_details():
          ARCH_NAME = "i386"
  
    # Find distro name
 -    DISTRO_NAME = _get_distro_id_from_lsb_release()
 +  # DISTRO_NAME = _get_distro_id_from_lsb_release()
-+    DISTRO_NAME = "solaris"
  
 -    if not DISTRO_NAME:
 -        DISTRO_NAME = _get_distro_id_from_release_file()
@@ -28,6 +47,9 @@
 +  # if not DISTRO_VERSION:
 +  #     DISTRO_VERSION = 'any'
 +
++  # Just hack DISTRO_NAME to "solaris" and DISTRO_VERSION to "any".
++  #
++    DISTRO_NAME = 'solaris'
 +    DISTRO_VERSION = 'any'
  
 -    DISTRO_VERSION = _get_distro_version_from_lsb_release ()
