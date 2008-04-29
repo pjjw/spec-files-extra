@@ -1,15 +1,15 @@
 #
-# spec file for package SFEpyopenssl
+# spec file for package SFEgdata-python
 #
-# includes module(s): pyopenssl
+# includes module(s): gdata-python
 #
 
 %include Solaris.inc
-Name:                    SFEpyopenssl
-Summary:                 Python Interface to the OpenSSL library
-URL:                     http://pyopenssl.sourceforge.net/
-Version:                 0.7
-Source:                  http://internap.dl.sourceforge.net/sourceforge/pyopenssl/pyOpenSSL-%{version}.tar.gz
+Name:                    SFEgdata-python
+Summary:                 Google Data API provide a simple protocol for reading and writing data on the web
+URL:                     http://code.google.com/p/gdata-python-client/
+Version:                 1.0.12.1
+Source:                  http://gdata-python-client.googlecode.com/files/gdata.py-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:                SUNWPython
@@ -19,12 +19,9 @@ Requires:                SUNWPython
 %define pythonver 2.4
 
 %prep
-%setup -q -n pyOpenSSL-%version
+%setup -q -n gdata.py-%version
 
 %build
-export CFLAGS="%optflags -I/usr/sfw/include"
-export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib"
-
 python setup.py build
 
 %install
@@ -43,8 +40,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/python%{pythonver}/vendor-packages/OpenSSL/*
+%{_libdir}/python%{pythonver}/vendor-packages/atom/*
+%{_libdir}/python%{pythonver}/vendor-packages/gdata/*
 
 %changelog
-* Mon Apr 28 2008 - brian.cameron@sun.com
+* Tue Apr 29 2008 - brian.cameron@sun.com
 - Created

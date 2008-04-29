@@ -1,7 +1,14 @@
-2008-04-20  Moinak Ghosh  <moinakg@gmail.com>
+2008-04-28  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEgdata-python.spec: Add new spec file for Google Data python
+	  module.
+	* SFEpyopenssl.spec: Fix comment.
+
+2008-04-28  Moinak Ghosh  <moinakg@gmail.com>
+
 	* SFEqt3.spec:
-	  Changes to build 32Bit and 64Bit Qt. Derived from Thomas Wagner's changes.
-	  Add new doc package.
+	  Changes to build 32Bit and 64Bit Qt. Derived from Thomas Wagner's
+	  changes.  Add new doc package.
 
 2008-04-28  Albert Lee  <trisk@acm.jhu.edu>
 
