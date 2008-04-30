@@ -1,6 +1,10 @@
+2008-05-1 Andras Barna <andras.barna@gmail.com>
+	* Add new spec file: SFExmms1-scrobbler.spec
+	* SFExmms1.spec: Fix header
+
 2008-04-30 Andras Barna <andras.barna@gmail.com>
-	  * SFExmms1.spec, patches/xmms1-01-rand.diff: Add patch
-	    which fixes crash when pressing random.
+	* SFExmms1.spec, patches/xmms1-01-rand.diff: Add patch
+	  which fixes crash when pressing random.
 
 2008-04-28  Brian Cameron  <brian.cameron@sun.com>
 

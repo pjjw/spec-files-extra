@@ -1,7 +1,7 @@
 #
-# spec file for package SFExmms2
+# spec file for package SFExmms1
 #
-# includes module(s): xmms2
+# includes module(s): xmms1
 #
 
 %include Solaris.inc
@@ -10,7 +10,7 @@ Name:                    SFExmms1
 Summary:                 X Multimedia System
 Version:                 1.2.11
 Source:                  http://www.xmms.org/files/1.2.x/xmms-%{version}.tar.bz2
-Patch1:  		  xmms1-01-rand.diff
+Patch1:                  xmms1-01-rand.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -94,6 +94,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/xmms/Input/libmpg*
 
 %changelog
+* Thu May 1 2008- andras.barna@gmail.com
+- Fix header.
 * Wed Apr 30 2008 - andras.barna@gmail.com
 - Add patch which fixes crash when pressing random.
 * Sun Jan 20 2008 - moinak.ghosh@sun.com
