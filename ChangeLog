@@ -1,3 +1,7 @@
+2008-04-30 Andras Barna <andras.barna@gmail.com>
+	  * SFExmms1.spec, patches/xmms1-01-rand.diff: Add patch
+	    which fixes crash when pressing random.
+
 2008-04-28  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEcodeina.spec, patches/codeina-02-nolsb.diff:  Update patch
