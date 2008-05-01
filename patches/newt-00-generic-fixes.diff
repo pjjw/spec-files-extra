@@ -1,0 +1,345 @@
+diff -r 513389748d46 Makefile.in
+--- a/Makefile.in	Thu May 01 16:50:21 2008 +0530
++++ b/Makefile.in	Thu May 01 16:55:15 2008 +0530
+@@ -1,5 +1,5 @@ LIBS = -lslang -lm -ldl #-lefence
+-LIBS = -lslang -lm -ldl #-lefence
+-SHLIBS = -lslang -lm -dl -lc  
++LIBS = -lslang -ldl 
++SHLIBS = -lslang -ldl
+ LIBTCL = -ltcl8.4
+ 
+ GPM_SUPPORT=@gpm_support@
+@@ -10,7 +10,7 @@ CVSTAG = r$(subst .,-,$(VERSION))
+ CVSTAG = r$(subst .,-,$(VERSION))
+ SONAME = @SONAME@
+ 
+-PYTHONVERS = python2.4
++PYTHONVERS = $(shell pyversions --supported)
+ 
+ WHIPTCLSO=whiptcl.so
+ 
+@@ -71,15 +71,15 @@ _snackmodule.so:   snackmodule.c $(LIBNE
+ 	    if [ ! -f "$$ver/_snackmodule.so" -o $(LIBNEWTSH) -nt "$$ver/_snackmodule.so" ]; then \
+ 	    	mkdir -p $$ver ;\
+ 	        $(CC) $(CFLAGS) -I/usr/include/$$ver -fPIC -c -o $$ver/snackmodule.o snackmodule.c ;\
+-		$(CC) --shared $(SHCFLAGS) -o $$ver/_snackmodule.so $$ver/snackmodule.o -L .  -lnewt -lslang ;\
++		$(CC) --shared $(SHCFLAGS) -o $$ver/_snackmodule.so $$ver/snackmodule.o -L .  -lnewt  ;\
+ 	    fi ; \
+ 	done
+ 
+ whiptail: $(NDIALOGOBJS) $(LIBNEWTSH)
+-	$(CC) -g -o whiptail $(NDIALOGOBJS) -L . -lnewt $(LIBS) -lpopt
++	$(CC) -g -o whiptail $(NDIALOGOBJS) -L . -lnewt -lpopt
+ 
+ whiptcl.so: $(WHIPTCLOBJS) $(LIBNEWTSH)
+-	$(CC) -shared $(SHCFLAGS) -o whiptcl.so $(WHIPTCLOBJS) -L . -lnewt  $(LIBTCL) -lslang -lpopt -lm
++	$(CC) -shared $(SHCFLAGS) -o whiptcl.so $(WHIPTCLOBJS) -L . -lnewt  $(LIBTCL) -lpopt
+ 
+ # Ensure dialogboxes is compiled -fPIC
+ dialogboxes.o: dialogboxes.c
+diff -r 513389748d46 button.c
+--- a/button.c	Thu May 01 16:50:21 2008 +0530
++++ b/button.c	Thu May 01 16:55:15 2008 +0530
+@@ -112,7 +112,9 @@ static void buttonDrawIt(newtComponent c
+ 	SLsmg_write_char('<');
+ 	SLsmg_write_string(bu->text);
+ 	SLsmg_write_char('>');
+-    } else {
++        /* put cursor at beginning of text for better accessibility */
++        newtGotorc(co->top+ pushed, co->left + 1 + pushed + 1);
++} else {
+ 	if (pushed) {
+ 	    SLsmg_set_color(NEWT_COLORSET_BUTTON);
+ 	    newtDrawBox(co->left + 1, co->top + 1, co->width - 1, 3, 0);
+@@ -142,6 +144,8 @@ static void buttonDrawText(newtComponent
+     SLsmg_write_char(' ');
+     SLsmg_write_string(bu->text);
+     SLsmg_write_char(' ');
++    /* put cursor at beginning of text for better accessibility */
++    newtGotorc(co->top + 1 + pushed, co->left + 1 + pushed + 1);
+ }
+ 
+ static struct eventResult buttonEvent(newtComponent co,
+diff -r 513389748d46 checkboxtree.c
+--- a/checkboxtree.c	Thu May 01 16:50:21 2008 +0530
++++ b/checkboxtree.c	Thu May 01 16:55:15 2008 +0530
+@@ -333,6 +333,8 @@ newtComponent newtCheckboxTreeMulti(int 
+     ct = malloc(sizeof(struct CheckboxTree));
+     co->callback = NULL;
+     co->data = ct;
++    co->left = left;
++    co->top = top;
+     co->ops = &ctOps;
+     co->takesFocus = 1;
+     co->height = height;
+@@ -536,6 +538,18 @@ static void ctDestroy(newtComponent co) 
+     free(co);
+ }
+ 
++static void ctEnsureLimits( struct CheckboxTree *ct ) {
++    struct items **listEnd = ct->flatList + ct->flatCount - 1;
++    if (ct->firstItem < ct->flatList)
++        ct->firstItem = ct->flatList;
++    if (ct->currItem < ct->flatList)
++        ct->currItem = ct->flatList;
++    if (ct->firstItem > listEnd) {
++        ct->firstItem = listEnd;
++        ct->currItem = listEnd;
++    }
++}
++
+ struct eventResult ctEvent(newtComponent co, struct event ev) {
+     struct CheckboxTree * ct = co->data;
+     struct eventResult er;
+@@ -647,6 +661,7 @@ struct eventResult ctEvent(newtComponent
+ 		ct->currItem -= co->height;
+ 		ct->firstItem -= co->height;
+ 	    }
++	    ctEnsureLimits( ct );
+ 
+ 	    ctDraw(co);
+ 	    if(co->callback) co->callback(co, co->callbackData);
+@@ -663,6 +678,7 @@ struct eventResult ctEvent(newtComponent
+ 	    	ct->currItem += co->height;
+ 		ct->firstItem += co->height;
+ 	    }
++	    ctEnsureLimits( ct );
+ 
+ 	    ctDraw(co);
+ 	    if(co->callback) co->callback(co, co->callbackData);
+diff -r 513389748d46 configure
+--- a/configure	Thu May 01 16:50:21 2008 +0530
++++ b/configure	Thu May 01 16:55:15 2008 +0530
+@@ -1308,7 +1308,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
+ 
+ 
+ PACKAGE=newt
+-VERSION=0.52.1
++VERSION=0.52.2
+ SONAME=0.52
+ 
+ cat >>confdefs.h <<_ACEOF
+diff -r 513389748d46 configure.in
+--- a/configure.in	Thu May 01 16:50:21 2008 +0530
++++ b/configure.in	Thu May 01 16:55:15 2008 +0530
+@@ -4,7 +4,7 @@ AC_CONFIG_HEADER(config.h)
+ AC_CONFIG_HEADER(config.h)
+ 
+ PACKAGE=newt
+-VERSION=0.52.1
++VERSION=0.52.2
+ SONAME=0.52
+ AC_DEFINE_UNQUOTED(VERSION, "$VERSION", [NEWT Version String])
+ AC_SUBST(PACKAGE)
+diff -r 513389748d46 dialogboxes.c
+--- a/dialogboxes.c	Thu May 01 16:50:21 2008 +0530
++++ b/dialogboxes.c	Thu May 01 16:55:15 2008 +0530
+@@ -140,7 +140,7 @@ int gauge(const char * text, int height,
+ 	}
+ 
+ 	val = strtoul(buf, &end, 10);
+-	if (!*end) {
++	if (!*end && val >= 0) {
+ 	    newtScaleSet(scale, val);
+ 	    newtDrawForm(form);
+ 	    newtRefresh();
+diff -r 513389748d46 newt.c
+--- a/newt.c	Thu May 01 16:50:21 2008 +0530
++++ b/newt.c	Thu May 01 16:55:15 2008 +0530
+@@ -53,21 +53,21 @@ const struct newtColors newtDefaultColor
+ 	"red", "lightgray",			/* title fg, bg */
+ 	"lightgray", "red",			/* button fg, bg */
+ 	"red", "lightgray",			/* active button fg, bg */
+-	"yellow", "blue",			/* checkbox fg, bg */
+-	"blue", "brown",			/* active checkbox fg, bg */
+-	"yellow", "blue",			/* entry box fg, bg */
++	"lightgray", "blue",			/* checkbox fg, bg */
++	"lightgray", "red",			/* active checkbox fg, bg */
++	"lightgray", "blue",			/* entry box fg, bg */
+ 	"blue", "lightgray",			/* label fg, bg */
+ 	"black", "lightgray",			/* listbox fg, bg */
+-	"yellow", "blue",			/* active listbox fg, bg */
++	"lightgray", "blue",			/* active listbox fg, bg */
+ 	"black", "lightgray",			/* textbox fg, bg */
+-	"lightgray", "black",			/* active textbox fg, bg */
++	"lightgray", "red",			/* active textbox fg, bg */
+ 	"white", "blue",			/* help line */
+-	"yellow", "blue",			/* root text */
++	"lightgray", "blue",			/* root text */
+ 	"blue",					/* scale full */
+ 	"red",					/* scale empty */
+ 	"blue", "lightgray",			/* disabled entry fg, bg */
+ 	"black", "lightgray",			/* compact button fg, bg */
+-	"yellow", "red",			/* active & sel listbox */
++	"lightgray", "red",			/* active & sel listbox */
+ 	"black", "brown"			/* selected listbox */
+ };
+ 
+@@ -290,6 +290,7 @@ int newtInit(void) {
+ 
+     SLtt_get_terminfo();
+     SLtt_get_screen_size();
++    SLutf8_enable(-1); /* init. utf8 according to locale */
+ 
+     MonoValue = getenv(MonoEnv);
+     if ( MonoValue == NULL ) {
+diff -r 513389748d46 scale.c
+--- a/scale.c	Thu May 01 16:50:21 2008 +0530
++++ b/scale.c	Thu May 01 16:55:15 2008 +0530
+@@ -48,6 +48,10 @@ void newtScaleSet(newtComponent co, unsi
+     struct scale * sc = co->data;
+     int newPercentage;
+ 
++    /* this will promote fullValue to unsigned for the compare */
++    if (amount > sc->fullValue)
++      amount = sc->fullValue;
++
+     sc->charsSet = (amount * co->width) / sc->fullValue;
+     newPercentage = (amount * 100) / sc->fullValue;
+ 
+@@ -82,4 +86,6 @@ static void scaleDraw(newtComponent co) 
+         else
+             SLsmg_write_char(' ');
+     }
++    /* put cursor at beginning of text for better accessibility */
++    newtGotorc(co->top, co->left + xlabel);
+ }
+diff -r 513389748d46 scrollbar.c
+--- a/scrollbar.c	Thu May 01 16:50:21 2008 +0530
++++ b/scrollbar.c	Thu May 01 16:55:15 2008 +0530
+@@ -47,7 +47,7 @@ newtComponent newtVerticalScrollbar(int 
+     sb = malloc(sizeof(*sb));
+     co->data = sb;
+ 
+-    if (!strcmp(getenv("TERM"), "linux") && height >= 2) {
++    if (height >= 2) {
+ 	sb->arrows = 1;
+ 	sb->curr = 1;
+     } else {
+@@ -100,7 +100,7 @@ static void sbDraw(newtComponent co) {
+ 
+ static void sbDrawThumb(newtComponent co, int isOn) {
+     struct scrollbar * sb = co->data;
+-    SLtt_Char_Type ch = isOn ? '#' : SLSMG_CKBRD_CHAR;
++    SLtt_Char_Type ch = isOn ? SLSMG_BLOCK_CHAR : SLSMG_CKBRD_CHAR;
+ 
+     if (!co->isMapped) return;
+ 
+diff -r 513389748d46 snack.py
+--- a/snack.py	Thu May 01 16:50:21 2008 +0530
++++ b/snack.py	Thu May 01 16:55:15 2008 +0530
+@@ -789,6 +789,7 @@ def EntryWindow(screen, title, text, pro
+     for n in prompts:
+         if (type(n) == types.TupleType):
+             (n, e) = n
++	    e = Entry(entryWidth, e)
+         else:
+             e = Entry(entryWidth)
+ 
+diff -r 513389748d46 snackmodule.c
+--- a/snackmodule.c	Thu May 01 16:50:21 2008 +0530
++++ b/snackmodule.c	Thu May 01 16:55:15 2008 +0530
+@@ -265,7 +265,7 @@ static snackWidget * snackWidgetNew (voi
+ static snackWidget * snackWidgetNew (void) {
+     snackWidget * widget;
+      
+-    widget = PyObject_NEW(snackWidget, &snackWidgetType);
++    widget = PyObject_New(snackWidget, &snackWidgetType);
+ 
+     widget->scs.cb = NULL;
+     widget->scs.data = NULL;
+@@ -750,7 +750,7 @@ static snackForm * formCreate(PyObject *
+     if (help == Py_None)
+ 	help = NULL;
+ 
+-    form = PyObject_NEW(snackForm, &snackFormType);
++    form = PyObject_New(snackForm, &snackFormType);
+     form->fo = newtForm(NULL, help, 0);
+ 
+     return form;
+@@ -762,7 +762,7 @@ static snackGrid * gridCreate(PyObject *
+ 
+     if (!PyArg_ParseTuple(args, "ii", &cols, &rows)) return NULL;
+ 
+-    grid = PyObject_NEW(snackGrid, &snackGridType);
++    grid = PyObject_New(snackGrid, &snackGridType);
+     grid->grid = newtCreateGrid(cols, rows);
+ 
+     return grid;
+@@ -925,7 +925,7 @@ static void widgetDestructor(PyObject * 
+     Py_XDECREF (s->scs.cb);
+     Py_XDECREF (s->scs.data);
+ 
+-    PyMem_DEL(o);
++    PyObject_Del(o);
+ }
+ 
+ static PyObject * widgetAddCallback(snackWidget * s, PyObject * args) {
+diff -r 513389748d46 textbox.c
+--- a/textbox.c	Thu May 01 16:50:21 2008 +0530
++++ b/textbox.c	Thu May 01 16:55:15 2008 +0530
+@@ -354,6 +354,8 @@ static void textboxDraw(newtComponent c)
+ 	newtGotorc(c->top + i, c->left);
+ 	SLsmg_write_string(tb->lines[i + tb->topLine]);
+     }
++    /* put cursor at beginning of text for better accessibility */
++    newtGotorc(c->top, c->left);
+ }
+ 
+ static struct eventResult textboxEvent(newtComponent co, 
+diff -r 513389748d46 whiptail.c
+--- a/whiptail.c	Thu May 01 16:50:21 2008 +0530
++++ b/whiptail.c	Thu May 01 16:55:15 2008 +0530
+@@ -47,17 +47,18 @@ static void usage(int err) {
+ 	       "\t--radiolist <text> <height> <width> <listheight> [tag item stautus]...\n"
+ 	       "\t--gauge <text> <height> <width> <percent>\n"
+ 	       "Options: (depend on box-option)\n"
+-	       "\t--clear				clear screen on exit\n"
+-	       "\t-defaultno			default no button\n"	
+-	       "\t--default-item <string>		set default string\n"
++	       "\t--clear			clear screen on exit\n"
++	       "\t--defaultno			default no button\n"	
++	       "\t--default-item <string>	set default string\n"
+ 	       "\t--fb				use full buttons\n"
+ 	       "\t--nocancel			no cancel button\n"
+ 	       "\t--noitem			display tags only\n"
+-	       "\t--separate-output <fd>		output one line at a time\n"
++	       "\t--separate-output <fd>	output one line at a time\n"
+ 	       "\t--output-fd <fd>		output to fd, not stdout\n"
+-	       "\t--title <title>			display title\n"
+-	       "\t--backtitle <backtitle>		display backtitle\n"
+-	       "\t--scrolltext			force verical scrollbars\n\n"));
++	       "\t--title <title>		display title\n"
++	       "\t--backtitle <backtitle>	display backtitle\n"
++	       "\t--scrolltext			force verical scrollbars\n"
++	       "\t--topleft			put window in top-left corner\n\n"));
+     exit(err ? DLG_ERROR : 0 );
+ }
+ 
+@@ -339,6 +340,7 @@ int main(int argc, const char ** argv) {
+     int separateOutput = 0;
+     int fullButtons = 0;
+     int outputfd = 2;
++    int topLeft = 0;
+     FILE *output = stderr;
+     const char * result;
+     const char ** selections, ** next;
+@@ -367,6 +369,7 @@ int main(int argc, const char ** argv) {
+ 	    { "separate-output", '\0', 0, &separateOutput, 0 },
+ 	    { "title", '\0', POPT_ARG_STRING, &title, 0 },
+ 	    { "textbox", '\0', 0, 0, OPT_TEXTBOX },
++	    { "topleft", '\0', 0, &topLeft, 0 },
+ 	    { "yesno", '\0', 0, 0, OPT_YESNO },
+ 	    { "passwordbox", '\0', 0, 0, OPT_PASSWORDBOX },
+ 	    { "output-fd", '\0',  POPT_ARG_INT, &outputfd, 0 },
+@@ -500,8 +503,8 @@ int main(int argc, const char ** argv) {
+     width -= 2;
+     height -= 2;
+ 
+-    newtOpenWindow((SLtt_Screen_Cols - width) / 2, 
+-                   (SLtt_Screen_Rows - height) / 2, width, height, title);
++    newtOpenWindow(topLeft ? 1 : (SLtt_Screen_Cols - width) / 2, 
++                   topLeft ? 1 : (SLtt_Screen_Rows - height) / 2, width, height, title);
+     if (backtitle)
+ 	newtDrawRootText(0, 0, backtitle);
+ 

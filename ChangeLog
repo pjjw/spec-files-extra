@@ -1,3 +1,8 @@
+2008-05-01  Ananth Shrinivas <ananth@sun.com>
+
+	* SFEnewt.spec: *NEW* A windowing toolkit for text mode
+      built from the slang library
+
 2008-05-01  River Tarnell  <river@wikimedia.org>
 
 	* SFEckermit.spec: New spec.

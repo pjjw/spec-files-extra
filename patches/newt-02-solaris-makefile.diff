@@ -1,0 +1,58 @@
+diff -r 7bcb5c2c46dd Makefile.in
+--- a/Makefile.in	Thu May 01 12:25:15 2008 +0530
++++ b/Makefile.in	Thu May 01 12:31:40 2008 +0530
+@@ -5,12 +5,11 @@ GPM_SUPPORT=@gpm_support@
+ GPM_SUPPORT=@gpm_support@
+ CFLAGS = $(RPM_OPT_FLAGS) -Wall  -D_GNU_SOURCE -g -O2 -DUTF8 -fPIC -I/usr/include/slang
+ 
+-SHLIBFLAGS= -Wl,-O1 -Wl,--version-script,newt.0.52.ver
+ VERSION = @VERSION@
+ CVSTAG = r$(subst .,-,$(VERSION))
+ SONAME = @SONAME@
+ 
+-PYTHONVERS = $(shell pyversions --supported)
++PYTHONVERS = python2.4
+ 
+ WHIPTCLSO=whiptcl.so
+ 
+@@ -52,7 +51,7 @@ po/stamp-po:
+ 	$(MAKE) -C po stamp-po
+ 
+ test:	$(TESTOBJS) $(LIBNEWT)
+-	$(CC) -g -o test $(TESTOBJS) $(LIBNEWT) $(LIBS) -static
++	$(CC) -g -o test $(TESTOBJS) $(LIBNEWT) $(LIBS)
+ 
+ testgrid:	testgrid.o $(LIBNEWT)
+ 	$(CC) -g -o testgrid testgrid.o $(LIBNEWT) $(LIBS)
+@@ -68,18 +67,16 @@ showkey:	showkey.o $(LIBNEWT)
+ 
+ _snackmodule.so:   snackmodule.c $(LIBNEWTSH)
+ 	for ver in $(PYTHONVERS) ; do \
+-	    if [ ! -f "$$ver/_snackmodule.so" -o $(LIBNEWTSH) -nt "$$ver/_snackmodule.so" ]; then \
+-	    	mkdir -p $$ver ;\
+-	        $(CC) $(CFLAGS) -I/usr/include/$$ver -fPIC -c -o $$ver/snackmodule.o snackmodule.c ;\
++	    mkdir -p $$ver ;\
++	    $(CC) $(CFLAGS) -I/usr/include/$$ver -fPIC -c -o $$ver/snackmodule.o snackmodule.c ;\
+ 		$(CC) --shared $(SHCFLAGS) -o $$ver/_snackmodule.so $$ver/snackmodule.o -L .  -lnewt  ;\
+-	    fi ; \
+ 	done
+ 
+ whiptail: $(NDIALOGOBJS) $(LIBNEWTSH)
+-	$(CC) -g -o whiptail $(NDIALOGOBJS) -L . -lnewt -lpopt
++	$(CC) -g -o whiptail $(NDIALOGOBJS) -L . -lnewt -lpopt -lslang
+ 
+ whiptcl.so: $(WHIPTCLOBJS) $(LIBNEWTSH)
+-	$(CC) -shared $(SHCFLAGS) -o whiptcl.so $(WHIPTCLOBJS) -L . -lnewt  $(LIBTCL) -lpopt
++	$(CC) -shared $(SHCFLAGS) -o whiptcl.so $(WHIPTCLOBJS) -L . -lnewt  $(LIBTCL) -lpopt -lslang
+ 
+ # Ensure dialogboxes is compiled -fPIC
+ dialogboxes.o: dialogboxes.c
+@@ -111,7 +108,7 @@ sharedlib: $(LIBNEWTSH)
+ sharedlib: $(LIBNEWTSH)
+ 
+ $(LIBNEWTSH): $(SHAREDDIR) $(SHAREDOBJS)
+-	$(CC) -shared -o $(LIBNEWTSH) $(SHLIBFLAGS) -Wl,-soname,$(LIBNEWTSONAME) $(SHAREDOBJS) $(SHLIBS)
++	$(CC) -shared -o $(LIBNEWTSH) $(SHAREDOBJS) $(SHLIBS)
+ 	ln -fs $(LIBNEWTSH) libnewt.so
+ 
+ $(SHAREDDIR)/%.o : %.c

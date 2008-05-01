@@ -1,0 +1,11 @@
+diff -r 7bcb5c2c46dd whiptail.c
+--- a/whiptail.c	Thu May 01 12:25:15 2008 +0530
++++ b/whiptail.c	Thu May 01 12:31:33 2008 +0530
+@@ -8,6 +8,7 @@
+ #include <unistd.h>
+ #include <wchar.h>
+ #include <slang.h>
++#include <sys/stat.h>
+ 
+ #include "nls.h"
+ #include "dialogboxes.h"
