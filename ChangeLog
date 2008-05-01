@@ -1,3 +1,11 @@
+2008-05-02  simon.zheng  <simon.zheng@sun.com>
+
+	* SUNWgnome-display-mgr.spec:
+	* patches/gdm-05-settings-daemon.diff:
+	  In order to launch gnome-settings-daemon correctly, 
+	  add a patch to override unwritable gdm account home
+	  directory with "/tmp".
+
 2008-05-01  Ananth Shrinivas <ananth@sun.com>
 
 	* SFEnewt.spec: *NEW* A windowing toolkit for text mode

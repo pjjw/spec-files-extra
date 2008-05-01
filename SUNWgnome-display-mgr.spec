@@ -27,8 +27,12 @@ Patch2:                  gdm-02-sdtlogin-devperm.diff
 # Patch3 is probably not the right fix, but it seems that trying to set the
 # default language to "C" is causing the GDM greeter to crash.
 Patch3:                  gdm-03-fixcrash.diff
-# manage display on the fly
+# Manage displays on the fly
 Patch4:                  gdm-04-dynamic-display.diff
+# Launching gnome-settings-daemon requires a writeable home directory.
+# Because gdm is a locked account, we use "/tmp" override current
+# unwriteable home directory "/".
+Patch5:                  gdm-05-settings-daemon.diff
 Source1:                 gdm.xml
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -88,6 +92,7 @@ Requires:                %{name}
 %patch2 -p0
 %patch3 -p0
 %patch4 -p1
+%patch5 -p1
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -292,6 +297,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Wed May 02 2008 - simon.zheng@sun.com
+- Add 05-settings-daemon.diff.
 * Thu Apr 24 2008 - simon.zheng@sun.com
 - Install greeter schema files in section %post root.
 * Mon Apr 14 2008 - simon.zheng@sun.com
