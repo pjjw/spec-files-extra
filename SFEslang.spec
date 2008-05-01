@@ -7,8 +7,8 @@
 
 Name:                SFEslang
 Summary:             multi-platform programmer's library
-Version:             2.0.7
-Source:              ftp://ftp.fu-berlin.de/pub/unix/misc/slang/v2.0/slang-%{version}.tar.gz
+Version:             2.1.3
+Source:              ftp://ftp.fu-berlin.de/pub/unix/misc/slang/v2.1/slang-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -43,7 +43,7 @@ make -j$CPUS elf
 %install
 rm -rf $RPM_BUILD_ROOT
 make install-elf DESTDIR=$RPM_BUILD_ROOT
-rm ${RPM_BUILD_ROOT}%{_libdir}/libslang.a
+#rm ${RPM_BUILD_ROOT}%{_libdir}/libslang.a
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -70,10 +70,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/slsh/cmaps/*
 %dir %attr (0755, root, other) %{_datadir}/slsh/help
 %{_datadir}/slsh/help/*
+%dir %attr (0755, root, other) %{_datadir}/slsh/rline
+%{_datadir}/slsh/rline/*
 %dir %attr (0755, root, other) %{_datadir}/doc
 %dir %attr (0755, root, other) %{_datadir}/doc/slang
 %dir %attr (0755, root, other) %{_datadir}/doc/slang/v2
 %{_datadir}/doc/slang/v2/*
+%dir %attr (0755, root, other) %{_datadir}/doc/slsh
+%dir %attr (0755, root, other) %{_datadir}/doc/slsh/html
+%{_datadir}/doc/slsh/html/*.html
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*
@@ -84,6 +89,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/slsh.rc
 
 %changelog
+* Fri May 02 2008 - ananth@sun.com
+- Bump to 2.1.3
 * Mon May 21 2007 - dick@nagual.nl
 - Bump to 2.0.7
 * Thu Dec 14 2006 - Eric Boutilier

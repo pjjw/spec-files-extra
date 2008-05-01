@@ -1,3 +1,7 @@
+2008-05-02  Ananth Shrinivas <ananth@sun.com>
+
+	* SFEslang.spec: Bump to 2.1.3
+
 2008-05-02  simon.zheng  <simon.zheng@sun.com>
 
 	* SUNWgnome-display-mgr.spec:
