@@ -1,5 +1,9 @@
 2008-05-02  River Tarnell  <river@wikimedia.org>
 
+	* SFEepic4.spec: New epic.
+
+2008-05-02  River Tarnell  <river@wikimedia.org>
+
 	* SFEepic5.spec: New spec.
 	* patches/epic5-01-void-return.diff: Fix "return f()" in void
 	  function.
