@@ -1,0 +1,81 @@
+--- Makefile.in.old	Fri May  2 20:10:28 2008
++++ Makefile.in	Fri May  2 20:10:13 2008
+@@ -15,7 +15,7 @@
+ default: files
+ 
+ files all install tf clean uninstall: _force_
+-	@cd src; PATH=${LONGPATH} ${MAKE} $@
++	@cd src; PATH=${LONGPATH} ${MAKE} IP=$(IP) $@
+ 
+ _force_:
+ 
+--- unix/unix.mak.old	Fri May  2 20:06:42 2008
++++ unix/unix.mak	Fri May  2 20:11:21 2008
+@@ -87,13 +87,13 @@
+ 	-test -z "$(STRIP)" || $(STRIP) tf$(X) || true
+ 
+ PREFIXDIRS:
+-	test -d "$(bindir)" || mkdir $(bindir)
+-	test -d "$(datadir)" || mkdir $(datadir)
++	test -d "$(IP)$(bindir)" || mkdir $(IP)$(bindir)
++	test -d "$(IP)$(datadir)" || mkdir $(IP)$(datadir)
+ 
+ install_TF $(TF): tf$(X) $(BUILDERS)
+-	-@rm -f $(TF)
+-	cp tf$(X) $(TF)
+-	chmod $(MODE) $(TF)
++	-@rm -f $(IP)$(TF)
++	cp tf$(X) $(IP)$(TF)
++	chmod $(MODE) $(IP)$(TF)
+ 
+ SYMLINK $(SYMLINK): $(TF)
+ 	test -z "$(SYMLINK)" || { rm -f $(SYMLINK) && ln -s $(TF) $(SYMLINK); }
+@@ -101,32 +101,32 @@
+ LIBRARY $(TF_LIBDIR): ../tf-lib/tf-help ../tf-lib/tf-help.idx
+ 	@echo '## Creating library directory...'
+ #	@# Overly simplified shell commands, to avoid problems on ultrix
+-	-@test -n "$(TF_LIBDIR)" || echo "TF_LIBDIR is undefined."
+-	test -n "$(TF_LIBDIR)"
+-	test -d "$(TF_LIBDIR)" || mkdir $(TF_LIBDIR)
+-	-@test -d "$(TF_LIBDIR)" || echo "Can't make $(TF_LIBDIR) directory.  See if"
+-	-@test -d "$(TF_LIBDIR)" || echo "there is already a file with that name."
+-	test -d "$(TF_LIBDIR)"
++	-@test -n "$(IP)$(TF_LIBDIR)" || echo "TF_LIBDIR is undefined."
++	test -n "$(IP)$(TF_LIBDIR)"
++	test -d "$(IP)$(TF_LIBDIR)" || mkdir $(IP)$(TF_LIBDIR)
++	-@test -d "$(IP)$(TF_LIBDIR)" || echo "Can't make $(TF_LIBDIR) directory.  See if"
++	-@test -d "$(IP)$(TF_LIBDIR)" || echo "there is already a file with that name."
++	test -d "$(IP)$(TF_LIBDIR)"
+ #
+ #	@#rm -f $(TF_LIBDIR)/*;  # wrong: this would remove local.tf, etc.
+ 	@echo '## Copying library files...'
+ 	cd ../tf-lib; \
+ 	for f in *; do test -f $$f && files="$$files $$f"; done; \
+-	( cd $(TF_LIBDIR); rm -f $$files tf.help tf.help.index; ); \
+-	cp $$files $(TF_LIBDIR); \
+-	cd $(TF_LIBDIR); \
++	( cd $(IP)$(TF_LIBDIR); rm -f $$files tf.help tf.help.index; ); \
++	cp $$files $(IP)$(TF_LIBDIR); \
++	cd $(IP)$(TF_LIBDIR); \
+ 	chmod $(MODE) $$files; chmod ugo-wx $$files
+-	-rm -f $(TF_LIBDIR)/CHANGES 
+-	cp ../CHANGES $(TF_LIBDIR)
+-	chmod $(MODE) $(TF_LIBDIR)/CHANGES; chmod ugo-wx $(TF_LIBDIR)/CHANGES
+-	chmod $(MODE) $(TF_LIBDIR)
+-	-@cd $(TF_LIBDIR); old=`ls replace.tf 2>/dev/null`; \
++	-rm -f $(IP)$(TF_LIBDIR)/CHANGES 
++	cp ../CHANGES $(IP)$(TF_LIBDIR)
++	chmod $(MODE) $(IP)$(TF_LIBDIR)/CHANGES; chmod ugo-wx $(IP)$(TF_LIBDIR)/CHANGES
++	chmod $(MODE) $(IP)$(TF_LIBDIR)
++	-@cd $(IP)$(TF_LIBDIR); old=`ls replace.tf 2>/dev/null`; \
+ 	if [ -n "$$old" ]; then \
+-	    echo "## WARNING: Obsolete files found in $(TF_LIBDIR): $$old"; \
++	    echo "## WARNING: Obsolete files found in $(IP)$(TF_LIBDIR): $$old"; \
+ 	fi
+ 	@echo '## Creating links so old library names still work...'
+ #	@# note: ln -sf isn't portable.
+-	@cd $(TF_LIBDIR); \
++	@cd $(IP)$(TF_LIBDIR); \
+ 	rm -f bind-bash.tf;    ln -s  kb-bash.tf   bind-bash.tf;    \
+ 	rm -f bind-emacs.tf;   ln -s  kb-emacs.tf  bind-emacs.tf;   \
+ 	rm -f completion.tf;   ln -s  complete.tf  completion.tf;   \

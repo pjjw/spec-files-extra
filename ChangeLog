@@ -1,5 +1,13 @@
 2008-05-02  River Tarnell  <river@wikimedia.org>
 
+	* SFEtinyfugue.spec: New spec.
+	* patches/tinyfugue-01-installprefix.diff: Edit makefile to allow
+	  installation into $RPM_BUILD_ROOT.
+	* patches/tinyfugue-02-remove-inline.diff: Remove the 'inline' keyword
+	  from a function to make Studio happy.
+
+2008-05-02  River Tarnell  <river@wikimedia.org>
+
 	* SFEnrg2iso.spec: New spec.
 
 2008-05-02  River Tarnell  <river@wikimedia.org>

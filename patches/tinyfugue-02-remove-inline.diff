@@ -1,0 +1,11 @@
+--- src/variable.c.old	Fri May  2 20:02:58 2008
++++ src/variable.c	Fri May  2 20:03:22 2008
+@@ -106,7 +106,7 @@
+ Pattern looks_like_special_sub;    /* looks like a special substitution */
+ Pattern looks_like_special_sub_ic; /* same, ignoring case */
+ 
+-inline Var *newglobalvar(const char *name)
++Var *newglobalvar(const char *name)
+ {
+     Var *var;
+     var = newvar(name);
