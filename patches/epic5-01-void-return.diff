@@ -1,0 +1,20 @@
+--- source/who.c.old	Fri May  2 02:30:37 2008
++++ source/who.c	Fri May  2 02:30:42 2008
+@@ -1148,7 +1148,7 @@
+ 	if (!(s = get_server(refnum)))
+ 		return;
+ 
+-	return ison_entry_pop(&(s->ison_queue));
++	ison_entry_pop(&(s->ison_queue));
+ }
+ 
+ static void ison_wait_pop (int refnum)
+@@ -1158,7 +1158,7 @@
+ 	if (!(s = get_server(refnum)))
+ 		return;
+ 
+-	return ison_entry_pop(&(s->ison_wait));
++	ison_entry_pop(&(s->ison_wait));
+ }
+ static IsonEntry *ison_queue_top (int refnum)
+ {

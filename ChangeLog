@@ -1,3 +1,9 @@
+2008-05-02  River Tarnell  <river@wikimedia.org>
+
+	* SFEepic5.spec: New spec.
+	* patches/epic5-01-void-return.diff: Fix "return f()" in void
+	  function.
+
 2008-05-02  Ananth Shrinivas <ananth@sun.com>
 
 	* SFEslang.spec: Bump to 2.1.3
