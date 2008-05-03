@@ -284,12 +284,12 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %{_localstatedir}/gdm
 %dir %attr (0755, root, sys) /var/log
 %dir %attr (1770, root, gdm) /var/log/gdm
-%dir %attr (0755, root, sys) /var/run
-%dir %attr (1770, root, gdm) /var/run/gdm
 %dir %attr (0755, root, other) %{_localstatedir}/lib
 %dir %attr (1770, root, gdm) %{_localstatedir}/lib/gdm
 %{_localstatedir}/lib/gdm/.gconf.path
 %{_localstatedir}/lib/gdm/.gconf.mandatory
+%dir %attr (0755, root, sys) %{_localstatedir}/run
+%dir %attr (1770, root, gdm) %{_localstatedir}/run/gdm
 
 %if %build_l10n
 %files l10n
