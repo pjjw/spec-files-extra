@@ -13,9 +13,9 @@
 
 Summary:                 GNOME display manager
 Name:                    SUNWgnome-display-mgr
-Version:                 2.21.9
+Version:                 2.22.0
 Release:                 1
-Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.21/gdm-%{version}.tar.bz2
+Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.22/gdm-%{version}.tar.bz2
 # Patch1 is a hack to work around the fact that the gio function
 # g_file_info_get_attribute_string is returning a NULL on Solaris, causing
 # the GDM GUI to crash.  This patch should be removed when gio is fixed to
@@ -92,7 +92,10 @@ Requires:                %{name}
 %patch2 -p0
 %patch3 -p0
 %patch4 -p1
-%patch5 -p1
+# Patch does not apply against 2.22.0.  I think Simon suggested he would
+# remove this patch, but if we decide to keep it, then please update it
+# so it applies to the new 2.22.0 version.
+#%patch5 -p1
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -281,6 +284,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %{_localstatedir}/gdm
 %dir %attr (0755, root, sys) /var/log
 %dir %attr (1770, root, gdm) /var/log/gdm
+%dir %attr (0755, root, sys) /var/run
+%dir %attr (1770, root, gdm) /var/run/gdm
 %dir %attr (0755, root, other) %{_localstatedir}/lib
 %dir %attr (1770, root, gdm) %{_localstatedir}/lib/gdm
 %{_localstatedir}/lib/gdm/.gconf.path
@@ -297,6 +302,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Sat May 03 2008 - brian.cameron@sun.com
+- bump to 2.22.0.
 * Wed May 02 2008 - simon.zheng@sun.com
 - Add 05-settings-daemon.diff.
 * Thu Apr 24 2008 - simon.zheng@sun.com
