@@ -1,28 +1,89 @@
---- wine-0.9.60.orig/dlls/winex11.drv/xim.c	Fri Apr 18 11:47:52 2008
-+++ wine-0.9.60/dlls/winex11.drv/xim.c	Mon Apr 28 23:38:20 2008
-@@ -369,9 +369,11 @@
+--- wine-0.9.61.orig/dlls/winex11.drv/xim.c	2008-05-02 10:01:51.000000000 -0700
++++ wine-0.9.61/dlls/winex11.drv/xim.c	2008-05-03 12:26:32.523026968 -0700
+@@ -35,8 +35,21 @@
+ WINE_DEFAULT_DEBUG_CHANNEL(x11drv);
+ 
+ #ifndef HAVE_XICCALLBACK_CALLBACK
+-#define XICCallback XIMCallback
+-#define XICProc XIMProc
++typedef Bool (*XICProc)(
++    XIC,
++    XPointer,
++    XPointer
++);
++
++typedef struct {
++    XPointer client_data;
++    XICProc callback;
++} XICCallback;
++#endif
++
++#ifdef __sun
++#include <dlfcn.h>
++static int broken = 0;
+ #endif
+ 
+ BOOL ximInComposeMode=FALSE;
+@@ -355,6 +368,17 @@
+         ret = FALSE;
+     }
+     wine_tsx11_unlock();
++
++#ifdef __sun
++    if (ret)
++    {
++        /* Solaris i18n libraries prior to snv_85 have a broken
++           XRegisterIMInstantiateCallback. Check for old symbols at runtime. */
++        if (dlsym(RTLD_PROBE, "_XInitGenericIM"))
++            broken = 1;
++    }
++#endif
++
+     return ret;
+ }
+ 
+@@ -368,9 +392,16 @@
      TRACE("xim = %p, p = %p\n", xim, p);
      thread_data->xim = NULL;
      ximStyle = 0;
-+#if !(defined(__svr4__) && defined(__sun))
++#ifdef __sun
++    if (!broken)
++    {
++#endif
      wine_tsx11_lock();
 -    XRegisterIMInstantiateCallback( thread_data->display, NULL, NULL, NULL, X11DRV_OpenIM, NULL );
-+    XRegisterIMInstantiateCallback( thread_data->display, NULL, NULL, NULL, X11DRV_OpenIM, thread_data->display );
++    XRegisterIMInstantiateCallback(thread_data->display, NULL, NULL, NULL, X11DRV_OpenIM, NULL);
      wine_tsx11_unlock();
++#ifdef __sun
++    }
 +#endif
  }
  
  /***********************************************************************
-@@ -483,9 +485,13 @@
+@@ -473,6 +504,9 @@
+     }
+ 
+     thread_data->xim = xim;
++#ifdef __sun
++    if (!broken)
++#endif
+     XUnregisterIMInstantiateCallback(display, NULL, NULL, NULL, X11DRV_OpenIM, NULL);
+     wine_tsx11_unlock();
+     IME_UpdateAssociation(NULL);
+@@ -481,9 +515,17 @@
  
  void X11DRV_SetupXIM(void)
  {
-+#if !(defined(__svr4__) && defined(__sun))
++#ifdef __sun
++    if (!broken)
++    {
++#endif
      wine_tsx11_lock();
      XRegisterIMInstantiateCallback(thread_display(), NULL, NULL, NULL, X11DRV_OpenIM, NULL);
      wine_tsx11_unlock();
-+#else
-+    X11DRV_OpenIM(thread_display(), NULL, NULL);
++#ifdef __sun
++    } else
++        X11DRV_OpenIM(thread_display(), NULL, NULL);
 +#endif
  }
  

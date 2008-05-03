@@ -1,3 +1,10 @@
+2008-05-03  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEwine.spec: Bump to 0.9.61, update patch1, patch2
+	* patches/wine-01-nameconfict.diff: Update for 0.9.61
+	* patches/wine-02-xim-workaround.diff: Initial runtime check for broken
+	  XIM
+
 2008-05-03  River Tarnell  <river@wikimedia.org>
 
 	* SFEstunnel.spec: 4.22; change source location to stunnel.org; build 

@@ -10,7 +10,7 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                0.9.60
+Version:                0.9.61
 URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
@@ -143,6 +143,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Mon Apr 28 2008 - trisk@acm.jhu.edu
+- Bump to 0.9.61, update patch1, patch2
 * Mon Apr 28 2008 - trisk@acm.jhu.edu
 - Drop patch4 and patch5
 - Add fix for long-standing problem with non-contiguous library mappings
