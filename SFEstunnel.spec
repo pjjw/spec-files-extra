@@ -7,8 +7,8 @@
 
 Name:                SFEstunnel
 Summary:             An SSL client/server encryption wrapper
-Version:             4.21
-Source:              ftp://stunnel.mirt.net/stunnel/stunnel-%{version}.tar.gz
+Version:             4.22
+Source:              http://www.stunnel.org/download/stunnel/src/stunnel-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -38,6 +38,8 @@ fi
 export CC=/usr/sfw/bin/gcc
 export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
 export LDFLAGS="%_ldflags"
+export LIBS="/usr/lib/values-xpg4.o"
+export CPPFLAGS="-D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED=1 -D__EXTENSIONS__"
 
 ./configure --prefix=%{_prefix} \
             --mandir=%{_mandir} \
@@ -75,6 +77,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/stunnel/stunnel.conf-sample
 
 %changelog
+* Sat May  3 2008 - river@wikimedia.org
+- 4.22
+- change source location to stunnel.org
+- build in XPG4v2 standards mode for CMSG macros
 * Tue Feb 12 2008 <pradhap (at) gmail.com>
 - Bumped up the version to 4.21
 * Mon Mar 19 2007 - dougs@truemail.co.th
