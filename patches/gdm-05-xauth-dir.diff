@@ -1,0 +1,33 @@
+--- daemon/gdm-display-access-file.c.orig	2008-05-04 23:43:57.204684000 +0800
++++ daemon/gdm-display-access-file.c	2008-05-04 23:42:04.005480000 +0800
+@@ -227,6 +227,21 @@
+ 
+         fp = NULL;
+ 
++        /* Create directory on startup if not exist */ 
++        if (g_file_test (GDM_XAUTH_DIR, G_FILE_TEST_IS_DIR) == FALSE) {
++                g_unlink (GDM_XAUTH_DIR);
++                if (g_mkdir (GDM_XAUTH_DIR, S_ISVTX|S_IRWXU|S_IRWXG) != 0) {
++                        g_set_error (error,
++                                     G_FILE_ERROR,
++                                     g_file_error_from_errno (errno),
++                                     "%s", g_strerror (errno));
++                        fp = -1;
++                        goto out;
++                }
++
++                g_chmod (GDM_XAUTH_DIR, S_ISVTX|S_IRWXU|S_IRWXG);
++        }
++ 
+         template = g_strdup_printf (GDM_XAUTH_DIR
+                                     "/auth-cookie-XXXXXXXX-for-%s",
+                                     username);
+@@ -255,7 +270,7 @@
+ 
+         }
+ 
+-        if (fchown (fd, uid, gid) < 0) {
++        if (chown (GDM_XAUTH_DIR, 0, gid) < 0 || fchown (fd, uid, gid) < 0) {
+                 g_set_error (error,
+                              G_FILE_ERROR,
+                              g_file_error_from_errno (errno),

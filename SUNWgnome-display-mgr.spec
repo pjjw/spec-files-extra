@@ -29,6 +29,8 @@ Patch2:                  gdm-02-sdtlogin-devperm.diff
 Patch3:                  gdm-03-fixcrash.diff
 # Manage displays on the fly
 Patch4:                  gdm-04-dynamic-display.diff
+# Create /var/run/gdm if it's not exist
+Patch5:                  gdm-05-xauth-dir.diff
 Source1:                 gdm.xml
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -88,6 +90,7 @@ Requires:                %{name}
 %patch2 -p0
 %patch3 -p0
 %patch4 -p1
+%patch5 -p0
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -297,6 +300,7 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 * Sun May 04 2008 - simon.zheng@sun.com
 - Remove 05-setting-daemon.diff because we have another
   fix on gnome-settings-daemon.
+- Add 05-xauth-dir.diff.
 * Sat May 03 2008 - brian.cameron@sun.com
 - bump to 2.22.0.
 * Wed May 02 2008 - simon.zheng@sun.com

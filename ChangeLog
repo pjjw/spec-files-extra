@@ -1,3 +1,8 @@
+2008-05-05  simon.zheng  <simon.zheng@sun.com>
+
+	* SUNWgnome-display-mgr.spec:
+	* patches/gdm-05-xauth-dir.diff: Create /var/run/gdm if not existed.
+
 2008-05-04  Petr Sobotka <sobotkap@centrum.cz> 
 
 	* SFEwesnoth-dev.spec: Development release of Battle for Wesnoth
