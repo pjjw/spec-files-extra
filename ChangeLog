@@ -1,3 +1,10 @@
+2008-05-04  simon.zheng  <simon.zheng@sun.com>
+
+	* SUNWgnome-display-mgr.spec:
+	* patches/gdm-05-settings-daemon.diff:
+	  Remove patch because writable home directory is 
+	  fixed on gnome-settings-daemon.
+
 2008-05-03  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEwine.spec: Bump to 0.9.61, update patch1, patch2

@@ -29,10 +29,6 @@ Patch2:                  gdm-02-sdtlogin-devperm.diff
 Patch3:                  gdm-03-fixcrash.diff
 # Manage displays on the fly
 Patch4:                  gdm-04-dynamic-display.diff
-# Launching gnome-settings-daemon requires a writeable home directory.
-# Because gdm is a locked account, we use "/tmp" override current
-# unwriteable home directory "/".
-Patch5:                  gdm-05-settings-daemon.diff
 Source1:                 gdm.xml
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -92,10 +88,6 @@ Requires:                %{name}
 %patch2 -p0
 %patch3 -p0
 %patch4 -p1
-# Patch does not apply against 2.22.0.  I think Simon suggested he would
-# remove this patch, but if we decide to keep it, then please update it
-# so it applies to the new 2.22.0 version.
-#%patch5 -p1
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -302,6 +294,9 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Sun May 04 2008 - simon.zheng@sun.com
+- Remove 05-setting-daemon.diff because we have another
+  fix on gnome-settings-daemon.
 * Sat May 03 2008 - brian.cameron@sun.com
 - bump to 2.22.0.
 * Wed May 02 2008 - simon.zheng@sun.com
