@@ -1,0 +1,10 @@
+--- wesnoth-1.5.0/src/formula_ai.cpp.fixmisshpp	2008-05-01 11:25:31.070498628 +0200
++++ wesnoth-1.5.0/src/formula_ai.cpp	2008-05-01 11:46:10.154748580 +0200
+@@ -14,6 +14,7 @@
+ 
+ #include <boost/regex.hpp>
+ 
++#include "ai.hpp"
+ #include "actions.hpp"
+ #include "callable_objects.hpp"
+ #include "formula.hpp"

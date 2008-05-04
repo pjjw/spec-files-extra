@@ -1,0 +1,20 @@
+--- wesnoth-1.5.0/src/formula.cpp.fixrand	2008-04-27 21:14:59.895726673 +0200
++++ wesnoth-1.5.0/src/formula.cpp	2008-04-27 21:15:50.211324858 +0200
+@@ -298,7 +298,7 @@
+ 	static int dice_roll(int num_rolls, int faces) {
+ 		int res = 0;
+ 		while(faces > 0 && num_rolls-- > 0) {
+-			res += (rand()%faces)+1;
++			res += (std::rand()%faces)+1;
+ 		}
+ 		return res;
+ 	}
+@@ -882,7 +882,7 @@
+ 
+ int main()
+ {
+-	srand(time(NULL));
++	std::srand(time(NULL));
+ 	mock_char c;
+ 	mock_party p;
+ 	try {

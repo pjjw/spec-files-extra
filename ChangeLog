@@ -1,3 +1,11 @@
+2008-05-04  Petr Sobotka <sobotkap@centrum.cz> 
+
+	* SFEwesnoth-dev.spec: Development release of Battle for Wesnoth
+                           It can be installed in parallel with stable version.
+	* patches/wesnoth-10-fixstd.diff:
+	* patches/wesnoth-11-fixstrict.diff:
+	* patches/wesnoth-12-fixmisshpp.diff:
+
 2008-05-04  simon.zheng  <simon.zheng@sun.com>
 
 	* SUNWgnome-display-mgr.spec:
