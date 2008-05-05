@@ -10,6 +10,8 @@ Name:                    SFExmms1
 Summary:                 X Multimedia System
 Version:                 1.2.11
 Source:                  http://www.xmms.org/files/1.2.x/xmms-%{version}.tar.bz2
+Source1:                 xmms.desktop
+Source2:                 xmms.png
 Patch1:                  xmms1-01-rand.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -43,6 +45,10 @@ Requires: SFEmpg321
 %patch1 -p1 -b .patch01
 
 %build
+CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
+if test "x$CPUS" = "x" -o $CPUS = 0; then
+    CPUS=1
+fi
 export CFLAGS="%optflags -fpic -I/usr/X11/include -I/usr/gnu/include -I/usr/gnu/include/sasl -I/usr/sfw/include -D__C99FEATURES__ -D__EXTENSIONS__ -DINSTALLPREFIX=\\\"%{_prefix}\\\""
 export LDFLAGS="-L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib -lc -lsocket -lnsl -lgdk"
 
@@ -52,6 +58,7 @@ export LDFLAGS="-L/usr/X11/lib -R/usr/X11/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/u
            --enable-shared=yes \
            --enable-static=no \
            --with-extra-includes="/usr/X11/include:/usr/gnu/include:/usr/gnu/include/sasl:/usr/sfw/include:usr/include/pcre"
+make -j$CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -66,7 +73,11 @@ echo "%dir %attr (0755, root, bin) %{_libdir}" >> %{_builddir}/xmms-%version/xmm
 (cd ${RPM_BUILD_ROOT}; find ./%{_libdir}/* \( -type f -o -type l \) | \
     egrep -v "mpg|mpeg" | sed 's/^\.\///' \
     >> %{_builddir}/xmms-%version/xmms_libfiles)
-
+    
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
+cp %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/applications
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/pixmaps
+cp %{SOURCE2} $RPM_BUILD_ROOT/usr/share/pixmaps
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -79,8 +90,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xmms
 %dir %attr (0755, root, bin) %{_mandir}
 %{_mandir}/*
-
 %defattr (-, root, other)
+%dir %attr (0755, root, other) %{_datadir}/applications
+%{_datadir}/applications/*
+%dir %attr (0755, root, other) %{_datadir}/pixmaps
+%{_datadir}/pixmaps/*
 %dir %attr (0755, root, other) %{_localedir}
 %{_localedir}/*
 %{_datadir}/aclocal
@@ -94,7 +108,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/xmms/Input/libmpg*
 
 %changelog
-* Thu May 1 2008- andras.barna@gmail.com
+* Mon May 5 2008 - andras.barna@gmail.com
+- Add .desktop file and icon.
+* Thu May 1 2008 - andras.barna@gmail.com
 - Fix header.
 * Wed Apr 30 2008 - andras.barna@gmail.com
 - Add patch which fixes crash when pressing random.
