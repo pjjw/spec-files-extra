@@ -1,0 +1,58 @@
+diff -u torsmo-0.18/configure torsmo-0.18.1/configure
+--- torsmo-0.18/configure	Wed Mar 26 04:56:26 2008
++++ torsmo-0.18.1/configure	Mon May  5 07:28:00 2008
+@@ -3156,7 +3156,7 @@
+ fi
+ 
+ if test "$x_includes" != ""; then
+-  CFLAGS="$CFLAGS -Wall -I$x_includes"
++  CFLAGS="$CFLAGS -I$x_includes"
+ fi
+ 
+ 
+@@ -3924,7 +3924,7 @@
+ 
+ 
+ 
+-CFLAGS="$CFLAGS -Wall"
++CFLAGS="$CFLAGS"
+ 
+ 
+ 
+diff -u torsmo-0.18/configure.in torsmo-0.18.1/configure.in
+--- torsmo-0.18/configure.in	Tue May 25 11:46:27 2004
++++ torsmo-0.18.1/configure.in	Mon May  5 08:15:17 2008
+@@ -10,10 +10,11 @@
+     WANT_SYSINFO=yes
+     ;;
+ 
+-# Solaris doesn't work at all right now
+-#  SunOS*)
+-#    WANT_KSTAT=yes
+-#    ;;
++#Solaris doesn't work at all right now
++# false ;)
++  SunOS*)
++    WANT_KSTAT=yes
++    ;;
+ 
+   *)
+     echo "Your operating system $uname isn't supported"
+@@ -67,7 +68,7 @@
+ fi
+ 
+ if test "$x_includes" != ""; then
+-  CFLAGS="$CFLAGS -Wall -I$x_includes"
++  CFLAGS="$CFLAGS -I$x_includes"
+ fi
+ 
+ dnl Some random headers
+@@ -124,7 +125,7 @@
+ 
+ dnl Da.
+ 
+-CFLAGS="$CFLAGS -Wall"
++CFLAGS="$CFLAGS"
+ 
+ AC_SUBST(CFLAGS)
+ AC_SUBST(X11_LIBS)
