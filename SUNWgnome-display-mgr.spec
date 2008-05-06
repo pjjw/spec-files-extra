@@ -31,6 +31,9 @@ Patch3:                  gdm-03-fixcrash.diff
 Patch4:                  gdm-04-dynamic-display.diff
 # Create /var/run/gdm if it's not exist
 Patch5:                  gdm-05-xauth-dir.diff
+# Add ctrun support when running the user session.  Otherwise, any
+# core dump in the user session will cause GDM to restart.
+Patch6:                  gdm-06-ctrun.diff
 Source1:                 gdm.xml
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -91,6 +94,7 @@ Requires:                %{name}
 %patch3 -p0
 %patch4 -p1
 %patch5 -p0
+%patch6 -p1
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -143,6 +147,7 @@ automake -a -c -f
         --localstatedir=%{_localstatedir} \
         --mandir=%{_mandir} \
         --with-pam-prefix=%{_sysconfdir} \
+        --with-ctrun \
         --libexecdir=%{_libexecdir} \
         --disable-scrollkeeper \
         $ENABLE_CONSOLE_HELPER $BINDIR_CONFIG $RBAC_CONFIG
@@ -297,6 +302,9 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Mon May 05 2008 - brian.cameron@sun.com
+- Add 06-ctrun.diff to add ctrun support.  Otherwise any SEGV in
+  the user session will cause GDM to restart.
 * Sun May 04 2008 - simon.zheng@sun.com
 - Remove 05-setting-daemon.diff because we have another
   fix on gnome-settings-daemon.

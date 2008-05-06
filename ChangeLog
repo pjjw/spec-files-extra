@@ -1,5 +1,13 @@
 2008-05-05  Brian Cameron  <brian.cameron@sun.com>
 
+	* SUNWgnome-display-mgr, patches/gdm-06-ctrun.diff:  Add ctrun
+	  support to GDM.  Starting the user session via ctrun causes the
+	  user's session to be run in a different SVC context.  Otherwise
+	  if any user process SEGV's, then GDM will restart and log the
+	  user out, which is not desirable.
+
+2008-05-05  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEkdemultimedia3.spec, SFEakode.spec, SFEarts.spec, 
 	  SFExmms1.spec, SFExmms1-scrobbler.spec:  Move into encumbered
 	  directory since these modules all depend on an encumbered module.
@@ -40,7 +48,7 @@
 2008-05-04  Petr Sobotka <sobotkap@centrum.cz> 
 
 	* SFEwesnoth-dev.spec: Development release of Battle for Wesnoth
-                           It can be installed in parallel with stable version.
+	  It can be installed in parallel with stable version.
 	* patches/wesnoth-10-fixstd.diff:
 	* patches/wesnoth-11-fixstrict.diff:
 	* patches/wesnoth-12-fixmisshpp.diff:
@@ -118,10 +126,12 @@
 	* SFElftp.spec: New spec.
 
 2008-05-1 Andras Barna <andras.barna@gmail.com>
+
 	* Add new spec file: SFExmms1-scrobbler.spec
 	* SFExmms1.spec: Fix header
 
 2008-04-30 Andras Barna <andras.barna@gmail.com>
+
 	* SFExmms1.spec, patches/xmms1-01-rand.diff: Add patch
 	  which fixes crash when pressing random.
 
