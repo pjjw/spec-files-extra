@@ -1,5 +1,21 @@
 2008-05-05  Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEkdemultimedia3.spec, SFEakode.spec, SFEarts.spec, 
+	  SFExmms1.spec, SFExmms1-scrobbler.spec:  Move into encumbered
+	  directory since these modules all depend on an encumbered module.
+
+2008-05-05  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEcurl.spec, base-specs/curl.spec:  Bump to 7.18.1.
+	* SFEasciidoc.spec:  Bump to 8.2.6.
+	* SFEogg-vorbis.spec, SFElibogg.spec, base-specs/libogg.spec,
+	  base-specs/libvorbis.spec: Remove unneeded spec-files now that
+	  SUNWogg-vorbis builds 64-bit libraries.
+	* SFEsdl-sound.spec: Change dependency from SFEogg-vorbis and add
+	  SUNWogg-vorbis.
+
+2008-05-05  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFElibsndfile.spec:  Now that we are building 64-bit libraries in
 	  SUNWogg-vorbis, remove dependency SFEogg-vorbis and add
 	  SUNWogg-vorbis.
