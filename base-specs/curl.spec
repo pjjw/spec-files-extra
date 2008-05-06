@@ -5,7 +5,7 @@
 #
 Name:                    SFEcurl
 Summary:                 curl - Get a file from FTP or HTTP server.
-Version:                 7.18.0
+Version:                 7.18.1
 URL:                     http://curl.haxx.se/
 Source:                  http://curl.haxx.se/download/curl-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
@@ -38,12 +38,15 @@ make DESTDIR=${RPM_BUILD_ROOT} install
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon May 05 2008 - brian.cameron@sun.com
+- Bump to 7.18.1.
 * Thu Feb 21 2008 - nonsea@users.sourceforge.net
-- Bump to 7.18.0
+- Bump to 7.18.0.
 * Wed Dec 12 2997   Michal Bielicki
 - split into base and non base spec to be able to do the 64bit stuff righ
 * Mon Nov 26 2007 - Thomas Wagner
-- move SFEcurl into /usr/gnu by %include usr-gnu.inc (never OS builds have SUNWcurl)
+- move SFEcurl into /usr/gnu by %include usr-gnu.inc (never OS builds have
+  SUNWcurl)
 * Mon Oct 29 2007 - brian.cameron@sun.com
 - Bump to 7.17.1
 * Tue Sep 18 2007 - nonsea@users.sourceforge.net

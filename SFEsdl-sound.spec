@@ -32,10 +32,6 @@ Requires: SUNWlibsdl
 BuildRequires: SFEsdl-devel
 Requires: SFEsdl
 %endif
-%ifarch amd64 sparcv9
-BuildRequires: SFEogg-vorbis-devel
-Requires: SFEogg-vorbis
-%endif
 BuildRequires: SUNWogg-vorbis-devel
 Requires: SUNWogg-vorbis
 
@@ -115,5 +111,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/SDL/
 
 %changelog
+* Mon May 05 2008 - brian.cameron@sun.com
+- Remove dependency on SFEogg-vorbis.spec since now SUNWogg-vorbis.spec has
+  the 64-bit libraries.
 * Mon Feb 25 2008 - Albert Lee
 - Initial spec

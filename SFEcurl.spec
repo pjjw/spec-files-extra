@@ -9,7 +9,7 @@
 
 Name:                    SFEcurl
 Summary:                 curl - Get a file from FTP or HTTP server.
-Version:                 7.18.0
+Version:                 7.18.1
 URL:                     http://curl.haxx.se/
 Source:                  http://curl.haxx.se/download/curl-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
@@ -127,14 +127,18 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon May 05 2008 - brian.cameron@sun.com
+- Bump to 7.18.1.
 * Thu Feb 21 2008 - nonsea@users.sourceforge.net
-- Bump to 7.18.0
+- Bump to 7.18.0.
 * Sun Jan 06 2008 - moinak.ghosh@sun.com
 - Fixed pkgconfig directory permission
 * Wed Dec 12 2007 - Michal Bielicki
-- change the package to be combined 32/64 bit (thanks to Thomas Wagner for all his help with this)
+- change the package to be combined 32/64 bit (thanks to Thomas Wagner for all
+  his help with this)
 * Mon Nov 26 2007 - Thomas Wagner
-- move SFEcurl into /usr/gnu by %include usr-gnu.inc (never OS builds have SUNWcurl)
+- move SFEcurl into /usr/gnu by %include usr-gnu.inc (never OS builds have
+  SUNWcurl)
 * Mon Oct 29 2007 - brian.cameron@sun.com
 - Bump to 7.17.1
 * Tue Sep 18 2007 - nonsea@users.sourceforge.net
