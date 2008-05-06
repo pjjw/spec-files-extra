@@ -12,15 +12,13 @@
 Name:           gtk-vnc
 License:        LGPL
 Group:          Development/Libraries
-Version:        0.3.5
+Version:        0.3.6
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://gtk-vnc.sf.net/
 Summary:        A GTK widget for VNC clients
 Source:         http://%{sf_mirror}/sourceforge/%{name}/%{name}-%{version}.tar.gz
-# date:2007-12-13 bugzilla:503359,503360 owner:halton type:bug
-Patch1:        %{name}-01-solaris-ld-ast.diff
 BuildRoot:     %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires: gtk2-devel pygtk2-devel python-devel
@@ -55,7 +53,6 @@ A module allowing use of the GTK-VNC widget from python
 
 %prep
 %setup -q
-%patch1 -p1
 
 %build
 %ifos linux
@@ -126,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python*/site-packages/gtkvnc.so
 
 %changelog
+* Tue May 06 2008 - nonsea@users.sourceforge.net
+- Bump to 0.3.6
+- Remove upsteamed patch solaris-ld-ast.diff
 * Tue Apr 22 2008 - nonsea@users.sourceforge.net
 - Bump to 0.3.5
 * Fri Mar 07 2008 - nonsea@users.sourceforge.net

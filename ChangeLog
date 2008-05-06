@@ -1,3 +1,9 @@
+2008-05-06  halton huo <nonsea@users.sourceforge.net>
+
+	* SFEgtk-vnc.spec: remove ast stuff.
+	* base-specs/gtk-vnc.spec: bump to 0.3.6
+	* patches/gtk-vnc-01-solaris-ld-ast.diff: removed upstream patch
+
 2008-05-05  Brian Cameron  <brian.cameron@sun.com>
 
 	* SUNWgnome-display-mgr, patches/gdm-06-ctrun.diff:  Add ctrun

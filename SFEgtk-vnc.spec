@@ -3,12 +3,11 @@
 #
 # includes module(s): gtk-vnc
 #
-# Copyright (c) 2008 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
 
-# as root run 'ln -s /usr/lib/libast.so.1 /usr/lib/libast.so'
 %include Solaris.inc
 
 %use gvnc = gtk-vnc.spec
@@ -65,7 +64,7 @@ mkdir -p %name-%version
 
 %build
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export CFLAGS="%optflags -I/usr/include/ast"
+export CFLAGS="%optflags"
 export RPM_OPT_FLAGS="$CFLAGS"
 %gvnc.build -d %name-%version
 
@@ -107,5 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue May 06 2008 - nonsea@users.sourceforge.net
+- Remove ast stuff.
 * Thu Oct 25 2007 - nonsea@users.sourceforge.net
 - Initial spec
