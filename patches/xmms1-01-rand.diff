@@ -19,3 +19,15 @@
  		list->prev = ptrs[i + j];
  		ptrs[i + j]->next = list;
  		list = ptrs[i + j];
+--- xmms-1.2.11/xmms/main.c	Mon May  5 14:35:08 2008
++++ xmms-1.2.11.1/xmms/main.c	Mon May  5 14:39:44 2008
+@@ -4178,6 +4178,9 @@
+ 
+ int main(int argc, char **argv)
+ {
++	struct timeval tp;
++	gettimeofday (&tp, NULL);
++	srand((int)(tp.tv_usec % INT_MAX));
+ 	char *filename;
+ 	const char *sm_client_id;
+ 	struct cmdlineopt options;
