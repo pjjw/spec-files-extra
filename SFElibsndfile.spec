@@ -20,8 +20,8 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 %ifarch amd64 sparcv9
-BuildRequires: SFEogg-vorbis-devel
-Requires: SFEogg-vorbis
+BuildRequires: SUNWogg-vorbis-devel
+Requires: SUNWogg-vorbis
 %endif
 BuildRequires: SUNWogg-vorbis-devel
 Requires: SUNWogg-vorbis
@@ -105,6 +105,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon May 05 2008 - brian.cameron@sun.com
+- Now that we are building 64-bit libraries in SUNWogg-vorbis, remove
+  dependency of SFEogg-vorbis and add SUNWogg-vorbis.
 * Thu Jan 24 2007 - Thomas Wagner
 - remove %{_mandir}/man1/* from the -devel package
 * Sun Aug 12 2007 - dougs@truemail.co.th

@@ -1,3 +1,10 @@
+2008-05-05  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFElibsndfile.spec:  Now that we are building 64-bit libraries in
+	  SUNWogg-vorbis, remove dependency SFEogg-vorbis and add
+	  SUNWogg-vorbis.
+	* base-specs/libsamplerate.spec: Bump to 0.1.3.
+
 2008-05-05  River Tarnell  <river@wikimedia.org>
 
 	* SFEjwhois.spec: New spec.
