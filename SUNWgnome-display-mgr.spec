@@ -23,9 +23,12 @@ Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.22/gdm-%{v
 Patch1:                  gdm-01-fixgio.diff
 # Patch2 adds SDTLOGIN interface, which drops the Xserver to user
 # perms rather than running as root, for added security on Solaris.
+# It also adds logindevperm support.  Refer to bug #531651.  My
+# hope is to get logindevperm support upstream.
 Patch2:                  gdm-02-sdtlogin-devperm.diff
 # Patch3 is probably not the right fix, but it seems that trying to set the
-# default language to "C" is causing the GDM greeter to crash.
+# default language to "C" is causing the GDM greeter to crash.  I have
+# asked Takao to look into this, so hopefully we will get this fixed soon.
 Patch3:                  gdm-03-fixcrash.diff
 # Manage displays on the fly
 Patch4:                  gdm-04-dynamic-display.diff
