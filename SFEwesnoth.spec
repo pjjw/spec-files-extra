@@ -16,7 +16,7 @@
 
 Name:                    	SFEwesnoth
 Summary:                 	Battle for Wesnoth is a fantasy turn-based strategy game
-Version:                 	1.4
+Version:                 	1.4.2
 Source:                  	%{sf_download}/wesnoth/wesnoth-%{version}.tar.bz2
 #Patch1:                         wesnoth-01-fixheaders.diff
 #Patch2:                         wesnoth-02-fixgccextension.diff
@@ -76,6 +76,9 @@ export CC64=$CXX64
 
 autoconf
 
+export MSGFMT=/usr/gnu/bin/msgfmt
+#export GMSGFMT=/usr/gnu/bin/msgfmt
+
 ./configure --prefix=%{_basedir}			\
             --bindir=%{_bindir}				\
             --datadir=%{_datadir}			\
@@ -123,6 +126,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed May 07 2008 - Petr Sobotka <sobotkap@centrum.cz>
+- Bump to 1.4.2 version
 * Mon Mar 10 2008 - Petr Sobotka <sobotkap@centrum.cz>
 - Bump to 1.4 stable version.
 - Changed preferences dir to ~/.wesnoth from ~/.wesnoth-dev which will 
