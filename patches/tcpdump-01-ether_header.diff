@@ -1,0 +1,58 @@
+--- ether.h.old	Wed May  7 17:49:52 2008
++++ ether.h	Wed May  7 17:52:24 2008
+@@ -34,8 +34,15 @@
+  *	@(#)if_ether.h	8.3 (Berkeley) 5/2/95
+  */
+ 
++#if 0
+ #define	ETHERMTU	1500
++#endif
+ 
++struct mbuf;            /* Squelch compiler warnings on some platforms for */
++struct rtentry;         /* declarations in <net/if.h> */
++#include <net/if.h>     /* for "struct ifnet" in "struct arpcom" on Solaris */
++#include <netinet/if_ether.h>
++
+ /*
+  * The number of bytes in an ethernet (MAC) address.
+  */
+@@ -44,11 +51,13 @@
+ /*
+  * Structure of a DEC/Intel/Xerox or 802.3 Ethernet header.
+  */
++#if 0
+ struct	ether_header {
+ 	u_int8_t	ether_dhost[ETHER_ADDR_LEN];
+ 	u_int8_t	ether_shost[ETHER_ADDR_LEN];
+ 	u_int16_t	ether_type;
+ };
++#endif
+ 
+ /*
+  * Length of a DEC/Intel/Xerox or 802.3 Ethernet header; note that some
+--- interface.h.old	Wed May  7 17:57:16 2008
++++ interface.h	Wed May  7 17:57:25 2008
+@@ -97,8 +97,8 @@
+ #define LITTLE_ENDIAN 1234
+ #endif
+ 
+-#define ESRC(ep) ((ep)->ether_shost)
+-#define EDST(ep) ((ep)->ether_dhost)
++#define ESRC(ep) ((u_char *) &(ep)->ether_shost)
++#define EDST(ep) ((u_char *) &(ep)->ether_dhost)
+ 
+ #ifndef NTOHL
+ #define NTOHL(x)	(x) = ntohl(x)
+--- netdissect.h.old	Wed May  7 17:57:37 2008
++++ netdissect.h	Wed May  7 17:57:50 2008
+@@ -180,8 +180,8 @@
+ #define LITTLE_ENDIAN 1234
+ #endif
+ 
+-#define ESRC(ep) ((ep)->ether_shost)
+-#define EDST(ep) ((ep)->ether_dhost)
++#define ESRC(ep) ((u_char *) &(ep)->ether_shost)
++#define EDST(ep) ((u_char *) &(ep)->ether_dhost)
+ 
+ #ifndef NTOHL
+ #define NTOHL(x)	(x) = ntohl(x)
