@@ -1,3 +1,8 @@
+2008-05-07  River Tarnell  <river@wikimedia.org>
+
+	* SFElibpcap.spec: 0.9.7
+	* patches/libpcap-01-link-shared-lib.diff: Update for 0.9.7
+
 2008-05-06 Andras Barna <andras.barna@gmail.com>
 
         * patches/xmms1-01-rand.diff: update, still need

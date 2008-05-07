@@ -7,7 +7,7 @@
 
 Name:                SFElibpcap
 Summary:             Packet Capture library 
-Version:             0.9.4
+Version:             0.9.7
 Source:              http://www.tcpdump.org/release/libpcap-%{version}.tar.gz
 Patch1:              libpcap-01-link-shared-lib.diff
 SUNW_BaseDir:        %{_basedir}
@@ -23,7 +23,7 @@ Requires: %name
 
 %prep
 %setup -q -n libpcap-%version
-%patch1 -p1
+%patch1 -p0
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -67,6 +67,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/pcap.3
 
 %changelog
+* Wed May  7 2008 - river@wikimedia.org
+- 0.9.7
 * Tue Apr  3 2007 - laca@sun.com
 - add patch link-shared-lib.diff that fixes Makefile.in to create a proper
   shared library
