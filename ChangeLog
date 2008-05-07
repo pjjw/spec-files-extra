@@ -1,5 +1,11 @@
 2008-05-07  River Tarnell  <river@wikimedia.org>
 
+	* SFEtcpdump.spec: 3.9.7
+	* patches/tcpdump-01-ether_header.diff: Fix conflict between tcpdump
+	  and Solaris ether_header.
+
+2008-05-07  River Tarnell  <river@wikimedia.org>
+
 	* SFElibpcap.spec: 0.9.7
 	* patches/libpcap-01-link-shared-lib.diff: Update for 0.9.7
 

@@ -7,8 +7,9 @@
 
 Name:                SFEtcpdump
 Summary:             Dump/print network traffic
-Version:             3.9.4
+Version:             3.9.7
 Source:              http://www.tcpdump.org/release/tcpdump-%{version}.tar.gz
+Patch0:              tcpdump-01-ether_header.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -19,6 +20,7 @@ Requires: SFElibpcap
 
 %prep
 %setup -q -n tcpdump-%version
+%patch0 -p0
 
 %build
 
@@ -55,6 +57,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Wed May  7 2008 - river@wikimedia.org
+- 3.9.7
 * Mon Mar 19 2007 - dougs@truemail.co.th
 - Fixed -fno-omit-frame-pointer flag
 * Wed Dec 13 2006 - Eric Boutilier
