@@ -1,0 +1,24 @@
+--- elinks-0.11.4rc1/configure.in.orig	2008-03-04 10:29:34.000000000 +0100
++++ elinks-0.11.4rc1/configure.in	2008-05-10 00:05:36.867030497 +0200
+@@ -234,8 +234,8 @@
+ dnl happily ignoring it and stderr not being checked for error messages.
+ AC_MSG_CHECKING([for -rdynamic])
+ LDFLAGS_X="$LDFLAGS"
+-LDFLAGS="$LDFLAGS -rdynamic"
+-AC_TRY_LINK([], [], have_rdynamic=yes, have_rdynamic=no)
++LDFLAGS="$LDFLAGS"
++AC_TRY_LINK([], [], have_rdynamic=no, have_rdynamic=no)
+ test "$have_rdynamic" = no && LDFLAGS="$LDFLAGS_X"
+ AC_MSG_RESULT($have_rdynamic)
+ 
+--- elinks-0.11.4rc1/configure.orig	2008-03-04 10:29:56.000000000 +0100
++++ elinks-0.11.4rc1/configure	2008-05-10 00:05:06.833990718 +0200
+@@ -11201,7 +11201,7 @@
+ echo "$as_me:$LINENO: checking for -rdynamic" >&5
+ echo $ECHO_N "checking for -rdynamic... $ECHO_C" >&6
+ LDFLAGS_X="$LDFLAGS"
+-LDFLAGS="$LDFLAGS -rdynamic"
++LDFLAGS="$LDFLAGS"
+ cat >conftest.$ac_ext <<_ACEOF
+ /* confdefs.h.  */
+ _ACEOF

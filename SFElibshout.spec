@@ -13,7 +13,7 @@ Name:                   SFElibshout
 Summary:                libshout, Library which can be used to write a source client like ices
 Version:                2.2.2
 Source:                 %{src_url}/libshout-%{version}.tar.gz
-SUNW_BaseDir:           /
+SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
@@ -100,6 +100,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat May 10 2008 - Thomas Wagner
+- set SUNW_BaseDir: %{_basedir}
 * Mon Nov 26 2007 - Thomas Wagner
 - remove SFWoggl (libao, vorbis, ogg)
 * Tue May 8 2007 - Thomas Wagner
