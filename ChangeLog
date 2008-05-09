@@ -1,3 +1,15 @@
+2008-05-08  Brian Cameron  <brian.cameron@sun.com>
+
+	* SUNWgnome-display-mgr.spec, ext-sources/svc-gdm,
+	  ext-sources/gdm.xml:  The new GDM has been changed so that the
+	  daemon is no longer run as a daemonized process, so when running
+	  via SMF, the start command would timeout, causing GDM to restart
+	  after 60 seconds.  Adding a SMF method script that runs the 
+	  daemon in the background (much like the CDE login method script
+	  does) fixes this problem.
+	* patches/gdm-06-ctrun.diff:  Fix debug statement so it prints the
+	  command to execute properly.
+
 2008-05-07  Petr Sobotka  <sobotkap@centrum.cz>
 
 	* SFEwesnoth.spec: Bump to version 1.4.2

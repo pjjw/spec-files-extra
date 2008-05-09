@@ -16,6 +16,8 @@ Name:                    SUNWgnome-display-mgr
 Version:                 2.22.0
 Release:                 1
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.22/gdm-%{version}.tar.bz2
+Source1:                 gdm.xml
+Source2:                 svc-gdm
 # Patch1 is a hack to work around the fact that the gio function
 # g_file_info_get_attribute_string is returning a NULL on Solaris, causing
 # the GDM GUI to crash.  This patch should be removed when gio is fixed to
@@ -37,7 +39,6 @@ Patch5:                  gdm-05-xauth-dir.diff
 # Add ctrun support when running the user session.  Otherwise, any
 # core dump in the user session will cause GDM to restart.
 Patch6:                  gdm-06-ctrun.diff
-Source1:                 gdm.xml
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -168,6 +169,8 @@ rm -rf $RPM_BUILD_ROOT%{_localstatedir}/lib/scrollkeeper
 
 install -d $RPM_BUILD_ROOT/var/svc/manifest/application/graphical-login
 install --mode=0444 %SOURCE1 $RPM_BUILD_ROOT/var/svc/manifest/application/graphical-login
+install -d $RPM_BUILD_ROOT/lib/svc/method 
+cp %SOURCE2 $RPM_BUILD_ROOT/lib/svc/method/
 
 rmdir $RPM_BUILD_ROOT/etc/pam.d
 
@@ -279,14 +282,16 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %{_sysconfdir}/gconf
 %dir %{_sysconfdir}/gdm
 %{_sysconfdir}/gdm/*
-# don't use %_localstatedir here, because this is an absolute path
-# defined by another package, so it has to be /var/svc even if this
-# package's %_localstatedir is redefined
+# don't use %_localstatedir for the /var/svc directory, because this
+# is an absolute path defined by another package, so it has to be
+# /var/svc even if this package has its %_localstatedir redefined.
 %dir %attr (0755, root, sys) /var
-/var/svc/*
-%{_localstatedir}/gdm
 %dir %attr (0755, root, sys) /var/log
 %dir %attr (1770, root, gdm) /var/log/gdm
+/var/svc/*
+# SVC method file
+%attr (0555, root, bin) /lib/svc/method/svc-gdm
+%{_localstatedir}/gdm
 %dir %attr (0755, root, other) %{_localstatedir}/lib
 %dir %attr (1770, root, gdm) %{_localstatedir}/lib/gdm
 %{_localstatedir}/lib/gdm/.gconf.path
@@ -305,6 +310,9 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Thu May 08 2008 - brian.cameron@sun.com
+- Add SVC method script svc-gdm, which is needed because the new GDM does not
+  run as a daemon, so the script launches gdm in the background.
 * Mon May 05 2008 - brian.cameron@sun.com
 - Add 06-ctrun.diff to add ctrun support.  Otherwise any SEGV in
   the user session will cause GDM to restart.

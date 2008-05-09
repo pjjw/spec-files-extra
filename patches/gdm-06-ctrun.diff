@@ -91,7 +91,7 @@
 +                g_string_append (fullexec, text);
  
 -                g_debug ("GdmSessionWorker: start program: %s", text);
-+                g_debug ("GdmSessionWorker: start program: %s", fullexec);
++                g_debug ("GdmSessionWorker: start program: %s", fullexec->str);
  
                  if (worker->priv->arguments != NULL) {
                          g_strfreev (worker->priv->arguments);
