@@ -3,19 +3,20 @@
 #
 #
 # IMPORTANT: This spec is GCC only at the moment. Suggestions welcome.
-#
-# on Sparc *and* x86 compile this spec with: 
-#
-# CXX=/usr/sfw/bin/g++ CC=/usr/sfw/bin/gcc pkgtool --interactive build-only SFEelinks.spec
-# 
+# gcc compiler is selected automaticly
 #
 
 %include Solaris.inc
+
+%define cc_is_gcc 1
+%define _gpp /usr/sfw/bin/g++
+%include base.inc
 
 Name:                    SFEelinks
 Summary:                 Elinks - textbased webbrowser
 Version:                 0.11.4rc1
 Source:			 http://elinks.or.cz/download/elinks-%{version}.tar.bz2
+Url:                     http://elinks.or.cz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 ##TODO## patch need reworking (linker/sunstudio)
@@ -46,15 +47,20 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-export CFLAGS="%optflags -L/usr/gnu/lib -R/usr/gnu/lib
-export CXXFLAGS="%cxx_optflags
+export CC="/usr/sfw/bin/gcc"
+export CXX="/usr/sfw/bin/g++"
+export CFLAGS="%optflags -L/usr/gnu/lib -R/usr/gnu/lib"
+export CXXFLAGS="%cxx_optflags"
 export LDFLAGS="%{_ldflags} -L/usr/gnu/lib -R/usr/gnu/lib"
+#ld: warning: option -r and -zcombreloc are incompatible
+#unset LD
 
 #Okay, a bit hard way to achieve that. Suggestions welcome. List only files relying on "bash"?
 SHELLREPLACE=`find . -type f -exec grep -l "^#\!.*/bin/sh" {} \; -print`
 perl -pi -e 's?^#!.*/bin/sh?#!/bin/bash?' $SHELLREPLACE
+export CONFIG_SHELL=/usr/bin/bash
 
-./configure --prefix=%{_prefix}			\
+CONFIG_SHELL=/usr/bin/bash ./configure --prefix=%{_prefix}			\
 	    --libexecdir=%{_libexecdir}         \
 	    --mandir=%{_mandir}                 \
             --sysconfdir=%{_sysconfdir}         \
@@ -93,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat May 10 2008 - Thomas Wagner
+- add cc_is_gcc and set _gpp, reinclude base.inc as it is the first consumer of cc_is_gcc
+- set CONFIG_SHELL to get bash
 * Sat May 10 2008 - Thomas Wagner
 - add (Build-)Requires, bump version to 0.11.4rc1
 - Sorry this is gcc only at the moment. Suggestions welcome.
