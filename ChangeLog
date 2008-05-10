@@ -1,3 +1,8 @@
+2008-05-10  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEelinks: add cc_is_gcc and set _gpp, reinclude base.inc as 
+                     it is the first consumer of cc_is_gcc,
+                     set CONFIG_SHELL to get bash
+
 2008-05-10  Stephen Lau <stevel@opensolaris.org>
 	* SFEsongbird.spec: cmake is needed for building taglib
 	  gawk is needed for building Songbird
