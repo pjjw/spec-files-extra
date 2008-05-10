@@ -47,6 +47,8 @@ BuildRoot:     %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SUNWbzip
 BuildRequires: SUNWgtar
+BuildRequires: SFEgawk
+BuildRequires: SFEcmake
 
 %description
 Songbird provides a public playground for Web media mash-ups by providing developers with both desktop and Web APIs, developer resources and fostering Open Web media standards.
@@ -188,6 +190,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/songbird-%{version}
 
 %changelog
+* Fri May 09 2008 - stevel@opensolaris.org
+- cmake is needed for building taglib
+- gawk is needed for building Songbird
 * Mon Apr 21 2008 - alfred.peng@sun.com
 - add support for SPARC platform.
 * Sun Apr 13 2008 - alfred.peng@sun.com

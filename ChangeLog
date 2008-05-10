@@ -1,3 +1,7 @@
+2008-05-10  Stephen Lau <stevel@opensolaris.org>
+	* SFEsongbird.spec: cmake is needed for building taglib
+	  gawk is needed for building Songbird
+
 2008-05-09  Laszlo (Laca) Peter  <laca@sun.com>
 
 	Steve Lau is the author of some of the code changes.
