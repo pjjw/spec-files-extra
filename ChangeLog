@@ -1,3 +1,16 @@
+2008-05-09  Laszlo (Laca) Peter  <laca@sun.com>
+
+	Steve Lau is the author of some of the code changes.
+
+	* SFElibtorrent-gpp.spec: (new) g++-build libtorrent BitTorrent lib
+	* SFErtorrent.spec: (new) rtorrent curses-based BitTorrent client
+	* base-specs/libtorrent.spec: (new) base spec for SFElibtorrent-gpp
+	* base-specs/rtorrent.spec: (new) base spec for SFErtorrent
+	* patches/libtorrent-01-madvise.diff: (new) add definition of madvise()
+	* patches/rtorrent-01-solaris.diff: (new) fix some linuxisms
+	* include/base.inc: use %_gpp instead of g++ when checking the
+	  version of g++
+
 2008-05-10  Thomas Wagner <tom68@users.sourceforge.net>
         * SFEelinks.spec: *NEW* browser for text-teminals (tabs, frames,
           bittorrent, ..., color display). GCC-only, so looking for 

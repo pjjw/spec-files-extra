@@ -56,7 +56,7 @@
 %define picflags %gcc_picflags
 %define optflags %gcc_optflags
 %define cxx_optflags %gcc_cxx_optflags
-%define _gpp_version %(g++ --version | head -1 | cut -f3 -d' ')
+%define _gpp_version %(%{?_gpp:%_gpp}%{!?_gpp:g++} --version | head -1 | cut -f3 -d' ')
 %define _cxx_libdir	   %{_prefix}/lib/g++/%{_gpp_version}
 
 %else
@@ -90,6 +90,8 @@
 %define xorg_lib_path   -L%xorg_lib -R%xorg_lib
 
 # ChangeLog:
+# 2008-05-09  Laszlo (Laca) Peter  <laca@sun.com>
+# - use %_gpp instead of g++ when checking the version of g++
 # 2008-02-17  Laszlo (Laca) Peter  <laca@sun.com>
 # - define _cxx_libdir and _gpp_version for building C++ libs
 # 2007-06-09  Laszlo (Laca) Peter  <laca@sun.com>
