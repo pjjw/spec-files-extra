@@ -32,7 +32,8 @@ BuildRequires: SUNWbzip
 Requires: SUNWxwrtl
 Requires: SUNWxwplt
 Requires: SUNWopenssl-libraries
-Requires: SUNWzlibr
+#snv88 on sparc has SUNWzlibr, snv84 on x86 has not...
+Requires: SUNWzlib
 Requires: SUNWbzip
 
 
