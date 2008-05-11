@@ -31,7 +31,9 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 export CFLAGS="%{optflags}"
 export LDFLAGS="%{_ldflags}"
-aclocal -I%{_datadir}/aclocal -I.
+ACARGS=""
+[ -d %{_datadir}/aclocal ] && ACARGS="-I%{_datadir}/aclocal"
+aclocal $ACARGS -I.
 libtoolize --force
 intltoolize --force --automake
 autoconf
@@ -55,24 +57,24 @@ rm $RPM_BUILD_ROOT%{_libdir}/lib*.la
 %post
 ( echo 'test -x /usr/bin/update-desktop-database || exit 0';
   echo '/usr/bin/update-desktop-database'
-) | $BASEDIR/lib/postrun -b -u -c JDS_wait
+) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u -c JDS_wait
 ( echo 'test -x %{_bindir}/update-mime-database || exit 0';
   echo '%{_bindir}/update-mime-database %{_datadir}/mime'
-) | $BASEDIR/lib/postrun -b -u -c JDS_wait
+) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u -c JDS_wait
 ( echo 'test -x /usr/bin/scrollkeeper-update || exit 0';
   echo '/usr/bin/scrollkeeper-update'
-) | $BASEDIR/lib/postrun -b -u -c JDS
+) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u -c JDS
 
 %postun
 ( echo 'test -x /usr/bin/update-desktop-database || exit 0';
   echo '/usr/bin/update-desktop-database'
-) | $BASEDIR/lib/postrun -b -u -c JDS_wait
+) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u -c JDS_wait
 ( echo 'test -x %{_bindir}/update-mime-database || exit 0';
   echo '%{_bindir}/update-mime-database %{_datadir}/mime'
-) | $BASEDIR/lib/postrun -b -u -c JDS_wait
+) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u -c JDS_wait
 ( echo 'test -x /usr/bin/scrollkeeper-update || exit 0';
   echo '/usr/bin/scrollkeeper-update'
-) | $BASEDIR/lib/postrun -b -u -c JDS
+) | $PKG_INSTALL_ROOT/usr/lib/postrun -b -u -c JDS
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -97,6 +99,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sun May 11 2008 - river@wikimedia.org
+- Don't pass -I to aclocal if the directory doesn't exist, since it causes a
+  fatal error
+- Use the correct path to postrun to prevent installs outside /usr from
+  breaking.
 * Wed Feb 20 2008 - halton.huo@sun.com
 - Bump to 20080203, remove upstreamed patch destdir.diff.
 - Update files for -devel 
