@@ -1,6 +1,11 @@
-2008-05-12  Thomas Wagner <tom68@users.sourceforge.net>
-        * SFEsylpheed.spec: *NEW* lightwight, hotkey and IMAP enabled
-          gtk email client. LDAP not compiled in by default.
+2008-05-12  Albert Lee  <trisk@acm.jhu.edu>
+
+	* ChangeLog: Rewrite history (clean up).
+
+2008-05-12  Thomas Wagner  <tom68@users.sourceforge.net>
+
+	* SFEsylpheed.spec: *NEW* lightwight, hotkey and IMAP enabled
+	  gtk email client. LDAP not compiled in by default.
 
 2008-05-12  simon.zheng  <simon.zheng@sun.com>
 
@@ -14,11 +19,13 @@
 	to prevent installs outside /usr from breaking.
 
 2008-05-10  Thomas Wagner <tom68@users.sourceforge.net>
-        * SFEelinks: add cc_is_gcc and set _gpp, reinclude base.inc as 
-                     it is the first consumer of cc_is_gcc,
-                     set CONFIG_SHELL to get bash
+
+	* SFEelinks: add cc_is_gcc and set _gpp, reinclude base.inc as 
+	  it is the first consumer of cc_is_gcc,
+	  set CONFIG_SHELL to get bash
 
 2008-05-10  Stephen Lau <stevel@opensolaris.org>
+
 	* SFEsongbird.spec: cmake is needed for building taglib
 	  gawk is needed for building Songbird
 
@@ -36,10 +43,11 @@
 	  version of g++
 
 2008-05-10  Thomas Wagner <tom68@users.sourceforge.net>
-        * SFEelinks.spec: *NEW* browser for text-teminals (tabs, frames,
-          bittorrent, ..., color display). GCC-only, so looking for 
-          volunteers to build with sunstudio.
-        * SFElibshout.spec: set SUNW_BaseDir to %{_basedir}
+
+	* SFEelinks.spec: *NEW* browser for text-teminals (tabs, frames,
+	  bittorrent, ..., color display). GCC-only, so looking for 
+	  volunteers to build with sunstudio.
+	* SFElibshout.spec: set SUNW_BaseDir to %{_basedir}
 
 2008-05-08  Brian Cameron  <brian.cameron@sun.com>
 
@@ -71,8 +79,8 @@
 
 2008-05-06 Andras Barna <andras.barna@gmail.com>
 
-        * patches/xmms1-01-rand.diff: update, still need
-          work.
+	* patches/xmms1-01-rand.diff: update, still need
+	  work.
 
 2008-05-06  halton huo <nonsea@users.sourceforge.net>
 
@@ -462,6 +470,7 @@
 	* SFEtorsmo.spec: (new) : Tyopoyta ORvelo System MOnitor
 
 2008-04-03  Thomas Wagner <tom68@users.sourceforge.net>
+
 	* SFEurxvt.spec: reworked patch 10, added patch 11 remove "tic" vom
 	  doc/Makfile
 
@@ -649,7 +658,7 @@
 	  Sound Touch on Solaris.
 
 2008-03-17 Jerry Yu <jijun.yu@sun.com>
-	
+
 	* SFEpython-vojbect.spec: bump to 0.6.0, add a patch.
 	* SFEpython-dateutil.spec: bump to 1.4.
 	* SFEpygoocanvas.spec: correct the URL.
@@ -974,7 +983,7 @@
 	  Bump to 2.21.8.  Add patch to fix crashing issue.
 
 2008-02-26 Jerry Yu <jijun.yu@sun.com>
-	
+
 	* SFEgpgme.spec: remove a file.
 
 2008-02-26 Mark Wright <markwright@internode.on.net>
@@ -1009,6 +1018,7 @@
 	* patches/dosbox-01-socket.diff: Rework patch
 
 2008-02-24  Thomas Wagner <tom68@users.sourceforge.net>
+
 	* SFEgmpc.spec: take back stupid test typo for a "svn diff"
 
 2008-02-25  Laszlo (Laca) Peter  <laca@sun.com>
@@ -1019,6 +1029,7 @@
 	* SFEsubversion.spec: build against either SUNWneon or SFEneon
 
 2008-02-14  Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEsyslog-ng.spec:
 	* patches/syslog-ng-01-loggen.diff:
 	  Bump version to 2.0.8.
@@ -1077,7 +1088,7 @@
 	* SFEtastymenu.spec: *NEW* A K-Menu replacement for KDE 3.x
 
 2008-02-22  Jijun Yu <jijun.yu@sun.com>
-	
+
 	* SFEconduit.spec: Modify a dependecny from SUNWpysqlite to SFEpysqlite.
 
 2008-02-21  Albert Lee <trisk@acm.jhu.edu>
@@ -1901,6 +1912,7 @@
 	* base-specs/libgsf.spec: add _without_gtk_doc control
 
 2008-01-25  Brian Nitz < brian dot nitz at sun dot com>
+
 	First build of micropolis-actvity (opensourced parts of SimCity for
 	OLPC)
 	* SFEmicropolis.spec 
@@ -2124,6 +2136,7 @@
 	* SFEwesnoth.spec: Bump to 1.13.14
 
 2008-01-17 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEkdegraphics3.spec:
 	  Add SFEgraphviz dependency.
 	* SFEgraphviz.spec:
@@ -2176,6 +2189,7 @@
 	* base-specs/vinagre.spec:
 
 2008-01-15 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEcyrus-sasl.spec:
 	* patches/cyrus-sasl-01.diff:
 	  Add Cyrus SASL library
@@ -2191,6 +2205,7 @@
 	  - Patch to diable beeping when lid is closed or opened.
 
 2008-01-13 Moinak Ghosh <moinak.ghosh@sun.com>
+
 	* SFEfltk2.spec: 
 	  Bump version, fix download URL
 	* SFEarts.spec:
@@ -2417,7 +2432,7 @@
 	* base-specs/w3m.spec: spilit from SFEw3m.spec
 
 2008-01-01  Jerry Yu <jijun.yu@sun.com>
-	
+
 	* SFEgpgme.spec: Removed an used file.
 
 2008-01-01  Thomas Wagner <tom68@users.sourceforge.net>
@@ -2806,7 +2821,7 @@
 	* SFEpitivi.spec:  Bump to 0.11.1
 
 2007-11-29  Albert Lee <trisk@acm.jhu.edu>
-	
+
 	* SFEiodine.spec: *NEW* iodine - IP over DNS is now easy
 	* SFEscummvm.spec: Bump to 0.10.0
 	* patches/iodine-01-solaris.diff: Solaris port
@@ -3286,7 +3301,7 @@
 	* patches/gio-03-pretty-func.diff: (added)
 
 2007-11-05 Jijun Yu <jijun.yu@sun.com>
-	
+
 	* SFElibopensync.spec: Change to correct configure option.
 	* patches/libopensync-01-prefix.diff: Removed.
 	* base-specs/msynctool.spec: Bump to 0.34 and change to cmake build
@@ -3465,7 +3480,7 @@
 	* patches/gamin-01-all.diff: Replace g_file_test by lstat.
 
 2007-10-26  Jerry Yu <jijun.yu@sun.com>
-	
+
 	* base-specs/openobex.spec: add a patch.
 	* patches/openobex-01-sun-studio.diff: Modified.
 	* patches/openobex-05-zero-array.diff: Added for fixing a problem about
@@ -3872,6 +3887,7 @@
 	  add -lm to gprof link
 	
 2007-10-11 Ananth Shrinivas <ananth@sun.com>
+
 	* SFEpython-cherrypy.spec: *NEW* Kid is a simple template language for
 	  XML based vocabularies written in Python
 	* SFEpython-cheetah.spec: *NEW* Template engine and code generation tool
@@ -4227,7 +4243,7 @@
 
 	* SFEnetpbm.spec: Add netpbm. to svn_url. Comment netpbm-02-stdlib.diff.
 	* patches/netpbm-03-no-XDefs.diff: remove #include <X11/XDefs.h>
-	
+
 2007-09-18  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEasciidoc.spec: Bump to 8.2.3
@@ -4315,6 +4331,7 @@
 	  Add libtoolize and intltoolize to fix build fail.
 
 2007-09-04  Thomas Wagner <tom68@users.sourceforge.net>
+
 	* SFEpulseaudio: corrected rm lib*.a and lib*.la
 	  activated patch2 (default.pa), enable Network with
 	  paprefs
@@ -5361,6 +5378,7 @@
 	* SFEmediatomb.spec: *NEW* UPnP MediaServer
 
 2007-07-16  Dick Hoogendijk <dick@nagual.nl>
+
 	* linux-specs/gnupg.spec: bump to 1.4.7
 
 2007-07-16  Mark Wright <markwright@internode.on.net>
@@ -5466,14 +5484,17 @@
 	  enhancements
 
 2007-07-07  Jerry Yu <jijun.yu@sun.com>
+
 	* linux-specs/openobex.spec: Modify the URL.
 
 2007-07-07  Jerry Yu <jijun.yu@sun.com>
+
 	* linux-specs/openobex.spec
 	  patches/openobex-02-libusb.diff
 	  patches/openobex-03-PACKED.diff: Change the method checking libusb.
 
 2007-07-05  Alberto Ruiz <alberto.ruiz@sun.com>
+
 	* SFEgit.spec: Update from 1.4.4 to 1.5.2.2 and changed
 	  permissions from 0755 to 0644 to the hook scripts on
 	  /usr/share/git-core/templates.
@@ -6104,7 +6125,7 @@
 	* SFEmplayer.spec: Added /usr/gnu/libs to LDFLAGS
 
 2007-04-22  Doug Scott  <dougs@truemail.co.th>
-	
+
 	* SFEscourge.spec: Added game scourge
 
 2007-04-22  Doug Scott  <dougs@truemail.co.th>
@@ -6756,7 +6777,7 @@
 	  add LDFLAGS value to make it build pass
 
 2007-03-07  Ivan Wang  <ivwang@gmail.com>
-	
+
 	* SFEethereal.spec:  Add to launch menu, add icons, strip executables
 	* patches/ethereal-01-emem.diff: update
 
