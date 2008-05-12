@@ -290,6 +290,9 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %dir %attr (1770, root, gdm) /var/log/gdm
 /var/svc/*
 # SVC method file
+%dir %attr (0755, root, bin) /lib
+%dir %attr (0755, root, bin) /lib/svc
+%dir %attr (0755, root, bin) /lib/svc/method
 %attr (0555, root, bin) /lib/svc/method/svc-gdm
 %{_localstatedir}/gdm
 %dir %attr (0755, root, other) %{_localstatedir}/lib

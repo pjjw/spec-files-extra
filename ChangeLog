@@ -1,3 +1,8 @@
+2008-05-12  simon.zheng  <simon.zheng@sun.com>
+
+	* SUNWgnome-display-mgr.spec:
+	  Correct the attribute of /lib/svc/method.
+
 2008-05-11  River Tarnell  <river@wikimedia.org>
 
 	* SFEfontforge.spec: Don't pass -I to aclocal if the directory doesn't
