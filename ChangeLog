@@ -1,5 +1,9 @@
 2008-05-12  Albert Lee  <trisk@acm.jhu.edu>
 
+	* SFEalpine.spec: Bump to 1.10
+
+2008-05-12  Albert Lee  <trisk@acm.jhu.edu>
+
 	* ChangeLog: Rewrite history (clean up).
 
 2008-05-12  Thomas Wagner  <tom68@users.sourceforge.net>

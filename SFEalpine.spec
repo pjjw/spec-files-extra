@@ -9,7 +9,7 @@
 Name:                SFEalpine
 License:             Apache
 Summary:             University of Washington Alpine mail user agent
-Version:             1.00
+Version:             1.10
 Source:              ftp://ftp.cac.washington.edu/alpine/alpine-%{version}.tar.bz2
 Patch2:              alpine-02-CC.diff
 URL:                 http://www.washington.edu/alpine/
@@ -83,6 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Mon May 12 2008 - trisk@acm.jhu.edu
+- Bump to 1.10
 * Sat Jan 05 2007 - Thomas Wagner
 - bump to 1.00 - old dwnl file removed, no other changes to spec/patches
 * Fri Dec 07 2007 - trisk@acm.jhu.edu
