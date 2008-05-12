@@ -1,3 +1,9 @@
+2008-05-12  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEaudacity.spec:  Bump to 1.3.5.
+	* patches/audacity-10-addgtklibs.diff,
+	  patches/audacity-13-locale.diff:  Update patches so they applies.
+
 2008-05-12  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEalpine.spec: Bump to 1.10
@@ -19,8 +25,8 @@
 2008-05-11  River Tarnell  <river@wikimedia.org>
 
 	* SFEfontforge.spec: Don't pass -I to aclocal if the directory doesn't
-	exist, since it causes a fatal error; Use the correct path to postrun
-	to prevent installs outside /usr from breaking.
+	  exist, since it causes a fatal error; Use the correct path to postrun
+	  to prevent installs outside /usr from breaking.
 
 2008-05-10  Thomas Wagner <tom68@users.sourceforge.net>
 

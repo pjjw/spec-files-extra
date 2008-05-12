@@ -15,31 +15,21 @@
 
 Name:                SFEaudacity
 Summary:             Free, Cross-Platform Sound Editor
-Version:             1.3.4
+Version:             1.3.5
 Source:              %{src_url}/%{src_name}-src-%{version}.tar.bz2
 # bug 1910678
 Patch1:		     audacity-01-solaris.diff
-Patch2:		     audacity-02-float.diff
-# bug 1910681
-Patch3:		     audacity-03-alloca.diff
-Patch4:		     audacity-04-fixconfigure.diff
 # bug 1910685
 Patch5:              audacity-05-fixsed.diff
-# This patch is wrong, but it gets the code to compile.
-Patch6:              audacity-06-fixvamp.diff
-# bug 1910687
-Patch7:              audacity-07-nowall.diff
-Patch8:              audacity-08-ImportMP3.diff
-# bug 1910688 - upstream
-Patch9:              audacity-09-fixmatrix.diff
 # bug 1910699
 Patch10:             audacity-10-addgtklibs.diff
-# bug 1910700
-Patch11:             audacity-11-fix-pa-makefile.diff
-Patch12:             audacity-12-no-pa-threads.diff
 Patch13:             audacity-13-locale.diff
-# bug 1911499 - upstream
-Patch14:             audacity-14-AudioIO.diff
+# Needed AX macros are copied from autoconf-archive-2008-05-03
+# located at http://autoconf-archive.cryp.to/
+# Rather than adding a spec-file to install all these m4 macros, I am
+# just patching them into the audacity build.
+Patch15:             audacity-15-ax-m4.diff
+Patch16:             audacity-16-shuttlegui.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -98,24 +88,10 @@ Requires:                %{name}
 %prep
 %setup -q -n %{src_name}-src-%{version}-beta
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
 %patch5 -p1
-
-# Sun Studio specific patches
-#
-%if %with_wxw_gcc
-%else
-%patch4 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
 %patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch14 -p1
-%endif
+%patch15 -p1
+%patch16 -p1
 
 # If using GNU Gettext, don't need this patch
 #
@@ -166,11 +142,13 @@ AU_TWOLAME_CONFIG="--without-libtwolame"
 # configure.in.
 #
 cd lib-src/portaudio-v19
+libtoolize -f -c
+aclocal $ACLOCAL_FLAGS
 autoconf -f
 cd ../..
 
 libtoolize -f -c
-aclocal
+aclocal $ACLOCAL_FLAGS -I .
 autoheader
 autoconf -f
 
@@ -236,6 +214,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr (-, root, other) %{_datadir}/locale
 
 %changelog
+* Mon May 12 2008 - brian.cameron@sun.com
+- Bump to 1.3.5.  Remove many upstream patches.  Add two new patches,
+  one to add needed m4 files, and the other to fix a compile problem
+  with the ShuttleGui code.
 * Mon Mar 18 2008 - brian.cameron@sun.com
 - Bump to 1.3.4.  Many changes to the patches to get this new version
   working.  SoundTouch was removed from the audacity release, so I added
