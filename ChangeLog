@@ -1,3 +1,7 @@
+2008-05-12  Thomas Wagner <tom68@users.sourceforge.net>
+        * SFEsylpheed.spec: *NEW* lightwight, hotkey and IMAP enabled
+          gtk email client. LDAP not compiled in by default.
+
 2008-05-12  simon.zheng  <simon.zheng@sun.com>
 
 	* SUNWgnome-display-mgr.spec:
