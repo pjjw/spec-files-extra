@@ -1,0 +1,15 @@
+--- audacity-src-1.3.5-beta/src/ShuttleGui.cpp-orig	2008-05-12 17:50:26.920076000 -0500
++++ audacity-src-1.3.5-beta/src/ShuttleGui.cpp	2008-05-12 17:53:28.403221000 -0500
+@@ -1525,9 +1525,10 @@ void ShuttleGuiBase::StartRadioButtonGro
+ /// This function must be within a StartRadioButtonGroup - EndRadioButtonGroup pair.
+ wxRadioButton * ShuttleGuiBase::TieRadioButton( 
+    const wxString &Prompt, 
+-   int iValue)
++   const int iValue)
+ {
+-   WrappedType WrappedRef( iValue );
++   int iTemp = iValue;
++   WrappedType WrappedRef( iTemp );
+    return TieRadioButton( Prompt, WrappedRef );
+ }
+ 
