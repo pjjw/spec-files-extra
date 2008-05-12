@@ -20,16 +20,16 @@ Source:              %{src_url}/%{src_name}-src-%{version}.tar.bz2
 # bug 1910678
 Patch1:		     audacity-01-solaris.diff
 # bug 1910685
-Patch5:              audacity-05-fixsed.diff
+Patch2:              audacity-02-fixsed.diff
 # bug 1910699
-Patch10:             audacity-10-addgtklibs.diff
-Patch13:             audacity-13-locale.diff
+Patch3:              audacity-03-addgtklibs.diff
+Patch4:              audacity-04-locale.diff
 # Needed AX macros are copied from autoconf-archive-2008-05-03
 # located at http://autoconf-archive.cryp.to/
 # Rather than adding a spec-file to install all these m4 macros, I am
 # just patching them into the audacity build.
-Patch15:             audacity-15-ax-m4.diff
-Patch16:             audacity-16-shuttlegui.diff
+Patch5:              audacity-05-ax-m4.diff
+Patch6:              audacity-06-shuttlegui.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -88,16 +88,16 @@ Requires:                %{name}
 %prep
 %setup -q -n %{src_name}-src-%{version}-beta
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 %patch5 -p1
-%patch10 -p1
-%patch15 -p1
-%patch16 -p1
+%patch6 -p1
 
 # If using GNU Gettext, don't need this patch
 #
 %if %with_gnu_gettext
 %else
-%patch13 -p1
+%patch4 -p1
 %endif
 
 %build
