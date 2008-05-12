@@ -23,12 +23,16 @@ Patch1:		     audacity-01-solaris.diff
 Patch2:              audacity-02-fixsed.diff
 # bug 1910699
 Patch3:              audacity-03-addgtklibs.diff
+# This patch is needed because Solaris gettext does not work
+# with audacity locale files.
 Patch4:              audacity-04-locale.diff
 # Needed AX macros are copied from autoconf-archive-2008-05-03
 # located at http://autoconf-archive.cryp.to/
 # Rather than adding a spec-file to install all these m4 macros, I am
 # just patching them into the audacity build.
 Patch5:              audacity-05-ax-m4.diff
+# The shuttlegui patch was reported upstream via the audacity-devel mailing
+# list.
 Patch6:              audacity-06-shuttlegui.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -93,7 +97,7 @@ Requires:                %{name}
 %patch5 -p1
 %patch6 -p1
 
-# If using GNU Gettext, don't need this patch
+# If using GNU Gettext, this patch is not needed.
 #
 %if %with_gnu_gettext
 %else
