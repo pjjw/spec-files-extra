@@ -108,7 +108,7 @@ rm -rf $RPM_BUILD_ROOT
 - Bump to 1.8.5
 - Remove upstreamed patches: suncc-inline.diff,
   var-imaginary.diff and define-function.diff.
-- Update %files
+- Update %files 
 * Thu Jan 24 2008 - nonsea@users.sourceforge.net
 - Update Requires
 * Thu Oct 25 2007 - nonsea@users.sourceforge.net
