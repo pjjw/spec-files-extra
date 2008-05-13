@@ -1,5 +1,11 @@
 2008-05-13  Halton Huo <nonsea@users.sourceforge.net>
 
+	* SFEgtk-vnc.spec: fix summary
+	* SFEpygoocanvas.spec: Bump to 0.10, update %files
+	* base-specs/goocanvas.spec: Bump to 0.10
+
+2008-05-13  Halton Huo <nonsea@users.sourceforge.net>
+
 	* SFEguile.spec: Bump to 1.8.5 and update %files
 	* patches/guile-01-suncc-inline.diff,
 	  patches/guile-02-var-imaginary.diff,

@@ -1,7 +1,7 @@
 #
 # spec file for package goocanvas
 #
-# Copyright (c) 2007 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -11,7 +11,7 @@
 Name:           goocanvas
 License:        LGPL
 Group:          System/Libraries
-Version:        0.9
+Version:        0.10
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -108,5 +108,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue May 13 2008 - nonsea@users.sourceforge.net
+- Bump to 0.10
 * Tue Dec 11 2007 - nonsea@users.sourceforge.net
 - Initial version

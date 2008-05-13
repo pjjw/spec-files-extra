@@ -13,7 +13,7 @@
 Name:                SFEpygoocanvas
 URL:                 http://developer.berlios.de/projects/pygoocanvas/
 Summary:             pygoocanvas - GooCanvas python bindings
-Version:             0.9.0
+Version:             0.10.0
 Source:              http://download.berlios.de/%{src_name}/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -24,13 +24,11 @@ BuildRequires: SFEgoocanvas-devel
 Requires: SUNWPython
 Requires: SFEgoocanvas-devel
 
-%if %{!?_without_gtk_doc:1}%{?_without_gtk_doc:0}
 %package devel
 Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
-%endif
 
 %prep
 %setup -q -n %{src_name}-%version
@@ -69,15 +67,20 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/python?.?/vendor-packages
 
-%if %{!?_without_gtk_doc:1}%{?_without_gtk_doc:0}
 %files devel
 %defattr (-, root, bin)
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
+%if %{!?_without_gtk_doc:1}%{?_without_gtk_doc:0}
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/gtk-doc
 %endif
 
 
 %changelog
+* Tue May 13 2008 - nonsea@users.sourceforge.net
+- Bump to 0.10
+- Update %files
 * Mon Mar 17 2008 - jijun.yu@sun.com
 - Correct the URL.
 * Thu Jan 24 2008 - nonsea@users.sourceforge.net

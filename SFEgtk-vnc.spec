@@ -13,7 +13,7 @@
 %use gvnc = gtk-vnc.spec
 
 Name:               SFEgtk-vnc
-Summary:            gvnc.summary
+Summary:            gtk-vnc - A GTK widget for VNC clients
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
