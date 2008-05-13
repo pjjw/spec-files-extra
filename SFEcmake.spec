@@ -15,8 +15,8 @@
 
 Name:                    SFEcmake
 Summary:                 Cross platform make system
-Version:                 2.4.8
-Source:                  http://www.cmake.org/files/v2.4/cmake-%{version}.tar.gz
+Version:                 2.6.0
+Source:                  http://www.cmake.org/files/v2.6/cmake-%{version}.tar.gz
 URL:                     http://www.cmake.org
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -67,6 +67,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc
 
 %changelog
+* Tue May 13 2008 - nonsea@users.sourceforge.net
+- Bump to 2.6.0
 * Fri Mar 07 2008 - nonsea@users.sourceforge.net
 - Bump to 2.4.8
 * Mon Oct 22 2007 - nonsea@users.sourceforge.net

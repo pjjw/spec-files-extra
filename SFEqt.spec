@@ -5,7 +5,7 @@
 
 %include Solaris.inc
 
-%define tarball_version 4.4.0-rc1
+%define tarball_version 4.4.0
 
 Name:                SFEqt
 Summary:             Cross-platform development framework/toolkit
@@ -97,6 +97,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Tue May 13 2008 - nonsea@users.sourceforge.net
+- Bump to 4.4.0
 * Fri Mar 21 2008 - nonsea@users.sourceforge.net
 - Bump to 4.4.0-rc1
 - Remove upstreamed patch time.diff
