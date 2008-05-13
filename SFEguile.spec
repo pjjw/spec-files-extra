@@ -8,14 +8,11 @@
 Name:                SFEguile
 URL:                 http://www.gnu.org/software/guile/
 Summary:             Embeddable Scheme implementation written in C
-Version:             1.8.3
+Version:             1.8.5
 Source:              http://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
-Patch1:              guile-01-suncc-inline.diff
-Patch2:              guile-02-var-imaginary.diff
-Patch3:              guile-03-define-function.diff
-
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
+
 %include default-depend.inc
 Requires: SFEgmp
 Requires: SUNWlibtool
@@ -30,9 +27,6 @@ Requires:      %{name}
 
 %prep
 %setup -q -n guile-%version
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -97,13 +91,24 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 %{_datadir}/guile/*
 %{_datadir}/info/*
+%dir %attr (0755, root, root) %{_datadir}/emacs
+%dir %attr (0755, root, root) %{_datadir}/emacs/site-lisp
+%{_datadir}/emacs/site-lisp/*
 
 %files devel
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Jan 24 2008 - nonsea@users.sourceforge.net
+- Bump to 1.8.5
+- Remove upstreamed patches: suncc-inline.diff,
+  var-imaginary.diff and define-function.diff.
+- Update %files
 * Thu Jan 24 2008 - nonsea@users.sourceforge.net
 - Update Requires
 * Thu Oct 25 2007 - nonsea@users.sourceforge.net

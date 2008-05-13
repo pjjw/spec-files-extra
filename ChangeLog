@@ -1,5 +1,13 @@
 2008-05-13  Halton Huo <nonsea@users.sourceforge.net>
 
+	* SFEguile.spec: Bump to 1.8.5 and update %files
+	* patches/guile-01-suncc-inline.diff,
+	  patches/guile-02-var-imaginary.diff,
+	  patches/guile-03-define-function.diff:
+	  Remove upstreamed patches
+
+2008-05-13  Halton Huo <nonsea@users.sourceforge.net>
+
 	* SFEcmake.spec: Bump to 2.6.0
 	* SFEqt.spec: Bump to 4.4.0
 
