@@ -7,7 +7,7 @@
 
 Name:                SFElighttpd
 Summary:             A light httpd
-Version:             1.4.13
+Version:             1.4.19
 Source:              http://www.lighttpd.net/download/lighttpd-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -54,6 +54,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/spawn-fcgi
 %dir %attr (0755, root, bin) %{_sbindir}
 %{_sbindir}/lighttpd
+%{_sbindir}/lighttpd-angel
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/mod*.so*
 %dir %attr (0755, root, sys) %{_datadir}
@@ -63,6 +64,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/spawn-fcgi.1
 
 %changelog
-* 
+* Wed May 14 2008 - Ananth Shrinivas <ananth@sun.com>
+- Lighty has moved light years ahead. Bump to 1.4.19 
 * Sun Mar 04 2007 - Eric Boutilier
 - Initial spec

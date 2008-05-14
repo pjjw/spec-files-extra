@@ -1,3 +1,7 @@
+2008-05-14  Ananth Shrinivas <ananth@sun.com>
+
+	* SFElighttpd.spec: Bump to 1.4.19, Fix %files section
+
 2008-05-14  River Tarnell  <river@wikimedia.org>
 
 	* SFEmutt.spec: Add --enable-hcache, add gdbm dependency
