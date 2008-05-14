@@ -1,3 +1,12 @@
+2008-05-17  Michal Bielicki <cypromis@opensolaris.org>
+
+        * SFEstdcxx.spec: update to release 4.2.1
+
+2008-05-14  Michal Bielicki <cypromis@opensolaris.org>
+
+        * SFEunixodbc.soec: fixes for sparc
+        * SFExchat: get rid of non existant CBEbison requirement
+
 2008-05-14  Ananth Shrinivas <ananth@sun.com>
 
 	* SFElighttpd.spec: Bump to 1.4.19, Fix %files section

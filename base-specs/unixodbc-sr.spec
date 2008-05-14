@@ -190,7 +190,7 @@ export LDFLAGS="%{_ldflags} -L%{_libdir} -R%{_libdir} $LDFLAGS"
   --prefix=%{_prefix} \
   %{?configure_options}
 # and compile it
-make all
+gmake all
 # fix relink statement in .la files created by buggy bundled libtool
 # prepend temporary install lib path to aid in relinking
 for la in `%{__grep} '^relink_command=' */*.la | %{__cut} -d: -f1`; do

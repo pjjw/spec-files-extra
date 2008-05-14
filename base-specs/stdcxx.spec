@@ -3,15 +3,14 @@
 #
 # includes module(s): stdcxx
 #
-
-%define src_ver 4.1.3
+%define src_ver 4.2.1
 %define src_name stdcxx
-%define src_url http://cvs.apache.org/dist/incubator/stdcxx/releases
+%define src_url http://www.apache.org/dist/stdcxx
 
 Name:		stdcxx
 Summary:	Apache Standard C++ Library
 Version:	%{src_ver}
-Source:		%{src_url}/%{src_name}-incubating-%{version}.tar.gz
+Source:		%{src_url}/%{src_name}-%{version}.tar.gz
 Patch1:		stdcxx-01-config.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 

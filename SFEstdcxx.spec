@@ -69,5 +69,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/%{gnu_prefix}/include
 
 %changelog
+* Wed May  7 2008 - cypromis@opensolaris.org
+- upgraded to 4.2.1
+- some minor changes for SPARC compliance
 * Wed Sep  5 2007 - dougs@truemail.co.th
 - Initial version

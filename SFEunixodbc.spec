@@ -202,12 +202,28 @@ fi
 
 %files devel
 %defattr(-, root, root)
-%{_libdir}/*.a
-%{_libdir}/*.la
+%{_libdir}/libodbcinst.la
+%{_libdir}/libodbcinst.a
+%{_libdir}/libodbc.la
+%{_libdir}/libodbc.a
+%{_libdir}/libodbccr.la
+%{_libdir}/libodbccr.a
+%{_libdir}/libgtrtst.la
+%{_libdir}/libgtrtst.a
+%{_libdir}/libboundparam.la
+%{_libdir}/libboundparam.a
 %{_includedir}/*.h
-%ifarch amd64 sarcv9
-%{_libdir}/%{_arch64}/*.a
-%{_libdir}/%{_arch64}/*.la
+%ifarch amd64 sparcv9
+%{_libdir}/%{_arch64}/libodbcinst.la
+%{_libdir}/%{_arch64}/libodbcinst.a
+%{_libdir}/%{_arch64}/libodbc.la
+%{_libdir}/%{_arch64}/libodbc.a
+%{_libdir}/%{_arch64}/libodbccr.la
+%{_libdir}/%{_arch64}/libodbccr.a
+%{_libdir}/%{_arch64}/libgtrtst.la
+%{_libdir}/%{_arch64}/libgtrtst.a
+%{_libdir}/%{_arch64}/libboundparam.la
+%{_libdir}/%{_arch64}/libboundparam.a
 %endif
 
 %if %{build_gui_qt}
@@ -291,7 +307,7 @@ fi
 %{drvlibdir}/libsapdbS.*a
 %{drvlibdir}/libtdsS.*a
 %{drvlibdir}/libtemplate.*a
-%ifarch amd64 sparcv8
+%ifarch amd64 sparcv9
 %files drivers-devel
 %defattr(-, root, root)
 %{drvlibdir}/%{_arch64}/libesoobS.*a
