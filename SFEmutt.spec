@@ -16,8 +16,11 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 BuildRequires: SFEslang
+BuildRequires: SFEgdbm
+BuildRequires: SFEgdbm-devel
 Requires: SFEslang
 Requires: %{name}-root
+Requires: SFEgdbm
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -35,8 +38,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags -I/usr/include/idn"
-export LDFLAGS="%{_ldflags} -R/usr/sfw/lib"
+export CFLAGS="%optflags -I/usr/include/idn -I%{_includedir}"
+export LDFLAGS="%{_ldflags} -R/usr/sfw/lib -R%{_libdir} -L%{_libdir}"
 export CPPFLAGS="-I/usr/sfw/include"
 
 ./configure --prefix=%{_prefix}  \
@@ -47,7 +50,9 @@ export CPPFLAGS="-I/usr/sfw/include"
 	    --with-slang=/usr/lib \
 	    --with-ssl=/usr/sfw \
 	    --enable-pop \
-	    --enable-imap
+	    --enable-imap \
+            --enable-hcache \
+            --without-qdbm
 
 make -j$CPUS
 
@@ -78,6 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
+* Wed May 14 2008 - river@wikimedia.org
+- Add --enable-hcache to configure
+- Depend on SFEgdbm(-devel)
 * Tue Jan 01 2008 - Thomas Wagner
 - bump to 1.5.17
 * Sun Nov 25 2007 - Thomas Wagner

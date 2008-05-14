@@ -1,3 +1,7 @@
+2008-05-14  River Tarnell  <river@wikimedia.org>
+
+	* SFEmutt.spec: Add --enable-hcache, add gdbm dependency
+
 2008-05-13  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEgtk-vnc.spec: fix summary
