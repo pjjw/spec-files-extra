@@ -1,4 +1,10 @@
-2008-05-17  Michal Bielicki <cypromis@opensolaris.org>
+2008-05-15  Damien Carbery <damien.carbery@sun.com>
+
+	* archive/SUNWlcms.spec: Moved from JDS spec-files-other.
+	* SUNWlcms.spec,base-specs/lcms.spec: Deleted as they were merged into
+	  one file when used in spec-files-other.
+
+2008-05-15  Michal Bielicki <cypromis@opensolaris.org>
 
         * SFEstdcxx.spec: update to release 4.2.1
 
