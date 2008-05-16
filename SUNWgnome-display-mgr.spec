@@ -313,6 +313,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Sat May 17 2008 - simon.zheng@sun.com
+- Rework 04-dynamic-display.diff for gdm 2.22.0.
 * Thu May 08 2008 - brian.cameron@sun.com
 - Add SVC method script svc-gdm, which is needed because the new GDM does not
   run as a daemon, so the script launches gdm in the background.

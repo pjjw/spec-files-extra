@@ -1,3 +1,8 @@
+2008-05-17  simon.zheng  <simon.zheng@sun.com>
+
+	* SUNWgnome-display-mgr.spec
+	* patches/gdm-04-dynamic-display.diff: Rework for gdm 2.22.0.
+
 2008-05-15  Damien Carbery <damien.carbery@sun.com>
 
 	* archive/SUNWlcms.spec: Moved from JDS spec-files-other.
