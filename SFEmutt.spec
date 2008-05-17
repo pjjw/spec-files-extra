@@ -7,7 +7,7 @@
 
 Name:                SFEmutt
 Summary:             The mutt e-mail client
-Version:             1.5.17
+Version:             1.5.18
 Source:              ftp://ftp.mutt.org/mutt/devel/mutt-%{version}.tar.gz
 Patch1:              mutt-01-makefile.diff
 
@@ -29,7 +29,7 @@ SUNW_BaseDir:            /
 
 %prep
 %setup -q -n mutt-%version
-%patch1 -p1
+%patch1 -p0
 
 %build
 
@@ -83,6 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
+* Sat May 17 2008 - river@wikimedia.org
+- 1.5.18
 * Wed May 14 2008 - river@wikimedia.org
 - Add --enable-hcache to configure
 - Depend on SFEgdbm(-devel)
