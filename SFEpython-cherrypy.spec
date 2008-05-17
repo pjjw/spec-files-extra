@@ -11,7 +11,7 @@
 Name:                   SFEpython-cherrypy
 Summary:                CherryPy - A pythonic object-oriented HTTP framework
 URL:                    http://www.cherrypy.org/
-Version:                3.0.2
+Version:                3.0.3
 Source:                 %{src_url}/%{version}/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
@@ -49,6 +49,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{python_version}/vendor-packages
 
 %changelog
+* Sat May 17 2008 - Ananth Shrinivas <ananth@sun.com>
+- Bump to 3.0.3
 * Tue Dec 25 2007 - Ananth Shrinivas <ananth@sun.com>
 - Fixed errors in spec file
 * Sun Oct 14 2007 - Ananth Shrinivas <ananth@sun.com>

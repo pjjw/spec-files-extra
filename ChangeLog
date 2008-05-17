@@ -1,3 +1,7 @@
+2008-05-17  Ananth Shrinivas <ananth@sun.com>
+
+	* SFEpython-cherrypy.spec: Bump to 3.0.3
+
 2008-05-16  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEwine.spec: Bump to 1.0-rc1
