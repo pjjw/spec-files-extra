@@ -1,3 +1,8 @@
+2008-05-16  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEwine.spec: Bump to 1.0-rc1
+	* patches/wine-02-xim-workaround.diff: Update for 1.0-rc1
+
 2008-05-17  simon.zheng  <simon.zheng@sun.com>
 
 	* SUNWgnome-display-mgr.spec
