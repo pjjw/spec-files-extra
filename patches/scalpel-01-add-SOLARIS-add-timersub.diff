@@ -1,0 +1,46 @@
+diff -ur scalpel-1.60.orig/Makefile scalpel-1.60/Makefile
+--- scalpel-1.60.orig/Makefile	Fri Dec  8 19:42:37 2006
++++ scalpel-1.60/Makefile	Sun May 18 17:31:30 2008
+@@ -18,6 +18,9 @@
+ bsd: CC += -D__OPENBSD 
+ bsd: $(GOAL)
+ 
++solaris: CC += -DSOLARIS
++solaris: $(GOAL)
++
+ win32: CC += -D__WIN32 -Ic:\PThreads\include 
+ win32: $(SRC) $(HEADER_FILES)
+ 	$(CC) -o $(GOAL).exe $(SRC) -liberty -Lc:\PThreads\lib -lpthreadGC1
+diff -ur scalpel-1.60.orig/scalpel.h scalpel-1.60/scalpel.h
+--- scalpel-1.60.orig/scalpel.h	Fri Dec  8 23:54:54 2006
++++ scalpel-1.60/scalpel.h	Sun May 18 17:53:25 2008
+@@ -68,6 +68,29 @@
+ #define off64_t  off_t      
+ #endif  /* ifdef __OPENBSD */
+ 
++#ifdef SOLARIS
++#define __UNIX
++#include <sys/tty.h>
++#include <sys/param.h>
++#include <sys/ioctl.h>
++#include <libgen.h>
++// off_t on Solaris is 64 bits   CHECK THIS !!
++#define off64_t  off_t      
++
++#define timersub(a, b, result) \
++do { \
++       (result)->tv_sec = (a)->tv_sec - (b)->tv_sec; \
++  (result)->tv_usec = (a)->tv_usec - (b)->tv_usec; \
++  if ((result)->tv_usec < 0) { \
++               --(result)->tv_sec; \
++               (result)->tv_usec += 1000000; \
++       } \
++} while (0)
++
++
++#endif  /* ifdef SOLARIS  */
++
++
+ #ifdef __LINUX
+ #define __UNIX
+ #include <linux/hdreg.h>

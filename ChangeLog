@@ -1,3 +1,8 @@
+2008-05-18  Thomas Wagner  <tom68@users.sourceforge.net>
+
+	* SFEscalpel.spec: *NEW* fast file carver which extracts
+            files from a set of image files or raw device files.
+
 2008-05-18  Ananth Shrinivas <ananth@sun.com>
 
 	* SFEpython-sqlobject.spec: *NEW* A Python ORM
