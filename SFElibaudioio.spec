@@ -12,7 +12,7 @@ Group:        System/Libraries
 Version:      0.6.1alpha
 Summary:      LibAudioIO - audio foundation library
 URL:          http://libaudioio.sourceforge.net/
-Source:       http://trisk.acm.jhu.edu/libaudioio-%{version}.tar.gz
+Source:       http://pkgbuild.sf.net/spec-files-extra/tarballs/libaudioio-%{version}.tar.gz
 Patch1:       libaudioio-01-sunpro.diff
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
