@@ -1,3 +1,9 @@
+2008-05-18  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEwine.spec: Add patch4
+	* patches/wine-04-event-completion.diff: Use Event Completion framework
+	  instead of poll(2) - fixes wineserver CPU usage
+
 2008-05-18  Thomas Wagner  <tom68@users.sourceforge.net>
 
 	* SFEscalpel.spec: *NEW* fast file carver which extracts

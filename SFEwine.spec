@@ -15,6 +15,7 @@ URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
 Patch2:			wine-02-xim-workaround.diff
+Patch4:			wine-04-event-completion.diff
 Patch3:			wine-03-shell.diff
 Patch6:			wine-06-iphlpapi.diff
 SUNW_BaseDir:           %{_basedir}
@@ -50,6 +51,7 @@ Requires: %name
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 %patch6 -p1
 
 # change all occurences of duplicate functions/structs named "list"*
@@ -143,6 +145,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Sun May 18 2008 - trisk@acm.jhu.edu.
+- Add patch4
 * Tue May 13 2008 - trisk@acm.jhu.edu
 - Bump to 1.0-rc1
 * Mon Apr 28 2008 - trisk@acm.jhu.edu
