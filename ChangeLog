@@ -1,3 +1,7 @@
+2008-05-18  Ananth Shrinivas <ananth@sun.com>
+
+	* SFEpython-sqlobject.spec: *NEW* A Python ORM
+
 2008-05-17  River Tarnell  <river@wikimedia.org>
 
 	* SFEmutt.spec: 1.5.18
