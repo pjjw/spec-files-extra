@@ -29,22 +29,6 @@
  
  /* Because of the stupid Posix locking semantics, we need to keep
   * track of all file descriptors referencing a given file, and not
-@@ -620,13 +624,13 @@
- 
-         EV_SET( &ev[0], fd->unix_fd, EVFILT_READ, EV_DELETE, 0, 0, 0 );
-         EV_SET( &ev[1], fd->unix_fd, EVFILT_WRITE, EV_DELETE, 0, 0, 0 );
--        kevent( kqueue_fd, ev, 2, NULL, 0, NULL );
-+        kevent( kqueue_fd,epoll_wait ev, 2, NULL, 0, NULL );
-     }
- }
- 
- static inline void main_loop_epoll(void)
- {
--    int i, ret, timeout;
-+    int i, ret, timeout;if (pollfd[user].revents) fd_poll_even
-     struct kevent events[128];
- 
-     if (kqueue_fd == -1) return;
 @@ -675,7 +679,106 @@
      }
  }
