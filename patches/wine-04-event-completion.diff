@@ -29,7 +29,7 @@
  
  /* Because of the stupid Posix locking semantics, we need to keep
   * track of all file descriptors referencing a given file, and not
-@@ -675,7 +679,106 @@
+@@ -675,7 +679,107 @@
      }
  }
  
@@ -124,7 +124,8 @@
 +        for (i = 0; i < nget; i++)
 +        {
 +            long user = (long)events[i].portev_user;
-+            if (pollfd[user].revents) fd_poll_event( poll_users[user], pollfd[user].events );
++	    /* note: using pollfd[user].events instead of revents pegs CPU! */
++            if (pollfd[user].revents) fd_poll_event( poll_users[user], pollfd[user].revents );
 +	    /* if we are still interested, reassociate the fd */
 +	    if (pollfd[user].fd != -1) {
 +	        port_associate( port_fd, PORT_SOURCE_FD, pollfd[user].fd, pollfd[user].events, (void *)user );

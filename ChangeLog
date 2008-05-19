@@ -1,3 +1,8 @@
+2008-05-19  Albert Lee  <trisk@acm.jhu.edu>
+
+	* patches/wine-04-event-completion.diff: Doh, patch was using watched
+	  instead of recieved events, resulting in CPU pegging
+
 2008-05-18  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEwine.spec: Add patch4
