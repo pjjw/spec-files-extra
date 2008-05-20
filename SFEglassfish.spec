@@ -10,8 +10,8 @@
 #  The postinstall-script sets the JAVA_HOME=/usr/jdk/instances/jdk1.5.0
 
 
-%define versionstring v2
-%define buildnumber b58
+%define versionstring v2ur2
+%define buildnumber b04
 %define targetplatform sunos_x86
 %define adminuser adminadmin
 %define adminpassword changethis
@@ -24,17 +24,16 @@
 Name:                    SFEglassfish
 Summary:                 GlassFish - Java Application Server 
 URL:                     http://glassfish.java.net
-#Version:                 %{versionstring}-%{buildnumber}-%{targetplatform}
-Version:                 %{versionstring}-%{buildnumber}
-Source:                  http://java.net/download/javaee5/trunk/promoted/SunOS_X86/glassfish-installer-%{version}.jar
-
+Version:                 %{versionstring}-%{buildnumber}-%{targetplatform}
+#Version:                 %{versionstring}-%{buildnumber}
+Source:                  http://download.java.net/javaee5/v2ur2/promoted/SunOS_X86/glassfish-installer-%{version}.jar
 
 
 SUNW_BaseDir:            %{_localstatedir}/appserver
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
-#TODO: BuildReqirements:
-#TODO: Reqirements:
+#TODO: BuildRequirements:
+#TODO: Requirements:
 
 %include default-depend.inc
 
@@ -96,6 +95,8 @@ echo 'PATH=`pkgparam SFEglassfish BASEDIR`/glassfish/lib/ant/bin:`pkgparam SFEgl
 
 
 %changelog
+* Tue May 20 2008 <cypromis (at) opensolaris.org>
+- Bumped version up to v2u2
 * Tue Feb 12 2008 <pradhap (at) gmail.com>
 - Bumped up the version to v2 b58
 * Sun Sep 23 2007  - Thomas Wagner

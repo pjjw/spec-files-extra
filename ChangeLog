@@ -1,3 +1,7 @@
+2008-05-20  Michal Bielicki <cypromis <at> opensolaris.org>
+       * Bumped glassfish up to v2ur2-b04
+       * moved curl to archive
+
 2008-05-19  Albert Lee  <trisk@acm.jhu.edu>
 
 	* patches/wine-04-event-completion.diff: Doh, patch was using watched
