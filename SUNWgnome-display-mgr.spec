@@ -34,7 +34,8 @@ Patch2:                  gdm-02-sdtlogin-devperm.diff
 Patch3:                  gdm-03-fixcrash.diff
 # Manage displays on the fly
 Patch4:                  gdm-04-dynamic-display.diff
-# Create /var/run/gdm if it's not exist
+# Create /var/run/gdm if it's not exist. 
+# Set accession permission 01777 and owner root:gdm
 Patch5:                  gdm-05-xauth-dir.diff
 # Add ctrun support when running the user session.  Otherwise, any
 # core dump in the user session will cause GDM to restart.
@@ -97,7 +98,7 @@ Requires:                %{name}
 %patch2 -p0
 %patch3 -p0
 %patch4 -p1
-%patch5 -p0
+%patch5 -p1
 %patch6 -p1
 
 %build
