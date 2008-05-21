@@ -1,3 +1,7 @@
+2008-05-22  Thomas Wagner  <tom68@users.sourceforge.net>
+
+	* SFEdovecot.spec: *NEW* pop3/imap email daemon (with Maildir)
+
 2008-05-22  simon.zheng  <simon.zheng@sun.com>
 
 	* SUNWgnome-display-mgr.spec:
