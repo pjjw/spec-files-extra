@@ -24,7 +24,7 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires: SUNWzlib
-BuildRequires: SUNWopenssl-includes
+BuildRequires: SUNWopenssl-include
 Requires: SUNWzlib
 Requires: SUNWopenssl-libraries
 
