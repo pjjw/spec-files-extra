@@ -1,3 +1,7 @@
+2008-05-22  River Tarnell  <river@wikimedia.org>
+
+	* SFEconserver.spec: New spec.
+
 2008-05-22  Jerry Yu <jijun.yu@sun.com>
 
 	* SFEgnome-device-manager.spec: add copyright.
