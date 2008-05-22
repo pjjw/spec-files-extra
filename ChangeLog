@@ -1,3 +1,9 @@
+2008-05-22  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEent.spec: (new) entropy tester program
+	* .pkgtoolrc: Add copyright subdir to sourcedirs
+	* copyright/SFEent.copyright: (new) license for SFEent
+
 2008-05-22  Thomas Wagner  <tom68@users.sourceforge.net>
 
 	* SFEdovecot.spec: *NEW* pop3/imap email daemon (with Maildir)
