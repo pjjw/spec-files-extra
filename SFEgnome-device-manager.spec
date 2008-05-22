@@ -11,6 +11,7 @@ Name:                    SFEgnome-device-manager
 Summary:                 GNOME Device Manager
 Version:                 %{gdm.version}
 SUNW_BaseDir:            %{_basedir}
+SUNW_Copyright:		 %{name}.copyright
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
@@ -119,6 +120,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu May 22 2008 - simon.zheng@sun.com
+- Add copyright.
 * Sun Mar 02 2008 - simon.zheng@sun.com
 - Correct package version numbers.
 * Wed Oct 17 2007 - laca@sun.com

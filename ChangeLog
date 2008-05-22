@@ -1,3 +1,8 @@
+2008-05-22  Jerry Yu <jijun.yu@sun.com>
+
+	* SFEgnome-device-manager.spec: add copyright.
+	* copyright/SFEgnome-device-manager.copyright: added
+
 2008-05-22  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEent.spec: (new) entropy tester program
