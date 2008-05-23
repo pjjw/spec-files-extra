@@ -44,8 +44,8 @@ fi
 
 export CFLAGS="-O4 -fPIC -DPIC -I/usr/X11/include -I/usr/openwin/include -D_LARGEFILE64_SOURCE -I/usr/gnu/include -mcpu=pentiumpro -mtune=pentiumpro -msse2 -mfpmath=sse"
 export LDFLAGS=
-export CC="/usr/gnu/bin/gcc"
-export LD="/usr/gnu/bin/ld"
+export CC="/usr/sfw/bin/gcc"
+export LD="/usr/sfw/bin/gld"
 
 cd build/generic
 bash ./bootstrap.sh
@@ -58,7 +58,8 @@ sed -e 's/-Wl,-M,libxvidcore.ld/-Wl,--version-script,libxvidcore.ld/' configure.
 chmod ug+x configure
 ./configure --prefix=%{_prefix}			\
             --libdir=%{_libdir}			\
-            --includedir=%{_includedir}
+            --includedir=%{_includedir}		\
+	    --with-ld=/usr/sfw/bin/gld
 gmake
 
 %install
@@ -84,6 +85,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Fri May 23 2008 - michal.bielicki <at> voiceworks.pl
+- use SFW gcc
+- use SFW gld
+- changes thanks to Giles Dauphin
 * Tue Jan 08 2008 - moinak.ghosh@sun.com
 - Removed redundant CFLAGS setting that was overwriting the earlier value.
 * Mon Dec 31 2007 - markwright@internode.on.net

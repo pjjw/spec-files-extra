@@ -64,8 +64,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, sys) %{_mandir}
 %{_bindir}
-%{_mandir}
+%{_mandir}/man1
 
 %files devel
 %defattr (-, root, bin)

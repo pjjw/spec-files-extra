@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 %define src_name	jam
-%define src_url		ftp://ftp.perforce.com/pub/jam
+%define src_url		ftp://ftp.perforce.com/jam
 
 Name:                   SFEjam
 Summary:                make-like program
@@ -47,6 +47,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/jam
 
 %changelog
+* Fri May 23 2008 - michal.bielicki <at> voiceworks.pl
+- fix source url
 * Sun May  6 2007 - dougs@truemail.co.th
 - Fixed doc directory
 * Sun May  6 2007 - dougs@truemail.co.th

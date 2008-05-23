@@ -83,13 +83,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lib*.so*
 %{_libdir}/gpac
 %dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, sys) %{_mandir}
 %{_datadir}/gpac
-%{_mandir}
+%{_mandir}/man1
 
 %files devel
 %defattr (-, root, bin)
 %{_includedir}
 %changelog
+* Fri May 23 2008 - michal.bielicki@voiceworks.pl
+- rights change for mandir, fix by Giles Dauphin
 * Mon Dec 31 6 2007 - markwright@internode.on.net
 - Add patch 4 to fix trivial compiler error missing INADDR_NONE.
 - Add --extra-libs="-lrt -lm".

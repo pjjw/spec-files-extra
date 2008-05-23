@@ -54,7 +54,7 @@ nlsopt=-disable-nls
 %endif
 
 export CC=gcc
-export CFLAGS="%optflags -D__C99FEATURES__"
+export CFLAGS="-D__C99FEATURES__"
 export LDFLAGS="%_ldflags -lm"
 bash ./configure	\
     --prefix=%{_prefix} \
@@ -105,6 +105,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri May 23 2008 - michal.bielicki <at> voiceworks.pl
+- h26x chokes on optflags, fix by Giles Dauphin
 * tue Jan 08 2008 - moinak.ghosh@sun.com
 - Build with gcc and enable C99FEATURES.
 * Tue Nov 20 2007 - daymobrew@users.sourceforge.net

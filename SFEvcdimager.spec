@@ -20,6 +20,7 @@ Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_prefix}
 %include default-depend.inc
 Requires: %name
+Requires: SFElibcdio
 
 %prep
 %setup -q -n vcdimager-%version
@@ -87,7 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lib*.so*
 %dir %attr (0755, root, sys) %{_datadir}
 %{_bindir}
-%{_mandir}
+%{_mandir}/man1
 %{_datadir}/info/*
 
 %files devel
@@ -98,6 +99,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri May 23 2008 - michal.bielicki <at> voceworks.pl
+- dependency fix, thanks to Giles Dauphin for the fix
 * Thu Nov 22 2007 - daymobrew@users.sourceforge.net
 - Build with gcc.
 * Sat Jul 14 2007 - dougs@truemail.co.th

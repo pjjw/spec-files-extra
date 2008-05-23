@@ -93,7 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*.so*
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, sys) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*
 %dir %attr (0755, root, bin) %{_mandir}/jp
@@ -111,6 +111,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/cdio
 
 %changelog
+* Fri May 23 2008 - michal.bielicki <at> voiceworks.pl
+- fix to manpath ownership
 * Sat Jan 19 2008 - moinak.ghosh@sun.com
 - Set g++ as cpp compiler
 - Added back man and info files

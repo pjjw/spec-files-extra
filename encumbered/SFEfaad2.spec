@@ -19,8 +19,8 @@ Patch4:                  faad-04-wall.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires: SFEid3lib
-BuildRequires: SFEid3lib-devel
+Requires: SUNWid3lib
+BuildRequires: SUNWid3lib-devel
 
 %package devel
 Summary:                 %{summary} - development files
@@ -87,6 +87,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Fri May 23 2008 - michal.bielicki <at> voiceworks.pl
+- id3 is now part of nevada so dependencies should point to SUNWid3 and SUNWid3-devel, thanks to Giles Dauphin for the fix
 * Mon Nov 5 2007 - markwright@internode.on.net
 - Bump to 2.6.1.  Bump patch2 and patch4.  Comment patch1, patch3 and patch5.
 * Fri Jun 23 2005 - laca@sun.com

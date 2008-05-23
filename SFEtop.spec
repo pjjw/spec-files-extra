@@ -42,7 +42,7 @@ make -j$CPUS
 rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
-mv ${RPM_BUILD_ROOT}%{_prefix}/bin/i386 ${RPM_BUILD_ROOT}%{_prefix}/bin/i86
+#mv ${RPM_BUILD_ROOT}%{_prefix}/bin/i386 ${RPM_BUILD_ROOT}%{_prefix}/bin/i86
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -52,9 +52,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, bin) %{_datadir}/man
-%{_datadir}/man/*
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/*
 
 %changelog
+* Fri May 23 2008 - michal.bielicki <at> voiceworks.pl
+- path patches by Giiles Dauphin
 * Fri Feb 08 2008 - moinak.ghosh@sun.com
 - Initial spec.
