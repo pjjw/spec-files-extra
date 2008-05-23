@@ -1,3 +1,9 @@
+2008-05-22  Brian Cameron  <brian.cameron@sun.com>
+
+	* SUNWgnome-display-mgr.spec, patches/gdm-07-scripts.diff:  Add
+	  patch so that the PostSession, PreSession, and PostLogin scripts
+	  work.
+
 2008-05-22  River Tarnell  <river@wikimedia.org>
 
 	* SFEconserver.spec: New spec.

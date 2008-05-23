@@ -1,0 +1,43 @@
+Index: daemon/gdm-simple-slave.c
+===================================================================
+--- daemon/gdm-simple-slave.c	(revision 6243)
++++ daemon/gdm-simple-slave.c	(working copy)
+@@ -101,6 +101,9 @@
+ {
+         g_debug ("GdmSimpleSlave: session started %d", pid);
+ 
++        /* Run the PreSession script. gdmslave suspends until script has terminated */
++        gdm_slave_run_script (GDM_SLAVE (slave), GDMCONFDIR "/PreSession", "gdm");
++
+         /* FIXME: should we do something here? */
+ }
+ 
+@@ -111,6 +114,9 @@
+ {
+         g_debug ("GdmSimpleSlave: session exited with code %d\n", exit_code);
+ 
++        /* Run the PostSession script. gdmslave suspends until script has terminated */
++        gdm_slave_run_script (GDM_SLAVE (slave), GDMCONFDIR "/PostSession", "gdm");
++
+         gdm_slave_stopped (GDM_SLAVE (slave));
+ }
+ 
+@@ -353,6 +359,9 @@
+                        GdmSimpleSlave *slave)
+ {
+         queue_start_session (slave);
++
++        /* Run the PostLogin script. gdmslave suspends until script has terminated */
++        gdm_slave_run_script (GDM_SLAVE (slave), GDMCONFDIR "/PostLogin", "gdm");
+ }
+ 
+ static void
+@@ -840,7 +849,7 @@
+         }
+ 
+         /* Run the init script. gdmslave suspends until script has terminated */
+-        gdm_slave_run_script (GDM_SLAVE (slave), GDMCONFDIR "/Init/Default", "gdm");
++        gdm_slave_run_script (GDM_SLAVE (slave), GDMCONFDIR "/Init", "gdm");
+ 
+         create_new_session (slave);
+ 

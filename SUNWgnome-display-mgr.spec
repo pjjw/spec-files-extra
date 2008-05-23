@@ -40,6 +40,8 @@ Patch5:                  gdm-05-xauth-dir.diff
 # Add ctrun support when running the user session.  Otherwise, any
 # core dump in the user session will cause GDM to restart.
 Patch6:                  gdm-06-ctrun.diff
+# Support PostLogin, PreSession, and PostSession scripts.
+Patch7:                  gdm-07-scripts.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -100,6 +102,7 @@ Requires:                %{name}
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p0
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -314,6 +317,9 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Thu May 22 2008 - brian.cameron@sun.com
+- Add gdm-06-scripts.diff so that PostLogin, PreSession, and PostSession
+  scripts get run at the appropriate times.
 * Sat May 17 2008 - simon.zheng@sun.com
 - Rework 04-dynamic-display.diff for gdm 2.22.0.
 * Thu May 08 2008 - brian.cameron@sun.com
