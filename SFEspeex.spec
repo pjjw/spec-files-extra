@@ -86,10 +86,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 
-%dir %attr (0755, root, sys) %{_includedir}
+%dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
 
-%dir %attr (0755, root, sys) %{_libdir}
+%dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 
 %dir %attr (0755, root, sys) %{_datadir}

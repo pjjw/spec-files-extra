@@ -1,3 +1,9 @@
+2008-05-24  Michal Bielicki <micha.bielicki <at> voiceworks.pl>
+
+        * SFElibpng.spec shouldn't insist on changing permissions on /usr/lib and /usr/include
+        * SFEspeex.spec shouldn't insist on permissionchanges neither
+        * SFEopenafs.spec should leave permissions alone as well
+
 2008-05-24  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFElibtorrent-gpp.spec: Link correct libsigc++ at runtime

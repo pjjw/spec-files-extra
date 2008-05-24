@@ -54,7 +54,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %dir %attr (0755, root, other) %{_basedir}/include
 %{_basedir}/include/*
-%dir %attr (0755, root, sys) %{_libdir}
+%dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 %defattr (0755, root, sys)
 %dir %attr (0755, root, sys) %{_basedir}/libexec
