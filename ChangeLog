@@ -1,5 +1,19 @@
 2008-05-24  Albert Lee  <trisk@acm.jhu.edu>
 
+	* SFErtorrent.spec: Add SFExmlrpc-c-gpp dependencies
+	* SFExmlrpc-c-gpp.spec: *NEW* A lightweight RPC library based on XML and
+	  HTTP (g++ version)
+	* base-specs/libtorrent.spec: Enable ports, add patch2
+	* base-specs/rtorrent.spec: Enable XML-RPC
+	* base-specs/xmlrpc-c.spec: *NEW* Base spec for xmlrpc-c
+	* patches/libtorrent-02-event-ports.diff: Patch for event completion
+	  by River Tarnell
+	* patches/rtorrent-01-solaris.diff: Minor addition to patch
+	* patches/rtorrent-02-event-ports.diff: Patch for event completion by
+	  River Tarnell
+
+2008-05-24  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEiodine.spec: Bump to 0.4.1
 	* SFEtransmission.spec: Bump to 1.21, drop patch2
 	* patches/iodine-01-solaris.diff: Update for 0.4.1

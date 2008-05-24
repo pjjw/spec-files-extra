@@ -21,6 +21,8 @@ Requires: SFEsigcpp-gpp
 Requires: SFElibtorrent-gpp
 BuildRequires: SFEsigcpp-gpp-devel
 BuildRequires: SFElibtorrent-gpp-devel
+Requires: SFExmlrpc-c-gpp
+BuildRequires: SFExmlrpc-c-gpp-devel
 Requires: SUNWcurl
 Requires: SFEncurses
 BuildRequires: SFEncurses-devel
@@ -55,5 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/rtorrent.1
 
 %changelog
+* Sat May 24 2008 - trisk@acm.jhu.edu.
+- Add SFExmlrpc-c-gpp dependencies
 * Fri May  9 2008 - laca@sun.com
 - Initial version

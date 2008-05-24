@@ -89,3 +89,15 @@
    std::memcpy(sa->sun_path, filename.c_str(), filename.size() + 1);
  
    if (!get_fd().open_local())
+diff -urN rtorrent-0.8.2.orig/src/core/curl_get.cc rtorrent-0.8.2/src/core/curl_get.cc
+--- rtorrent-0.8.2.orig/src/core/curl_get.cc	2008-05-07 08:19:11.000000000 -0400
++++ rtorrent-0.8.2/src/core/curl_get.cc	2008-05-24 04:58:48.995868197 -0400
+@@ -81,7 +81,7 @@
+   curl_easy_setopt(m_handle, CURLOPT_NOSIGNAL,       1);
+   curl_easy_setopt(m_handle, CURLOPT_FOLLOWLOCATION, 1);
+   curl_easy_setopt(m_handle, CURLOPT_MAXREDIRS,      5);
+-  curl_easy_setopt(m_handle, CURLOPT_IPRESOLVE,      CURL_IPRESOLVE_V4);
++  curl_easy_setopt(m_handle, CURLOPT_IPRESOLVE,      CURL_IPRESOLVE_V6);
+   curl_easy_setopt(m_handle, CURLOPT_ENCODING,       "");
+ 
+   m_stack->add_get(this);
