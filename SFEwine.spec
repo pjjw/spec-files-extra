@@ -10,7 +10,7 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                1.0-rc1
+Version:                1.0-rc2
 URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
@@ -145,6 +145,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Sat May 24 2008 - trisk@acm.jhu.edu
+- Bump to 1.0-rc2
 * Sun May 18 2008 - trisk@acm.jhu.edu.
 - Add patch4
 * Tue May 13 2008 - trisk@acm.jhu.edu

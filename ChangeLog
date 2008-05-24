@@ -1,3 +1,8 @@
+2008-05-24  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEwine.spec: Bump to 1.0-rc2
+	* patches/wine-01-nameconfict.diff: Update for 1.0-rc2
+
 2008-05-25  Ananth Shrinivas  <ananth@sun.com>
 
 	* SFEsimplejson.spec: *NEW* A JSON encoder and decoder for Python

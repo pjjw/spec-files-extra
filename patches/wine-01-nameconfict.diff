@@ -1,5 +1,5 @@
---- wine-0.9.61.orig/dlls/gdiplus/image.c	2008-05-02 10:01:51.000000000 -0700
-+++ wine-0.9.61/dlls/gdiplus/image.c	2008-05-03 12:03:04.360774090 -0700
+--- wine-1.0-rc2.orig/dlls/gdiplus/image.c	2008-05-23 11:08:29.000000000 -0400
++++ wine-1.0-rc2/dlls/gdiplus/image.c	2008-05-24 06:35:32.606237573 -0400
 @@ -36,12 +36,12 @@
  
  #define PIXELFORMATBPP(x) ((x) ? ((x) >> 8) & 255 : 24)
@@ -70,15 +70,15 @@
  
          ZeroMemory(&bmi, sizeof(bmi));
          bmch = (BITMAPCOREHEADER*) (&bmi.bmiHeader);
-@@ -788,7 +788,7 @@
+@@ -805,7 +805,7 @@
          (*image)->type = ImageTypeUnknown;
      }
  
 -    (*image)->picture = pic;
 +    (*image)->picture = pict;
+     (*image)->flags   = ImageFlagsNone;
  
      return Ok;
- }
 --- wine-0.9.61.orig/dlls/msi/dialog.c	2008-05-02 10:01:51.000000000 -0700
 +++ wine-0.9.61/dlls/msi/dialog.c	2008-05-03 11:58:32.100659368 -0700
 @@ -1067,7 +1067,7 @@
