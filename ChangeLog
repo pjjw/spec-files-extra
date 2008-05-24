@@ -1,3 +1,11 @@
+2008-05-24  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEiodine.spec: Bump to 0.4.1
+	* SFEtransmission.spec: Bump to 1.21, drop patch2
+	* patches/iodine-01-solaris.diff: Update for 0.4.1
+	* patches/transmission-01-sunpro.diff: Update for 1.21
+	* patches/transmission-02-translation.diff: Drop upstreamed patch
+
 2008-05-24  simon.zheng  <simon.zheng@sun.com>
 
 	* patches/gdm-04-dynamic-display.diff:

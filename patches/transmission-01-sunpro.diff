@@ -1,17 +1,47 @@
---- transmission-1.05-orig/third-party/libnatpmp/getgateway.c	2008-02-09 03:54:19.000000000 +0000
-+++ transmission-1.05/third-party/libnatpmp/getgateway.c	2008-02-25 12:57:36.908727750 +0000
-@@ -25,7 +25,7 @@
- #endif
- #include "getgateway.h"
+Index: libtransmission/natpmp.c
+===================================================================
+--- a/libtransmission/natpmp.c	(revision 5926)
++++ b/libtransmission/natpmp.c	(working copy)
+@@ -126,7 +126,7 @@
+         const int val = readnatpmpresponseorretry( &nat->natpmp, &response );
+         logVal( "readnatpmpresponseorretry", val );
+         if( val >= 0 ) {
+-            tr_ninf( getKey(), _( "Found public address \"%s\"" ), inet_ntoa( response.publicaddress.addr ) );
++            tr_ninf( getKey(), _( "Found public address \"%s\"" ), inet_ntoa( response.pnu.publicaddress.addr ) );
+             nat->state = TR_NATPMP_IDLE;
+         } else if( val != NATPMP_TRYAGAIN ) {
+             nat->state = TR_NATPMP_ERR;
+@@ -188,7 +188,7 @@
+             nat->state = TR_NATPMP_IDLE;
+             nat->isMapped = 1;
+             nat->renewTime = time( NULL ) + LIFETIME_SECS;
+-            nat->port = resp.newportmapping.privateport;
++            nat->port = resp.pnu.newportmapping.privateport;
+             tr_ninf( getKey(), _( "Port %d forwarded successfully" ), nat->port );
+         } else if( val != NATPMP_TRYAGAIN ) {
+             nat->state = TR_NATPMP_ERR;
+Index: libtransmission/torrent.c
+===================================================================
+--- a/libtransmission/torrent.c	(revision 5926)
++++ b/libtransmission/torrent.c	(working copy)
+@@ -865,9 +865,9 @@
  
--#ifdef __linux__
-+#if defined(__linux__) || (defined(__sun) && defined(__SVR4))
- int getdefaultgateway(in_addr_t * addr)
+ void tr_torrentAvailability( const tr_torrent * tor, int8_t * tab, int size )
  {
- 	long d, g;
---- transmission-1.05-orig/third-party/libnatpmp/natpmp.c	2008-02-09 03:54:19.000000000 +0000
-+++ transmission-1.05/third-party/libnatpmp/natpmp.c	2008-02-25 12:49:59.347911068 +0000
-@@ -196,11 +196,11 @@
+-    return tr_peerMgrTorrentAvailability( tor->handle->peerMgr,
+-                                          tor->info.hash,
+-                                          tab, size );
++    tr_peerMgrTorrentAvailability( tor->handle->peerMgr,
++                                   tor->info.hash,
++                                   tab, size );
+ }
+ 
+ void
+Index: third-party/libnatpmp/natpmp.c
+===================================================================
+--- a/third-party/libnatpmp/natpmp.c	(revision 5926)
++++ b/third-party/libnatpmp/natpmp.c	(working copy)
+@@ -203,11 +203,11 @@
  			response->type = buf[1] & 0x7f;
  			if(buf[1] == 128)
  				//response->publicaddress.addr = *((uint32_t *)(buf + 8));
@@ -27,44 +57,24 @@
  			}
  			n = 0;
  		}
---- transmission-1.05-orig/libtransmission/torrent.c	2008-02-09 03:54:12.000000000 +0000
-+++ transmission-1.05/libtransmission/torrent.c	2008-02-25 12:52:09.046905476 +0000
-@@ -769,9 +769,9 @@
+Index: third-party/libnatpmp/getgateway.c
+===================================================================
+--- a/third-party/libnatpmp/getgateway.c	(revision 5926)
++++ b/third-party/libnatpmp/getgateway.c	(working copy)
+@@ -25,7 +25,7 @@
+ #endif
+ #include "getgateway.h"
  
- void tr_torrentAvailability( const tr_torrent * tor, int8_t * tab, int size )
+-#ifdef __linux__
++#if defined(__linux__) || (defined(__sun) && defined(__SVR4))
+ int getdefaultgateway(in_addr_t * addr)
  {
--    return tr_peerMgrTorrentAvailability( tor->handle->peerMgr,
--                                          tor->info.hash,
--                                          tab, size );
-+    tr_peerMgrTorrentAvailability( tor->handle->peerMgr,
-+                                   tor->info.hash,
-+                                   tab, size );
- }
- 
- void tr_torrentAmountFinished( const tr_torrent * tor, float * tab, int size )
---- transmission-1.05-orig/libtransmission/natpmp.c	2008-02-09 03:54:12.000000000 +0000
-+++ transmission-1.05/libtransmission/natpmp.c	2008-02-25 12:51:30.957608507 +0000
-@@ -137,7 +137,7 @@
-         const int val = readnatpmpresponseorretry( &nat->natpmp, &response );
-         logVal( "readnatpmpresponseorretry", val );
-         if( val >= 0 ) {
--            tr_inf( KEY "found public address %s", inet_ntoa( response.publicaddress.addr ) );
-+            tr_inf( KEY "found public address %s", inet_ntoa( response.pnu.publicaddress.addr ) );
-             nat->state = TR_NATPMP_IDLE;
-         } else if( val != NATPMP_TRYAGAIN ) {
-             setErrorState( nat );
-@@ -199,7 +199,7 @@
-             nat->state = TR_NATPMP_IDLE;
-             nat->isMapped = 1;
-             nat->renewTime = time( NULL ) + LIFETIME_SECS;
--            nat->port = resp.newportmapping.privateport;
-+            nat->port = resp.pnu.newportmapping.privateport;
-             tr_inf( KEY "port %d mapped successfully", nat->port );
-         } else if( val != NATPMP_TRYAGAIN ) {
-             setErrorState( nat );
---- transmission-1.05-orig/third-party/libnatpmp/natpmp.h	2008-02-09 03:54:19.000000000 +0000
-+++ transmission-1.05/third-party/libnatpmp/natpmp.h	2008-02-25 12:49:37.555508419 +0000
-@@ -47,7 +47,7 @@
+ 	long d, g;
+Index: third-party/libnatpmp/natpmp.h
+===================================================================
+--- a/third-party/libnatpmp/natpmp.h	(revision 5926)
++++ b/third-party/libnatpmp/natpmp.h	(working copy)
+@@ -52,7 +52,7 @@
  			uint16_t mappedpublicport;
  			uint32_t lifetime;
  		} newportmapping;

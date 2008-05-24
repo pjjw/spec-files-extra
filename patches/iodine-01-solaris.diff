@@ -1,88 +1,138 @@
-diff -ur iodine-0.4.0.orig/src/common.c iodine-0.4.0/src/common.c
---- iodine-0.4.0.orig/src/common.c	Tue Mar 20 20:00:27 2007
-+++ iodine-0.4.0/src/common.c	Wed Nov 28 15:34:00 2007
+--- iodine-0.4.1.orig/src/iodine.c	2007-11-30 17:11:30.000000000 -0500
++++ iodine-0.4.1/src/iodine.c	2008-05-23 21:38:25.091090129 -0400
+@@ -23,6 +23,7 @@
+ #include <netdb.h>
+ #include <netinet/in.h>
+ #include <sys/types.h>
++#include <sys/param.h>
+ #include <sys/time.h>
+ #include <sys/socket.h>
+ #include <fcntl.h>
+@@ -76,6 +77,10 @@
+ /* result of case preservation check done after login */
+ static int case_preserved;
+ 
++#if !defined(BSD) && !defined(__GLIBC__)
++static char *__progname;
++#endif
++
+ static void
+ sighandler(int sig) 
+ {
+@@ -630,6 +635,14 @@
+ 	b32 = get_base32_encoder();
+ 	dataenc = get_base32_encoder();
+ 	
++#if !defined(BSD) && !defined(__GLIBC__)
++	__progname = strchr(argv[0], '/');
++	if (__progname == NULL)
++		__progname = argv[0];
++	else
++		__progname++;
++#endif
++
+ 	while ((choice = getopt(argc, argv, "vfhu:t:d:P:")) != -1) {
+ 		switch(choice) {
+ 		case 'v':
+--- iodine-0.4.1.orig/src/common.c	2007-11-30 17:11:30.000000000 -0500
++++ iodine-0.4.1/src/common.c	2008-05-23 21:30:44.946312861 -0400
 @@ -1,4 +1,5 @@
  /* Copyright (c) 2006-2007 Bjorn Andersson <flex@kryo.se>, Erik Ekman <yarrick@kryo.se>
 + * Copyright (c) 2007 Albert Lee <trisk@acm.jhu.edu>.
   *
   * Permission to use, copy, modify, and distribute this software for any
   * purpose with or without fee is hereby granted, provided that the above
-@@ -21,6 +22,7 @@
+@@ -21,6 +22,8 @@
  #endif
  #include <time.h>
  #include <err.h>
 +#include <sys/types.h>
++#include <sys/param.h>
  #include <sys/stat.h>
  #include <stdio.h>
  #include <stdint.h>
-@@ -28,10 +30,46 @@
- #include <stdint.h>
+@@ -29,10 +32,48 @@
  #include <unistd.h>
  #include <string.h>
-+#include <fcntl.h>
  #include <ctype.h>
++#include <fcntl.h>
+ #include <termios.h>
  
  #include "common.h"
  
-+int daemon(int nochdir, int noclose)
++/* daemon(3) exists only in 4.4BSD or later, and in GNU libc */
++#if !(defined(BSD) && (BSD >= 199306)) && !defined(__GLIBC__)
++static int daemon(int nochdir, int noclose)
 +{
-+	int fd, i;
-+
-+	switch (fork()) {
-+		case 0:
-+			break;
-+		case -1:
-+			return -1;
-+		default:
-+			_exit(0);
-+	}
-+
-+	if (!nochdir) {
-+		chdir("/");
-+	}
-+
-+	if (setsid() < 0) {
-+		return -1;
-+	}
-+	
-+	if (!noclose) {
-+		if (fd = open("/dev/null", O_RDWR) >= 0) {
-+			for (i = 0; i < 3; i++) {
-+				dup2(fd, i);
-+			}
-+			if (fd > 2) {
-+				close(fd);
-+			}
-+		}
-+	}
-+
++ 	int fd, i;
++ 
++ 	switch (fork()) {
++ 		case 0:
++ 			break;
++ 		case -1:
++ 			return -1;
++ 		default:
++ 			_exit(0);
++ 	}
++ 
++ 	if (!nochdir) {
++ 		chdir("/");
++ 	}
++ 
++ 	if (setsid() < 0) {
++ 		return -1;
++ 	}
++ 	
++ 	if (!noclose) {
++ 		if (fd = open("/dev/null", O_RDWR) >= 0) {
++ 			for (i = 0; i < 3; i++) {
++ 				dup2(fd, i);
++ 			}
++ 			if (fd > 2) {
++ 				close(fd);
++ 			}
++ 		}
++ 	}
 +	return 0;
 +}
++#endif
 +
  int 
  open_dns(int localport, in_addr_t listen_ip) 
  {
-diff -ur iodine-0.4.0.orig/src/iodine.c iodine-0.4.0/src/iodine.c
---- iodine-0.4.0.orig/src/iodine.c	Sun Mar 25 08:41:20 2007
-+++ iodine-0.4.0/src/iodine.c	Wed Nov 28 15:28:00 2007
-@@ -59,6 +59,8 @@
- static int packetlen;
- static uint16_t chunkid;
+--- iodine-0.4.1.orig/src/iodined.c	2007-11-30 17:11:30.000000000 -0500
++++ iodine-0.4.1/src/iodined.c	2008-05-23 21:38:55.799043849 -0400
+@@ -21,6 +21,7 @@
+ #include <signal.h>
+ #include <unistd.h>
+ #include <sys/types.h>
++#include <sys/param.h>
+ #include <sys/time.h>
+ #include <sys/socket.h>
+ #include <fcntl.h>
+@@ -50,6 +51,10 @@
+ static int my_mtu;
+ static in_addr_t my_ip;
  
-+static char *__progname = "iodine";
-+
- static void
- sighandler(int sig) 
- {
-diff -ur iodine-0.4.0.orig/src/iodined.c iodine-0.4.0/src/iodined.c
---- iodine-0.4.0.orig/src/iodined.c	Sun Mar 25 08:41:20 2007
-+++ iodine-0.4.0/src/iodined.c	Wed Nov 28 15:28:21 2007
-@@ -49,6 +49,8 @@
- int my_mtu;
- in_addr_t my_ip;
- 
-+static char *__progname = "iodined";
++#if !defined(BSD) && !defined(__GLIBC__)
++static char *__progname;
++#endif
 +
  static int read_dns(int, struct query *, char *, int);
  static void write_dns(int, struct query *, char *, int);
  
+@@ -457,6 +462,14 @@
+ 
+ 	b32 = get_base32_encoder();
+ 
++#if !defined(BSD) && !defined(__GLIBC__)
++	__progname = strchr(argv[0], '/');
++	if (__progname == NULL)
++		__progname = argv[0];
++	else
++		__progname++;
++#endif
++
+ 	memset(password, 0, sizeof(password));
+ 	srand(time(NULL));
+ 	

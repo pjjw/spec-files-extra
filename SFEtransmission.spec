@@ -6,11 +6,10 @@
 
 Name:                    SFEtransmission
 Summary:                 Transmission - GTK and console BitTorrent client
-Version:                 1.06
+Version:                 1.21
 Source:                  http://download.m0k.org/transmission/files/transmission-%{version}.tar.bz2
 URL:                     http://transmission.m0k.org/
 Patch1:                  transmission-01-sunpro.diff
-Patch2:                  transmission-02-translation.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{source_name}-%{version}-build
 %include default-depend.inc
@@ -37,7 +36,6 @@ Requires:        %{name}
 %prep
 %setup -q -n %{source_name}-%{version}
 %patch1 -p1
-%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -119,6 +117,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Say May 24 2008 - trisk@acm.jhu.edu
+- Bump to 1.21, drop patch2
 * Sun Mar 02 2008 - trisk@acm.jhu.edu
 - Bump to 1.06, add patch2 (fixed upstream)
 * Tue Feb 26 2008 - markwright@internode.on.net
