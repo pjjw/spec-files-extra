@@ -1,3 +1,8 @@
+2008-05-25  Ananth Shrinivas  <ananth@sun.com>
+
+	* SFEsimplejson.spec: *NEW* A JSON encoder and decoder for Python
+	* SFEformencode.spec: *NEW* A Validation and form generation library for Python
+
 2008-05-25 Mark Wright <markwright@internode.on.net>
 
 	* SFEautoconf.spec: Bump to 2.62.
