@@ -1,5 +1,9 @@
 2008-05-24  Albert Lee  <trisk@acm.jhu.edu>
 
+	* SFElibtorrent-gpp.spec: Link correct libsigc++ at runtime
+
+2008-05-24  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFErtorrent.spec: Add SFExmlrpc-c-gpp dependencies
 	* SFExmlrpc-c-gpp.spec: *NEW* A lightweight RPC library based on XML and
 	  HTTP (g++ version)

@@ -37,6 +37,7 @@ mkdir %name-%version/%{base_arch}
 export CC=/usr/sfw/bin/gcc
 export CXX=/usr/sfw/bin/g++
 export CXXFLAGS="%{gcc_cxx_optflags}"
+export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib -R%{_cxx_libdir}"
 export PKG_CONFIG_PATH="%{_cxx_libdir}/pkgconfig"
 %libtorrent.build -d %name-%version/%{base_arch}
 
@@ -60,5 +61,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_cxx_libdir}/pkgconfig/*
 
 %changelog
+* Sat May 24 2008 - trisk@acm.jhu.edu.
+- Link correct libsigc++ at runtime
 * Fri May  9 2008 - laca@sun.com
 - Initial version
