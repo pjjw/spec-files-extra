@@ -1,3 +1,9 @@
+2008-05-25 Mark Wright <markwright@internode.on.net>
+
+	* SFEautoconf.spec: Bump to 2.62.
+	* archive/SFElibtool.spec: Bump to 2.2.4.
+	* patches/libtool-01-bash.diff: Use bash.
+
 2008-05-24  Michal Bielicki <micha.bielicki <at> voiceworks.pl>
 
         * SFElibpng.spec shouldn't insist on changing permissions on /usr/lib and /usr/include

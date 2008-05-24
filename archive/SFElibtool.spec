@@ -7,8 +7,9 @@
 
 Name:                SFElibtool
 Summary:             Generic library support script
-Version:             1.5.26
+Version:             2.2.4
 Source:              http://ftp.gnu.org/gnu/libtool/libtool-%{version}.tar.gz
+Patch1:              libtool-01-bash.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -18,6 +19,7 @@ Requires: SUNWpostrun
 
 %prep
 %setup -q -n libtool-%version
+%patch1 -p1 -b .patch01
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -73,15 +75,20 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lib*.so*
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*.h
+%dir %attr (0755, root, bin) %{_includedir}/libltdl
+%{_includedir}/libltdl/*.h
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, bin) %{_datadir}/info
 %{_datadir}/info/libtool.info
+%{_datadir}/info/libtool.info-1
 %dir %attr (0755, root, other) %{_datadir}/aclocal
 %{_datadir}/aclocal/*
 %dir %attr (0755, root, other) %{_datadir}/libtool
 %{_datadir}/libtool/*
 
 %changelog
+* Sat May 24 2008 - Mark Wright <markwright@internode.on.net>
+- Bump to 2.2.4.  Add patch1 to use bash.
 * Sun Mar 2 2008 - Mark Wright <markwright@internode.on.net>
 - Bump to 1.5.26.
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net

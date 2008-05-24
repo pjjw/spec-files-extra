@@ -7,7 +7,7 @@
 
 Name:                    SFEautoconf
 Summary:                 GNU autoconf - scripts and macros for configuring source code packages
-Version:                 2.61
+Version:                 2.62
 Source:			 http://ftp.gnu.org/gnu/autoconf/autoconf-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -81,6 +81,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Thu May 22 2008 - Mark Wright <markwright@internode.on.net>
+- Bump to 2.62.
 * Wed Oct 17 2007 - laca@sun.com
 - add support for building with either SFEm4 or SUNWgm4
 * Sat Apr 21 2007 - dougs@truemail.co.th
