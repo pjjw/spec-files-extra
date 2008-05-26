@@ -1,3 +1,6 @@
+2008-05-26  Bernd Markgraf <markgraf@med.ovgu.de>
+	* SFEqtpfsgui-spec, qtpfsgui-1.diff: *NEW* HDR Image creation
+
 2008-05-26  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEconduit.spec: Fix version
