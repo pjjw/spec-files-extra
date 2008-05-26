@@ -79,7 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps
 %{_datadir}/seahorse
 %{_datadir}/mime
-%dir %attr (0755, root, sys) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}
 %{_mandir}/*
 %dir %attr (0755, root, bin) /usr/etc
 /usr/etc/* 

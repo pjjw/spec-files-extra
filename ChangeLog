@@ -1,3 +1,10 @@
+2008-05-26  Michal Bielicki <michal.bielicki@voiceworks.pl>
+	* SFEseahorse.spec,encumbered/SFElame.spec,encumbered/SFElibmpeg2.spec,
+          encumbered/SFEgpac.spec,encumbered/SFEliba52.spec,SFElibgsm.spec,
+          SFElibcdio.spec,SFEnasm.spec,SFEncurses.spec changed manpath permission 
+          back from wrong patch and fixed one or two originaly faulty ones as well. 
+          Never check in patches while half asleep.
+
 2008-05-26  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEsourcenav.spec: Fix build issue caused by rm
@@ -33,7 +40,7 @@
 	* archive/SFElibtool.spec: Bump to 2.2.4.
 	* patches/libtool-01-bash.diff: Use bash.
 
-2008-05-24  Michal Bielicki <micha.bielicki <at> voiceworks.pl>
+2008-05-24  Michal Bielicki <michal.bielicki <at> voiceworks.pl>
 
         * SFElibpng.spec shouldn't insist on changing permissions on /usr/lib and /usr/include
         * SFEspeex.spec shouldn't insist on permissionchanges neither

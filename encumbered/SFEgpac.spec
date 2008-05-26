@@ -83,7 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lib*.so*
 %{_libdir}/gpac
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, sys) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}
 %{_datadir}/gpac
 %{_mandir}/man1
 
