@@ -46,8 +46,8 @@ echo 'mydir=`dirname $0`' > snavigator
 echo 'exec ${mydir}/../sourcenav/bin/snavigator "${@}"' >> snavigator
 chmod 755 snavigator
 
-rm $RPM_BUILD_ROOT %{_mandir}/man1/tclsh.1
-rm $RPM_BUILD_ROOT %{_mandir}/man1/wish.1
+rm $RPM_BUILD_ROOT/%{_mandir}/man1/tclsh.1
+rm $RPM_BUILD_ROOT/%{_mandir}/man1/wish.1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -63,6 +63,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Fri Feb 22 2007 - jijun.yu@sun.com
+- Fix build issue caused by rm
 * Sat Oct 14 2006 - laca@sun.com
 - move to /usr/sourcenav -- moving just datadir doesn't work unfortunately
 - get rid of devel subpkg

@@ -1,3 +1,7 @@
+2008-05-26  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEsourcenav.spec: Fix build issue caused by rm
+
 2008-05-26  Bernd Markgraf <markgraf@med.ovgu.de>
 	* SFEqtpfsgui-spec, qtpfsgui-1.diff: *NEW* HDR Image creation
 
