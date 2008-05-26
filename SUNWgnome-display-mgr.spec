@@ -35,7 +35,7 @@ Patch3:                  gdm-03-fixcrash.diff
 # Manage displays on the fly
 Patch4:                  gdm-04-dynamic-display.diff
 # Create /var/run/gdm if it's not exist. 
-# Set accession permission 01777 and owner root:gdm
+# Set accession permission 01775 and ownership root:gdm
 Patch5:                  gdm-05-xauth-dir.diff
 # Add ctrun support when running the user session.  Otherwise, any
 # core dump in the user session will cause GDM to restart.
@@ -304,7 +304,7 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %{_localstatedir}/lib/gdm/.gconf.path
 %{_localstatedir}/lib/gdm/.gconf.mandatory
 %dir %attr (0755, root, sys) %{_localstatedir}/run
-%dir %attr (1770, root, gdm) %{_localstatedir}/run/gdm
+%dir %attr (1775, root, gdm) %{_localstatedir}/run/gdm
 
 %if %build_l10n
 %files l10n
