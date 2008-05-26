@@ -13,7 +13,7 @@
 
 Name:           SFEconduit
 Summary:        %{conduit.summary}
-Version:        %{default_pkg_version}
+Version:        %conduit.version
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 

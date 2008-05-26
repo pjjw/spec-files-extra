@@ -11,7 +11,7 @@
 Name:           conduit
 License:        GPL
 Group:          System/GUI/GNOME
-Version:        0.3.9
+Version:        0.3.10
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -71,12 +71,12 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-#intltoolize --force --automake
-#libtoolize --force
-#aclocal $ACLOCAL_FLAGS -I .
+intltoolize --force --automake
+libtoolize --force
+aclocal $ACLOCAL_FLAGS -I . -I m4
 #autoheader
-#automake -a -c -f
-#autoconf
+automake -a -c -f
+autoconf
 
 ./configure --prefix=%{_prefix} \
 			--bindir=%{_bindir} \
@@ -132,6 +132,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon May 26 2008 - nonsea@users.sourceforge.net
+- Bump to 0.3.10
 * Wed Mar 19 2008 - nonsea@users.sourceforge.net
 - Bump to 0.3.9
 * Mon Feb 18 2008 - nonsea@users.sourceforge.net
