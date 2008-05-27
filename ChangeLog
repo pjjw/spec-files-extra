@@ -1,3 +1,8 @@
+2008-05-28  Ananth Shrinivas <ananth@sun.com>
+
+	* SFEgeany.spec: Refactored SFEgeany-multipkg.spec
+	  Bump to version 0.14
+
 2008-05-27  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEtransmission: Add SUNWcurl dependency
