@@ -18,11 +18,6 @@ Release:                 1
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.22/gdm-%{version}.tar.bz2
 Source1:                 gdm.xml
 Source2:                 svc-gdm
-# Patch1 is a hack to work around the fact that the gio function
-# g_file_info_get_attribute_string is returning a NULL on Solaris, causing
-# the GDM GUI to crash.  This patch should be removed when gio is fixed to
-# work properly on Solaris.
-Patch1:                  gdm-01-fixgio.diff
 # Patch2 adds SDTLOGIN interface, which drops the Xserver to user
 # perms rather than running as root, for added security on Solaris.
 # It also adds logindevperm support.  Refer to bug #531651.  My
@@ -36,6 +31,7 @@ Patch3:                  gdm-03-fixcrash.diff
 Patch4:                  gdm-04-dynamic-display.diff
 # Create /var/run/gdm if it's not exist. 
 # Set accession permission 01775 and ownership root:gdm
+# More details, please refer to bugzilla bug #534605.
 Patch5:                  gdm-05-xauth-dir.diff
 # Add ctrun support when running the user session.  Otherwise, any
 # core dump in the user session will cause GDM to restart.
@@ -317,6 +313,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Tue May 27 2008 - simon.zheng@sun.com
+- Remove gdm-01-fixgio.diff. Already fixed in gio bug #533369.
 * Thu May 22 2008 - brian.cameron@sun.com
 - Add gdm-06-scripts.diff so that PostLogin, PreSession, and PostSession
   scripts get run at the appropriate times.

@@ -1,3 +1,9 @@
+2008-05-27  simon.zheng  <simon.zheng@sun.com>
+
+	* SUNWgnome-display-mgr.spec:
+	* patches/gdm-01-fixgio.diff: Removed. 
+          Root cause is from gio. Fixed in bug #533369.
+
 2008-05-26  Michal Bielicki <michal.bielicki@voiceworks.pl>
 	* SFEseahorse.spec,encumbered/SFElame.spec,encumbered/SFElibmpeg2.spec,
           encumbered/SFEgpac.spec,encumbered/SFEliba52.spec,SFElibgsm.spec,
