@@ -97,7 +97,7 @@ diff -urN rtorrent-0.8.2.orig/src/core/curl_get.cc rtorrent-0.8.2/src/core/curl_
    curl_easy_setopt(m_handle, CURLOPT_FOLLOWLOCATION, 1);
    curl_easy_setopt(m_handle, CURLOPT_MAXREDIRS,      5);
 -  curl_easy_setopt(m_handle, CURLOPT_IPRESOLVE,      CURL_IPRESOLVE_V4);
-+  curl_easy_setopt(m_handle, CURLOPT_IPRESOLVE,      CURL_IPRESOLVE_V6);
++  curl_easy_setopt(m_handle, CURLOPT_IPRESOLVE,      CURL_IPRESOLVE_WHATEVER);
    curl_easy_setopt(m_handle, CURLOPT_ENCODING,       "");
  
    m_stack->add_get(this);

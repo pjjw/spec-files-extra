@@ -1,3 +1,8 @@
+2008-05-27  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEtransmission: Add SUNWcurl dependency
+	* patches/rtorrent-01-solaris.diff: Fix DNS resolution with libcurl
+
 2008-05-27  simon.zheng  <simon.zheng@sun.com>
 
 	* SUNWgnome-display-mgr.spec:

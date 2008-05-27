@@ -17,6 +17,7 @@ BuildRequires: SUNWgnome-base-libs
 BuildRequires: SUNWopenssl-include
 Requires: SUNWgnome-base-libs
 Requires: SUNWopenssl-libraries
+Requires: SUNWcurl
 %if %option_with_gnu_iconv
 Requires: SUNWgnu-libiconv
 Requires: SUNWgnu-gettext
@@ -117,7 +118,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Say May 24 2008 - trisk@acm.jhu.edu
+* Tue May 27 2008 - trisk@acm.jhu.edu
+- Add SUNWcurl dependency
+* Sat May 24 2008 - trisk@acm.jhu.edu
 - Bump to 1.21, drop patch2
 * Sun Mar 02 2008 - trisk@acm.jhu.edu
 - Bump to 1.06, add patch2 (fixed upstream)
