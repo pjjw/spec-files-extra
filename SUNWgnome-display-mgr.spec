@@ -92,7 +92,6 @@ Requires:                %{name}
 
 %prep
 %setup -q -n gdm-%version
-%patch1 -p1
 %patch2 -p0
 %patch3 -p0
 %patch4 -p1
