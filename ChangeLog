@@ -1,3 +1,9 @@
+2008-05-28  Jeff cai<jeff.cai@sun.com>
+
+	* SFElibtasn1.spec:
+	* base-specs/libtasn1.spec:
+	Split two spec files
+
 2008-05-28  simon.zheng  <simon.zheng@sun.com>
 
 	* SUNWgnome-display-mgr.spec:
