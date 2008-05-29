@@ -1,3 +1,7 @@
+2008-05-29  River Tarnell  <river@wikimedia.org>
+
+	* SFElibmikmod.spec: don't assume basedir is /usr
+
 2008-05-28  Jeff cai<jeff.cai@sun.com>
 
 	* SFElibtasn1.spec:

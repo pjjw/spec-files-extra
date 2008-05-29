@@ -46,7 +46,7 @@ make -j$CPUS
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-rm -rf $RPM_BUILD_ROOT/usr/info
+rm -rf $RPM_BUILD_ROOT%{_basedir}/info
 rm -rf $RPM_BUILD_ROOT%{_libdir}/lib*a
 
 %clean
@@ -71,6 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Thu May 29 2008 - river@wikimedia.org
+- don't assume basedir is /usr
 * Wed Feb 06 2008 - moinak.ghosh@sun.com
 - Remove hard dependency on oss from devel package.
 * Sun Jan 20 2008 - moinak.ghosh@sun.com
