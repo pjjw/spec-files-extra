@@ -29,7 +29,9 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
+export CPPFLAGS="-I%{_includedir}"
 export CFLAGS="%optflags"
+export LDFLAGS="-L%{_libdir} -R%{_libdir}"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export MSGFMT="/usr/bin/msgfmt"
 
@@ -45,7 +47,7 @@ make -j$CPUS
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-rm -rf $RPM_BUILD_ROOT/usr/info
+rm -rf $RPM_BUILD_ROOT%{_basedir}/info
 rm -rf $RPM_BUILD_ROOT%{_libdir}/lib*a
 
 %clean
@@ -63,5 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Thu May 29 2008 - river@wikimedia.org
+- don't assume basedir is /usr
 * Wed Feb 06 2008 - moinak.ghosh@sun.com
 - Initial spec.

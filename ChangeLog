@@ -1,3 +1,7 @@
+2008-05-29  River Tarnell  <river@wikimedia.org>
+
+	* SFEmikmod.spec: don't assume basedir is /usr
+
 2008-05-29  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEsmartmontools.spec: *NEW* S.M.A.R.T. monitoring tools
