@@ -1,0 +1,31 @@
+diff -u -r contact-lookup-applet-0.16-new//src/Makefile.am contact-lookup-applet-0.16/src/Makefile.am
+--- contact-lookup-applet-0.16-new//src/Makefile.am	Thu May 24 21:32:04 2007
++++ contact-lookup-applet-0.16/src/Makefile.am	Fri May 30 17:19:12 2008
+@@ -15,7 +15,7 @@
+ # The test program
+ noinst_PROGRAMS = test-entry
+ test_entry_SOURCES = test-entry.c
+-test_entry_CFLAGS = $(GTK_CFLAGS) $(EVO_CFLAGS) -Wall
++test_entry_CFLAGS = $(GTK_CFLAGS) $(EVO_CFLAGS)
+ test_entry_LDADD = $(GTK_LIBS) $(EVO_LIBS) libecontactentry.la
+ 
+ # The applet
+@@ -30,5 +30,5 @@
+ 	glade-utils.h \
+ 	glade-utils.c
+ 
+-contact_lookup_applet_CFLAGS = $(GLADE_CFLAGS) $(PANEL_CFLAGS) $(GTK_CFLAGS) $(EVO_CFLAGS) -Wall
++contact_lookup_applet_CFLAGS = $(GLADE_CFLAGS) $(PANEL_CFLAGS) $(GTK_CFLAGS) $(EVO_CFLAGS)
+ contact_lookup_applet_LDADD = $(GLADE_LIBS) $(PANEL_LIBS) $(GTK_LIBS) $(EVO_LIBS) libecontactentry.la
+diff -u -r contact-lookup-applet-0.16-new//src/glade-utils.c contact-lookup-applet-0.16/src/glade-utils.c
+--- contact-lookup-applet-0.16/src/glade-utils.c	Thu May 24 21:32:04 2007
++++ contact-lookup-applet-0.16-new//src/glade-utils.c	Thu May 29 19:08:56 2008
+@@ -163,7 +163,7 @@
+   }
+   pixbuf = gtk_icon_theme_load_icon (theme, icon_name, size, 0, &error);
+   if (error) {
+-    g_warning ("%s: %s", __FUNCTION__, error->message);
++    g_warning ("%s: %s", G_GNUC_PRETTY_FUNCTION, error->message);
+     g_error_free (error);
+     return NULL;
+   }
