@@ -1,5 +1,9 @@
 2008-05-31  Albert Lee  <trisk@acm.jhu.edu>
 
+	* encumbered/SFExvid.spec: Use default gcc and linker, fix arch options
+
+2008-05-31  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEfireflies: *NEW* Fireflies screensaver
 	* SFEwine.spec: Bump to 1.0-rc3
 	* patches/fireflies-01-sunpro.diff: Don't assume GCC

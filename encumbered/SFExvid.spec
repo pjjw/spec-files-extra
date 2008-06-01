@@ -42,10 +42,14 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="-O4 -fPIC -DPIC -I/usr/X11/include -I/usr/openwin/include -D_LARGEFILE64_SOURCE -I/usr/gnu/include -mcpu=pentiumpro -mtune=pentiumpro -msse2 -mfpmath=sse"
-export LDFLAGS=
-export CC="/usr/sfw/bin/gcc"
-export LD="/usr/sfw/bin/gld"
+export CC=gcc
+export CPPFLAGS="-D_LARGEFILE64_SOURCE -I%{xorg_inc} -I%{gnu_inc}"
+%ifarch i386 amd64
+export CFLAGS="%gcc_optflags -O4 -mcpu=pentiumpro -mtune=pentiumpro -msse2 -mfpmath=sse"
+%else
+export CFLAGS="%gcc_optflags -O4"
+%endif
+export LDFLAGS="%_ldflags %{gnu_lib_path}"
 
 cd build/generic
 bash ./bootstrap.sh
@@ -53,14 +57,13 @@ bash ./bootstrap.sh
 # it thinks we are using the Sun linker.  I do not know
 # how to persuade autotools that we are actually using the
 # gnu linker /usr/gnu/ld.  Hence the following sed hack.
-mv configure configure.genned
-sed -e 's/-Wl,-M,libxvidcore.ld/-Wl,--version-script,libxvidcore.ld/' configure.genned >configure
-chmod ug+x configure
+#mv configure configure.genned
+#sed -e 's/-Wl,-M,libxvidcore.ld/-Wl,--version-script,libxvidcore.ld/' configure.genned >configure
+#chmod ug+x configure
 ./configure --prefix=%{_prefix}			\
             --libdir=%{_libdir}			\
-            --includedir=%{_includedir}		\
-	    --with-ld=/usr/sfw/bin/gld
-gmake
+            --includedir=%{_includedir}
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -85,6 +88,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Sat May 31 2008 - trisk@acm.jhu.edu
+- Use default gcc and linker, fix arch options
 * Fri May 23 2008 - michal.bielicki <at> voiceworks.pl
 - use SFW gcc
 - use SFW gld
