@@ -1,3 +1,10 @@
+2008-05-31  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEfireflies: *NEW* Fireflies screensaver
+	* SFEwine.spec: Bump to 1.0-rc3
+	* patches/fireflies-01-sunpro.diff: Don't assume GCC
+	* patches/fireflies-02-solaris.diff: Don't assume GNU
+
 2008-05-31  Bob Friesenhahn  <bfriesen@simple.dallas.tx.us>
 
 	* SFEgraphicsmagick.spec: Update to GraphicsMagick 1.2.2.

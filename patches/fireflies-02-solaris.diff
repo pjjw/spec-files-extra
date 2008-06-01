@@ -1,0 +1,20 @@
+--- fireflies-2.07/src/main.cc.orig	Mon Jun 23 16:55:04 2003
++++ fireflies-2.07/src/main.cc	Fri Mar  7 01:13:41 2008
+@@ -14,7 +14,7 @@
+ 
+ #ifdef WIN32
+ #include <windows.h>
+-#else
++#elif defined(__GNU__)
+ #include <argp.h>
+ #endif
+ 
+@@ -26,7 +26,7 @@
+ int mspf = 1000/30;
+ bool full_screen = false;
+ 
+-#ifdef WIN32
++#if defined(WIN32) || !defined(__GNU__)
+ // mingw doesn't have argp. implement half-assed version
+ 
+ #define OPTION_HIDDEN 1

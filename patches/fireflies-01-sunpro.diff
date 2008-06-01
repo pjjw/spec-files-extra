@@ -1,0 +1,22 @@
+--- fireflies-2.07/Make.include.in.orig	2008-03-07 00:56:39.052739886 -0500
++++ fireflies-2.07/Make.include.in	2008-03-07 00:50:35.419462824 -0500
+@@ -5,7 +5,7 @@
+ GL_LIBS = @GL_LIBS@
+ OPT_LIBS = @OPT_LIBS@
+ 
+-CFLAGS = -Wall -I../libgfx/include/ $(SDL_CFLAGS) @CFLAGS@
++CFLAGS = -I../libgfx/include/ $(SDL_CFLAGS) @CFLAGS@
+ LIBS = ../libgfx/src/libgfx.a $(GL_LIBS) $(SDL_LIBS) $(OPT_LIBS) @LIBS@
+ 
+ OBJECTS = arrow.o bait.o firefly.o scene.o tail.o utils.o modes.o @OPT_OBJS@
+--- fireflies-2.07/libgfx/configure.in.orig	2003-02-03 16:19:18.000000000 -0500
++++ fireflies-2.07/libgfx/configure.in	2008-03-07 00:55:41.185840886 -0500
+@@ -50,7 +50,7 @@
+ AC_CHECK_PROG(FLTKCONFIG, fltk-config, fltk-config, :)
+ 
+ dnl -- It might be good to write a more thorough test here
+-if test $GCC = "yes"; then
++if test "$GCC" = "yes"; then
+   CC_DEPEND="\$(CC) -M"
+   CXX_DEPEND="\$(CXX) -M"
+ else
