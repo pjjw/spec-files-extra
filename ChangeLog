@@ -1,3 +1,7 @@
+2008-06-01  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEnicstat.spec: Don't hardcode /usr/bin
+
 2008-05-31  Albert Lee  <trisk@acm.jhu.edu>
 
 	* encumbered/SFExvid.spec: Use default gcc and linker, fix arch options

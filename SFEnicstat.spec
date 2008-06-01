@@ -35,8 +35,8 @@ cc -lgen -lkstat -lrt -lsocket -o nicstat nicstat.c
 rm -rf $RPM_BUILD_ROOT
 
 cd %name-%version
-mkdir -p $RPM_BUILD_ROOT/usr/bin
-cp -p nicstat $RPM_BUILD_ROOT/usr/bin
+mkdir -p $RPM_BUILD_ROOT/%{_bindir}
+cp -p nicstat $RPM_BUILD_ROOT/%{_bindir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -48,5 +48,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Jun 01 2008 - trisk@acm.jhu.edu
+- Don't hardcode /usr/bin
 * Wed Jan 02 2008 - Thomas Wagner
 - Initial spec
