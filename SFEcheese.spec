@@ -7,16 +7,9 @@
 
 Name:                    SFEcheese
 Summary:                 Cheese - GNOME application for taking pictures and videos from a webcam
-Version:                 0.2.3
-#Source:                  http://live.gnome.org/Cheese/Releases?action=AttachFile&do=get&target=cheese-%{version}.tar.gz
-Source:                  http://trisk.acm.jhu.edu/cheese-%{version}.tar.gz
-Patch1:                  cheese-01-nongnu.diff
-Patch2:                  cheese-02-sunpro.diff
-Patch3:                  cheese-03-flags.diff
-Patch4:                  cheese-04-threads.diff
-%if %option_with_gnu_iconv
-Patch5:                  cheese-05-gnu-iconv.diff
-%endif
+Version:                 2.23.2
+Source:                  http://ftp.gnome.org/pub/GNOME/sources/cheese/2.23/cheese-%{version}.tar.gz
+Patch1:                  cheese-01-hack-dev.diff
 URL:                     http://live.gnome.org/Cheese
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -40,6 +33,11 @@ BuildRequires: FSWxorg-headers
 Requires: SUNWxwrtl
 %endif
 
+%package root
+Summary:                 %{summary} - / filesystem
+SUNW_BaseDir:            /
+%include default-depend.inc
+
 %if %build_l10n
 %package l10n
 Summary:                 %{summary} - l10n files
@@ -51,12 +49,6 @@ Requires:                %{name}
 %prep
 %setup -q -n cheese-%version
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%if %option_with_gnu_iconv
-%patch5 -p1
-%endif
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -85,6 +77,8 @@ gmake install DESTDIR=$RPM_BUILD_ROOT
 %else
 # REMOVE l10n FILES
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/cheese/[a-z]*
+rm -rf $RPM_BUILD_ROOT%{_datadir}/omf/cheese/cheese-[a-z]*.omf
 %endif
 
 %post
@@ -112,10 +106,32 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post root
+%include gconf-install.script
+
+%preun root
+test -x $BASEDIR/var/lib/postrun/postrun || exit 0
+( echo 'test -x $PKG_INSTALL_ROOT/usr/bin/gconftool-2 || {';
+  echo '  echo "WARNING: gconftool-2 not found; not uninstalling gconf schemas"';
+  echo '  exit 0';
+  echo '}';
+  echo 'umask 0022';
+  echo 'GCONF_CONFIG_SOURCE=xml:merged:$BASEDIR/etc/gconf/gconf.xml.defaults';
+  echo 'GCONF_BACKEND_DIR=$PKG_INSTALL_ROOT/usr/lib/GConf/2';
+  echo 'LD_LIBRARY_PATH=$PKG_INSTALL_ROOT/usr/lib';
+  echo 'export GCONF_CONFIG_SOURCE GCONF_BACKEND_DIR LD_LIBRARY_PATH';
+  echo 'SDIR=$BASEDIR%{_sysconfdir}/gconf/schemas';
+  echo 'schemas="$SDIR/cheese.schemas"';
+  echo '$PKG_INSTALL_ROOT/usr/bin/gconftool-2 --makefile-uninstall-rule $schemas'
+) | $BASEDIR/var/lib/postrun/postrun -i -c JDS -a
+
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/cheese
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, other) %{_libdir}/cheese
+%{_libdir}/cheese/*
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/cheese
 %{_datadir}/cheese/*
@@ -141,17 +157,29 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/icons/hicolor/48x48/apps/*
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*.desktop
+%{_datadir}/gnome/help/cheese/C
+%{_datadir}/omf/cheese/cheese-C.omf
+
+%files root
+%defattr (-, root, sys)
+%dir %attr(0755, root, sys) %{_sysconfdir}
+%{_sysconfdir}/gconf/schemas/cheese.schemas
 
 %if %build_l10n
 %files l10n
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) %{_datadir}
 %attr (-, root, other) %{_datadir}/locale
+%{_datadir}/gnome/help/cheese/[a-z]*
+%{_datadir}/omf/cheese/cheese-[a-z]*.omf
 %endif
 
 %changelog
+* Mon Jun 02 2008 - elaine.xiong@sun.com
+- Bump cheese to 2.23.2. Hack cheese to Jpeg format from webcam and bypass
+  hal to find video device since hal hasn't provided video4linux backend.
+  This patch hack-dev should be removed once both ready.
 * Thu Nov 15 2007 - daymobrew@users.sourceforge.net
 - Add support for Indiana build via CFLAGS change and 05-gnu-iconv patch.
-
 * Thu Aug 30 2007 - trisk@acm.jhu.edu
 - Initial spec

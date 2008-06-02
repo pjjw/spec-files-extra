@@ -1,3 +1,10 @@
+2008-06-02  Elaine Xiong  <elaine.xiong@sun.com>
+
+	* SFEcheese.spec:updated. 
+	* patch/cheese-01-hack-dev.diff:added. Bump to 2.23.2. Hack cheese to
+	  jpeg format from webcam and bypass hal to find video device since hal
+	  hasn't provided video4linux backend.
+
 2008-06-01  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEnicstat.spec: Don't hardcode /usr/bin

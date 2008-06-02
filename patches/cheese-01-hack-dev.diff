@@ -1,0 +1,179 @@
+--- ./src/cheese-webcam.c.ori	2008-05-21 16:46:35.075869000 +0800
++++ ./src/cheese-webcam.c	2008-05-27 17:38:48.819067000 +0800
+@@ -232,12 +232,14 @@
+ {
+   CheeseWebcamPrivate* priv = CHEESE_WEBCAM_GET_PRIVATE (webcam);
+   int i;
++  int webcam_sol;
+   int num_udis;
+   int num_devices;  /* Devices we actually create formats for; can either be the
+                      * number of webcams detected, or 1 if none were. The one
+                      * refers to a fake device so that resolution changing still
+                      * works even if the computer doesn't have a webcam. */
+   char **udis;
++  char *dev_name;
+   DBusError error;
+   LibHalContext *hal_ctx;
+ 
+@@ -285,8 +287,20 @@
+         priv->num_webcam_devices = num_devices = num_udis;
+   else
+   {
++    struct stat s;
+     num_devices = 1;
+-    priv->num_webcam_devices = num_udis;  /* We don't have any real cameras-- 
++    for (i = 0; i < 10; i++)
++    {
++      dev_name = g_strdup_printf("%s%d", "/dev/video", i);
++      if (lstat(dev_name, &s) == 0)
++      {
++        webcam_sol = 1; 
++        priv->num_webcam_devices = num_udis = 1;
++        break;
++      }
++    }
++    if (webcam_sol <= 0)
++      priv->num_webcam_devices = num_udis;  /* We don't have any real cameras-- 
+                                            * this is important when we create 
+                                            * the pipeline. */
+   }
+@@ -302,6 +316,8 @@
+   {
+     char *device;
+     
++    if (webcam_sol <= 0)
++    {
+     device = libhal_device_get_property_string (hal_ctx, udis[i], "video4linux.device", &error);
+     if (dbus_error_is_set (&error)) 
+     {
+@@ -310,8 +326,12 @@
+       return;
+     }
+     priv->webcam_devices[i].video_device = g_strdup (device);
++    }
++    else
++        priv->webcam_devices[i].video_device = g_strdup (dev_name);
+     libhal_free_string (device);
+   }
++  libhal_free_string (dev_name);
+   libhal_free_string_array (udis);
+ }
+ 
+@@ -392,8 +412,12 @@
+      * (or whatever else the cam may produce) since we won't be able to link
+      * that to ffmpegcolorspace or the effect plugins, which makes it rather
+      * useless (although we could plug a decoder of course) */
++#ifndef SOLARIS     
+     if (!gst_structure_has_name (structure, "video/x-raw-yuv") &&
+         !gst_structure_has_name (structure, "video/x-raw-rgb"))
++#else
++    if (!gst_structure_has_name (structure, "image/jpeg"))
++#endif
+     {
+       continue;
+     }
+@@ -492,6 +516,7 @@
+     pipeline = gst_parse_launch (pipeline_desc, &err);
+     if ((pipeline != NULL) && (err == NULL))
+     {
++#ifndef SOLARIS    
+       /* Start the pipeline and wait for max. 10 seconds for it to start up */
+       gst_element_set_state (pipeline, GST_STATE_PLAYING);
+       ret = gst_element_get_state (pipeline, NULL, NULL, 10 * GST_SECOND);
+@@ -502,6 +527,7 @@
+       gst_object_unref (bus);
+  
+       if ((msg == NULL) && (ret == GST_STATE_CHANGE_SUCCESS))
++#endif
+       {
+         GstElement *src;
+         GstPad* pad;
+@@ -509,8 +535,9 @@
+         GstCaps *caps;
+         
+         pipeline_works = TRUE;
++#ifndef SOLARIS         
+         gst_element_set_state (pipeline, GST_STATE_PAUSED);
+-
++#endif
+         webcam_device->gstreamer_src = g_strdup (GSTREAMER_VIDEO_SOURCES[i]);
+         src = gst_bin_get_by_name (GST_BIN (pipeline), "source");
+ 
+@@ -682,6 +709,7 @@
+     if (format == NULL)
+       goto fallback;
+ 
++#ifndef SOLARIS
+     webcam_input = g_strdup_printf ("%s name=video_source device=%s ! capsfilter name=capsfilter caps=%s,width=%d,height=%d,framerate=%d/%d ! identity",
+                                     selected_webcam->gstreamer_src,
+                                     selected_webcam->video_device,
+@@ -690,6 +718,12 @@
+                                     format->height,
+                                     framerate_numerator,
+                                     framerate_denominator);
++#else
++    webcam_input = g_strdup_printf ("%s name=video_source device=%s ! capsfilter name=capsfilter caps=%s ! jpegdec ! identity",
++                                   selected_webcam->gstreamer_src,
++                                   selected_webcam->video_device,
++                                   format->mimetype);
++#endif
+     g_print ("%s\n", webcam_input);
+ 
+     priv->webcam_source_bin = gst_parse_bin_from_description (webcam_input,
+--- ./configure.ori	2008-05-21 15:49:53.627191000 +0800
++++ ./configure	2008-05-21 17:47:16.674134000 +0800
+@@ -9350,6 +9350,7 @@
+     solaris*)
+       lt_prog_compiler_pic='-KPIC'
+       lt_prog_compiler_static='-Bstatic'
++      CFLAGS="${CFLAGS} -DSOLARIS"
+       case $cc_basename in
+       f77* | f90* | f95*)
+ 	lt_prog_compiler_wl='-Qoption ld ';;
+@@ -12722,7 +12723,7 @@
+ 
+ 
+ 
+-CFLAGS="${CFLAGS} -Wall"
++CFLAGS="${CFLAGS}"
+ 
+ 
+ 
+@@ -13095,7 +13096,7 @@
+ xgversion="`$XGETTEXT --version|grep '(GNU ' 2> /dev/null`"
+ mmversion="`$MSGMERGE --version|grep '(GNU ' 2> /dev/null`"
+ mfversion="`$MSGFMT --version|grep '(GNU ' 2> /dev/null`"
+-if test -z "$xgversion" -o -z "$mmversion" -o -z "$mfversion"; then
++if test -z "$xgversion" -o -z "$mmversion"; then
+     { { $as_echo "$as_me:$LINENO: error: GNU gettext tools not found; required for intltool" >&5
+ $as_echo "$as_me: error: GNU gettext tools not found; required for intltool" >&2;}
+    { (exit 1); exit 1; }; }
+@@ -15135,7 +15136,7 @@
+ GNOME_VFS_REQUIRED=2.18.0
+ LIBEBOOK_REQUIRED=1.12.0
+ DBUS_REQUIRED=1.0
+-HAL_REQUIRED=0.5.9
++HAL_REQUIRED=0.5.8
+ DBUS_GLIB_REQUIRED=0.7
+ LIBRSVG_REQUIRED=2.18.0
+ PANGOCAIRO_REQUIRED=1.18.0
+--- ./configure.ac.ori	2008-05-21 15:50:14.282082000 +0800
++++ ./configure.ac	2008-05-21 16:07:02.618346000 +0800
+@@ -15,7 +15,7 @@
+ AC_HEADER_STDC
+ AM_PROG_LIBTOOL
+ 
+-CFLAGS="${CFLAGS} -Wall"
++CFLAGS="${CFLAGS}"
+ 
+ GNOME_MAINTAINER_MODE_DEFINES
+ GNOME_COMPILE_WARNINGS
+@@ -66,7 +66,7 @@
+ GNOME_VFS_REQUIRED=2.18.0
+ LIBEBOOK_REQUIRED=1.12.0
+ DBUS_REQUIRED=1.0
+-HAL_REQUIRED=0.5.9
++HAL_REQUIRED=0.5.8
+ DBUS_GLIB_REQUIRED=0.7
+ LIBRSVG_REQUIRED=2.18.0
+ PANGOCAIRO_REQUIRED=1.18.0
