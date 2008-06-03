@@ -1,3 +1,12 @@
+2008-06-03  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEanjuta.spec: Bump to 2.5.0,
+	  Add patch max-baud.diff and lsocket.diff
+	* base-specs/conduit.spec: Bump to 0.3.11
+	* base-specs/gnome-build.spec: Bump to 0.3.0
+	* patches/anjuta-03-max-baud.diff: (new)
+	* patches/anjuta-04-lsocket.diff: (new)
+
 2008-05-22  Brian Cameron  <brian.cameron@sun.com>
 
 	* SUNWgnome-display-mgr.spec, patches/gdm-07-scripts.diff:  Update

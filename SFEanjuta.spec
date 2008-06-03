@@ -13,16 +13,20 @@
 # or, depend on package SUNWevolution-bdb-devel, which is in jds spec-files/closed
 # now, use second way.
 Name:           SFEanjuta
-Version:        2.4.1
+Version:        2.5.0
 Summary:        GNOME IDE for C and C++
 Group:          Development/Tools
 License:        GPL
 URL:            http://anjuta.org/
-Source:         http://download.gnome.org/sources/anjuta/2.4/anjuta-%{version}.tar.bz2
+Source:         http://download.gnome.org/sources/anjuta/2.5/anjuta-%{version}.tar.bz2
 # date:2007-04-04 owner:nonsea type:branding
 Patch1:         anjuta-01-solaris-grep.diff
 # date:2007-05-14 owner:nonsea type:branding
 Patch2:         anjuta-02-ld-z-text.diff
+# date:2008-06-03 owner:nonsea type:bug bugzilla:536372
+Patch3:         anjuta-03-max-baud.diff
+# date:2008-06-03 owner:nonsea type:bug bugzilla:536375
+Patch4:         anjuta-04-lsocket.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -100,6 +104,8 @@ Requires:                %{name}
 %prep
 %setup -q -n anjuta-%{version}
 %patch1 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -285,6 +291,9 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Tue Jan 03 2008 - nonsea@users.sourceforge.net
+- Bump to 2.5.0
+- Add patch max-baud.diff and lsocket.diff
 * Tue Apr 22 2008 - nonsea@users.sourceforge.net
 - Bump to 2.4.1.
 * Tue Mar 10 2008 - nonsea@users.sourceforge.net
