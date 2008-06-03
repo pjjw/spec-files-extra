@@ -65,8 +65,8 @@ Index: daemon/gdm-simple-slave.c
                          g_debug ("GdmSlave: script %s not found; skipping", script);
 Index: gdm-factory-slave.c
 ===================================================================
---- gdm-factory-slave.c	(revision 6253)
-+++ gdm-factory-slave.c	(working copy)
+--- gdm-2.22.0/daemon/gdm-factory-slave.c-orig	(revision 6253)
++++ gdm-2.22.0/daemon/gdm-factory-slave.c	(working copy)
 @@ -489,7 +489,7 @@
          /* FIXME: send a signal back to the master */
  
@@ -78,8 +78,8 @@ Index: gdm-factory-slave.c
          g_signal_connect (slave->priv->greeter_server,
 Index: gdm-xdmcp-chooser-slave.c
 ===================================================================
---- gdm-xdmcp-chooser-slave.c	(revision 6253)
-+++ gdm-xdmcp-chooser-slave.c	(working copy)
+--- gdm-2.22.0/daemon/gdm-xdmcp-chooser-slave.c-orig	(revision 6253)
++++ gdm-2.22.0/daemon/gdm-xdmcp-chooser-slave.c	(working copy)
 @@ -190,7 +190,7 @@
          }
  
