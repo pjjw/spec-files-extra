@@ -1,3 +1,10 @@
+2008-06-03  Brian Cameron  <brian.cameron@sun.com>
+
+	* SUNWgnome-display-mgr.spec, patches/gdm-01-lang.diff:  Add
+	  new patch to fix language support in GDM.  Patch by Takao 
+	  Fujiwara.  Remove the gdm-03-fixcrash.diff patch since it is
+	  no longer needed.  Renumber patches.
+
 2008-06-03  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEanjuta.spec: Bump to 2.5.0,

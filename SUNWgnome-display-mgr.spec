@@ -18,26 +18,24 @@ Release:                 1
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.22/gdm-%{version}.tar.bz2
 Source1:                 gdm.xml
 Source2:                 svc-gdm
+# Fix language/locale.  Patch by Takao.  See bugzilla bug #536387.
+Patch1:                  gdm-01-lang.diff
 # Patch2 adds SDTLOGIN interface, which drops the Xserver to user
 # perms rather than running as root, for added security on Solaris.
 # It also adds logindevperm support.  Refer to bug #531651.  My
 # hope is to get logindevperm support upstream.
 Patch2:                  gdm-02-sdtlogin-devperm.diff
-# Patch3 is probably not the right fix, but it seems that trying to set the
-# default language to "C" is causing the GDM greeter to crash.  I have
-# asked Takao to look into this, so hopefully we will get this fixed soon.
-Patch3:                  gdm-03-fixcrash.diff
-# Manage displays on the fly
+# Add ctrun support when running the user session.  Otherwise, any
+# core dump in the user session will cause GDM to restart.
+Patch3:                  gdm-03-ctrun.diff
+# Manage displays on the fly.  Refer to bug #536355.
 Patch4:                  gdm-04-dynamic-display.diff
 # Create /var/run/gdm if it's not exist. 
 # Set accession permission 01775 and ownership root:gdm
-# More details, please refer to bugzilla bug #534605.
+# More details, please refer to bugzilla bug #534605.  This is fixed upstream.
 Patch5:                  gdm-05-xauth-dir.diff
-# Add ctrun support when running the user session.  Otherwise, any
-# core dump in the user session will cause GDM to restart.
-Patch6:                  gdm-06-ctrun.diff
-# Support PostLogin, PreSession, and PostSession scripts.
-Patch7:                  gdm-07-scripts.diff
+# Support PostLogin, PreSession, and PostSession scripts.  See bug #536371.
+Patch6:                  gdm-06-scripts.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -92,12 +90,12 @@ Requires:                %{name}
 
 %prep
 %setup -q -n gdm-%version
+%patch1 -p1
 %patch2 -p0
-%patch3 -p0
+%patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -312,6 +310,10 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Tue Jun 03 2008 - brian.cameron@sun.com
+- Add patch gdm-01-lang.diff, patch by Takao Fujiwara, to fix the language
+  support in GDM.  Remove patch gdm-03-fixcrash.diff since it is no longer
+  needed.  Renumber patches.
 * Tue May 27 2008 - simon.zheng@sun.com
 - Remove gdm-01-fixgio.diff. Already fixed in gio bug #533369.
 * Thu May 22 2008 - brian.cameron@sun.com
