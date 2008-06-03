@@ -1,28 +1,38 @@
 Index: daemon/gdm-simple-slave.c
 ===================================================================
---- daemon/gdm-simple-slave.c	(revision 6243)
-+++ daemon/gdm-simple-slave.c	(working copy)
-@@ -101,6 +101,9 @@
+--- gdm-2.22.0/daemon/gdm-simple-slave.c	(revision 6253)
++++ gdm-2.22.0/daemon/gdm-simple-slave.c	(working copy)
+@@ -99,8 +99,14 @@
+                     int               pid,
+                     GdmSimpleSlave   *slave)
  {
++        char *username;
++
          g_debug ("GdmSimpleSlave: session started %d", pid);
  
 +        /* Run the PreSession script. gdmslave suspends until script has terminated */
-+        gdm_slave_run_script (GDM_SLAVE (slave), GDMCONFDIR "/PreSession", "gdm");
++        username = gdm_session_direct_get_username (slave->priv->session);
++        gdm_slave_run_script (GDM_SLAVE (slave), GDMCONFDIR "/PreSession", username);
 +
          /* FIXME: should we do something here? */
  }
  
-@@ -111,6 +114,9 @@
+@@ -109,8 +115,14 @@
+                    int             exit_code,
+                    GdmSimpleSlave *slave)
  {
++        char *username;
++
          g_debug ("GdmSimpleSlave: session exited with code %d\n", exit_code);
  
 +        /* Run the PostSession script. gdmslave suspends until script has terminated */
-+        gdm_slave_run_script (GDM_SLAVE (slave), GDMCONFDIR "/PostSession", "gdm");
++        username = gdm_session_direct_get_username (slave->priv->session);
++        gdm_slave_run_script (GDM_SLAVE (slave), GDMCONFDIR "/PostSession", username);
 +
          gdm_slave_stopped (GDM_SLAVE (slave));
  }
  
-@@ -353,6 +359,9 @@
+@@ -353,6 +365,9 @@
                         GdmSimpleSlave *slave)
  {
          queue_start_session (slave);
@@ -32,7 +42,7 @@ Index: daemon/gdm-simple-slave.c
  }
  
  static void
-@@ -840,7 +849,7 @@
+@@ -840,7 +855,7 @@
          }
  
          /* Run the init script. gdmslave suspends until script has terminated */
@@ -41,3 +51,15 @@ Index: daemon/gdm-simple-slave.c
  
          create_new_session (slave);
  
+--- gdm-2.22.0/daemon/gdm-slave.c-orig	2008-06-03 01:29:06.653359000 -0500
++++ gdm-2.22.0/daemon/gdm-slave.c	2008-06-03 01:29:27.383615000 -0500
+@@ -265,7 +265,8 @@ gdm_slave_run_script (GdmSlave   *slave,
+         }
+ 
+         if (script == NULL &&
+-            slave->priv->display_hostname != NULL) {
++            slave->priv->display_hostname != NULL &&
++            slave->priv->display_hostname[0] != NULL) {
+                 script = g_build_filename (dir, slave->priv->display_hostname, NULL);
+                 if (g_access (script, R_OK | X_OK) != 0) {
+                         g_debug ("GdmSlave: script %s not found; skipping", script);

@@ -1,3 +1,9 @@
+2008-05-22  Brian Cameron  <brian.cameron@sun.com>
+
+	* SUNWgnome-display-mgr.spec, patches/gdm-07-scripts.diff:  Update
+	  patch so it works.  My previous patch only worked for per-display	
+	  scripts.
+
 2008-06-02  Elaine Xiong  <elaine.xiong@sun.com>
 
 	* SFEcheese.spec:updated. 
@@ -49,12 +55,13 @@
 
 	* SFElibtasn1.spec:
 	* base-specs/libtasn1.spec:
-	Split two spec files
+	  Split two spec files
 
 2008-05-28  simon.zheng  <simon.zheng@sun.com>
 
 	* SUNWgnome-display-mgr.spec:
-	* patches/gdm-04-dynamic-display.diff: Make gdmdynamic only work with root.
+	* patches/gdm-04-dynamic-display.diff: Make gdmdynamic only work with
+	  root.
 
 2008-05-28  Ananth Shrinivas <ananth@sun.com>
 
@@ -70,20 +77,22 @@
 
 	* SUNWgnome-display-mgr.spec:
 	* patches/gdm-01-fixgio.diff: Removed. 
-          Root cause is from gio. Fixed in bug #533369.
+	  Root cause is from gio. Fixed in bug #533369.
 
 2008-05-26  Michal Bielicki <michal.bielicki@voiceworks.pl>
+
 	* SFEseahorse.spec,encumbered/SFElame.spec,encumbered/SFElibmpeg2.spec,
-          encumbered/SFEgpac.spec,encumbered/SFEliba52.spec,SFElibgsm.spec,
-          SFElibcdio.spec,SFEnasm.spec,SFEncurses.spec changed manpath permission 
-          back from wrong patch and fixed one or two originaly faulty ones as well. 
-          Never check in patches while half asleep.
+	  encumbered/SFEgpac.spec,encumbered/SFEliba52.spec,SFElibgsm.spec,
+	  SFElibcdio.spec,SFEnasm.spec,SFEncurses.spec changed manpath
+	  permission back from wrong patch and fixed one or two originaly
+	  faulty ones as well. Never check in patches while half asleep.
 
 2008-05-26  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEsourcenav.spec: Fix build issue caused by rm
 
 2008-05-26  Bernd Markgraf <markgraf@med.ovgu.de>
+
 	* SFEqtpfsgui-spec, qtpfsgui-1.diff: *NEW* HDR Image creation
 
 2008-05-26  Halton Huo <nonsea@users.sourceforge.net>
@@ -106,7 +115,8 @@
 2008-05-25  Ananth Shrinivas  <ananth@sun.com>
 
 	* SFEsimplejson.spec: *NEW* A JSON encoder and decoder for Python
-	* SFEformencode.spec: *NEW* A Validation and form generation library for Python
+	* SFEformencode.spec: *NEW* A Validation and form generation library
+	  for Python
 
 2008-05-25 Mark Wright <markwright@internode.on.net>
 
@@ -116,9 +126,10 @@
 
 2008-05-24  Michal Bielicki <michal.bielicki <at> voiceworks.pl>
 
-        * SFElibpng.spec shouldn't insist on changing permissions on /usr/lib and /usr/include
-        * SFEspeex.spec shouldn't insist on permissionchanges neither
-        * SFEopenafs.spec should leave permissions alone as well
+	* SFElibpng.spec shouldn't insist on changing permissions on
+	  /usr/lib and /usr/include
+	* SFEspeex.spec shouldn't insist on permissionchanges neither
+	* SFEopenafs.spec should leave permissions alone as well
 
 2008-05-24  Albert Lee  <trisk@acm.jhu.edu>
 
@@ -127,8 +138,8 @@
 2008-05-24  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFErtorrent.spec: Add SFExmlrpc-c-gpp dependencies
-	* SFExmlrpc-c-gpp.spec: *NEW* A lightweight RPC library based on XML and
-	  HTTP (g++ version)
+	* SFExmlrpc-c-gpp.spec: *NEW* A lightweight RPC library based on XML
+	  and HTTP (g++ version)
 	* base-specs/libtorrent.spec: Enable ports, add patch2
 	* base-specs/rtorrent.spec: Enable XML-RPC
 	* base-specs/xmlrpc-c.spec: *NEW* Base spec for xmlrpc-c
@@ -149,8 +160,8 @@
 2008-05-24  simon.zheng  <simon.zheng@sun.com>
 
 	* patches/gdm-04-dynamic-display.diff:
-          Rework to support "-l" without pattern and output as format
-          "displayname,loginusername,vt;". 
+	  Rework to support "-l" without pattern and output as format
+	  "displayname,loginusername,vt;". 
 
 2008-05-22  Brian Cameron  <brian.cameron@sun.com>
 
@@ -183,8 +194,9 @@
 	* patches/gdm-05-xauth-dir.diff: Rework.
 
 2008-05-20  Michal Bielicki <cypromis <at> opensolaris.org>
-       * Bumped glassfish up to v2ur2-b04
-       * moved curl to archive
+
+	* Bumped glassfish up to v2ur2-b04
+	* moved curl to archive
 
 2008-05-19  Albert Lee  <trisk@acm.jhu.edu>
 
@@ -200,7 +212,7 @@
 2008-05-18  Thomas Wagner  <tom68@users.sourceforge.net>
 
 	* SFEscalpel.spec: *NEW* fast file carver which extracts
-            files from a set of image files or raw device files.
+	  files from a set of image files or raw device files.
 
 2008-05-18  Ananth Shrinivas <ananth@sun.com>
 
@@ -232,12 +244,12 @@
 
 2008-05-15  Michal Bielicki <cypromis@opensolaris.org>
 
-        * SFEstdcxx.spec: update to release 4.2.1
+	* SFEstdcxx.spec: update to release 4.2.1
 
 2008-05-14  Michal Bielicki <cypromis@opensolaris.org>
 
-        * SFEunixodbc.soec: fixes for sparc
-        * SFExchat: get rid of non existant CBEbison requirement
+	* SFEunixodbc.soec: fixes for sparc
+	* SFExchat: get rid of non existant CBEbison requirement
 
 2008-05-14  Ananth Shrinivas <ananth@sun.com>
 
@@ -316,7 +328,6 @@
 2008-05-09  Laszlo (Laca) Peter  <laca@sun.com>
 
 	Steve Lau is the author of some of the code changes.
-
 	* SFElibtorrent-gpp.spec: (new) g++-build libtorrent BitTorrent lib
 	* SFErtorrent.spec: (new) rtorrent curses-based BitTorrent client
 	* base-specs/libtorrent.spec: (new) base spec for SFElibtorrent-gpp
