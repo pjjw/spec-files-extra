@@ -63,3 +63,29 @@ Index: daemon/gdm-simple-slave.c
                  script = g_build_filename (dir, slave->priv->display_hostname, NULL);
                  if (g_access (script, R_OK | X_OK) != 0) {
                          g_debug ("GdmSlave: script %s not found; skipping", script);
+Index: gdm-factory-slave.c
+===================================================================
+--- gdm-factory-slave.c	(revision 6253)
++++ gdm-factory-slave.c	(working copy)
+@@ -489,7 +489,7 @@
+         /* FIXME: send a signal back to the master */
+ 
+         /* Run the init script. gdmslave suspends until script has terminated */
+-        gdm_slave_run_script (GDM_SLAVE (slave), GDMCONFDIR "/Init/Default", "gdm");
++        gdm_slave_run_script (GDM_SLAVE (slave), GDMCONFDIR "/Init", "gdm");
+ 
+         slave->priv->greeter_server = gdm_greeter_server_new (display_id);
+         g_signal_connect (slave->priv->greeter_server,
+Index: gdm-xdmcp-chooser-slave.c
+===================================================================
+--- gdm-xdmcp-chooser-slave.c	(revision 6253)
++++ gdm-xdmcp-chooser-slave.c	(working copy)
+@@ -190,7 +190,7 @@
+         }
+ 
+         /* Run the init script. gdmslave suspends until script has terminated */
+-        gdm_slave_run_script (GDM_SLAVE (slave), GDMCONFDIR "/Init/Default", "gdm");
++        gdm_slave_run_script (GDM_SLAVE (slave), GDMCONFDIR "/Init", "gdm");
+ 
+         slave->priv->chooser_server = gdm_chooser_server_new (display_id);
+         g_signal_connect (slave->priv->chooser_server,
