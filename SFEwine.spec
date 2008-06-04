@@ -14,9 +14,16 @@ Version:                1.0-rc3
 URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:			wine-01-nameconfict.diff
+# http://bugs.winehq.org/show_bug.cgi?id=12740
+# http://bugs.opensolaris.org/view_bug.do?bug_id=6698109
 Patch2:			wine-02-xim-workaround.diff
-Patch4:			wine-04-event-completion.diff
 Patch3:			wine-03-shell.diff
+# http://bugs.winehq.org/show_bug.cgi?id=13227
+# https://sourceforge.net/tracker/index.php?func=detail&aid=1964949&group_id=125443&atid=865175
+# http://www.nabble.com/Wineserver-causing-heavy-CPU-load-td16948890.html
+Patch4:			wine-04-event-completion.diff
+# http://bugs.winehq.org/show_bug.cgi?id=9787
+Patch5:			wine-05-acceptex.diff
 Patch6:			wine-06-iphlpapi.diff
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
@@ -31,7 +38,6 @@ Requires:	SUNWdbus
 Requires:	SUNWxorg-clientlibs
 BuildRequires:	SFEfontforge
 Requires:	SFEfreetype
-BuildRequires:	SUNWlcms-devel
 Requires:	SUNWlcms
 BuildRequires:	SFEcups-devel
 Requires:	SFEcups
@@ -52,7 +58,11 @@ Requires: %name
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 %patch6 -p1
+
+# patch5 changes the server request spec, so update related files
+perl tools/make_requests
 
 # change all occurences of duplicate functions/structs named "list"*
 #bash change_functions_structs_named_list_asterisk.sh
@@ -145,6 +155,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Wed Jun 04 2008 - trisk@acm.jhu.edu
+- Drop SFEfontforge, SUNWlcms-devel dependencies
+- Add patch5 for http://bugs.winehq.org/show_bug.cgi?id=9787
+- List bug URLs
 * Sat May 31 2008 - trisk@acm.jhu.edu
 - Bump to 1.0-rc3
 * Sat May 24 2008 - trisk@acm.jhu.edu

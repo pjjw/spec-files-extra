@@ -1,0 +1,332 @@
+diff --git a/dlls/mswsock/mswsock.spec b/dlls/mswsock/mswsock.spec
+index 521b3a4..d49f8b2 100644
+--- a/dlls/mswsock/mswsock.spec
++++ b/dlls/mswsock/mswsock.spec
+@@ -1,7 +1,7 @@
+-@ stdcall AcceptEx(long long ptr long long long ptr ptr)
++@ stdcall AcceptEx(long long ptr long long long ptr ptr) ws2_32.AcceptEx
+ @ stdcall EnumProtocolsA(ptr ptr ptr) ws2_32.WSAEnumProtocolsA
+ @ stdcall EnumProtocolsW(ptr ptr ptr) ws2_32.WSAEnumProtocolsW
+-@ stdcall GetAcceptExSockaddrs(ptr long long long ptr ptr ptr ptr)
++@ stdcall GetAcceptExSockaddrs(ptr long long long ptr ptr ptr ptr) ws2_32.GetAcceptExSockaddrs
+ @ stub GetAddressByNameA
+ @ stub GetAddressByNameW
+ @ stub GetNameByTypeA
+diff --git a/dlls/ws2_32/socket.c b/dlls/ws2_32/socket.c
+index f82ecc5..e2ff318 100644
+--- a/dlls/ws2_32/socket.c
++++ b/dlls/ws2_32/socket.c
+@@ -195,6 +195,15 @@ typedef struct ws2_async
+     {
+         int val;     /* for send operations */
+         int *ptr;    /* for recv operations */
++        struct       /* for accept operation */
++        {
++            SOCKET s_accept; /* socket to use as connection socket */
++            PVOID  buf;      /* buffer to write data to */
++            int  data_len;
++            int local_len;
++            int remote_len;
++            DWORD *recvd;
++        } acpt;
+     }                                   addrlen;
+     DWORD                               flags;
+ } ws2_async;
+@@ -1346,6 +1355,206 @@ static int WS2_register_async_shutdown( SOCKET s, int type )
+     return 0;
+ }
+ 
++static NTSTATUS add_completion( HANDLE socket, ULONG_PTR cvalue, NTSTATUS status, ULONG_PTR transferred )
++{
++    NTSTATUS ret;
++    SERVER_START_REQ( add_fd_completion )
++    {
++        req->handle      = socket;
++        req->cvalue      = cvalue;
++        req->status      = status;
++        req->information = transferred;
++        ret = wine_server_call( req );
++    }
++    SERVER_END_REQ;
++    return ret;
++}
++
++static NTSTATUS AcceptEx_recv( SOCKET s_accept, LPVOID output_buf, DWORD data_len, DWORD local_addr_len, DWORD remote_addr_len, DWORD *recvd, LPOVERLAPPED lpOverlapped )
++{
++    char *buf = (char*)output_buf+data_len;
++    int len;
++
++    TRACE("s_accept: 0x%x, output_buf=%p, data_len=%d, local_addr_len=%d, remote_addr_len=%d, recvd=%p, overlapped=%p\n",
++            s_accept, output_buf, data_len, local_addr_len, remote_addr_len, recvd, lpOverlapped);
++    len = local_addr_len - sizeof(int);
++    WS_getpeername(s_accept, (struct WS_sockaddr*)(buf+sizeof(int)), &len);
++    *(int*)buf = len;
++    buf += local_addr_len;
++
++    len = remote_addr_len - sizeof(int);
++    WS_getsockname(s_accept, (struct WS_sockaddr*)(buf+sizeof(int)), &len);
++    *(int*)buf = len;
++
++    *recvd = 0;
++
++    return STATUS_SUCCESS;
++}
++
++static NTSTATUS WS2_async_accept(void* user, IO_STATUS_BLOCK* iosb, NTSTATUS status)
++{
++    ws2_async* wsa = user;
++    int result = 0;
++
++    switch (status)
++    {
++    case STATUS_ALERTED:
++        SERVER_START_REQ( accept_socket )
++        {
++            req->lhandle    = wsa->hSocket;
++            req->ahandle    = SOCKET2HANDLE(wsa->addrlen.acpt.s_accept);
++            req->access     = GENERIC_READ|GENERIC_WRITE|SYNCHRONIZE;
++            req->attributes = OBJ_INHERIT;
++            status = wine_server_call( req );
++        }
++        SERVER_END_REQ;
++
++        if (!status)
++        {
++            status = AcceptEx_recv( wsa->addrlen.acpt.s_accept, wsa->addrlen.acpt.buf,
++                    wsa->addrlen.acpt.data_len, wsa->addrlen.acpt.local_len,
++                    wsa->addrlen.acpt.remote_len, wsa->addrlen.acpt.recvd, wsa->user_overlapped );
++        }
++        else
++        {
++            /* We set the status to a winsock error code and check for that
++               later in NtStatusToWSAError () */
++            status = wsaErrno();
++            result = 0;
++        }
++        break;
++    }
++    if (status != STATUS_PENDING)
++    {
++        iosb->u.Status = status;
++        iosb->Information = result;
++    }
++    return status;
++} 
++
++BOOL WINAPI AcceptEx(SOCKET s, SOCKET s_accept, PVOID buf, DWORD data_len, DWORD local_addr_len, DWORD remote_addr_len, LPDWORD recvd, LPOVERLAPPED lpOverlapped)
++{
++    /* check if we may supply NULL lpOverlapped */
++    ULONG_PTR cvalue = lpOverlapped /* TODO check if event */ ? (ULONG_PTR)lpOverlapped : 0;
++    HANDLE hEvent = lpOverlapped ? lpOverlapped->hEvent : 0;
++    
++    IO_STATUS_BLOCK *iosb;
++    int err;
++
++    TRACE("socket %04lx, accept=%04lx, overlapped=%p, buf=%p, data_len=%d, local=%d, remote=%d\n", s, s_accept, lpOverlapped, buf, data_len, local_addr_len, remote_addr_len );
++    
++    if (data_len)
++    {
++        FIXME("does not support data_len yet\n");
++        data_len = 0;
++    }
++
++    SERVER_START_REQ( accept_socket )
++    {
++        req->lhandle    = SOCKET2HANDLE(s);
++        req->ahandle    = SOCKET2HANDLE(s_accept);
++        req->access     = GENERIC_READ|GENERIC_WRITE|SYNCHRONIZE;
++        req->attributes = OBJ_INHERIT;
++        err = wine_server_call( req );
++    }
++    SERVER_END_REQ;
++
++    if (!err)
++    {
++        AcceptEx_recv( s_accept, buf, data_len, local_addr_len, remote_addr_len, recvd, lpOverlapped ); 
++
++        add_completion( SOCKET2HANDLE(s) , cvalue, STATUS_SUCCESS, 0);
++        if (hEvent) SetEvent( hEvent );
++        err = WSAEWOULDBLOCK; /* apparently AcceptEx never returns synchronously (likely to work around bugs in programs) */
++    }
++    else if (err == WSAEWOULDBLOCK)
++    {
++        struct ws2_async *wsa;
++        /* TODO make sure we cannot supply buf==NULL */ 
++        wsa = HeapAlloc( GetProcessHeap(), 0, sizeof(*wsa) );
++
++        if ( !wsa )
++        {
++            err = ERROR_NOT_ENOUGH_MEMORY;
++        }
++        else
++        {
++            DWORD status;
++
++            wsa->hSocket         = SOCKET2HANDLE(s);
++            wsa->flags           = 0;
++            wsa->user_overlapped = lpOverlapped;
++            wsa->addrlen.acpt.s_accept   = s_accept;
++            wsa->addrlen.acpt.buf        = buf;
++            wsa->addrlen.acpt.data_len   = data_len;
++            wsa->addrlen.acpt.local_len  = local_addr_len;
++            wsa->addrlen.acpt.remote_len = remote_addr_len;
++            wsa->addrlen.acpt.recvd      = recvd;
++
++            iosb = lpOverlapped ? (IO_STATUS_BLOCK *)lpOverlapped : &wsa->local_iosb;
++            iosb->u.Status = STATUS_PENDING;
++            iosb->Information = 0;
++
++            SERVER_START_REQ( register_async )
++            {
++                req->handle         = wsa->hSocket;
++                req->type           = ASYNC_TYPE_READ;
++                req->async.callback = WS2_async_accept;
++                req->async.iosb     = iosb;
++                req->async.arg      = wsa;
++                req->async.apc      = NULL;
++                req->async.event    = hEvent;
++                req->async.cvalue   = cvalue;
++                status = wine_server_call( req );
++            }
++            SERVER_END_REQ;
++
++            if (status != STATUS_PENDING)
++            {
++                HeapFree( GetProcessHeap(), 0, wsa );
++                err = status;
++            } else
++            {
++                err = WSAEWOULDBLOCK;
++            }
++        }
++    }
++
++    set_error( err );
++    return FALSE;
++}
++
++VOID WINAPI GetAcceptExSockaddrs( PVOID _buf, DWORD data_size, DWORD local_size, DWORD remote_size,
++                  struct sockaddr ** local_addr, LPINT local_addr_len, struct sockaddr ** remote_addr, LPINT remote_addr_len)
++{
++    int len;
++    char *buf = _buf;
++
++    TRACE("buf=%p, data_size=%d, local_size=%d, remote_size=%d, local_addr=%p (%p), remote_addr=%p (%p)\n", buf, data_size, local_size, remote_size,
++            local_addr, local_addr_len, remote_addr, remote_addr_len );
++
++    buf += data_size;
++    if (local_size)
++    {
++        len = *(int*)buf;
++        *local_addr_len = len;
++        *local_addr = (struct sockaddr*)(buf+sizeof(int));
++        buf += local_size;
++        TRACE("local %d bytes to %p\n", len, local_addr);
++    }
++    else
++        *local_addr_len = 0;
++    if (remote_size)
++    {
++        len = *(int*)buf;
++        *remote_addr_len = len;
++        *remote_addr = (struct sockaddr*)(buf+sizeof(int));
++        TRACE("remote %d bytes to %p\n", len, remote_addr);
++    }
++    else
++        *remote_addr_len = 0;
++}
++
+ /***********************************************************************
+  *		accept		(WS2_32.1)
+  */
+diff --git a/dlls/ws2_32/ws2_32.spec b/dlls/ws2_32/ws2_32.spec
+index bbcafc0..902c811 100644
+--- a/dlls/ws2_32/ws2_32.spec
++++ b/dlls/ws2_32/ws2_32.spec
+@@ -117,3 +117,6 @@
+ @ stdcall freeaddrinfo(ptr) WS_freeaddrinfo
+ @ stdcall getaddrinfo(str str ptr ptr) WS_getaddrinfo
+ @ stdcall getnameinfo(ptr long ptr long ptr long long) WS_getnameinfo
++
++@ stdcall AcceptEx(long long ptr long long long ptr ptr) 
++@ stdcall GetAcceptExSockaddrs(ptr long long long ptr ptr ptr ptr)
+diff --git a/server/protocol.def b/server/protocol.def
+index bfd7242..743693b 100644
+--- a/server/protocol.def
++++ b/server/protocol.def
+@@ -950,6 +950,7 @@ enum server_fd_type
+ /* Accept a socket */
+ @REQ(accept_socket)
+     obj_handle_t lhandle;       /* handle to the listening socket */
++    obj_handle_t ahandle;       /* handle to the accepting socket */
+     unsigned int access;        /* wanted access rights */
+     unsigned int attributes;    /* object attributes */
+ @REPLY
+diff --git a/server/sock.c b/server/sock.c
+index f4fe25e..747891c 100644
+--- a/server/sock.c
++++ b/server/sock.c
+@@ -514,7 +514,7 @@ static void sock_queue_async( struct fd *fd, const async_data_t *data, int type,
+         return;
+     }
+ 
+-    if ( ( !( sock->state & FD_READ ) && type == ASYNC_TYPE_READ  ) ||
++    if ( ( !( sock->state & (FD_READ|FD_WINE_LISTENING) ) && type == ASYNC_TYPE_READ  ) ||
+          ( !( sock->state & FD_WRITE ) && type == ASYNC_TYPE_WRITE ) )
+     {
+         set_error( STATUS_PIPE_DISCONNECTED );
+@@ -621,9 +621,9 @@ static struct object *create_socket( int family, int type, int protocol, unsigne
+ }
+ 
+ /* accept a socket (creates a new fd) */
+-static struct sock *accept_socket( obj_handle_t handle )
++static struct sock *accept_socket( obj_handle_t handle, obj_handle_t ahandle )
+ {
+-    struct sock *acceptsock;
++    struct sock *acceptsock = NULL;
+     struct sock *sock;
+     int	acceptfd;
+     struct sockaddr	saddr;
+@@ -652,7 +652,20 @@ static struct sock *accept_socket( obj_handle_t handle )
+             release_object( sock );
+             return NULL;
+         }
+-        if (!(acceptsock = alloc_object( &sock_ops )))
++
++        if (ahandle)
++        {
++            acceptsock = (struct sock *)get_handle_obj( current->process, ahandle, FILE_READ_DATA | FILE_WRITE_DATA, &sock_ops );
++            if (acceptsock)
++            {
++                if (acceptsock->event)
++                    release_object( acceptsock->event );
++                release_object( acceptsock->fd );
++            }
++        } else
++            acceptsock = alloc_object( &sock_ops );
++
++        if (!acceptsock)
+         {
+             close( acceptfd );
+             release_object( sock );
+@@ -787,11 +800,16 @@ DECL_HANDLER(accept_socket)
+     struct sock *sock;
+ 
+     reply->handle = 0;
+-    if ((sock = accept_socket( req->lhandle )) != NULL)
++    if ((sock = accept_socket( req->lhandle, req->ahandle )) != NULL)
+     {
+-        reply->handle = alloc_handle( current->process, &sock->obj, req->access, req->attributes );
+-        sock->wparam = reply->handle;  /* wparam for message is the socket handle */
+-        sock_reselect( sock );
++        if (req->ahandle)
++            reply->handle = req->ahandle;
++        else
++        {
++            reply->handle = alloc_handle( current->process, &sock->obj, req->access, req->attributes );
++            sock->wparam = reply->handle;  /* wparam for message is the socket handle */
++            sock_reselect( sock );
++        }
+         release_object( &sock->obj );
+     }
+ }

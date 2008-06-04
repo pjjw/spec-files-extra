@@ -1,3 +1,10 @@
+2008-06-04  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEwine.spec: Drop SFEfontforge, SUNWlcms-devel dependencies, add
+	  patch5, list bug URLs
+	* patches/wine-05-acceptex.diff: AcceptEx implementation for
+	  http://bugs.winehq.org/show_bug.cgi?id=9787
+
 2008-06-04  Halton Huo <nonsea@users.sourceforge.net>
 
 	* base-specs/conduit.spec: Bump to 0.3.11.2
