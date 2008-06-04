@@ -11,7 +11,7 @@
 Name:           conduit
 License:        GPL
 Group:          System/GUI/GNOME
-Version:        0.3.11
+Version:        0.3.11.2
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -132,7 +132,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
-* Tue Jan 03 2008 - nonsea@users.sourceforge.net
+* Wed Jun 04 2008 - nonsea@users.sourceforge.net
+- Bump to 0.3.11.2
+* Tue Jun 03 2008 - nonsea@users.sourceforge.net
 - Bump to 0.3.11
 * Mon May 26 2008 - nonsea@users.sourceforge.net
 - Bump to 0.3.10
