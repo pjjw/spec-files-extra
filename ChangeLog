@@ -1,3 +1,7 @@
+2008-06-06  Andras Barna  <andras.barna@gmail.com>
+
+	* SFEperl-gtk2-mozembed.spec: Added "-R/usr/lib/firefox" to LD
+
 2008-06-06  River Tarnell  <river@wikimedia.org>
 
 	* SFEckermit.spec: Fix modes on docdir.

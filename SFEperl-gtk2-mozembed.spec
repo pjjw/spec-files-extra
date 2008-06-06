@@ -43,7 +43,7 @@ perl Makefile.PL \
     INSTALLSITEMAN3DIR=$RPM_BUILD_ROOT%{_mandir}/man3 \
     INSTALLMAN3DIR=$RPM_BUILD_ROOT%{_mandir}/man3
     
-make CC=$CC CCCDLFLAGS="%picflags" OPTIMIZE="%optflags" LD=$CC
+make CC=$CC CCCDLFLAGS="%picflags" OPTIMIZE="%optflags" LD="$CC -R/usr/lib/firefox"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -70,6 +70,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Fri Jun 06 2008 - Andras Barna <andras.barna@gmail.com>
+- Added "-R/usr/lib/firefox" to LD
 * Sun Jan 28 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
 - Updated how version is defined.
 * Fri Jan 12 2007 - mike kiedrowski (lakeside-AT-cybrzn-DOT-com)
