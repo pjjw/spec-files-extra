@@ -1,3 +1,9 @@
+2008-06-06  River Tarnell  <river@wikimedia.org>
+
+	* SFEckermit.spec: Fix modes on docdir.
+	* SFEcyrus-sasl.spec: Strip whitespace from $CFLAGS otherwise 
+	  autoconf complains.
+
 2008-06-06  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEgdata-python.spec:  Bump to 1.0.13.

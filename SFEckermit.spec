@@ -49,13 +49,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, sys) %{_docdir}
-%dir %attr (0755, root, sys) %{_docdir}/kermit
+%dir %attr (0755, root, other) %{_docdir}
+%dir %attr (0755, root, other) %{_docdir}/kermit
 %{_docdir}/kermit/*
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*.1
 
 %changelog
+* Fri Jun 06 2008 - river@wikimedia.org
+- fix modes on docdir
 * Tue May 1 2008 - river@wikimedia.org
 - Initial spec

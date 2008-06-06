@@ -33,8 +33,9 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CFLAGS="%optflags -I/usr/gnu/include -I/usr/sfw/include"
-
+# needed to prevent an error during configure - strip whitespace
+CFLAGS="%optflags -I/usr/gnu/include -I/usr/sfw/include"
+export CFLAGS="`echo $CFLAGS`"
 export LDFLAGS="-L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib"
 
 ./configure -prefix %{_prefix} \
@@ -79,6 +80,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/*
 
 %changelog
+* Fri Jun 06 2008 - river@wikimedia.org
+- strip whitespace from $CFLAGS otherwise autoconf gets upset
 * Sun Feb 03 2008 - moinak.ghosh@sun.com
 - Add dependency on SFElibntlm.
 * Tue Jan 15 2008 - moinak.ghosh@sun.com
