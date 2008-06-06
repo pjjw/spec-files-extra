@@ -1,3 +1,7 @@
+2008-06-06  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEgdata-python.spec:  Bump to 1.0.13.
+
 2008-06-04  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEwine.spec: Drop SFEfontforge, SUNWlcms-devel dependencies, add
