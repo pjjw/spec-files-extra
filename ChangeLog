@@ -1,5 +1,13 @@
 2008-06-06  Albert Lee  <trisk@acm.jhu.edu>
 
+	* SFEnicdrv.spec: Use driver version numbers in SFEnicdrv-* packages.
+	  Update to vel-2.6.0, sige-2.6.2, myk-2.6.0. Add nfo driver
+	* patches/nicdrv-05-myk.diff: Update for myk-2.6.0
+	* patches/nicdrv-08-alta.diff: Drop, replaced by patch8
+	* patches/nicdrv-08-gldv3.diff: Patch GEM 2.6 header for compatibility
+
+2008-06-06  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEswftools.spec: *NEW* SWF manipulation and generation utilities
 	* SFEwine.spec: Actually drop SFEfontforge dependency
 	* patches/swftools-01-sunpro.diff: Studio compat. and fixes

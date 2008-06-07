@@ -1,5 +1,5 @@
---- alta-2.6.0/gem.h.orig	Sat Feb  2 21:41:18 2008
-+++ alta-2.6.0/gem.h	Sat Mar 22 23:00:26 2008
+--- myk-2.6.0/gem.h.orig	Sat Feb  2 21:41:18 2008
++++ myk-2.6.0/gem.h	Sat Mar 22 23:00:26 2008
 @@ -672,7 +672,15 @@
  int gem_pci_set_power_state(dev_info_t *, ddi_acc_handle_t, uint_t);
  int gem_pci_regs_map_setup(dev_info_t *, uint32_t, uint32_t,
