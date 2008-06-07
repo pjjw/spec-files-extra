@@ -36,7 +36,6 @@ Requires:	SUNWhal
 BuildRequires:	SUNWdbus-devel
 Requires:	SUNWdbus
 Requires:	SUNWxorg-clientlibs
-BuildRequires:	SFEfontforge
 Requires:	SFEfreetype
 Requires:	SUNWlcms
 BuildRequires:	SFEcups-devel

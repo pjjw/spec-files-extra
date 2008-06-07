@@ -1,0 +1,36 @@
+--- swftools-0.8.1.orig/Makefile.common.in	2006-11-12 07:03:23.000000000 -0500
++++ swftools-0.8.1/Makefile.common.in	2008-06-07 10:52:55.229277409 -0400
+@@ -45,17 +45,17 @@
+ INSTALL_DATA = @INSTALL_DATA@
+ UNINSTALL_DATA = rm -f
+ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+-prefix = @prefix@
++prefix = $(DESTDIR)@prefix@
+ exec_prefix = @exec_prefix@
+ bindir = @bindir@
+ datadir = @datadir@
+ libdir = @libdir@
+ includedir = @includedir@
+ sysconfdir = @sysconfdir@
+ pkgdatadir = $(datadir)/@PACKAGE@
+ 
+ # man pages
+-mandir = @mandir@
++mandir = $(DESTDIR)@mandir@
+ man1dir = $(mandir)/man1
+ 
+ # ------------------- defines -------------------------
+--- swftools-0.8.1.orig/swfs/Makefile.in	2006-01-04 04:15:11.000000000 -0500
++++ swftools-0.8.1/swfs/Makefile.in	2008-06-07 11:10:25.355549330 -0400
+@@ -42,9 +42,9 @@
+ 	$(INSTALL_DATA) ./tessel_loader.swf $(pkgdatadir)/swfs/tessel_loader.swf
+ 	$(INSTALL_DATA) ./swft_loader.swf $(pkgdatadir)/swfs/swft_loader.swf
+ 	test -f $(pkgdatadir)/swfs/default_viewer.swf || \
+-	    $(LN_S) $(pkgdatadir)/swfs/simple_viewer.swf $(pkgdatadir)/swfs/default_viewer.swf;
++	    $(LN_S) simple_viewer.swf $(pkgdatadir)/swfs/default_viewer.swf;
+ 	test -f $(pkgdatadir)/swfs/default_loader.swf || \
+-	    $(LN_S) $(pkgdatadir)/swfs/tessel_loader.swf $(pkgdatadir)/swfs/default_loader.swf;
++	    $(LN_S) tessel_loader.swf $(pkgdatadir)/swfs/default_loader.swf;
+ 		
+ uninstall:
+ 	$(UNINSTALL_DATA) $(pkgdatadir)/swfs/simple_viewer.swf

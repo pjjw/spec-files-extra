@@ -1,0 +1,151 @@
+--- swftools-0.8.1.orig/configure.in	2007-02-28 14:35:33.000000000 -0500
++++ swftools-0.8.1/configure.in	2008-06-07 10:30:14.539699058 -0400
+@@ -42,7 +42,10 @@
+ if test "x$PROFILING" '!=' "x";then
+     DEBUG=yes
+ fi
+-if test "x$DEBUG" '!=' "x";then
++
++if test "x$GCC" != "xyes"; then
++    :
++elif test "x$DEBUG" '!=' "x"; then
+     if test "x$PROFILING" = "x";then
+         CFLAGS="$WARNINGS -O2 -g $CFLAGS"
+         CXXFLAGS="$WARNINGS -O2 -g $CXXFLAGS"
+@@ -52,14 +55,13 @@
+         CXXFLAGS="$WARNINGS -O2 -g -pg $CXXFLAGS"
+         LDFLAGS="-g -pg $LIBS"
+     fi
+-else if test "x$OPTIMIZE" '!=' "x"; then
++elif test "x$OPTIMIZE" '!=' "x"; then
+     CFLAGS="$WARNINGS -O3 -fomit-frame-pointer -Winline $CFLAGS"
+     CXXFLAGS="$WARNINGS -O3 -fomit-frame-pointer -Winline $CXXFLAGS"
+ else
+     CFLAGS="$WARNINGS -O -fomit-frame-pointer $CFLAGS"
+     CXXFLAGS="$WARNINGS -O -fomit-frame-pointer $CXXFLAGS"
+ fi
+-fi
+ 
+ CFLAGS="-fPIC $CFLAGS"
+ CXXFLAGS="-fPIC $CFLAGS"
+@@ -138,6 +140,10 @@
+ AREXT=".a"
+ CXXLIBS="-lstdc++"
+ 
++if test "x$GCC" != "xyes";then
++    CXXLIBS=
++fi
++
+ AC_EXEEXT
+ 
+ if test "x$EXEEXT" = "x.exe";then
+--- swftools-0.8.1.orig/configure	2007-02-28 14:35:45.000000000 -0500
++++ swftools-0.8.1/configure	2008-06-07 10:04:54.442384166 -0400
+@@ -1795,7 +1795,10 @@
+ if test "x$PROFILING" '!=' "x";then
+     DEBUG=yes
+ fi
+-if test "x$DEBUG" '!=' "x";then
++
++if test "x$GCC" != "xyes"; then
++    :
++elif test "x$DEBUG" '!=' "x"; then
+     if test "x$PROFILING" = "x";then
+         CFLAGS="$WARNINGS -O2 -g $CFLAGS"
+         CXXFLAGS="$WARNINGS -O2 -g $CXXFLAGS"
+@@ -1805,14 +1808,13 @@
+         CXXFLAGS="$WARNINGS -O2 -g -pg $CXXFLAGS"
+         LDFLAGS="-g -pg $LIBS"
+     fi
+-else if test "x$OPTIMIZE" '!=' "x"; then
++elif test "x$OPTIMIZE" '!=' "x"; then
+     CFLAGS="$WARNINGS -O3 -fomit-frame-pointer -Winline $CFLAGS"
+     CXXFLAGS="$WARNINGS -O3 -fomit-frame-pointer -Winline $CXXFLAGS"
+ else
+     CFLAGS="$WARNINGS -O -fomit-frame-pointer $CFLAGS"
+     CXXFLAGS="$WARNINGS -O -fomit-frame-pointer $CXXFLAGS"
+ fi
+-fi
+ 
+ CFLAGS="-fPIC $CFLAGS"
+ CXXFLAGS="-fPIC $CFLAGS"
+@@ -3796,6 +3798,10 @@
+ AREXT=".a"
+ CXXLIBS="-lstdc++"
+ 
++if test "x$GCC" != "xyes";then
++    CXXLIBS=
++fi
++
+ 
+
+ if test "x$EXEEXT" = "x.exe";then
+--- swftools-0.8.1.orig/lib/devices/ops.c	2006-12-30 06:26:32.000000000 -0500
++++ swftools-0.8.1/lib/devices/ops.c	2008-06-07 10:32:25.752666146 -0400
+@@ -53,7 +53,7 @@
+     fflush(stdout);
+ }
+ 
+-inline gfxcolor_t transform_color(internal_t*i, gfxcolor_t*col)
++static inline gfxcolor_t transform_color(internal_t*i, gfxcolor_t*col)
+ {
+     gfxcolor_t col2;
+     /*col2.r = (col->r * i->alpha)>>8;
+--- swftools-0.8.1.orig/src/swfcombine.c	2007-01-13 12:19:12.000000000 -0500
++++ swftools-0.8.1/src/swfcombine.c	2008-06-07 09:19:40.306020139 -0400
+@@ -1108,9 +1108,9 @@
+     memset(masterbitmap, 0, sizeof(masterbitmap));
+ 
+     if(config.cat) 
+-	return catcombine(master, slave_name, slave, newswf);
++	catcombine(master, slave_name, slave, newswf);
+     else
+-	return normalcombine(master, slave_name, slave, newswf);
++	normalcombine(master, slave_name, slave, newswf);
+ }
+ 
+ int main(int argn, char *argv[])
+--- swftools-0.8.1.orig/src/swfc.c	2007-02-19 14:02:37.000000000 -0500
++++ swftools-0.8.1/src/swfc.c	2008-06-07 09:21:36.454615973 -0400
+@@ -813,7 +813,7 @@
+     }
+ }
+ 	
+-RGBA black={r:0,g:0,b:0,a:0};
++static RGBA black={0,0,0,0};
+ void s_box(char*name, int width, int height, RGBA color, int linewidth, char*texture)
+ {
+     SRECT r,r2;
+--- swftools-0.8.1.orig/src/pdf2swf.c	2007-02-04 11:01:21.000000000 -0500
++++ swftools-0.8.1/src/pdf2swf.c	2008-06-07 10:13:48.916305832 -0400
+@@ -621,7 +621,7 @@
+ 	if(pagenum == xnup*ynup || (pagenr == pdf->num_pages && pagenum>1)) {
+ 
+ 	    int t;
+-	    int xmax[xnup], ymax[xnup];
++	    int xmax[3], ymax[3];
+ 	    int x,y;
+ 	    int width=0, height=0;
+ 
+--- swftools-0.8.1.orig/lib/pdf/Makefile.in	2007-02-28 12:05:43.000000000 -0500
++++ swftools-0.8.1/lib/pdf/Makefile.in	2008-06-07 09:33:36.023673342 -0400
+@@ -117,7 +117,7 @@
+ xpdf/gfile.$(O): xpdf/gfile.cc
+ 	$(CC) -I ./ -I xpdf xpdf/gfile.cc -o $@
+ xpdf/gmem.$(O): xpdf/gmem.cc
+-	$(C) -I ./ -I xpdf xpdf/gmem.cc -o $@
++	$(CC) -I ./ -I xpdf xpdf/gmem.cc -o $@
+ 
+ ../libpdf$(A): $(libpdf_objects) $(xpdf_objects)
+ 	$(AR) r ../libpdf$(A) $(libpdf_objects) $(xpdf_objects)
+--- swftools-0.8.1.orig/lib/pdf/xpdf/GString.cc	2007-02-27 17:05:51.000000000 -0500
++++ swftools-0.8.1/lib/pdf/xpdf/GString.cc	2008-06-07 09:30:25.549680909 -0400
+@@ -528,7 +528,7 @@
+   if ((neg = x < 0)) {
+     x = -x;
+   }
+-  x = floor(x * pow(10, prec) + 0.5);
++  x = floor(x * pow(static_cast<double>(10), prec) + 0.5);
+   i = bufSize;
+   started = !trim;
+   for (j = 0; j < prec && i > 1; ++j) {

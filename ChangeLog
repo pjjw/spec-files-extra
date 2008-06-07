@@ -1,3 +1,10 @@
+2008-06-06  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEswftools.spec: *NEW* SWF manipulation and generation utilities
+	* SFEwine.spec: Actually drop SFEfontforge dependency
+	* patches/swftools-01-sunpro.diff: Studio compat. and fixes
+	* patches/swftools-02-destdir.diff: Use DESTDIR when installing
+
 2008-06-06  Andras Barna  <andras.barna@gmail.com>
 
 	* SFEperl-gtk2-mozembed.spec: Added "-R/usr/lib/firefox" to LD
