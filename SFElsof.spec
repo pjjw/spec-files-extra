@@ -11,7 +11,7 @@
 
 Name:                SFElsof
 Summary:             List open files
-Version:             4.78
+Version:             4.79
 Source:              ftp://ftp.cerias.purdue.edu/pub/tools/unix/sysutils/lsof/lsof_%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -56,6 +56,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/lsof.8
 
 %changelog
+* Wed Apr 23 2008 - Thomas Wagner
+- Bump to 4.79
 * Mon Nov 5 2007 - markwright@internode.on.net
 - Bump to 4.78.
 * Sun Mar 18 2007 - Eric Boutilier
