@@ -1,3 +1,13 @@
+2008-06-09  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEwine.spec: Bump to 1.0-rc4. Drop patch1. Replace SFEcups with
+	  SUNWcupsu. Add lots of missing dependencies. Use curses instead of
+	  ncurses.
+	* patches/wine-01-nameconfict.diff: Drop because -DPIC works just as
+	  well as -Dpic
+	* patches/wine-04-event-completion.diff: Don't emit erroneous
+	  port_dissociate warning
+
 2008-06-06  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEnicdrv.spec: Use driver version numbers in SFEnicdrv-* packages.

@@ -10,10 +10,9 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                1.0-rc3
+Version:                1.0-rc4
 URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
-Patch1:			wine-01-nameconfict.diff
 # http://bugs.winehq.org/show_bug.cgi?id=12740
 # http://bugs.opensolaris.org/view_bug.do?bug_id=6698109
 Patch2:			wine-02-xim-workaround.diff
@@ -36,12 +35,22 @@ Requires:	SUNWhal
 BuildRequires:	SUNWdbus-devel
 Requires:	SUNWdbus
 Requires:	SUNWxorg-clientlibs
-Requires:	SFEfreetype
+BuildRequires:	SUNWxorg-headers
+Requires:	SUNWxorg-mesa
 Requires:	SUNWlcms
-BuildRequires:	SFEcups-devel
-Requires:	SFEcups
-BuildRequires:	SFEncurses-devel
-Requires:	SFEncurses
+BuildRequires:	SUNWjpg-devel
+Requires:	SUNWjpg
+BuildRequires:	SUNWpng-devel
+Requires:	SUNWpng
+Requires:	SUNWlxml
+Requires:	SUNWlxsl
+Requires:	SUNWcupsu
+Requires:	SUNWsane-backendu
+BuildRequires:	SUNWopenssl-include
+Requires:	SUNWopenssl-libraries
+#Requires:	SFEfreetype
+#BuildRequires:	SFEncurses-devel
+#Requires:	SFEncurses
 BuildRequires:	SFElibaudioio-devel
 Requires:	SFElibaudioio
 
@@ -53,7 +62,6 @@ Requires: %name
 
 %prep
 %setup -q -n %{src_name}-%{version}
-%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
@@ -83,14 +91,14 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-X11LIB="-L/usr/X11/lib -R/usr/X11/lib"
-SFWLIB="-L/usr/sfw/lib -R/usr/sfw/lib"
 RELAX_ALIGN="-Wl,-M -Wl,`pwd`/map.relaxalign"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CC=/usr/sfw/bin/gcc
-export CPPFLAGS="-I/usr/X11/include -I%{gnu_inc} -I%{gnu_inc}/ncurses -I/usr/sfw/include -D__C99FEATURES__"
-export CFLAGS="%gcc_optflags -march=i686 -O3 -fno-omit-frame-pointer -fpic -Dpic"
-export LDFLAGS="$X11LIB %{gnu_lib_path} $SFWLIB $RELAX_ALIGN"
+#export CPPFLAGS="-I/usr/X11/include -I%{gnu_inc} -I%{gnu_inc}/ncurses -I/usr/sfw/include -D__C99FEATURES__"
+export CPPFLAGS="-I%{xorg_inc} -I%{sfw_inc} -D__C99FEATURES__"
+export CFLAGS="%gcc_optflags -march=i686 -fno-omit-frame-pointer" 
+#export LDFLAGS="$X11LIB %{gnu_lib_path} $SFWLIB $RELAX_ALIGN"
+export LDFLAGS="%{xorg_lib_path} %{sfw_lib_path} $RELAX_ALIGN"
 export LD=/usr/ccs/bin/ld
 
 autoconf -f
@@ -103,7 +111,11 @@ autoheader
             --libexecdir=%{_libexecdir} \
             --sysconfdir=%{_sysconfdir} \
             --enable-shared		\
-	    --disable-static		
+	    --disable-static		\
+	    --without-alsa		\
+	    --without-capi		\
+	    --without-nas		\
+	    --without-jack
 
 make -j$CPUS || make
 
@@ -154,6 +166,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Mon Jun 09 2008 - trisk@acm.jhu.edu
+- Bump to 1.0-rc4
+- Drop patch1
+- Replace SFEcups with SUNWcupsu
+- Add lots of missing dependencies
+- Use curses instead of ncurses
 * Wed Jun 04 2008 - trisk@acm.jhu.edu
 - Drop SFEfontforge, SUNWlcms-devel dependencies
 - Add patch5 for http://bugs.winehq.org/show_bug.cgi?id=9787
