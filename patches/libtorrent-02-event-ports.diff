@@ -75,8 +75,8 @@ diff -x configure -x aclocal.m4 -ru libtorrent-0.11.9/src/torrent/Makefile.am li
  	rate.h \
 diff -urN libtorrent.orig/src/torrent/poll_ports.cc libtorrent/src/torrent/poll_ports.cc
 --- libtorrent.orig/src/torrent/poll_ports.cc	1969-12-31 19:00:00.000000000 -0500
-+++ libtorrent/src/torrent/poll_ports.cc	2008-05-12 00:42:15.000000000 -0400
-@@ -0,0 +1,318 @@
++++ libtorrent/src/torrent/poll_ports.cc	2008-06-10 14:48:05.000000000 -0400
+@@ -0,0 +1,331 @@
 +// libTorrent - BitTorrent library
 +// Copyright (C) 2005-2007, Jari Sundell
 +//
@@ -217,11 +217,6 @@ diff -urN libtorrent.orig/src/torrent/poll_ports.cc libtorrent/src/torrent/poll_
 +void
 +PollPorts::perform() {
 +  for (port_event_t *itr = m_events, *last = m_events + m_waitingEvents; itr != last; ++itr) {
-+    // Since port events are one-shot, re-add the fd before we process
-+    // its events.
-+
-+    port_associate(m_fd, PORT_SOURCE_FD, itr->portev_object,
-+        event_mask((Event *)itr->portev_user), itr->portev_user);
 +
 +    // Each branch must check for data.ptr != NULL to allow the socket
 +    // to remove itself between the calls.
@@ -229,17 +224,35 @@ diff -urN libtorrent.orig/src/torrent/poll_ports.cc libtorrent/src/torrent/poll_
 +    // TODO: Make it so that it checks that read/write is wanted, that
 +    // it wasn't removed from one of them but not closed.
 +
-+    if (itr->portev_events & POLLERR && itr->portev_user != NULL 
++    if (itr->portev_user == NULL)
++      continue;
++
++    if (itr->portev_events & POLLERR 
 +        && event_mask((Event*)itr->portev_user) & POLLERR)
 +      ((Event*)itr->portev_user)->event_error();
 +
-+    if (itr->portev_events & POLLIN && itr->portev_user != NULL 
++    if (itr->portev_user == NULL)
++      continue;
++
++    if (itr->portev_events & POLLIN
 +        && event_mask((Event*)itr->portev_user) & POLLIN)
 +      ((Event*)itr->portev_user)->event_read();
 +
-+    if (itr->portev_events & POLLOUT && itr->portev_user != NULL
++    if (itr->portev_user == NULL)
++      continue;
++
++    if (itr->portev_events & POLLOUT
 +        && event_mask((Event*)itr->portev_user) & POLLOUT)
 +      ((Event*)itr->portev_user)->event_write();
++
++    if (itr->portev_user == NULL)
++      continue;
++
++    // Since port events are one-shot, re-add the fd after we process
++    // its events.
++
++    port_associate(m_fd, PORT_SOURCE_FD, itr->portev_object,
++        event_mask((Event *)itr->portev_user), itr->portev_user);
 +  }
 +
 +  m_waitingEvents = 0;

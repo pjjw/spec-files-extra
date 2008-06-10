@@ -1,3 +1,12 @@
+2008-06-10  Albert Lee  <trisk@acm.jhu.edu>
+
+	* patches/libtorrent-02-event-ports.diff: Fix re-associate semantics
+	  and portev_user crash.
+
+2008-06-10  Albert Lee  <trisk@acm.jhu.edu>
+
+	* patches/libtorrent-02-event-ports.diff: Fix socket table size
+
 2008-06-09  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEwine.spec: Replace SFEfreetype dependency
