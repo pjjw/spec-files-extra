@@ -1,5 +1,9 @@
 2008-06-09  Albert Lee  <trisk@acm.jhu.edu>
 
+	* SFEwine.spec: Replace SFEfreetype dependency
+
+2008-06-09  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEwine.spec: Bump to 1.0-rc4. Drop patch1. Replace SFEcups with
 	  SUNWcupsu. Add lots of missing dependencies. Use curses instead of
 	  ncurses.

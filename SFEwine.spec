@@ -48,9 +48,8 @@ Requires:	SUNWcupsu
 Requires:	SUNWsane-backendu
 BuildRequires:	SUNWopenssl-include
 Requires:	SUNWopenssl-libraries
-#Requires:	SFEfreetype
-#BuildRequires:	SFEncurses-devel
-#Requires:	SFEncurses
+BuildRequires:	SFEfreetype-devel
+Requires:	SFEfreetype
 BuildRequires:	SFElibaudioio-devel
 Requires:	SFElibaudioio
 
@@ -71,12 +70,6 @@ Requires: %name
 # patch5 changes the server request spec, so update related files
 perl tools/make_requests
 
-# change all occurences of duplicate functions/structs named "list"*
-#bash change_functions_structs_named_list_asterisk.sh
-
-# see above, cleanup concurrency with /usr/include/sys/list.h
-#mv include/wine/list.h include/wine/wine_list.h
-
 # Wine assumes libraries are mapped to contiguous memory regions.
 # Use less restrictive alignment for data section to avoid "holes" between
 # sections that the OS is allowed to use for an anonymous mmap:
@@ -94,11 +87,9 @@ fi
 RELAX_ALIGN="-Wl,-M -Wl,`pwd`/map.relaxalign"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CC=/usr/sfw/bin/gcc
-#export CPPFLAGS="-I/usr/X11/include -I%{gnu_inc} -I%{gnu_inc}/ncurses -I/usr/sfw/include -D__C99FEATURES__"
-export CPPFLAGS="-I%{xorg_inc} -I%{sfw_inc} -D__C99FEATURES__"
+export CPPFLAGS="-I%{xorg_inc} -I%{gnu_inc} -I%{sfw_inc} -D__C99FEATURES__"
 export CFLAGS="%gcc_optflags -march=i686 -fno-omit-frame-pointer" 
-#export LDFLAGS="$X11LIB %{gnu_lib_path} $SFWLIB $RELAX_ALIGN"
-export LDFLAGS="%{xorg_lib_path} %{sfw_lib_path} $RELAX_ALIGN"
+export LDFLAGS="%{xorg_lib_path} %{gnu_lib_path} %{sfw_lib_path} $RELAX_ALIGN"
 export LD=/usr/ccs/bin/ld
 
 autoconf -f
@@ -166,6 +157,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Mon Jun 09 2008 - trisk@acm.jhu.edu
+- Replace SFEfreetype dependency
 * Mon Jun 09 2008 - trisk@acm.jhu.edu
 - Bump to 1.0-rc4
 - Drop patch1
