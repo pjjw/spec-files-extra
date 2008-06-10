@@ -182,7 +182,7 @@ diff -urN libtorrent.orig/src/torrent/poll_ports.cc libtorrent/src/torrent/poll_
 +  m_waitingEvents(0),
 +  m_events(new port_event_t[maxEvents]) {
 +
-+  m_table.resize(maxEvents); 
++  m_table.resize(maxOpenSockets); 
 +}
 +
 +PollPorts::~PollPorts() {
