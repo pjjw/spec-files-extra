@@ -10,7 +10,7 @@
 
 Name:                    SFExchat
 Summary:                 XChat IRC Client
-Version:                 2.8.4
+Version:                 2.8.6
 Source:                  http://www.xchat.org/files/source/2.8/xchat-%{version}.tar.bz2
 Patch1:                  xchat-01-gettext.diff
 Patch2:                  xchat-02-zero-index.diff
@@ -149,6 +149,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jun 12 2008 - brian.cameron@sun.com
+- Bump to 2.8.6.
 * Mon Oct 22 2007 - brian.cameron@sun.com
 - Remove patch xchat-03-dbus-LDADD.diff since it is not longer needed.
 * Wed Oct 17 2007 - laca@sun.com

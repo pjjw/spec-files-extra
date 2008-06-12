@@ -14,9 +14,8 @@
 #
 # Note there has not been a codeina tarball release, so downloading
 # from the URL specified in this spec-file will fail.  You need to
-# build a tarball by hand from SVN, change the autogen.sh to start
-# with "#!/bin/bash" instead of "#!/bin/sh", and run autogen.sh.
-# Then run "make dist" to create a tarball to build with.
+# build a tarball by hand from SVN, and run autogen.sh.  Then run
+# "make dist" to create a tarball to build with.
 #
 # To access codeina from subversion:
 #
@@ -30,7 +29,7 @@
 
 Name:		SFEcodeina
 Summary:	Codec Installe:w
-Version:	0.10.2.1
+Version:	0.10.3.1
 URL:		http://fedoraproject.org/wiki/Multimedia/Codeina
 # Note this URL does not work, there is not yet a codeina release.
 # See instructions at the top of the spec-file.
@@ -147,6 +146,8 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Jun 11 2008 - brian.cameron@sun.com
+- Bump to the latest 0.10.3.1 version.
 * Thu Apr 10 2008 - brian.cameron@sun.com
 - New spec file. 
 

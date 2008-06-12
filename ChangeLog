@@ -1,3 +1,12 @@
+2008-06-12  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFExchat.spec, patches/xchat-01-gettext.diff:  Bump to 2.8.6.
+	  Update patch so it applies.  Andras Barna <andras.barna@gmail.com>
+	  helped with updating the patch.
+	* SFEcodeina.spec:  Bump to the latest SVN head 0.10.3.1 version.
+	* patches/gdm-01-lang.diff: Updated based on Takao Fujiwara's
+	  latest version of the patch.
+
 2008-06-10  Albert Lee  <trisk@acm.jhu.edu>
 
 	* patches/libtorrent-02-event-ports.diff: Fix re-associate semantics

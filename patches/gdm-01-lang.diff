@@ -50,7 +50,7 @@
                  }
                  gdm_language_chooser_widget_add_language (widget,
 --- gdm-2.22.0/gui/simple-greeter/gdm-languages.c.orig	2008-06-02 20:06:51.361091000 +0900
-+++ gdm-2.22.0/gui/simple-greeter/gdm-languages.c	2008-06-03 17:41:03.898579000 +0900
++++ gdm-2.22.0/gui/simple-greeter/gdm-languages.c	2008-06-10 22:13:31.116263000 +0900
 @@ -45,7 +45,7 @@
  #endif
  #include "locarchive.h"
@@ -168,8 +168,21 @@
          }
  
          g_free (names);
-@@ -482,7 +483,14 @@ collect_locales_from_directory (void)
-         ndirents = scandir (GNOMELOCALEDIR, &dirents, select_dirs, alphasort);
+@@ -459,7 +460,7 @@ select_dirs (const struct dirent *dirent
+                                 struct stat st;
+                                 char       *path;
+ 
+-                                path = g_build_filename (GNOMELOCALEDIR, dirent->d_name, NULL);
++                                path = g_build_filename (LIBLOCALEDIR, dirent->d_name, NULL);
+                                 if (g_stat (path, &st) == 0) {
+                                         mode = st.st_mode;
+                                 }
+@@ -479,10 +480,17 @@ collect_locales_from_directory (void)
+         int             ndirents;
+         int             cnt;
+ 
+-        ndirents = scandir (GNOMELOCALEDIR, &dirents, select_dirs, alphasort);
++        ndirents = scandir (LIBLOCALEDIR, &dirents, select_dirs, alphasort);
  
          for (cnt = 0; cnt < ndirents; ++cnt) {
 -                add_locale (dirents[cnt]->d_name);
