@@ -13,15 +13,18 @@
 %include base.inc
 %use libsndfile = libsndfile.spec
 
+%define SFEogg-vorbis    %(/usr/bin/pkginfo -q SFEogg-vorbis && echo 1 || echo 0)
+
 Name:                    SFElibsndfile
 Summary:                 %{libsndfile.summary}
 Version:                 %{libsndfile.version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+%if %SFEogg-vorbis
 %ifarch amd64 sparcv9
-BuildRequires: SUNWogg-vorbis-devel
-Requires: SUNWogg-vorbis
+BuildRequires: SFEogg-vorbis-devel
+%endif
 %endif
 BuildRequires: SUNWogg-vorbis-devel
 Requires: SUNWogg-vorbis
@@ -105,6 +108,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Jun 13 2008 - trisk@acm.jhu.edu
+- Allow building with SFEogg-vorbis again
 * Mon May 05 2008 - brian.cameron@sun.com
 - Now that we are building 64-bit libraries in SUNWogg-vorbis, remove
   dependency of SFEogg-vorbis and add SUNWogg-vorbis.
