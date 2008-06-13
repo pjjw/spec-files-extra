@@ -1,5 +1,10 @@
 2008-06-13  Albert Lee  <trisk@acm.jhu.edu>
 
+	* archive/SFElibogg: Delete, this is totally stale
+	* base-specs/libvorbis.spec: Undelete *correctly*
+
+2008-06-13  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFElibsndfile.spec: Fix macro name
 	* base-specs/libogg.spec: Undelete base-spec for archived spec
 	* base-specs/ogg-vorbis.spec: Undelete base-spec for archived spec
