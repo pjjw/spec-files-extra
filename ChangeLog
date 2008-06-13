@@ -1,5 +1,11 @@
 2008-06-13  Albert Lee  <trisk@acm.jhu.edu>
 
+	* SFElibsndfile.spec: Fix macro name
+	* base-specs/libogg.spec: Undelete base-spec for archived spec
+	* base-specs/ogg-vorbis.spec: Undelete base-spec for archived spec
+
+2008-06-13  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFElibsndfile.spec: Allow building with SFEogg-vorbis again
 	* archive/SFElibogg.spec: Archive deleted spec
 	* archive/SFEogg-vorbis.spec: Archive deleted spec

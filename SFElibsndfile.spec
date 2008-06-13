@@ -13,7 +13,7 @@
 %include base.inc
 %use libsndfile = libsndfile.spec
 
-%define SFEogg-vorbis    %(/usr/bin/pkginfo -q SFEogg-vorbis && echo 1 || echo 0)
+%define SFEogg_vorbis    %(/usr/bin/pkginfo -q SFEogg-vorbis && echo 1 || echo 0)
 
 Name:                    SFElibsndfile
 Summary:                 %{libsndfile.summary}
@@ -21,7 +21,7 @@ Version:                 %{libsndfile.version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-%if %SFEogg-vorbis
+%if %SFEogg_vorbis
 %ifarch amd64 sparcv9
 BuildRequires: SFEogg-vorbis-devel
 %endif
