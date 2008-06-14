@@ -1,3 +1,9 @@
+2008-06-14  Andras Barna <andras.barna@gmail.com>
+
+	* SFEphysfs.spec: Remove useless gcc check which breaks the build, and we use Sun Studio by default anyway
+	* SFEanjuta.spec: $CPUS calculated, but not used
+	  Fix apr-1-config's path, add apu-1-config, so at least it builds
+
 2008-06-13  Albert Lee  <trisk@acm.jhu.edu>
 
 	* archive/SFElibogg: Delete, this is totally stale

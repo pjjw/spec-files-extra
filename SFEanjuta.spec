@@ -125,19 +125,20 @@ autoheader
 automake -a -c -f
 autoconf
 ./configure --prefix=%{_prefix}						\
-            --mandir=%{_mandir}						\
-	    --libdir=%{_libdir}						\
-	    --includedir=%{_includedir}					\
-            --sysconfdir=%{_sysconfdir}					\
-	    --with-svn-include=%{_includedir}/svn			\
-	    --with-svn-lib=%{_libdir}/svn				\
-            --with-apr-config=%{_prefix}/apache2/bin/apr-1-config	\
-            --disable-scrollkeeper					\
+			--mandir=%{_mandir}						\
+			--libdir=%{_libdir}						\
+			--includedir=%{_includedir}					\
+			--sysconfdir=%{_sysconfdir}					\
+			--with-svn-include=%{_includedir}/svn			\
+			--with-svn-lib=%{_libdir}/svn				\
+			--disable-scrollkeeper					\
+			--with-apr-config=%{_prefix}/apache2/2.2/bin/apr-1-config	\
+			--with-apu-config=%{_prefix}/apache2/2.2/bin/apu-1-config	\
 	    %gtk_doc_option
 
 %patch2 -p1
 
-make
+make -j$CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -291,6 +292,9 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Sat Jun 14 2008 - andras.barna@gmail.com
+- $CPUS calculated, but not used
+- Fix apr-1-config's path, add apu-1-config, so at least it builds
 * Tue Jan 03 2008 - nonsea@users.sourceforge.net
 - Bump to 2.5.0
 - Add patch max-baud.diff and lsocket.diff

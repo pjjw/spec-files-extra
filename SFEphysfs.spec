@@ -35,11 +35,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 
-echo $CC | grep gcc 2>&1 > /dev/null
-if [ $? -ne 0 ]
-then
-	CFLAGS="$CFLAGS -xc99"
-fi
+export CFLAGS="$CFLAGS -xc99"
+
 cmake .
 make
 
@@ -65,6 +62,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Sat Jun 14 2008 - andras.barna@gmail.com
+- Remove useless gcc check which breaks the build, and we use Sun Studio by default anyway
 * Tue Jan 08 2008 - moinak.ghosh@sun.com
 - Changes to compile inline functions (C99) with Sun Studio
 * Mon Apr 30 2007 - dougs@truemail.co.th
