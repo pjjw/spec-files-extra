@@ -18,11 +18,11 @@ Patch1:                  mplayer-01-cddb.diff
 Patch4:                  mplayer-04-cabac-asm.diff
 Patch5:                  mplayer-05-configure.diff
 Source3:                 http://www.mplayerhq.hu/MPlayer/skins/Blue-1.7.tar.bz2
-Source4:                 http://www.mplayerhq.hu/MPlayer/skins/Abyss-1.6.tar.bz2
+Source4:                 http://www.mplayerhq.hu/MPlayer/skins/Abyss-1.7.tar.bz2
 Source5:                 http://www.mplayerhq.hu/MPlayer/skins/neutron-1.5.tar.bz2
 Source6:                 http://www.mplayerhq.hu/MPlayer/skins/proton-1.2.tar.bz2
-Source7:                 http://www.3gpp.org/ftp/Specs/latest/Rel-6/26_series/26104-610.zip
-Source8:                 http://www.3gpp.org/ftp/Specs/latest/Rel-6/26_series/26204-610.zip
+#Source7:                 http://www.3gpp.org/ftp/Specs/latest/Rel-6/26_series/26104-610.zip
+#Source8:                 http://www.3gpp.org/ftp/Specs/latest/Rel-6/26_series/26204-610.zip
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{tarball_version}-build
 %include default-depend.inc
@@ -83,12 +83,12 @@ BuildRequires: SUNWgnome-audio-devel
 %patch4 -p1
 %patch5 -p1
 
-unzip %SOURCE7
-unzip 26104-610_ANSI_C_source_code.zip
-mv c-code libavcodec/amr_float
-unzip %SOURCE8
-unzip 26204-610_ANSI-C_source_code.zip
-mv c-code libavcodec/amrwb_float
+#unzip %SOURCE7
+#unzip 26104-610_ANSI_C_source_code.zip
+#mv c-code libavcodec/amr_float
+#unzip %SOURCE8
+#unzip 26204-610_ANSI-C_source_code.zip
+#mv c-code libavcodec/amrwb_float
 
 perl -pi -e 's/-O2/-O1/' configure
 
@@ -174,6 +174,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Sat Jun 14 2008 - trisk@acm.jhu.edu
+- Update Abyss skin to 1.7
+- Disable 3GPP AMR codecs as they are non-redistributable
 * Tue Jan 08 2008 - moinak.ghosh@sun.com
 - Link with SFEfreetype to fix missing symbol problem.
 * Tue Jan 08 2008 - moinak.ghosh@sun.com

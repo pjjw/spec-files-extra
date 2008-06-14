@@ -1,3 +1,11 @@
+2008-06-14  Albert Lee <trisk@acm.jhu.edu>
+
+	* SFEliveMedia.spec: Bump to 2008.06.05 - consider mirroring since
+	  Live555 removes older versions
+	* encumbered/SFElibdvdread.spec: Update download link
+	* encumbered/SFEmplayer.spec: Update Abyss skin to 1.7. Disable 3GPP AMR
+	  codecs as they are non-redistributable
+
 2008-06-14  Andras Barna <andras.barna@gmail.com>
 
 	* Move include/openal_license.txt to: ext-sources/openal_license.txt

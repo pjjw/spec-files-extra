@@ -7,7 +7,7 @@
 
 Name:                    SFEliveMedia
 Summary:                 liveMedia - live555 Streaming Media
-Version:                 2008.02.08
+Version:                 2008.06.05
 Source:                  http://www.live555.com/liveMedia/public/live.%{version}.tar.gz
 Patch1:                  liveMedia-01-SOLARIS-macro.diff
 Patch2:                  liveMedia-02-config.diff
@@ -43,6 +43,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Fri Jun 13 2008 - trisk@acm.jhu.edu
+- Bump to 2008.06.05 - consider mirroring since Live555 removes older versions
 * Tue Feb 12 2008 <pradhap (at) gmail.com>
 - Bumped up the version to 2008.02.08
 * Thu Dec 27 2007 - Thomas Wagner
