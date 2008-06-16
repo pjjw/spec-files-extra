@@ -1,3 +1,7 @@
+2008-06-12  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEgdata-python.spec:  Bump to 1.1.1.
+
 2008-06-16  Darren Kenny  <darren.kenny@sun.com>
 
 	* SFEfreemind.spec, copyright/SFEfreemind.copyright,
