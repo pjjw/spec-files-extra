@@ -1,3 +1,10 @@
+2008-06-16  Darren Kenny  <darren.kenny@sun.com>
+
+	* SFEfreemind.spec, copyright/SFEfreemind.copyright,
+	  ext-sources/freemind.desktop,
+	  patches/freemind-01-use_bash.diff:
+	  Add FreeMind mindmapping s/w to the repository.
+
 2008-06-14  Albert Lee <trisk@acm.jhu.edu>
 
 	* SFEliveMedia.spec: Bump to 2008.06.05 - consider mirroring since
