@@ -1,0 +1,10 @@
+diff -up freemind/freemind.sh.orig freemind/freemind.sh
+--- freemind/freemind.sh.orig	2008-05-21 20:15:18.000000000 +0100
++++ freemind/freemind.sh	2008-06-16 16:05:15.695114628 +0100
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ # 2004-02-13, modified for Debian by deb@zorglub.s.bawue.de
+ # 2004-06-19, rewritten for Linux/UN*X by deb@zorglub.s.bawue.de
+ #             (based on Jan Schulz's input)
+

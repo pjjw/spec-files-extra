@@ -1,0 +1,17 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Exec=freemind
+TryExec=
+Terminal=false
+StartupNotify=true
+Categories=GNOME;GTK;Utility;
+Icon=FreeMindWindowIcon
+X-GNOME-DocPath=
+Name[en_IE]=Freemind
+GenericName[en_IE]=
+Comment[en_IE]=Mindmapping Software
+Name=Freemind
+GenericName=
+Comment=Mindmapping Software
