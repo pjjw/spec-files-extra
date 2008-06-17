@@ -17,7 +17,6 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires: SUNWlxsl
 Requires: SUNWgnome-xml-share
 Requires: SUNWgnugetopt
-Requires: SFEfindutils
 
 %prep
 rm -rf %name-%version
