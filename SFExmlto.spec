@@ -3,30 +3,26 @@
 #
 # includes module(s): xmlto
 #
-
 %include Solaris.inc
-%define with_SUNWgnugetopt %(pkginfo -q SUNWgnugetopt && echo 1 || echo 0)
 
 Name:                    SFExmlto
 Summary:                 xmlto - converts an XML file into a specified format
 Version:                 0.0.20
 URL:                     http://cyberelk.net/tim/software/xmlto/
 Source:                  http://cyberelk.net/tim/data/xmlto/stable/xmlto-%{version}.tar.bz2
+Patch1:                  xmlto-01-find.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlxsl
 Requires: SUNWgnome-xml-share
-%if %with_SUNWgnugetopt
 Requires: SUNWgnugetopt
-%else
-Requires: SFEgetopt
-%endif
 Requires: SFEfindutils
 
 %prep
 rm -rf %name-%version
 %setup -q -n xmlto-%version
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -40,7 +36,7 @@ export GETOPT=/usr/gnu/bin/getopt
 	    --bindir=%{_bindir}			\
 	    --mandir=%{_mandir}			\
             --libdir=%{_libdir}                 \
-            --with-find=/usr/gnu/bin/find       \
+            --with-find=/usr/bin/find       \
             --with-getopt=/usr/gnu/bin/getopt
 
 make -j$CPUS 
@@ -64,6 +60,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jun 17 2008 - simon.zheng@sun.com
+- Add patch 01-find.diff, remove depedency of
+  GNU find utility.
 * Sun Mar 02 2008 - simon.zheng@sun.com
 - By default, Solaris has already installed package 
   SUNWgnugetopt. Let's depend on it instead of

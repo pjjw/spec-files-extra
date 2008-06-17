@@ -1,3 +1,9 @@
+2008-06-17  simon.zheng  <simon.zheng@sun.com>
+
+	* SFExmlto.spec:
+	* patches/xmlto-01-find.diff: Added. Remove dependency of 
+          GNU find utility.
+
 2008-06-12  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEgdata-python.spec:  Bump to 1.1.1.
