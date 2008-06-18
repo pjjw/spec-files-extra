@@ -1,3 +1,9 @@
+2008-06-18  Damien Carbery <damien.carbery@sun.com>
+
+	* SFEperl-soap-lite.spec: Added. Provides multiple modules e.g.
+	  Apache:SOAP, SOAP::Lite and XMLRPC::Lite.
+	* SFEperl-version.spec: Bump to 0.7501.
+
 2008-06-17  simon.zheng  <simon.zheng@sun.com>
 
 	* SFExmlto.spec:
