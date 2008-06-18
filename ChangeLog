@@ -1,4 +1,4 @@
-2008-06-18  Damien Carbery <damien.carbery@sun.com>
+2008-06-18  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEperl-soap-lite.spec: Added. Provides multiple modules e.g.
 	  Apache:SOAP, SOAP::Lite and XMLRPC::Lite.

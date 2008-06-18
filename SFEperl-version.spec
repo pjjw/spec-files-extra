@@ -70,5 +70,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Wed Jun 18 2008 - daymobrew@users.sourceforge.net
+- Bump to 0.7501.
+
 * Tue Nov 13 2007 - trisk@acm.jhu.edu
 - Initial spec
