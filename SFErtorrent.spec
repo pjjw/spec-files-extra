@@ -10,6 +10,8 @@
 %include base.inc
 
 %use rtorrent = rtorrent.spec
+%use rlibtorrent = rlibtorrent.spec
+
 
 Name:		SFErtorrent
 Summary:	%{rtorrent.summary}
@@ -18,9 +20,7 @@ SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SFEsigcpp-gpp
-Requires: SFElibtorrent-gpp
 BuildRequires: SFEsigcpp-gpp-devel
-BuildRequires: SFElibtorrent-gpp-devel
 Requires: SFExmlrpc-c-gpp
 BuildRequires: SFExmlrpc-c-gpp-devel
 Requires: SUNWcurl
@@ -32,14 +32,17 @@ rm -rf %name-%version
 mkdir %name-%version
 
 mkdir %name-%version/%{base_arch}
+%rlibtorrent.prep -d %name-%version/%{base_arch}
 %rtorrent.prep -d %name-%version/%{base_arch}
 
 %build
+LIBTORRENT_ROOT=%{_builddir}/%name-%version/%{base_arch}/%{rlibtorrent.name}-%{rlibtorrent.version}
 export CC=/usr/sfw/bin/gcc
 export CXX=/usr/sfw/bin/g++
-export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib -R%{_cxx_libdir}"
-export CXXFLAGS="%{gcc_cxx_optflags} -I/usr/gnu/include -I/usr/gnu/include/ncurses"
-export PKG_CONFIG_PATH="%{_cxx_libdir}/pkgconfig"
+export CXXFLAGS="%{gcc_cxx_optflags} -I/usr/gnu/include -I/usr/gnu/include/ncurses -I$LIBTORRENT_ROOT"/src
+export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib -R%{_cxx_libdir} -L$LIBTORRENT_ROOT/src/.libs"
+export PKG_CONFIG_PATH="%{_cxx_libdir}/pkgconfig:$LIBTORRENT_ROOT"
+%rlibtorrent.build -d %name-%version/%{base_arch}
 %rtorrent.build -d %name-%version/%{base_arch}
 
 %install

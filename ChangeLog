@@ -1,3 +1,17 @@
+2008-06-18  Albert Lee <trisk@acm.jhu.edu>
+
+	* SFElibtorrent-gpp.spec: Deleted, only exists in base-spec form
+	* SFErtorrent.spec: Use static Rakshasa libtorrent instead of depending
+	  on SFElibtorrent-gpp
+	* SFEsongbird.spec: Merge with alfred's SFEsongbird-06.spec (yay 0.6)
+	* base-specs/rlibtorrent.spec: Renamed from libtorrent.spec
+	* patches/rlibtorrent-01-madvise.diff: Renamed from
+	  libtorrent-01-madvise.diff
+	* patches/rlibtorrent-02-event-ports.diff: Renamed from
+	  libtorrent-02-event-ports.diff
+	* patches/songbird-01-menu-item.diff: Add menu entry
+	* patches/songbird-02-taglib.diff: TagLib Studio compat from alfred
+
 2008-06-18  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEperl-soap-lite.spec: Added. Provides multiple modules e.g.

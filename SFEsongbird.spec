@@ -30,17 +30,19 @@
 
 Name:          SFEsongbird
 Summary:       The desktop media player mashed-up with the Web.
-Version:       0.5
-Source:        http://releases.mozilla.com/sun/songbird-%{version}-solaris-patched.tar.bz2
+Version:       0.6
+Source:        http://releases.mozilla.com/sun/songbird-%{version}-source.tar.bz2
 %if %without_vendor_binary
-Source1:       http://releases.mozilla.com/sun/xulrunner-20080211-for-songbird-05.tar.bz2
+Source1:       http://releases.mozilla.com/sun/xulrunner-3.0rc1-source-patched-for-songbird.tar.bz2
 %else
 %if %with_debug
-Source1:       http://releases.mozilla.com/sun/solaris-vendor-binaries/songbird-vendor-binary-solaris-%{arch}-20080211-for-05-debug.tar.bz2
+Source1:       http://releases.mozilla.com/sun/solaris-vendor-binaries/songbird-vendor-binary-solaris-%{arch}-firefox30rc1tag-debug.tar.bz2
 %else
-Source1:       http://releases.mozilla.com/sun/solaris-vendor-binaries/songbird-vendor-binary-solaris-%{arch}-20080211-for-05.tar.bz2
+Source1:       http://releases.mozilla.com/sun/solaris-vendor-binaries/songbird-vendor-binary-solaris-%{arch}-firefox30rc1tag.tar.bz2
 %endif
 %endif
+Patch1:        songbird-01-menu-item.diff
+Patch2:        songbird-02-taglib.diff
 URL:           http://www.songbirdnest.com/
 SUNW_BaseDir:  %{_basedir}
 BuildRoot:     %{_tmppath}/%{name}-%{version}-build
@@ -55,9 +57,12 @@ Songbird provides a public playground for Web media mash-ups by providing develo
 
 %prep
 %setup -q -n %name-%version -c -a1
+cd songbird%version
+%patch1 -p1
+%patch2 -p0
 %if %without_vendor_binary
 %else
-mv solaris-%arch songbird%version/dependencies/
+mv ../solaris-%{arch} dependencies/
 %endif
 
 %build
@@ -71,14 +76,12 @@ fi
 export CXX="${CXX} -norunpath"
 %endif
 
-%if %without_vendor_binary
 # Build the vendor libraries(zlib, taglib)
 cd songbird%version/dependencies/vendor/zlib
 ./songbird_zlib_make.sh
 cd ../taglib/
 ./songbird_taglib_make.sh
-cd ../../../../mozilla
-%endif
+cd ../../../../
 
 export LDFLAGS="-z ignore -L%{_libdir} -L/usr/sfw/lib -R'\$\$ORIGIN:\$\$ORIGIN/..' -R%{_libdir}/mps"
 export CFLAGS="-xlibmil"
@@ -95,6 +98,7 @@ export CXXFLAGS="$CXXFLAGS -xO4"
 %endif
 
 %if %without_vendor_binary
+cd mozilla
 # Build XULRunner
 cat << "EOF" > .mozconfig
 MOZILLA_OFFICIAL=1
@@ -120,6 +124,7 @@ ac_add_options --disable-tests
 ac_add_options --disable-auto-deps
 ac_add_options --disable-crashreporter
 ac_add_options --disable-javaxpcom
+ac_add_options --disable-updater
 ac_add_options --disable-installer
 ac_add_options --enable-extensions=default,inspector,venkman
 ac_add_options --disable-dbus
@@ -136,12 +141,12 @@ make -f client.mk build_all
 # Package XULRunner
 cd ../songbird%version
 
-mkdir -p dependencies/solaris-%arch/mozilla/%build_type
-mkdir -p dependencies/solaris-%arch/xulrunner/%build_type
+mkdir -p dependencies/solaris-i386/mozilla/%build_type
+mkdir -p dependencies/solaris-i386/xulrunner/%build_type
 
 cd tools/scripts
-./make-mozilla-sdk.sh ../../../mozilla ../../../mozilla/compiled/xulrunner ../../dependencies/solaris-%arch/mozilla/%build_type
-./make-xulrunner-tarball.sh ../../../mozilla/compiled/xulrunner/dist/bin ../../dependencies/solaris-%arch/xulrunner/%build_type xulrunner.tar.gz
+./make-mozilla-sdk.sh ../../../mozilla ../../../mozilla/compiled/xulrunner ../../dependencies/solaris-i386/mozilla/%build_type
+./make-xulrunner-tarball.sh ../../../mozilla/compiled/xulrunner/dist/bin ../../dependencies/solaris-i386/xulrunner/%build_type xulrunner.tar.gz
 
 cd ../../
 %else
@@ -166,16 +171,17 @@ make -f songbird.mk
 %endif
 
 %install
-/bin/rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 cd %{_builddir}/%name-%version/songbird%version/compiled
-mkdir -p $RPM_BUILD_ROOT/usr/lib
-mkdir -p $RPM_BUILD_ROOT/usr/bin
-cp -R dist $RPM_BUILD_ROOT/usr/lib/songbird-%version
-touch $RPM_BUILD_ROOT/usr/lib/songbird-%version/extensions/rubberducky@songbirdnest.com/chrome.manifest
-touch $RPM_BUILD_ROOT/usr/lib/songbird-%version/extensions/basic-layouts@songbirdnest.com/chrome.manifest
-cd $RPM_BUILD_ROOT/usr/bin
-ln -s ../lib/songbird-%version/songbird .
+mkdir -p $RPM_BUILD_ROOT%{_libdir}
+mkdir -p $RPM_BUILD_ROOT%{_bindir}
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/pixmaps
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
+cp -R dist $RPM_BUILD_ROOT%{_libdir}/songbird-%version
+cp ../app/branding/icon64.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/songbird.png
+cp ../app/branding/songbird.desktop $RPM_BUILD_ROOT%{_datadir}/applications
+ln -s ../lib/songbird-%version/songbird $RPM_BUILD_ROOT%{_bindir}/songbird
 
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 
@@ -188,8 +194,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/songbird
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/songbird-%{version}
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/applications
+%{_datadir}/applications/songbird.desktop
+%dir %attr (0755, root, other) %{_datadir}/pixmaps
+%{_datadir}/pixmaps/songbird.png
 
 %changelog
+* Wed Jun 18 2008 - trisk@acm.jhu.edu
+- Merge with alfred's SFEsongbird-06.spec (yay 0.6)
 * Fri May 09 2008 - stevel@opensolaris.org
 - cmake is needed for building taglib
 - gawk is needed for building Songbird

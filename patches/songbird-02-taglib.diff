@@ -1,0 +1,11 @@
+--- dependencies/vendor/taglib/taglib/ape/apetag.h.orig	Wed Jun 18 15:40:12 2008
++++ dependencies/vendor/taglib/taglib/ape/apetag.h	Wed Jun 18 15:40:16 2008
+@@ -49,7 +49,7 @@
+      *
+      * \see APE::Tag::itemListMap()
+      */
+-    typedef Map<const String, Item> ItemListMap;
++    typedef Map<String, Item> ItemListMap;
+ 
+ 
+     //! An APE tag implementation
