@@ -20,6 +20,7 @@ Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://sourceforge.net/projects/tsclient
 Source:         http://%{sf_mirror}/%{name}/%{name}-%{version}.tar.gz
+# date:2008-06-19 owner:halton type:bug bugid:1997801
 Patch1:         %{name}-01-libsocket.diff
 BuildRoot:      %{tmpdir}/%{name}-%{version}-root
 
@@ -83,9 +84,6 @@ make -i install DESTDIR=$RPM_BUILD_ROOT
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
-
-#mkdir -p %{_buildroot}%{_desktop}
-#cp *.png %{_buildroot}%{_datadir}/pixmaps/
 
 
 %clean

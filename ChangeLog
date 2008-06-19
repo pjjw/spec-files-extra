@@ -1,5 +1,13 @@
 2008-06-19  Halton Huo <nonsea@users.sourceforge.net>
 
+	* SFEgnucash.spec: Seperate base part to gnucash.spec
+	 Add -root package, Add %post and %postun for root, Move .pc to -devel,
+	 Add Requires/BuildRequires to SFEguile and SFEslib
+	* base-specs/gnucash.spec: Bump to 2.2.5
+	* base-specs/tsclient.spec: remove unused lines 
+
+2008-06-19  Halton Huo <nonsea@users.sourceforge.net>
+
 	New module tsclient, a frontend for rdesktop for the GNOME2 platform.
 	* SUNWtsclient.spec: (new)
 	* base-specs/tsclient.spec: (new) 
