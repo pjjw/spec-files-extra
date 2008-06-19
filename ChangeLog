@@ -1,3 +1,10 @@
+2008-06-19  Halton Huo <nonsea@users.sourceforge.net>
+
+	New module tsclient, a frontend for rdesktop for the GNOME2 platform.
+	* SUNWtsclient.spec: (new)
+	* base-specs/tsclient.spec: (new) 
+	* patches/tsclient-01-libsocket.diff:
+
 2008-06-18  Albert Lee <trisk@acm.jhu.edu>
 
 	* SFElibtorrent-gpp.spec: Deleted, only exists in base-spec form
