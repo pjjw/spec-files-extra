@@ -25,8 +25,13 @@ Patch3:			wine-03-shell.diff
 Patch4:			wine-04-event-completion.diff
 # http://bugs.winehq.org/show_bug.cgi?id=9787
 Patch5:			wine-05-acceptex.diff
+# Implement network statistics in iphlpapi via libkstat and STREAMS TPI
 Patch6:			wine-06-iphlpapi.diff
-#Patch7:			wine-07-sun-ld.diff
+# Wine assumes libraries are mapped to contiguous memory regions.
+# Use less restrictive alignment for data section to avoid "holes" between
+# sections that the OS is allowed to use for an anonymous mmap:
+# http://opensolaris.org/jive/message.jspa?messageID=229817#229799
+Patch7:			wine-07-sun-ld.diff
 Patch101:		winetricks-01-sh.diff
 #Patch102:		winetricks-02-zenity.diff
 SUNW_BaseDir:           %{_basedir}
@@ -72,35 +77,24 @@ Requires: %name
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-#%patch7 -p1
+%patch7 -p1
 cp %{SOURCE101} winetricks
 %patch101 -p1
 
 # patch5 changes the server request spec, so update related files
 perl tools/make_requests
 
-# Wine assumes libraries are mapped to contiguous memory regions.
-# Use less restrictive alignment for data section to avoid "holes" between
-# sections that the OS is allowed to use for an anonymous mmap:
-# http://opensolaris.org/jive/message.jspa?messageID=229817#229799
-cat > map.relaxalign <<EOF
- ABI says alignment is 0x10000
-data = A0x1000;
-EOF
-
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-RELAX_ALIGN="-Wl,-M,%{_builddir}/%{src_name}-%{version}/map.relaxalign"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CC=/usr/sfw/bin/gcc
 export CPPFLAGS="-I%{xorg_inc} -I%{gnu_inc} -I%{sfw_inc} -D__C99FEATURES__"
 export CFLAGS="%gcc_optflags -march=i686 -fno-omit-frame-pointer" 
-export LDFLAGS="%{xorg_lib_path} %{gnu_lib_path} %{sfw_lib_path} $RELAX_ALIGN"
-#export LD=/usr/ccs/bin/ld
-export LD=/usr/sfw/bin/gld
+export LDFLAGS="%{xorg_lib_path} %{gnu_lib_path} %{sfw_lib_path}"
+export LD=/usr/ccs/bin/ld
 
 autoconf -f
 autoheader
@@ -168,6 +162,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Thu Jun 19 2008 - trisk@acm.jhu.edu
+- Add patch7, remove mapfile hack
 * Tue Jun 17 2008 - trisk@acm.jhu.edu
 - Bump to 1.0
 - Add patch1

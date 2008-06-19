@@ -1,5 +1,12 @@
 2008-06-19  Albert Lee  <trisk@acm.jhu.edu>
 
+	* SFEwine.spec: Add patch7, remove mapfile hack
+	* patches/winetricks-01-sh.diff: Make winetricks compatible with
+	  Bourne sh
+	* patches/wine-07-sun-ld.diff: Use ld mapfiles to fix alignment
+
+2008-06-19  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEwine.spec: Bump to 1.0. Add patch1. Add winetricks.
 	* base-specs/libtorrent.spec: Forgot to delete
 	* patches/wine-01-getaddrinfo.diff: Fix crash when tracing winsock
