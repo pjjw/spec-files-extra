@@ -10,9 +10,11 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                1.0-rc4
+Version:                1.0
 URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
+Source101:		http://trisk.acm.jhu.edu/winetricks-20080614
+Patch1:			wine-01-getaddrinfo.diff
 # http://bugs.winehq.org/show_bug.cgi?id=12740
 # http://bugs.opensolaris.org/view_bug.do?bug_id=6698109
 Patch2:			wine-02-xim-workaround.diff
@@ -24,6 +26,9 @@ Patch4:			wine-04-event-completion.diff
 # http://bugs.winehq.org/show_bug.cgi?id=9787
 Patch5:			wine-05-acceptex.diff
 Patch6:			wine-06-iphlpapi.diff
+#Patch7:			wine-07-sun-ld.diff
+Patch101:		winetricks-01-sh.diff
+#Patch102:		winetricks-02-zenity.diff
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -61,11 +66,15 @@ Requires: %name
 
 %prep
 %setup -q -n %{src_name}-%{version}
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+#%patch7 -p1
+cp %{SOURCE101} winetricks
+%patch101 -p1
 
 # patch5 changes the server request spec, so update related files
 perl tools/make_requests
@@ -75,7 +84,7 @@ perl tools/make_requests
 # sections that the OS is allowed to use for an anonymous mmap:
 # http://opensolaris.org/jive/message.jspa?messageID=229817#229799
 cat > map.relaxalign <<EOF
-# ABI says alignment is 0x10000
+ ABI says alignment is 0x10000
 data = A0x1000;
 EOF
 
@@ -84,13 +93,14 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-RELAX_ALIGN="-Wl,-M -Wl,`pwd`/map.relaxalign"
+RELAX_ALIGN="-Wl,-M,%{_builddir}/%{src_name}-%{version}/map.relaxalign"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CC=/usr/sfw/bin/gcc
 export CPPFLAGS="-I%{xorg_inc} -I%{gnu_inc} -I%{sfw_inc} -D__C99FEATURES__"
 export CFLAGS="%gcc_optflags -march=i686 -fno-omit-frame-pointer" 
 export LDFLAGS="%{xorg_lib_path} %{gnu_lib_path} %{sfw_lib_path} $RELAX_ALIGN"
-export LD=/usr/ccs/bin/ld
+#export LD=/usr/ccs/bin/ld
+export LD=/usr/sfw/bin/gld
 
 autoconf -f
 autoheader
@@ -113,6 +123,7 @@ make -j$CPUS || make
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
+install -m 0755 winetricks $RPM_BUILD_ROOT%{_bindir}/winetricks
 
 %post
 ( echo 'test -x /usr/bin/update-desktop-database || exit 0';
@@ -157,6 +168,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Tue Jun 17 2008 - trisk@acm.jhu.edu
+- Bump to 1.0
+- Add patch1
+- Add winetricks
 * Mon Jun 09 2008 - trisk@acm.jhu.edu
 - Replace SFEfreetype dependency
 * Mon Jun 09 2008 - trisk@acm.jhu.edu

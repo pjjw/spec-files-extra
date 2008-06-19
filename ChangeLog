@@ -1,3 +1,9 @@
+2008-06-19  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEwine.spec: Bump to 1.0. Add patch1. Add winetricks.
+	* base-specs/libtorrent.spec: Forgot to delete
+	* patches/wine-01-getaddrinfo.diff: Fix crash when tracing winsock
+
 2008-06-19  River Tarnell  <river@wikimedia.org>
 
 	* encumbered/SFEgpac.spec: need to unset P4PORT during %setup or gpatch
@@ -18,6 +24,7 @@
 	* base-specs/tsclient.spec: (new) 
 	* patches/tsclient-01-libsocket.diff:
 
+>>>>>>> .r1217
 2008-06-18  Albert Lee <trisk@acm.jhu.edu>
 
 	* SFElibtorrent-gpp.spec: Deleted, only exists in base-spec form

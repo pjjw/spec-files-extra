@@ -1,0 +1,11 @@
+--- wine-1.0-rc4.orig/dlls/ws2_32/socket.c	2008-06-06 11:24:30.000000000 -0400
++++ wine-1.0-rc4/dlls/ws2_32/socket.c	2008-06-12 16:03:38.456042576 -0400
+@@ -3454,7 +3663,7 @@
+     /* getaddrinfo(3) is thread safe, no need to wrap in CS */
+     result = getaddrinfo(nodename, servname, punixhints, &unixaires);
+ 
+-    TRACE("%s, %s %p -> %p %d\n", nodename, servname, hints, res, result);
++    TRACE("%s, %s %p -> %p %d\n", debugstr_a(nodename), debugstr_a(servname), hints, res, result);
+ 
+     HeapFree(GetProcessHeap(), 0, node);
+     HeapFree(GetProcessHeap(), 0, serv);
