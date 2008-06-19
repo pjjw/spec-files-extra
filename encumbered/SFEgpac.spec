@@ -37,6 +37,7 @@ SUNW_BaseDir:            %{_prefix}
 Requires: %name
 
 %prep
+unset P4PORT
 %setup -q -n gpac
 %patch1 -p1
 %patch2 -p1
@@ -91,6 +92,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %{_includedir}
 %changelog
+* Thu Jun 19 2008 - river@wikimedia.org
+- need to unset P4PORT during %setup or gpatch behaves oddly
 * Fri May 23 2008 - michal.bielicki@voiceworks.pl
 - rights change for mandir, fix by Giles Dauphin
 * Mon Dec 31 6 2007 - markwright@internode.on.net

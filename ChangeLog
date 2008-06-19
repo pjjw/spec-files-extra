@@ -1,3 +1,8 @@
+2008-06-19  River Tarnell  <river@wikimedia.org>
+
+	* encumbered/SFEgpac.spec: need to unset P4PORT during %setup or gpatch
+	  behaves oddly
+
 2008-06-19  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEgnucash.spec: Seperate base part to gnucash.spec
