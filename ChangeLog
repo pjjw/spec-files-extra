@@ -1,5 +1,9 @@
 2008-06-20  River Tarnell  <river@wikimedia.org>
 
+	* SFEswt.spec: New spec.
+
+2008-06-20  River Tarnell  <river@wikimedia.org>
+
 	* SFElibcaca.spec, SFEnewt.spec, SFEmuttng.spec: Use SUNWslang
 	* patches/newt-02-solaris-makefile.diff: Remove -Wall from
 	  makefile, don't build 'depend' target
