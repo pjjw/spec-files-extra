@@ -17,8 +17,8 @@ SUNW_BaseDir:  %{_basedir}
 BuildRoot:  %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-BuildRequires: SFEslang
-Requires: SFEslang
+BuildRequires: SUNWslang
+Requires: SUNWslang
 
 %prep
 %setup -q -n newt-%{version}
@@ -26,7 +26,7 @@ gzcat newt-%{version}.tar.gz | tar xvf -
 cd newt-%{version}
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
+%patch3 -p0
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -72,5 +72,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/newt.h
 
 %changelog
+* Fri Jun 20 2008 - river@wikimedia.org
+- need to remove -Wall from makefile
+- don't build 'depend' target as it only works with gcc
+- change SFEslang to SUNWslang
 * Thu May 01 2008 - ananth@sun.com
 - Initial spec

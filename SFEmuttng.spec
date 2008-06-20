@@ -14,8 +14,8 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-BuildRequires: SFEslang
-Requires: SFEslang
+BuildRequires: SUNWslang
+Requires: SUNWslang
 Requires: %{name}-root
 
 %package root
@@ -76,6 +76,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
+* Fri Jun 20 2008 - river@wikimedia.org
+- change SFEslang to SUNWslang
 * Sun Nov 25 2007 Thomas Wagner
 - PSARC 2007/167 "IDN" is found (new around build 73/74), add -I/usr/include/idn
 * Sat May 26 2007

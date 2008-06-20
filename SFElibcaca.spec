@@ -15,9 +15,9 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-BuildRequires: SFEslang
+BuildRequires: SUNWslang
 BuildRequires: SFEimlib2
-Requires: SFEslang
+Requires: SUNWslang
 Requires: SFEimlib2
 Requires: SUNWgccruntime
 
@@ -87,6 +87,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Jun 20 2008 - river@wikimedia.org
+- change SFEslang to SUNWslang
 * Thu Mar 22 2007 - daymobrew@users.sourceforge.net
 - Update Source location and add URL.
 * Mon Mar 19 2007 - dougs@truemail.co.th

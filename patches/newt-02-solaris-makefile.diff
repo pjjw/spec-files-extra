@@ -1,9 +1,11 @@
-diff -r 7bcb5c2c46dd Makefile.in
---- a/Makefile.in	Thu May 01 12:25:15 2008 +0530
-+++ b/Makefile.in	Thu May 01 12:31:40 2008 +0530
-@@ -5,12 +5,11 @@ GPM_SUPPORT=@gpm_support@
+--- Makefile.in.orig	Fri Jun 20 17:21:47 2008
++++ Makefile.in	Fri Jun 20 17:26:02 2008
+@@ -3,14 +3,13 @@
+ LIBTCL = -ltcl8.4
+ 
  GPM_SUPPORT=@gpm_support@
- CFLAGS = $(RPM_OPT_FLAGS) -Wall  -D_GNU_SOURCE -g -O2 -DUTF8 -fPIC -I/usr/include/slang
+-CFLAGS = $(RPM_OPT_FLAGS) -Wall  -D_GNU_SOURCE -g -O2 -DUTF8 -fPIC -I/usr/include/slang
++CFLAGS = $(RPM_OPT_FLAGS) -D_GNU_SOURCE -g -O2 -DUTF8 -fPIC -I/usr/include/slang
  
 -SHLIBFLAGS= -Wl,-O1 -Wl,--version-script,newt.0.52.ver
  VERSION = @VERSION@
@@ -15,7 +17,23 @@ diff -r 7bcb5c2c46dd Makefile.in
  
  WHIPTCLSO=whiptcl.so
  
-@@ -52,7 +51,7 @@ po/stamp-po:
+@@ -40,11 +39,11 @@
+ SHAREDDIR = shared
+ SHAREDOBJS = $(patsubst %,$(SHAREDDIR)/%, $(LIBOBJS))
+ 
+-ifeq (.depend,$(wildcard .depend))
++#ifeq (.depend,$(wildcard .depend))
+ TARGET=$(PROGS)
+-else
+-TARGET=depend $(PROGS)
+-endif
++#else
++#TARGET=depend $(PROGS)
++#endif
+ 
+ all:	$(TARGET) _snackmodule.so po/stamp-po
+ 
+@@ -52,7 +51,7 @@
  	$(MAKE) -C po stamp-po
  
  test:	$(TESTOBJS) $(LIBNEWT)
@@ -24,7 +42,7 @@ diff -r 7bcb5c2c46dd Makefile.in
  
  testgrid:	testgrid.o $(LIBNEWT)
  	$(CC) -g -o testgrid testgrid.o $(LIBNEWT) $(LIBS)
-@@ -68,18 +67,16 @@ showkey:	showkey.o $(LIBNEWT)
+@@ -68,18 +67,16 @@
  
  _snackmodule.so:   snackmodule.c $(LIBNEWTSH)
  	for ver in $(PYTHONVERS) ; do \
@@ -47,7 +65,7 @@ diff -r 7bcb5c2c46dd Makefile.in
  
  # Ensure dialogboxes is compiled -fPIC
  dialogboxes.o: dialogboxes.c
-@@ -111,7 +108,7 @@ sharedlib: $(LIBNEWTSH)
+@@ -111,7 +108,7 @@
  sharedlib: $(LIBNEWTSH)
  
  $(LIBNEWTSH): $(SHAREDDIR) $(SHAREDOBJS)
