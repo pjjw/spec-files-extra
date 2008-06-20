@@ -15,10 +15,10 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
-BuildRequires: SFEslang
+BuildRequires: SUNWslang
 BuildRequires: SFEgdbm
 BuildRequires: SFEgdbm-devel
-Requires: SFEslang
+Requires: SUNWslang
 Requires: %{name}-root
 Requires: SFEgdbm
 
@@ -83,6 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
+* Fri Jun 20 2008 - river@wikimedia.org
+- change SFEslang dependency to SUNWslang
 * Sat May 17 2008 - river@wikimedia.org
 - 1.5.18
 * Wed May 14 2008 - river@wikimedia.org

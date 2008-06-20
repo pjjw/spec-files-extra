@@ -1,3 +1,7 @@
+2008-06-20  River Tarnell  <river@wikimedia.org>
+
+	* SFEmutt.spec: Change SFEslang dependency to SUNWslang
+
 2008-06-19  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEwine.spec: Add patch7, remove mapfile hack
