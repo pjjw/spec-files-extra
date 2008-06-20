@@ -7,8 +7,8 @@
 %define _desktopdir %{_datadir}/applications
 %define _pixmapsdir %{_datadir}/pixmaps
 
-%define src_name Azureus
-%define src_ver 3.0.2.2
+%define src_name Vuze
+%define src_ver 3.1.0.0
 %define src_url http://%{sf_mirror}/azureus
 
 Name:		SFEazureus
@@ -16,47 +16,39 @@ Summary:	Azureus - Java BitTorrent client
 Version:	%{src_ver}
 License:	GPL
 Group:		X11/Applications/Networking
-Source:		%{src_url}/%{src_name}_%{src_ver}_source.zip
+Source:		%{src_url}/%{src_name}_%{src_ver}_linux.tar.bz2
 Source1:	azureus.png
 Source2:	azureus.desktop
 Source3:	azureus.sh
-Patch1:		azureus-01-buildfile.diff
-Patch2:		azureus-02-unixonly.diff
+Patch1:		azureus-01-startscript.diff
 URL:		http://azureus.sourceforge.net/
 SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires: SFEeclipse
-Requires: SFEjakarta-commons-cli
-Requires: SFElogging-log4j
-Requires: SFEjunit
-BuildRequires: SUNWgnome-common-devel
+Requires: SFEswt
 
 %prep
 %setup -q -c -n %{name}-%{version}
-find . -name \*.java -exec dos2unix {} {} \;
-find . -name \*.xml  -exec dos2unix {} {} \;
-%patch1 -p1
-%patch2 -p1
-install -d build/libs
-
+( cd vuze && 
+%patch1 -p0
+)
 %build
-rm -rf org/gudy/azureus2/platform/{win32,macosx}
-rm -rf org/gudy/azureus2/ui/swt/{win32,osx,test}
-rm -rf com/aelitis/azureus/util/win32
-export ANT_OPTS="-Xms256m -Xmx256m"
-export CLASSPATH="/usr/lib/eclipse/plugins/org.eclipse.swt.gtk.solaris.x86_3.4.0.HEAD"
-ant
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT{%{_datadir}/Azureus,%{_pixmapsdir},%{_desktopdir},%{_bindir}}
+install -d $RPM_BUILD_ROOT%{_datadir}/Azureus
+install -d $RPM_BUILD_ROOT%{_pixmapsdir}
+install -d $RPM_BUILD_ROOT%{_desktopdir}
+install -d $RPM_BUILD_ROOT%{_bindir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
-install %{SOURCE3} $RPM_BUILD_ROOT%{_bindir}/azureus
-install dist/Azureus.jar $RPM_BUILD_ROOT%{_datadir}/Azureus/Azureus.jar
+
+( cd vuze && cp -rp * $RPM_BUILD_ROOT%{_datadir}/Azureus/ )
+ln -s ../share/Azureus/azureus $RPM_BUILD_ROOT%{_bindir}/azureus
+
+rm -f $RPM_BUILD_ROOT%{_datadir}/Azureus/swt.jar
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -65,13 +57,27 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,bin)
 %attr(755,root,bin) %{_bindir}
 %dir %attr(755,root,sys) %{_datadir}
+#%dir %attr(755,root,sys) %{_datadir}/Azureus/plugins
+#%dir %attr(755,root,sys) %{_datadir}/Azureus/plugins/azplugins
+#%dir %attr(755,root,sys) %{_datadir}/Azureus/plugins/azrating
+#%dir %attr(755,root,sys) %{_datadir}/Azureus/plugins/azupdater
+#%dir %attr(755,root,sys) %{_datadir}/Azureus/plugins/azupnpav
 %dir %attr(755,root,other) %{_desktopdir}
 %{_desktopdir}/azureus.desktop
 %dir %attr(755,root,other) %{_pixmapsdir}
 %{_pixmapsdir}/azureus.png
-%{_datadir}/Azureus
+
+%{_datadir}/Azureus/*
+#%{_datadir}/Azureus/plugins/azplugins/*
+#%{_datadir}/Azureus/plugins/azrating/*
+#%{_datadir}/Azureus/plugins/azupdater/*
+#%{_datadir}/Azureus/plugins/azupnpav/*
 
 %changelog
+* Fri Jun 20 2008 - river@wikimedia.org
+- 3.1.0.0
+- Use SFEswt instead of SFEeclipse
+- Use binary instead of building from source
 * Sat Dec 22 2007 - wickedwicky@users.sourceforge.net
 - Add BuildRequires: SUNWgnome-common-devel
 * Thu Nov 22 2007 - daymobrew@users.sourceforge.net
