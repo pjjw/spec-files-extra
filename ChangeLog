@@ -1,3 +1,8 @@
+2008-06-22  Petr Sobotka <sobotkap@centrum.cz>  <sobotkap@gmail.com>
+
+	* SFEwesnoth-dev.spec: Bump to 1.5.1
+	* SFEwesnoth.spec: Bump to 1.4.3
+
 2008-06-20  River Tarnell  <river@wikimedia.org>
 
 	* SFEazureus.spec: 3.1.0.0; Use SFEswt instead of SFEeclipse; Use

@@ -17,7 +17,7 @@
 
 Name:                    	SFEwesnothDev
 Summary:                 	Battle for Wesnoth is a fantasy turn-based strategy game (development version)
-Version:                 	1.5.0a
+Version:                 	1.5.1
 Source:                  	%{sf_download}/wesnoth/wesnoth-%{version}.tar.bz2
 #Patch1:                         wesnoth-01-fixheaders.diff
 #Patch2:                         wesnoth-02-fixgccextension.diff
@@ -52,7 +52,7 @@ Requires:               SFEboost
 Requires:		SUNWPython
 
 %prep
-%setup -q -n wesnoth-1.5.0
+%setup -q -n wesnoth-%{version}
 #%patch1 -p1
 #%patch2 -p1
 #%patch3 -p1
@@ -139,6 +139,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_pythonlibdir}/python2.4/site-packages/wesnoth-dev/*
 
 %changelog
+* Sun Jun 22 2008 - Petr Sobotka <sobotkap@gmail.com>
+- Bump to version 1.5.1
 * Tue May 01 2008 - Petr Sobotka <sobotkap@centrum.cz>
 - Initial version
 - This package deliver development version of wesnoth - more features,
