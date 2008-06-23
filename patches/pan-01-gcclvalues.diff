@@ -1,0 +1,25 @@
+--- pan/base/msort.c.orig	Mon Jun 23 06:56:52 2008
++++ pan/base/msort.c	Mon Jun 23 07:00:17 2008
+@@ -65,14 +65,18 @@
+ 			if ((*cmp) (b1, b2) <= 0)
+ 			{
+ 				--n1;
+-				*((unsigned long int *) tmp)++ =
+-					*((unsigned long int *) b1)++;
++				*((unsigned long int *) tmp) =
++					*((unsigned long int *) b1);
++				tmp = (char *) (((unsigned long int *) tmp) + 1);
++				b1 = (char *) (((unsigned long int *) b1) + 1);
+ 			}
+ 			else
+ 			{
+ 				--n2;
+-				*((unsigned long int *) tmp)++ =
+-					*((unsigned long int *) b2)++;
++				*((unsigned long int *) tmp) =
++					*((unsigned long int *) b2);
++				tmp = (char *) (((unsigned long int *) tmp) + 1);
++				b2 = (char *) (((unsigned long int *) b2) + 1);
+ 			}
+ 		}
+ 	else

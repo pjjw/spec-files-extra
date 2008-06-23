@@ -1,0 +1,11 @@
+--- tests/Makefile.in.orig	Mon Jun 23 07:02:27 2008
++++ tests/Makefile.in	Mon Jun 23 07:02:07 2008
+@@ -153,7 +153,7 @@
+ DEFS = @DEFS@ -I. -I$(srcdir) -I..
+ CPPFLAGS = @CPPFLAGS@
+ LDFLAGS = @LDFLAGS@
+-LIBS = @LIBS@
++LIBS = @LIBS@ -lm
+ article_OBJECTS =  test-article.o
+ article_LDADD = $(LDADD)
+ article_DEPENDENCIES =  ../pan/filters/libfilters.a \
