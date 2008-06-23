@@ -1,0 +1,11 @@
+--- src/itemview.c.old	Mon Jun 23 03:40:14 2008
++++ src/itemview.c	Mon Jun 23 03:40:28 2008
+@@ -87,7 +87,7 @@
+ 	itemView_priv.needsHTMLViewUpdate = TRUE;
+ }
+ 
+-void itemview_set_mode(guint mode) {
++void itemview_set_mode(itemViewMode mode) {
+ 
+ 	if(itemView_priv.mode != mode) {
+ 		itemView_priv.mode = mode;

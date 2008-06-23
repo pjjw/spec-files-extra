@@ -7,9 +7,13 @@
 
 Name:                    SFEliferea
 Summary:                 Liferea - aggregator for online news feeds
-Version:                 1.0.15
+Version:                 1.4.16b
 Source:                  %{sf_download}/liferea/liferea-%{version}.tar.gz
-Patch1:                  liferea-01-tail-n.diff
+Patch1:                  liferea-01-liferea.in.diff
+Patch2:                  liferea-02-libxsltversion.diff
+Patch3:                  liferea-03-no-unix03.diff
+Patch4:                  liferea-04-htmlview.c.diff
+Patch5:                  liferea-05-itemview.c.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -44,7 +48,11 @@ Requires:                %{name}
 
 %prep
 %setup -q -n liferea-%version
-%patch1 -p1 -b .orig
+%patch1 -p0 -b .orig
+%patch2 -p0 -b .orig
+%patch3 -p0 -b .orig
+%patch4 -p0 -b .orig
+%patch5 -p0 -b .orig
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -125,9 +133,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
-%dir %attr (0755, root, other) %{_datadir}/pixmaps
-%{_datadir}/pixmaps/*
-%{_datadir}/liferea
+%dir %attr (0755, root, other) %{_datadir}/liferea
+%dir %attr (0755, root, other) %{_datadir}/icons
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/48x48
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/48x48/apps
+%{_datadir}/liferea/*
+%{_datadir}/icons/hicolor/48x48/apps/*
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/*
 %{_mandir}/*/*
@@ -145,6 +157,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Jun 23 2008 - river@wikimedia.org
+- 1.4.16b
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net
 - Add support for building on Indiana systems.
 * Thu Jun 22 2006 - laca@sun.com

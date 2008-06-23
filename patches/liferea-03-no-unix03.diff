@@ -1,0 +1,22 @@
+--- src/common.c.orig	Mon Jun 23 03:30:12 2008
++++ src/common.c	Mon Jun 23 03:30:24 2008
+@@ -37,8 +37,6 @@
+ #  include <config.h>
+ #endif
+ 
+-#define _XOPEN_SOURCE	600 /* glibc2 needs this (man strptime) */
+-
+ #include <libxml/uri.h>
+ 
+ #include <glib.h>
+--- src/parsers/ns_dc.c.old	Mon Jun 23 03:32:24 2008
++++ src/parsers/ns_dc.c	Mon Jun 23 03:32:29 2008
+@@ -23,8 +23,6 @@
+ #  include <config.h>
+ #endif
+ 
+-#define _XOPEN_SOURCE	600 	/* glibc2 needs this (man strptime) */
+-
+ #include "ns_dc.h"
+ #include "conf.h"
+ #include "common.h"
