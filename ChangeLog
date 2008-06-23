@@ -1,5 +1,9 @@
 2008-06-23  River Tarnell  <river@wikimedia.org>
 
+	* SFEjwhois.spec: Fix source location
+
+2008-06-23  River Tarnell  <river@wikimedia.org>
+
 	* SFEpan.spec: New spec
 
 2008-06-23  River Tarnell  <river@wikimedia.org>

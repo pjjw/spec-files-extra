@@ -8,7 +8,7 @@
 Name:                SFEjwhois
 Summary:             Configurable WHOIS client
 Version:             4.0
-Source:              ftp://ftp.gnu.org/gnu/jwhois-%{version}.tar.gz
+Source:              ftp://ftp.gnu.org/gnu/jwhois/jwhois-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -91,5 +91,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*
 
 %changelog
+* Mon Jun 23 2008 - river@wikimedia.org
+- fix source URL
 * Mon May  5 2008 - river@wikimedia.org
 - Initial spec
