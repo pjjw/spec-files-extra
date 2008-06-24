@@ -1,3 +1,13 @@
+2008-06-24  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEgnucash.spec: Add Requires:SFEgoffice
+	  BuildRequires:SFEgoffice-devel
+	* base-specs/gnucash.spec: add three new patches
+	* patches/gnucash-01-suncc-function.diff: (added)
+	* patches/gnucash-02-void-return.diff: (added)
+	* patches/gnucash-03-namely-struct.diff: (added)
+	* patches/goffice-01-no-sunmath-lib.diff: (rework)
+
 2008-06-24  Simon Zheng  <simon.zheng@sun.com>
 
 	* SFEconsolekit.spec:

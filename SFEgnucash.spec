@@ -22,8 +22,10 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:           SFEguile
 Requires:           SFEslib
+Requires:           SFEgoffice
 BuildRequires:      SFEswig
 BuildRequires:      SFEguile-devel
+BuildRequires:      SFEgoffice-devel
 
 %package devel
 Summary:            %{summary} - development files
@@ -59,7 +61,6 @@ export CFLAGS="%optflags"
 %if %option_with_gnu_iconv
 export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
 %endif
-export LDFLAGS="-lX11"
 export RPM_OPT_FLAGS="$CFLAGS"
 %gnucash.build -d %name-%version
 
@@ -98,9 +99,11 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 
 %files
 %defattr(-, root, bin)
-%doc README ChangeLog CREDITS COPYING INSTALL NEWS AUTHORS TODO ABOUT-NLS
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/libgnc.so*
+%{_libdir}/gnucash
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
@@ -114,10 +117,6 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
-%dir %attr (0755, root, bin) %{_libdir}
-%dir %attr (0755, root, other) %{_libdir}/pkgconfig
-%{_libdir}/pkgconfig/*
-
 
 %if %build_l10n
 %files l10n
@@ -133,6 +132,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 
 
 %changelog
+* Tue Jun 24 2008 - nonsea@users.sourceforge.net
+- Add Requires:SFEgoffice BuildRequires:SFEgoffice-devel
 * Tue Jun 24 2008 - nonsea@users.sourceforge.net
 - Add BuildRequires SFEswig 
 * Fri Jun 20 2008 - nonsea@users.sourceforge.net

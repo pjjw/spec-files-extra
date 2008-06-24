@@ -19,6 +19,12 @@ Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.gnucash.org/
 Source:         http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
+# date:2008-06-24 owner:halton type:bug bugzilla:539947
+Patch1:         %{name}-01-suncc-function.diff
+# date:2008-06-24 owner:halton type:bug bugzilla:539962
+Patch2:         %{name}-02-void-return.diff
+# date:2008-06-24 owner:halton type:bug bugzilla:539957
+Patch3:         %{name}-03-namely-struct.diff
 BuildRoot:      %{tmpdir}/%{name}-%{version}-root
 
 Requires:       libgnomeui >= %{libgnomeui_version}
@@ -54,6 +60,9 @@ in C programs.
 
 %prep
 %setup -q
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 
 %build
@@ -68,12 +77,12 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-aclocal $ACLOCAL_FLAGS
+aclocal $ACLOCAL_FLAGS -I . -I macros
 libtoolize --force
 intltoolize --force --automake
 autoheader
 automake -a -f -c --gnu
-#autoconf
+autoconf
 
 CFLAGS="$RPM_OPT_FLAGS"
 ./configure  --prefix=%{_prefix}         \
@@ -148,6 +157,9 @@ fi
 %{_includedir}/gnucash
 
 %changelog
+* Tue Jun 24 2008 - nonsea@users.sourceforge.net
+- Add patch suncc-function.diff, void-return.diff
+  namely-struct.diff
 * Tue Jun 24 2008 - nonsea@users.sourceforge.net
 - Add enable-debug option
 * Thu Jan 19 2008 - nonsea@users.sourceforge.net

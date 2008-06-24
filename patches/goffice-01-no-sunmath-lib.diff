@@ -7,7 +7,7 @@ Index: trunk/configure.in
      have_mandatory_funcs=yes
      need_sunmath=0
 -    sunmathlinkstuff='-L/opt/SUNWspro/lib -R/opt/SUNWspro/lib -lsunmath'
-+    ss_cc=`which cc`
++    ss_cc=`which $CC`
 +    ss_dir=`dirname $ss_cc`"/.."
 +    sunmathlinkstuff="-L$ss_dir/lib -R$ss_dir/lib -lsunmath"
      for ldfunc in fabsl logl log10l ceill floorl powl isnanl finitel; do
