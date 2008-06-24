@@ -29,6 +29,8 @@ Patch2:                  ConsoleKit-02-emptystruct.diff
 # patch to fix Solaris build issue
 Patch3:                  ConsoleKit-03-pam.diff
 Patch4:                  ConsoleKit-04-ck-history.diff
+# Maybe not a real fix. See freedesktop bugzilla #15866
+Patch5:                  ConsoleKit-05-getcurrentsession.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -88,6 +90,7 @@ Requires: %name
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -189,6 +192,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Jun 24 2008 - simon.zheng@sun.com
+- Add patch 05-getcurrentsession.diff for freedesktop bug #15866.
 * Tue Mar 11 2008 - brian.cameron@sun.com
 - Minor cleanup
 * Tue Mar 04 2008 - simon.zheng@sun.com

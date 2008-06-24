@@ -1,3 +1,9 @@
+2008-06-24  Simon Zheng  <simon.zheng@sun.com>
+
+	* SFEconsolekit.spec:
+	* patches/ConsoleKit-05-getcurrentsession.diff:
+	  Add patch to fix freedesktop bug #15866.
+
 2008-06-24  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEgoffice.spec: Split base part to base/goffice.spec
