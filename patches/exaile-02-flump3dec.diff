@@ -1,0 +1,40 @@
+--- xl/player.py.orig	Tue Jun 24 08:40:40 2008
++++ xl/player.py	Tue Jun 24 08:41:48 2008
+@@ -119,13 +119,13 @@
+             self.playbin.set_property('uri', uri.encode(xlmisc.get_default_encoding()))
+ 
+         formats = {
+-            'mp3':  'mad',
+-            'flac': 'flac',
+-            'ogg':  'vorbis',
+-            'mpc':  'musepack',
+-            'tta':  'tta',
+-            'mp4':  'faad',
+-            'm4a':  'faad',
++            'mp3':  ['mad', 'flump3dec'],
++            'flac': ['flac'],
++            'ogg':  ['vorbis'],
++            'mpc':  ['musepack'],
++            'tta':  ['tta'],
++            'mp4':  ['faad'],
++            'm4a':  ['faad'],
+         }
+ 
+         ext_re = re.compile(r'\.([^\.]*)$')
+@@ -136,8 +136,14 @@
+             ext = ''
+ 
+         if ext in formats.keys():
+-            plugin = formats[ext]
+-            if not gst.registry_get_default().find_plugin(plugin):
++            plugins = formats[ext]
++            found = False
++            for p in plugins:
++                if gst.registry_get_default().find_plugin(p):
++                    found = True
++                    break
++
++            if found == False:
+                 raise Exception(_("You do not have the "
+                     "appropriate Gstreamer plugin installed to play "
+                     "this file: %(uri)s") % {'uri': uri})
