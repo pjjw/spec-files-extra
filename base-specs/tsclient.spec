@@ -49,17 +49,6 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-%ifos linux
-if [ -x /usr/bin/getconf ]; then
-  CPUS=`getconf _NPROCESSORS_ONLN`
-fi
-%else
-  CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-%endif
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-  CPUS=1
-fi
-
 aclocal $ACLOCAL_FLAGS
 libtoolize --force
 intltoolize --force --automake

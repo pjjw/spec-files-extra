@@ -1,31 +1,39 @@
---- goffice-0.5.2/configure.orig	2007-11-16 18:35:43.014448000 +0000
-+++ goffice-0.5.2/configure	2007-11-16 18:36:31.744429000 +0000
-@@ -26870,7 +26870,7 @@
+Index: trunk/configure.in
+===================================================================
+--- trunk/configure.in	(revision 2123)
++++ trunk/configure.in	(working copy)
+@@ -440,7 +440,9 @@
  if test $ac_cv_c_long_double = yes; then
      have_mandatory_funcs=yes
      need_sunmath=0
 -    sunmathlinkstuff='-L/opt/SUNWspro/lib -R/opt/SUNWspro/lib -lsunmath'
-+    sunmathlinkstuff='-L/opt/SUNWspro/lib -R/opt/SUNWspro/lib'
-     for ldfunc in fabsl logl log10l ceill floorl powl isnanl finitel; do
- 	    as_ac_var=`echo "ac_cv_func_$ldfunc" | $as_tr_sh`
- { echo "$as_me:$LINENO: checking for $ldfunc" >&5
-@@ -27037,7 +27037,7 @@
-   echo $ECHO_N "(cached) $ECHO_C" >&6
- else
-   ac_check_lib_save_LIBS=$LIBS
--LIBS="-lsunmath -L/opt/SUNWspro/lib $GOFFICE_LIBS $LIBS"
-+LIBS="-L/opt/SUNWspro/lib $GOFFICE_LIBS $LIBS"
- cat >conftest.$ac_ext <<_ACEOF
- /* confdefs.h.  */
- _ACEOF
---- goffice-0.5.2/configure.in.orig	2007-11-16 18:35:50.467893000 +0000
-+++ goffice-0.5.2/configure.in	2007-11-16 18:36:16.880534000 +0000
-@@ -425,7 +425,7 @@
- if test $ac_cv_c_long_double = yes; then
-     have_mandatory_funcs=yes
-     need_sunmath=0
--    sunmathlinkstuff='-L/opt/SUNWspro/lib -R/opt/SUNWspro/lib -lsunmath'
-+    sunmathlinkstuff='-L/opt/SUNWspro/lib -R/opt/SUNWspro/lib'
++    ss_cc=`which cc`
++    ss_dir=`dirname $ss_cc`"/.."
++    sunmathlinkstuff="-L$ss_dir/lib -R$ss_dir/lib -lsunmath"
      for ldfunc in fabsl logl log10l ceill floorl powl isnanl finitel; do
  	    AC_CHECK_FUNC($ldfunc,
  		  ,
+@@ -452,12 +454,12 @@
+ 			  [ if test $need_sunmath = 0; then
+ 				# FIXME: better idea?
+ 				LDFLAGS="$LDFLAGS $sunmathlinkstuff"
+-				sunmathinclude=`ls -d /opt/SUNWspro/*/include/cc | sed '$!d'`
++				sunmathinclude=`ls -d $ss_dir/*/include/cc | sed '$!d'`
+ 				CPPFLAGS="$CPPFLAGS -I$sunmathinclude"
+ 			    fi
+ 			    need_sunmath=1 ],
+ 			  [have_mandatory_funcs=no],
+-			  [-L/opt/SUNWspro/lib $GOFFICE_LIBS])])])
++			  [-L$ss_dir/lib $GOFFICE_LIBS])])])
+     done
+     if test $need_sunmath = 1; then
+ 	EXTRA_LIBS="$EXTRA_LIBS $sunmathlinkstuff"
+@@ -467,6 +469,8 @@
+ 			 [AC_MSG_WARN([Long doubles require the $ac_header header.])
+ 			  have_mandatory_funcs=no])
+     fi
++    unset ss_cc
++    unset ss_dir
+     unset need_sunmath
+     unset sunmathlinkstuff
+     unset sunmathinclude

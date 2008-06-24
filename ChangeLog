@@ -1,5 +1,12 @@
 2008-06-24  Halton Huo <nonsea@users.sourceforge.net>
 
+	* SFEgoffice.spec: Split base part to base/goffice.spec
+	* base-specs/goffice.spec: (new) Bump to 0.6.4
+	* base-specs/tsclient.spec: remove dup
+	* patches/goffice-01-no-sunmath-lib.diff: rework
+
+2008-06-24  Halton Huo <nonsea@users.sourceforge.net>
+
 	* SFEgmp.spec: update URL and Source
 	* SFEgnucash.spec: Add BuildRequires SFEswig
 	* SFEguile.spec: Add site dir

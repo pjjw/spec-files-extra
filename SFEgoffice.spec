@@ -1,33 +1,41 @@
 #
-# spec file for package SFEgoffice 
+# spec file for package SFEgoffice
+#
+# includes module(s): goffice
+#
+# Copyright 2008 Sun Microsystems, Inc.
+# This file and all modifications and additions to the pristine
+# package are under the same license as the package itself.
+#
+# Owner: halton
 #
 
 %include Solaris.inc
+
+%use goffice = goffice.spec
+
 Name:                    SFEgoffice
 Summary:                 goffice - Document centric set of APIs
-URL:                     http://www.gnome.org/
-Version:                 0.6.2
-Source:                  http://ftp.gnome.org/pub/GNOME/sources/goffice/0.6/goffice-%{version}.tar.gz
-Patch1:                  goffice-01-no-sunmath-lib.diff
+Version:                 %{goffice.version}
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires: SUNWlxml
-BuildRequires: SUNWlxml-devel
-Requires: SUNWpcre
-Requires: SUNWlibms
-Requires: SUNWgnome-base-libs
-BuildRequires: SUNWgnome-base-libs
-Requires: SUNWgnome-python-libs
-BuildRequires: SUNWgnome-python-libs-devel
-Requires: SUNWgnome-libs
-BuildRequires: SUNWgnome-libs-devel
-Requires: SUNWzlib
+Requires:       SUNWlxml
+Requires:       SUNWzlib
+Requires:       SUNWlibgsf
+Requires:       SUNWlibms
+Requires:       SUNWgnome-libs
+Requires:       SUNWgnome-base-libs
+Requires:       SUNWgnome-python-libs
+BuildRequires:  SUNWlxml-devel
+BuildRequires:  SUNWgnome-libs-devel
+BuildRequires:  SUNWgnome-base-libs-devel
+BuildRequires:  SUNWgnome-python-libs-devel
 %if %option_with_gnu_iconv
-Requires: SUNWgnu-libiconv
-Requires: SUNWgnu-gettext
+Requires:       SUNWgnu-libiconv
+Requires:       SUNWgnu-gettext
 %else
-Requires: SUNWuiu8
+Requires:       SUNWuiu8
 %endif
 
 %package devel
@@ -46,28 +54,29 @@ Requires:                %{name}
 %endif
 
 %prep
-%setup -q -n goffice-%version
-%patch1 -p1
+rm -rf %name-%version
+mkdir -p %name-%version
+%goffice.prep -d %name-%version
 
 %build
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CFLAGS="%optflags"
-export CPPFLAGS="-I/usr/include/pcre"
 %if %option_with_gnu_iconv
 export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
 %endif
+export RPM_OPT_FLAGS="$CFLAGS"
 export LDFLAGS="%_ldflags"
 
-./configure --prefix=%{_prefix}
-make
+%goffice.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-rm -r $RPM_BUILD_ROOT/%{_libdir}/*.la
+%goffice.install -d %name-%version
 
-%if %{build_l10n}
+%if %build_l10n
 %else
-rm -rf $RPM_BUILD_ROOT/%{_datadir}/locale
+# REMOVE l10n FILES
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 %endif
 
 %clean
@@ -75,26 +84,23 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, bin)
-%doc README ChangeLog CREDITS COPYING INSTALL NEWS AUTHORS TODO ABOUT-NLS
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/libgoffice*.so*
+%{_libdir}/goffice
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/goffice
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
-%dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/libgoffice*.so*
-%{_libdir}/goffice
-%dir %attr (0755, root, other) %{_libdir}/pkgconfig
-%{_libdir}/pkgconfig/*
-%dir %attr (0755, root, bin) %{_datadir}/gtk-doc
-%dir %attr (0755, root, bin) %{_datadir}/gtk-doc/html
-%{_datadir}/gtk-doc/html/*
-
 
 %files devel
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
-
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
+%dir %attr (0755, root, sys) %dir %{_datadir}
+%{_datadir}/gtk-doc
 
 %if %build_l10n
 %files l10n
@@ -105,6 +111,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jun 24 2008 - nonsea@users.sourceforge.net
+- Split base part to base/goffice.spec
+- Bump to 0.6.4
 * Mon Apr 14 2008 - trisk@acm.jhu.edu
 - Bump to 0.6.2, update dependencies
 * Tue Sep 04 2007  - Thomas Wagner
