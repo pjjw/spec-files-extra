@@ -6,7 +6,7 @@
 
 %define src_ver 3.4M2
 %define src_name eclipse
-%define src_url http://eclipse.cdpa.nsysu.edu.tw/downloads/drops/S-3.4M2-200709210919
+%define src_url http://mirror.calvin.edu/eclipse/downloads/drops/S-3.4M2-200709210919
 
 %ifarch i386 
 %define	_eclipse_arch x86

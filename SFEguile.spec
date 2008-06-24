@@ -56,6 +56,9 @@ find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 rm ${RPM_BUILD_ROOT}%{_datadir}/info/dir
 
+#create site folder
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/guile/site
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -104,6 +107,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Jun 24 2008 - nonsea@users.sourceforge.net
+- Add site dir
 * Thu Jan 24 2008 - nonsea@users.sourceforge.net
 - Bump to 1.8.5
 - Remove upstreamed patches: suncc-inline.diff,

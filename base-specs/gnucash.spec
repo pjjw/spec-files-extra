@@ -73,15 +73,18 @@ libtoolize --force
 intltoolize --force --automake
 autoheader
 automake -a -f -c --gnu
-autoconf
+#autoconf
 
 CFLAGS="$RPM_OPT_FLAGS"
-./configure  --prefix=%{_prefix}     \
-             --libdir=%{_libdir}     \
+./configure  --prefix=%{_prefix}         \
+             --libdir=%{_libdir}         \
              --libexecdir=%{_libexecdir} \
              --datadir=%{_datadir}       \
-             --mandir=%{_mandir}     \
+             --mandir=%{_mandir}         \
              --sysconfdir=%{_sysconfdir} \
+%if %debug_build
+              --enable-debug             \
+%endif
              --enable-gui
 
 
@@ -145,6 +148,8 @@ fi
 %{_includedir}/gnucash
 
 %changelog
+* Tue Jun 24 2008 - nonsea@users.sourceforge.net
+- Add enable-debug option
 * Thu Jan 19 2008 - nonsea@users.sourceforge.net
 - Bump to 2.2.5
 - Initial version

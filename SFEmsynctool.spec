@@ -27,12 +27,12 @@ Requires: SUNWlxml
 Requires: SUNWmlib
 Requires: SUNWzlib
 Requires: SFElibopensync
-Requires: SFEswig
 BuildRequires: SUNWgnome-base-libs-devel 
 BuildRequires: SUNWsqlite3
 BuildRequires: SFElibopensync-devel 
 BuildRequires: SFEcmake
 BuildRequires: SFEcheck
+BuildRequires: SFEswig
 
 %prep
 rm -rf %name-%version
@@ -74,10 +74,11 @@ test -x $BASEDIR/lib/postrun || exit 0
 
 
 %changelog
+* Tue Jun 24 2008 - nonsea@users.sourceforge.net
+- Add BuildRequires SFEswig 
 * Thu Dec 20 2007 - jijun.yu@sun.com
 - Delete the build requires SFEscons
 - Add the build requires SFEcmake
-
 * Wed Jun 06 2007 - nonsea@users.sourceforge.net
 - Add BuildRequires SFEscons and SFEcheck
 * Tue Jun 05 2007 - jijun.yu@sun.com

@@ -22,7 +22,8 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:           SFEguile
 Requires:           SFEslib
-BuildRequires:      SFEguie-devel
+BuildRequires:      SFEswig
+BuildRequires:      SFEguile-devel
 
 %package devel
 Summary:            %{summary} - development files
@@ -132,6 +133,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 
 
 %changelog
+* Tue Jun 24 2008 - nonsea@users.sourceforge.net
+- Add BuildRequires SFEswig 
 * Fri Jun 20 2008 - nonsea@users.sourceforge.net
 - Move base part to gnucash.spec
 - Add -root package

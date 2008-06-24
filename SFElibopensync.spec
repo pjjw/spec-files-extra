@@ -27,10 +27,10 @@ Requires: SUNWgnome-base-libs
 Requires: SUNWlxml
 Requires: SUNWzlib
 Requires: SUNWsqlite3
-Requires: SFEswig
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SFEcmake
 BuildRequires: SFEcheck
+BuildRequires: SFEswig
 BuildRequires: SUNWsqlite3
 
 %package devel
@@ -81,12 +81,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Jun 24 2008 - nonsea@users.sourceforge.net
+- Add BuildRequires SFEswig 
 * Thu Dec 20 2007 - jijun.yu@sun.com
-- Change the diretory under %{_libdir} and %{_datadir} from opensync to opensync-1.0
-
+- Change the diretory under %{_libdir} and %{_datadir} from
+  opensync to opensync-1.0
 * Mon Nov 05 2007 - jijun.yu@sun.com
 - Add some files into the package.
-
 * Wed Jun 06 2007 - nonsea@users.sourceforge.net
 - Add BuildRequires SFEscons and SFEcheck
 - Change %{_datadir} attr to root:sys

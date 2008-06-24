@@ -13,12 +13,12 @@ Name:                    SFEgmp
 Summary:                 GNU Multiple Presicion Arithmetic Library
 Group:                   libraries/math
 Version:                 4.2.1
-Source:                  http://ftp.gnu.org/gnu/gmp/gmp-%{version}.tar.bz2
+Source:                  http://ftp.sunet.se/pub/gnu/gmp/gmp-%{version}.tar.bz2
 %ifarch amd64
 Source1:                 http://www.loria.fr/~gaudry/mpn_AMD64/mpn_amd64.42.tgz
 %endif
 Patch1:                  gmp-01-solaris.diff
-URL:                     http://swox.com/gmp/
+URL:                     http://gmplib.org/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
