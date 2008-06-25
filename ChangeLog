@@ -1,3 +1,6 @@
+2008-06-25  Michal Bielicki <michal.bielicki <at> voiceworks.pl>
+        * SFEunixodbc.spec: permission fixes
+
 2008-06-25  River Tarnell  <river@wikimedia.org>
 
 	* SFEpan.spec: add patch pan-03-gnet-ipv6.diff to fix GNet autodetect of ipv4/ipv6;

@@ -165,9 +165,12 @@ fi
 
 %files
 # --- files section ---
-%defattr(-, root, root)
+%defattr(-, root, bin)
 %doc    AUTHORS COPYING ChangeLog NEWS README README.* doc
-%dir    %{_sysconfdir}/ODBCDataSources
+%dir %attr (-, -, -) %{prefix}
+%dir %attr (0755, root, bin) %{_bindir}
+%dir %attr (0755, root, sys) %{_sysconfdir}
+%dir %attr (0755, root, sys) %{_sysconfdir}/ODBCDataSources
 # system config files not included - created on the fly by post
 #config %{_sysconfdir}/odbcinst.ini
 #config %{_sysconfdir}/odbc.ini
@@ -201,7 +204,7 @@ fi
 %endif # amd64 sparcv9
 
 %files devel
-%defattr(-, root, root)
+%defattr(-, root, bin)
 %{_libdir}/libodbcinst.la
 %{_libdir}/libodbcinst.a
 %{_libdir}/libodbc.la
@@ -228,7 +231,7 @@ fi
 
 %if %{build_gui_qt}
 %files gui-qt
-%defattr(-, root, root)
+%defattr(-, root, bin)
 %{_bindir}/ODBCConfig
 %{_bindir}/DataManager
 %{_bindir}/DataManagerII
@@ -241,7 +244,7 @@ fi
 %endif
 
 %if %{build_gui_gtk}
-%defattr(-, root, root)
+%defattr(-, root, bin)
 %files gui-gtk
 %{_bindir}/gODBCConfig
 %{_libdir}/libgtkodbcconfig.so*
@@ -249,7 +252,7 @@ fi
 
 %if %{build_drivers}
 %files drivers
-%defattr(-, root, root)
+%defattr(-, root, bin)
 %{drvlibdir}/libesoobS.so*
 %{drvlibdir}/libmimerS.so*
 %{drvlibdir}/libnn.so*
@@ -268,7 +271,7 @@ fi
 %{drvlibdir}/libtdsS.so*
 %{drvlibdir}/libtemplate.so*
 %ifarch amd64 sparcv9
-%defattr(-, root, root)
+%defattr(-, root, bin)
 %{drvlibdir}/%{_arch64}/libesoobS.so*
 %{drvlibdir}/%{_arch64}/libmimerS.so*
 %{drvlibdir}/%{_arch64}/libnn.so*
@@ -289,7 +292,7 @@ fi
 %endif # amd64 sparcv9
 
 %files drivers-devel
-%defattr(-, root, root)
+%defattr(-, root, bin)
 %{drvlibdir}/libesoobS.*a
 %{drvlibdir}/libmimerS.*a
 %{drvlibdir}/libnn.*a
@@ -309,7 +312,7 @@ fi
 %{drvlibdir}/libtemplate.*a
 %ifarch amd64 sparcv9
 %files drivers-devel
-%defattr(-, root, root)
+%defattr(-, root, bin)
 %{drvlibdir}/%{_arch64}/libesoobS.*a
 %{drvlibdir}/%{_arch64}/libmimerS.*a
 %{drvlibdir}/%{_arch64}/libnn.*a
@@ -364,6 +367,8 @@ fi
 %postun -p %{__ldconfig}
 
 %changelog
-* Sun Dec 02 2007 Michal Bielicki <michal.bielicki@voiceworks.pl> 2.2.12
+* Wed Jun 25 2008 Michal Bielicki <michal.bielicki <at> voiceworks.pl> 
+- Permission fixes
+* Sun Dec 02 2007 Michal Bielicki <michal.bielicki <at> voiceworks.pl> 2.2.12
 - First instance of SFE spec file
 - Disabled GUI stuff, will add in next version of spec file
