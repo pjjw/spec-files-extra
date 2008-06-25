@@ -1,5 +1,9 @@
 2008-06-26  Halton Huo <nonsea@users.sourceforge.net>
 
+	* patches/gnucash-01-suncc-function.diff: rework
+
+2008-06-26  Halton Huo <nonsea@users.sourceforge.net>
+
 	* patches/goffice-01-no-sunmath-lib.diff: rework
 
 2008-06-25  Michal Bielicki <michal.bielicki <at> voiceworks.pl>
