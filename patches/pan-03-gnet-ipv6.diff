@@ -1,0 +1,12 @@
+--- pan/pan.c.orig	Wed Jun 25 14:47:22 2008
++++ pan/pan.c	Wed Jun 25 14:47:24 2008
+@@ -258,6 +258,9 @@
+ 	g_set_prgname ("Pan");
+ 	g_thread_init (NULL);
+ 	gnet_init ();
++	/* if this isn't specified, connection to any server fails,
++	   even IPv4 */
++	gnet_ipv6_set_policy(GIPV6_POLICY_IPV6_THEN_IPV4);
+ 	gdk_threads_init ();
+ 	gtk_init (&argc, &argv);
+ 	g_mime_init (GMIME_INIT_FLAG_UTF8);

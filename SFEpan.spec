@@ -11,6 +11,7 @@ Version:             0.14.2
 Source:              http://pan.rebelbase.com/download/releases/%{version}/SOURCE/pan-%{version}.tar.gz
 Patch1:              pan-01-gcclvalues.diff
 Patch2:              pan-02-libm.diff
+Patch3:              pan-03-gnet-ipv6.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -24,6 +25,7 @@ Requires: SFEgnet
 %setup -q -n pan-%version
 %patch1 -p0
 %patch2 -p0
+%patch3 -p0
 
 %build
 
@@ -65,5 +67,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Wed Jun 25 2008 - river@wikimedia.org
+- add patch pan-03-gnet-ipv6.diff to fix GNet autodetect of ipv4/ipv6;
+  causes all connections (v4 and v6) to fail unless a policy is forced.
 * Mon Jun 23 2008 - river@wikimedia.org
 - Initial spec
