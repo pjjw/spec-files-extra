@@ -25,6 +25,8 @@ Patch1:         %{name}-01-suncc-function.diff
 Patch2:         %{name}-02-void-return.diff
 # date:2008-06-24 owner:halton type:bug bugzilla:539957
 Patch3:         %{name}-03-namely-struct.diff
+# date:2008-06-25 owner:halton type:bug 
+Patch4:         %{name}-04-inline.diff
 BuildRoot:      %{tmpdir}/%{name}-%{version}-root
 
 Requires:       libgnomeui >= %{libgnomeui_version}
@@ -63,6 +65,7 @@ in C programs.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 
 %build
@@ -157,6 +160,8 @@ fi
 %{_includedir}/gnucash
 
 %changelog
+* Wed Jun 25 2008 - nonsea@users.sourceforge.net
+- Add inline.diff to fix ss11/ss12 build problem.
 * Tue Jun 24 2008 - nonsea@users.sourceforge.net
 - Add patch suncc-function.diff, void-return.diff
   namely-struct.diff

@@ -74,6 +74,13 @@ rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 %endif
 
+# Remove /usr/share/info/dir, it's a generated file and shared by multiple
+# packages
+rm -f $RPM_BUILD_ROOT%{_datadir}/info/dir
+
+# Remove /etc/gconf/gconf.xml.defaults, it is empty
+rm -r $RPM_BUILD_ROOT%{_sysconfdir}/gconf/gconf.xml.defaults
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -102,16 +109,22 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/libgnc.so*
+%{_libdir}/libgnc*.so*
 %{_libdir}/gnucash
 %dir %attr (0755, root, sys) %{_datadir}
+%{_datadir}/gnucash
+%{_datadir}/info
+%{_datadir}/xml
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
-%dir %attr (0755, root, other) %{_datadir}/gmpc
-%{_datadir}/gmpc/*
-%dir %attr (0755, root, other) %{_datadir}/pixmaps
-%{_datadir}/pixmaps/*
-
+%dir %attr (0755, root, other) %{_datadir}/icons
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/*
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/*/apps
+%{_datadir}/icons/hicolor/*/apps/*
+%dir %attr(0755, root, bin) %{_mandir}
+%dir %attr(0755, root, bin) %{_mandir}/*
+%{_mandir}/*/*
 
 %files devel
 %defattr (-, root, bin)
@@ -129,9 +142,12 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %defattr (-, root, sys)
 %attr (0755, root, sys) %dir %{_sysconfdir}
 %{_sysconfdir}/gconf/schemas/apps_gnucash*.schemas
+%{_sysconfdir}/gnucash/*
 
 
 %changelog
+* Wed Jun 25 2008 - nonsea@users.sourceforge.net
+- Update %files
 * Tue Jun 24 2008 - nonsea@users.sourceforge.net
 - Add Requires:SFEgoffice BuildRequires:SFEgoffice-devel
 * Tue Jun 24 2008 - nonsea@users.sourceforge.net

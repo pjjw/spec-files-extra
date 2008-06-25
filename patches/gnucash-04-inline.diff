@@ -1,0 +1,49 @@
+Index: trunk/lib/libqof/qof/qofmath128.c
+===================================================================
+--- trunk/lib/libqof/qof/qofmath128.c	(revision 17250)
++++ trunk/lib/libqof/qof/qofmath128.c	(working copy)
+@@ -37,7 +37,7 @@
+ /** Multiply a pair of signed 64-bit numbers, 
+  *  returning a signed 128-bit number.
+  */
+-inline qofint128
++static inline qofint128
+ mult128 (gint64 a, gint64 b)
+ {
+   qofint128 prod;
+@@ -106,7 +106,7 @@
+ }
+ 
+ /** Shift right by one bit (i.e. divide by two) */
+-inline qofint128
++static inline qofint128
+ shift128 (qofint128 x)
+ {
+   guint64 sbit = x.hi & 0x1;
+@@ -176,7 +176,7 @@
+ /** Divide a signed 128-bit number by a signed 64-bit,
+  *  returning a signed 128-bit number.
+  */
+-inline qofint128
++static inline qofint128
+ div128 (qofint128 n, gint64 d)
+ {
+   qofint128 quotient;
+@@ -228,7 +228,7 @@
+ }
+ 
+ /** Return true of two numbers are equal */
+-inline gboolean
++static inline gboolean
+ equal128 (qofint128 a, qofint128 b)
+ {
+ 	if (a.lo != b.lo) return 0;
+@@ -281,7 +281,7 @@
+ }
+ 
+ /** Return the least common multiple of two 64-bit numbers. */
+-inline qofint128
++static inline qofint128
+ lcm128 (guint64 a, guint64 b)
+ {
+   guint64 gcf = gcf64 (a,b);

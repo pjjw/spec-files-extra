@@ -1,3 +1,10 @@
+2008-06-25  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEgnucash.spec: Update %files
+	* base-specs/gnucash.spec: Add inline.diff
+	* patches/gnucash-03-namely-struct.diff: rework
+	* patches/gnucash-04-inline.diff: (new) fix ss11/ss12 build problem
+
 2008-06-24  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEgnucash.spec: Add Requires:SFEgoffice
