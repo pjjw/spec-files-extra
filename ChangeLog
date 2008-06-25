@@ -1,5 +1,17 @@
 2008-06-25  Halton Huo <nonsea@users.sourceforge.net>
 
+	* SFEgnucash.spec: Add gnucash-docs
+	* base-specs/gnucash-docs.spec: (new) gnucash doc module
+	* base-specs/gnucash.spec: Add libgoffice-0.8.diff
+	* base-specs/goffice.spec: Bump to 0.7.0
+	* include/desktop-database-install.script: copy from jds-spec-files
+	* include/desktop-database-uninstall.script: copy from jds-spec-files
+	* include/icon-cache.script: copy from jds-spec-files
+	* include/scrollkeeper-update.script: copy from jds-spec-files
+	* patches/gnucash-05-libgoffice-0.8.diff: fix on latest goffice 0.7.0.
+
+2008-06-25  Halton Huo <nonsea@users.sourceforge.net>
+
 	* SFEgnucash.spec: Update %files
 	* base-specs/gnucash.spec: Add inline.diff
 	* patches/gnucash-03-namely-struct.diff: rework

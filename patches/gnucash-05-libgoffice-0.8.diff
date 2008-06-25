@@ -1,0 +1,16 @@
+--- gnucash-2.2.5/configure.in.orig1	2008-06-25 20:55:08.462941000 +0800
++++ gnucash-2.2.5/configure.in	2008-06-25 20:59:34.821755000 +0800
+@@ -1115,9 +1115,10 @@
+     # checks for goffice
+     goffice=0
+     goffice_with_cairo=0
+-    PKG_CHECK_MODULES(GOFFICE, libgoffice-0.6 >= 0.6.0, [goffice=1], [
+-      PKG_CHECK_MODULES(GOFFICE, libgoffice-0.5 >= 0.5.1, [goffice=1], [goffice=0])
+-    ])
++    PKG_CHECK_MODULES(GOFFICE, libgoffice-0.8 >= 0.7.0, [goffice=1], [
++      PKG_CHECK_MODULES(GOFFICE, libgoffice-0.6 >= 0.6.0, [goffice=1], [
++        PKG_CHECK_MODULES(GOFFICE, libgoffice-0.5 >= 0.5.1, [goffice=1], [goffice=0])
++    ])])
+     if test x$goffice = x1
+     then
+       AC_DEFINE(HAVE_GOFFICE_0_5,1,[System has goffice 0.5.1 or better])

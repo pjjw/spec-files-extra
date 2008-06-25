@@ -13,6 +13,7 @@
 %include Solaris.inc
 
 %use gnucash = gnucash.spec
+%use docs = gnucash-docs.spec
 
 Name:               SFEgnucash
 Summary:            gnucash - Financial-accounting software
@@ -20,12 +21,15 @@ Version:            %{gnucash.version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+Requires:           SUNWgnome-libs
 Requires:           SFEguile
 Requires:           SFEslib
 Requires:           SFEgoffice
+BuildRequires:      SUNWgnome-libs-devel
 BuildRequires:      SFEswig
 BuildRequires:      SFEguile-devel
 BuildRequires:      SFEgoffice-devel
+BuildRequires:      SUNWlxsl
 
 %package devel
 Summary:            %{summary} - development files
@@ -53,6 +57,7 @@ Requires:           SUNWgnome-config
 rm -rf %name-%version
 mkdir -p %name-%version
 %gnucash.prep -d %name-%version
+%docs.prep -d %name-%version
 
 
 %build
@@ -63,15 +68,19 @@ export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
 %endif
 export RPM_OPT_FLAGS="$CFLAGS"
 %gnucash.build -d %name-%version
+%docs.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %gnucash.install -d %name-%version
+%docs.install -d %name-%version
 
 %if %build_l10n
 %else
 # REMOVE l10n FILES
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/help/gnucash/??_??
+rm -f $RPM_BUILD_ROOT%{_datadir}/omf/gnucash-docs/*-??_??.omf
 %endif
 
 # Remove /usr/share/info/dir, it's a generated file and shared by multiple
@@ -83,6 +92,17 @@ rm -r $RPM_BUILD_ROOT%{_sysconfdir}/gconf/gconf.xml.defaults
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+%include desktop-database-install.script
+%include scrollkeeper-update.script
+%include icon-cache.script
+
+%postun
+test -x $BASEDIR/lib/postrun || exit 0
+%include desktop-database-uninstall.script
+%include scrollkeeper-update.script
+%include icon-cache.script
 
 %post root
 %include gconf-install.script
@@ -115,6 +135,9 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %{_datadir}/gnucash
 %{_datadir}/info
 %{_datadir}/xml
+%dir %attr (0755, root, other) %{_datadir}/gnome
+%{_datadir}/gnome/help/gnucash/C
+%{_datadir}/omf/gnucash-docs/*-C.omf
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/icons
@@ -136,6 +159,9 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) %{_datadir}
 %attr (-, root, other) %{_datadir}/locale
+%dir %attr (0755, root, other) %{_datadir}/gnome
+%{_datadir}/gnome/help/gnucash/??_??
+%{_datadir}/omf/gnucash-docs/*-??_??.omf
 %endif
 
 %files root
@@ -146,6 +172,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 
 
 %changelog
+* Wed Jun 25 2008 - nonsea@users.sourceforge.net
+- Add gnucash-docs
 * Wed Jun 25 2008 - nonsea@users.sourceforge.net
 - Update %files
 * Tue Jun 24 2008 - nonsea@users.sourceforge.net

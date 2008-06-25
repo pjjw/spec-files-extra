@@ -1,0 +1,7 @@
+( echo 'test -x /usr/bin/gtk-update-icon-cache || exit 0';
+  echo 'rm -f %{_datadir}/icons/*/icon-theme.cache';
+  echo 'for dir in %{_datadir}/icons/*; do';
+  echo '  test -f "$dir/index.theme" && /usr/bin/gtk-update-icon-cache "$dir"';
+  echo 'done';
+  echo 'true'
+) | $BASEDIR/lib/postrun -u -t 5 -c JDS

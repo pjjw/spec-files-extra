@@ -13,12 +13,12 @@ Name:           goffice
 Summary:        Set of document centric objects and utilities for glib/gtk
 License:        GPL
 Group:          System/Libraries
-Version:        0.6.4
+Version:        0.7.0
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.gnome.org/
-Source:         http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.6/%{name}-%{version}.tar.gz
+Source:         http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.7/%{name}-%{version}.tar.gz
 # date:2008-06-24 owner:halton type:bug bugzilla:539930
 Patch1:         %{name}-01-no-sunmath-lib.diff
 BuildRoot:      %{tmpdir}/%{name}-%{version}-root
@@ -100,5 +100,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu Jan 19 2008 - nonsea@users.sourceforge.net
+* Wed Jun 25 2008 - nonsea@users.sourceforge.net
+- Bump to 0.7.0
+* Tue Jun 24 2008 - nonsea@users.sourceforge.net
 - Initial version

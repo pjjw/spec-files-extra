@@ -1,0 +1,3 @@
+( echo 'test -x /usr/bin/scrollkeeper-update || exit 0';
+  echo '/usr/bin/scrollkeeper-update'
+) | $BASEDIR/lib/postrun -b -u -c JDS
