@@ -1,10 +1,15 @@
+2008-06-26  Halton Huo <nonsea@users.sourceforge.net>
+
+	* patches/goffice-01-no-sunmath-lib.diff: rework
+
 2008-06-25  Michal Bielicki <michal.bielicki <at> voiceworks.pl>
-        * SFEunixodbc.spec: permission fixes
+	* SFEunixodbc.spec: permission fixes
 
 2008-06-25  River Tarnell  <river@wikimedia.org>
 
-	* SFEpan.spec: add patch pan-03-gnet-ipv6.diff to fix GNet autodetect of ipv4/ipv6;
-          causes all connections (v4 and v6) to fail unless a policy is forced.
+	* SFEpan.spec: add patch pan-03-gnet-ipv6.diff to fix GNet
+	  autodetect of ipv4/ipv6; causes all connections
+	  (v4 and v6) to fail unless a policy is forced.
 
 2008-06-25  Halton Huo <nonsea@users.sourceforge.net>
 
@@ -168,7 +173,7 @@
 
 	* SFExmlto.spec:
 	* patches/xmlto-01-find.diff: Added. Remove dependency of 
-          GNU find utility.
+	  GNU find utility.
 
 2008-06-12  Brian Cameron  <brian.cameron@sun.com>
 
