@@ -1,3 +1,7 @@
+2008-06-26  River Tarnell  <river@wikimedia.org>
+
+	* SFEsigcpp-gpp.spec: need to use SFW gcc, not SFE because flags depend on Sun ld
+
 2008-06-26  Halton Huo <nonsea@users.sourceforge.net>
 
 	* patches/gnucash-01-suncc-function.diff: rework

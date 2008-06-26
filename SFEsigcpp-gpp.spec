@@ -38,8 +38,8 @@ mkdir %name-%version
 cd %{_builddir}/%name-%version
 
 %build
-export CC=gcc
-export CXX=g++
+export CC=/usr/sfw/bin/gcc
+export CXX=/usr/sfw/bin/g++
 export CXXFLAGS="%{gcc_cxx_optflags}"
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
@@ -70,5 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_cxx_libdir}/sigc++*
 
 %changelog
+* Thu Jun 26 2008 - river@wikimedia.org
+- need to use SFW gcc, not SFE because flags depend on Sun ld
 * Wed Apr 23 2008 - laca@sun.com
 - create, re-work from SUNWsigcpp.spec to build with g++
