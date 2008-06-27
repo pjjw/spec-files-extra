@@ -15,7 +15,7 @@
 %use tsclient = tsclient.spec
 
 Name:               SUNWtsclient
-Summary:            tsclient - A frontend for rdesktop for the GNOME2 platform.
+Summary:            tsclient - A frontend for rdesktop and other remote desktop tools
 Version:            %{tsclient.version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
@@ -42,6 +42,9 @@ Requires:           SUNWfreetype2
 Requires:           SUNWlexpt
 Requires:           SUNWzlib
 Requires:           SUNWpng
+Requires:           SUNWrdesktop
+Requires:           SUNWvncviewer
+Requires:           SUNWxwsrv
 BuildRequires:      SUNWgnome-panel-devel
 BuildRequires:      SUNWgnome-libs-devel
 BuildRequires:      SUNWgnome-vfs-devel
@@ -119,5 +122,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Thu Jan 19 2008 - nonsea@users.sourceforge.net
+* Fri Jun 27 2008 - nonsea@users.sourceforge.net
+- Add Requires to SUNWrdesktop, SUNWvncviewer and SUNWxwsrv
+* Thu Jun 19 2008 - nonsea@users.sourceforge.net
 - Initial spec

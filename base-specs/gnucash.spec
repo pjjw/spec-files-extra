@@ -25,10 +25,12 @@ Patch1:         %{name}-01-suncc-function.diff
 Patch2:         %{name}-02-void-return.diff
 # date:2008-06-24 owner:halton type:bug bugzilla:539957
 Patch3:         %{name}-03-namely-struct.diff
-# date:2008-06-25 owner:halton type:bug 
+# date:2008-06-25 owner:halton type:bug bugzilla:540452
 Patch4:         %{name}-04-inline.diff
 # date:2008-06-25 owner:halton type:bug  bugzilla:540148
 Patch5:         %{name}-05-libgoffice-0.8.diff
+# date:2008-06-27 owner:halton type:bug  bugzilla:539942
+Patch6:         %{name}-06-configure-fail.diff
 BuildRoot:      %{tmpdir}/%{name}-%{version}-root
 
 Requires:       libgnomeui >= %{libgnomeui_version}
@@ -69,6 +71,7 @@ in C programs.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 %ifos linux
@@ -162,6 +165,8 @@ fi
 %{_includedir}/gnucash
 
 %changelog
+* Fri Jun 27 2008 - nonsea@users.sourceforge.net
+- Add patch configure-fail.diff to fix bugzilla 539942
 * Wed Jun 25 2008 - nonsea@users.sourceforge.net
 - Add inline.diff to fix ss11/ss12 build problem.
 - Add libgoffice-0.8.diff to fix on latest goffice 0.7.0.

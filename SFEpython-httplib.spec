@@ -17,7 +17,7 @@
 %include Solaris.inc
 Name:                    SFEpython-httplib
 License:                 MIT
-Summary:                 A comprehensive HTTP client library for Python.
+Summary:                 A comprehensive HTTP client library in Python.
 URL:                     http://code.google.com/p/httplib2
 Version:                 0.4.0
 Source:                  http://httplib2.googlecode.com/files/%{real_name}-%{version}.tar.gz

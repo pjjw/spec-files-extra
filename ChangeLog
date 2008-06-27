@@ -1,3 +1,13 @@
+2008-06-27  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEpython-httplib.spec: update summary
+	* SUNWtsclient.spec: Add Requires to SUNWrdesktop,
+	  SUNWvncviewer and SUNWxwsrv
+	* base-specs/gnucash.spec: Add patch configure-fail.diff
+	  to fix bugzilla 539942
+	* base-specs/tsclient.spec: Add debug option
+	* patches/gnucash-06-configure-fail.diff: (new)
+
 2008-06-26  Damien Carbery <daymobrew@users.sourceforge.net>
 
 	* SFEnotify-python.spec, SUNWcontact-lookup-applet.spec,

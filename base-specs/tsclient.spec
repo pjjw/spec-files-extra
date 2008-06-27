@@ -11,7 +11,7 @@
 
 
 Name:           tsclient
-Summary:        Terminal Server Client is a frontend for rdesktop for the GNOME2 platform.
+Summary:        a frontend for rdesktop and other remote desktop tools for the GNOME2 platform.
 License:        GPL
 Group:          User Interface/Desktops
 Version:        0.150
@@ -57,12 +57,15 @@ automake -a -f -c --gnu
 autoconf
 
 CFLAGS="$RPM_OPT_FLAGS"
-./configure  --prefix=%{_prefix}     \
-             --libdir=%{_libdir}     \
+./configure  --prefix=%{_prefix}         \
+             --libdir=%{_libdir}         \
              --libexecdir=%{_libexecdir} \
              --datadir=%{_datadir}       \
-             --mandir=%{_mandir}     \
-             --sysconfdir=%{_sysconfdir}
+             --mandir=%{_mandir}         \
+             --sysconfdir=%{_sysconfdir} \
+%if %debug_build
+             --enable-debug=yes
+%endif
 
 make -j $CPUS
 
@@ -94,5 +97,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu Jan 19 2008 - nonsea@users.sourceforge.net
+* Fri Jun 27 2008 - nonsea@users.sourceforge.net
+- Add debug option 
+* Thu Jun 19 2008 - nonsea@users.sourceforge.net
 - Initial version
