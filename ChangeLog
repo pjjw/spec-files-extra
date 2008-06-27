@@ -1,3 +1,12 @@
+2008-06-27  Darren Kenny  <darren.kenny@sun.com>
+
+	* patches/transmission-01-sunpro.diff:
+	  Remove upstream patches for sunpro compiler issues.
+	* SFEtransmission.spec,
+	  patches/transmission-01-solaris.diff:
+	  Bump to version 1.2.2  and create patch for libnatmp to implement
+	  getgateway on Solaris.
+
 2008-06-27  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEpython-httplib.spec: update summary

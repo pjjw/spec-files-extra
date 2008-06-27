@@ -6,10 +6,10 @@
 
 Name:                    SFEtransmission
 Summary:                 Transmission - GTK and console BitTorrent client
-Version:                 1.21
+Version:                 1.22
 Source:                  http://download.m0k.org/transmission/files/transmission-%{version}.tar.bz2
+Patch:                   transmission-01-solaris.diff
 URL:                     http://transmission.m0k.org/
-Patch1:                  transmission-01-sunpro.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{source_name}-%{version}-build
 %include default-depend.inc
@@ -36,7 +36,7 @@ Requires:        %{name}
 
 %prep
 %setup -q -n %{source_name}-%{version}
-%patch1 -p1
+%patch0 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -118,6 +118,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Jun 25 2008 - darren.kenny@sun.com
+- Bump to 1.2.2 and remove upstream patch for compiler. Add patch for solaris
+  getgateway implementation.
 * Tue May 27 2008 - trisk@acm.jhu.edu
 - Add SUNWcurl dependency
 * Sat May 24 2008 - trisk@acm.jhu.edu
