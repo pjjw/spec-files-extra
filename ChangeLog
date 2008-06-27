@@ -1,3 +1,7 @@
+2008-06-27  Andras Barna  <andras.barna@gmail.com>
+
+	* SFEterminator.spec: New spec.
+
 2008-06-27  Darren Kenny  <darren.kenny@sun.com>
 
 	* patches/transmission-01-sunpro.diff:
