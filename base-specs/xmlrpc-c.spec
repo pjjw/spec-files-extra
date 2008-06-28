@@ -31,10 +31,11 @@ fi
             --libexecdir=%{_libexecdir} \
             --sysconfdir=%{_sysconfdir} \
             --enable-shared		\
+	    --disable-cplusplus		\
 	    --disable-werror		\
 	    --disable-warnings
 
-make -j$CPUS
+make -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -44,5 +45,8 @@ make install DESTDIR=$RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Jun 24 2008 - trisk@acm.jhu.edu
+- Disable C++ compilation since results are not used
+- Disable parallel make
 * Sat May 24 2008 - trisk@acm.jhu.edu
 - Initial base spec

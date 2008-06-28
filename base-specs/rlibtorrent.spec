@@ -10,12 +10,16 @@ Version:	0.12.2
 Source:		http://libtorrent.rakshasa.no/downloads/libtorrent-%{version}.tar.gz
 Patch1:         rlibtorrent-01-madvise.diff
 Patch2:         rlibtorrent-02-event-ports.diff
+Patch3:         rlibtorrent-03-dh-generate.diff
+Patch4:         rlibtorrent-04-sunpro.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
 %prep
 %setup -q -n %{name}-%{version}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -48,6 +52,8 @@ rm $RPM_BUILD_ROOT%{_cxx_libdir}/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Jun 26 2008 - trisk@acm.jhu.edu
+- Add patch3 for DH key error, patch4 for Studio compatibility
 * Mon Jun 16 2008 - trisk@acm.jhu.edu
 - Rename to rlibtorrent
 - Make static library for SFErtorrent

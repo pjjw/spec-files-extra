@@ -1,23 +1,20 @@
 #
-# spec file for package SFExmlrpc-c-gpp
+# spec file for package SFExmlrpc-c
 #
-# includes module(s): xmlrpc-c-gpp
+# includes module(s): xmlrpc-c
 #
 %include Solaris.inc
 
-%define cc_is_gcc 1
 %include base.inc
 
 %use xmlrpc_c = xmlrpc-c.spec
 
-Name:                   SFExmlrpc-c-gpp
-Summary:                A lightweight RPC library based on XML and HTTP (g++ version)
+Name:                   SFExmlrpc-c
+Summary:                A lightweight RPC library based on XML and HTTP
 Version:                %{xmlrpc_c.version}
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires: SUNWlibC
-Requires: SUNWgccruntime
 
 %package devel
 Summary:                 %{summary} - development files
@@ -31,10 +28,8 @@ mkdir %name-%version
 cd %{_builddir}/%name-%version
 
 %build
-export CC=gcc
-export CXX=g++
-export CXXFLAGS="%{gcc_cxx_optflags}"
-export CFLAGS="%{gcc_optflags}"
+export CFLAGS="%optflags"
+export CFLAGS_PERSONAL="%optflags"
 export LDFLAGS="%_ldflags"
 %xmlrpc_c.build -d %name-%version
 
@@ -57,5 +52,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Tue Jun 24 2008 - trisk@acm.jhu.edu
+- Rename to SFExmlrpc-c since we don't distribute C++ libs
+- Add CFLAGS_PERSONAL for Studio
 * Sat May 24 2008 - trisk@acm.jhu.edu
 - Initial spec

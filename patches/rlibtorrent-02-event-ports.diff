@@ -1,16 +1,3 @@
-diff -x configure -x aclocal.m4 -ru libtorrent-0.11.9/config.h.in libtorrent-0.11.9-new/config.h.in
---- libtorrent-0.11.9/config.h.in	2007-10-25 09:51:00.000000000 +0000
-+++ libtorrent-0.11.9-new/config.h.in	2008-01-13 17:17:20.030864435 +0000
-@@ -141,6 +141,9 @@
- /* Using OpenSSL's SHA1 implementation. */
- #undef USE_OPENSSL_SHA
- 
-+/* Enable ports. */
-+#undef USE_PORTS
-+
- /* posix_fallocate supported. */
- #undef USE_POSIX_FALLOCATE
- 
 diff -x configure -x aclocal.m4 -ru libtorrent-0.11.9/configure.ac libtorrent-0.11.9-new/configure.ac
 --- libtorrent-0.11.9/configure.ac	2007-10-25 09:48:32.000000000 +0000
 +++ libtorrent-0.11.9-new/configure.ac	2008-01-13 17:13:30.892756466 +0000
@@ -41,18 +28,6 @@ diff -x configure -x aclocal.m4 -ru libtorrent-0.11.9/scripts/checks.m4 libtorre
  
  AC_DEFUN([TORRENT_WITHOUT_VARIABLE_FDSET], [
    AC_ARG_WITH(variable-fdset,
-diff -x configure -x aclocal.m4 -ru libtorrent-0.11.9/src/data/memory_chunk.cc libtorrent-0.11.9-new/src/data/memory_chunk.cc
---- libtorrent-0.11.9/src/data/memory_chunk.cc	2007-07-19 21:23:06.000000000 +0000
-+++ libtorrent-0.11.9-new/src/data/memory_chunk.cc	2008-01-13 15:25:19.923524858 +0000
-@@ -121,7 +121,7 @@
- #if USE_MADVISE
-   align_pair(&offset, &length);
- 
--  if (madvise(m_ptr + offset, length, advice) == 0)
-+  if (::madvise(m_ptr + offset, length, advice) == 0)
-     return true;
- 
-   else if (errno == EINVAL || (errno == ENOMEM && advice != advice_willneed) || errno == EBADF)
 diff -x configure -x aclocal.m4 -ru libtorrent-0.11.9/src/torrent/Makefile.am libtorrent-0.11.9-new/src/torrent/Makefile.am
 --- libtorrent-0.11.9/src/torrent/Makefile.am	2007-02-02 11:09:56.000000000 +0000
 +++ libtorrent-0.11.9-new/src/torrent/Makefile.am	2008-01-13 17:51:02.471766611 +0000
@@ -154,12 +129,12 @@ diff -urN libtorrent.orig/src/torrent/poll_ports.cc libtorrent/src/torrent/poll_
 +  if (event_mask(event) == mask)
 +    return;
 +
-+  port_dissociate(m_fd, PORT_SOURCE_FD, event->file_descriptor());
-+
 +  set_event_mask(event, mask);
 +
-+  if (mask == 0)
++  if (mask == 0) {
++    port_dissociate(m_fd, PORT_SOURCE_FD, event->file_descriptor());
 +    return;
++  }
 +
 +  if (port_associate(m_fd, PORT_SOURCE_FD, event->file_descriptor(),
 +		  mask, event) == -1)

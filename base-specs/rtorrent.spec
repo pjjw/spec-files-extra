@@ -11,6 +11,8 @@ Source:		http://libtorrent.rakshasa.no/downloads/rtorrent-%{version}.tar.gz
 Patch1:         rtorrent-01-solaris.diff
 Patch2:         rtorrent-02-event-ports.diff
 Patch3:         rtorrent-03-curl-event.diff
+Patch4:         rtorrent-04-sunpro.diff
+Patch5:         rtorrent-05-sunpro-crash.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
 %prep
@@ -18,6 +20,8 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -49,8 +53,8 @@ make install DESTDIR=$RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Tue Jun 10 2008 - trisk@acm.jhu.edu
-- Add patch3 for scalable curl events
+* Fri Jun 27 2008 - trisk@acm.jhu.edu
+- Add patch3 for scalable curl events, patch4, patch5 for Studio compatibility
 * Sat May 24 2008 - trisk@acm.jhu.edu
 - Enable XML-RPC, add patch2
 * Fri May  9 2008 - laca@sun.com

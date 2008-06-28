@@ -1,3 +1,22 @@
+2008-06-28  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFErtorrent.spec: Allow building with Studio. Rename SFExmlrpc-c-gpp
+	  dependency, add SUNWsigcpp.
+	* SFExmlrpc-c.spec: Rename from SFExmlrpc-c-gpp since we don't
+	  distribute C++ libs. Add CFLAGS_PERSONAL for Studio.
+	* base-specs/rlibtorrent.spec: Add patch3, patch4.
+	* base-specs/rtorrent.spec: Add patch3, patch4, patch5.
+	* base-specs/xmlrpc-c.spec: Disable C++ compilation since results are
+	  not used. Disable parallel make.
+	* patches/rlibtorrent-01-madvise.diff: Patch madvise check only.
+	* patches/rlibtorrent-02-event-ports.diff: Update modify logic.
+	* patches/rlibtorrent-03-dh-generate.diff: Workaround for DH key error.
+	* patches/rlibtorrent-04-sunpro.diff: Studio compatibility.
+	* patches/rtorrent-02-event-ports.diff: Don't patch .orig files.
+	* patches/rtorrent-03-curl-event.diff: Enable scalable curl events.
+	* patches/rtorrent-04-sunpro.diff: Studio compatibility.
+	* patches/rtorrent-05-sunpro-crash.diff: Fix crashes with Studio.
+
 2008-06-27  Andras Barna  <andras.barna@gmail.com>
 
 	* SFEterminator.spec: New spec.
