@@ -1,5 +1,9 @@
 2008-06-29  River Tarnell  <river@wikimedia.org>
 
+	* SFElibvisual.spec: force /usr/sfw/bin/gcc, use gcc cflags instead of studio
+
+2008-06-29  River Tarnell  <river@wikimedia.org>
+
 	* encumbered/SFElibnjb.spec: BuildRequires: SFEdoxygen
 
 2008-06-29  Petr Sobotka  <sobotkap@gmail.com>

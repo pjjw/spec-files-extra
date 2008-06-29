@@ -32,17 +32,15 @@ Requires: SUNWgnome-common-devel
 %patch1 -p1
 
 %build
-if [ "x`basename $CC`" != xgcc ]
-then
-	%error This spec file requires Gcc, set the CC and CXX env variables
-fi
-
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 
-export CFLAGS="%optflags"
+export CC=/usr/sfw/bin/gcc
+export CXX=/usr/sfw/bin/g++
+export CFLAGS="%{gcc_optflags}"
+export CXXFLAGS="%{gcc_cxx_optflags}"
 export LDFLAGS="%_ldflags"
 ./configure --prefix=%{_prefix}		\
 	    --mandir=%{_mandir}		\
@@ -75,5 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sun Jun 29 2008 - river@wikimedia.org
+- force /usr/sfw/bin/gcc, use gcc cflags instead of studio
 * Thu Jan 24 2008 - moinak.ghosh@sun.com
 - Initial spec.
