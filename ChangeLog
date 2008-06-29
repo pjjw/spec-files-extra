@@ -1,5 +1,9 @@
 2008-06-29  River Tarnell  <river@wikimedia.org>
 
+	* SFEglibmm-gpp.spec: force to use gcc in /usr/sfw, not /usr/gnu
+
+2008-06-29  River Tarnell  <river@wikimedia.org>
+
 	* SFElibvisual.spec: force /usr/sfw/bin/gcc, use gcc cflags instead of studio
 
 2008-06-29  River Tarnell  <river@wikimedia.org>

@@ -43,8 +43,8 @@ mkdir %name-%version
 cd %{_builddir}/%name-%version
 
 %build
-export CC=gcc
-export CXX=g++
+export CC=/usr/sfw/bin/gcc
+export CXX=/usr/sfw/bin/g++
 export CXXFLAGS="%{gcc_cxx_optflags}"
 export CFLAGS="%optflags"
 export PKG_CONFIG_PATH="%{_cxx_libdir}/pkgconfig"
@@ -87,5 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_cxx_libdir}/glibmm*
 
 %changelog
+* Sun Jun 29 2008 - river@wikimedia.org
+- force to use gcc in /usr/sfw, not /usr/gnu
 * Wed Apr 23 2008 - laca@sun.com
 - create, re-work from SUNWglibmm.spec to build with g++
