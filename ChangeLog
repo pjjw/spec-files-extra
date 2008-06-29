@@ -1,3 +1,7 @@
+2008-06-29  Petr Sobotka  <sobotkap@gmail.com>
+
+	* SFExdelta.spec: Fixed build root directory.
+
 2008-06-28  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFErtorrent.spec: Allow building with Studio. Rename SFExmlrpc-c-gpp

@@ -10,7 +10,7 @@ Version:                 1.1.4
 Source:                  http://xdelta.googlecode.com/files/%{src_name}-%{version}.tar.gz
 URL:                     http://xdelta.org/
 SUNW_BaseDir:            %{_basedir}
-BuildRoot:               %{_tmppath}/%{src_name}%{src_ver}-build
+BuildRoot:               %{_tmppath}/%{src_name}-%{version}-build
 %include default-depend.inc
 
 %prep
@@ -58,6 +58,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Sun Jun 29 2008 - Petr Sobotka sobotkap@gmail.com
+- Fixed build root directory.
 * Wed May 07 2008 - Petr Sobotka sobotkap@centrum.cz
 - Changed from development version to stable version
 - for development version there will be soon SFExdelta3 spec file
