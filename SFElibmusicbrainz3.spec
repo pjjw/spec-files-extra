@@ -49,7 +49,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export LDFLAGS="%_ldflags -i -lstdc++"
+#export LDFLAGS="%_ldflags -i -lstdc++"
+export LDFLAGS="%_ldflags -i"
 
 cmake	-DCMAKE_INSTALL_PREFIX:PATH=%{_prefix}				\
 	-DCMAKE_BUILD_TYPE=Release					\
@@ -81,6 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Jun 29 2008 - river@wikimedia.org
+- when using the default SFE environment, -lstdc++ causes the build to fail...
 * Fri Jan 18 2008 - moinak.ghosh@sun.com
 - Add -lstdc++ to LDFLAGS otherwise build fails
 * Wed Oct 17 2007 - laca@sun.com

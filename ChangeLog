@@ -1,5 +1,10 @@
 2008-06-29  River Tarnell  <river@wikimedia.org>
 
+	* SFElibiconv.spec: use rm -fr instead of rm -r, since this directory doesn't seem to exist always
+	* SFElibmusicbrainz3.spec: when using the default SFE environment, -lstdc++ causes the build to fail...
+
+2008-06-29  River Tarnell  <river@wikimedia.org>
+
 	* SFEglibmm-gpp.spec: force to use gcc in /usr/sfw, not /usr/gnu
 
 2008-06-29  River Tarnell  <river@wikimedia.org>

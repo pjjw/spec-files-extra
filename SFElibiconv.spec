@@ -58,7 +58,7 @@ rm $RPM_BUILD_ROOT%{_libdir}/charset.alias
 %if %build_l10n
 %else
 # REMOVE l10n FILES
-rm -r $RPM_BUILD_ROOT%{_datadir}/locale
+rm -fr $RPM_BUILD_ROOT%{_datadir}/locale
 #rm -r $RPM_BUILD_ROOT%{_datadir}/gnome/help/gnome-commander/[a-z]*
 #rm -r $RPM_BUILD_ROOT%{_datadir}/omf/gnome-commander/*-[a-z]*.omf
 %endif
@@ -95,6 +95,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Jun 29 2008 - river@wikimedia.org
+- use rm -fr instead of rm -r, since this directory doesn't seem to exist always
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net
 - Add l10n package.
 * Sun Apr 21 2007 - Doug Scott
