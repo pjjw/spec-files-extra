@@ -10,11 +10,20 @@ Summary:	library for accesing MusicBrainz servers
 Version:	0.9.3
 License:	LGPL
 Source:		http://www.musicip.com/dns/files/libofa-%{version}.tar.gz
+Patch1:         libofa-01-libadd.diff
+Patch2:         libofa-02-libadd2.diff
+Patch3:         libofa-03-missinghdrs.diff 
 SUNW_BaseDir:	%{_basedir}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
+Requires: SFEfftw
+BuildRequires: SFEfftw-devel
+
 %prep
 %setup -q -n libofa-%version
+%patch1 -p0
+%patch2 -p0
+%patch3 -p0
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -50,5 +59,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Sun Jun 29 2008 - river@wikimedia.org
+- fftw is required
+- some examples are missing <unistd.h> and do not build
+- need to link with -lc -lCrun -lCstd, as -xnolib is specified
 * Fri Jan 18 2008 - moinak.ghosh@sun.com
 - Initial Spec.

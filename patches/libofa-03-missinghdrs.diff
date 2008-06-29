@@ -1,0 +1,24 @@
+--- examples/uselame.cpp.old	Sun Jun 29 15:52:51 2008
++++ examples/uselame.cpp	Sun Jun 29 15:53:26 2008
+@@ -10,7 +10,9 @@
+ #ifdef WIN32
+ #include "windows.h"
+ #else
++#include <sys/types.h>
+ #include <sys/wait.h>
++#include <unistd.h>
+ #endif
+ 
+ AudioData *loadWaveFile(char *file);
+--- examples/wavefile.cpp.old	Sun Jun 29 15:55:41 2008
++++ examples/wavefile.cpp	Sun Jun 29 15:56:03 2008
+@@ -9,6 +9,9 @@
+ #include "protocol.h"
+ #ifdef WIN32
+ #include "io.h"
++#else
++#include <sys/types.h>
++#include <unistd.h>
+ #endif
+ #include <fcntl.h>
+ 
