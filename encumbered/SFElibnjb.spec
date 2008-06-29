@@ -36,7 +36,7 @@ Packager:     	Anil Gulecha
 BuildRoot:		%{_tmppath}/%{src_name}-%{version}-build
 SUNW_BaseDir:	%{_prefix}
 
-
+BuildRequires: SFEdoxygen
 
 %description 
 libnjb is a C library and API for communicating with the Creative Nomad JukeBox
@@ -88,6 +88,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Sun Jun 29 2008 - river@wikimedia.org
+- BuildRequires: SFEdoxygen
 * Fri Jan 25 2008 - moinak.ghosh@sun.com
 - Fix one more directory permission.
 * Sun Jan 06 2008 - moinak.ghosh@sun.com

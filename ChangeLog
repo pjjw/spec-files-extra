@@ -1,3 +1,7 @@
+2008-06-29  River Tarnell  <river@wikimedia.org>
+
+	* encumbered/SFElibnjb.spec: BuildRequires: SFEdoxygen
+
 2008-06-29  Petr Sobotka  <sobotkap@gmail.com>
 
 	* SFExdelta.spec: Fixed build root directory.
