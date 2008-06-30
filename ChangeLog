@@ -1,5 +1,15 @@
 2008-06-30  Halton Huo <nonsea@users.sourceforge.net>
 
+	Roll back goffice and tsclient, move them to archive.
+	* archive/SFEgoffice.spec:
+	* archive/SUNWtsclient.spec:
+	* base-specs/goffice.spec:
+	* base-specs/tsclient.spec:
+	* patches/goffice-01-no-sunmath-lib.diff:
+	* patches/tsclient-01-libsocket.diff:
+
+2008-06-30  Halton Huo <nonsea@users.sourceforge.net>
+
 	Move goffice and tsclient into spec-files-other.
 	* SFEgnucash.spec:
 	* SFEgoffice.spec:
