@@ -24,11 +24,11 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 Requires:           SUNWgnome-libs
 Requires:           SFEguile
 Requires:           SFEslib
-Requires:           SFEgoffice
+Requires:           SUNWlibgoffice
 BuildRequires:      SUNWgnome-libs-devel
 BuildRequires:      SFEswig
 BuildRequires:      SFEguile-devel
-BuildRequires:      SFEgoffice-devel
+BuildRequires:      SUNWlibgoffice-devel
 BuildRequires:      SUNWlxsl
 
 %package devel

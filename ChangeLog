@@ -1,3 +1,14 @@
+2008-06-30  Halton Huo <nonsea@users.sourceforge.net>
+
+	Move goffice and tsclient into spec-files-other.
+	* SFEgnucash.spec:
+	* SFEgoffice.spec:
+	* SUNWtsclient.spec:
+	* base-specs/goffice.spec:
+	* base-specs/tsclient.spec:
+	* patches/goffice-01-no-sunmath-lib.diff:
+	* patches/tsclient-01-libsocket.diff:
+
 2008-06-30  A Hettinger <oninoshiko@gmail.com>
 	* SFEliveMedia.spec: Bump to 2008.06.26 - consider mirroring since Live555 removes older versions
 
