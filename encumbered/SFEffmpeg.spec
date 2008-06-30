@@ -87,11 +87,11 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-export CFLAGS="-O4"
+export CFLAGS="-O4 -I/usr/X11/include"
 export LDFLAGS="%_ldflags -lm"
 bash ./configure	\
     --prefix=%{_prefix} \
-    --cc=gcc		\
+    --cc=/usr/sfw/bin/gcc \
     %{mlib_opt}		\
     --enable-libgsm	\
     --enable-libxvid	\
@@ -164,6 +164,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/postproc
 
 %changelog
+* Mon Jun 30 2008 - andras.barna@gmail.com
+- Force SFWgcc
+- Add -I/usr/X11/include
 * Tue Mar 18 2008 - trisk@acm.jhu.edu
 - Add patch5 to fix green tint with mediaLib, contributed by James Cheng
 * Sat Aug 11 2007 - trisk@acm.jhu.edu

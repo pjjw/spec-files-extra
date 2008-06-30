@@ -1,3 +1,9 @@
+2008-06-30  Andras Barna  <andras.barna@gmail.com>
+	* SFElibx264.spec,SFEffmpeg.spec: Force SFWgcc
+	* SFEnetspeed-applet.spec: Fix permissions
+	* SFExvid.spec: Force SFWgcc, Remove non-standard CFLAGS (pentiumpro,sse2)
+	* SFEsox.spec: New spec
+	
 2008-06-29  River Tarnell  <river@wikimedia.org>
 
 	* SFElibofa.spec: fftw is required; some examples are missing <unistd.h>

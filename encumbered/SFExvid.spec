@@ -42,13 +42,9 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export CC=gcc
+export CC=/usr/sfw/bin/gcc
 export CPPFLAGS="-D_LARGEFILE64_SOURCE -I%{xorg_inc} -I%{gnu_inc}"
-%ifarch i386 amd64
-export CFLAGS="%gcc_optflags -O4 -mcpu=pentiumpro -mtune=pentiumpro -msse2 -mfpmath=sse"
-%else
 export CFLAGS="%gcc_optflags -O4"
-%endif
 export LDFLAGS="%_ldflags %{gnu_lib_path}"
 
 cd build/generic
@@ -88,6 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Mon Jun 30 2008 - andras.barna@gmail.com
+- Force SFWgcc, Remove non-standard CFLAGS (pentiumpro,sse2)
 * Sat May 31 2008 - trisk@acm.jhu.edu
 - Use default gcc and linker, fix arch options
 * Fri May 23 2008 - michal.bielicki <at> voiceworks.pl

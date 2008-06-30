@@ -63,6 +63,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755,root,bin) %{_libdir}
 %{_libdir}/*
+%dir %attr(0755,root,sys) %{_datadir}
 %{_datadir}/omf/
 %{_datadir}/gnome/help/netspeed_applet
 %{_datadir}/locale/
@@ -72,5 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jun 30 2008 - Andras Barna (andras.barna@gmail.com)
+- Fix permissions
 * Thu Jun 23 2008 - Andras Barna (andras.barna@gmail.com)
 - Initial spec

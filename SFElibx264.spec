@@ -53,7 +53,7 @@ nlsopt=-enable-nls
 nlsopt=-disable-nls
 %endif
 
-export CC=gcc
+export CC=/usr/sfw/bin/gcc
 export CFLAGS="-D__C99FEATURES__"
 export LDFLAGS="%_ldflags -lm"
 bash ./configure	\
@@ -105,6 +105,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Jun 30 2008 - andras.barna@gmail.com
+- Force SFWgcc
 * Fri May 23 2008 - michal.bielicki <at> voiceworks.pl
 - h26x chokes on optflags, fix by Giles Dauphin
 * tue Jan 08 2008 - moinak.ghosh@sun.com
