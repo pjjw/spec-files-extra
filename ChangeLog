@@ -1,3 +1,6 @@
+2008-06-30  A Hettinger <oninoshiko@gmail.com>
+	* SFEliveMedia.spec: Bump to 2008.06.26 - consider mirroring since Live555 removes older versions
+
 2008-06-30  Andras Barna  <andras.barna@gmail.com>
 	* SFElibx264.spec,SFEffmpeg.spec: Force SFWgcc
 	* SFEnetspeed-applet.spec: Fix permissions
