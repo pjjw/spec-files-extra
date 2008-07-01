@@ -77,27 +77,14 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/terminator
+%dir %attr(0755,root,sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/terminator.desktop
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
 %dir %attr (0755, root, other) %{_datadir}/icons
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/
-%dir %attr (-, root, other) %{_datadir}/icons/hicolor/16x16
-%dir %attr (-, root, other) %{_datadir}/icons/hicolor/16x16/apps
-%{_datadir}/icons/hicolor/16x16/apps/terminator.png
-%dir %attr (-, root, other) %{_datadir}/icons/hicolor/22x22
-%dir %attr (-, root, other) %{_datadir}/icons/hicolor/22x22/apps
-%{_datadir}/icons/hicolor/22x22/apps/terminator.png
-%dir %attr (-, root, other) %{_datadir}/icons/hicolor/24x24
-%dir %attr (-, root, other) %{_datadir}/icons/hicolor/24x24/apps
-%{_datadir}/icons/hicolor/24x24/apps/terminator.png
-%dir %attr (-, root, other) %{_datadir}/icons/hicolor/48x48
-%dir %attr (-, root, other) %{_datadir}/icons/hicolor/48x48/apps
-%{_datadir}/icons/hicolor/48x48/apps/terminator.png
-%dir %attr (-, root, other) %{_datadir}/icons/hicolor/scalable
-%dir %attr (-, root, other) %{_datadir}/icons/hicolor/scalable/apps
-%{_datadir}/icons/hicolor/scalable/apps/terminator.svg
+%{_datadir}/icons/hicolor/*
 
 %if %build_l10n
 %files l10n
@@ -111,5 +98,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/terminator.1
 
 %changelog
+* Tue Jul 01 2008 - (andras.barna@gmail.com)
+- Permission fixes
 * Fri Jun 27 2008 - (andras.barna@gmail.com)
 - Initial spec
