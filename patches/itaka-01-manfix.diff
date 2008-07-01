@@ -1,0 +1,18 @@
+--- itaka-0.2.old/Makefile.Debian	2008-07-01 11:34:28.590326321 +0300
++++ itaka-0.2/Makefile.Debian	2008-07-01 11:38:43.133187871 +0300
+@@ -31,13 +31,11 @@
+ 	$(INSTALL) -m 644 share/images/* $(IMAGESDIR)
+ 	$(INSTALL) -m 644 share/images/itaka.png $(ICONDIR)
+ 	$(INSTALL) -m 644 share/itaka.desktop $(APPLICATIONSDIR)
+-	gzip -9 -c share/itaka.1 > share/itaka.1.gz
+-	$(INSTALL) -m 644 share/itaka.1.gz $(MANDIR)
++	$(INSTALL) -m 644 share/itaka.1 $(MANDIR)
+ 	if test -f $(BINDIR)/itaka; then rm $(BINDIR)/itaka; fi	
+ 	ln -s  $(LIBDIR)/itaka.py $(BINDIR)/itaka
+ 	echo $( ls $(BINDIR)/itaka )
+ 	chmod +x $(BINDIR)/itaka
+ 	mv config.py.old config.py
+-	rm share/itaka.1.gz
+ uninstall:
+-	rm -r $(BINDIR)/itaka $(DATADIR) $(LIBDIR) $(ICONDIR)/itaka.png $(APPLICATIONSDIR)/itaka.desktop $(MANDIR)/itaka.1.gz
++	rm -r $(BINDIR)/itaka $(DATADIR) $(LIBDIR) $(ICONDIR)/itaka.png $(APPLICATIONSDIR)/itaka.desktop $(MANDIR)/itaka.1
