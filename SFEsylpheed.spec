@@ -8,12 +8,12 @@
 
 %define src_name        sylpheed
 #note: download path changes with beta versions
-%define src_url         http://sylpheed.sraoss.jp/sylpheed/v2.5beta
+%define src_url         http://sylpheed.sraoss.jp/sylpheed/v2.5
 
 
 Name:                     SFEsylpheed
 Summary:                  a GTK+ based, lightweight, and fast e-mail client
-Version:                  2.5.0beta3
+Version:                  2.5.0
 Source:                   %{src_url}/%{src_name}-%{version}.tar.gz
 License:                  GPL
 URL:                      http://sylpheed.sraoss.jp/
@@ -98,8 +98,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{src_name}/manual/*/*
 #%dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*.png
+#%dir %attr (0755, root, other) %{_datadir}/applications
+%{_datadir}/applications/*
 
 %changelog
+* Thu Jul 3 2008 - Dick Hoogendijk
+- update to the stable 2.5 release
 * Mon May 12 2008 - Thomas Wagner
 - inital spec including base-specs/syhlpeed.spec from the tarball
-

@@ -3,7 +3,7 @@
 # package are under the same license as the package itself.
 
 %include Solaris.inc
-%define tarball_version 1.5a75
+%define tarball_version 1.5a89
 
 # Relegating to /usr/gnu to avoid name collisions...
 %define _prefix %{_basedir}/gnu
@@ -38,6 +38,7 @@ rm -rf $RPM_BUILD_ROOT
 
 rm -rf ${RPM_BUILD_ROOT}%{_libdir}
 rm -rf ${RPM_BUILD_ROOT}%{_prefix}/etc
+rm -rf ${RPM_BUILD_ROOT}%{_prefix}/doc
 rm -rf ${RPM_BUILD_ROOT}%{_includedir}
 
 %clean
