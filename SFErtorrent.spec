@@ -5,13 +5,13 @@
 #
 %include Solaris.inc
 
+# Studio support is experimental
+#%define cc_is_gcc 1
+
 %include base.inc
 
 %use rtorrent = rtorrent.spec
 %use rlibtorrent = rlibtorrent.spec
-
-# Studio support is experimental
-%define cc_is_gcc 1
 
 Name:		SFErtorrent
 Summary:	%{rtorrent.summary}
@@ -47,8 +47,8 @@ export CC=/usr/sfw/bin/gcc
 export CXX=/usr/sfw/bin/g++
 export CXXFLAGS="%{gcc_cxx_optflags} \
  -I%{sfw_inc} -I%{gnu_inc} -I%{gnu_inc}/ncurses -I$LIBTORRENT_ROOT/src"
-export LDFLAGS="%_ldflags %{sfw_lib_path} %{gnu_lib_path} -R%{_cxx_libdir} \
- -L$LIBTORRENT_ROOT/src/.libs"
+export LDFLAGS="%_ldflags %{sfw_lib_path} %{gnu_lib_path} \
+ -L%{_cxx_libdir} -R%{_cxx_libdir} -L$LIBTORRENT_ROOT/src/.libs"
 %else
 # __attribute__((unused)) test uses $CC
 export CC="$CXX"
@@ -59,7 +59,7 @@ export LDFLAGS="%_ldflags %{sfw_lib_path} %{gnu_lib_path} \
  -L$LIBTORRENT_ROOT/src/.libs"
 %endif
 
-export PKG_CONFIG_PATH="%{_cxx_libdir}/pkgconfig:$LIBTORRENT_ROOT"
+export PKG_CONFIG_PATH="%{_cxx_libdir}/pkgconfig:%{_sfw_libdir}/pkgconfig:$LIBTORRENT_ROOT"
 %rlibtorrent.build -d %name-%version/%{base_arch}
 %if %cc_is_gcc
 %else
@@ -84,6 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/rtorrent.1
 
 %changelog
+* Fri Jul 04 2008 - trisk@acm.jhu.edu
+- Fix gcc compilation
 * Tue Jun 24 2008 - trisk@acm.jhu.edu
 - Allow building with Studio
 - Rename SFExmlrpc-c-gpp dependency, add SUNWsigcpp

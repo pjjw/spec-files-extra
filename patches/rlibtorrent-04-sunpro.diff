@@ -80,7 +80,7 @@
  
 --- rtorrent-0.8.2.orig/rak/algorithm.h	2008-05-07 08:19:12.000000000 -0400
 +++ rtorrent-0.8.2/rak/algorithm.h	2008-06-25 17:27:39.728352000 -0400
-@@ -40,6 +40,45 @@
+@@ -40,6 +40,63 @@
  #include <algorithm>
  #include <functional>
  
@@ -120,6 +120,24 @@
 +               iterator_traits<ForwardIterator>::iterator_category());
 +    return n;
 +  }
++
++  template <class InputIterator, class T>
++  inline typename iterator_traits<InputIterator>::difference_type
++  count (InputIterator first, InputIterator last, const T& value)
++  {
++    typename iterator_traits<InputIterator>::difference_type n = 0;
++    count(first, last, value, n);
++    return n;
++  }
++
++  template <class InputIterator, class Predicate>
++  inline typename iterator_traits<InputIterator>::difference_type
++  count_if (InputIterator first, InputIterator last, Predicate pred)
++  {
++    typename iterator_traits<InputIterator>::difference_type n = 0;
++    count_if(first, last, pred, n);
++    return n;
++  }
 +}
 +#endif
 +
@@ -128,15 +146,18 @@
  template <typename _InputIter, typename _Function>
 --- libtorrent-0.12.2.orig/src/download/choke_manager.cc	2008-05-07 08:19:13.000000000 -0400
 +++ libtorrent-0.12.2/src/download/choke_manager.cc	2008-06-24 13:40:32.322166472 -0400
-@@ -43,6 +43,7 @@
+@@ -41,8 +41,10 @@
+ #include <numeric>
+ #include <cstdlib>
  
++#include "rak/algorithm.h"
  #include "protocol/peer_connection_base.h"
  #include "torrent/peer/connection_list.h"
 +#include "resource_manager.h"
  
  #include "choke_manager.h"
  #include "choke_manager_node.h"
-@@ -261,7 +262,7 @@
+@@ -261,7 +263,7 @@
                                          rak::less(i * ChokeManager::order_base + (ChokeManager::order_base - 1),
                                                    rak::mem_ref(&ChokeManager::value_type::second)));
  
@@ -145,58 +166,6 @@
        weightTotal += weights[i];
    }
  
-@@ -271,7 +272,8 @@
-     uint32_t base = unchoke / weightTotal;
- 
-     for (uint32_t itr = 0; itr < ChokeManager::order_max_size; itr++) {
--      uint32_t s = std::distance(target[itr].second, target[itr + 1].second);
-+      uint32_t s = 0;
-+      std::distance(target[itr].second, target[itr + 1].second, s);
- 
-       if (weights[itr] == 0 || target[itr].first >= s)
-         continue;
-@@ -294,7 +296,8 @@
-     unsigned int itr = 0;
- 
-     for ( ; ; itr++) {
--      uint32_t s = std::distance(target[itr].second, target[itr + 1].second);
-+      uint32_t s = 0;
-+      std::distance(target[itr].second, target[itr + 1].second, s);
- 
-       if (weights[itr] == 0 || target[itr].first >= s)
-         continue;
-@@ -306,7 +309,8 @@
-     }
- 
-     for ( ; weightTotal != 0 && unchoke != 0; itr = (itr + 1) % ChokeManager::order_max_size) {
--      uint32_t s = std::distance(target[itr].second, target[itr + 1].second);
-+      uint32_t s = 0;
-+      std::distance(target[itr].second, target[itr + 1].second, s);
- 
-       if (weights[itr] == 0 || target[itr].first >= s)
-         continue;
-@@ -336,7 +340,9 @@
-   // Iterate in reverse so that the iterators in 'target' remain vaild
-   // even though we remove random ranges.
-   for (target_type* itr = target + order_max_size; itr != target; itr--) {
--    if ((itr - 1)->first > (uint32_t)std::distance((itr - 1)->second, itr->second))
-+    uint32_t s = 0;
-+    std::distance((itr - 1)->second, itr->second, s);
-+    if ((itr - 1)->first > s)
-       throw internal_error("ChokeManager::choke_range(...) itr->first > std::distance((itr - 1)->second, itr->second).");
- 
-     if (itr->second - (itr - 1)->first > itr->second ||
-@@ -379,7 +385,9 @@
-   uint32_t count = 0;
- 
-   for (target_type* itr = target + order_max_size; itr != target; itr--) {
--    if ((itr - 1)->first > (uint32_t)std::distance((itr - 1)->second, itr->second))
-+    uint32_t s = 0;
-+    std::distance((itr - 1)->second, itr->second, s);
-+    if ((itr - 1)->first > s)
-       throw internal_error("ChokeManager::unchoke_range(...) itr->first > std::distance((itr - 1)->second, itr->second).");
- 
-     if (itr->second - (itr - 1)->first > itr->second ||
 --- libtorrent-0.12.2.orig/src/download/delegator.cc	2008-05-07 08:19:13.000000000 -0400
 +++ libtorrent-0.12.2/src/download/delegator.cc	2008-06-24 13:42:52.016431294 -0400
 @@ -46,7 +46,9 @@
@@ -366,17 +335,14 @@
    m_data = new char[m_length];
 --- libtorrent-0.12.2.orig/src/dht/dht_bucket.cc	2008-05-07 08:19:12.000000000 -0400
 +++ libtorrent-0.12.2/src/dht/dht_bucket.cc	2008-06-24 02:41:04.089051646 -0400
-@@ -85,8 +85,8 @@
+@@ -36,6 +36,7 @@
  
- void
- DhtBucket::count() {
--  m_good = std::count_if(begin(), end(), std::mem_fun(&DhtNode::is_good));
--  m_bad = std::count_if(begin(), end(), std::mem_fun(&DhtNode::is_bad));
-+  std::count_if(begin(), end(), std::mem_fun(&DhtNode::is_good), m_good);
-+  std::count_if(begin(), end(), std::mem_fun(&DhtNode::is_bad), m_bad);
- }
+ #include "config.h"
  
- // Called every 15 minutes for housekeeping.
++#include "rak/algorithm.h"
+ #include "torrent/exceptions.h"
+ 
+ #include "dht_bucket.h"
 --- libtorrent-0.12.2.orig/src/dht/dht_node.cc	2008-05-07 08:19:12.000000000 -0400
 +++ libtorrent-0.12.2/src/dht/dht_node.cc	2008-06-28 15:57:24.639449987 -0400
 @@ -77,7 +77,10 @@
@@ -448,33 +414,32 @@
    // For initial seeding, check if chunk is well seeded now, and if so
 --- libtorrent-0.12.2.orig/src/protocol/handshake_manager.cc	2008-05-07 08:19:12.000000000 -0400
 +++ libtorrent-0.12.2/src/protocol/handshake_manager.cc	2008-06-24 15:11:50.179786185 -0400
-@@ -67,7 +67,9 @@
+@@ -37,6 +37,7 @@
+ #include "config.h"
  
- HandshakeManager::size_type
- HandshakeManager::size_info(DownloadMain* info) const {
--  return std::count_if(base_type::begin(), base_type::end(), rak::equal(info, std::mem_fun(&Handshake::download)));
-+  uint32_t size = 0;
-+  std::count_if(base_type::begin(), base_type::end(), rak::equal(info, std::mem_fun(&Handshake::download)), size);
-+  return size;
- }
+ #include <rak/socket_address.h>
++#include <rak/algorithm.h>
  
- void
+ #include "torrent/exceptions.h"
+ #include "torrent/error.h"
 --- libtorrent-0.12.2.orig/src/protocol/handshake.cc	2008-05-07 08:19:12.000000000 -0400
 +++ libtorrent-0.12.2/src/protocol/handshake.cc	2008-06-24 15:05:32.683533289 -0400
-@@ -38,6 +38,7 @@
+@@ -36,8 +36,10 @@
  
+ #include "config.h"
+ 
++#include "rak/algorithm.h"
  #include "download/download_info.h"
  #include "download/download_main.h"
 +#include "download/download_manager.h"
  #include "net/throttle_list.h"
  #include "torrent/dht_manager.h"
  #include "torrent/exceptions.h"
-@@ -324,14 +325,17 @@
+@@ -324,14 +326,16 @@
        return false;
    }
  
-+  uint32_t len = 0;
-+  std::distance(m_readBuffer.position(), itr, len);
++  uint32_t len = std::distance(m_readBuffer.position(), itr);
 +
    if (m_incoming) {
      // We've found HASH('req1' + S), skip that and go on reading the
@@ -634,7 +599,15 @@
  #include "hash_chunk.h"
 --- libtorrent-0.12.2.orig/src/data/chunk_part.cc	2008-05-07 08:19:13.000000000 -0400
 +++ libtorrent-0.12.2/src/data/chunk_part.cc	2008-06-23 19:16:19.997055043 -0400
-@@ -70,11 +70,14 @@
+@@ -39,6 +39,7 @@
+ #include <algorithm>
+ #include <unistd.h>
+ 
++#include "rak/algorithm.h"
+ #include "torrent/exceptions.h"
+ #include "chunk_part.h"
+ 
+@@ -70,11 +71,13 @@
  
    int length = size() - pos;
    int touched = m_chunk.pages_touched(pos, length);
@@ -643,9 +616,7 @@
  
    m_chunk.incore(buf, pos, length);
  
--  int dist = std::distance(buf, std::find(buf, buf + touched, 0));
-+  unsigned int dist = 0;
-+  std::distance(buf, std::find(buf, buf + touched, 0), dist);
+   int dist = std::distance(buf, std::find(buf, buf + touched, 0));
 +
 +  delete buf;
  
@@ -662,18 +633,17 @@
  
  #include "chunk_list.h"
  #include "chunk.h"
-@@ -349,16 +351,19 @@
+@@ -349,16 +351,18 @@
      bool required = std::find_if(itr, range, std::bind1st(std::mem_fun(&ChunkList::check_node), this)) != range;
      dontSkip = dontSkip || required;
  
 -    if (!required && std::distance(itr, range) < maxDistance) {
-+    uint32_t l = 0;
-+    std::distance(itr, range, l);
++    unsigned int l = range - itr;
 +
 +    if (!required && l < maxDistance) {
        // Don't sync this range.
 -      unsigned int l = std::min(range - itr, itr - first);
-+      l = std::min(range - itr, itr - first);
++      l = std::min(l, (unsigned int)(itr - first));
        std::swap_ranges(first, first + l, range - l);
  
        first += l;
@@ -712,34 +682,16 @@
  
 --- libtorrent-0.12.2.orig/src/tracker/tracker_manager.cc	2008-05-07 08:19:13.000000000 -0400
 +++ libtorrent-0.12.2/src/tracker/tracker_manager.cc	2008-06-24 15:23:58.547482693 -0400
-@@ -37,6 +37,7 @@
+@@ -36,7 +36,9 @@
+ 
  #include "config.h"
  
++#include "rak/algorithm.h"
  #include "download/download_info.h"
 +#include "download/download_wrapper.h"
  #include "torrent/exceptions.h"
  #include "torrent/tracker.h"
  #include "torrent/tracker_list.h"
-@@ -202,7 +203,9 @@
- 
- TrackerManager::size_type
- TrackerManager::focus_index() const {
--  return std::distance(m_control->begin(), m_control->focus());
-+  uint32_t index = 0;
-+  std::distance(m_control->begin(), m_control->focus(), index);
-+  return index;
- }
- 
- void
-@@ -263,7 +266,7 @@
-     return m_slotSuccess(l);
- 
-   if (m_control->state() == DownloadInfo::STARTED)
--    m_initialTracker = std::distance(m_control->begin(), m_control->focus());
-+    std::distance(m_control->begin(), m_control->focus(), m_initialTracker);
- 
-   // Don't reset the focus when we're requesting more peers. If we
-   // want to query the next tracker in the list we need to remember
 --- libtorrent-0.12.2.orig/src/tracker/tracker_udp.cc	2008-05-07 08:19:13.000000000 -0400
 +++ libtorrent-0.12.2/src/tracker/tracker_udp.cc	2008-06-24 15:35:31.207275209 -0400
 @@ -45,6 +45,7 @@
@@ -783,18 +735,15 @@
  }
 --- libtorrent-0.12.2.orig/src/torrent/object_stream.cc	2008-05-07 08:19:13.000000000 -0400
 +++ libtorrent-0.12.2/src/torrent/object_stream.cc	2008-06-23 22:07:52.705714634 -0400
-@@ -185,7 +185,9 @@
- void
- object_write_bencode_c_string(object_write_data_t* output, const char* srcData, uint32_t srcLength) {
-   do {
--    uint32_t len = std::min<uint32_t>(srcLength, std::distance(output->pos, output->buffer.second));
-+    uint32_t len = 0;
-+    std::distance(output->pos, output->buffer.second, len);
-+    len = std::min<uint32_t>(srcLength, len);
+@@ -39,6 +39,7 @@
+ #include <iterator>
+ #include <iostream>
+ #include <rak/functional.h>
++#include <rak/algorithm.h>
  
-     std::memcpy(output->pos, srcData, len);
+ #include "utils/sha1.h"
  
-@@ -233,7 +235,7 @@
+@@ -233,7 +234,7 @@
      src /= 10;
    }
  
@@ -803,55 +752,26 @@
  }
  
  void
-@@ -306,14 +308,18 @@
- 
- object_buffer_t
- object_write_to_sha1(void* data, object_buffer_t buffer) {
--  reinterpret_cast<Sha1*>(data)->update(buffer.first, std::distance(buffer.first, buffer.second));
-+  uint32_t len = 0;
-+  std::distance(buffer.first, buffer.second, len);
-+  reinterpret_cast<Sha1*>(data)->update(buffer.first, len);
- 
-   return buffer;
- }
- 
- object_buffer_t
- object_write_to_stream(void* data, object_buffer_t buffer) {
--  reinterpret_cast<std::ostream*>(data)->write(buffer.first, std::distance(buffer.first, buffer.second));
-+  uint32_t len = 0;
-+  std::distance(buffer.first, buffer.second, len);
-+  reinterpret_cast<std::ostream*>(data)->write(buffer.first, len);
- 
-   if (reinterpret_cast<std::ostream*>(data)->bad())
-     return object_buffer_t(buffer.first, buffer.first);
 --- libtorrent-0.12.2.orig/src/torrent/download.cc	2008-05-07 08:19:13.000000000 -0400
 +++ libtorrent-0.12.2/src/torrent/download.cc	2008-06-23 18:56:21.847160292 -0400
-@@ -395,7 +395,9 @@
-   if (m_ptr->hash_checker()->is_checked() || m_ptr->hash_checker()->is_checking())
-     throw input_error("Download::set_bitfield(...) Download in invalid state.");
+@@ -36,6 +36,7 @@
  
--  if (std::distance(first, last) != (ptrdiff_t)m_ptr->main()->file_list()->bitfield()->size_bytes())
-+  uint32_t len = 0;
-+  std::distance(first, last, len);
-+  if (len != (ptrdiff_t)m_ptr->main()->file_list()->bitfield()->size_bytes())
-     throw input_error("Download::set_bitfield(...) Invalid length.");
+ #include "config.h"
  
-   Bitfield* bitfield = m_ptr->main()->file_list()->mutable_bitfield();
++#include <rak/algorithm.h>
+ #include <rak/functional.h>
+ #include <sigc++/adaptors/bind.h>
+ #include <sigc++/adaptors/hide.h>
 --- libtorrent-0.12.2.orig/src/torrent/data/file_list.cc	2008-06-23 18:17:42.415878000 -0400
 +++ libtorrent-0.12.2/src/torrent/data/file_list.cc	2008-06-23 18:21:51.029221269 -0400
-@@ -211,8 +211,10 @@
-   File* oldFile = *position;
- 
-   uint64_t offset = oldFile->offset();
--  size_type index = std::distance(begin(), position);
--  size_type length = std::distance(first, last);
-+  size_type index = 0;
-+  size_type length = 0;
-+  std::distance(begin(), position, index);
-+  std::distance(first, last, length);
- 
-   base_type::insert(position, length - 1, NULL);
-   position = begin() + index;
+@@ -42,6 +42,7 @@
+ #include <limits>
+ #include <memory>
+ #include <set>
++#include <rak/algorithm.h>
+ #include <rak/error_number.h>
+ #include <rak/file_stat.h>
+ #include <rak/fs_stat.h>
 --- libtorrent-0.12.2.orig/src/torrent/data/file_utils.cc	2008-06-23 18:25:06.488832000 -0400
 +++ libtorrent-0.12.2/src/torrent/data/file_utils.cc	2008-06-23 18:25:31.066012126 -0400
 @@ -60,7 +60,7 @@
@@ -874,20 +794,21 @@
  
 --- libtorrent-0.12.2.orig/src/torrent/data/block.cc	2008-05-07 08:19:13.000000000 -0400
 +++ libtorrent-0.12.2/src/torrent/data/block.cc	2008-06-23 17:24:05.346918013 -0400
-@@ -202,7 +202,9 @@
+@@ -38,6 +38,7 @@
  
-   m_parent->inc_finished();
+ #include <algorithm>
+ #include <functional>
++#include <rak/algorithm.h>
+ #include <rak/functional.h>
  
--  if ((Block::size_type)std::count_if(m_parent->begin(), m_parent->end(), std::mem_fun_ref(&Block::is_finished)) < m_parent->finished())
-+  uint32_t finished = 0;
-+  std::count_if(m_parent->begin(), m_parent->end(), std::mem_fun_ref(&Block::is_finished), finished);
-+  if ((Block::size_type)finished < m_parent->finished())
-     throw internal_error("Block::completed(...) Finished blocks too large.");
- 
-   m_notStalled -= transfer->stall() == 0;
+ #include "peer/peer_info.h"
 --- libtorrent-0.12.2.orig/src/torrent/data/transfer_list.cc	2008-05-07 08:19:13.000000000 -0400
 +++ libtorrent-0.12.2/src/torrent/data/transfer_list.cc	2008-06-24 15:09:29.809436919 -0400
-@@ -42,6 +42,8 @@
+@@ -39,9 +39,12 @@
+ #include <algorithm>
+ #include <functional>
+ #include <set>
++#include <rak/algorithm.h>
  #include <rak/functional.h>
  
  #include "data/chunk.h"
@@ -896,28 +817,6 @@
  #include "peer/peer_info.h"
  
  #include "block_failed.h"
-@@ -116,7 +118,9 @@
- TransferList::hash_succeded(uint32_t index) {
-   iterator blockListItr = find(index);
- 
--  if ((Block::size_type)std::count_if((*blockListItr)->begin(), (*blockListItr)->end(), std::mem_fun_ref(&Block::is_finished)) != (*blockListItr)->size())
-+  uint32_t finished = 0;
-+  std::count_if((*blockListItr)->begin(), (*blockListItr)->end(), std::mem_fun_ref(&Block::is_finished), finished);
-+  if ((Block::size_type)finished != (*blockListItr)->size())
-     throw internal_error("TransferList::hash_succeded(...) Finished blocks does not match size.");
- 
-   if ((*blockListItr)->failed() != 0)
-@@ -143,7 +147,9 @@
-   if (blockListItr == end())
-     throw internal_error("TransferList::hash_failed(...) Could not find index.");
- 
--  if ((Block::size_type)std::count_if((*blockListItr)->begin(), (*blockListItr)->end(), std::mem_fun_ref(&Block::is_finished)) != (*blockListItr)->size())
-+  uint32_t finished = 0;
-+  std::count_if((*blockListItr)->begin(), (*blockListItr)->end(), std::mem_fun_ref(&Block::is_finished), finished);
-+  if ((Block::size_type)finished != (*blockListItr)->size())
-     throw internal_error("TransferList::hash_failed(...) Finished blocks does not match size.");
- 
-   // Could propably also check promoted against size of the block
 --- libtorrent-0.12.2.orig/src/torrent/poll_select.cc	2008-05-07 08:19:13.000000000 -0400
 +++ libtorrent-0.12.2/src/torrent/poll_select.cc	2008-06-23 19:06:09.911597997 -0400
 @@ -37,6 +37,7 @@

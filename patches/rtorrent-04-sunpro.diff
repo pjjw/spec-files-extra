@@ -80,7 +80,7 @@
  
 --- rtorrent-0.8.2.orig/rak/algorithm.h	2008-05-07 08:19:12.000000000 -0400
 +++ rtorrent-0.8.2/rak/algorithm.h	2008-06-25 17:27:39.728352000 -0400
-@@ -40,6 +40,45 @@
+@@ -40,6 +40,63 @@
  #include <algorithm>
  #include <functional>
  
@@ -120,22 +120,30 @@
 +               iterator_traits<ForwardIterator>::iterator_category());
 +    return n;
 +  }
++
++  template <class InputIterator, class T>
++  inline typename iterator_traits<InputIterator>::difference_type
++  count (InputIterator first, InputIterator last, const T& value)
++  {
++    typename iterator_traits<InputIterator>::difference_type n = 0;
++    count(first, last, value, n);
++    return n;
++  }
++
++  template <class InputIterator, class Predicate>
++  inline typename iterator_traits<InputIterator>::difference_type
++  count_if (InputIterator first, InputIterator last, Predicate pred)
++  {
++    typename iterator_traits<InputIterator>::difference_type n = 0;
++    count_if(first, last, pred, n);
++    return n;
++  }
 +}
 +#endif
 +
  namespace rak {
  
  template <typename _InputIter, typename _Function>
---- rtorrent-0.8.2.orig/src/main.cc	2008-05-07 08:19:11.000000000 -0400
-+++ rtorrent-0.8.2/src/main.cc	2008-06-25 18:08:56.717232910 -0400
-@@ -44,6 +44,7 @@
- #include <torrent/torrent.h>
- #include <torrent/exceptions.h>
- #include <rak/functional.h>
-+#include <locale.h>
- 
- #ifdef USE_EXECINFO
- #include <execinfo.h>
 --- rtorrent-0.8.2.orig/src/command_file.cc	2008-05-07 08:19:11.000000000 -0400
 +++ rtorrent-0.8.2/src/command_file.cc	2008-06-25 18:06:51.985365949 -0400
 @@ -64,7 +64,7 @@
@@ -246,6 +254,14 @@
  
 --- rtorrent-0.8.2.orig/src/display/text_element_string.cc	2008-05-07 08:19:11.000000000 -0400
 +++ rtorrent-0.8.2/src/display/text_element_string.cc	2008-06-25 02:57:08.521853302 -0400
+@@ -36,6 +36,7 @@
+ 
+ #include "config.h"
+ 
++#include <rak/algorithm.h>
+ #include <rak/string_manip.h>
+ 
+ #include "rpc/parse_commands.h"
 @@ -52,17 +52,21 @@
      return first;
  
@@ -270,17 +286,6 @@
    } else {
      first = copy_string(first, last, target);
    }  
-@@ -112,7 +116,9 @@
-       first = rak::copy_escape_html(str.c_str(), str.c_str() + str.size(), first, last);
- 
-     } else {
--      size_t length = std::min<size_t>(str.size(), std::distance(first, last));
-+      size_t length = 0;
-+      std::distance(first, last, length);
-+      length = std::min<size_t>(str.size(), length);
- 
-       std::memcpy(first, str.c_str(), length);
-       first += std::min<size_t>(str.size(), length);
 --- rtorrent-0.8.2.orig/src/display/window.h	2008-05-07 08:19:11.000000000 -0400
 +++ rtorrent-0.8.2/src/display/window.h	2008-06-26 00:42:49.975992333 -0400
 @@ -41,6 +41,7 @@
@@ -351,17 +356,14 @@
  int
 --- rtorrent-0.8.2.orig/src/display/window_log.cc	2008-05-07 08:19:11.000000000 -0400
 +++ rtorrent-0.8.2/src/display/window_log.cc	2008-06-25 03:13:37.195603865 -0400
-@@ -86,7 +86,9 @@
-     return;
+@@ -37,6 +37,7 @@
+ #include "config.h"
  
-   iterator itr = find_older();
--  extent_type height = std::min(std::distance(m_log->begin(), itr), (std::iterator_traits<iterator>::difference_type)10);
-+  extent_type height = 0;
-+  std::distance(m_log->begin(), itr, height);
-+  height = std::min(height, (extent_type)10);
+ #include <ctime>
++#include <rak/algorithm.h>
  
-   if (height != m_maxHeight) {
-     m_minHeight = height != 0 ? 1 : 0;
+ #include "canvas.h"
+ #include "utils.h"
 --- rtorrent-0.8.2.orig/src/display/frame.cc	2008-05-07 08:19:11.000000000 -0400
 +++ rtorrent-0.8.2/src/display/frame.cc	2008-06-25 02:51:41.636803977 -0400
 @@ -41,6 +41,8 @@
@@ -515,18 +517,7 @@
      bounds_type bounds = (*itr)->preferred_size();
      
      if ((*itr)->is_height_dynamic()) {
-@@ -372,7 +374,9 @@
-     retry = false;
- 
-     for (dynamic_type *itr = dynamicFrames, *last = dynamicFrames + dynamicSize; itr != last; ++itr) {
--      uint32_t adjust = (std::max(remaining, 0) + std::distance(itr, last) - 1) / std::distance(itr, last);
-+      uint32_t n = 0;
-+      std::distance(itr, last, n);
-+      uint32_t adjust = (std::max(remaining, 0) + n - 1) / n;
-     
-       adjust += itr->first->m_height;
-       adjust = std::max(adjust, itr->second.minHeight);
-@@ -391,7 +395,7 @@
+@@ -391,7 +393,7 @@
    // the frame is too small, it will set the remaining windows to zero
    // extent which will flag them as offscreen.
  
@@ -535,7 +526,7 @@
      // If there is any remaining space, check if we want to shift
      // the subsequent frames to the other side of this frame.
      if (remaining > 0 && (*itr)->has_bottom_frame()) {
-@@ -417,7 +421,7 @@
+@@ -417,7 +419,7 @@
  
    int remaining = width;
    
@@ -544,18 +535,7 @@
      bounds_type bounds = (*itr)->preferred_size();
      
      if ((*itr)->is_width_dynamic()) {
-@@ -446,7 +450,9 @@
-     retry = false;
- 
-     for (dynamic_type *itr = dynamicFrames, *last = dynamicFrames + dynamicSize; itr != last; ++itr) {
--      uint32_t adjust = (std::max(remaining, 0) + std::distance(itr, last) - 1) / std::distance(itr, last);
-+      uint32_t n = 0;
-+      std::distance(itr, last, n);
-+      uint32_t adjust = (std::max(remaining, 0) + n - 1) / n;
-     
-       adjust += itr->first->m_width;
-       adjust = std::max(adjust, itr->second.minWidth);
-@@ -465,7 +471,7 @@
+@@ -465,7 +469,7 @@
    // the frame is too small, it will set the remaining windows to zero
    // extent which will flag them as offscreen.
  
@@ -586,33 +566,24 @@
  }
 --- rtorrent-0.8.2.orig/src/core/scheduler.cc	2008-05-07 08:19:11.000000000 -0400
 +++ rtorrent-0.8.2/src/core/scheduler.cc	2008-06-25 02:19:20.043037414 -0400
-@@ -66,7 +66,9 @@
+@@ -37,6 +37,7 @@
+ #include "config.h"
  
- Scheduler::size_type
- Scheduler::active() const {
--  return std::count_if(m_view->begin_visible(), m_view->end_visible(), std::mem_fun(&Download::is_active));
-+  uint32_t n = 0;
-+  std::count_if(m_view->begin_visible(), m_view->end_visible(), std::mem_fun(&Download::is_active), n);
-+  return n;
- }
+ #include <algorithm>
++#include <rak/algorithm.h>
+ #include <rak/functional.h>
+ #include <torrent/exceptions.h>
  
- void
 --- rtorrent-0.8.2.orig/src/core/view.cc	2008-05-07 08:19:11.000000000 -0400
 +++ rtorrent-0.8.2/src/core/view.cc	2008-06-25 02:28:36.651635274 -0400
-@@ -230,9 +230,11 @@
-   iterator splitFiltered = std::stable_partition(begin_filtered(), end_filtered(), view_downloads_filter(m_filter));
+@@ -38,6 +38,7 @@
  
-   base_type changed(splitVisible, splitFiltered);
--  iterator splitChanged = changed.begin() + std::distance(splitVisible, end_visible());
-+  uint32_t visible = 0;
-+  std::distance(splitVisible, end_visible(), visible);
-+  iterator splitChanged = changed.begin() + visible;
-   
--  m_size = std::distance(begin(), std::copy(splitChanged, changed.end(), splitVisible));
-+  std::distance(begin(), std::copy(splitChanged, changed.end(), splitVisible), m_size);
-   std::copy(changed.begin(), splitChanged, begin_filtered());
- 
-   // Fix this...
+ #include <algorithm>
+ #include <functional>
++#include <rak/algorithm.h>
+ #include <rak/functional.h>
+ #include <rak/functional_fun.h>
+ #include <rpc/parse_commands.h>
 --- rtorrent-0.8.2.orig/src/core/manager.cc	2008-06-25 01:44:38.134154000 -0400
 +++ rtorrent-0.8.2/src/core/manager.cc	2008-06-25 02:08:43.144712661 -0400
 @@ -352,19 +352,25 @@
@@ -647,31 +618,14 @@
      ai->address()->set_port(port);
 --- rtorrent-0.8.2.orig/src/rpc/parse.cc	2008-05-07 08:19:10.000000000 -0400
 +++ rtorrent-0.8.2/src/rpc/parse.cc	2008-06-25 17:30:55.775246860 -0400
-@@ -363,7 +363,9 @@
-       if (first == last)
-         return first;
+@@ -37,6 +37,7 @@
+ #include "config.h"
  
--      size_t n = std::min<size_t>(str.size(), std::distance(first, last) - 1);
-+      size_t n = 0;
-+      std::distance(first, last, n);
-+      n = std::min<size_t>(str.size(), n - 1);
+ #include <locale>
++#include <rak/algorithm.h>
+ #include <rak/path.h>
+ #include <torrent/exceptions.h>
  
-       std::memcpy(first, str.c_str(), n);
-       *(first += n) = '\0';
-@@ -373,8 +375,11 @@
-   }
- 
-   case torrent::Object::TYPE_VALUE:
--    return std::min(first + snprintf(first, std::distance(first, last), "%lli", src->as_value()), last);
--
-+  {
-+    size_t n = 0;
-+    std::distance(first, last, n);
-+    return std::min(first + snprintf(first, n, "%lli", src->as_value()), last);
-+  }
-   case torrent::Object::TYPE_LIST:
-     for (torrent::Object::list_const_iterator itr = src->as_list().begin(), itrEnd = src->as_list().end(); itr != itrEnd; itr++) {
-       first = print_object(first, last, &*itr, flags);
 --- rtorrent-0.8.2.orig/src/rpc/xmlrpc.cc	2008-05-07 08:19:10.000000000 -0400
 +++ rtorrent-0.8.2/src/rpc/xmlrpc.cc	2008-06-25 17:54:04.404987582 -0400
 @@ -477,7 +477,8 @@

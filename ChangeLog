@@ -1,3 +1,16 @@
+2008-07-04 Albert Lee <trisk@acm.jhu.edu>
+
+	* SFErtorrent.spec: Fix gcc compilation
+	* base-specs/rlibtorrent.spec: Add patch5
+	* patches/rlibtorrent-01-madvise.diff: Apply madvise workaround for gcc
+	* patches/rlibtorrent-02-event-ports.diff: Redesign to avoid problems
+	  with reusing file descriptors before close() is called
+	* patches/rlibtorrent-04-sunpro.diff: Clean up, allow compiling with gcc
+	* patches/rlibtorrent-05-tracker-usable.diff: Fix tracker update bug
+	* patches/rtorrent-01-solaris.diff: Add extended FILE API handling
+	* patches/rtorrent-03-curl-event.diff: Remove unnecessary overhead
+	* patches/rtorrent-04-sunpro.diff: Clean up, allow compiling with gcc
+
 2008-07-03 Dick Hoogendijk <dick@nagual.nl>
 	* SFEsylpheed.spec: bump to the stable 2.5 release
 

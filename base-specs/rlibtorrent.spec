@@ -12,6 +12,7 @@ Patch1:         rlibtorrent-01-madvise.diff
 Patch2:         rlibtorrent-02-event-ports.diff
 Patch3:         rlibtorrent-03-dh-generate.diff
 Patch4:         rlibtorrent-04-sunpro.diff
+Patch5:         rlibtorrent-05-tracker-usable.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
 %prep
@@ -20,6 +21,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -52,6 +54,8 @@ rm $RPM_BUILD_ROOT%{_cxx_libdir}/lib*.*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Jul 04 2008 - trisk@acm.jhu.edu
+- Add patch5 for bug in tracker updating
 * Thu Jun 26 2008 - trisk@acm.jhu.edu
 - Add patch3 for DH key error, patch4 for Studio compatibility
 * Mon Jun 16 2008 - trisk@acm.jhu.edu
