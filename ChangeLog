@@ -1,3 +1,8 @@
+2008-07-06 Rafael Alfaro <rafael.alfaro@gmail.com>
+
+	* SFEperl-crypt-idea: Initial Spec File.
+
+
 2008-07-04 Albert Lee <trisk@acm.jhu.edu>
 
 	* SFErtorrent.spec: Fix gcc compilation
