@@ -1,3 +1,11 @@
+2008-07-09  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEwine.spec: Bump to 1.1.0. Drop patch1, patch2
+	* patches/wine-01-getaddrinfo.diff: Delete upstreamed patch
+	* patches/wine-02-xim-workaround.diff: Delete unnecessary patch
+	* patches/wine-06-iphlpapi.diff: Update for 1.1.0
+	* patches/winetricks-01-sh.diff: Update for winetricks-20080627
+
 2008-07-06 Rafael Alfaro <rafael.alfaro@gmail.com>
 
 	* SFEperl-crypt-idea: Initial Spec File.

@@ -10,14 +10,14 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                1.0
+Version:                1.1.0
 URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
-Source101:		http://trisk.acm.jhu.edu/winetricks-20080614
-Patch1:			wine-01-getaddrinfo.diff
+Source101:		http://trisk.acm.jhu.edu/winetricks-20080627
+#Patch1:			wine-01-getaddrinfo.diff
 # http://bugs.winehq.org/show_bug.cgi?id=12740
 # http://bugs.opensolaris.org/view_bug.do?bug_id=6698109
-Patch2:			wine-02-xim-workaround.diff
+#Patch2:			wine-02-xim-workaround.diff
 Patch3:			wine-03-shell.diff
 # http://bugs.winehq.org/show_bug.cgi?id=13227
 # https://sourceforge.net/tracker/index.php?func=detail&aid=1964949&group_id=125443&atid=865175
@@ -71,8 +71,8 @@ Requires: %name
 
 %prep
 %setup -q -n %{src_name}-%{version}
-%patch1 -p1
-%patch2 -p1
+#%patch1 -p1
+#%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
@@ -162,6 +162,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Wed Jul 09 2008 - trisk@acm.jhu.edu
+- Bump to 1.1.0
+- Drop patch1 (upstreamed), patch2 (unnecessary)
 * Thu Jun 19 2008 - trisk@acm.jhu.edu
 - Add patch7, remove mapfile hack
 * Tue Jun 17 2008 - trisk@acm.jhu.edu
