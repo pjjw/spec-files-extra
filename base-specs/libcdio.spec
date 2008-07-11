@@ -48,6 +48,8 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal -I /usr/gnu/share/aclocal"
+
 libtoolize --force
 aclocal-1.9 $ACLOCAL_FLAGS -I .
 automake-1.9 -a -c -f
@@ -84,6 +86,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*.so
 
 %changelog
+* Fri Jul 11 2008 - andras.barna@gmail.com
+- Add ACLOCAL_FLAGS, SFElibiconv dep, libcddb dep
 * Fri Jan 18 2008 - moinak.ghosh@sun.com
 - Add a compatibility symlink 
 * Sat Nov 3 2007 - markwright@internode.on.net

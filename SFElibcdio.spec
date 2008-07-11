@@ -34,12 +34,16 @@ Requires: SUNWlibmsr
 Requires: SUNWgccruntime
 Requires: SUNWlibms
 Requires: SUNWdbus
+Requires: SFElibcddb
+Requires: SFElibiconv
 %if %with_hal
 Requires: SUNWhal
 %endif
+BuildRequires: SFElibiconv-devel
 BuildRequires: SUNWlexpt
 BuildRequires: SUNWgcc
 BuildRequires: SUNWdbus-devel
+BuildRequires: SFElibcddb-devel
 
 %package devel
 Summary:                 %{summary} - development files
@@ -62,13 +66,13 @@ cd %{_builddir}/%name-%version/libcdio-%{libcdio.version}
 # if this issue is resolved with the Forte compiler.
 #
 %build
-export CFLAGS="%gcc_optflags"
+export CFLAGS="%gcc_optflags -I/usr/gnu/include"
 export CC=/usr/sfw/bin/gcc
 export CXX=/usr/sfw/bin/g++
 %if %with_hal
-export LDFLAGS="%_ldflags -lhal -ldbus-1"
+export LDFLAGS="%_ldflags -lhal -ldbus-1 -R/usr/gnu/lib -L/usr/gnu/lib"
 %else
-export LDFLAGS="%_ldflags"
+export LDFLAGS="%_ldflags -R/usr/gnu/lib -L/usr/gnu/lib"
 %endif
 
 %libcdio.build -d %name-%version
@@ -111,6 +115,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/cdio
 
 %changelog
+* Fri Jul 11 2008 - andras.barna@gmail.com
+- Add ACLOCAL_FLAGS, SFElibiconv dep, adjust ld+cflags
 * Fri May 23 2008 - michal.bielicki <at> voiceworks.pl
 - fix to manpath ownership
 * Sat Jan 19 2008 - moinak.ghosh@sun.com

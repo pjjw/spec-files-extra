@@ -14,6 +14,8 @@ Version:             1.3.0
 Source:              %{src_url}/%{src_name}-%{version}.tar.bz2
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
+Requires:            SFElibiconv
+BuildRequires:       SFElibiconv-devel
 %include default-depend.inc
 
 %package devel
@@ -33,9 +35,10 @@ fi
 
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal -I /usr/gnu/share/aclocal"
 
 libtoolize --copy --force
-aclocal -I .
+aclocal $ACLOCAL_FLAGS -I .
 autoheader
 automake -a -f
 autoconf -f
@@ -79,6 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/demo/libcddb/bin/cddb_query
 
 %changelog
+* Fri Jul 11 2008 - andras.barna@gmail.com
+- Add ACLOCAL_FLAGS, SFElibiconv dep
 * Mon Feb 04 2008 - Michal dot Pryc [(at] Sun . Com
 - cddb_query is an example utlility. Moved to devel package, now it is installed
   under /usr/demo/libcddb/bin/cddb_query

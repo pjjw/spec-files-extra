@@ -1,3 +1,8 @@
+2008-07-11  Andras Barna  <andras.barna@gmail.com>
+
+	* SFElibcddb.spec: add aclocalflags, SFElibinconv dep
+	* SFElibcdio.spec: aclocalflags, SFElibiconv dep
+	
 2008-07-09  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEwine.spec: Bump to 1.1.0. Drop patch1, patch2
