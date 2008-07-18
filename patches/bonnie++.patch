@@ -1,0 +1,35 @@
+diff -ru bonnie++-1.03c/Makefile bonnie++-1.03c-mod/Makefile
+--- /tmp/bonnie++-1.03c//Makefile.in	Sun Oct 13 16:26:36 2002
++++ bonnie++-1.03c-mod/Makefile.in 2008-01-26 23:32:37.000000000 -0500
+@@ -7,7 +7,7 @@
+ prefix=@prefix@
+ eprefix=@exec_prefix@
+ #MORE_WARNINGS=-Weffc++ -Wcast-align
++WFLAGS=
+-WFLAGS=-Wall -W -Wshadow -Wpointer-arith -Wwrite-strings -pedantic -ffor-scope $(MORE_WARNINGS)
+ CFLAGS=-O2 @debug@ -DNDEBUG $(WFLAGS) $(MORECFLAGS)
+ CXX=@CXX@ $(CFLAGS)
+
+--- /tmp/bonnie++-1.03c//Makefile.in	Sun Oct 13 16:26:36 2002
++++ bonnie++-1.03c//Makefile.in	Wed Jun 11 14:17:52 2008
+@@ -33,14 +33,14 @@
+ 	$(CXX) zcav.cpp -o zcav $(ZCAVOBJS) $(LFLAGS)
+ 
+ install-bin: $(EXES)
+-	mkdir -p $(eprefix)/bin $(eprefix)/sbin
+-	@INSTALL_PROGRAM@ @stripping@ $(EXES) $(eprefix)/sbin
+-	@INSTALL_SCRIPT@ $(SCRIPTS) $(eprefix)/bin
++	mkdir -p $(DESTDIR)/$(eprefix)/bin $(DESTDIR)/$(eprefix)/sbin
++	@INSTALL_PROGRAM@ @stripping@ $(EXES) $(DESTDIR)/$(eprefix)/sbin
++	@INSTALL_SCRIPT@ $(SCRIPTS) $(DESTDIR)/$(eprefix)/bin
+ 
+ install: install-bin
+-	mkdir -p @mandir@/man1 @mandir@/man8
+-	@INSTALL_DATA@ $(MAN1) @mandir@/man1
+-	@INSTALL_DATA@ $(MAN8) @mandir@/man8
++	mkdir -p $(DESTDIR)/@mandir@/man1 $(DESTDIR)/@mandir@/man8
++	@INSTALL_DATA@ $(MAN1) $(DESTDIR)/@mandir@/man1
++	@INSTALL_DATA@ $(MAN8) $(DESTDIR)/@mandir@/man8
+ 
+ %.o: %.cpp %.h bonnie.h port.h
+ 	$(CXX) -c $<
