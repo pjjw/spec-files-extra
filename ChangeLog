@@ -1,3 +1,7 @@
+2008-07-19 Rafael Alfaro <rafael.alfaro@gmail.com>
+
+	* SFEperl-digest-md5.spec: Initial spec file.
+
 2008-07-11  Andras Barna  <andras.barna@gmail.com>
 
 	* SFElibcddb.spec: add aclocalflags, SFElibinconv dep
@@ -13,8 +17,7 @@
 
 2008-07-06 Rafael Alfaro <rafael.alfaro@gmail.com>
 
-	* SFEperl-crypt-idea: Initial Spec File.
-
+	* SFEperl-crypt-idea: Initial spec file.
 
 2008-07-04 Albert Lee <trisk@acm.jhu.edu>
 
@@ -170,6 +173,10 @@
 	  autodetect of ipv4/ipv6; causes all connections
 	  (v4 and v6) to fail unless a policy is forced.
 
+2008-06-25 Rafael Alfaro <rafael.alfaro@gmail.com>
+
+	* SFEgroovy.spec: Initial spec file.
+
 2008-06-25  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEgnucash.spec: Add gnucash-docs
@@ -254,6 +261,10 @@
 	* SFEwesnoth-dev.spec: Bump to 1.5.1
 	* SFEwesnoth.spec: Bump to 1.4.3
 
+2008-06-22 Rafael Alfaro <rafael.alfaro@gmail.com>
+
+	* SFEperl-html-parser: Initial spec file.
+
 2008-06-20  River Tarnell  <river@wikimedia.org>
 
 	* SFEazureus.spec: 3.1.0.0; Use SFEswt instead of SFEeclipse; Use
@@ -273,6 +284,10 @@
 2008-06-20  River Tarnell  <river@wikimedia.org>
 
 	* SFEmutt.spec: Change SFEslang dependency to SUNWslang
+
+2008-06-19 Rafael Alfaro <rafael.alfaro@gmail.com>
+
+	* SFEperl-html-tagset: Initial spec file.
 
 2008-06-19  Albert Lee  <trisk@acm.jhu.edu>
 
