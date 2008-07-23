@@ -8,30 +8,39 @@
 
 %define SUNWlibsdl      %(/usr/bin/pkginfo -q SUNWlibsdl && echo 1 || echo 0)
 
-Name:                    SFEffmpeg
-Summary:                 FFmpeg - a very fast video and audio converter
+%define cc_is_gcc 1
 
-%define year 2007
-%define month  07
-%define day    31
+%if %arch_sse2
+%define arch_opt --cpu=i686 --enable-mmx --enable-mmx2
+%include x86_sse2.inc
+%use ffmpeg_sse2 = ffmpeg.spec
+%endif
 
-Version:                 %{year}.%{month}.%{day}
-Source:                  http://pkgbuild.sf.net/spec-files-extra/tarballs/ffmpeg-export-%{year}-%{month}-%{day}.tar.bz2
-Patch1:                  ffmpeg-01-BE_16.diff
-Patch2:                  ffmpeg-02-configure.diff
-Patch3:                  ffmpeg-03-v4l2.diff
-Patch4:                  ffmpeg-04-options.diff
-Patch5:                  ffmpeg-05-mlib.diff
-SUNW_BaseDir:            %{_basedir}
-URL:                     http://ffmpeg.mplayerhq.hu/index.html
-BuildRoot:               %{_tmppath}/%{name}-%{version}-build
-%include default-depend.inc
 %ifarch sparc
-%define mlib_opt --enable-mlib
-BuildRequires: SUNWmlib
+%define arch_opt --enable-mlib
+%endif
+
+%ifarch i386 amd64
+%define arch_opt --disable-mmx --disable-mmx2
+%endif
+
+%include base.inc
+%use ffmpeg = ffmpeg.spec
+
+Name:                    SFEffmpeg
+Summary:                 %{ffmpeg.summary}
+Version:                 %{ffmpeg.version}
+URL:                     %{ffmpeg.url}
+
+SUNW_BaseDir:            %{_basedir}
+BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+Autoreqprov:             on
+
+%include default-depend.inc
+BuildRequires: SUNWtexi
+%ifarch sparc
+BuildRequires: SUNWmlibh
 Requires: SUNWmlib
-%else
-%define mlib_opt
 %endif
 BuildRequires: SUNWxwinc
 Requires: SUNWxwrtl
@@ -43,24 +52,19 @@ Requires: SUNWlibsdl
 BuildRequires: SFEsdl-devel
 Requires: SFEsdl
 %endif
-BuildRequires: SFElibdts-devel
-Requires: SFElibdts
 BuildRequires: SFElibgsm-devel
 Requires: SFElibgsm
-BuildRequires: SFEliba52-devel
-Requires: SFEliba52
-BuildRequires: SFEliba52-devel
-Requires: SFEliba52
 BuildRequires: SFExvid-devel
 Requires: SFExvid
 BuildRequires: SFElibx264-devel
 Requires: SFElibx264
 BuildRequires: SFEfaad2-devel
-Requires: SFEfaad2
-BuildRequires: SFEamrnb-devel
-Requires: SFEamrnb
-BuildRequires: SFEamrwb-devel
-Requires: SFEamrwb
+BuildRequires: SFEliba52-devel
+# libamr-* ihave 3GPP code with unclear licencing
+#BuildRequires: SFEamrnb-devel
+#Requires: SFEamrnb
+#BuildRequires: SFEamrwb-devel
+#Requires: SFEamrwb
 BuildRequires: SFElame-devel
 Requires: SFElame
 BuildRequires: SUNWogg-vorbis-devel
@@ -75,72 +79,32 @@ SUNW_BaseDir:            %{_basedir}
 Requires: %name
 
 %prep
-%setup -q -n ffmpeg-export-%{year}-%{month}-%{day}
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
+rm -rf %name-%version
+mkdir %name-%version
+
+%if %arch_sse2
+mkdir %name-%version/%sse2_arch
+%ffmpeg_sse2.prep -d %name-%version/%sse2_arch
+%endif
+
+mkdir %name-%version/%base_arch
+%ffmpeg.prep -d %name-%version/%base_arch
 
 %build
-CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
-if test "x$CPUS" = "x" -o $CPUS = 0; then
-    CPUS=1
-fi
-export CFLAGS="-O4 -I/usr/X11/include"
-export LDFLAGS="%_ldflags -lm"
-bash ./configure	\
-    --prefix=%{_prefix} \
-    --cc=/usr/sfw/bin/gcc \
-    %{mlib_opt}		\
-    --enable-libgsm	\
-    --enable-libxvid	\
-    --enable-libx264	\
-    --enable-gpl	\
-    --enable-pp		\
-    --enable-liba52	\
-    --enable-liba52bin	\
-    --enable-libfaad	\
-    --enable-libfaadbin	\
-    --enable-libogg	\
-    --enable-libtheora	\
-    --enable-libmp3lame	\
-    --enable-pthreads	\
-    --enable-libvorbis	\
-    --enable-libamr-nb	\
-    --enable-libamr-wb	\
-    --enable-x11grab	\
-    --enable-static	\
-    --enable-shared
+%if %arch_sse2
+%ffmpeg_sse2.build -d %name-%version/%sse2_arch
+%endif
 
-make -j $CPUS
-cd libpostproc
-make -j $CPUS
+%ffmpeg.build -d %name-%version/%base_arch
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
 
-mkdir $RPM_BUILD_ROOT%{_libdir}/ffmpeg
-cp config.mak $RPM_BUILD_ROOT%{_libdir}/ffmpeg
+%if %arch_sse2
+%ffmpeg_sse2.install -d %name-%version/%sse2_arch
+%endif
 
-cd libpostproc
-make install DESTDIR=$RPM_BUILD_ROOT
-
-# Create a ffmpeg.pc - Some apps need it
-cat > $RPM_BUILD_ROOT%{_libdir}/pkgconfig/ffmpeg.pc << EOM
-Name: ffmpeg
-prefix=%{_prefix}
-exec_prefix=${prefix}
-libdir=${exec_prefix}/lib
-includedir=${prefix}/include
-Description: FFmpeg codec library
-Version: 51.40.4
-Requires:  libavcodec libpostproc libavutil libavformat libswscale x264 ogg theora vorbisenc vorbis dts
-Conflicts:
-EOM
-
-mv $RPM_BUILD_ROOT%{_libdir}/lib*.*a $RPM_BUILD_ROOT%{_libdir}/ffmpeg
+%ffmpeg.install -d %name-%version/%base_arch
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -151,38 +115,35 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
+%if %arch_sse2
+%dir %attr (0755, root, bin) %{_libdir}/%{sse2_arch}
+%{_libdir}/%{sse2_arch}/lib*.so*
+%endif
+%dir %attr (0755, root, sys) %dir %{_datadir}
+%dir %attr(0755, root, bin) %{_mandir}/man1
+%{_mandir}/man1/*
 
 %files devel
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
-%{_libdir}/vhook
+%if %arch_sse2
+%dir %attr (0755, root, other) %{_libdir}/%{sse2_arch}/pkgconfig
+%{_libdir}/%{sse2_arch}/pkgconfig/*.pc
+%endif
 %{_libdir}/ffmpeg
+%if %arch_sse2
+%{_libdir}/%{sse2_arch}/ffmpeg
+%endif
 %dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/ffmpeg
-%{_includedir}/postproc
+%{_includedir}/libavutil
+%{_includedir}/libavcodec
+%{_includedir}/libavformat
+%{_includedir}/libavdevice
+%{_includedir}/libpostproc
+%{_includedir}/libswscale
 
 %changelog
-* Mon Jun 30 2008 - andras.barna@gmail.com
-- Force SFWgcc
-- Add -I/usr/X11/include
-* Tue Mar 18 2008 - trisk@acm.jhu.edu
-- Add patch5 to fix green tint with mediaLib, contributed by James Cheng
-* Sat Aug 11 2007 - trisk@acm.jhu.edu
-- Disable mediaLib support on non-sparc (conflicts with MMX)
-- Enable x11grab for X11 recording
-- Enable v4l2 demuxer for video capture
-- Add workaround for options crash
-* Wed Aug  3 2007 - dougs@truemail.co.th
-- Bumped export version
-- Added codecs
-- Created ffmpeg.pc
-* Tue Jul 31 2007 - dougs@truemail.co.th
-- Added SUNWlibsdl test. Otherwise require SFEsdl
-* Sat Jul 14 2007 - dougs@truemail.co.th
-- Build shared library
-* Sun Jan 21 2007 - laca@sun.com
-- fix devel pkg default attributes
-* Wed Jan 10 2007 - laca@sun.com
-- create
+* Fri Jun 13 2008 - trisk@acm.jhu.edu
+- New spec for base-spec

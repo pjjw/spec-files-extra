@@ -1,23 +1,24 @@
 #
-# spec file for package gst-plugins-bad
+# spec file for package gst-ffmpeg
 #
-# Copyright (c) 2005 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-Name:           gst-plugins-bad
-License:        GPL
-Version:        0.10.7
+# Owner: trisk
+#
+Name:           gst-ffmpeg
+License:        LGPL
+Version:        0.10.4
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 Group:          Libraries/Multimedia
-Summary:        GStreamer Streaming-media framework plug-ins - unstable.
+Summary:        GStreamer Streaming-media framework plug-ins - FFmpeg.
 URL:            http://gstreamer.freedesktop.org/
-Source:         http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.bz2
-Patch1:         gst-plugins-bad-01-gettext.diff
-Patch2:         gst-plugins-bad-02-sunpro.diff
-Patch3:         gst-plugins-bad-03-modplug.diff
+Source:         http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%{version}.tar.bz2
+Patch1:         gst-ffmpeg-01-BE_16.diff 
+Patch2:         gst-ffmpeg-02-ext-ffmpeg.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 Docdir:         %{_defaultdocdir}/doc
 Autoreqprov:    on
@@ -33,17 +34,18 @@ types or processing capabilities can be added simply by installing new
 plug-ins.
 
 %prep
-%setup -n gst-plugins-bad-%{version} -q
+%setup -n gst-ffmpeg-%{version} -q
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
+#CC=/usr/sfw/bin/gcc ; export CC ; \
+#CFLAGS="${CFLAGS:-%gcc_optflags} -fno-rename-registers -fomit-frame-pointer -fno-PIC -UPIC "; export CFLAGS ; \
 CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS ; \
 CXXFLAGS="${CXXFLAGS:-%optflags}" ; export CXXFLAGS ; \
 FFLAGS="${FFLAGS:-%optflags}" ; export FFLAGS ; \
 glib-gettextize -f
-aclocal -I ./m4 -I ./common/m4 $ACLOCAL_FLAGS
+aclocal -I ./common/m4 $ACLOCAL_FLAGS
 libtoolize --copy --force
 intltoolize --copy --force --automake
 autoheader
@@ -53,42 +55,12 @@ bash ./configure \
   --prefix=%{_prefix}	\
   --sysconfdir=%{_sysconfdir} \
   --mandir=%{_mandir}   \
-  --disable-vcd		\
-  --disable-alsa	\
-  --disable-amrwb	\
-  --disable-cdaudio	\
-  --disable-dc1394	\
-  --disable-dirac	\
-  --disable-dtsdec	\
-  --disable-divx	\
-  --disable-faac	\
-  --disable-faad	\
-  --disable-gsm		\
-  --disable-ivorbis	\
-  --disable-jack	\
-  --disable-ladspa	\
-  --disable-libmms	\
-  --disable-mpeg2enc	\
-  --disable-mplex	\
-  --disable-musepack	\
-  --disable-mythtvsrc	\
-  --disable-nassink	\
-  --disable-ofa		\
-  --disable-timidity	\
-  --disable-wildmidi	\
-  --disable-theora	\
-  --disable-sdl		\
-  --disable-sdltest	\
-  --disable-soundtouch	\
-  --disable-spc	\
-  --disable-swfdec	\
-  --disable-theoradec	\
-  --disable-x264	\
-  --disable-xvid	\
-  --disable-dvb	\
+  %{arch_opt}	\
   %{gtk_doc_option}	\
-  --enable-external --with-check=no
+  --with-system-ffmpeg --with-check=no
 
+# FIXME: hack: -mimpure-text is needed for linking non-PIC code
+perl -pi -e 's/-shared /-shared -mimpure-text /' libtool
 # FIXME: hack: stop the build from looping
 touch po/stamp-it
 
@@ -143,8 +115,6 @@ GStreamer support libraries header files.
 
 %changelog
 * Tue Jul 22 2008 - trisk@acm.jhu.edu
-- Bump to 0.10.7
+- Update to 0.10.4, use external ffmpeg
 * Thu Oct 18 2007 - trisk@acm.jhu.edu
-- Licence should be GPL
-* Wed Oct 17 2007 - trisk@acm.jhu.edu
 - Initial spec, based on gst-plugins-good

@@ -3,6 +3,7 @@
 #
 # includes module(s): wine
 #
+# Owner: trisk
 %include Solaris.inc
 
 %define src_name	wine
@@ -10,7 +11,7 @@
 
 Name:                   SFEwine
 Summary:                Windows Emulator
-Version:                1.1.0
+Version:                1.1.1
 URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Source101:		http://trisk.acm.jhu.edu/winetricks-20080627
@@ -162,6 +163,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Wed Jul 16 2008 - trisk@acm.jhu.edu
+- Bump to 1.1.1
 * Wed Jul 09 2008 - trisk@acm.jhu.edu
 - Bump to 1.1.0
 - Drop patch1 (upstreamed), patch2 (unnecessary)

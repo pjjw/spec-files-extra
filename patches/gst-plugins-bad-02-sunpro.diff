@@ -1,9 +1,9 @@
---- gst-plugins-bad-0.10.5.orig/gst/modplug/Makefile.am	Wed Jun 13 05:20:44 2007
-+++ gst-plugins-bad-0.10.5/gst/modplug/Makefile.am	Wed Oct 17 23:20:39 2007
+--- gst-plugins-bad-0.10.7.orig/gst/modplug/Makefile.am	2008-07-22 19:56:51.432315000 -0400
++++ gst-plugins-bad-0.10.7/gst/modplug/Makefile.am	2008-07-22 19:57:22.727772236 -0400
 @@ -4,7 +4,7 @@
  
  libgstmodplug_la_SOURCES = gstmodplug.cc
- libgstmodplug_la_CXXFLAGS = $(GST_CFLAGS) $(GST_PLUGINS_BASE_CFLAGS)
+ libgstmodplug_la_CXXFLAGS = $(GST_PLUGINS_BASE_CFLAGS) $(GST_CXXFLAGS)
 -libgstmodplug_la_LIBADD = $(top_builddir)/gst/modplug/libmodplug/libmodplug.la $(GST_PLUGINS_BASE_LIBS) -lstdc++
 +libgstmodplug_la_LIBADD = $(top_builddir)/gst/modplug/libmodplug/libmodplug.la $(GST_PLUGINS_BASE_LIBS)
  libgstmodplug_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS)

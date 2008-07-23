@@ -1,15 +1,14 @@
-diff -ur ffmpeg-export-2007-07-31-orig/libavformat/rtp.c ffmpeg-export-2007-07-31/libavformat/rtp.c
---- ffmpeg-export-2007-07-31-orig/libavformat/rtp.c	2007-07-31 13:16:43.000000000 +0700
-+++ ffmpeg-export-2007-07-31/libavformat/rtp.c	2007-07-31 13:27:32.036401201 +0700
-@@ -30,6 +30,7 @@
+--- ffmpeg-0.4.9-p20080326.orig/libavformat/rtp.c	2007-07-31 13:16:43.000000000 +0700
++++ ffmpeg-0.4.9-p20080326/libavformat/rtp.c	2007-07-31 13:27:32.036401201 +0700
+@@ -30,6 +30,8 @@
  
  //#define DEBUG
  
 +#define BE_16(x)  ((((uint8_t*)(x))[0] << 8) | ((uint8_t*)(x))[1])
- 
- /* TODO: - add RTCP statistics reporting (should be optional).
- 
-Only in ffmpeg-export-2007-07-31/libavformat: rtp.c~
++
+ /* from http://www.iana.org/assignments/rtp-parameters last updated 05 January 2005 */
+ static const struct
+ {
 diff -ur ffmpeg-export-2007-07-31-orig/libavformat/rtp_h264.c ffmpeg-export-2007-07-31/libavformat/rtp_h264.c
 --- ffmpeg-export-2007-07-31-orig/libavformat/rtp_h264.c	2007-07-31 13:16:43.000000000 +0700
 +++ ffmpeg-export-2007-07-31/libavformat/rtp_h264.c	2007-07-31 13:27:32.036904445 +0700
@@ -22,4 +21,3 @@ diff -ur ffmpeg-export-2007-07-31-orig/libavformat/rtp_h264.c ffmpeg-export-2007
  /**
      RTP/H264 specific private data.
  */
-Only in ffmpeg-export-2007-07-31/libavformat: rtp_h264.c~

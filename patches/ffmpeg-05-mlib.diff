@@ -4,10 +4,10 @@
  
  static void ff_fdct_mlib(DCTELEM *data)
  {
-+    const mlib_s16 c[1] = {8};
++    static const mlib_s16 c = 8;
 +
      mlib_VideoDCT8x8_S16_S16 (data, data);
-+    mlib_VectorMulS_S16_Sat(data, (mlib_s16 *)&c, 64); /* scaling data by 8 */
++    mlib_VectorMulS_S16_Sat (data, &c, 64); /* scaling data by 8 */
  }
  
  void dsputil_init_mlib(DSPContext* c, AVCodecContext *avctx)

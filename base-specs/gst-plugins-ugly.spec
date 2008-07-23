@@ -6,8 +6,8 @@
 # package are under the same license as the package itself.
 #
 Name:           gst-plugins-ugly
-License:        LGPL
-Version:        0.10.6
+License:        GPL
+Version:        0.10.8
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -15,6 +15,7 @@ Group:          Libraries/Multimedia
 Summary:        GStreamer Streaming-media framework plug-ins - restricted redistribution.
 URL:            http://gstreamer.freedesktop.org/
 Source:         http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
+Patch1:         gst-plugins-ugly-01-gettext.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 Docdir:         %{_defaultdocdir}/doc
 Autoreqprov:    on
@@ -32,6 +33,7 @@ plug-ins.
 
 %prep
 %setup -n gst-plugins-ugly-%{version} -q
+%patch1 -p1
 
 %build
 CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS ; \
@@ -44,7 +46,7 @@ intltoolize --copy --force --automake
 autoheader
 autoconf
 automake -a -c -f
-./configure \
+bash ./configure \
   --prefix=%{_prefix}	\
   --sysconfdir=%{_sysconfdir} \
   --mandir=%{_mandir}   \
@@ -107,5 +109,9 @@ GStreamer support libraries header files.
 %{_datadir}/gtk-doc
 
 %changelog
+* Tue Jul 22 2008 - trisk@acm.jhu.edu
+- Bump to 0.10.8
+* Thu Oct 18 2007 - trisk@acm.jhu.edu
+- Licence should be GPL
 * Wed Oct 17 2007 - trisk@acm.jhu.edu
 - Initial spec, based on gst-plugins-good

@@ -1,3 +1,26 @@
+2008-07-23  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEwine.spec: Bump to 1.1.1
+	* base-specs/ffmpeg.spec: Convert to base-spec. Update to
+	  0.4.9-p20080326 from electricsheep.org. Disable static libs.
+	* base-specs/gst-ffmpeg.spec: *NEW* base-spec for gst-ffmpeg 0.10.4
+	* base-specs/gst-plugins-bad.spec: Bump to 0.10.7
+	* base-specs/gst-plugins-ugly.spec: Bump to 0.10.8
+	* encumbered/SFEffmpeg.spec: New spec for base-spec.
+	* patches/ffmpeg-01-BE_16.diff: Update for 0.4.9-p20080326
+	* patches/ffmpeg-02-configure.diff: Update for 0.4.9-p20080326
+	* patches/ffmpeg-04-options.diff: Update for 0.4.9-p20080326
+	* patches/ffmpeg-05-mlib.diff: Update for 0.4.9-p20080326
+	* patches/gst-plugins010-01-gettext.diff: Remove unused patch
+	* patches/gst-plugins-bad-01-gettext.diff: Use glib gettext
+	* patches/gst-plugins-bad-02-vmnc.diff: Remove bad patch
+	* patches/gst-plugins-bad-02-sunpro.diff: Renamed from
+	  gst-plugins-bad-01-sunpro.diff
+	* patches/gst-plugins-bad-03-modplug.diff: Add -lm for modplug
+	* patches/gst-plugins-ugly-01-gettext.diff: Use glib gettext
+	* patches/gst-ffmpeg-01-BE_16.diff: ffmpeg needs BE_16 macros
+	* patches/gst-ffmpeg-02-ext-ffmpeg.diff: Update for external ffmpeg
+
 2008-07-19 Rafael Alfaro <rafael.alfaro@gmail.com>
 
 	* SFEperl-digest-md5.spec: Initial spec file.
