@@ -1,18 +1,19 @@
 #
-# spec file for package SFElibdvdread
+# spec file for package SFElibdvdnav
 #
-# includes module(s): libdvdread
+# includes module(s): libdvdnav
 #
 %include Solaris.inc
 
-Name:                    SFElibdvdread
-Summary:                 libdvdread  - libdvdread provides a simple foundation for reading DVD video disks
-Version:                 0.9.7
-Source:                  ftp://ftp.linux.ee/pub/gentoo/distfiles/distfiles/libdvdread-%{version}.tar.gz
+Name:                    SFElibdvdnav
+Summary:                 libdvdnav  - DVD navigation library
+Version:                 4.1.2
+#Source:                  %{sf_download}/dvd/libdvdnav-%{version}.tar.gz
+Source:                  http://www.mplayerhq.hu/MPlayer/releases/dvdnav/libdvdnav-%{version}.tar.gz
+Patch1:                  libdvdnav-01-Wall.diff
 SUNW_BaseDir:            %{_basedir}
 buildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires: SFElibdvdcss
 
 %package devel
 Summary:                 %{summary} - development files
@@ -22,7 +23,8 @@ Requires: %name
 
 
 %prep
-%setup -q -n libdvdread-%version
+%setup -q -n libdvdnav-%version
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -30,9 +32,13 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 export CFLAGS="%optflags"
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export MSGFMT="/usr/bin/msgfmt"
+export LDFLAGS="%_ldflags"
 
+libtoolize --copy --force
+aclocal $ACLOCAL_FLAGS
+autoheader
+automake -a -c -f 
+autoconf
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
@@ -57,12 +63,14 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
+%dir %attr (0755, root, bin) %{_bindir}
+%{_bindir}/dvdnav-config
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/aclocal
+%{_datadir}/aclocal/*
 
 %changelog
-* Sat Jun 14 2008 - trisk@acm.jhu.edu
-- Update download link
-* Mon Jun 12 2006 - laca@sun.com
-- renamed to SFElibdvdread
-- changed to root:bin to follow other JDS pkgs.
-* Mon May 8 2006 - drdoug007@yahoo.com.au
-- Initial version
+* Tue Jul 22 2008 - trisk@acm.jhu.edu
+- Update to 4.1.2
+* Sun Jan  7 2007 - laca@sun.com
+- create

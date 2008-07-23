@@ -1,5 +1,12 @@
 2008-07-23  Albert Lee  <trisk@acm.jhu.edu>
 
+	* SFElibdvdnav.spec: Rename from encumbered/SFElibdvdnav.spec. Update to
+	  4.1.2
+	* encumbered/SFElibdvdread.spec: Delete, replaced by SFElibdvdnav.
+	* encumbered/SFEgnome-media-extras.spec: Add gst-ffmpeg
+
+2008-07-23  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFEwine.spec: Bump to 1.1.1
 	* base-specs/ffmpeg.spec: Convert to base-spec. Update to
 	  0.4.9-p20080326 from electricsheep.org. Disable static libs.
