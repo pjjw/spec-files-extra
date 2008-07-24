@@ -11,7 +11,7 @@ Source:                  %{sf_download}/grip/grip-%{version}.tar.gz
 Patch1:			 grip-01-i386.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
-BuildRequires:		 SFEcurl
+BuildRequires:		 SUNWcurl
 
 %include default-depend.inc
 
@@ -35,10 +35,6 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-
-#move locale to /usr/share
-mv $RPM_BUILD_ROOT%{_libdir}/locale $RPM_BUILD_ROOT%{_datadir}/
-rmdir $RPM_BUILD_ROOT%{_libdir}
 
 %if %build_l10n
 # Rename pl_PL dir to pl as pl_PL is a symlink to pl and causing installation
@@ -77,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu July 24 2008 - jijun.yu@sun.com
+- Modify the dependency's name.
+
 * Thu Mar 29 2007 - daymobrew@users.sourceforge.net
 - Rename pl_PL dir to pl in %install as pl_PL is a symlink to pl and causing
   installation problems as a dir.

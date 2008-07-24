@@ -1,3 +1,7 @@
+2008-07-24 Jerry Yu <jijun.yu@sun.com>
+
+	* SFEgrip.spec: Modify the dependency's name.
+
 2008-07-23  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFElibdvdnav.spec: Rename from encumbered/SFElibdvdnav.spec. Update to
