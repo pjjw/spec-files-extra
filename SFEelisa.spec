@@ -30,12 +30,8 @@ BuildRequires:     SUNWimagick
 BuildRequires:     SUNWsqlite3
 BuildRequires:     SUNWpysqlite
 BuildRequires:     SUNWgnome-python-extras
-BuildRequires:     SFEpigment-devel
-BuildRequires:     SUNWpython-imaging
-BuildRequires:     SUNWpython-setuptools
-BuildRequires:     SUNWpython-twisted
 BuildRequires:     SUNWpysqlite
-BuildRequires:     SFEpigment-python
+BuildRequires:     SFEpigment-devel
 Requires:          SUNWPython
 Requires:          SUNWPython-extra
 Requires:          SUNWgnome-media
@@ -44,12 +40,14 @@ Requires:          SUNWimagick
 Requires:          SUNWsqlite3
 Requires:          SUNWpysqlite
 Requires:          SUNWgnome-python-extras
-Requires:          SFEpigment
 Requires:          SUNWpython-imaging
 Requires:          SUNWpython-setuptools
 Requires:          SUNWpython-twisted
 Requires:          SUNWpysqlite
+Requires:          SFEpigment
 Requires:          SFEpigment-python
+Requires:          SFEpython-cssutils.spec
+Requires:          SFEpython-twisted-web2.spec
 
 %include default-depend.inc
 
