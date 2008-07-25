@@ -8,8 +8,10 @@
 #
 # application/ogg ogg
 #
+# bugdb: https://bugs.launchpad.net/elisa
+#
 %define name elisa
-%define version 0.3.5
+%define version 0.5.2
 
 %include Solaris.inc
 
@@ -18,6 +20,8 @@ Summary:           Media center written in Python
 URL:               http://elisa.fluendo.com/
 Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-%{version}.tar.gz
+# See bug #249822.
+Patch1:            elisa-01-fixlocale.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
 BuildRequires:     SUNWPython-devel
@@ -62,6 +66,7 @@ systems.
 
 %prep
 %setup -q -n elisa-%version
+%patch1 -p1
 
 %build
 
@@ -110,10 +115,11 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa-%{version}-py%{pythonver}-nspkg.pth
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_generic_setup.py
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_generic_setup.pyc
-%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_core_setup.py
-%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_core_setup.pyc
 
 %changelog
+* Wed Jul 23 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.5.2.  Add patch to fix bug with locale code.  Refer to bug
+  #249822.
 * Mon Apr 07 2008 Brian Cameron  <brian.cameron@sun.com>
 - Change SFEgnome-python-extras to SUNWgnome-python-extras.
 * Wed Mar 19 2008 Brian Cameron  <brian.cameron@sun.com>

@@ -1,0 +1,11 @@
+--- elisa-plugins-bad-0.5.2/elisa/plugins/pigment/widgets/__init__py-orig	2008-07-25 08:09:20.419510000 -0500
++++ elisa-plugins-bad-0.5.2/elisa/plugins/pigment/widgets/__init__.py	2008-07-25 08:09:27.691938000 -0500
+@@ -12,7 +12,7 @@ from elisa.plugins.pigment.widgets.list 
+ from elisa.plugins.pigment.widgets.list_horizontal import ListHorizontal
+ from elisa.plugins.pigment.widgets.list_vertical import ListVertical
+ from elisa.plugins.pigment.widgets.list_carrousel import ListCarrousel
+-from elisa.plugins.pigment.widgets.onscreen_keyboard import OnScreenKeyboard
++#from elisa.plugins.pigment.widgets.onscreen_keyboard import OnScreenKeyboard
+ 
+ from elisa.plugins.pigment.widgets.theme import Theme
+ 

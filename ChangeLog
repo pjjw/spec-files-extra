@@ -1,3 +1,14 @@
+2008-07-23  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEelisa.spec, SFEelisa-plugins-good.spec, SFEelisa-plugins-bad.spec:
+	  Bump to 0.5.2.
+	* SFEpigment.spec: Bump to 0.3.6.
+	* SFEpigment-python.spec: Bump to 0.3.4.
+	* patches/elisa-01-fixlocale.diff: Fix crashing issue.  See elisa bug
+	  #249822.
+	* patches/elisa-plugins-bad-01-no-onscreen.diff:  We do not have the
+	  xml.ctree module on Solaris, so comment out for now.
+
 2008-07-24 Jerry Yu <jijun.yu@sun.com>
 
 	* base-specs/conduit.spec:bump to 0.3.12.
@@ -71,10 +82,12 @@
 	* patches/rtorrent-04-sunpro.diff: Clean up, allow compiling with gcc
 
 2008-07-03 Dick Hoogendijk <dick@nagual.nl>
+
 	* SFEsylpheed.spec: bump to the stable 2.5 release
 
 2008-07-02 Lukas (Luc) Oboril  <oboril.lukas@gmail.com>
-        * SFEyasm.spec: bump to 0.7.1
+
+	* SFEyasm.spec: bump to 0.7.1
 
 2008-07-01  Andras Barna <andras.barna@gmail.com>
 
@@ -111,18 +124,22 @@
 2008-06-30  Andras Barna  <andras.barna@gmail.com>
 	* SFElibx264.spec,SFEffmpeg.spec: Force SFWgcc
 	* SFEnetspeed-applet.spec: Fix permissions
-	* SFExvid.spec: Force SFWgcc, Remove non-standard CFLAGS (pentiumpro,sse2)
+	* SFExvid.spec: Force SFWgcc, Remove non-standard CFLAGS
+	  (pentiumpro,sse2)
 	* SFEsox.spec: New spec
 	
 2008-06-29  River Tarnell  <river@wikimedia.org>
 
-	* SFElibofa.spec: fftw is required; some examples are missing <unistd.h>
-	  and do not build; need to link with -lc -lCrun -lCstd, as -xnolib is specified
+	* SFElibofa.spec: fftw is required; some examples are missing
+	  <unistd.h> and do not build; need to link with -lc -lCrun -lCstd,
+	  as -xnolib is specified
 
 2008-06-29  River Tarnell  <river@wikimedia.org>
 
-	* SFElibiconv.spec: use rm -fr instead of rm -r, since this directory doesn't seem to exist always
-	* SFElibmusicbrainz3.spec: when using the default SFE environment, -lstdc++ causes the build to fail...
+	* SFElibiconv.spec: use rm -fr instead of rm -r, since this directory
+	  doesn't seem to exist always
+	* SFElibmusicbrainz3.spec: when using the default SFE environment,
+	  -lstdc++ causes the build to fail...
 
 2008-06-29  River Tarnell  <river@wikimedia.org>
 
@@ -130,7 +147,8 @@
 
 2008-06-29  River Tarnell  <river@wikimedia.org>
 
-	* SFElibvisual.spec: force /usr/sfw/bin/gcc, use gcc cflags instead of studio
+	* SFElibvisual.spec: force /usr/sfw/bin/gcc, use gcc cflags instead of
+	  studio
 
 2008-06-29  River Tarnell  <river@wikimedia.org>
 

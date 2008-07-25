@@ -3,8 +3,10 @@
 #
 # includes module(s): elisa-plugins-good
 #
+# bugdb: https://bugs.launchpad.net/elisa
+#
 %define name elisa-plugins-good
-%define version 0.3.5
+%define version 0.5.2
 
 %include Solaris.inc
 
@@ -69,9 +71,11 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %defattr(-,root,bin)
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/python%{pythonver}/vendor-packages/elisa
-%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugins_good-%{version}-py%{pythonver}.egg-info
-%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugins_good-%{version}-py%{pythonver}-nspkg.pth
+%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*-nspkg.pth
+%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*.egg-info
 
 %changelog
+* Wed Jul 23 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.5.2.
 * Wed Mar 19 2008 Brian Cameron  <brian.cameron@sun.com>
 - Created spec.

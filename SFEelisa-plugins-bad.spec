@@ -3,8 +3,10 @@
 #
 # includes module(s): elisa-plugins-bad
 #
+# bugdb: https://bugs.launchpad.net/elisa
+#
 %define name elisa-plugins-bad
-%define version 0.3.5
+%define version 0.5.2
 
 %include Solaris.inc
 
@@ -13,6 +15,7 @@ Summary:           Bad plugins for Elisa
 URL:               http://elisa.fluendo.com/
 Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-plugins-bad-%{version}.tar.gz
+Patch1:            elisa-plugins-bad-01-no-onscreen.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
 BuildRequires:     SFEelisa
@@ -30,6 +33,7 @@ code needing more QA (unittests, code reviews).
 
 %prep
 %setup -q -n elisa-plugins-bad-%version
+%patch1 -p1
 
 %build
 
@@ -75,9 +79,12 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %defattr(-,root,bin)
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/python%{pythonver}/vendor-packages/elisa
-%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugins_bad-%{version}-py%{pythonver}.egg-info
-%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugins_bad-%{version}-py%{pythonver}-nspkg.pth
+%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*-nspkg.pth
+%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*.egg-info
 
 %changelog
+* Wed Jul 23 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.5.2.  Add patch to disable onscreen plugin, since it fails
+  due to xml.etree not being available.
 * Wed Mar 19 2008 Brian Cameron  <brian.cameron@sun.com>
 - Created spec.

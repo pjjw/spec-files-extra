@@ -1,0 +1,45 @@
+--- elisa-0.5.2/elisa/core/utils/i18n.py-orig	2008-07-25 08:01:46.362926000 -0500
++++ elisa-0.5.2/elisa/core/utils/i18n.py	2008-07-25 08:01:57.755537000 -0500
+@@ -80,14 +80,14 @@ def install_translation(plugin_name):
+ 
+     if platform.system().lower() == 'windows':
+         # windows hack for locale setting
+-        default_lang, default_enc = locale.getdefaultlocale()
++        default_lang, default_enc = locale.nl_langinfo(locale.CODESET)
+         lang = os.getenv('LANG')
+         if lang is None:
+             lang = default_lang
+             os.environ['LANG'] = lang
+         current_locale = lang
+     else:
+-        current_locale = locale.getdefaultlocale()[0]
++        current_locale = locale.nl_langinfo(locale.CODESET)
+     try:
+         t = gettext.translation(domain, i18n_dir, languages=[current_locale,])
+         translator = t.ugettext
+--- elisa-0.5.2/elisa/core/utils/locale_helper.py-orig	2008-07-25 08:00:05.704150000 -0500
++++ elisa-0.5.2/elisa/core/utils/locale_helper.py	2008-07-25 08:01:37.218965000 -0500
+@@ -54,7 +54,7 @@ def get_from_system_locale():
+     @return: a three letter language code
+     """
+ 
+-    loc = locale.getdefaultlocale()[0]
++    loc = locale.nl_langinfo(locale.CODESET)
+ 
+     if loc is None:
+         return None
+@@ -79,7 +79,7 @@ def system_encoding():
+     @return: the encoding used by the system
+     """
+     
+-    return locale.getdefaultlocale()[1]
++    return locale.nl_langinfo(locale.CODESET)
+ 
+ #if __name__ == '__main__':
+ #    print "Reading your locale...."
+@@ -88,4 +88,4 @@ def system_encoding():
+ #        print "In elisa it would be: '%s'" % three
+ #    else:
+ #        print "Your localisation '%s' could not be found. Please add it..." % \
+-#                        ( locale.getdefaultlocale()[0])
++#                        ( locale.nl_langinfo(locale.CODESET))

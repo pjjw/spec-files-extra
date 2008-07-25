@@ -4,7 +4,7 @@
 # includes module(s): pigment
 #
 %define name pigment
-%define version 0.3.5
+%define version 0.3.6
 
 %include Solaris.inc
 
@@ -94,6 +94,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtk-doc/html/*
 
 %changelog
+* Wed Jul 23 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.3.6.
 * Wed Mar 19 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.3.5.
 * Wed Feb 06 2008 Brian Cameron  <brian.cameron@sun.com>
