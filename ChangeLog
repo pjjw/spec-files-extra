@@ -1,5 +1,14 @@
 2008-07-25  Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEelisa-plugins-bad.spec: Add bug number.
+	* SFEwxwidgets.spec, patches/wxwidgets-01-msgfmt.diff, 
+	  Patches/wxwidgets-02-fixcompile.diff:  Bump to 2.8.8.  Refactor
+	  the msgfmt patch so it applies.  Add new patch to fix compile issue
+	  with the latest version.
+	* SFEpython-cssutils.spec: Fix Name.
+
+2008-07-25  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEpython-cssutils.spec: Added.
 	* SFEpython-twisted-web2.spec: Added.
 	* SFEelisa.spec: Add Requires for the above two modules.

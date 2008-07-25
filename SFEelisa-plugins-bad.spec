@@ -15,6 +15,7 @@ Summary:           Bad plugins for Elisa
 URL:               http://elisa.fluendo.com/
 Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-plugins-bad-%{version}.tar.gz
+# See bug #251852
 Patch1:            elisa-plugins-bad-01-no-onscreen.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build

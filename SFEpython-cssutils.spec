@@ -1,5 +1,5 @@
 #
-# spec file for package SUNWpython-csstools
+# spec file for package SUNWpython-cssutils
 #
 # Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
@@ -11,7 +11,7 @@
 %define name Twisted-Web2
 %define tarball_version 0.9.5rc2
 
-Name:                    SFEpython-csstools
+Name:                    SFEpython-cssutils
 Summary:                 A HTTP/1.1 Server Framework
 URL:                     http://code.google.com/p/cssutils/
 Version:                 0.9.5

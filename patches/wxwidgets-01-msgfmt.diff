@@ -1,5 +1,5 @@
---- wxWidgets-2.8.4/locale/Makefile.orig	2007-08-07 16:50:24.784355000 +0800
-+++ wxWidgets-2.8.4/locale/Makefile	2007-08-07 16:55:58.985181000 +0800
+--- wxWidgets-2.8.8/locale/Makefile-orig	2008-07-25 08:50:03.193698000 -0500
++++ wxWidgets-2.8.8/locale/Makefile	2008-07-25 08:51:08.766049000 -0500
 @@ -7,11 +7,11 @@
  # being called with this dir as the cwd, but if we generate this file
  # with configure an explicit path should be specified -- RL.
@@ -15,7 +15,7 @@
  MSGMERGE=msgmerge
  XGETTEXT=xgettext
  XARGS=xargs
-@@ -21,7 +21,7 @@
+@@ -21,7 +21,7 @@ XGETTEXT_ARGS=-C -k_ -kwxPLURAL:1,2 -kwx
  
  # implicit rules
  %.mo: %.po
@@ -23,4 +23,4 @@
 +	$(MSGFMT) -o $@ $<
  
  # a PO file must be updated from wxstd.po to include new translations
- %.po: wxstd.po
+ # (but not manually maintained platform-specific files like msw/it.po)

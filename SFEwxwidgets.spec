@@ -11,10 +11,11 @@
 Name:                    SFEwxwidgets
 Summary:                 wxWidgets - Cross-Platform GUI Library
 URL:                     http://wxwidgets.org/
-Version:                 2.8.7
-%define tarball_version  2.8.7
+Version:                 2.8.8
+%define tarball_version  2.8.8
 Source:			 %{sf_download}/wxwindows/wxWidgets-%{tarball_version}.tar.bz2
 Patch1:                  wxwidgets-01-msgfmt.diff
+Patch2:                  wxwidgets-02-fixcompile.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -55,6 +56,7 @@ Requires:                %{name}
 %prep
 %setup -q -n wxWidgets-%{tarball_version}
 %patch1 -p1
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -147,6 +149,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Jul 25 2008 - brian.cameron@sun.com
+- Bump to 2.8.8.  Add patch wxwidgets-02-fixcompile to address a
+  compile issue.
 * Mon Mar 17 2008 - laca@sun.com
 - use %_builddir instead of ~/packages
 * Thu Feb 21 2008 - trisk@acm.jhu.edu
