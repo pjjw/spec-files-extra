@@ -131,7 +131,7 @@ bash ./configure				\
             --enable-largefiles			\
 	    --enable-crash-debug		\
             --disable-directfb			\
-            --with-freetype-config=/usr/gnu/bin/freetype-config \
+	    --with-freetype-config=/usr/gnu/bin/freetype-config \
 	    $dbgflag
 
 make -j$CPUS 

@@ -45,6 +45,7 @@ mkdir -p $RPM_BUILD_ROOT%{_prefix}/gnu/bin
 cd $RPM_BUILD_ROOT%{_prefix}/gnu/bin
 ln -s ../../bin/gawk awk
 rm -rf $RPM_BUILD_ROOT%{_datadir}/info/dir
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 
 %clean
 rm -rf $RPM_BUILD_ROOT

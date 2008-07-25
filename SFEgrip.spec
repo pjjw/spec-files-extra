@@ -11,7 +11,10 @@ Source:                  %{sf_download}/grip/grip-%{version}.tar.gz
 Patch1:			 grip-01-i386.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+<<<<<<< .mine
+=======
 BuildRequires:		 SUNWcurl
+>>>>>>> .r1278
 
 %include default-depend.inc
 
