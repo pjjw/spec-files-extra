@@ -1,3 +1,7 @@
+2008-07-28  Petr Sobotka <sobotkap@centrum.cz>  <sobotkap@gmail.com>
+
+	* SFEwesnoth.spec: Bump to version 1.4.4.
+
 2008-07-25  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEelisa-plugins-bad.spec: Add bug number.
