@@ -46,8 +46,8 @@ Requires:          SUNWpython-twisted
 Requires:          SUNWpysqlite
 Requires:          SFEpigment
 Requires:          SFEpigment-python
-Requires:          SFEpython-cssutils.spec
-Requires:          SFEpython-twisted-web2.spec
+Requires:          SFEpython-cssutils
+Requires:          SFEpython-twisted-web2
 
 %include default-depend.inc
 
@@ -115,6 +115,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_generic_setup.pyc
 
 %changelog
+* Tue Jul 29 2008 Jerry Yu <jijun.yu@sun.com>
+- Correct the dependency pkg name.
 * Wed Jul 23 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.2.  Add patch to fix bug with locale code.  Refer to bug
   #249822.
