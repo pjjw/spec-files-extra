@@ -90,6 +90,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Fri Jul 31 - dick@nagual.nl
+- Corrected build errors related to the awk gawk symlink
+- Package build and install OK on nevada > b93
 * Sun Nov 4 2007 - markwright@internode.on.net
 - Bump to 3.1.6.
 * Wed Oct 11 2006 - laca@sun.com

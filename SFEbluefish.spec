@@ -16,8 +16,8 @@ Patch3:                  bluefish-03-update-mime.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires: SUNWpcre
-BuildRequires: SUNWpcre-devel
+# Requires: SUNWpcre
+# BuildRequires: SUNWpcre-devel
 Requires: SUNWgnome-spell
 Requires: SUNWgnome-libs
 BuildRequires: SUNWgnome-libs-devel

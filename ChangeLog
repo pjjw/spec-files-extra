@@ -1,3 +1,7 @@
+2008-07-31  Dick Hoogendijk <dick@nagual.nl>
+	* SFEgawk.spec: corrected building errors on nevada
+	* SFEliveMedia.spec: bumped to 2008.07.25 release
+
 2008-07-29  Jerry Yu <jijun.yu@sun.com>
 
 	* SFEelisa.spec: Correct the dependency pkg name. 
