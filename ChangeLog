@@ -1,4 +1,13 @@
+2008-07-25  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEelisa.spec, SFEelisa-plugins-good.spec, SFEelisa-plugins-bad.spec,
+	  patches/elisa-02-nohal.diff:  Bump to 0.5.3.  Add new patch to
+	  avoid problem starting up elisa.
+	* SFEpigment.spec: Bump to 0.3.7.
+	* SFEpigment-python.spec: Bump to 0.3.5
+
 2008-07-31  Dick Hoogendijk <dick@nagual.nl>
+
 	* SFEgawk.spec: corrected building errors on nevada
 	* SFEliveMedia.spec: bumped to 2008.07.25 release
 

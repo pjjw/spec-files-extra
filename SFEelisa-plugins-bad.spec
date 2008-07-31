@@ -6,7 +6,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa-plugins-bad
-%define version 0.5.2
+%define version 0.5.3
 
 %include Solaris.inc
 
@@ -19,9 +19,7 @@ Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-plugins-
 Patch1:            elisa-plugins-bad-01-no-onscreen.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
-BuildRequires:     SFEelisa
 Requires:          SFEelisa
-BuildRequires:     SFEelisa-plugins-good
 Requires:          SFEelisa-plugins-good
 
 %include default-depend.inc
@@ -34,7 +32,7 @@ code needing more QA (unittests, code reviews).
 
 %prep
 %setup -q -n elisa-plugins-bad-%version
-%patch1 -p1
+#%patch1 -p1
 
 %build
 
@@ -84,6 +82,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*.egg-info
 
 %changelog
+* Thu Jul 31 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.5.3.
 * Wed Jul 23 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.2.  Add patch to disable onscreen plugin, since it fails
   due to xml.etree not being available.

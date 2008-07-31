@@ -1,0 +1,11 @@
+--- elisa-0.5.3/elisa/core/application.py-orig	2008-07-31 10:11:09.288287000 -0500
++++ elisa-0.5.3/elisa/core/application.py	2008-07-31 10:11:21.376510000 -0500
+@@ -73,7 +73,7 @@ DEFAULT_CONFIG = """\
+ [general]
+ version = '%(version)s'
+ install_date = '%(install_date)s'
+-resource_providers = ['amazon.resource_provider:AmazonResourceProvider', 'discogs.discogs_resource:DiscogsResource', 'database.media_scanner:MediaScanner', 'weather.report_provider:WeatherReportProvider', 'base.local_resource:LocalResource', 'youtube.resource_provider:YoutubeResourceProvider', 'shoutcast.shoutcast_resource:ShoutcastResource', 'flickr.resource_provider:FlickrResourceProvider', 'wmd.wmd_resource:WMDResource', 'filtered_shares.filtered_shares_resource:FilteredSharesResource', 'coherence.coherence_resource:CoherenceResource', 'coherence.upnp_resource:UpnpResource', 'smbwin32.smbwin32_resource:SmbWin32Resource', 'elisa_updater.resource_provider:UpdaterResourceProvider', 'ipod.ipod_resource:IpodResource', 'hal.hal_resource:HALResource']
++resource_providers = ['amazon.resource_provider:AmazonResourceProvider', 'discogs.discogs_resource:DiscogsResource', 'database.media_scanner:MediaScanner', 'weather.report_provider:WeatherReportProvider', 'base.local_resource:LocalResource', 'youtube.resource_provider:YoutubeResourceProvider', 'shoutcast.shoutcast_resource:ShoutcastResource', 'flickr.resource_provider:FlickrResourceProvider', 'wmd.wmd_resource:WMDResource', 'filtered_shares.filtered_shares_resource:FilteredSharesResource', 'coherence.coherence_resource:CoherenceResource', 'coherence.upnp_resource:UpnpResource', 'smbwin32.smbwin32_resource:SmbWin32Resource', 'elisa_updater.resource_provider:UpdaterResourceProvider', 'ipod.ipod_resource:IpodResource']
+ metadata_providers = []
+ service_providers = ['coherence.coherence_service:CoherenceService', 'osso.osso_service:OssoService', 'gnome.gnome_screensaver_service:GnomeScreensaverService']
+ input_providers = ['winremote.streamzap_input:StreamzapInput', 'lirc.lirc_input:LircInput']

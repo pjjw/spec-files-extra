@@ -6,7 +6,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa-plugins-good
-%define version 0.5.2
+%define version 0.5.3
 
 %include Solaris.inc
 
@@ -17,7 +17,6 @@ Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-plugins-good-%{version}.tar.gz
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
-BuildRequires:     SFEelisa
 Requires:          SFEelisa
 
 %include default-depend.inc
@@ -75,6 +74,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*.egg-info
 
 %changelog
+* Thu Jul 31 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.5.3.
 * Wed Jul 23 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.2.
 * Wed Mar 19 2008 Brian Cameron  <brian.cameron@sun.com>
