@@ -1,5 +1,11 @@
 2008-07-25  Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEgst-plugins-bad.spec:  Bump to 0.10.8.
+	* SFEelisa-plugins-bad.spec, elisa-plugins-bad-01-no-onscreen.diff:
+	  Remove patch that is no longer needed.
+
+2008-07-25  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEelisa.spec, SFEelisa-plugins-good.spec, SFEelisa-plugins-bad.spec,
 	  patches/elisa-02-nohal.diff:  Bump to 0.5.3.  Add new patch to
 	  avoid problem starting up elisa.

@@ -15,8 +15,6 @@ Summary:           Bad plugins for Elisa
 URL:               http://elisa.fluendo.com/
 Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-plugins-bad-%{version}.tar.gz
-# See bug #251852
-Patch1:            elisa-plugins-bad-01-no-onscreen.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
 Requires:          SFEelisa
@@ -32,7 +30,6 @@ code needing more QA (unittests, code reviews).
 
 %prep
 %setup -q -n elisa-plugins-bad-%version
-#%patch1 -p1
 
 %build
 
@@ -83,7 +80,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 
 %changelog
 * Thu Jul 31 2008 Brian Cameron  <brian.cameron@sun.com>
-- Bump to 0.5.3.
+- Bump to 0.5.3.  Remove patch that disabled onscreen since it is no
+  longer needed.
 * Wed Jul 23 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.2.  Add patch to disable onscreen plugin, since it fails
   due to xml.etree not being available.

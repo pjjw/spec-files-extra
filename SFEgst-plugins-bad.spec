@@ -7,7 +7,7 @@
 
 Name:                    SFEgst-plugins-bad
 Summary:                 GStreamer bad plugins
-Version:                 0.10.7
+Version:                 0.10.8
 URL:                     http://gstreamer.freedesktop.org/
 Source:                  http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
@@ -94,5 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jul 31 2008 - Brian.Cameron@sun.com
+- Bump to 0.10.8.
 * Thu Apr 24 2008 - Brian.Cameron@sun.com
 - Created with version 0.10.7
