@@ -1,3 +1,7 @@
+2008-08-03  Bob Friesenhahn  <bfriesen@simple.dallas.tx.us>
+
+	* SFEgraphicsmagick.spec: Update for GraphicsMagick 1.2.5.
+
 2008-08-03  Andras Barna  <andras.barna@gmail.com>
 
 	* SFEnetspeed-applet: opensolaris build-fixes
