@@ -25,6 +25,16 @@ Requires:    SUNWlibgtop
 BuildRequires:    SUNWgnome-libs-devel
 BuildRequires:    SUNWgnome-panel-devel
 BuildRequires:    SUNWlibgtop-devel
+BuildRequires:    SUNWgnome-common-devel
+BuildRequires:    SUNWperl-xml-parser
+
+%if %build_l10n
+%package l10n
+Summary:                 %{summary} - l10n files
+SUNW_BaseDir:            %{_basedir}
+%include default-depend.inc
+Requires:                %{name}
+%endif
 
 %prep
 rm -rf %name_%version
@@ -38,7 +48,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CFLAGS="%optflags" 
-export LDFLAGS="%_ldflags"
+export LDFLAGS="%_ldflags -lnsl -lsocket"
 
 glib-gettextize --force
 aclocal
@@ -56,6 +66,12 @@ make -j$CPUS
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
+%if %build_l10n
+%else
+# REMOVE l10n FILES
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -63,16 +79,25 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755,root,bin) %{_libdir}
 %{_libdir}/*
-%dir %attr(0755,root,sys) %{_datadir}
-%{_datadir}/omf/
-%{_datadir}/gnome/help/netspeed_applet
-%{_datadir}/locale/
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/gnome
+%{_datadir}/gnome/help/*
+%dir %attr (0755, root, bin) %{_datadir}/omf
+%{_datadir}/omf/*
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/netspeed_applet
 %{_datadir}/pixmaps/netspeed_applet.png
 
+%if %build_l10n
+%files l10n
+%defattr (-, root, bin)
+%dir %attr (0755, root, sys) %{_datadir}
+%attr (-, root, other) %{_datadir}/locale
+%endif
 
 %changelog
+* Sun Aug 03 2008 - Andras Barna (andras.barna@gmail.com)
+- Opensolaris fixes.
 * Mon Jun 30 2008 - Andras Barna (andras.barna@gmail.com)
 - Fix permissions
 * Thu Jun 23 2008 - Andras Barna (andras.barna@gmail.com)

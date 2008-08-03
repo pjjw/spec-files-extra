@@ -1,3 +1,8 @@
+2008-08-03  Andras Barna  <andras.barna@gmail.com>
+
+	* SFEnetspeed-applet: opensolaris build-fixes
+          NOTE: here's not working somebody can take a look at it?
+
 2008-07-25  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEgst-plugins-bad.spec:  Bump to 0.10.8.
