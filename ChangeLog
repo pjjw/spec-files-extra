@@ -1,3 +1,7 @@
+2008-08-04  Jerry Yu <jijun.yu@sun.com>
+
+	* base-specs/conduit.spec: Bump to 0.3.13.
+
 2008-08-03  Bob Friesenhahn  <bfriesen@simple.dallas.tx.us>
 
 	* SFEgraphicsmagick.spec: Update for GraphicsMagick 1.2.5.
