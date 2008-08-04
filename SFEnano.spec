@@ -6,7 +6,7 @@
 
 %include Solaris.inc
 
-Name:                    SUNWnano
+Name:                    SFEnano
 Summary:                 GNU nano text editor
 Version:                 1.2.5
 Source:			 http://www.nano-editor.org/dist/v1.2/nano-%{version}.tar.gz

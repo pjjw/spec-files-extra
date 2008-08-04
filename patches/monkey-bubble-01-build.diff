@@ -1,17 +1,18 @@
---- monkey-bubble-0.4.0/src/util/Makefile.am.orig	2007-10-14 23:26:55.357665000 -0400
-+++ monkey-bubble-0.4.0/src/util/Makefile.am	2007-10-14 23:26:59.597345000 -0400
-@@ -3,8 +3,7 @@
- 
- 
+diff -urN monkey-bubble-0.4.0/src/audio/Makefile.am monkey-bubble-0.4.0-hacked/src/audio/Makefile.am
+--- monkey-bubble-0.4.0/src/audio/Makefile.am	2004-12-03 20:05:59.000000000 +1300
++++ monkey-bubble-0.4.0-hacked/src/audio/Makefile.am	2008-08-01 03:33:21.027976716 +1200
+@@ -3,7 +3,7 @@
  INCLUDES = \
--	$(LIBMONKEYUTIL_A_CFLAGS) \
--	-Wall -Werror -g
-+	$(LIBMONKEYUTIL_A_CFLAGS)
+ 	$(LIBMONKEYAUDIO_A_CFLAGS) \
+ 	-I$(top_srcdir)/src/monkey \
+-	-g -O2 -Wall -D_REENTRANT -DDATADIR=\""$(datadir)"\"
++	-O2 -D_REENTRANT -DDATADIR=\""$(datadir)"\"
  
+ noinst_LIBRARIES = libmonkeyaudio.a
  
- noinst_LIBRARIES = libmonkeyutil.a
---- monkey-bubble-0.4.0/src/input/Makefile.am.orig	2007-10-14 23:26:12.453640000 -0400
-+++ monkey-bubble-0.4.0/src/input/Makefile.am	2007-10-14 23:26:19.429056000 -0400
+diff -urN monkey-bubble-0.4.0/src/input/Makefile.am monkey-bubble-0.4.0-hacked/src/input/Makefile.am
+--- monkey-bubble-0.4.0/src/input/Makefile.am	2004-06-10 01:38:58.000000000 +1200
++++ monkey-bubble-0.4.0-hacked/src/input/Makefile.am	2008-08-01 03:33:21.026548817 +1200
 @@ -2,7 +2,7 @@
  
  INCLUDES = \
@@ -21,8 +22,9 @@
  
  noinst_LIBRARIES = libmbinput.a
  
---- monkey-bubble-0.4.0/src/monkey/Makefile.am.orig	2007-10-14 23:26:21.629173000 -0400
-+++ monkey-bubble-0.4.0/src/monkey/Makefile.am	2007-10-14 23:26:31.744943000 -0400
+diff -urN monkey-bubble-0.4.0/src/monkey/Makefile.am monkey-bubble-0.4.0-hacked/src/monkey/Makefile.am
+--- monkey-bubble-0.4.0/src/monkey/Makefile.am	2004-01-31 03:57:48.000000000 +1300
++++ monkey-bubble-0.4.0-hacked/src/monkey/Makefile.am	2008-08-01 03:33:21.027051573 +1200
 @@ -3,8 +3,7 @@
  
  
@@ -33,30 +35,41 @@
  
  
  noinst_LIBRARIES = libmonkey.a
---- monkey-bubble-0.4.0/src/view/Makefile.am.orig	2007-10-14 23:26:59.602408000 -0400
-+++ monkey-bubble-0.4.0/src/view/Makefile.am	2007-10-14 23:27:06.225815000 -0400
-@@ -5,7 +5,7 @@
- 	$(LIBMONKEYVIEW_A_CFLAGS) \
- 	$(AM_CFLAGS) \
- 	-I$(top_srcdir)/src/monkey \
--	-g -O2 -Wall -Werror -D_REENTRANT -DDATADIR=\""$(datadir)"\"
-+	-D_REENTRANT -DDATADIR=\""$(datadir)"\"
+diff -urN monkey-bubble-0.4.0/src/net/Makefile.am monkey-bubble-0.4.0-hacked/src/net/Makefile.am
+--- monkey-bubble-0.4.0/src/net/Makefile.am	2004-06-15 19:13:36.000000000 +1200
++++ monkey-bubble-0.4.0-hacked/src/net/Makefile.am	2008-08-01 03:42:37.145207235 +1200
+@@ -7,7 +7,7 @@
+ 	-I$(top_srcdir)/src/view \
+ 	-I$(top_srcdir)/src/ui \
+ 	-I$(top_srcdir)/src/util \
+-	-g -O2 -Wall -Werror -D_REENTRANT  -D_DEBUG_ -D_TIME_DEBUG_ \
++	-D_REENTRANT  -D_DEBUG_ -D_TIME_DEBUG_ \
+ 	$(NULL)
+ # -g -O2 -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror -D_REENTRANT  -D_TIME_DEBUG_ -D_DEBUG_
  
- noinst_LIBRARIES = libmonkeyview.a
+@@ -29,6 +29,7 @@
  
---- monkey-bubble-0.4.0/src/audio/Makefile.am.orig	2007-10-14 23:25:58.383155000 -0400
-+++ monkey-bubble-0.4.0/src/audio/Makefile.am	2007-10-14 23:26:09.955711000 -0400
-@@ -3,7 +3,7 @@
- INCLUDES = \
- 	$(LIBMONKEYAUDIO_A_CFLAGS) \
- 	-I$(top_srcdir)/src/monkey \
--	-g -O2 -Wall -D_REENTRANT -DDATADIR=\""$(datadir)"\"
-+	-O2 -D_REENTRANT -DDATADIR=\""$(datadir)"\"
+ monkey_srv_LDADD = \
+ 	$(MONKEY_SRV_LIBS) \
++	-lsocket -lnsl \
+ 	libmonkeynet.a \
+ 	../monkey/libmonkey.a \
+ 	../util/libmonkeyutil.a 
+diff -urN monkey-bubble-0.4.0/src/ui/game-sound.c monkey-bubble-0.4.0-hacked/src/ui/game-sound.c
+--- monkey-bubble-0.4.0/src/ui/game-sound.c	2004-12-03 20:05:59.000000000 +1300
++++ monkey-bubble-0.4.0-hacked/src/ui/game-sound.c	2008-08-01 03:33:21.029434972 +1200
+@@ -29,7 +29,7 @@
+ static GObjectClass* parent_class = NULL;
  
- noinst_LIBRARIES = libmonkeyaudio.a
+ struct MbGameSoundPrivate {
+-  
++  	char dummy;
+ };
  
---- monkey-bubble-0.4.0/src/ui/Makefile.am.orig	2007-10-14 23:26:45.957759000 -0400
-+++ monkey-bubble-0.4.0/src/ui/Makefile.am	2007-10-14 23:26:55.353334000 -0400
+ MbGameSound *
+diff -urN monkey-bubble-0.4.0/src/ui/Makefile.am monkey-bubble-0.4.0-hacked/src/ui/Makefile.am
+--- monkey-bubble-0.4.0/src/ui/Makefile.am	2006-08-02 01:47:04.000000000 +1200
++++ monkey-bubble-0.4.0-hacked/src/ui/Makefile.am	2008-08-01 03:42:52.249773978 +1200
 @@ -12,8 +12,7 @@
  	-I$(top_srcdir)/src/audio			\
  	-I$(top_srcdir)/src/util			\
@@ -67,25 +80,36 @@
  
  
  bin_PROGRAMS = monkey-bubble
---- monkey-bubble-0.4.0/src/net/Makefile.am.orig	2007-10-14 23:31:42.964817000 -0400
-+++ monkey-bubble-0.4.0/src/net/Makefile.am	2007-10-14 23:31:53.431904000 -0400
-@@ -7,7 +7,7 @@
- 	-I$(top_srcdir)/src/view \
- 	-I$(top_srcdir)/src/ui \
- 	-I$(top_srcdir)/src/util \
--	-g -O2 -Wall -Werror -D_REENTRANT  -D_DEBUG_ -D_TIME_DEBUG_ \
-+	-D_REENTRANT  -D_DEBUG_ -D_TIME_DEBUG_ \
- 	$(NULL)
- # -g -O2 -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror -D_REENTRANT  -D_TIME_DEBUG_ -D_DEBUG_
+@@ -41,6 +40,7 @@
  
---- monkey-bubble-0.4.0/src/ui/game-sound.c.orig	2007-10-14 23:39:07.291123000 -0400
-+++ monkey-bubble-0.4.0/src/ui/game-sound.c	2007-10-14 23:35:49.223044000 -0400
-@@ -29,7 +29,7 @@
- static GObjectClass* parent_class = NULL;
+ monkey_bubble_LDADD =  \
+ 	$(UI_LIBS) \
++	-lsocket -lnsl \
+ 	../monkey/libmonkey.a \
+ 	../view/libmonkeyview.a \
+ 	../util/libmonkeyutil.a \
+diff -urN monkey-bubble-0.4.0/src/util/Makefile.am monkey-bubble-0.4.0-hacked/src/util/Makefile.am
+--- monkey-bubble-0.4.0/src/util/Makefile.am	2004-01-31 03:58:01.000000000 +1300
++++ monkey-bubble-0.4.0-hacked/src/util/Makefile.am	2008-08-01 03:33:21.026050433 +1200
+@@ -3,8 +3,7 @@
  
- struct MbGameSoundPrivate {
--  
-+  	char dummy;
- };
  
- MbGameSound *
+ INCLUDES = \
+-	$(LIBMONKEYUTIL_A_CFLAGS) \
+-	-Wall -Werror -g
++	$(LIBMONKEYUTIL_A_CFLAGS)
+ 
+ 
+ noinst_LIBRARIES = libmonkeyutil.a
+diff -urN monkey-bubble-0.4.0/src/view/Makefile.am monkey-bubble-0.4.0-hacked/src/view/Makefile.am
+--- monkey-bubble-0.4.0/src/view/Makefile.am	2004-07-02 03:33:34.000000000 +1200
++++ monkey-bubble-0.4.0-hacked/src/view/Makefile.am	2008-08-01 03:33:21.027510018 +1200
+@@ -5,7 +5,7 @@
+ 	$(LIBMONKEYVIEW_A_CFLAGS) \
+ 	$(AM_CFLAGS) \
+ 	-I$(top_srcdir)/src/monkey \
+-	-g -O2 -Wall -Werror -D_REENTRANT -DDATADIR=\""$(datadir)"\"
++	-D_REENTRANT -DDATADIR=\""$(datadir)"\"
+ 
+ noinst_LIBRARIES = libmonkeyview.a
+ 

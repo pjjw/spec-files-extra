@@ -1,3 +1,9 @@
+2008-08-04  Glynn Foster  <glynn.foster@sun.com>
+
+	* SFEmonkey-bubble.spec, SFEnano.spec,
+	  patches/monkey-bubble-01-build.diff: Fix up build of monkey
+	  bubble. Rename the SUNW nano package to SFE.
+
 2008-08-04  Jerry Yu <jijun.yu@sun.com>
 
 	* base-specs/conduit.spec: Bump to 0.3.13.

@@ -62,15 +62,16 @@ fi
 export CXXFLAGS="%cxx_optflags -library=stlport4 -staticlib=stlport4"
 export CFLAGS="%optflags -I/usr/sfw/include -I/usr/gnu/include -DANSICPP"
 export LDFLAGS="%_ldflags -L/usr/gnu/lib -R/usr/gnu/lib"
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 %if %cc_is_gcc
 %else
 export CXX="${CXX} -norunpath"
 %endif
-libtoolize --force
-intltoolize --force
-aclocal $ACLOCAL_FLAGS
-automake -a -c -f
+libtoolize --copy --force
+aclocal-1.9 $ACLOCAL_FLAGS
+intltoolize -c -f --automake
 autoconf
+automake-1.9 -a -c -f
 ./configure --prefix=%{_prefix}			\
 	    --mandir=%{_mandir}			\
             --libdir=%{_libdir}			\
@@ -95,28 +96,23 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 rm -rf $RPM_BUILD_ROOT
 
 %post root
-( echo 'test -x /usr/bin/gconftool-2 || {';
-  echo '  echo "ERROR: gconftool-2 not found"';
-  echo '  exit 0';
-  echo '}';
-  echo 'umask 0022';
-  echo "GCONF_CONFIG_SOURCE=xml:merged:%{_sysconfdir}/gconf/gconf.xml.defaults";
-  echo 'export GCONF_CONFIG_SOURCE';
-  echo "SDIR=%{_sysconfdir}/gconf/schemas";
-  echo '/usr/bin/gconftool-2 --makefile-install-rule $SDIR/monkey-bubble.schemas'
-) | $PKG_INSTALL_ROOT/usr/lib/postrun
+%include gconf-install.script
 
 %preun root
-( echo 'test -x /usr/bin/gconftool-2 || {';
-  echo '  echo "ERROR: gconftool-2 not found"';
+test -x $BASEDIR/var/lib/postrun/postrun || exit 0
+( echo 'test -x $PKG_INSTALL_ROOT/usr/bin/gconftool-2 || {';
+  echo '  echo "WARNING: gconftool-2 not found; not uninstalling gconf schemas"';
   echo '  exit 0';
   echo '}';
   echo 'umask 0022';
-  echo "GCONF_CONFIG_SOURCE=xml:merged:%{_sysconfdir}/gconf/gconf.xml.defaults";
-  echo 'export GCONF_CONFIG_SOURCE';
-  echo "SDIR=%{_sysconfdir}/gconf/schemas";
-  echo '/usr/bin/gconftool-2 --makefile-uninstall-rule $SDIR/monkey-bubble.schemas'
-) | $PKG_INSTALL_ROOT/usr/lib/postrun
+  echo 'GCONF_CONFIG_SOURCE=xml:merged:$BASEDIR/etc/gconf/gconf.xml.defaults';
+  echo 'GCONF_BACKEND_DIR=$PKG_INSTALL_ROOT/usr/lib/GConf/2';
+  echo 'LD_LIBRARY_PATH=$PKG_INSTALL_ROOT/usr/lib';
+  echo 'export GCONF_CONFIG_SOURCE GCONF_BACKEND_DIR LD_LIBRARY_PATH';
+  echo 'SDIR=$BASEDIR%{_sysconfdir}/gconf/schemas';
+  echo 'schemas="$SDIR/monkey-bubble.schemas"';
+  echo '$PKG_INSTALL_ROOT/usr/bin/gconftool-2 --makefile-uninstall-rule $schemas'
+) | $BASEDIR/var/lib/postrun/postrun -i -c JDS -a
 
 %files
 %defattr (-, root, bin)
