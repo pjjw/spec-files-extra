@@ -16,8 +16,8 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SFEgmp-devel
-BuildRequires: SFEbinutils
-Requires: SFEbinutils
+BuildRequires: SUNWbinutils
+Requires: SUNWbinutils
 BuildRequires: SFEmpfr-devel
 Requires: SFEmpfr
 Requires: SFEgmp
@@ -30,8 +30,8 @@ SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
 BuildRequires: SFEgmp-devel
-BuildRequires: SFEbinutils
-Requires: SFEbinutils
+BuildRequires: SUNWbinutils
+Requires: SUNWbinutils
 BuildRequires: SFEmpfr-devel
 Requires: SFEmpfr
 Requires: SFEgmp
@@ -76,7 +76,7 @@ export CFLAGS_FOR_TARGET="-g -O3"
 export LDFLAGS="%_ldflags %gnu_lib_path"
 export LD_OPTIONS="%ld_options %gnu_lib_path"
 
-%define build_gcc_with_gnu_ld 1
+%define build_gcc_with_gnu_ld 0
 %if %build_gcc_with_gnu_ld
 export LD="/usr/gnu/bin/ld"
 %endif
@@ -201,6 +201,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Aug 06 2008 - andras.barna@gmail.com
+- change SFEbinutils to SUNWbinutils, defaulting to SUN ld
 * Mon Mar 10 2008 - laca@sun.com
 - add missing defattr
 * Sun Mar  2 2008 - Mark Wright <markwright@internode.on.net>

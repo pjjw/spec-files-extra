@@ -21,7 +21,7 @@ Requires: SUNWGtku
 Requires: SUNWGtkr
 Requires: SUNWgnome-audio
 BuildRequires: SUNWsfwhea
-BuildRequires: SFEmpg321
+BuildRequires: SUNWhea
 BuildRequires: SUNWgnome-audio-devel
 BuildRequires: oss
 
@@ -38,7 +38,6 @@ Summary:                 %{summary} - development files
 SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
-Requires: SFEmpg321
 
 %prep
 %setup -q -n xmms-%{version}
@@ -108,6 +107,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/xmms/Input/libmpg*
 
 %changelog
+* Wed Aug 06 2008 - andras.barna@gmail.com
+- Removed unneeded SFEmpg321 dep, added SUNWhea dep.
 * Mon May 5 2008 - andras.barna@gmail.com
 - Add .desktop file and icon.
 * Thu May 1 2008 - andras.barna@gmail.com

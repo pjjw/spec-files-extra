@@ -1,10 +1,12 @@
---- netspeed_applet-0.14.old/src/backend.c	2006-08-06 21:21:43.000000000 +0300
-+++ netspeed_applet-0.14/src/backend.c	2008-06-19 12:39:50.196819707 +0300
-@@ -18,6 +18,7 @@
+--- netspeed_applet-0.14.old/src/backend.c	2008-08-05 14:34:33.427705364 +0300
++++ netspeed_applet-0.14/src/backend.c	2008-08-05 14:35:11.866107446 +0300
+@@ -18,6 +18,9 @@
   */
  
  #include <config.h>
++#if defined(sun) && defined(__SVR4)
 +#include <sys/sockio.h>
++#endif
  #include <glibtop/netlist.h>
  #include <glibtop/netload.h>
  #include "backend.h"

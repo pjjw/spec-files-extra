@@ -7,8 +7,8 @@
 
 Name:                SFEterminator
 Summary:             Terminator - Multiple terminals in one window
-Version:             0.8.1
-Source:              http://launchpad.net/terminator/trunk/0.8.1/+download/terminator_%{version}.tar.gz
+Version:             0.9
+Source:              http://launchpad.net/terminator/trunk/%{version}/+download/terminator_%{version}.tar.gz
 URL:                 https://launchpad.net/terminator
 
 SUNW_BaseDir:        %{_basedir}
@@ -41,6 +41,8 @@ python setup.py build
 %install
 rm -rf $RPM_BUILD_ROOT
 python setup.py install --prefix=$RPM_BUILD_ROOT%{_prefix}
+mv %{buildroot}%{_libdir}/python%{pythonver}/site-packages \
+  %{buildroot}%{_libdir}/python%{pythonver}/vendor-packages
 
 %if %build_l10n
 %else
@@ -77,6 +79,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/terminator
+%dir %attr(-,root,bin) %{_libdir}
+%dir %attr(-,root,bin) %{_libdir}/python%{pythonver}
+%dir %attr(-,root,bin) %{_libdir}/python%{pythonver}/vendor-packages
+%{_libdir}/python%{pythonver}/vendor-packages/terminatorlib/*
 %dir %attr(0755,root,sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/terminator.desktop
@@ -95,9 +101,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
-%{_mandir}/man1/terminator.1
+%{_mandir}/man1/*
+%dir %attr(-,root,bin) %{_mandir}/man5
+%{_mandir}/man5/*
 
 %changelog
+* Wed Aug 06 2008 - (andras.barna@gmail.com)
+- version bump
 * Tue Jul 01 2008 - (andras.barna@gmail.com)
 - Permission fixes
 * Fri Jun 27 2008 - (andras.barna@gmail.com)
