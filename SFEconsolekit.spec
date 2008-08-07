@@ -21,8 +21,8 @@
 
 Name:                    SFEconsolekit
 Summary:                 Framework for tracking users, login sessions, and seats.
-Version:                 0.2.10
-Source:                  http://people.freedesktop.org/~mccann/dist/ConsoleKit-%{version}.tar.gz
+Version:                 0.3.0
+Source:                  http://people.freedesktop.org/~mccann/dist/ConsoleKit-%{version}.tar.bz2
 Source1:                 consolekit.xml
 Patch1:                  ConsoleKit-01-nox11check.diff
 Patch2:                  ConsoleKit-02-emptystruct.diff
@@ -37,7 +37,6 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 BuildRequires: SUNWgnome-libs-devel
-BuildRequires: CBEbison
 BuildRequires: SUNWPython
 BuildRequires: SUNWdbus-devel
 BuildRequires: SUNWdbus-bindings-devel
@@ -192,6 +191,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Aug 07 2008 - brian.cameorn@sun.com
+- Bump to 0.3.0.
 * Tue Jun 24 2008 - simon.zheng@sun.com
 - Add patch 05-getcurrentsession.diff for freedesktop bug #15866.
 * Tue Mar 11 2008 - brian.cameron@sun.com

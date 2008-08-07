@@ -1,3 +1,12 @@
+2008-08-07  Brian Cameron  <brian.cameron@sun.com>
+
+	* SUNWgnome-consolekit.spec: Bump to 0.3.0.
+	* SUNWgnome-display-mgr.spec: Bump to 2.23.2.
+	* patches/gdm-02-sdtlogin-devperm.diff, patches/gdm-03-ctrun.diff:
+	  Rework.
+	* patches/gdm-05-xauth-dir.diff, patches/gdm-06-scripts.diff:
+	  Remove upstream patches.
+
 2008-08-06  Andras Barna  <andras.barna@gmail.com>
 
 	* SFEterminator.spec: Bump to 0.9.
@@ -24,7 +33,7 @@
 2008-08-03  Andras Barna  <andras.barna@gmail.com>
 
 	* SFEnetspeed-applet: opensolaris build-fixes
-          NOTE: here's not working somebody can take a look at it?
+	  NOTE: here's not working somebody can take a look at it?
 
 2008-07-25  Brian Cameron  <brian.cameron@sun.com>
 

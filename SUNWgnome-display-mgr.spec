@@ -13,9 +13,9 @@
 
 Summary:                 GNOME display manager
 Name:                    SUNWgnome-display-mgr
-Version:                 2.22.0
+Version:                 2.23.2
 Release:                 1
-Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.22/gdm-%{version}.tar.bz2
+Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.23/gdm-%{version}.tar.bz2
 Source1:                 gdm.xml
 Source2:                 svc-gdm
 # Fix language/locale.  Patch by Takao.  See bugzilla bug #536387.
@@ -30,12 +30,6 @@ Patch2:                  gdm-02-sdtlogin-devperm.diff
 Patch3:                  gdm-03-ctrun.diff
 # Manage displays on the fly.  Refer to bug #536355.
 Patch4:                  gdm-04-dynamic-display.diff
-# Create /var/run/gdm if it's not exist. 
-# Set accession permission 01775 and ownership root:gdm
-# More details, please refer to bugzilla bug #534605.  This is fixed upstream.
-Patch5:                  gdm-05-xauth-dir.diff
-# Support PostLogin, PreSession, and PostSession scripts.  See bug #536371.
-Patch6:                  gdm-06-scripts.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -93,9 +87,7 @@ Requires:                %{name}
 %patch1 -p1
 %patch2 -p0
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
+#%patch4 -p1
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -310,6 +302,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Thu Aug 07 2008 - brian.cameron@sun.com
+- Bump to 2.23.2.
 * Tue Jun 03 2008 - brian.cameron@sun.com
 - Add patch gdm-01-lang.diff, patch by Takao Fujiwara, to fix the language
   support in GDM.  Remove patch gdm-03-fixcrash.diff since it is no longer

@@ -265,12 +265,10 @@ Index: daemon/gdm-session-worker.c
          return TRUE;
  }
  
-Index: configure.ac
-===================================================================
---- configure.ac	(revision 5829)
-+++ configure.ac	(working copy)
-@@ -1026,6 +1026,12 @@
-     AC_DEFINE(HAVE_LIBAUDIT,1,[linux audit support])
+--- configure.ac-orig	2008-08-07 03:05:23.833583000 -0500
++++ configure.ac	2008-08-07 03:05:45.508204000 -0500
+@@ -1006,6 +1006,12 @@ else
+    AC_MSG_RESULT(no)
  fi
  
 +# Check for Solaris logindevperm support
@@ -280,5 +278,5 @@ Index: configure.ac
 +                            PAM_LIBS="$PAM_LIBS -ldevinfo" ])
 +
  dnl ---------------------------------------------------------------------------
- dnl - Check for Halt, and Reboot commands
+ dnl - Check for audit framework
  dnl ---------------------------------------------------------------------------
