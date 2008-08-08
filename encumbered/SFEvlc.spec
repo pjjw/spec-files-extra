@@ -61,10 +61,8 @@ BuildRequires:  SUNWogg-vorbis-devel
 Requires:       SUNWogg-vorbis
 BuildRequires:  SFElibdvbpsi-devel
 Requires:       SFElibdvbpsi
-BuildRequires:  SFElibdvdread-devel
-Requires:       SFElibdvdread
-BuildRequires:  SFElibdvdread-devel
-Requires:       SFElibdvdread
+BuildRequires:  SFElibdvdnav-devel
+Requires:       SFElibdvdnav
 BuildRequires:  SFElibdts-devel
 BuildRequires:  SFElibcddb-devel
 Requires:       SFElibcddb
@@ -250,6 +248,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %{_libdir}/lib*.a
 
 %changelog
+* Thu Aug 07 2008 - trisk@acm.jhu.edu
+- Rename SFElibdvdread dependency to SFElibdvdnav
 * Fri Aug  3 2007 - dougs@truemail.co.th
 - Added devel and l10n
 - Added options to better find codecs

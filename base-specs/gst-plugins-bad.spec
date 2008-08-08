@@ -62,7 +62,6 @@ bash ./configure \
   --disable-dtsdec	\
   --disable-divx	\
   --disable-faac	\
-  --disable-faad	\
   --disable-gsm		\
   --disable-ivorbis	\
   --disable-jack	\
@@ -76,13 +75,11 @@ bash ./configure \
   --disable-ofa		\
   --disable-timidity	\
   --disable-wildmidi	\
-  --disable-theora	\
   --disable-sdl		\
   --disable-sdltest	\
   --disable-soundtouch	\
   --disable-spc	\
   --disable-swfdec	\
-  --disable-theoradec	\
   --disable-x264	\
   --disable-xvid	\
   --disable-dvb	\
@@ -142,6 +139,8 @@ GStreamer support libraries header files.
 %{_datadir}/gtk-doc
 
 %changelog
+* Thu Aug 07 2008 - trisk@acm.jhu.edu
+- Re-enable faad, theora
 * Tue Jul 22 2008 - trisk@acm.jhu.edu
 - Bump to 0.10.7
 * Thu Oct 18 2007 - trisk@acm.jhu.edu

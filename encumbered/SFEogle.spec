@@ -16,10 +16,10 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SFElibdvdcss-devel
-BuildRequires: SFElibdvdread
+BuildRequires: SFElibdvdnav
 BuildRequires: SFEliba52
 Requires: SFElibdvdcss
-Requires: SFElibdvdread
+Requires: SFElibdvdnav
 Requires: SFEliba52
 
 %package devel
@@ -86,6 +86,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Thu Aug 07 2008 - trisk@acm.jhu.edu
+- Rename SFElibdvdread dependency to SFElibdvdnav
 * Sun Jan 21 2008 - moinak.ghosh@sun.com
 - Fixed ogle build to include libdvdcontrol, add missing dirs to package
 - Patch to fix MediaLib and MMX usage

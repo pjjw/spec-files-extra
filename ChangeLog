@@ -1,3 +1,27 @@
+2008-08-07  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEgtetrinet.spec: *NEW* Client program for the popular Tetrinet game
+	* SFEwine.spec: Bump to 1.1.2
+	* base-specs/ffmpeg.spec: Add patch6, update CFLAGS
+	* base-specs/gst-ffmpeg.spec: Add patch3, patch4, patch5, patch6 from
+	  Debian
+	* base-specs/gst-plugins-bad.spec: Re-enable faad, theora
+	* base-specs/gst-plugins-ugly.spec: Add patch2 to use libdvdnav
+	* encumbered/SFEgnome-media-extras.spec: Update dependencies
+	* encumbered/SFEvlc.spec encumbered/SFEogle.spec
+	  encumbered/SFEdvdauthor.spec encumbered/SFEmplayer.spec:
+	  Rename SFElibdvdread dependency to SFElibdvdnav
+	* patches/ffmpeg-03-v4l2.diff: Update for 0.4.9-p20080326
+	* patches/ffmpeg-06-cve-2008-3162.diff: Fix for CVE-2008-3162
+	* patches/gst-ffmpeg-03-new-codec-ids.diff: Support audio/x-vorbis
+	* patches/gst-ffmpeg-04-av_picture_copy.diff: Don't need to convert
+	* patches/gst-ffmpeg-05-disable-aac.diff: Don't use gst-ffmpeg for AAC
+	* patches/gst-ffmpeg-06-disable-mpegts.diff: Don't use gst-ffmpeg for
+	  MPEG-TS
+	* patches/gst-plugins-ugly-01-gettext.diff: Update for 0.10.8
+	* patches/gst-plugins-ugly-02-dvdnav.diff: Update libdvdnav support
+	* patches/wine-06-iphlpapi.diff: Update for 1.1.2
+
 2008-08-07  Brian Cameron  <brian.cameron@sun.com>
 
 	* SUNWgnome-consolekit.spec: Bump to 0.3.0.

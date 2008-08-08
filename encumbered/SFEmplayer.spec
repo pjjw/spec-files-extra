@@ -17,6 +17,10 @@ Patch1:                  mplayer-01-cddb.diff
 #Patch3:                 mplayer-03-asmrules_20061231.diff
 Patch4:                  mplayer-04-cabac-asm.diff
 Patch5:                  mplayer-05-configure.diff
+Patch6:                  mplayer-06-demux_audio_fix_20080129.diff
+Patch7:                  mplayer-07-demux_mov_fix_20080129.diff
+Patch8:                  mplayer-08-url_fix_20080120.diff
+Patch9:                  mplayer-09-stream_cddb_fix_20080120.diff
 Source3:                 http://www.mplayerhq.hu/MPlayer/skins/Blue-1.7.tar.bz2
 Source4:                 http://www.mplayerhq.hu/MPlayer/skins/Abyss-1.7.tar.bz2
 Source5:                 http://www.mplayerhq.hu/MPlayer/skins/neutron-1.5.tar.bz2
@@ -58,7 +62,7 @@ BuildRequires: SFEladspa-devel
 Requires: SFEopenal
 BuildRequires: SFEopenal-devel
 BuildRequires: SFElibsndfile-devel
-BuildRequires: SFElibdvdplay-devel
+BuildRequires: SFElibdvdnav-devel
 BuildRequires: SFElibmad-devel
 BuildRequires: SFEliba52-devel
 BuildRequires: SFEliveMedia
@@ -82,6 +86,10 @@ BuildRequires: SUNWgnome-audio-devel
 #%patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p0
+%patch7 -p0
+%patch8 -p0
+%patch9 -p0
 
 #unzip %SOURCE7
 #unzip 26104-610_ANSI_C_source_code.zip
@@ -174,6 +182,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Thu Jul 31 2008 - trisk@acm.jhu.edu
+- Use SFElibdvdnav instead of SFElibdvdplay
+- Add security patches
 * Sat Jun 14 2008 - trisk@acm.jhu.edu
 - Update Abyss skin to 1.7
 - Disable 3GPP AMR codecs as they are non-redistributable

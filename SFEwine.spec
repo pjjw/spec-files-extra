@@ -10,8 +10,8 @@
 %define src_url		%{sf_download}/%{src_name}
 
 Name:                   SFEwine
-Summary:                Windows Emulator
-Version:                1.1.1
+Summary:                Windows compatibility
+Version:                1.1.2
 URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Source101:		http://trisk.acm.jhu.edu/winetricks-20080627
@@ -32,7 +32,8 @@ Patch6:			wine-06-iphlpapi.diff
 # Use less restrictive alignment for data section to avoid "holes" between
 # sections that the OS is allowed to use for an anonymous mmap:
 # http://opensolaris.org/jive/message.jspa?messageID=229817#229799
-Patch7:			wine-07-sun-ld.diff
+#Patch7:			wine-07-sun-ld.diff
+#Patch8:			wine-08-init-fini.diff
 Patch101:		winetricks-01-sh.diff
 #Patch102:		winetricks-02-zenity.diff
 SUNW_BaseDir:           %{_basedir}
@@ -78,7 +79,8 @@ Requires: %name
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
+#%patch7 -p1
+#%patch8 -p1
 cp %{SOURCE101} winetricks
 %patch101 -p1
 
@@ -93,7 +95,7 @@ fi
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CC=/usr/sfw/bin/gcc
 export CPPFLAGS="-I%{xorg_inc} -I%{gnu_inc} -I%{sfw_inc} -D__C99FEATURES__"
-export CFLAGS="%gcc_optflags -march=i686 -fno-omit-frame-pointer" 
+export CFLAGS="-O2 -march=i686 -Xlinker -i -fno-omit-frame-pointer" 
 export LDFLAGS="%{xorg_lib_path} %{gnu_lib_path} %{sfw_lib_path}"
 export LD=/usr/ccs/bin/ld
 
@@ -163,6 +165,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Thu Jul 31 2008 - trisk@acm.jhu.edu
+- Bump to 1.1.2
+- Pause patch7 (partially upstreamed), add patch8
 * Wed Jul 16 2008 - trisk@acm.jhu.edu
 - Bump to 1.1.1
 * Wed Jul 09 2008 - trisk@acm.jhu.edu

@@ -3,11 +3,11 @@
 #
 # includes module(s): gst-ffmpeg, gst-plugins-ugly, gst-plugins-bad
 #
-# Copyright 2007 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-# Owner: your mom
+# Owner: trisk
 #
 %include Solaris.inc
 
@@ -32,6 +32,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWgnome-base-libs-devel
+BuildRequires: SUNWgnome-media-devel
 BuildRequires: SUNWbison
 BuildRequires: SUNWPython
 BuildRequires: SUNWmusicbrainz-devel
@@ -40,6 +41,7 @@ BuildRequires: SFElibmad-devel
 BuildRequires: SFElibmpeg2-devel
 BuildRequires: SFElibdvdnav-devel
 BuildRequires: SFEamrnb-devel
+BuildRequires: SFEfaad2-devel
 BuildRequires: SFEliba52-devel
 #BuildRequires: SFElibmpcdec-devel
 #BuildRequires: SFEdirac-devel
@@ -53,7 +55,7 @@ BuildRequires: SUNWgnome-config-devel
 BuildRequires: SUNWgnome-vfs-devel
 BuildRequires: SUNWbzip
 BuildRequires: SUNWneon
-BuildRequires: SUNWxorg-mesa
+#BuildRequires: SUNWxorg-mesa
 #%if %SUNWlibsdl
 #BuildRequires:  SUNWlibsdl-devel
 #%else
@@ -62,7 +64,7 @@ BuildRequires: SUNWxorg-mesa
 
 Requires: SUNWgnome-libs
 Requires: SUNWgnome-base-libs
-Requires: SUNWgnome-media-root
+Requires: SUNWgnome-media
 Requires: SUNWmusicbrainz
 Requires: SUNWliboil
 Requires: SUNWgnome-audio
@@ -181,6 +183,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Jul 23 2008 - trisk@acm.jhu.edu
+- Update dependencies
 * Thu Apr 24 2008 - trisk@acm.jhu.edu
 - Add gst-ffmpeg
 * Thu Nov 22 2007 - daymobrew@users.sourceforge.net

@@ -1,21 +1,33 @@
---- ffmpeg-export-2007-07-31.orig/configure	2007年  8月 11日 六 19:37:10
-+++ ffmpeg-export-2007-07-31/configure	2007年  8月 11日 六 19:49:56
-@@ -1694,7 +1694,11 @@
- EOF
+--- ffmpeg.orig/configure	2008-07-20 14:31:36.086985553 -0400
++++ ffmpeg/configure	2008-07-20 14:38:28.098359238 -0400
+@@ -861,7 +861,7 @@
+ rtsp_demuxer_deps="sdp_demuxer"
+ sdp_demuxer_deps="rtp_protocol mpegts_demuxer"
+ v4l_demuxer_deps="linux_videodev_h"
+-v4l2_demuxer_deps="linux_videodev2_h"
++v4l2_demuxer_deps="sys_videodev2_h"
+ vfwcap_demuxer_deps="capCreateCaptureWindow"
+ vfwcap_demuxer_extralibs="-lvfw32"
+ x11_grab_device_demuxer_deps="x11grab XShmCreateImage"
+@@ -1237,6 +1237,7 @@
+         ;;
+     linux)
+         LDLATEFLAGS="-Wl,--as-needed $LDLATEFLAGS"
++        v4l2_demuxer_deps="linux_videodev2_h"
+         enable dv1394
+         ;;
+     irix*)
+@@ -1757,6 +1758,7 @@
  
- enabled v4l  && check_header linux/videodev.h  || disable v4l
--enabled v4l2 && check_header linux/videodev2.h || disable v4l2
-+if test "$targetos" = linux; then
-+    enabled v4l2 && check_header linux/videodev2.h || disable v4l2
-+else
-+    enabled v4l2 && check_header sys/videodev2.h || disable v4l2
-+fi
+ check_header linux/videodev.h
+ check_header linux/videodev2.h
++check_header sys/videodev2.h
  
- # check for ioctl_meteor.h, ioctl_bt848.h and alternatives
- if enabled bktr; then
---- ffmpeg-export-2007-07-31.orig/libavformat/v4l2.c	2007年  7月 31日 二 02:16:43
-+++ ffmpeg-export-2007-07-31/libavformat/v4l2.c	2007年  8月 11日 六 21:07:56
-@@ -32,8 +32,13 @@
+ check_func2 "windows.h vfw.h" capCreateCaptureWindow -lvfw32
+ 
+--- ffmpeg.orig/libavdevice/v4l2.c	2008-03-25 19:34:49.000000000 -0400
++++ ffmpeg/libavdevice/v4l2.c	2008-07-20 14:31:36.093247710 -0400
+@@ -34,8 +34,13 @@
  #include <sys/ioctl.h>
  #include <sys/mman.h>
  #include <sys/time.h>
@@ -29,17 +41,18 @@
  #include <time.h>
  
  static const int desired_video_buffers = 256;
-@@ -562,12 +567,9 @@
+@@ -564,12 +569,9 @@
  
      st->codec->pix_fmt = fmt_v4l2ff(desired_format);
      s->frame_size = avpicture_get_size(st->codec->pix_fmt, width, height);
 -    if (capabilities & V4L2_CAP_STREAMING) {
-+    if (capabilities & V4L2_CAP_STREAMING && (mmap_init(s1) == 0)) {
-         s->io_method = io_mmap;
+-        s->io_method = io_mmap;
 -        res = mmap_init(s1);
 -        if (res == 0) {
 -            res = mmap_start(s1);
 -        }
++    s->io_method = io_mmap;
++    if (capabilities & V4L2_CAP_STREAMING && (mmap_init(s1) == 0)) {
 +        res = mmap_start(s1);
      } else {
          s->io_method = io_read;

@@ -16,8 +16,8 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibC
-Requires: SFElibdvdread
-BuildRequires: SFElibdvdread-devel
+Requires: SFElibdvdnav
+BuildRequires: SFElibdvdnav-devel
 
 %prep
 %setup -q -n dvdauthor-%version
@@ -60,5 +60,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
+* Thu Aug 07 2008 - trisk@acm.jhu.edu
+- Rename SFElibdvdread dependency to SFElibdvdnav
 * Thu Nov 22 2006 - dougs@truemail.co.th
 - Initial version

@@ -16,6 +16,7 @@ Summary:        GStreamer Streaming-media framework plug-ins - restricted redist
 URL:            http://gstreamer.freedesktop.org/
 Source:         http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
 Patch1:         gst-plugins-ugly-01-gettext.diff
+Patch2:         gst-plugins-ugly-02-dvdnav.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 Docdir:         %{_defaultdocdir}/doc
 Autoreqprov:    on
@@ -34,6 +35,7 @@ plug-ins.
 %prep
 %setup -n gst-plugins-ugly-%{version} -q
 %patch1 -p1
+%patch2 -p1
 
 %build
 CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS ; \
@@ -51,8 +53,8 @@ bash ./configure \
   --sysconfdir=%{_sysconfdir} \
   --mandir=%{_mandir}   \
   --disable-lame	\
-  --disable-mad	\
-  --disable-sid	\
+  --enable-dvdnav	\
+  --disable-sidplay	\
   %{gtk_doc_option}	\
   --enable-external --with-check=no
 
@@ -109,6 +111,8 @@ GStreamer support libraries header files.
 %{_datadir}/gtk-doc
 
 %changelog
+* Wed Jul 23 2008 - trisk@acm.jhu.edu
+- Add patch2 to use dvdnav
 * Tue Jul 22 2008 - trisk@acm.jhu.edu
 - Bump to 0.10.8
 * Thu Oct 18 2007 - trisk@acm.jhu.edu

@@ -19,6 +19,8 @@ Patch2:                  ffmpeg-02-configure.diff
 Patch3:                  ffmpeg-03-v4l2.diff
 Patch4:                  ffmpeg-04-options.diff
 Patch5:                  ffmpeg-05-mlib.diff
+# Security: CVE-2008-3162
+Patch6:                  ffmpeg-06-cve-2008-3162.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Autoreqprov:             on
@@ -31,6 +33,7 @@ Autoreqprov:             on
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -40,7 +43,12 @@ fi
 # for pod2man
 export PATH=/usr/perl5/bin:$PATH
 export CC=/usr/sfw/bin/gcc
+# All this is necessary to free up enough registers on x86
+%ifarch i386
 export CFLAGS="%gcc_optflags -fno-rename-registers -fomit-frame-pointer -fno-PIC -UPIC -mpreferred-stack-boundary=4 -I%{xorg_inc}"
+%else
+export CFLAGS="%gcc_optflags -I%{xorg_inc}"
+%endif
 export LDFLAGS="%_ldflags %{xorg_lib_path}"
 bash ./configure	\
     --prefix=%{_prefix} \
@@ -49,6 +57,7 @@ bash ./configure	\
     --mandir=%{_mandir}	\
     --cc=$CC		\
     %{arch_opt}		\
+    --disable-optimizations	\
     --disable-debug	\
     --enable-gpl	\
     --enable-postproc	\
@@ -98,6 +107,8 @@ EOM
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Aug 07 2008 - trisk@acm.jhu.edu
+- Add patch6, update CFLAGS
 * Thu Mar 27 2008 - trisk@acm.jhu.edu
 - Convert to base-spec
 - Update to 0.4.9-p20080326 from electricsheep.org

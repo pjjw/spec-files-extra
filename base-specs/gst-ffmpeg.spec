@@ -19,6 +19,10 @@ URL:            http://gstreamer.freedesktop.org/
 Source:         http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%{version}.tar.bz2
 Patch1:         gst-ffmpeg-01-BE_16.diff 
 Patch2:         gst-ffmpeg-02-ext-ffmpeg.diff
+Patch3:         gst-ffmpeg-03-new-codec-ids.diff
+Patch4:         gst-ffmpeg-04-av_picture_copy.diff
+Patch5:         gst-ffmpeg-05-disable-aac.diff
+Patch6:         gst-ffmpeg-06-disable-mpegts.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 Docdir:         %{_defaultdocdir}/doc
 Autoreqprov:    on
@@ -37,10 +41,14 @@ plug-ins.
 %setup -n gst-ffmpeg-%{version} -q
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 %build
 #CC=/usr/sfw/bin/gcc ; export CC ; \
-#CFLAGS="${CFLAGS:-%gcc_optflags} -fno-rename-registers -fomit-frame-pointer -fno-PIC -UPIC "; export CFLAGS ; \
+#CFLAGS="%gcc_optflags -fno-rename-registers -fno-PIC -UPIC -mpreferred-stack-boundary=4"; export CFLAGS ; \
 CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS ; \
 CXXFLAGS="${CXXFLAGS:-%optflags}" ; export CXXFLAGS ; \
 FFLAGS="${FFLAGS:-%optflags}" ; export FFLAGS ; \
@@ -114,6 +122,8 @@ GStreamer support libraries header files.
 %{_datadir}/gtk-doc
 
 %changelog
+* Wed Jul 23 2008 - trisk@acm.jhu.edu
+- Add patch3, patch4, patch5, patch6 from Debian
 * Tue Jul 22 2008 - trisk@acm.jhu.edu
 - Update to 0.10.4, use external ffmpeg
 * Thu Oct 18 2007 - trisk@acm.jhu.edu
