@@ -1,8 +1,3 @@
-2008-08-08  Padraig O'Briain  <padraig.obriain@sun.com>
-
-	* SUNWgroff.spec:
-	* copyright/SUNWgroff.copyright: spec files for groff.
-
 2008-08-08  Albert Lee  <trisk@acm.jhu.edu>
 
 	* patches/ffmpeg-02-configure.diff: Update regex for non-GNU sed
