@@ -1,3 +1,7 @@
+2008-08-08  Albert Lee  <trisk@acm.jhu.edu>
+
+	* patches/ffmpeg-02-configure.diff: Update regex for non-GNU sed
+
 2008-08-07  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEgtetrinet.spec: *NEW* Client program for the popular Tetrinet game
