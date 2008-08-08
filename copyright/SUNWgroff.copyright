@@ -1,0 +1,462 @@
+For the avoidance of doubt, except that if any license choice other
+than GPL or LGPL is available it will apply instead, Sun elects to
+use only the General Public License version 2 (GPLv2) at this time
+for any software where a choice of GPL license versions is made
+available with the language indicating that GPLv2 or any later
+version may be used, or where a choice of which version of the GPL
+is applied is otherwise unspecified.
+
+--------------------------------------------------------------------
+
+
+ Copyright (C) 2004, 2005 Free Software Foundation, Inc.
+ Written by Mike Bianchi <MBianchi@Foveal.com <mailto:MBianchi@Foveal.com>>
+
+ This file is part of the gdiffmk utility, which is part of groff.
+
+ groff is free software; you can redistribute it and/or modify it
+ under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2, or (at your option)
+ any later version.
+
+ groff is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
+ License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with groff; see the files COPYING and LICENSE in the top
+ directory of the groff source.  If not, write to the Free Software
+ Foundation, 51 Franklin St - Fifth Floor, Boston, MA 02110-1301, USA.
+ This file is part of GNU gdiffmk.
+
+
+
+--------------------------------------------------------------------
+
+ This small filter converts a hyphenation exception log article for
+ TUGBoat to a real \hyphenation block.
+
+ Written by Werner Lemberg <wl@gnu.org>.
+
+ Version 1.1 (2003/04/17)
+
+ Public domain.
+
+
+ Usage:
+
+   [perl] hyphenex.pl < tugboat-article > hyphenation-exceptions
+
+ print header
+
+--------------------------------------------------------------------
+
+ Copyright 1991 Massachusetts Institute of Technology
+
+ Permission to use, copy, modify, distribute, and sell this software and its
+ documentation for any purpose is hereby granted without fee, provided that
+ the above copyright notice appear in all copies and that both that
+ copyright notice and this permission notice appear in supporting
+ documentation, and that the name of M.I.T. not be used in advertising or
+ publicity pertaining to distribution of the software without specific,
+ written prior permission.  M.I.T. makes no representations about the
+ suitability of this software for any purpose.  It is provided "as is"
+ without express or implied warranty.
+
+ M.I.T. DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL M.I.T.
+ BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION
+ OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+ 
+--------------------------------------------------------------------
+
+   Copyright (C) 2005 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify it
+   under the terms of the GNU Library General Public License as published
+   by the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Library General Public License for more details.
+
+   You should have received a copy of the GNU Library General Public
+   License along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301,
+   USA.  
+
+ Made after relocation code in kpathsea and gettext.
+
+--------------------------------------------------------------------
+
+ Copyright -C- 1982 Barry S. Roitblat
+
+--------------------------------------------------------------------
+
+   Copyright (C) 1998, 1999 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301, USA.  
+
+
+--------------------------------------------------------------------
+
+
+ Copyright (C) 1989, 1990, 1991, 1992, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
+   Written by James Clark (jjc@jclark.com)
+
+  Copyright (C) 1989, 1990, 1991, 1992, 2001, 2002, 2003, 2004
+   Free Software Foundation, Inc.
+
+   groff is free software; you can redistribute it and/or modify it
+   under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   groff is distributed in the hope that it will be useful, but
+   WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with groff; see the file COPYING.  If not, write to the Free
+   Software Foundation, 51 Franklin St - Fifth Floor, Boston, MA
+   02110-1301, USA.
+
+
+
+--------------------------------------------------------------------
+
+ Copyright (C) 2001,2002,2003,2004,2005
+ Free Software Foundation, Inc.
+ Written by Bernd Warken
+
+ Last update: 22 August 2005
+
+--------------------------------------------------------------------
+
+ AUTHOR
+   Mark Martinec <mark.martinec@ijs.si>, April 1999.
+
+   Copyright 1999-2002 Mark Martinec. All rights reserved.
+
+ TERMS AND CONDITIONS
+   This program is free software; it is dual licensed, the terms of the
+   "Frontier Artistic License" or the "GNU General Public License"
+   can be chosen at your discretion. The chosen license then applies
+   solely and in its entirety. Both licenses come with this Kit.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty
+   of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+   See the license for more details.
+
+   You should have received a copy of the "Frontier Artistic License"
+   with this Kit in the file named LICENSE.txt, and the copy of
+   the "GNU General Public License" in the file named LICENSE-GPL.txt.
+   If not, I'll be glad to provide one.
+
+
+--------------------------------------------------------------------
+
+   Copyright (C) 1987,88,89,90,91,92,93,94,95,96,98,99,2000,2001,2002,2003,2004
+   Copyright (C) 1987,88,89,90,91,92,93,94,96,97,98,2004
+   Copyright (C) 1989-1994,1996-1999,2001,2003,2004
+	Free Software Foundation, Inc.
+ --------------------------------------------------------------------
+
+ Copyright (C) 2005 Free Software Foundation, Inc.
+ Copyright (C) 1991, 2001 Free Software Foundation, Inc.
+
+--------------------------------------------------------------------
+
+Copyright (C) 1989, 1990, 1991, 1992, 2000, 2001, 2002, 2004
+ Copyright (C) 1989, 1990, 1991, 1992, 2004, 2005
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992 Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
+
+ Copyright (C) 2000, 2001, 2002, 2004 Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2001 Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2004, 2005 Free Software Foundation, Inc.
+      Written by Keith Marshall (keith.d.marshall@ntlworld.com)
+
+
+ Copyright (C) 2003, 2004 Free Software Foundation, Inc.
+     Written by Jeff Conrad (jeff_conrad@msn.com)
+
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2001, 2002
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2001, 2003
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2001, 2002, 2004
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2002, 2003
+   Free Software Foundation, Inc.
+ Copyright (C) 1989-1992, 2000, 2001, 2002, 2003
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2001, 2003, 2004
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2001, 2002
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2002
+   Free Software Foundation, Inc.
+ Copyright (C) 1992, 2001, 2003, 2005 Free Software Foundation, Inc.
+ Copyright (C) 1992, 2001, 2003, 2004 Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2001 Free Software Foundation, Inc.
+     Written by Werner Lemberg (wl@gnu.org)
+
+ Copyright (C) 1989, 1990, 1991, 1992, 2001, 2003
+   Free Software Foundation, Inc.
+ Copyright (C) 2000 Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2002 Free Software Foundation, Inc.
+     Written by Werner Lemberg (wl@gnu.org)
+
+ Copyright (C) 2002
+   Free Software Foundation, Inc.
+     Written by Werner Lemberg <wl@gnu.org>
+
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2001
+   Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
+     Written by Gaius Mulley (gaius@glam.ac.uk)
+
+ Copyright (C) 1989-2000, 2001, 2002, 2003, 2005
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2001, 2002, 2003, 2005
+   Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+     Written by Gaius Mulley <gaius@glam.ac.uk>
+
+ Copyright (C) 2001, 2003, 2004 Free Software Foundation, Inc.
+     Written by Werner Lemberg (wl@gnu.org)
+
+ Copyright (C) 1989, 1990, 1991, 1992, 2005 Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2000, 2001, 2003, 2004 Free Software Foundation, Inc.
+     Written by Gaius Mulley (gaius@glam.ac.uk).
+
+ Copyright (C) 2005 Free Software Foundation, Inc.
+     Written by Werner Lemberg (wl@gnu.org)
+
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2001, 2003
+   Free Software Foundation, Inc.
+ Copyright (C) 1989-1992, 2000, 2001, 2004 Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2001, 2003, 2005
+   Free Software Foundation, Inc.
+ Copyright (C) 1989-1992, 2000, 2001, 2002, 2003, 2004
+   Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+Copyright (C) 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+     Written by Gaius Mulley <gaius@glam.ac.uk>
+
+ Copyright (C) 2001, 2004 Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2000, 2001 Free Software Foundation, Inc.
+     Written by Gaius Mulley (gaius@glam.ac.uk).
+
+ Copyright (C) 1994, 2000, 2001, 2003, 2004 Free Software Foundation, Inc.
+ Copyright (C) 1992, 2000, 2001, 2002, 2005 Free Software Foundation, Inc.
+ Copyright (C) 1989-2000, 2001, 2002, 2003, 2004
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2001, 2002, 2003, 2004
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2001, 2003
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2001, 2002, 2004, 2005
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2001, 2002, 2004
+   Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
+
+  Gaius Mulley (gaius@glam.ac.uk) wrote html-text.cpp
+
+ Copyright (C) 1989-1992, 2000, 2001, 2003, 2004, 2005
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2004
+   Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 1994, 2000, 2001, 2003, 2004, 2005
+   Free Software Foundation, Inc.
+     Written by Francisco Andrés Verdú <pandres@dragonet.es>
+
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2002, 2004
+   Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 1994, 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
+     Written by Francisco Andrés Verdú <pandres@dragonet.es> with many ideas
+     taken from the other groff drivers.
+
+
+ Copyright (C) 2002, 2003, 2004
+   Free Software Foundation, Inc.
+     Written by Werner Lemberg (wl@gnu.org)
+
+Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
+     Written by Gaius Mulley <gaius@glam.ac.uk>
+
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2001, 2002, 2004, 2005
+   Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2004
+   Free Software Foundation, Inc.
+     Written by: Keith Marshall (keith.d.marshall@ntlworld.com)
+
+ Copyright (C) 1989, 1990, 1991, 1992, 2004 Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 1993, 2003
+   Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ ------------------------------------------------------------------------------
+
+  Copyright (C) 2005, Free Software Foundation, Inc.
+      Written by Keith Marshall (keith.d.marshall@ntlworld.com)
+
+ Copyright (C) 1989-1992, 2000, 2001 Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2002, 2003, 2004
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
+ Copyright (C) 1989-2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
+     Written by Gaius Mulley (gaius@glam.ac.uk).
+
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2001, 2002, 2003, 2004
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2003 Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2003, 2004
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2002 Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2003
+   Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2000, 2001, 2003, 2004, 2005 Free Software Foundation, Inc.
+     Written by Gaius Mulley (gaius@glam.ac.uk).
+
+ Copyright (C) 1989, 1990, 1991, 1992, 2001, 2004
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2003, 2004
+   Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
+
+  Gaius Mulley (gaius@glam.ac.uk) wrote html-text.h
+
+ Copyright (C) 1989-2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2002, 2003, 2004
+   Free Software Foundation, Inc.
+     Written by Werner Lemberg <wl@gnu.org>
+
+ Copyright (C) 2000, 2002 Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2000, 2001, 2003, 2004, 2005 Free Software Foundation, Inc.
+
+  Copyright (C) 1989, 1990, 1991, 1992, 2001, 2004
+   Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+
+  Gaius Mulley (gaius@glam.ac.uk) wrote html-table.cpp
+
+ Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
+     Written by Eli Zaretskii (eliz@is.elta.co.il)
+
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2001, 2002, 2003, 2004
+   Free Software Foundation, Inc.
+     Written by Gaius Mulley <gaius@glam.ac.uk>
+     using adjust_arc_center() from printer.cpp, written by James Clark.
+
+ Copyright (C) 1989, 1990, 1991, 1992, 2000 Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2004 Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2002, 2004
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2001, 2004
+   Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+
+  Gaius Mulley (gaius@glam.ac.uk) wrote html-table.h
+
+
+ Copyright (C) 1992, 2001, 2003, 2004, 2005 Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2002, 2003, 2004
+   Free Software Foundation, Inc.
+     Written by Werner Lemberg <wl@gnu.org>
+
+ Copyright (C) 2002, 2003
+   Free Software Foundation, Inc.
+     Written by Werner Lemberg <wl@gnu.org>
+
+ Copyright (C) 1994, 2000, 2001, 2002, 2003, 2004
+   Free Software Foundation, Inc.
+ Copyright (C) 1989, 1990, 1991, 1992, 2000, 2001, 2002, 2003, 2004
+   Free Software Foundation, Inc.
+     Written by James Clark (jjc@jclark.com)
+
+ Copyright (C) 2004
+   Free Software Foundation, Inc.
+     Written by:  Jeff Conrad    (jeff_conrad@msn.com)
+       and        Keith Marshall (keith.d.marshall@ntlworld.com)
+
+ Copyright (C) 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+     Written by Gaius Mulley (gaius@glam.ac.uk).
+
+--------------------------------------------------------------------
+
