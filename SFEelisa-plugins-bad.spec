@@ -6,7 +6,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa-plugins-bad
-%define version 0.5.3
+%define version 0.5.4
 
 %include Solaris.inc
 
@@ -79,6 +79,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*.egg-info
 
 %changelog
+* Sat Aug 09 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.5.4.
 * Thu Jul 31 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.3.  Remove patch that disabled onscreen since it is no
   longer needed.
