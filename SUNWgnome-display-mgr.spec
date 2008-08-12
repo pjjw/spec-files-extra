@@ -87,7 +87,7 @@ Requires:                %{name}
 %patch1 -p1
 %patch2 -p0
 %patch3 -p1
-#%patch4 -p1
+%patch4 -p1
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -302,6 +302,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Thu Aug 11 2008 - simon.zheng@sun.com
+- Rework 04-dynamic-display.diff.
 * Thu Aug 07 2008 - brian.cameron@sun.com
 - Bump to 2.23.2.
 * Tue Jun 03 2008 - brian.cameron@sun.com
