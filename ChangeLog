@@ -1,7 +1,11 @@
+2008-08-12  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEcmake.spec: Bump to 2.6.1
+
 2008-08-10  Andras Barna  <andras.barna@gmail.com>
 
-        * SFEncurses.spec: Split data files, for SFEncursesw
-        * SFEncursesw.spec: New spec.
+	* SFEncurses.spec: Split data files, for SFEncursesw
+	* SFEncursesw.spec: New spec.
 
 2008-08-09  Brian Cameron  <brian.cameron@sun.com>
 
@@ -1382,12 +1386,12 @@
 	  as a quick way to share early results between developers
 	  NOTE: experimental is not searched by pkgtool|pkgbuild
 	      o place patches into normal
-	        patches/with-different-number-or-name.diff
+		patches/with-different-number-or-name.diff
 	      o place base-specs into normal
-	        base-specs/program-experimental.spec
+		base-specs/program-experimental.spec
 	      o once going public, adjust to normal directories/nameing
-	        conventions to be SFEprogram.spec,
-	        patches/program-nn-meaning.diff, base-specs/program.spec
+		conventions to be SFEprogram.spec,
+		patches/program-nn-meaning.diff, base-specs/program.spec
 	      o read the upcoming wiki page for examples
 
 2008-04-12  Brian Cameron  <brian.cameron@sun.com>

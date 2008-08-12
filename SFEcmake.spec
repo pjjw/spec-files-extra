@@ -7,7 +7,7 @@
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
-# Owner: 
+# Owner: halton
 #
 
 
@@ -15,7 +15,7 @@
 
 Name:                    SFEcmake
 Summary:                 Cross platform make system
-Version:                 2.6.0
+Version:                 2.6.1
 Source:                  http://www.cmake.org/files/v2.6/cmake-%{version}.tar.gz
 URL:                     http://www.cmake.org
 SUNW_BaseDir:            %{_basedir}
@@ -67,6 +67,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc
 
 %changelog
+* Mon Aug 11 2008 - nonsea@users.sourceforge.net
+- Bump to 2.6.1
 * Tue May 13 2008 - nonsea@users.sourceforge.net
 - Bump to 2.6.0
 * Fri Mar 07 2008 - nonsea@users.sourceforge.net
