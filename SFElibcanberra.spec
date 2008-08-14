@@ -8,7 +8,9 @@
 Name:                    SFElibcanberra
 Summary:                 Event Sound API Using XDG Sound Theming Specification
 Version:                 0.6
-Source:                  http://www.0pointer.de/public/libcanberra-%{version}.tar.gz
+License:                 LGPLv2.1
+URL:                     http://0pointer.de/blog/projects/sixfold-announcement.html
+Source:                  http://0pointer.de/public/libcanberra-%{version}.tar.gz
 Patch1:                  libcanberra-01-solaris.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
