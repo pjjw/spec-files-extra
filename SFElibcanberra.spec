@@ -55,6 +55,10 @@ rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 rm $RPM_BUILD_ROOT%{_libdir}/*.a
 rm $RPM_BUILD_ROOT%{_libdir}/*.la
+rm $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/modules/*.a
+rm $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/modules/*.la
+rm $RPM_BUILD_ROOT%{_libdir}/libcanberra/*.a
+rm $RPM_BUILD_ROOT%{_libdir}/libcanberra/*.la
 
 %if %build_l10n
 %else
