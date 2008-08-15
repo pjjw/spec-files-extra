@@ -14,6 +14,8 @@ Version:             4.2.1
 Source:              %{sf_download}/alleg/allegro-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
+SUNW_Copyright:      %{name}.copyright
+Group:               Games
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
@@ -127,6 +129,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Fri Aug 15 2008 - glynn.foster@sun.com
+- Add copyright and grouping.
 * Sat Oct 13 2007 - laca@sun.com
 - add FOX build support
 * Tue Mar 20 2007 - daymobrew@users.sourceforge.net

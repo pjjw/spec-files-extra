@@ -14,6 +14,8 @@ Source:              ftp://ftp.cac.washington.edu/alpine/alpine-%{version}.tar.b
 Patch2:              alpine-02-CC.diff
 URL:                 http://www.washington.edu/alpine/
 SUNW_BaseDir:        %{_basedir}
+SUNW_Copyright:      %{name}.copyright
+Group:		     Office/Email
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SUNWopenssl-include
@@ -83,6 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Fri Aug 15 2008 - glynn.foster@sun.com
+- Add license and grouping
 * Mon May 12 2008 - trisk@acm.jhu.edu
 - Bump to 1.10
 * Sat Jan 05 2007 - Thomas Wagner

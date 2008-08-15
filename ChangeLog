@@ -1,5 +1,11 @@
 2008-08-15  Glynn Foster  <glynn.foster@sun.com>
 
+	* SFEallegro.spec, SFEalpine.spec,
+	* copyright/SFEallegro.copyright,
+	* copyright/SFEalpine.copyright: Add copyright and grouping.
+
+2008-08-15  Glynn Foster  <glynn.foster@sun.com>
+
 	* SFEadns.spec, SFEafio.spec, SFEafterstep.spec,
 	copyright/SFEadns.copyright,
 	copyright/SFEafio.copyright,
