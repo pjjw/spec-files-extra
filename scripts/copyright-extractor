@@ -1,0 +1,733 @@
+#!/usr/perl5/bin/perl
+#
+# Script for extracting copyright and licensing information from source code
+#
+# CDDL HEADER START
+#
+# The contents of this file are subject to the terms of the
+# Common Development and Distribution License, Version 1.0 only
+# (the "License").  You may not use this file except in compliance
+# with the License.
+#
+# You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+# or http://www.opensolaris.org/os/licensing.
+# See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL HEADER in each
+# file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+# If applicable, add the following below this CDDL HEADER, with the
+# fields enclosed by brackets "[]" replaced with your own identifying
+# information: Portions Copyright [yyyy] [name of copyright owner]
+#
+# CDDL HEADER END
+#
+#
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+use strict;
+use warnings;
+use Cwd;
+use Getopt::Long qw(:config gnu_compat no_auto_abbrev bundling pass_through);
+
+my $min_merge = 10;
+
+sub usage() {
+    print "copyright-extractor [options] <source directory>\n";
+    print "\n";
+    print "Options:\n";
+    print "  -r, --raw\n";
+    print "         Print raw comments only, do not attempt to merge,\n";
+    print "         only unify identical comments.\n";
+    print "  -c, --copyright-first\n";
+    print "         Attempt to move copyright statements to the start of the\n";
+    print "         comment block.\n";
+    print "         Note: when using this option, there is a chance that\n";
+    print "         lines get mixed up if a copyright statement extends to\n";
+    print "         more than one line.\n";
+    print "  -m n --min=n\n";
+    print "         only merge if there are at least n consecutive identical\n";
+    print "         lines.  default: $min_merge\n";
+    print "  -g, --gpl\n";
+    print "         Add the disclaimer about GPLv2 to the beginning of the\n";
+    print "         output if any of the comments look like GPL/LGPL\n";
+    print "  -O, --omitted\n";
+    print "         Print a list of files that were not checked\n";
+    print "  -h, --help\n";
+    print "         Print this usage information\n";
+    print "  -d n, --debug=n\n";
+    print "         Turn on debug output.\n";
+}
+
+my %blurbs;
+
+my $gpl_found = 0;
+
+my @files_omitted;
+my $debug = 0;
+my $dumb_mode = 0;
+my $copyright_first = 0;
+my $gpl_disclaimer = 0;
+my $print_omitted = 0;
+
+my @dirs;
+sub process_args {
+    my $arg = shift;
+    
+    if ($arg =~ /^-/) {
+	print "Unknown option: $arg\n";
+	print "Try --help for usage.\n";
+	exit (1);
+    }
+
+    push (@dirs, $arg);
+}
+
+sub process_options {
+    
+    Getopt::Long::Configure ("bundling");
+      
+    GetOptions ('d|debug=n' => sub { shift; $debug = shift; },
+		'm|min=n' => sub { shift; $min_merge = shift; },
+		'r|raw' => sub { $dumb_mode = 1; },
+		'c|copyright-first' => sub { $copyright_first = 1; },
+		'O|omitted' => sub { $print_omitted = 1; },
+		'g|gpl' => sub { $gpl_disclaimer = 1; },
+		'h|help' => sub { usage (); exit (0); },
+		'<>' => \&process_args);
+}
+
+use constant FTYPE_IGNORE => 0;
+use constant FTYPE_C => 1;
+use constant FTYPE_PERL => 2;
+use constant FTYPE_PYTHON => 3;
+use constant FTYPE_SHELL => 4;
+use constant FTYPE_JAVA => 5;
+
+# a very simple file type check based on the file name
+# fname: the file name to classify
+# Returns: one of the above contants
+sub get_file_type ($) {
+    my $fname = shift;
+
+    if ($fname =~ /([~]$|\/(ChangeLog|configure\.in|Makefile|ltmain\.sh|README|NEWS|INSTALL|HACKING|configure$|config\.)$)/) {
+	# some file names to ignore
+	push (@files_omitted, $fname);
+	return FTYPE_IGNORE;
+    } elsif ($fname =~ /\.(am|ac|o|lo|ps|la|cache|diff|out|log|guess|spec)$/) {
+	# some more file names to ignore
+	push (@files_omitted, $fname);
+	return FTYPE_IGNORE;
+    } elsif ($fname =~ /\.(c|h|hpp|cpp|C|CPP|cc|CC)$/) {
+	return FTYPE_C;
+    } elsif ($fname =~ /\.pl$/) {
+	return FTYPE_PERL;
+    } elsif ($fname =~ /\.py$/) {
+	return FTYPE_PYTHON;
+    } elsif ($fname =~ /\.(sh|ksh|csh)$/) {
+	return FTYPE_SHELL;
+    } elsif ($fname =~ /\.(java)$/) {
+	return FTYPE_JAVA;
+    } else {
+	# FIXME: could do something smart here
+	push (@files_omitted, $fname);
+	return FTYPE_IGNORE;
+    }
+}
+
+# return 1 if the string includes words that suggest that the string
+# is some sort of legal text.  If none of these words appear in the
+# string, this program will ignore it and assume that it's some other
+# comment that happens to be at the beginning of the file
+sub is_legalese ($) {
+    my $str = shift;
+    
+    $str = lc ($str);
+    if ($str =~ /(licen[cs]|legal|terms|condition|copyright|rights|\(c\)|copying|usage|binary|distribut|gpl)/) {
+	return 1;
+    }
+
+    return 0;
+}
+
+# extract the comments 
+sub extract_comments_shell($) {
+    my $fname = shift;
+
+    my $blurb;
+    my $line;
+    open SRCFILE, "<$fname" or die "failed to open file $fname";
+    while ($line = <SRCFILE>) {
+	chomp ($line);
+	next if $line =~ /^#!/;
+	last if $line =~ /^[^#]/;
+	$line =~ s/^#//;
+	# delete certain types of comments, like emacs mode spec, etc
+	$line =~ s/^\s*-\*-.*-\*-\s*$//;
+	$line =~ s/^\s\$Id:.*\$\s*$//;
+	$line =~ s/^\s*vim(:\S+=\S+)+\s*$//;
+
+	chomp ($line);
+
+	if (defined $blurb) {
+	    $blurb = $blurb . "\n" . $line;
+	} elsif ($line ne '') {
+	    $blurb = $line;
+	}
+	$line = undef;
+    }
+    close SRCFILE;
+
+    if (defined ($blurb) and is_legalese ($blurb)) {
+	$blurbs{$fname} = $blurb;
+    }
+}
+
+sub extract_comments_c($) {
+    my $fname = shift;
+
+    my $blurb;
+    my $in_comment_block = 0;
+    open SRCFILE, "<$fname" or die "failed to open file $fname";
+    my $line;
+    while ($line = <SRCFILE>) {
+	chomp ($line);
+	if ($in_comment_block) {
+	    if ($line =~ /\*\//) {
+		$line =~ s/\*\/.*//;
+		$in_comment_block = 0;
+	    } elsif ($line =~ /^\/\//) {
+		$line =~ s/^\/\///;
+	    } elsif ($line =~ /^( \*|\*)/) {
+		$line =~ s/^( \*|\*)//;
+	    }
+	} else {
+	    if ($line =~ /^\s*\/\*(.*)\*\//) {
+		$line =~ s/^\s*\/\*(.*)\*\//$1/g;
+	    } elsif ($line =~ /^\s*\/\*/) {
+		$in_comment_block = 1;
+		$line =~ s/^\s*\/\*//;
+	    } elsif ($line =~ /^\/\//) {
+		$line =~ s/^\s*\/\///;
+	    } elsif ($line eq '') {
+		# add to blurb if not the start of the blurb
+	    } else {
+		# end of comments, stop processing
+		last;
+	    }
+	}
+	# delete certain types of comments, like emacs mode spec, etc
+	$line =~ s/^\s*-\*-.*-\*-\s*$//;
+	$line =~ s/^\s*vim(:\S+=\S+)+\s*$//;
+	$line =~ s/^\s\$Id:.*\$\s*$//;
+	$line =~ s/^\s*\**\s*\\ingroup\s*.*$//;
+	$line =~ s/^\s*\**\s*\\file\s*.*$//;
+	$line =~ s/^\s*\**\s*\@-type\@\s*$//;
+
+	chomp ($line);
+
+	if (defined $blurb) {
+	    $blurb = $blurb . "\n" . $line;
+	} elsif ($line ne '') {
+	    $blurb = $line;
+	}
+	$line = undef;
+    }
+    close SRCFILE;
+    if (defined ($blurb) and is_legalese ($blurb)) {
+	$blurbs{$fname} = $blurb;
+    }
+}
+
+sub extract_comments_python($) {
+    my $fname = shift;
+
+    my $blurb;
+    my $in_comment_block = 0;
+    open SRCFILE, "<$fname" or die "failed to open file $fname";
+    my $line;
+    while ($line = <SRCFILE>) {
+	chomp ($line);
+	if ($in_comment_block) {
+	    if ($line =~ /"""/) {
+		$line =~ s/"""//;
+		$in_comment_block = 0;
+	    } elsif ($line =~ /#/) {
+		$line =~ s/^#//;
+	    }
+	} else {
+	    if ($line =~ /^\s*"""(.*)"""/) {
+		$line =~ s/^\s*"""(.*)"""/$1/g;
+	    } elsif ($line =~ /^\s*"""/) {
+		$in_comment_block = 1;
+		$line =~ s/^\s*"""//;
+	    } elsif ($line =~ /^\/\//) {
+		$line =~ s/^\s*"""//;
+	    } elsif ($line eq '') {
+		# add to blurb if not the start of the blurb
+	    } else {
+		# end of comments, stop processing
+		last;
+	    }
+	}
+	# delete certain types of comments, like emacs mode spec, etc
+	$line =~ s/^\s*-\*-.*-\*-\s*$//;
+	$line =~ s/^\s*vim(:\S+=\S+)+\s*$//;
+	$line =~ s/^\s\$Id:.*\$\s*$//;
+
+	chomp ($line);
+
+	if (defined $blurb) {
+	    $blurb = $blurb . "\n" . $line;
+	} elsif ($line ne '') {
+	    $blurb = $line;
+	}
+	$line = undef;
+    }
+    close SRCFILE;
+    if (defined ($blurb) and is_legalese ($blurb)) {
+	$blurbs{$fname} = $blurb;
+    }
+}
+
+sub extract_comments($);
+
+# process a directory or a file recursively: extract the comments
+# from the beginning of each file and save them in @blurbs
+sub extract_comments($) {
+    my $fname = shift;
+    if (-d $fname) {
+	# directory -> process recursively
+	opendir(DIR, $fname) || die("Cannot open directory $fname");
+	my @thefiles= readdir(DIR);
+	closedir(DIR);
+	foreach my $f (@thefiles) {
+	    next if $f eq '.';
+	    next if $f eq '..';
+	    next if $f eq '.libs';
+	    next if $f eq 'intl';
+	    extract_comments ("$fname/$f");
+	}
+    } elsif (-f $fname) {
+	# regular file -> identify file type and read comments
+	my $ftype = get_file_type ($fname);
+	return if $ftype == FTYPE_IGNORE;
+	if ($ftype == FTYPE_C) {
+	    extract_comments_c ($fname);
+	} elsif ($ftype == FTYPE_PERL) {
+	    extract_comments_shell ($fname);
+	} elsif ($ftype == FTYPE_SHELL) {
+	    extract_comments_shell ($fname);
+	} elsif ($ftype == FTYPE_PYTHON) {
+	    extract_comments_python ($fname);
+	} elsif ($ftype == FTYPE_JAVA) {
+	    extract_comments_c ($fname);
+	}
+    } else {
+	print STDERR "ERROR: $fname: no such file or directory\n";
+    }
+}
+
+# like uniq(1)
+sub uniq (@) {
+    my @list = @_;
+    my $prev;
+    if (not @list) {
+	return @list;
+    }
+    $prev = $list[0];
+    my @uniq_list = ($prev);
+    foreach my $str (@list) {
+	next if $str eq $prev;
+	push (@uniq_list, $str);
+	$prev = $str;
+    }
+    return @uniq_list;
+}
+
+# return the number of lines in str
+sub line_count ($) {
+    my $str = shift;
+
+    return ($str =~ tr/\n//) + 1;
+}
+
+# return 1 if str is a member of the list, 0 otherwise
+sub is_member ($@) {
+    my $str = shift;
+    my @list = @_;
+
+    foreach my $s (@list) {
+	if ($str eq $s) {
+	    return 1;
+	}
+    }
+    
+    return 0;
+}
+
+sub do_merge_comments ($$$$$);
+
+# Args: references to lists of strings (lines of the texts)
+#
+# ml1: lines from the first text already processed
+# l1:  remaining lines of the 1st text
+# nl1: remaining normalised lines of the 1st text
+# l2:  remaining lines of the 2nd text
+# nl2: remaining normalised lines of the 1st text
+#
+# Return: list of merged lines
+sub do_merge_comments ($$$$$) {
+    my $ml1_ref = shift;
+    my $l1_ref = shift;
+    my $nl1_ref = shift;
+    my $l2_ref = shift;
+    my $nl2_ref = shift;
+
+    my @mlines1 = @$ml1_ref;
+    my @nmlines1;
+    my @lines1 = @$l1_ref;
+    my @norm_lines1 = @$nl1_ref;
+    my @lines2 = @$l2_ref;
+    my @norm_lines2 = @$nl2_ref;
+    my @nmlines2;
+    my @mlines2;
+
+    my @merged_lines;
+    my $line1;
+    my $norm_line1;
+    my $line2;
+    my $norm_line2;
+
+    if ($debug > 2) {
+	print "DEBUG: attempting to merge\n";
+	if (@mlines1) {
+	    print "DEBUG: lines already processed from 1st text:\n";
+	    print "DEBUG: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
+	    foreach my $l (@mlines1) {
+		print "DEBUG: $l\n";
+	    }
+	}
+	print "DEBUG: 1st text:\n";
+	print "DEBUG: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
+	foreach my $l (@lines1) {
+	    print "DEBUG: $l\n";
+	}
+	print "DEBUG: 2nd text:\n";
+	print "DEBUG: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
+	foreach my $l (@lines2) {
+	    print "DEBUG: $l\n";
+	}
+	print "DEBUG: <<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n";
+    }
+
+    if (not @lines1) {
+	push (@merged_lines, @mlines1);
+	push (@merged_lines, @lines2);
+	return @merged_lines;
+    }
+
+    if (not @lines2) {
+	push (@merged_lines, @mlines1);
+	push (@merged_lines, @lines1);
+	return @merged_lines;
+    }
+
+    # first save the lines only appearing in lines1,
+    # stop at the first 2 common lines that are not empty
+    while (@lines1) {
+	$line1 = shift (@lines1);
+	$norm_line1 = shift (@norm_lines1);
+	if (($norm_line1 ne '') and
+	    is_member ($norm_line1, @norm_lines2)) {
+	    last;
+	} else {
+	    push (@mlines1, $line1);
+	    push (@nmlines1, $norm_line1);
+	}
+    }
+    # now save the lines appearing in lines2 before the common line
+    while (@lines2) {
+	$line2 = shift (@lines2);
+	$norm_line2 = shift (@norm_lines2);
+
+	if ($norm_line2 ne $norm_line1) {
+	    push (@mlines2, $line2);
+	    push (@nmlines2, $line2);
+	} else {
+            last;
+        }
+    }
+    my @common_lines;
+    my @ncommon_lines;
+    # now save the first common line
+    if ($norm_line1 eq $norm_line2) {
+	if ($debug > 3) {
+	    print "DEBUG: 1st common line:\n";
+	    print "DEBUG: $line1\n";
+	}
+	@common_lines = ($line1);
+	@ncommon_lines = ($norm_line2);
+    } else {
+	# no common lines were found
+	# lines1 should be empty, all lines moved to mlines1
+	push (@merged_lines, @mlines1);
+	push (@merged_lines, @mlines2);
+	return @merged_lines;
+    }
+    # save all common lines
+    while (@lines1 and @lines2) {
+	$line1 = shift (@lines1);
+	$norm_line1 = shift (@norm_lines1);
+	$line2 = shift (@lines2);
+	$norm_line2 = shift (@norm_lines2);
+	if ($norm_line1 ne $norm_line2) {
+	    if ($debug > 3) {
+		print "DEBUG: no more common lines.\n";
+	    }
+	    unshift (@lines1, $line1);
+	    unshift (@norm_lines1, $norm_line1);
+	    unshift (@lines2, $line2);
+	    unshift (@norm_lines2, $norm_line2);
+	    last;
+	} else {
+	    if ($debug > 3) {
+		print "DEBUG: common line:\n";
+		print "DEBUG: $line1\n";
+	    }
+	    push (@common_lines, $line1);
+	    push (@ncommon_lines, $norm_line1);
+	}
+    }
+
+    # only merge if the number of common lines is at least $min_merge
+    # or we are at the end of one of the texts or if at the
+    # beginning of the 2nd text
+    if (($#common_lines >= $min_merge) or 
+	(not @lines1) or (not @lines2) or
+	(not @mlines2)) {
+	if ($debug > 1) {
+	    print "DEBUG: common lines:\n";
+	    foreach my $l (@common_lines) {
+		print "DEBUG: $l\n";
+	    }
+	    print "DEBUG: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n";
+	}
+	# first the lines from the 1st text
+	push (@merged_lines, @mlines1);
+	# then the lines from the 2nd text
+	push (@merged_lines, @mlines2);
+	# finally the common lines
+	push (@merged_lines, @common_lines);
+    } else {
+	# don't merge
+
+	# add the common lines to the processed part of the 1st text
+	push (@mlines1, @common_lines);
+
+	# add the common lines back to the unprocessed part of the 2nd text
+	unshift (@lines2, @common_lines);
+	# add the lines before the common lines back to the unprocessed
+	# part of the 2nd text
+	unshift (@lines2, @mlines2);
+	# add the normalised common lines back to
+	# the unprocessed part of the 2nd text
+	unshift (@norm_lines2, @ncommon_lines);
+	# add the normalised lines before the common lines back to
+        # the unprocessed part of the 2nd text
+	unshift (@norm_lines2, @nmlines2);
+
+	# add the normalised common lines back to 
+	# try to merge the rest of the texts
+	my @more_merged_lines = do_merge_comments (\@mlines1,
+	    \@lines1, \@norm_lines1, \@lines2, \@norm_lines2);
+	push (@merged_lines, @more_merged_lines);	
+	return @merged_lines;
+    }
+
+    if (not @lines1) {
+	push (@merged_lines, @lines2);
+    } elsif (not @lines2) {
+	push (@merged_lines, @lines1);
+    } else {
+	# repeat the process for the remaining lines
+	my @l1;
+	my @more_merged_lines = do_merge_comments (\@l1,
+	    \@lines1, \@norm_lines1, \@lines2, \@norm_lines2);
+	push (@merged_lines, @more_merged_lines);
+    }
+
+    return @merged_lines;
+}
+
+sub merge_comments ($$) {
+    my $str1 = shift;
+    my $str2 = shift;
+    my @lines1 = split /\n/, $str1;
+    my @lines2 = split /\n/, $str2;
+    my @norm_lines1;
+    my @norm_lines2;
+
+    foreach my $l0 (@lines1) {
+	# ignore whitespace differences
+	my $l1 = "$l0";
+	$l1 =~ s/\s+/ /g;
+	$l1 =~ s/^ //g;
+	chomp ($l1);
+	$l1 =~ s/ $//g;
+	$l1 = lc ($l1);
+	push (@norm_lines1, $l1);
+    }
+    foreach my $l0 (@lines2) {
+	# ignore whitespace differences
+	my $l2 = "$l0";
+	$l2 =~ s/\s+/ /g;
+	$l2 =~ s/^ //g;
+	chomp ($l2);
+	$l2 =~ s/ $//g;
+	$l2 = lc ($l2);
+	push (@norm_lines2, $l2);
+    }
+
+    my @l0;
+    my @merged_lines = do_merge_comments (\@l0, \@lines1, \@norm_lines1,
+					  \@lines2, \@norm_lines2);
+    my $merged_str;
+    if ($copyright_first) {
+	my @copyright_lines;
+	my @non_cr_lines;
+
+	foreach my $line (@merged_lines) {
+	    if ($line =~ /^\s*(copyright|\(c\)|©|author:|all rights reserved)/i) {
+		push (@copyright_lines, $line);
+	    } else {
+		push (@non_cr_lines, $line);
+	    }
+	}
+	@copyright_lines = sort (@copyright_lines);
+	@copyright_lines = uniq (@copyright_lines);
+	$merged_str = join ("\n", (@copyright_lines, @non_cr_lines));
+    } else {
+	$merged_str = join ("\n", @merged_lines);
+    }
+    return $merged_str;
+}
+
+my @all_comments;
+my %comments;
+
+sub unify_comments () {
+    foreach my $fname (keys %blurbs) {
+	if ($blurbs{$fname} =~ /\b(gpl|lgpl|gnu\s+(library\s+|lesser\s+|)general\s+public\s+license)\b/si) {
+	    # looks like GNU GPL/LGPL
+	    $gpl_found = 1;
+	}
+	if (defined ($comments{$blurbs{$fname}})) {
+	    $comments{$blurbs{$fname}} = $comments{$blurbs{$fname}} .
+		", $fname";
+	} else {
+	    $comments{$blurbs{$fname}} = $fname;
+	}
+    }
+    @all_comments = (keys %comments);
+}
+
+sub smart_merge_comments () {
+    my @temp_all_comments = @all_comments;
+    @all_comments = ();
+
+    my $i = 0;
+    while ($i <= $#temp_all_comments) {
+	my $did_merge = 0;
+	my $c1 = $temp_all_comments[$i];
+	for (my $j = $i+1; $j <= $#temp_all_comments; $j++) {
+	    my $c2 = $temp_all_comments[$j];
+	    my $c1_lc = line_count ($c1);
+	    my $c2_lc = line_count ($c2);
+	    my $c12_merged = merge_comments ($c1, $c2);
+	    my $c12_lc = line_count ($c12_merged);
+	    # if more than 10 lines or more than 25% saved then
+	    # keep the merged comments
+	    my $diff_lc = $c1_lc + $c2_lc - $c12_lc;
+	    if (($diff_lc > 10) or ($c12_lc <= ($c1_lc + $c2_lc)*0.75)) {
+		if ($debug > 0) {
+		    print "DEBUG*****************************************\n";
+		    print "$c1\n";
+		    print "++++++++++++++++++++++++++++++++++++++++++++++\n";
+		    print "$c2\n";
+		    print "==============================================\n";
+		    print "$c12_merged\n";
+		    print "*****************************************DEBUG\n";
+		}
+		$temp_all_comments[$j] = $c12_merged;
+		$did_merge = 1;
+		$comments{$c12_merged} = "$comments{$c1}, $comments{$c2}";
+		last;
+	    }
+	}
+	if (not $did_merge) {
+	    push (@all_comments, $c1);
+	}
+	$i++;
+    }
+}
+
+sub print_comments () {
+    if ($gpl_found and $gpl_disclaimer) {
+	print << "__EOF"
+For the avoidance of doubt, except that if any license choice other
+than GPL or LGPL is available it will apply instead, Sun elects to
+use only the General Public License version 2 (GPLv2) at this time
+for any software where a choice of GPL license versions is made
+available with the language indicating that GPLv2 or any later
+version may be used, or where a choice of which version of the GPL
+is applied is otherwise unspecified.
+
+--------------------------------------------------------------------
+
+__EOF
+    }
+    foreach my $comment (@all_comments) {
+	print "$comments{$comment}:\n";
+	print $comment;
+	print "\n\n" .
+	    "--------------------------------------------------------------------" .
+	    "\n\n";
+    }
+}
+
+sub main() {
+    my $srcdir;
+
+    process_options ();
+
+    if (not @dirs) {
+	usage();
+	exit (1);
+    }
+
+    foreach my $srcdir (@dirs) {
+	if ($srcdir =~ /^\./) {
+	    $srcdir = getcwd();
+	}
+	extract_comments ($srcdir);
+    }
+
+    unify_comments ();
+    if (not $dumb_mode) {
+	smart_merge_comments ();
+    }
+
+    print_comments ();
+
+    if ($print_omitted and @files_omitted) {
+	print "\nThe following files were not checked:\n\n";
+	foreach my $fname (@files_omitted) {
+	    print "    $fname\n";
+	}
+    }
+}
+
+main();

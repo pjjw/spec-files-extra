@@ -1,3 +1,7 @@
+2008-08-15  Glynn Foster  <glynn.foster@sun.com>
+
+	* scripts/copyright-extractor: Copy over from spec-files.
+
 2008-08-15  Andras Barna  <andras.barna@gmail.com>
 
         * SFEntfs-3g.spec: Bump to 1.2812
