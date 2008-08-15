@@ -23,6 +23,7 @@ Version:                 0.4.0
 Source:                  http://home.gna.org/monkeybubble/downloads/monkey-bubble-%{version}.tar.gz
 URL:                     http://home.gna.org/monkeybubble/
 Patch1:                  monkey-bubble-01-build.diff
+Group:			 Game/ArcadeGame
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
