@@ -1,5 +1,11 @@
 2008-08-15  Glynn Foster  <glynn.foster@sun.com>
 
+	* SFEaalib.spec, SFEabiword.spec,
+	copyright/SFEaalib.copyright, copyright/SFEabiword.copyright:
+	Add copyright and grouping.
+
+2008-08-15  Glynn Foster  <glynn.foster@sun.com>
+
 	* scripts/copyright-extractor: Copy over from spec-files.
 
 2008-08-15  Andras Barna  <andras.barna@gmail.com>

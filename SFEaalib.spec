@@ -12,6 +12,9 @@ Version:             1.4.0
 Source:              %{sf_download}/aa-project/aalib-%{tarball_version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
+SUNW_Copyright:	     %{name}.copyright
+Group: 		     Graphics/2DGraphics
+
 %include default-depend.inc
 %if %(pkginfo -q FSWxwrtl && echo 1 || echo 0)
 # FOX
@@ -106,6 +109,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Fri Aug 15 2008 - glynn.foster@sun.com
+- Add copyright and grouping meta-information
 * Mon Jan 22 2007 - laca@sun.com
 - fixed info file installation
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net

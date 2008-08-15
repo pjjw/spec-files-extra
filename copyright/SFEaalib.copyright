@@ -1,0 +1,38 @@
+/export/home/gman/aalib-1.4.0//src/aalib.h:
+ 
+               AA-lib, an ascii-art gfx library
+                  Copyright (C) 1998,1999,2001 by
+
+      Jan Hubicka          (hubicka@freesoft.cz)
+      Kamil Toman          (toman@artax.karlin.mff.cuni.cz)
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU Library General Public License as published
+ by the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU Library General Public
+ License along with this program; if not, write to the Free Software
+ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ 
+
+--------------------------------------------------------------------
+
+/export/home/gman/aalib-1.4.0//src/aalinuxkbd.c:
+ Raw keyboard mode driver for linux console by Jan Hubicka.
+ This driver is based on:
+ librawkey v0.21 - (c) 1994, 1995 Russell Marks
+ This library may be freely used/copied/modified provided this copyright
+ notice is left intact.
+
+ needs keymap support in kernel - been there since 0.99pl12 I think.
+ 
+
+
+--------------------------------------------------------------------
+

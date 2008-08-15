@@ -1,0 +1,151 @@
+
+ Copyright (C) 1998-2001 AbiSource, Inc.
+ Copyright (C) 2000-2007 Hubert Figuiere
+ Copyright (C) 2001-2003 AbiSource, Inc.
+ Copyright (C) 2001-2007 Tomas Frydrych <tomas@frydrych.uklinux.net>
+ Copyright (C) 2000 CodeWeavers
+ Copyright (C) 2002, 2004 Francis James Franklin <fjf@alinameridon.com>
+ Copyright (C) 2000 Eazel, Inc
+ Copyright (C) 2001-2003 Dom Lachowicz <dominicl@seas.upenn.edu>
+ Copyright (C) 1998, 2002-2005, 2007 Martin Sevior <msevior@physics.unimelb.edu.au>
+ Copyright (C) 2005 Net Integration Technologies Inc
+ Copyright (C) 2001, 2003 Mike Nordell
+ Copyright (C) 2002 Patrick Lam <plam@mit.edu>
+ Copyright (C) 2000 Vlad Harchev <hvv@hippo.ru>
+ Copyright (C) 2003 Marc Maurer
+ Copyright (C) 2002-2006 Jordi Mas i Hernàndez	
+ Copyright (C) 2006 Robert Staudinger <robert.staudinger@gmail.com>
+ Copyright (C) 2004 Luca Padovani <lpadovan@cs.unibo.it>
+ Copyright (C) 2004 Mikey Cooper (mikey@bluey.com)
+ Copyright (C) 2007 One Laptop Per Child
+ Copyright (C) 2002 William Lachance 
+ Copyright (C) 1999 Matt Kimball
+ Copyright (C) 1996, 1997, 1998 Theodore Ts'o.
+ Copyright (C) 1999 The Free Software Foundation
+ Copyright (C) 2007 Tomas Frydrych.
+ Copyright (C) 2001-2004, 2007 Hubert Figuiere
+ Copyright (C) 2005 Renato Araujo <renato.filho@indt.org.br>
+ Copyright (C) 2002 Johan Björk 
+ Copyright (C) 2002 Tomas Frydrych <tomas@frydrych.uklinux.net>
+ Copyright (C) 2002 Dom Lachowicz <cinamod@hotmail.com>
+ Copyright (C) 2002 Gilles Saint-Denis.
+ Copyright (C) 2003 Johan Björk <phearbear@home.se>
+ Copyright (C) 2001 Gaetan Ryckeboer
+ Copyright (C) 2004, 2005 Morten Welinder (terra@gnome.org)
+ Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
+ Copyright (C) 2004 Yukihiro Nakai  <nakai@gnome.gr.jp>
+ Copyright (C) 2003, Red Hat, Inc.
+ Copyright (C) 1999, 2000 EMC Capital Management, Inc.
+
+ This class is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
+ 02111-1307, USA.
+
+--------------------------------------------------------------------
+
+  Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
+  Copyright (C) 2005 Robert Staudinger
+  Copyright (C) 2000, 2001, 2003, 2004, Ximian, Inc.
+  Copyright (C) 2000, Michael Levy
+  Copyright (C) 2001, Almer S. Tigelaar
+  Copyright (C) 2004, Jody Goldberg
+  Copyright (C) 2002 Joaquin Cuenca Abela
+  Copyright (C) 1997-2003 Net Integration Technologies, Inc.
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Library General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+ Library General Public License for more details.
+
+ You should have received a copy of the GNU Library General Public
+ License along with this library; if not, write to the
+ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ Boston, MA 02111-1307, USA.
+
+--------------------------------------------------------------------
+
+ Copyright (c), 1983, by Pace Willisson
+ Copyright 1987, 1988, 1989, 1992, 1993, Geoff Kuenning, Granada Hills, CA
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. All modifications to the source code must be clearly marked as
+    such.  Binary redistributions based on modified source code
+    must be clearly marked as modified versions in the documentation
+    and/or other materials provided with the distribution.
+ 4. All advertising materials mentioning features or use of this software
+    must display the following acknowledgment:
+      This product includes software developed by Geoff Kuenning and
+      other unpaid contributors.
+ 5. The name of Geoff Kuenning may not be used to endorse or promote
+    products derived from this software without specific prior
+    written permission.
+
+ THIS SOFTWARE IS PROVIDED BY GEOFF KUENNING AND CONTRIBUTORS ``AS IS'' AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED.  IN NO EVENT SHALL GEOFF KUENNING OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ SUCH DAMAGE.
+ 
+--------------------------------------------------------------------
+
+ AbiSource Program Utilities
+ Copyright (c) 1983 Regents of the University of California.
+ All rights reserved.
+
+ Redistribution and use in source and binary forms are permitted
+ provided that the above copyright notice and this paragraph are
+ duplicated in all such forms and that any documentation,
+ advertising materials, and other materials related to such
+ distribution and use acknowledge that the software was developed
+ by the University of California, Berkeley.  The name of the
+ University may not be used to endorse or promote products derived
+ from this software without specific prior written permission.
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+ WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ 
+ This is derived from the Berkeley source:
+      @(#)random.c    5.5 (Berkeley) 7/6/88
+ It was reworked for the GNU C Library by Roland McGrath.
+ Rewritten to use reentrant functions by Ulrich Drepper, 1995.
+ Adapted for use in AbiWord by Patrick Lam, 2001 (some systems suck).
+ 
+--------------------------------------------------------------------
+
+ Written by: Mike Hearn <mike@theoretic.com>
+             Hongli Lai <h.lai@chello.nl>
+ 
+ This source code is public domain. You can relicense this code
+ under whatever license you want.
+

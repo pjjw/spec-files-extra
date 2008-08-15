@@ -18,6 +18,8 @@ Name:               SFEabiword
 Summary:            %abiword.summary
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
+SUNW_Copyright:      %{name}.copyright
+Group:		    Office/Spreadsheet
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
@@ -112,6 +114,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Aug 15 2008 - glynn.foster@sun.com
+- Add copyright and grouping
 * Mon Apr 14 2008 - nonsea@users.sourceforge.net
 - s/SUNWdesktop-search-libs/SUNWlibgsf cause the pkg name change.
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net
