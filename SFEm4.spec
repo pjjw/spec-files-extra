@@ -8,9 +8,7 @@
 
 Name:                    SFEm4
 Summary:                 GNU m4 macro processor
-# Note: version 1.4.8 breaks autoconf 2.61.  Please test SFEautoconf
-# if you update SFEm4 to a newer version
-Version:                 1.4.7
+Version:                 1.4.11
 Source:			 http://ftp.gnu.org/gnu/m4/m4-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -18,7 +16,7 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires: SUNWlibms
 Requires: SUNWpostrun
 Requires: SUNWtexi
-BuildConflicts: SUNWgm4
+Conflicts: SUNWgm4
 
 %prep
 %setup -q -n m4-%version
@@ -48,6 +46,10 @@ cd $RPM_BUILD_ROOT%{_prefix}
 ln -s share/man man
 
 rm $RPM_BUILD_ROOT%{_infodir}/dir
+
+#remove charset.alias
+rm -f $RPM_BUILD_ROOT%{_libdir}/charset.alias
+rmdir $RPM_BUILD_ROOT%{_libdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -89,6 +91,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/m4.1
 
 %changelog
+* Sat Aug 16 2008 - nonsea@users.sourceforge.net
+- Bump to 1.4.11 (1.4.8 ever break autoconf 2.6.1, 1.4.11 seems fix it)
+- Change "BuildConflicts: SUNWgm4" to "Conflicts: SUNWgm4"
 * Sat Apr 21 2007 - dougs@truemail.co.th
 - Added BuildConflicts: SUNWgm4
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net

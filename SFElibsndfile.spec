@@ -31,6 +31,7 @@ Requires: SUNWogg-vorbis
 Requires: SUNWflac
 Requires: SUNWflac
 Requires: SUNWlibms
+BuildRequires: SUNWaudh
 
 %package devel
 Summary:                 %{summary} - development files
@@ -108,6 +109,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Aug 16 2008 - nonsea@users.sourceforge.net
+- Add BuildRequires: SUNWaudh
 * Fri Jun 13 2008 - trisk@acm.jhu.edu
 - Allow building with SFEogg-vorbis again
 * Mon May 05 2008 - brian.cameron@sun.com

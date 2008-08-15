@@ -1,3 +1,9 @@
+2008-08-16  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFElibsndfile.spec: Add BuildRequires: SUNWaudh
+	* SFEm4.spec: Bump to 1.4.11 (1.4.8 ever break autoconf 2.6.1, 1.4.11
+	 seems fix it). Change "BuildConflicts: SUNWgm4" to "Conflicts: SUNWgm4"
+
 2008-08-15  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFEalsa-lib.spec, SFEalsa-plugins.spec, SFEalsa-utils.spec,
@@ -30,7 +36,7 @@
 
 2008-08-15  Andras Barna  <andras.barna@gmail.com>
 
-        * SFEntfs-3g.spec: Bump to 1.2812
+	* SFEntfs-3g.spec: Bump to 1.2812
 
 2008-08-14  Brian Cameron  <brian.cameron@sun.com>
 
