@@ -1,3 +1,9 @@
+2008-08-15   Andras Barna  andras.barna@gmail.com
+
+	* SFElame.spec:	new version, 
+          add a hack to disable MMX things which causes compilation failure FIXME 
+          disable patch1, patch2 not needed
+
 2008-08-16  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFElibsndfile.spec: Add BuildRequires: SUNWaudh
