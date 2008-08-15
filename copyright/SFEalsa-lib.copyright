@@ -1,0 +1,115 @@
+
+   Linux Audio Developer's Simple Plugin API Version 1.1[LGPL].
+   Copyright (C) 2000-2002 Richard W.E. Furse, Paul Barton-Davis,
+   Stefan Westerfeld.
+   
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public License
+   as published by the Free Software Foundation; either version 2.1 of
+   the License, or (at your option) any later version.
+   
+   This library is distributed in the hope that it will be useful, but
+   WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   Lesser General Public License for more details.
+   
+   You should have received a copy of the GNU Lesser General Public
+   License along with this library; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+   USA. 
+
+
+--------------------------------------------------------------------
+
+   Copyright (C) 1993, 1995, 1996, 1997 Free Software Foundation, Inc.
+
+   This file is part of the GNU C Library.
+   Contributed by Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1993.
+
+   Declarations for System V style searching functions.
+
+   Copyright (C) 1995-1999, 2000 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
+
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public License as
+   published by the Free Software Foundation; either version 2.1 of the
+   License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; see the file COPYING.LIB.  If not,
+   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   Boston, MA 02111-1307, USA.  
+
+--------------------------------------------------------------------
+
+  Copyright (c) 2000 Uros Bizjak <uros@kss-loka.si>
+  Copyright (c) 1998-1999 Frank van de Pol <fvdpol@coil.demon.nl>
+  Copyright (c) 1994-2003 Jaroslav Kysela <perex@suse.cz>
+  Copyright (c) 1994-2003 Albramo Bagnara <abramo@alsa-project.org>	
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+
+ 
+
+--------------------------------------------------------------------
+
+  Copyright (c) 2005 by Jaroslav Kysela <perex@suse.cz>
+
+
+   This library is free software; you can redistribute it and/or modify
+   it under the terms of the GNU Lesser General Public License as
+   published by the Free Software Foundation; either version 2.1 of
+   the License, or (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with this library; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+
+ 
+--------------------------------------------------------------------
+
+  Copyright (c) 1998-2006 Jaroslav Kysela <perex@suse.cz>
+  Copyright (c) 2000-2001,2003 Abramo Bagnara <abramo@alsa-project.org>
+  Copyright (c) 2003-2006 Takashi Iwai <tiwai@suse.de>
+  Copyright (c) 1992 Jack Jansen <Jack.Jansen@cwi.nl>
+  Copyright (c) 1992 Stichting Mathematisch Centrum
+  Copyright (c) 1999 by Uros Bizjak <uros@kss-loka.si>
+                2003-2006 Takashi Iwai <tiwai@suse.de>
+
+   This library is free software; you can redistribute it and/or modify
+   it under the terms of the GNU Lesser General Public License as
+   published by the Free Software Foundation; either version 2.1 of
+   the License, or (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with this library; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA

@@ -1,5 +1,12 @@
 2008-08-15  Glynn Foster  <glynn.foster@sun.com>
 
+	* SFEalsa-lib.spec, SFEalsa-plugins.spec, SFEalsa-utils.spec,
+	copyright/SFEalsa-lib.copyright,
+	copyright/SFEalsa-plugins.copyright,
+	copyright/SFEalsa-utils.copyright: Add copyright and grouping.
+
+2008-08-15  Glynn Foster  <glynn.foster@sun.com>
+
 	* SFEallegro.spec, SFEalpine.spec,
 	* copyright/SFEallegro.copyright,
 	* copyright/SFEalpine.copyright: Add copyright and grouping.

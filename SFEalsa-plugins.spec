@@ -16,6 +16,8 @@ Name:                    SFEalsa-plugins
 Summary:                 %{alsa.summary}
 Version:                 %{alsa.version}
 SUNW_BaseDir:            %{_basedir}
+SUNW_Copyright:          %{name}.copyright
+Group: 			 Audio
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: oss
@@ -70,6 +72,8 @@ rm -rf $RPM_BUILD_ROOT
 %config %{_sysconfdir}/asound.conf
 
 %changelog
+* Fri Aug 15 2008 - glynn.foster@sun.com
+- Add license and grouping
 * Sun Aug 12 2007 - dougs@truemail.co.th
 - Changed to build 64bit
 * Sun Aug 12 2007 - dougs@truemail.co.th

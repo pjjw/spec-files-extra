@@ -16,6 +16,8 @@ Name:                    SFEalsa-lib
 Summary:                 %{alsalib.summary}
 Version:                 %{alsalib.version}
 SUNW_BaseDir:            %{_basedir}
+SUNW_Copyright:          %{name}.copyright
+Group:			 Audio
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SFEgcc
@@ -88,6 +90,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Aug 15 2008 - glynn.foster@sun.com
+- Add license and group
 * Sat Sep 22 2007 - dougs@truemail.co.th
 - Added SFEgcc requirement
 * Sun Aug 12 2007 - dougs@truemail.co.th

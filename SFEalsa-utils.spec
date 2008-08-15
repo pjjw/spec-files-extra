@@ -1,7 +1,7 @@
 #
 # spec file for package SFEalsa-utils
 #
-# includes module(s): alsa-utils
+ includes module(s): alsa-utils
 #
 %include Solaris.inc
 
@@ -12,6 +12,8 @@ Source:                  ftp://ftp.alsa-project.org/pub/utils/alsa-utils-%{versi
 Patch1:			 alsa-utils-01-endian.diff
 Patch2:			 alsa-utils-02-configure.diff
 SUNW_BaseDir:            %{_basedir}
+SUNW_Copyright:          %{name}.copyright
+Group:			 Audio
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SFEalsa-lib-devel
@@ -76,5 +78,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}
 
 %changelog
+* Fri Aug 15 2008 - glynn.foster@sun.com
+- Add license and grouping
 * Sat Aug 11 2007 - dougs@truemail.co.th
 - Initial version
