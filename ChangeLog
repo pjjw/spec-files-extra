@@ -1,5 +1,12 @@
 2008-08-15  Glynn Foster  <glynn.foster@sun.com>
 
+	* SFEadns.spec, SFEafio.spec, SFEafterstep.spec,
+	copyright/SFEadns.copyright,
+	copyright/SFEafio.copyright,
+	copyright/SFEafterstep.copyright: Add copyright and grouping.
+
+2008-08-15  Glynn Foster  <glynn.foster@sun.com>
+
 	* SFEaalib.spec, SFEabiword.spec,
 	copyright/SFEaalib.copyright, copyright/SFEabiword.copyright:
 	Add copyright and grouping.

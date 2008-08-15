@@ -16,6 +16,8 @@ Name:                    SFEadns
 Summary:                 %{adns.summary}
 Version:                 %{adns.version}
 SUNW_BaseDir:            %{_basedir}
+SUNW_Copyright:		 %{name}.copyright
+Group:			 Network
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
@@ -72,5 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Fri Aug 15 2008 - glynn.foster@sun.com
+- Add license and grouping
 * Wed Aug 15 2007 - dougs@truemail.co.th
 - Initial version

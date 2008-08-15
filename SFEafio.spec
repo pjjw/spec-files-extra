@@ -23,6 +23,8 @@ Summary:                AFIO - An archiving engine capable of cpio compatible ou
 Version:                %{src_version}
 Source:                 %{src_url}/%{src_name}-%{version}.tgz
 SUNW_BaseDir:           %{_basedir}
+SUNW_Copyright:         %{name}.copyright
+Group:			Utility/Archiving/Compression
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 URL:                    http://members.brabant.chello.nl/~k.holtman, http://members.chello.nl/~k.holtman
 Patch0:                 %{src_name}-01-%{version}.gcc.diff
@@ -56,6 +58,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Fri Aug 15 2008 - glynn.foster@sun.com
+- Add grouping and license info
 * Sat Oct 13 2007 - laca@sun.com
 - fix _datadir permissions
 * Sat Aug 11 2007 - ananth@sun.com

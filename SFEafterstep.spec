@@ -12,6 +12,8 @@ Name:                   SFEafterstep
 Summary:                %{afterstep.summary}
 Version:                %{afterstep.version}
 SUNW_BaseDir:           %{_basedir}
+SUNW_Copyright:         %{name}.copyright
+Group:			Graphics
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
@@ -59,5 +61,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Fri Aug 15 2008 - glynn.foster@sun.com
+- Add licensing and grouping.
 * Sat Apr 28 2007 - dougs@truemail.co.th
 - Initial version
