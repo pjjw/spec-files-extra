@@ -9,7 +9,7 @@
 
 Name:                    SFEntfs-3g
 Summary:                 NTFS-3G Stable Read/Write Driver
-Version:                 1.2717
+Version:                 1.2812
 Source:			 http://ntfs-3g.org/ntfs-3g-%{version}.tgz
 Url:                     http://ntfs-3g.org
 SUNW_BaseDir:            %{_basedir}
@@ -84,5 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Aug 15 2008 - andras.barna@gmail.com
+- new version: 1.2812 
 * Wed Aug 06 2008 - andras.barna@gmail.com
 - initial spec
