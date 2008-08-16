@@ -1,17 +1,32 @@
+2008-08-16  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEasciidoc.spec: Bump to 8.2.7
+	* SFExmlto.spec: Add Requires to SUNWgnome-xml-root and SUNWw3m
+	* base-specs/doxygen.spec: Bump to 1.5.6
+	* encumbered/.pkgtoolrc: (added)
+	* patches/doxygen-01-iconv.diff: remove upstreamed patch
+	* patches/doxygen-01-solaris-pkgtool.diff: (added)
+	* patches/doxygen-02-nameconflict.diff: remove upstreamed patch
+	* patches/doxygen-02-solaris-tmake-i386.diff: (added)
+	* patches/doxygen-02-solaris-tmake-sparc.diff: (added)
+	* patches/doxygen-03-solaris-i386.diff: (removed)
+	* patches/doxygen-03-solaris-sparc.diff: (removed)
+	* patches/doxygen-04-tmake-g++.diff: reordered
+
 2008-98-15  Michal Bielicki <michal.bielicki@halokwadrat.de>
 
-        * SFEiksemel - New package
+	* SFEiksemel - New package
 
 2008-08-15  Willie Walker  <william.walker@sun.com>
- 
-        * SFEespeak.spec: port to SunStudio (thanks Brian Cameron)
-        * patches/espeak-01-makefile.diff: port to SunStudio (thanks Brian!)
+
+	* SFEespeak.spec: port to SunStudio (thanks Brian Cameron)
+	* patches/espeak-01-makefile.diff: port to SunStudio (thanks Brian!)
 
 2008-08-15   Andras Barna  andras.barna@gmail.com
 
 	* SFElame.spec:	new version, 
-          add a hack to disable MMX things which causes compilation failure FIXME 
-          disable patch1, patch2 not needed
+	  add a hack to disable MMX things which causes compilation failure FIXME 
+	  disable patch1, patch2 not needed
 
 2008-08-16  Halton Huo <nonsea@users.sourceforge.net>
 
