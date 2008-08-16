@@ -8,17 +8,18 @@
 
 Name:           doxygen
 License:        GPL
-Version:        1.5.4
-URL:            http://ftp.stack.nl/pub/users/dimitri
+Version:        1.5.6
+URL:            http://www.doxygen.org/
 Summary:        Doxygen is a documentation system for various programming languages
-Source:         http://ftp.stack.nl/pub/users/dimitri/%{name}-%{version}.src.tar.gz
-Patch2:		doxygen-02-nameconflict.diff
+#Source:         http://ftp.stack.nl/pub/users/dimitri/%{name}-%{version}.src.tar.gz
+Source:         http://gd.tuwien.ac.at/softeng/%{name}/%{name}-%{version}.src.tar.gz
+Patch1:         doxygen-01-solaris-pkgtool.diff
 %ifarch sparc
-Patch3:		doxygen-03-solaris-sparc.diff
+Patch2:		doxygen-02-solaris-tmake-sparc.diff
 %else
-Patch3:		doxygen-03-solaris-i386.diff
+Patch2:		doxygen-02-solaris-tmake-i386.diff
 %endif
-Patch4:         doxygen-04-tmake-g++.diff
+Patch3:         doxygen-03-tmake-g++.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Docdir:         %{_defaultdocdir}/doc
 
@@ -29,9 +30,9 @@ Requires:	%{name} = %{version}
 
 %prep
 %setup -q
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 %build
 %ifos linux
@@ -74,6 +75,12 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Sat Aug 16 2008 - nonsea@users.sourceforge.net
+- Bump to 1.5.6
+- Use a live Source URL.
+- Add solaris-pkgtool.diff
+- Add solaris-tmake-sparc.diff and solaris-tmake-i386.diff
+- Remove solaris-sparc.diff and solaris-i386.diff and reorder
 * Sun Feb 17 2008 - laca@sun.com
 - build using the C/C++ compiler specified by the CC/CXX env variables
 * Fri Jan 18 2008 - moinak.ghosh@sun.com

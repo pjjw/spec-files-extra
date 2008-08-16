@@ -16,7 +16,9 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlxsl
 Requires: SUNWgnome-xml-share
+Requires: SUNWgnome-xml-root
 Requires: SUNWgnugetopt
+Requires: SUNWw3m
 
 %prep
 rm -rf %name-%version
@@ -59,6 +61,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Sat Aug 16 2008 - nonsea@users.sourceforge.net
+- Add Requires to SUNWgnome-xml-root and SUNWw3m
 * Tue Jun 17 2008 - simon.zheng@sun.com
 - Add patch 01-find.diff, remove depedency of
   GNU find utility.
