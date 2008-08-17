@@ -1,0 +1,28 @@
+--- dummy/rsnapshot-program.pl_pre_retries	Sun Jan 22 18:19:13 2006
++++ dummy/rsnapshot-program.pl	Tue Mar 27 02:07:33 2007
+ ########################################################################
+ #                                                                      #
+ # rsnapshot                                                            #
+@@ -3391,8 +3391,14 @@
+ 	print_cmd(@cmd_stack);
+ 	
+ 	if (0 == $test) {
++              my $retry_count=15;
++              while ($retry_count >0) {
+ 		$result = system(@cmd_stack);
+ 		
++              log_warn("rsync returned error $result - retrys left: $retry_count", 1);
++	      $retry_count--;
++	      next if ( ($result == 12 or $result == 30 ) && $retry_count > 0); # try rsync again! 12   Error in rsync protocol data stream 30   Timeout in data send/receive
++
+ 		# now we see if rsync ran successfully, and what to do about it
+ 		if ($result != 0) {
+ 			# bitmask return value
+@@ -3402,6 +3402,7 @@
+ 			#
+ 			handle_rsync_error($retval, $bp_ref);
+ 		}
++              } # end while retry_count > 0
+ 	}
+ }
+ 

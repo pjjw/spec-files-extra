@@ -14,6 +14,8 @@ Summary:                 %{PN} - %{DESCRIPTION}
 Group:					 %{CATEGORY}
 Version:                 %{PV}
 Source:                  %{SRC_URI}
+##TODO## make upstream, add configurable retry count
+Patch1:			rsnapshot-01-retrycount.diff
 URL:			 		 %{HOMEPAGE}		 
 SUNW_BaseDir:            %{_basedir}
 SUNW_Category:           SFE,application,%{CATEGORY}
@@ -32,6 +34,7 @@ SUNW_BaseDir:            /
 
 %prep
 %setup -q -n %{PN}-%{PV}
+%patch1 -p1
 
 
 %build
@@ -79,5 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Aug 17 2008 - Thomas Wagner
+- add patch1 to have rsync retry 15x in case exit 12 or 30.
+  had no backupjobs completing bcs 24h ADSL-forced disconnects
 * Mon Sep 20 2007 - flistellox@gmail.com
 - Initial Specs
