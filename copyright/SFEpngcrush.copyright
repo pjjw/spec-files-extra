@@ -1,0 +1,425 @@
+pngcrush-1.6.7/pngcrush.c:
+ pngcrush.c - recompresses png files
+ Copyright (C) 1998-2002,2006-2008 Glenn Randers-Pehrson (glennrp@users.sf.net)
+ Copyright (C) 2005      Greg Roelofs
+
+ The most recent version of pngcrush can be found at SourceForge in
+ http://pmt.sf.net/pngcrush/
+
+ Uses libpng and zlib.  This program was based upon libpng's pngtest.c.
+
+ Thanks to Greg Roelofs for various bug fixes, suggestions, and
+ occasionally creating Linux executables.
+
+ Thanks to Stephan Levavej for some helpful suggestions about gcc compiler
+ options and for a suggestion to increase the Z_MEM_LEVEL from default.
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/png.h:
+ png.h - header file for PNG reference library
+
+ libpng version 1.2.29 - May 8, 2008
+ Copyright (c) 1998-2008 Glenn Randers-Pehrson
+ (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
+ (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+
+ Authors and maintainers:
+  libpng versions 0.71, May 1995, through 0.88, January 1996: Guy Schalnat
+  libpng versions 0.89c, June 1996, through 0.96, May 1997: Andreas Dilger
+  libpng versions 0.97, January 1998, through 1.2.29 - May 8, 2008: Glenn
+  See also "Contributing Authors", below.
+
+ COPYRIGHT NOTICE, DISCLAIMER, and LICENSE:
+
+ If you modify libpng you may insert additional notices immediately following
+ this sentence.
+
+ libpng versions 1.2.6, August 15, 2004, through 1.2.29, May 8, 2008, are
+ Copyright (c) 2004, 2006-2008 Glenn Randers-Pehrson, and are
+ distributed according to the same disclaimer and license as libpng-1.2.5
+ with the following individual added to the list of Contributing Authors:
+
+    Cosmin Truta
+
+ libpng versions 1.0.7, July 1, 2000, through 1.2.5, October 3, 2002, are
+ Copyright (c) 2000-2002 Glenn Randers-Pehrson, and are
+ distributed according to the same disclaimer and license as libpng-1.0.6
+ with the following individuals added to the list of Contributing Authors:
+
+    Simon-Pierre Cadieux
+    Eric S. Raymond
+    Gilles Vollant
+
+ and with the following additions to the disclaimer:
+
+    There is no warranty against interference with your enjoyment of the
+    library or against infringement.  There is no warranty that our
+    efforts or the library will fulfill any of your particular purposes
+    or needs.  This library is provided with all faults, and the entire
+    risk of satisfactory quality, performance, accuracy, and effort is with
+    the user.
+
+ libpng versions 0.97, January 1998, through 1.0.6, March 20, 2000, are
+ Copyright (c) 1998, 1999, 2000 Glenn Randers-Pehrson, and are
+ distributed according to the same disclaimer and license as libpng-0.96,
+ with the following individuals added to the list of Contributing Authors:
+
+    Tom Lane
+    Glenn Randers-Pehrson
+    Willem van Schaik
+
+ libpng versions 0.89, June 1996, through 0.96, May 1997, are
+ Copyright (c) 1996, 1997 Andreas Dilger
+ Distributed according to the same disclaimer and license as libpng-0.88,
+ with the following individuals added to the list of Contributing Authors:
+
+    John Bowler
+    Kevin Bracey
+    Sam Bushell
+    Magnus Holmgren
+    Greg Roelofs
+    Tom Tanner
+
+ libpng versions 0.5, May 1995, through 0.88, January 1996, are
+ Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.
+
+ For the purposes of this copyright and license, "Contributing Authors"
+ is defined as the following set of individuals:
+
+    Andreas Dilger
+    Dave Martindale
+    Guy Eric Schalnat
+    Paul Schmidt
+    Tim Wegner
+
+ The PNG Reference Library is supplied "AS IS".  The Contributing Authors
+ and Group 42, Inc. disclaim all warranties, expressed or implied,
+ including, without limitation, the warranties of merchantability and of
+ fitness for any purpose.  The Contributing Authors and Group 42, Inc.
+ assume no liability for direct, indirect, incidental, special, exemplary,
+ or consequential damages, which may result from the use of the PNG
+ Reference Library, even if advised of the possibility of such damage.
+
+ Permission is hereby granted to use, copy, modify, and distribute this
+ source code, or portions hereof, for any purpose, without fee, subject
+ to the following restrictions:
+
+ 1. The origin of this source code must not be misrepresented.
+
+ 2. Altered versions must be plainly marked as such and
+ must not be misrepresented as being the original source.
+
+ 3. This Copyright notice may not be removed or altered from
+    any source or altered source distribution.
+
+ The Contributing Authors and Group 42, Inc. specifically permit, without
+ fee, and encourage the use of this source code as a component to
+ supporting the PNG file format in commercial products.  If you use this
+ source code in a product, acknowledgment is not required but would be
+ appreciated.
+ 
+
+
+ A "png_get_copyright" function is available, for convenient use in "about"
+ boxes and the like:
+
+ printf("%s",png_get_copyright(NULL));
+
+ Also, the PNG logo (in PNG format, of course) is supplied in the
+ files "pngbar.png" and "pngbar.jpg (88x31) and "pngnow.png" (98x31).
+ 
+
+
+ Libpng is OSI Certified Open Source Software.  OSI Certified is a
+ certification mark of the Open Source Initiative.
+ 
+
+
+ The contributing authors would like to thank all those who helped
+ with testing, bug fixes, and patience.  This wouldn't have been
+ possible without all of you.
+
+ Thanks to Frank J. T. Wojcik for helping with the documentation.
+ 
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/pngset.c, pngcrush-1.6.7/pngwutil.c:
+ Copyright (c) 1998-2008 Glenn Randers-Pehrson
+ pngset.c - storage of image information into info struct
+
+ pngwutil.c - utilities to write a PNG file
+
+ Last changed in libpng 1.2.27 [April 29, 2008]
+ For conditions of distribution and use, see copyright notice in png.h
+ (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
+ (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/cexcept.h:
+
+An interface for exception-handling in ANSI C (C89 and subsequent ISO
+standards), developed jointly with Cosmin Truta <cosmin@cs.toronto.edu>.
+
+    Copyright (c) 2001 Adam M. Costello and Cosmin Truta.  Everyone
+    is hereby granted permission to do whatever they like with this
+    file, provided that if they modify it they take reasonable steps to
+    avoid confusing or misleading people about the authors, version,
+    and terms of use of the derived file.  The copyright holders make
+    no guarantees regarding this file, and are not responsible for any
+    damage resulting from its use.
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/zlib.h:
+ zlib.h -- interface of the 'zlib' general purpose compression library
+  version 1.2.3.3, October 2nd, 2006
+
+  Copyright (C) 1995-2006 Jean-loup Gailly and Mark Adler
+
+  This software is provided 'as-is', without any express or implied
+  warranty.  In no event will the authors be held liable for any damages
+  arising from the use of this software.
+
+  Permission is granted to anyone to use this software for any purpose,
+  including commercial applications, and to alter it and redistribute it
+  freely, subject to the following restrictions:
+
+  1. The origin of this software must not be misrepresented; you must not
+     claim that you wrote the original software. If you use this software
+     in a product, an acknowledgment in the product documentation would be
+     appreciated but is not required.
+  2. Altered source versions must be plainly marked as such, and must not be
+     misrepresented as being the original software.
+  3. This notice may not be removed or altered from any source distribution.
+
+  Jean-loup Gailly        Mark Adler
+  jloup@gzip.org          madler@alumni.caltech.edu
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/crc32.c:
+ crc32.c -- compute the CRC-32 of a data stream
+ Copyright (C) 1995-2006 Mark Adler
+ For conditions of distribution and use, see copyright notice in zlib.h
+
+ Thanks to Rodney Brown <rbrown64@csc.com.au> for his contribution of faster
+ CRC methods: exclusive-oring 32 bits of data at a time, and pre-computing
+ tables for updating the shift register in one step with three exclusive-ors
+ instead of four steps with four exclusive-ors.  This results in about a
+ factor of two increase in speed on a Power PC G4 (PPC7455) using gcc -O3.
+ 
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/pngtest.c:
+ pngtest.c - a simple test program to test libpng
+
+ Last changed in libpng 1.2.27 - [April 29, 2008]
+ For conditions of distribution and use, see copyright notice in png.h
+ Copyright (c) 1998-2008 Glenn Randers-Pehrson
+ (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
+ (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/inflate.c:
+ inflate.c -- zlib decompression
+ Copyright (C) 1995-2006 Mark Adler
+ For conditions of distribution and use, see copyright notice in zlib.h
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/pngrutil.c:
+ pngrutil.c - utilities to read a PNG file
+
+ Last changed in libpng 1.2.27 [April 29, 2008]
+ For conditions of distribution and use, see copyright notice in png.h
+ Copyright (c) 1998-2008 Glenn Randers-Pehrson
+ (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
+ (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/pngerror.c, pngcrush-1.6.7/pngget.c:
+ Copyright (c) 1998-2007 Glenn Randers-Pehrson
+ pngerror.c - stub functions for i/o and memory allocation
+
+ Last changed in libpng 1.2.22 [October 13, 2007]
+ pngget.c - retrieval of values from info struct
+
+ Last changed in libpng 1.2.15 January 5, 2007
+ For conditions of distribution and use, see copyright notice in png.h
+ (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
+ (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/pngrtran.c:
+ pngrtran.c - transforms the data in a row for PNG readers
+
+ Last changed in libpng 1.2.27 [April 29, 2008]
+ For conditions of distribution and use, see copyright notice in png.h
+ Copyright (c) 1998-2008 Glenn Randers-Pehrson
+ (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
+ (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/pngrio.c:
+ pngrio.c - functions for data input
+
+ Last changed in libpng 1.2.13 November 13, 2006
+ For conditions of distribution and use, see copyright notice in png.h
+ Copyright (c) 1998-2006 Glenn Randers-Pehrson
+ (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
+ (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/pngwrite.c:
+ pngwrite.c - general routines to write a PNG file
+
+ Last changed in libpng 1.2.27 [April 29, 2008]
+ For conditions of distribution and use, see copyright notice in png.h
+ Copyright (c) 1998-2008 Glenn Randers-Pehrson
+ (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
+ (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/trees.c:
+ trees.c -- output deflated data using Huffman coding
+ Copyright (C) 1995-2006 Jean-loup Gailly
+ detect_data_type() function provided freely by Cosmin Truta, 2006
+ For conditions of distribution and use, see copyright notice in zlib.h
+ 
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/infback.c, pngcrush-1.6.7/inftrees.c:
+ Copyright (C) 1995-2006 Mark Adler
+ infback.c -- inflate using a call-back interface
+ inftrees.c -- generate Huffman trees for efficient decoding
+ For conditions of distribution and use, see copyright notice in zlib.h
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/zutil.h, pngcrush-1.6.7/zlibdefs.h, pngcrush-1.6.7/deflate.h:
+ Copyright (C) 1995-2005 Jean-loup Gailly
+ Copyright (C) 1995-2006 Jean-loup Gailly.
+ zutil.h -- internal interface and configuration of the compression library
+ zlibdefs.h -- compile-time definitions for the zlib compression library
+ deflate.h -- internal compression state
+ For conditions of distribution and use, see copyright notice in zlib.h
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/gzio.c, pngcrush-1.6.7/zconf.h, pngcrush-1.6.7/uncompr.c:
+ Copyright (C) 1995-2003 Jean-loup Gailly.
+ Copyright (C) 1995-2006 Jean-loup Gailly.
+ gzio.c -- IO on .gz files
+ For conditions of distribution and use, see copyright notice in zlib.h
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/pngconf.h:
+ pngconf.h - machine configurable file for libpng
+
+ libpng version 1.2.29 - May 8, 2008
+ For conditions of distribution and use, see copyright notice in png.h
+ Copyright (c) 1998-2008 Glenn Randers-Pehrson
+ (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
+ (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/inftrees.h:
+ inftrees.h -- header to use inftrees.c
+ Copyright (C) 1995-2005 Mark Adler
+ For conditions of distribution and use, see copyright notice in zlib.h
+ 
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/png.c, pngcrush-1.6.7/pngtrans.c:
+ Copyright (c) 1998-2007 Glenn Randers-Pehrson
+ png.c - location for general purpose libpng functions
+
+ Last changed in libpng 1.2.21 October 4, 2007
+ pngtrans.c - transforms the data in a row (used by both readers and writers)
+
+ Last changed in libpng 1.2.17 May 15, 2007
+ For conditions of distribution and use, see copyright notice in png.h
+ (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
+ (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+ 
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/compress.c, pngcrush-1.6.7/zutil.c, pngcrush-1.6.7/adler32.c, pngcrush-1.6.7/zconf.in.h, pngcrush-1.6.7/inffast.c:
+ Copyright (C) 1995-2005 Jean-loup Gailly.
+ Copyright (C) 1995-2006 Mark Adler
+ compress.c -- compress a memory buffer
+ zutil.c -- target dependent utility functions for the compression library
+ adler32.c -- compute the Adler-32 checksum of a data stream
+ zconf.h -- configuration of the zlib compression library
+ inffast.c -- fast decoding
+ For conditions of distribution and use, see copyright notice in zlib.h
+ 
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/pngmem.c, pngcrush-1.6.7/pngpread.c:
+ Copyright (c) 1998-2008 Glenn Randers-Pehrson
+ pngmem.c - stub functions for memory allocation
+
+ pngpread.c - read a png file in push mode
+
+ Last changed in libpng 1.2.27 [April 29, 2008]
+ For conditions of distribution and use, see copyright notice in png.h
+ (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
+ (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/deflate.c:
+ deflate.c -- compress data using the deflation algorithm
+ Copyright (C) 1995-2006 Jean-loup Gailly.
+ For conditions of distribution and use, see copyright notice in zlib.h
+ 
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/pngwio.c, pngcrush-1.6.7/pngwtran.c:
+ Copyright (c) 1998-2006 Glenn Randers-Pehrson
+ pngwio.c - functions for data output
+
+ Last changed in libpng 1.2.13 November 13, 2006
+ pngwtran.c - transforms the data in a row for PNG writers
+
+ Last changed in libpng 1.2.9 April 14, 2006
+ For conditions of distribution and use, see copyright notice in png.h
+ (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
+ (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/inflate.h, pngcrush-1.6.7/inffast.h:
+ Copyright (C) 1995-2006 Mark Adler
+ inflate.h -- internal inflate state definition
+ inffast.h -- header to use inffast.c
+ For conditions of distribution and use, see copyright notice in zlib.h
+ 
+--------------------------------------------------------------------
+
+pngcrush-1.6.7/pngread.c:
+ pngread.c - read a PNG file
+
+ Last changed in libpng 1.2.25 [February 18, 2008]
+ For conditions of distribution and use, see copyright notice in png.h
+ Copyright (c) 1998-2008 Glenn Randers-Pehrson
+ (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
+ (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+
+ This file contains routines that an application calls directly to
+ read a PNG file or stream.
+
+--------------------------------------------------------------------
+

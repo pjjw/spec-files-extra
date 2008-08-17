@@ -1,3 +1,10 @@
+2008-08-17  Laszlo (Laca) Peter  <laca@sun.com>
+
+	* SFEpngcrush.spec: (new) pngcrush - utility for recompressing
+	  png files
+	* copyright/SFEpngcrush.copyright: license/copyright info for
+	  pngcrush
+
 2008-08-17  Rafael Alfaro <rafael.alfaro@gmail.com>
 
         * SFEperl-net-telnet.spec, 
