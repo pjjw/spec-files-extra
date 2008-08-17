@@ -18,6 +18,8 @@ Summary:                 HTML-%{html_tagset_version} PERL module
 Version:                 %{perl_version}.%{html_tagset_version}
 Source:                  http://www.cpan.org/modules/by-module/HTML/HTML-Tagset-%{html_tagset_version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
+SUNW_Copyright:          %{name}.copyright
+Group:                   Development
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:                SUNWperl584core
 BuildRequires:           SUNWperl584core
@@ -72,5 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Sat Aug 17 2008 - rafael.alfaro@gmail.com
+- Add license and group
 * Thu Jun 19 2008 - rafael.alfaro@gmail.com
 - Initial spec file 

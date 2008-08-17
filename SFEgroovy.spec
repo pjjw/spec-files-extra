@@ -9,6 +9,9 @@ Name:           SFEgroovy
 Version:        %{groovy_version}
 Release:        2
 License:        See: http://groovy.codehaus.org/license.html
+SUNW_BaseDir:            %{_basedir}
+SUNW_Copyright:          %{name}.copyright
+Group:                   Development
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Summary:        Contains the base system for executing groovy scripts.
 Source:         http://dist.codehaus.org/groovy/distributions/groovy-binary-%{groovy_version}.zip
@@ -57,6 +60,8 @@ rm -rf "$RPM_BUILD_ROOT"
 /usr/*
 
 %changelog
+* Sat Aug 17 2008 - rafael.alfaro@gmail.com
+- Add license and group
 * Mon Jun 25 2008 - rafael.alfaro@gmail.com
 - Initial Spec File 
 

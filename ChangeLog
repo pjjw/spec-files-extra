@@ -1,4 +1,19 @@
-2008-08-16 Rafael Alfaro <rafael.alfaro@gmail.com>
+2008-08-17  Rafael Alfaro <rafael.alfaro@gmail.com>
+
+        * SFEperl-net-telnet.spec, 
+          SFEperl-digest-md5.spec, 
+          SFESFEperl-crypt-idea.spec, 
+	  SFEperl-html-tagset.spec, 
+          SFEperl-html-parser.spec,
+          SFEgroovy.spec,
+          copyright/SFEperl-net-telnet.copyright,
+          copyright/SFEperl-digest-md5.copyright,
+	  copyright/SFEperl-crypt-idea.copyright,
+	  copyright/SFEperl-html-tagset.copyright,
+	  copyright/SFEperl-html-parser.copyright,
+          copyright/SFEgroovy.copyright: Add copyright and grouping.
+
+2008-08-16  Rafael Alfaro <rafael.alfaro@gmail.com>
 
         * SFEperl-net-telnet.spec: Initial spec file
 
