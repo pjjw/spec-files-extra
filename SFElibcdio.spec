@@ -22,8 +22,6 @@
 Name:                    SFElibcdio
 Summary:                 GNU libcdio
 Version:                 %{libcdio.version}
-Patch1:                  libcdio-01-usehal.diff
-Patch2:                  libcdio-02-stdint.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -36,14 +34,16 @@ Requires: SUNWlibms
 Requires: SUNWdbus
 Requires: SFElibcddb
 Requires: SFElibiconv
+Requires: SFEncurses
 %if %with_hal
 Requires: SUNWhal
 %endif
-BuildRequires: SFElibiconv-devel
 BuildRequires: SUNWlexpt
 BuildRequires: SUNWgcc
 BuildRequires: SUNWdbus-devel
 BuildRequires: SFElibcddb-devel
+BuildRequires: SFElibiconv-devel
+BuildRequires: SFEncurses-devel
 
 %package devel
 Summary:                 %{summary} - development files
@@ -55,18 +55,12 @@ rm -rf %name-%version
 mkdir %name-%version
 %libcdio.prep -d %name-%version
 
-cd %{_builddir}/%name-%version/libcdio-%{libcdio.version}
-%if %with_hal
-%patch1 -p1
-%endif
-%patch2 -p1
-
 # Note, we have to build this with gcc, because Forte cannot handle
 # the flexible arrays used in libcdio.  We should move to using Forte
 # if this issue is resolved with the Forte compiler.
 #
 %build
-export CFLAGS="%gcc_optflags -I/usr/gnu/include"
+export CFLAGS="%gcc_optflags -I/usr/gnu/include -I/usr/gnu/include/ncurses"
 export CC=/usr/sfw/bin/gcc
 export CXX=/usr/sfw/bin/g++
 %if %with_hal
@@ -115,6 +109,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/cdio
 
 %changelog
+* Sun Aug 17 2008 - nonsea@users.sourceforge.net
+- Add Requires/BuildRequires to SFEncurses and SFEncurses-devel
+- Add -I/usr/gnu/include/ncurses in CFLAGS to fix build issue
+- Move patches to libcdio.spec
 * Fri Jul 11 2008 - andras.barna@gmail.com
 - Add ACLOCAL_FLAGS, SFElibiconv dep, adjust ld+cflags
 * Fri May 23 2008 - michal.bielicki <at> voiceworks.pl

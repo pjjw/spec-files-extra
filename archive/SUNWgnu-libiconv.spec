@@ -8,10 +8,11 @@
 
 Name:                SUNWgnu-libiconv
 Summary:             GNU iconv -- Code set conversion
-Version:             1.11
+Version:             1.12
 Source:              http://ftp.gnu.org/pub/gnu/libiconv/libiconv-%{version}.tar.gz
 Patch1:              libiconv-01-fix-runpath.diff
 Patch2:              libiconv-02-646.diff
+Patch3:              libiconv-03-intmax.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -28,6 +29,7 @@ Requires: %name
 cd libiconv-%{version}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 cd ..
 
 %ifarch amd64 sparcv9
@@ -159,6 +161,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Sun Aug 17 2008 - nonsea@users.sourceforge.net
+- Bump to 1.12
+- Add patch intmax.diff to fix build issue.
 * Sat Sep 29 2007 - laca@sun.com
 - add /usr/lib/libiconv.so symlink so that less spec file changes
   and patches are needed for using GNU libiconv instead of the libc

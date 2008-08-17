@@ -2,15 +2,17 @@
 # spec file for package SFEtwolame
 #
 # includes module(s): twolame
+
+# bugdb: http://sourceforge.net/tracker/index.php?func=detail&group_id=136040&atid=735435&aid=
 #
 %include Solaris.inc
 
 Name:                    SFEtwolame
 Summary:                 twolame - MP3 Encoder
-Version:                 0.3.10
+Version:                 0.3.12
 Source:                  http://downloads.sourceforge.net/twolame/twolame-%{version}.tar.gz
+# date:2008-08-17 owner:halton type:bug bugid:2054218
 Patch1:			 twolame-01-configure.diff
-Patch2: 		 twolame-02-crossfile_inline.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -28,7 +30,6 @@ Requires: SFElibsndfile-devel
 %prep
 %setup -q -n twolame-%version
 %patch1 -p1
-%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -75,6 +76,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sat Aug 16 2008 - nonsea@users.sourceforge.net
+- Bump to 0.3.12
+- Remove patch crossfile_inline.diff and reorder
 * Tue Feb 12 2008 - pradhap@gmail.com
 - Fixed links
 * Sun Nov 4 2007 - markwright@internode.on.net

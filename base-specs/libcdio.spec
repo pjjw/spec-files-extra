@@ -10,12 +10,14 @@
 Name:         libcdio
 License:      LGPL
 Group:        System Environment/Libraries
-Version:      0.79
+Version:      0.80
 Release:      1
 Distribution: Java Desktop System
 Vendor:       Sun Microsystems, Inc.
 Summary:      Utilities for CD interaction
 Source:       http://ftp.gnu.org/gnu/libcdio/%{name}-%{version}.tar.gz
+Patch1:       libcdio-01-usehal.diff
+Patch2:       libcdio-02-stdint.diff
 URL:          http://ftp.gnu.org/
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:       %{_defaultdocdir}/%{name}
@@ -35,6 +37,10 @@ applications which will use libcdio.
 
 %prep
 %setup -q
+%if %with_hal
+%patch1 -p1
+%endif
+%patch2 -p1
 
 %build
 %ifos linux
@@ -48,11 +54,12 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal -I /usr/gnu/share/aclocal"
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
+export LDFLAGS="$LDFLAGS -liconv"
 
 libtoolize --force
-aclocal-1.9 $ACLOCAL_FLAGS -I .
-automake-1.9 -a -c -f
+aclocal $ACLOCAL_FLAGS -I .
+automake -a -c -f
 autoconf
 ./configure \
 	--prefix=%{_prefix} \
@@ -86,6 +93,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*.so
 
 %changelog
+* Sun Aug 17 2008 - nonsea@users.sourceforge.net
+- Move patch from SFElibcdio.spec
+- Add -liconv to LDFLAGS to fix link issue.
 * Fri Jul 11 2008 - andras.barna@gmail.com
 - Add ACLOCAL_FLAGS, SFElibiconv dep, libcddb dep
 * Fri Jan 18 2008 - moinak.ghosh@sun.com

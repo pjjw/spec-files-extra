@@ -1,11 +1,11 @@
---- libiconv-1.11/src/Makefile.in.orig	2007-08-30 09:08:06.778593000 -0400
-+++ libiconv-1.11/src/Makefile.in	2007-08-30 09:08:39.094734000 -0400
-@@ -96,7 +96,7 @@
+--- libiconv-1.12/src/Makefile.in.orig	2007-05-28 06:15:52.000000000 +0800
++++ libiconv-1.12/src/Makefile.in	2008-08-17 19:19:56.483167018 +0800
+@@ -104,7 +104,7 @@
  	if [ ! -d $(DESTDIR)$(bindir) ] ; then $(mkinstalldirs) $(DESTDIR)$(bindir) ; fi
  	case "@host_os@" in \
- 	  hpux*) $(CC) $(LDFLAGS) $(iconv_LDFLAGS) iconv.@OBJEXT@ ../srclib/libicrt.a -L$(DESTDIR)$(libdir) -liconv @LIBINTL@ `if test -n '$(DESTDIR)'; then echo " -Wl,+b -Wl,$(libdir)"; fi` -o iconv;; \
--	  *) $(LIBTOOL_LINK) $(CC) $(LDFLAGS) $(iconv_LDFLAGS) iconv.@OBJEXT@ ../srclib/libicrt.a $(DESTDIR)$(libdir)/libiconv.la @LTLIBINTL@ -o iconv;; \
-+	  *) $(LIBTOOL_LINK) $(CC) $(LDFLAGS) $(iconv_LDFLAGS) iconv.@OBJEXT@ ../srclib/libicrt.a ../lib/libiconv.la @LTLIBINTL@ -o iconv;; \
+ 	  hpux*) $(CC) $(LDFLAGS) $(CFLAGS) $(iconv_LDFLAGS) iconv.@OBJEXT@ ../srclib/libicrt.a -L$(DESTDIR)$(libdir) -liconv @LIBINTL@ $(OBJECTS_RES_@WOE32@) `if test -n '$(DESTDIR)'; then echo " -Wl,+b -Wl,$(libdir)"; fi` -o iconv;; \
+-	  *) $(LIBTOOL_LINK) $(CC) $(LDFLAGS) $(CFLAGS) $(iconv_LDFLAGS) iconv.@OBJEXT@ ../srclib/libicrt.a $(DESTDIR)$(libdir)/libiconv.la @LTLIBINTL@ $(OBJECTS_RES_@WOE32@) -o iconv;; \
++	  *) $(LIBTOOL_LINK) $(CC) $(LDFLAGS) $(CFLAGS) $(iconv_LDFLAGS) iconv.@OBJEXT@ ../srclib/libicrt.a ../lib/libiconv.la @LTLIBINTL@ $(OBJECTS_RES_@WOE32@) -o iconv;; \
  	esac
  	$(INSTALL_PROGRAM_ENV) $(LIBTOOL_INSTALL) $(INSTALL_PROGRAM) iconv $(DESTDIR)$(bindir)/iconv
  

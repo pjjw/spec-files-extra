@@ -6,7 +6,7 @@
 #
 
 Name:        fribidi 
-Version:     0.10.9
+Version:     0.19.1
 Release:     1
 Summary:     Library implementing the Unicode Bidirectional Algorithm
 Copyright:   LGPL
@@ -69,13 +69,13 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-./configure --prefix=%{_prefix}				\
-			--libdir=%{_libdir}				\
-			--bindir=%{_bindir}				\
-			--includedir=%{_includedir}		\
-			--sysconfdir=%{_sysconfdir}		\
-			--datadir=%{_datadir}           \
-			--mandir=%{_mandir}
+./configure --prefix=%{_prefix}		\
+	    --libdir=%{_libdir}		\
+	    --bindir=%{_bindir}		\
+	    --includedir=%{_includedir}	\
+	    --sysconfdir=%{_sysconfdir}	\
+	    --datadir=%{_datadir}       \
+	    --mandir=%{_mandir}
 
 make -j $CPUS
  
@@ -118,5 +118,7 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Sun Aug 17 2008 - nonsea@users.sourceofrge.net
+- Bump to 0.19.1
 * Fri Oct 19 2007 - nonsea@users.sourceforge.net
 - Initial spec

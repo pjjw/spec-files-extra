@@ -8,8 +8,11 @@
 
 Name:                SFElibiconv
 Summary:             GNU iconv -- Code set conversion
-Version:             1.11
+Version:             1.12
 Source:              http://ftp.gnu.org/pub/gnu/libiconv/libiconv-%{version}.tar.gz
+Patch1:              libiconv-01-fix-runpath.diff
+Patch2:              libiconv-02-646.diff
+Patch3:              libiconv-03-intmax.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -30,6 +33,9 @@ Requires:                %{name}
 
 %prep
 %setup -q -n libiconv-%version
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -95,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Aug 17 2008 - nonsea@users.sourceforge.net
+- Bump to 1.12
+- Add patch intmax.diff to fix build issue.
 * Sun Jun 29 2008 - river@wikimedia.org
 - use rm -fr instead of rm -r, since this directory doesn't seem to exist always
 * Sun Nov 18 2007 - daymobrew@users.sourceforge.net

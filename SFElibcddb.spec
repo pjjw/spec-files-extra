@@ -35,7 +35,7 @@ fi
 
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal -I /usr/gnu/share/aclocal"
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 
 libtoolize --copy --force
 aclocal $ACLOCAL_FLAGS -I .
@@ -82,6 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/demo/libcddb/bin/cddb_query
 
 %changelog
+* Sun Aug 17 2008 - nonsea@users.sourceforge.net
+- Remove /usr/gnu/share/aclocal from ACLOCAL_FLAGS to fix build issue
 * Fri Jul 11 2008 - andras.barna@gmail.com
 - Add ACLOCAL_FLAGS, SFElibiconv dep
 * Mon Feb 04 2008 - Michal dot Pryc [(at] Sun . Com

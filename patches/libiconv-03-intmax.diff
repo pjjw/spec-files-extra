@@ -1,0 +1,11 @@
+--- libiconv-1.12/srclib/stdint.in.h.orig	2008-08-17 19:16:36.824339202 +0800
++++ libiconv-1.12/srclib/stdint.in.h	2008-08-17 19:16:57.118276897 +0800
+@@ -253,7 +253,7 @@
+ /* Verify that intmax_t and uintmax_t have the same size.  Too much code
+    breaks if this is not the case.  If this check fails, the reason is likely
+    to be found in the autoconf macros.  */
+-typedef int _verify_intmax_size[2 * (sizeof (intmax_t) == sizeof (uintmax_t)) - 1];
++typedef int _verify_intmax_size[2 * (sizeof (intmax_t) == sizeof (uintmax_t)) + 1];
+ 
+ /* 7.18.2. Limits of specified-width integer types */
+ 

@@ -1,3 +1,35 @@
+2008-08-16  Halton Huo <nonsea@users.sourceforge.net>
+
+	Make mplayer and its dependencies built and work on
+	OpenSolaris 2008.11 snv_95.
+	* encumbered/SFEmplayer.spec: Use SUNWfreetype2 instead of SFEfreetype,
+	  Remove missed patches: Patch6, Patch7, Patch8, Patch9.
+	  Remove BuildRequires: SFEgawk for it is in CBE now
+	* SFElibcddb.spec: Remove /usr/gnu/share/aclocal from
+	  ACLOCAL_FLAGS to fix build issue
+	* SFElibcdio.spec: Add Requires/BuildRequires to SFEncurses and
+	  SFEncurses-devel, Add -I/usr/gnu/include/ncurses in CFLAGS to fix
+	  build issue, Move patches to libcdio.spec
+	* SFElibfribidi.spec: Add man page to %files
+	* SFElibiconv.spec: Bump to 1.12, Add patch intmax.diff
+	  to fix build issue
+	* archive/SUNWgnu-libiconv.spec: Bump to 1.12, Add patch intmax.diff
+	  to fix build issue
+	* base-specs/fribidi.spec: Bump to 0.19.1
+	* base-specs/lame.spec: Add aclocal to fix build error, Remove
+	  commentted patch1 and patch2
+	* base-specs/libcdio.spec: Move patch from SFElibcdio.spec,
+	  Add -liconv to LDFLAGS to fix link issue
+	* encumbered/SFEtwolame.spec: Bump to 0.3.12, Remove patch
+	  crossfile_inline.diff and reorder
+	* patches/lame-01-brhist.diff: (removed)
+	* patches/lame-01-configure-gtk.diff: (added)
+	* patches/lame-02-inline.diff: (removed)
+	* patches/libiconv-01-fix-runpath.diff: rework
+	* patches/libiconv-03-intmax.diff: (added)
+	* patches/twolame-01-configure.diff: rework
+	* patches/twolame-02-crossfile_inline.diff: (removed)
+
 2008-08-17  Laszlo (Laca) Peter  <laca@sun.com>
 
 	* SFEpngcrush.spec: (new) pngcrush - utility for recompressing
@@ -7,22 +39,22 @@
 
 2008-08-17  Rafael Alfaro <rafael.alfaro@gmail.com>
 
-        * SFEperl-net-telnet.spec, 
-          SFEperl-digest-md5.spec, 
-          SFESFEperl-crypt-idea.spec, 
+	* SFEperl-net-telnet.spec, 
+	  SFEperl-digest-md5.spec, 
+	  SFESFEperl-crypt-idea.spec, 
 	  SFEperl-html-tagset.spec, 
-          SFEperl-html-parser.spec,
-          SFEgroovy.spec,
-          copyright/SFEperl-net-telnet.copyright,
-          copyright/SFEperl-digest-md5.copyright,
+	  SFEperl-html-parser.spec,
+	  SFEgroovy.spec,
+	  copyright/SFEperl-net-telnet.copyright,
+	  copyright/SFEperl-digest-md5.copyright,
 	  copyright/SFEperl-crypt-idea.copyright,
 	  copyright/SFEperl-html-tagset.copyright,
 	  copyright/SFEperl-html-parser.copyright,
-          copyright/SFEgroovy.copyright: Add copyright and grouping.
+	  copyright/SFEgroovy.copyright: Add copyright and grouping.
 
 2008-08-16  Rafael Alfaro <rafael.alfaro@gmail.com>
 
-        * SFEperl-net-telnet.spec: Initial spec file
+	* SFEperl-net-telnet.spec: Initial spec file
 
 2008-08-16  Halton Huo <nonsea@users.sourceforge.net>
 

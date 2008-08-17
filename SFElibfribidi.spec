@@ -13,9 +13,8 @@
 %use fribidi = fribidi.spec
 
 Name:                   SFElibfribidi
-Summary:                %fribidi.summary
-Version:                0.10.9
-Source:                 http://fribidi.org/download/fribidi-%{version}.tar.gz
+Summary:                fribidi - Library implementing the Unicode Bidirectional Algorithm
+Version:                %{fribidi.version}
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -48,6 +47,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr(0755, root, bin) %{_mandir}
+%dir %attr(0755, root, bin) %{_mandir}/*
+%{_mandir}/*/*
 
 %files devel
 %defattr (-, root, bin)
@@ -57,6 +60,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Aug 17 2008 - nonsea@users.sourceofrge.net
+- Add man page to %files
 * Mon Oct 22 2007 - nonsea@users.sourceforge.net
 - Spilit into fribidi.spec
 * Tue Jun  5 2007 - dougs@truemail.co.th

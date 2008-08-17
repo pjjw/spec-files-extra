@@ -1,20 +1,32 @@
---- twolame-0.3.10-orig/configure.ac	2007-03-21 00:01:01.000000000 +0000
-+++ twolame-0.3.10/configure.ac	2007-11-03 03:48:59.052484589 +0000
-@@ -113,15 +113,13 @@
+Index: trunk/configure.ac
+===================================================================
+--- trunk/configure.ac	(revision 172)
++++ trunk/configure.ac	(working copy)
+@@ -15,8 +15,8 @@
+ AM_INIT_AUTOMAKE(1.7)
+ AM_CONFIG_HEADER(build/config.h)
+ 
++GNOME_COMPILE_WARNINGS(yes)
+ 
+-
+ dnl ############# Library Version
+ dnl
+ dnl libtool version: current:revision:age
+@@ -113,12 +113,15 @@
  
  dnl ############## Compiler and Linker Flags
  
 -CFLAGS="$CFLAGS -std=c99 -Wunused -Wall"
++CFLAGS="$CFLAGS -std=c99"
  LDFLAGS="$LDFLAGS"
  
  # If debugging is enabled then make warnings errors
  if test "$Debugging" = "Enabled"; then
 -	CFLAGS="$CFLAGS -g -Werror -pedantic"
-+	CFLAGS="$CFLAGS -xc99=all -features=no%extinl -g"
++	CFLAGS="$CFLAGS -g"
++        if test "x$GCC" = xyes; then
++		CFLAGS="$CFLAGS -Werror -pedantic"
++	fi
  else
--	# Optimize flag. 3 is about as high as you can sanely go with GCC3.2.
--	CFLAGS="$CFLAGS -O3"
-+	CFLAGS="$CFLAGS -xc99=all -features=no%extinl"
- fi
- 
- 
+ 	# Optimize flag. 3 is about as high as you can sanely go with GCC3.2.
+ 	CFLAGS="$CFLAGS -O3"

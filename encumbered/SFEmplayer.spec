@@ -5,22 +5,28 @@
 #
 %include Solaris.inc
 
-%define codecdir %{_libdir}/mplayer/codecs
+%define with_dvdnav %(pkginfo -q SFElibdvdnav && echo 1 || echo 0)
+%define with_faad %(pkginfo -q SFEfaad && echo 1 || echo 0)
+%define with_fribidi %(pkginfo -q SFElibfribidi && echo 1 || echo 0)
+%define with_ladspa %(pkginfo -q SFEladspa && echo 1 || echo 0)
+%define with_openal %(pkginfo -q SFEopenal && echo 1 || echo 0)
+%define with_mad %(pkginfo -q SFElibmad && echo 1 || echo 0)
+%define with_liba52 %(pkginfo -q SFEliba52 && echo 1 || echo 0)
+%define with_lame %(pkginfo -q SFElame && echo 1 || echo 0)
+%define with_twolame %(pkginfo -q SFEtwolame && echo 1 || echo 0)
+%define with_mpcdec %(pkginfo -q SFElibmpcdec && echo 1 || echo 0)
 
 Name:                    SFEmplayer
 Summary:                 mplayer - The Movie Player
 Version:                 1.0
 %define tarball_version 1.0rc2
+URL:                     http://www.mplayerhq.hu/
 Source:                  http://www.mplayerhq.hu/MPlayer/releases/MPlayer-%{tarball_version}.tar.bz2
 Patch1:                  mplayer-01-cddb.diff
 #Patch2:                 mplayer-02-makefile-libfame-dep.diff
 #Patch3:                 mplayer-03-asmrules_20061231.diff
 Patch4:                  mplayer-04-cabac-asm.diff
 Patch5:                  mplayer-05-configure.diff
-Patch6:                  mplayer-06-demux_audio_fix_20080129.diff
-Patch7:                  mplayer-07-demux_mov_fix_20080129.diff
-Patch8:                  mplayer-08-url_fix_20080120.diff
-Patch9:                  mplayer-09-stream_cddb_fix_20080120.diff
 Source3:                 http://www.mplayerhq.hu/MPlayer/skins/Blue-1.7.tar.bz2
 Source4:                 http://www.mplayerhq.hu/MPlayer/skins/Abyss-1.7.tar.bz2
 Source5:                 http://www.mplayerhq.hu/MPlayer/skins/neutron-1.5.tar.bz2
@@ -29,50 +35,53 @@ Source6:                 http://www.mplayerhq.hu/MPlayer/skins/proton-1.2.tar.bz
 #Source8:                 http://www.3gpp.org/ftp/Specs/latest/Rel-6/26_series/26204-610.zip
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{tarball_version}-build
+
 %include default-depend.inc
-Requires: SFElibsndfile
-Requires: SFElibdvdplay
-Requires: SFElibmad
-Requires: SFEliba52
-Requires: SFEliveMedia
-Requires: SFElame
-Requires: SFEtwolame
-Requires: SFEfaad2
-Requires: SFElibmpcdec
-#Requires: SFEsdl
 Requires: SUNWsmbau
 Requires: SUNWgnome-audio
+BuildRequires: SUNWgnome-audio-devel
 Requires: SUNWxorg-clientlibs
 Requires: SUNWfontconfig
-Requires: SFEfreetype
+Requires: SUNWfreetype2
 Requires: SUNWspeex
 Requires: SUNWjpg
 Requires: SUNWpng
 Requires: SUNWogg-vorbis
 Requires: SUNWlibtheora
 Requires: SUNWgccruntime
-Requires: SFElibcdio
 Requires: SUNWgnome-base-libs
 Requires: SUNWsmbau
+Requires: SFEliveMedia
+Requires: SFElibcdio
+BuildRequires: SFElibcdio-devel
+Requires: SFElibsndfile
+BuildRequires: SFElibsndfile-devel
+Requires: SFElame
+BuildRequires: SFElame-devel
+Requires: SFEtwolame
+BuildRequires: SFEtwolame-devel
+# FIXME: If have dvdnav, need use --disable-dvdread-internal when ./configure,
+# but this will cause build fail, do not use it for now.
+Requires: SFElibdvdnav
+BuildRequires: SFElibdvdnav-devel
+Requires: SFEfaad2
+BuildRequires: SFEfaad2-devel
+Requires: SFElibmpcdec
+BuildRequires: SFElibmpcdec-devel
 Requires: SFElibfribidi
-#Requires: SFElibiconv
 BuildRequires: SFElibfribidi-devel
 Requires: SFEladspa
 BuildRequires: SFEladspa-devel
+Requires: SFElibmad
+BuildRequires: SFElibmad-devel
+Requires: SFEliba52
+BuildRequires: SFEliba52-devel
+%if %with_openal
 Requires: SFEopenal
 BuildRequires: SFEopenal-devel
-BuildRequires: SFElibsndfile-devel
-BuildRequires: SFElibdvdnav-devel
-BuildRequires: SFElibmad-devel
-BuildRequires: SFEliba52-devel
-BuildRequires: SFEliveMedia
-BuildRequires: SFElame-devel
-BuildRequires: SFEtwolame-devel
-BuildRequires: SFEfaad2-devel
-BuildRequires: SFElibmpcdec-devel
-#BuildRequires: SFEsdl-devel
-BuildRequires: SFEgawk
-BuildRequires: SUNWgnome-audio-devel
+%endif
+#latest CDE include gawk, so remove SFEgawk depedency 
+#BuildRequires: SFEgawk
 
 %define x11	/usr/openwin
 %ifarch i386 amd64
@@ -86,10 +95,6 @@ BuildRequires: SUNWgnome-audio-devel
 #%patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p0
-%patch7 -p0
-%patch8 -p0
-%patch9 -p0
 
 #unzip %SOURCE7
 #unzip 26104-610_ANSI_C_source_code.zip
@@ -131,15 +136,16 @@ bash ./configure				\
             --with-extraincdir=/usr/lib/live/liveMedia/include:/usr/lib/live/groupsock/include:/usr/lib/live/UsageEnvironment/include:/usr/lib/live/BasicUsageEnvironment/include:%{x11}/include:/usr/sfw/include \
             --with-extralibdir=/usr/lib/live/liveMedia:/usr/lib/live/groupsock:/usr/lib/live/UsageEnvironment:/usr/lib/live/BasicUsageEnvironment:%{x11}/lib:/usr/gnu/lib:/usr/sfw/lib \
             --extra-libs='-lBasicUsageEnvironment -lUsageEnvironment -lgroupsock -lliveMedia -lsocket -lnsl -lstdc++' \
-            --codecsdir=%{codecdir}		\
+            --codecsdir=%{_libdir}/mplayer/codecs \
+%if %with_faad
             --enable-faad-external		\
+%endif
             --enable-live			\
             --enable-network			\
 	    --enable-rpath			\
             --enable-largefiles			\
 	    --enable-crash-debug		\
             --disable-directfb			\
-	    --with-freetype-config=/usr/gnu/bin/freetype-config \
 	    $dbgflag
 
 make -j$CPUS 
@@ -182,6 +188,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Sun Aug 17 2008 - nonsea@users.sourceofrge.net
+- Use SUNWfreetype2 instead of SFEfreetype
+- Remove missed patches: Patch6, Patch7, Patch8, Patch9
+- Remove BuildRequires: SFEgawk for it is in CBE now
 * Thu Jul 31 2008 - trisk@acm.jhu.edu
 - Use SFElibdvdnav instead of SFElibdvdplay
 - Add security patches

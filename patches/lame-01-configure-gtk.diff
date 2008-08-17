@@ -1,0 +1,16 @@
+Index: trunk/configure.in
+===================================================================
+RCS file: /cvsroot/lame/lame/configure.in,v
+retrieving revision 1.135
+diff -u -r1.135 configure.in
+--- trunk/configure.in	5 Jul 2008 07:38:10 -0000	1.135
++++ trunk/configure.in	16 Aug 2008 16:13:20 -0000
+@@ -385,7 +385,7 @@
+ 
+ dnl configure use of features
+ 
+-AM_PATH_GTK(1.2.0, HAVE_GTK="yes", HAVE_GTK="no")
++PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 1.0.2, HAVE_GTK="yes", HAVE_GTK="no")
+ 
+ dnl ElectricFence malloc debugging
+ AC_MSG_CHECKING(use of ElectricFence malloc debugging)
