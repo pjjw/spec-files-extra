@@ -18,7 +18,7 @@ Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.gnucash.org/
-Source:         http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
+Source:         http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.bz2
 # date:2008-06-24 owner:halton type:bug bugzilla:539947
 Patch1:         %{name}-01-suncc-function.diff
 # date:2008-06-24 owner:halton type:bug bugzilla:539962
@@ -167,6 +167,7 @@ fi
 %changelog
 * Mon Aug 18 2008 - nonsea@users.sourceforge.net
 - Bump to 2.2.6
+- Use .bz2
 * Fri Jun 27 2008 - nonsea@users.sourceforge.net
 - Add patch configure-fail.diff to fix bugzilla 539942
 * Wed Jun 25 2008 - nonsea@users.sourceforge.net

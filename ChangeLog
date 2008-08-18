@@ -1,5 +1,9 @@
 2008-08-18  Halton Huo <nonsea@users.sourceforge.net>
 
+	* base-specs/gnucash.spec: Use .bz2
+
+2008-08-18  Halton Huo <nonsea@users.sourceforge.net>
+
 	* patches/gnucash-05-libgoffice-0.8.diff: (rework)
 
 2008-08-18  Halton Huo <nonsea@users.sourceforge.net>
