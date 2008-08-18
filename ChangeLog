@@ -1,5 +1,9 @@
 2008-08-18  Halton Huo <nonsea@users.sourceforge.net>
 
+	* patches/gnucash-05-libgoffice-0.8.diff: (rework)
+
+2008-08-18  Halton Huo <nonsea@users.sourceforge.net>
+
 	* SFEgnucash.spec: Add BuildRequires: SUNWperl-xml-parser
 	* SFEswig.spec: Bump to 1.3.36
 	* base-specs/gnucash.spec: Bump to 2.2.6
