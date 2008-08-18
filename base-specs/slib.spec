@@ -16,8 +16,8 @@ Version:        3b1
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
-Source:         ftp://swiss.csail.mit.edu/pub/scm/%{name}-%{version}.zip
-URL:            http://swiss.csail.mit.edu/~jaffer/SLIB.html
+Source:         http://groups.csail.mit.edu/mac/ftpdir/scm/%{name}-%{version}.zip
+URL:            http://people.csail.mit.edu/jaffer/SLIB
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
 %description
@@ -110,5 +110,7 @@ rm -f slib.image
 %doc ANNOUNCE README COPYING FAQ ChangeLog
 
 %changelog
+* Mon Aug 18 2008 - nonsea@users.sourceforge.net
+- Fix URL and Source
 * Tue Jun 24 2008 - nonsea@users.sourceforge.net
 - initial version

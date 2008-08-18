@@ -29,6 +29,7 @@ BuildRequires:      SUNWgnome-libs-devel
 BuildRequires:      SFEswig
 BuildRequires:      SFEguile-devel
 BuildRequires:      SUNWlibgoffice-devel
+BuildRequires:      SUNWperl-xml-parser
 BuildRequires:      SUNWlxsl
 
 %package devel
@@ -172,6 +173,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 
 
 %changelog
+* Mon Aug 18 2008 - nonsea@users.sourceforge.net
+- Add BuildRequires: SUNWperl-xml-parser
 * Wed Jun 25 2008 - nonsea@users.sourceforge.net
 - Add gnucash-docs
 * Wed Jun 25 2008 - nonsea@users.sourceforge.net
