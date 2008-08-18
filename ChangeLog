@@ -1,3 +1,7 @@
+2008-08-18  Willie Walker  <william.walker@sun.com>
+
+	* patches/espeak-01-makefile.diff: make sure SONAME is set/used
+
 2008-08-16  Halton Huo <nonsea@users.sourceforge.net>
 
 	Make mplayer and its dependencies built and work on
