@@ -7,7 +7,7 @@
 
 Name:                    SFExdg-sound-theme
 Summary:                 XDG FreeDesktop Sound Theme
-Version:                 0.6
+Version:                 0.1
 URL:                     http://0pointer.de/blog/projects/sixfold-announcement.html
 Source:                  http://0pointer.de/public/sound-theme-freedesktop.tar.gz
 SUNW_BaseDir:            %{_basedir}
@@ -36,5 +36,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/sounds/*
 
 %changelog
-* Thu Aug 14 2008 - brian.cameron@sun.com
-- Created with version 0.6.
+* Thu Aug 20 2008 - brian.cameron@sun.com
+- Created.
