@@ -1,5 +1,13 @@
 2008-08-18  Brian Cameron  <brian.cameron@sun.com>
 
+	* SFExdg-sound-theme.spec:  Add new spec file to install 
+	  the default XDG sound theme.
+	* SFElibcanberra.spec, patches/libcanberra-02-gstreamer.diff:
+	  Add patch so that libcanberra can use GStreamer as a backend.
+	  Add needed Requires/BuildRequires to the spec-file.
+
+2008-08-18  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEelisa.spec, SFEelisa-plugins-good.spec, SFEelisa-plugins-bad.spec:
 	  Bump to 0.5.5.
 
