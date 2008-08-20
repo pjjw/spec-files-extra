@@ -25,6 +25,8 @@ Patch1:         anjuta-01-solaris-grep.diff
 Patch2:         anjuta-02-ld-z-text.diff
 # date:2008-08-20 owner:nonsea type:bug bugzilla:548622
 Patch3:         anjuta-03-zero-array.diff
+# date:2008-08-20 owner:nonsea type:bug bugzilla:548629
+Patch4:         anjuta-04-miss-vala-sgml.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -103,6 +105,7 @@ Requires:                %{name}
 %setup -q -n anjuta-%{version}
 %patch1 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -293,6 +296,7 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 - Bump to 2.5.90
 - Use SUNWgraphviz instead of SFEgraphviz
 - Add patch zero-array.diff to fix bugzilla #548622
+- Add patch miss-vala-sgml.diff to fix bugzilla #548629
 - Remove upstreamed patches max-baud.diff and lsocket.diff
 * Sat Jun 14 2008 - andras.barna@gmail.com
 - $CPUS calculated, but not used

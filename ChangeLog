@@ -12,6 +12,7 @@
 	* patches/anjuta-03-max-baud.diff: remove upstreamed patch
 	* patches/anjuta-03-zero-array.diff: (added) fix bugzilla #548585
 	* patches/anjuta-04-lsocket.diff: remove upstreamed patch
+	* patches/anjuta-04-miss-vala-sgml.diff: (added) fix bugzilla #548629
 	* patches/vinagre-01-libsocket.diff: (added) fix bugzilla #548622
 
 2008-08-18  Brian Cameron  <brian.cameron@sun.com>
