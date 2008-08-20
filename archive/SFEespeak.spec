@@ -49,6 +49,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Thu Aug 20 2008 - Willie Walker
+- Move to archive.  espeak is now in SUNWespeak.spec in jds/spec-files
 * Tue Aug 12 2008 - Willie Walker
 - Port to SunStudio (thanks Brian Cameron!)
 * Tue Apr 15 2008 - Willie Walker
