@@ -16,7 +16,7 @@
 
 Name:               SFEgnome-build
 Summary:            gnome-build - GNOME Build Framework
-Version:            %{default_pkg_version}
+Version:            %{gbuild.version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -105,6 +105,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Aug 20 2008 - nonsea@users.sourceforge.net
+- Use %{gbuild.version} for Version
 * Mon Mar 03 2008 - nonsea@users.sourceforge.net
 - Add SFEperl-gettext to Requires for upgrading.
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net

@@ -16,7 +16,7 @@
 
 Name:               SFEgdl
 Summary:            gdl - Components and library for GNOME development tools.
-Version:            %{default_pkg_version}
+Version:            %{gdl.version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -95,5 +95,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Aug 20 2008 - nonsea@users.sourceforge.net
+- Use %{gdl.version} for Version
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Initial spec

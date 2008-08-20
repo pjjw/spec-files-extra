@@ -12,13 +12,13 @@
 Name:		gdl
 License:	GPL
 Group:		Development/Libraries
-Version:	0.7.11
+Version:	2.23.90
 Release:	1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:		http://www.gnome.org
 Summary:	Components and library for GNOME development tools.
-Source:		http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.7/%{name}-%{version}.tar.bz2
+Source:		http://ftp.gnome.org/pub/GNOME/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
 Requires: 	gtk2 >= 2.4.0
@@ -110,31 +110,25 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/lib/pkgconfig/*
 
 %changelog
+* Wed Aug 20 2008 - nonsea@users.sourceforge.net
+- Bump to 2.23.90
 * Mon Mar 10 2008 - nonsea@users.sourceforge.net
 - Bump to 0.7.11.
-
 * Mon Mar 03 2008 - nonsea@users.sourceforge.net
 - Bump to 0.7.10.
-
 * Mon Feb 18 2008 - nonsea@users.sourceforge.net
 - Bump to 0.7.9.
-
 * Sun Jun 30 2007 - nonsea@users.sourceforge.net
 - Bump to 0.7.7.
 - Remove upstreamed patch void0-suncc-error
-
 * Sun Jun 30 2007 - nonsea@users.sourceforge.net
 - Bump to 0.7.6.
-
 * Sun May 13 2007 - nonsea@users.sourceforge.net
 - Bump to 0.7.5.
 - Remove upstreamed patch define-FUNCTION.diff.
-
 * Thu Mar 29 2007 nonsea@users.sourceforge.net
 - Add patch define-FUNCTION.diff.
-
 * Wed Mar 28 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.7.3.
-
 * Thu Mar 22 2007 - nonsea@users.sourceforge.net
 - Initial spec

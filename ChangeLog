@@ -1,3 +1,19 @@
+2008-08-20  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEanjuta.spec: Bump to 2.5.90, s/SUNWgraphviz/SFEgraphviz
+	* SFEautogen.spec: Bump to 5.9.5
+	* SFEgdl.spec: Use %{gdl.version} for Version
+	* SFEgnome-build.spec: Use %{gbuild.version} for Version
+	* SFEgraphviz.spec: Move archive folder
+	* SFEvinagre.spec: Update %files becuase verion upgrading
+	* base-specs/gdl.spec: Bump to 2.23.90
+	* base-specs/gnome-build.spec: Bump to 2.23.90
+	* base-specs/vinagre.spec: Bump to 2.23.90
+	* patches/anjuta-03-max-baud.diff: remove upstreamed patch
+	* patches/anjuta-03-zero-array.diff: (added) fix bugzilla #548585
+	* patches/anjuta-04-lsocket.diff: remove upstreamed patch
+	* patches/vinagre-01-libsocket.diff: (added) fix bugzilla #548622
+
 2008-08-18  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFExdg-sound-theme.spec:  Add new spec file to install 

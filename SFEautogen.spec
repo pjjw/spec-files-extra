@@ -8,7 +8,7 @@
 Name:                SFEautogen
 Summary:             Templatized program/text generation system
 URL:                 http://autogen.sourceforge.net/
-Version:             5.9.4
+Version:             5.9.5
 Source:              %{sf_download}/autogen/autogen-%{version}.tar.bz2
 
 SUNW_BaseDir:        %{_basedir}
@@ -103,6 +103,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Wed Aug 20 2008 - nonsea@users.sourceforge.net
+- Bump to 5.9.5
 * Thu Jan 24 2008 - nonsea@users.sourceforge.net
 - Bump to 5.9.4
 * Mon Sep 10 2007 - nonsea@users.sourceforge.net

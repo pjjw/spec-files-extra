@@ -8,18 +8,19 @@
 # Owner:halton
 #
 
-
 Name:           vinagre
 License:        GPL
 Group:          Development/Libraries
-Version:        0.5.0
+Version:        2.23.90
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.gnome.org/projects/vinagre
 Summary:        A VCN client for the GNOME Desktop
-Source:         http://download.gnome.org/sources/%{name}/0.5/%{name}-%{version}.tar.bz2
-BuildRoot:     %{_tmppath}/%{name}-%{version}-root
+Source:         http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
+# date:2008-08-20 owner:halton type:bug bugzilla:548585
+Patch1:         %{name}-01-libsocket.diff
+BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires: gtk2-devel
 
@@ -28,6 +29,7 @@ vinagre is  a VCN client for the GNOME Desktop
 
 %prep
 %setup -q
+%patch1 -p1
 
 %build
 %ifos linux
@@ -51,6 +53,7 @@ autoconf
             --bindir=%{_bindir} \
             --mandir=%{_mandir} \
             --libdir=%{_libdir} \
+            --libexecdir=%{_libexecdir} \
             --datadir=%{_datadir} \
             --includedir=%{_includedir} \
             --sysconfdir=%{_sysconfdir} \
@@ -80,8 +83,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog NEWS README COPYING.LIB
 %{_bindir}/*
 %{_libdir}/lib*.so.*
+%{_libdir}/bonobo/servers/GNOME_RemoteDesktop.server
 
 %changelog
+* Wed Aug 20 2008 - nonsea@users.sourceforge.net
+- Bump to 2.23.90
+- Add patch libsocket.diff to fix bugzilla #548585
 * Tue Mar 10 2008 - nonsea@users.sourceforge.net
 - Bump to 0.5.0
 * Tue Mar 04 2008 - nonsea@users.sourceforge.net

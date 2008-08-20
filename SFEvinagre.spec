@@ -118,6 +118,11 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/vinagre
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/vinagre-applet
+%dir %attr (0755, root, bin) %{_libdir}/bonobo
+%dir %attr (0755, root, bin) %{_libdir}/bonobo/servers
+%{_libdir}/bonobo/servers/GNOME_VinagreApplet.server
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/vinagre
 %dir %attr (0755, root, other) %{_datadir}/applications
@@ -134,7 +139,9 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %{_datadir}/icons/hicolor/*/mimetypes/*
 %dir %attr (-, root, other) %{_datadir}/doc
 %{_datadir}/doc/vinagre
-%ghost %attr (-, root, root) %{_datadir}/mime
+%dir %attr (-, root, root) %{_datadir}/mime
+%dir %attr (-, root, root) %{_datadir}/mime/packages
+%{_datadir}/mime/packages/vinagre-mime.xml
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/*
 %{_mandir}/*/*
@@ -155,6 +162,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 
 
 %changelog
+* Wed Aug 20 2008 - nonsea@users.sourceforge.net
+- Update %files becuase verion upgrading
 * Wed Feb 20 2008 - nonsea@users.sourceforge.net
 - Add -root package, add %post and %preun -root package.
 - Update files according updated version.

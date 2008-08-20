@@ -1,4 +1,4 @@
-#
+# ld-z-text.diff
 # Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
@@ -13,7 +13,7 @@
 # or, depend on package SUNWevolution-bdb-devel, which is in jds spec-files/closed
 # now, use second way.
 Name:           SFEanjuta
-Version:        2.5.0
+Version:        2.5.90
 Summary:        GNOME IDE for C and C++
 Group:          Development/Tools
 License:        GPL
@@ -23,10 +23,8 @@ Source:         http://download.gnome.org/sources/anjuta/2.5/anjuta-%{version}.t
 Patch1:         anjuta-01-solaris-grep.diff
 # date:2007-05-14 owner:nonsea type:branding
 Patch2:         anjuta-02-ld-z-text.diff
-# date:2008-06-03 owner:nonsea type:bug bugzilla:536372
-Patch3:         anjuta-03-max-baud.diff
-# date:2008-06-03 owner:nonsea type:bug bugzilla:536375
-Patch4:         anjuta-04-lsocket.diff
+# date:2008-08-20 owner:nonsea type:bug bugzilla:548622
+Patch3:         anjuta-03-zero-array.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -55,7 +53,7 @@ Requires: SFEneon
 %endif
 Requires: SFEgdl
 Requires: SFEgnome-build
-Requires: SFEgraphviz
+Requires: SUNWgraphviz
 Requires: SFEautogen
 %if %(pkginfo -q SUNWsvn && echo 1 || echo 0)
 Requires: SUNWsvn
@@ -64,7 +62,7 @@ Requires: SFEsubversion
 %endif
 BuildRequires: SFEgdl-devel
 BuildRequires: SFEgnome-build-devel
-BuildRequires: SFEgraphviz-devel
+BuildRequires: SUNWgraphviz-devel
 BuildRequires: SFEautogen-devel
 BuildRequires: SUNWevolution-bdb-devel
 
@@ -105,7 +103,6 @@ Requires:                %{name}
 %setup -q -n anjuta-%{version}
 %patch1 -p1
 %patch3 -p1
-%patch4 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -124,21 +121,21 @@ aclocal $ACLOCAL_FLAGS
 autoheader
 automake -a -c -f
 autoconf
-./configure --prefix=%{_prefix}						\
-			--mandir=%{_mandir}						\
-			--libdir=%{_libdir}						\
-			--includedir=%{_includedir}					\
-			--sysconfdir=%{_sysconfdir}					\
-			--with-svn-include=%{_includedir}/svn			\
-			--with-svn-lib=%{_libdir}/svn				\
-			--disable-scrollkeeper					\
-			--with-apr-config=%{_prefix}/apache2/2.2/bin/apr-1-config	\
-			--with-apu-config=%{_prefix}/apache2/2.2/bin/apu-1-config	\
-	    %gtk_doc_option
+./configure --prefix=%{_prefix}					\
+	--mandir=%{_mandir}					\
+	--libdir=%{_libdir}					\
+	--includedir=%{_includedir}				\
+	--sysconfdir=%{_sysconfdir}				\
+	--with-svn-include=%{_includedir}/svn			\
+	--with-svn-lib=%{_libdir}/svn				\
+	--disable-scrollkeeper					\
+	--with-apr-config=%{_prefix}/apache2/2.2/bin/apr-1-config \
+	--with-apu-config=%{_prefix}/apache2/2.2/bin/apu-1-config \
+	%gtk_doc_option
 
 %patch2 -p1
 
-make -j$CPUS
+make # -j$CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -292,6 +289,11 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Wed Aug 20 2008 - nonsea@users.sourceforge.net
+- Bump to 2.5.90
+- Use SUNWgraphviz instead of SFEgraphviz
+- Add patch zero-array.diff to fix bugzilla #548622
+- Remove upstreamed patches max-baud.diff and lsocket.diff
 * Sat Jun 14 2008 - andras.barna@gmail.com
 - $CPUS calculated, but not used
 - Fix apr-1-config's path, add apu-1-config, so at least it builds
