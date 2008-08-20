@@ -1,0 +1,259 @@
+diff -Nur /tmp/prozilla-2.0.4/libprozilla/src/common.h prozilla-2.0.4/libprozilla/src/common.h
+--- /tmp/prozilla-2.0.4/libprozilla/src/common.h	2006-02-08 22:49:54.000000000 +0530
++++ prozilla-2.0.4/libprozilla/src/common.h	2007-08-14 21:20:21.555162000 +0530
+@@ -168,9 +168,9 @@
+ #include <locale.h>
+ #endif
+ 
++#define _(String) (String)
+ /* Gettext */
+ #include <libintl.h>
+-#define _(String) dgettext (PACKAGE, String)
+ #define gettext_noop(String) (String)
+ #ifndef HAVE_GNOME
+ #define N_(String) gettext_noop (String)
+diff -Nur /tmp/prozilla-2.0.4/libprozilla/src/connect.c prozilla-2.0.4/libprozilla/src/connect.c
+--- /tmp/prozilla-2.0.4/libprozilla/src/connect.c	2006-02-08 22:49:54.000000000 +0530
++++ prozilla-2.0.4/libprozilla/src/connect.c	2007-08-14 20:58:57.033744000 +0530
+@@ -55,7 +55,8 @@
+ 
+     error = getaddrinfo(name, szPort, &hints, &res);
+     if (error) {
+-           freeaddrinfo(res);
++            if (res != NULL)
++                freeaddrinfo(res);
+             return HOSTERR;
+         }
+ 
+diff -Nur /tmp/prozilla-2.0.4/libprozilla/src/ftpsearch.c prozilla-2.0.4/libprozilla/src/ftpsearch.c
+--- /tmp/prozilla-2.0.4/libprozilla/src/ftpsearch.c	2006-02-08 22:49:54.000000000 +0530
++++ prozilla-2.0.4/libprozilla/src/ftpsearch.c	2007-08-14 20:58:57.036205000 +0530
+@@ -49,6 +49,9 @@
+ ftp_mirror_t *reprocess_mirror_list(ftp_mirror_t * mirrors,
+ 				    int *num_servers);
+ 
++#ifdef __sun
++char *strcasestr (const char *phaystack,const char * pneedle);
++#endif
+ 
+ ftps_request_t * proz_ftps_request_init(
+ 			       urlinfo * requested_url, off_t file_size,
+@@ -1110,3 +1113,91 @@
+   return -1;
+ 
+ }
++
++#ifdef __sun
++char *
++strcasestr (const char *phaystack,const char *pneedle)
++{
++  register const unsigned char *haystack, *needle;
++  register char b, c;
++
++  haystack = (const unsigned char *) phaystack;
++  needle = (const unsigned char *) pneedle;
++
++  b = tolower (*needle);
++  if (b != '\0')
++    {
++      haystack--;				/* possible ANSI violation */
++      do
++	{
++	  c = *++haystack;
++	  if (c == '\0')
++	    goto ret0;
++	}
++      while (tolower (c) != (int) b);
++
++      c = tolower (*++needle);
++      if (c == '\0')
++	goto foundneedle;
++      ++needle;
++      goto jin;
++
++      for (;;)
++        {
++          register char a;
++	  register const unsigned char *rhaystack, *rneedle;
++
++	  do
++	    {
++	      a = *++haystack;
++	      if (a == '\0')
++		goto ret0;
++	      if (tolower (a) == (int) b)
++		break;
++	      a = *++haystack;
++	      if (a == '\0')
++		goto ret0;
++shloop:
++	      ;
++	    }
++          while (tolower (a) != (int) b);
++
++jin:	  a = *++haystack;
++	  if (a == '\0')
++	    goto ret0;
++
++	  if (tolower (a) != (int) c)
++	    goto shloop;
++
++	  rhaystack = haystack-- + 1;
++	  rneedle = needle;
++	  a = tolower (*rneedle);
++
++	  if (tolower (*rhaystack) == (int) a)
++	    do
++	      {
++		if (a == '\0')
++		  goto foundneedle;
++		++rhaystack;
++		a = tolower (*++needle);
++		if (tolower (*rhaystack) != (int) a)
++		  break;
++		if (a == '\0')
++		  goto foundneedle;
++		++rhaystack;
++		a = tolower (*++needle);
++	      }
++	    while (tolower (*rhaystack) == (int) a);
++
++	  needle = rneedle;		/* took the register-poor approach */
++
++	  if (a == '\0')
++	    break;
++        }
++    }
++foundneedle:
++  return (char*) haystack;
++ret0:
++  return 0;
++}
++#endif
+diff -Nur /tmp/prozilla-2.0.4/libprozilla/src/http.c prozilla-2.0.4/libprozilla/src/http.c
+--- /tmp/prozilla-2.0.4/libprozilla/src/http.c	2006-02-08 22:49:53.000000000 +0530
++++ prozilla-2.0.4/libprozilla/src/http.c	2007-08-14 20:58:57.033348000 +0530
+@@ -259,7 +259,7 @@
+   for (len = 0; isdigit(*hdr); hdr++)
+     len = 10 * len + (*hdr - '0');
+ 
+-  proz_debug("contenlen %s  contentlen %lld",*hdr,len);
++  proz_debug("contenlen %s  contentlen %lld",hdr,len);
+   return len;
+ }
+ 
+@@ -295,7 +295,7 @@
+   for (len = 0; isdigit(*hdr); hdr++)
+     len = 10 * len + (*hdr - '0');
+ 
+-  proz_debug("range %s  range %lld",*hdr,len);
++  proz_debug("range %s  range %lld",hdr,len);
+   return len;
+ }
+ 
+diff -Nur /tmp/prozilla-2.0.4/libprozilla/src/main.c prozilla-2.0.4/libprozilla/src/main.c
+--- /tmp/prozilla-2.0.4/libprozilla/src/main.c	2006-02-08 22:49:54.000000000 +0530
++++ prozilla-2.0.4/libprozilla/src/main.c	2007-08-14 21:12:04.454535000 +0530
+@@ -49,10 +49,6 @@
+ //  int c;
+ 
+   /* Gettext stuff */
+-  setlocale(LC_ALL, "");
+-  bindtextdomain(PACKAGE, LOCALEDIR);
+-  textdomain(PACKAGE);
+-
+   memset(&libprozrtinfo, 0, sizeof(libprozrtinfo));
+   libprozrtinfo.argc = argc;
+   libprozrtinfo.argv = argv;
+diff -Nur /tmp/prozilla-2.0.4/src/interface.c prozilla-2.0.4/src/interface.c
+--- /tmp/prozilla-2.0.4/src/interface.c	2006-02-08 22:48:58.000000000 +0530
++++ prozilla-2.0.4/src/interface.c	2007-08-14 20:58:57.032547000 +0530
+@@ -79,8 +79,13 @@
+     "Max attempts reached",
+ };
+ 
++#ifndef CTRL
+ #define CTRL(x) ((x) & 0x1F)
++#endif
+ 
++#ifdef __sun
++typedef unsigned short attr_t;
++#endif
+ 
+ //static int top_con = 0;	// the connection that is on the top of the display 
+ 				 
+diff -Nur /tmp/prozilla-2.0.4/src/main.cpp prozilla-2.0.4/src/main.cpp
+--- /tmp/prozilla-2.0.4/src/main.cpp	2006-02-08 22:48:58.000000000 +0530
++++ prozilla-2.0.4/src/main.cpp	2007-08-14 21:08:10.505553000 +0530
+@@ -56,6 +56,7 @@
+ 	{"help", no_argument, NULL, 'h'},
+ 	{"gtk", no_argument, NULL, 'g'},
+ 	{"no-netrc", no_argument, NULL, 'n'},
++    {"no-proxy", no_argument, NULL, 'i'},
+ 	{"tries", required_argument, NULL, 't'},
+ 	{"force", no_argument, NULL, 'f'},
+ 	{"version", no_argument, NULL, 'v'},
+@@ -127,6 +128,7 @@
+ 		 "      -n, --no-netrc    Don't use .netrc, get the user/password\n"
+ 		 "                        from the command line,otherwise use the\n"
+ 		 "                        anonymous login for FTP sessions\n"
++         "      -i, --no-proxy    Ignore proxy setting from prozconfig\n"
+ 		 "      --no-getch        Instead of waiting for the user pressing a key,\n"
+ 		 "                        print the error to stdout and quit\n"
+ 		 "      --debug           Log debugging info to a file (default is debug.log)\n"
+@@ -221,7 +223,7 @@
+ 	load_prefs ();		//load values from the config file
+ 
+ 	while ((c =
+-		getopt_long (argc, argv, "?hvrfk:1Lt:VgsP:", long_opts,
++		getopt_long (argc, argv, "?hvirfk:1Lt:VgsP:", long_opts,
+ 			     NULL)) != EOF)
+ 	{
+ 		switch (c)
+@@ -241,6 +243,10 @@
+ 		case 'f':
+ 			rt.force_mode = TRUE;
+ 			break;
++        case 'i':
++            rt.use_http_proxy = 0;
++            rt.use_ftp_proxy = 0;
++            break;
+ 		case 'k':
+ 			if (setargval (optarg, &rt.num_connections) != 1)
+ 			{
+@@ -468,14 +474,11 @@
+ 	if (optind == argc)
+ 	{
+ 		help ();
++        exit (1);
+ 	}
+ 	else
+ 	{
+ 		/* Gettext stuff */
+-		setlocale (LC_ALL, "");
+-		bindtextdomain (PACKAGE, LOCALEDIR);
+-		textdomain (PACKAGE);
+-
+ 		/*delete the ~/.prozilla/debug.log file if present at the start of each run */
+ 		proz_debug_delete_log ();
+ 
+diff -Nur /tmp/prozilla-2.0.4/src/main.h prozilla-2.0.4/src/main.h
+--- /tmp/prozilla-2.0.4/src/main.h	2006-02-08 22:48:59.000000000 +0530
++++ prozilla-2.0.4/src/main.h	2007-08-14 21:19:13.825705000 +0530
+@@ -5,13 +5,14 @@
+ #include <sys/time.h>
+ #include "prozilla.h"
+ 
++#define _(String) (String) 
+ /* Gettext */
+-#include <libintl.h>
+-//#define _(String) dgettext (PACKAGE,String)
++/* #include <libintl.h>
+ #define gettext_noop(String) (String)
+ #ifndef HAVE_GNOME
+ #define N_(String) gettext_noop (String)
+ #endif
++*/
+ /* Gettext */
+ 
+ 
