@@ -1,3 +1,8 @@
+2008-08-21  Brian Cameron  <brian.cameron@sun.com>
+
+	* patches/libcanberra-01-solaris.diff:  Update patch based on 
+	  maintainers comments.
+
 2008-08-21  Halton Huo <nonsea@users.sourceforge.net>
 
 	* patches/anjuta-04-miss-vala-sgml.diff: (rework)
