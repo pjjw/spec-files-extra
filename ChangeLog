@@ -1,3 +1,6 @@
+2008-08-20 Michal Bielicki <michal.bielicki <at> voiceworks.pl>
+	* SFEunixodbc.spec: More Permission fixes
+
 2008-08-20  Willie Walker <william.walker@sun.com>
 
         * SFEespeak.spec: move to archive folder.  espeak is now

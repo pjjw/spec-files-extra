@@ -167,7 +167,7 @@ fi
 # --- files section ---
 %defattr(-, root, bin)
 %doc    AUTHORS COPYING ChangeLog NEWS README README.* doc
-%dir %attr (-, -, -) %{prefix}
+%dir %attr (0755, root, sys) %{prefix}
 %dir %attr (0755, root, bin) %{_bindir}
 %dir %attr (0755, root, sys) %{_sysconfdir}
 %dir %attr (0755, root, sys) %{_sysconfdir}/ODBCDataSources
@@ -271,7 +271,6 @@ fi
 %{drvlibdir}/libtdsS.so*
 %{drvlibdir}/libtemplate.so*
 %ifarch amd64 sparcv9
-%defattr(-, root, bin)
 %{drvlibdir}/%{_arch64}/libesoobS.so*
 %{drvlibdir}/%{_arch64}/libmimerS.so*
 %{drvlibdir}/%{_arch64}/libnn.so*
@@ -312,7 +311,6 @@ fi
 %{drvlibdir}/libtemplate.*a
 %ifarch amd64 sparcv9
 %files drivers-devel
-%defattr(-, root, bin)
 %{drvlibdir}/%{_arch64}/libesoobS.*a
 %{drvlibdir}/%{_arch64}/libmimerS.*a
 %{drvlibdir}/%{_arch64}/libnn.*a
@@ -367,6 +365,8 @@ fi
 %postun -p %{__ldconfig}
 
 %changelog
+* Thu Aug 21 2008 Michal Bielicki <michal.bielicki <at> voiceworks.pl>
+- More Permission fixes
 * Wed Jun 25 2008 Michal Bielicki <michal.bielicki <at> voiceworks.pl> 
 - Permission fixes
 * Sun Dec 02 2007 Michal Bielicki <michal.bielicki <at> voiceworks.pl> 2.2.12
