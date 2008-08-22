@@ -31,6 +31,8 @@ Patch4:         %{name}-04-inline.diff
 Patch5:         %{name}-05-libgoffice-0.8.diff
 # date:2008-06-27 owner:halton type:bug  bugzilla:539942
 Patch6:         %{name}-06-configure-fail.diff
+# date:2008-08-22 owner:halton type:bug  bugzilla:548218
+Patch7:         %{name}-07-solaris-sh.diff
 BuildRoot:      %{tmpdir}/%{name}-%{version}-root
 
 Requires:       libgnomeui >= %{libgnomeui_version}
@@ -72,6 +74,7 @@ in C programs.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 %ifos linux
@@ -165,6 +168,8 @@ fi
 %{_includedir}/gnucash
 
 %changelog
+* Fri Aug 22 2008 - nonsea@users.sourceforge.net
+- solaris-sh.diff to fix bugzilla #548218
 * Mon Aug 18 2008 - nonsea@users.sourceforge.net
 - Bump to 2.2.6
 - Use .bz2

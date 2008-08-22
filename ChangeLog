@@ -1,3 +1,21 @@
+2008-08-22  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEgnucash.spec: Add use SS12 note.
+	* base-specs/gnucash.spec: Add patch solaris-sh.diff
+	* patches/gnucash-07-solaris-sh.diff: (added) fix bugzilla #548218
+	* patches/gnucash-04-inline.diff: rework
+
+2008-08-21  Brian Cameron  <brian.cameron@sun.com>
+
+	* patches/libcanberra-01-solaris.diff:  Update patch based on 
+	  maintainers comments.
+
+2008-08-21  Halton Huo <nonsea@users.sourceforge.net>
+
+	* SFEgnucash.spec:
+	* base-specs/gnucash.spec:
+	* patches/gnucash-07-solaris-sh.diff:
+
 2008-08-21  Brian Cameron  <brian.cameron@sun.com>
 
 	* patches/libcanberra-01-solaris.diff:  Update patch based on 

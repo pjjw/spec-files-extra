@@ -8,6 +8,8 @@
 # package are under the same license as the package itself.
 #
 # Owner: halton
+# NOTE: You need build this spec with SS12, check 
+# http://bugzilla.gnome.org/show_bug.cgi?id=548956 for detail.
 #
 
 %include Solaris.inc
