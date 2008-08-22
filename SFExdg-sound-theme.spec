@@ -17,14 +17,14 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %prep
 mkdir -p xdg-sound-theme
 cd xdg-sound-theme
-gunzip -c sound-theme-freedesktop.tar.gz | tar xf -
+gunzip -c %SOURCE0 | tar xf -
 
 %build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/sounds
+cd xdg-sound-theme
 tar cpf - freedesktop | (cd ${RPM_BUILD_ROOT}/%{_datadir}/sounds; tar xpf - )
 
 %clean
