@@ -8,7 +8,7 @@
 Name:                SFErecordmysolaris
 Summary:             Recordmysolaris - Desktop recording tool
 Version:             0.1
-Source:              http://192.168.1.2/~sartek/recordmysolaris.tar.gz
+Source:              http://recordmysolaris.googlecode.com/files/recordmysolaris-%{version}.tar.gz
 URL:                 http://code.google.com/p/recordmysolaris/
 
 SUNW_BaseDir:        %{_basedir}
@@ -25,7 +25,7 @@ Requires:            SUNWlibtheora
 %include default-depend.inc
 
 %prep
-%setup -q -n recordmysolaris
+%setup -q -n recordmysolaris-%version
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -37,7 +37,8 @@ export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
 
 aclocal
-automake -a
+autoheader
+automake --copy --add-missing
 autoconf
 
 ./configure --prefix=%{_prefix}                 \

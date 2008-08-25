@@ -8,21 +8,14 @@
 Name:                SFErecordmysolaris-gtk
 Summary:             Recordmysolaris-gtk - Desktop recording tool, gtk frontend
 Version:             0.1
-Source:              http://192.168.1.2/~sartek/gtk-recordmysolaris.tar.gz
+Source:              http://recordmysolaris.googlecode.com/files/gtk-recordmysolaris-%{version}.tar.gz
 URL:                 http://code.google.com/p/recordmysolaris/
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}_%{version}-build
-BuildRequires:       SUNWogg-vorbis
-BuildRequires:       SUNWlibtheora
-BuildRequires:       oss
-#BuildRequires:       SUNWgnome-common-devel
-#BuildRequires:       SUNWgnome-python-libs
-Requires:            oss
-Requires:            SUNWxwplt
-Requires:            SUNWogg-vorbis
-Requires:            SUNWlibtheora
-Requires:            SFErecordmydesktop
+BuildRequires:       SUNWgnome-common-devel
+BuildRequires:       SUNWgnome-python-libs
+Requires:            SFErecordmysolaris
 
 %include default-depend.inc
 
@@ -38,7 +31,7 @@ Requires:                %{name}
 %define pythonver 2.4
 
 %prep
-%setup -q -n gtk-recordmysolaris
+%setup -q -n gtk-recordmysolaris-%version
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -50,7 +43,7 @@ export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
 
 aclocal -I m4/
-automake -a
+automake --copy --add-missing
 autoconf
 
 ./configure --prefix=%{_prefix}                 \
