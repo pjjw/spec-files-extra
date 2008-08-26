@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2008 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -22,7 +22,7 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 BuildRequires: SUNWPython-devel
 BuildRequires: SFEgoocanvas-devel
 Requires: SUNWPython
-Requires: SFEgoocanvas-devel
+Requires: SFEgoocanvas
 
 %package devel
 Summary:                 %{summary} - development files

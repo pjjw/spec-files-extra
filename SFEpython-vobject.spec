@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2007 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -13,16 +13,17 @@
 Name:                SFEpython-vobject
 URL:                 http://vobject.skyhouseconsulting.com/
 Summary:             vobject - a Python iCalendar library
-Version:             0.6.0
+Version:             0.7.1
 Source:              http://vobject.skyhouseconsulting.com/%{src_name}-%{version}.tar.gz
 Patch1:		     python-vobject-01-ez_setup.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
+Requires: SUNWPython
+Requires: SFEpython-dateutil
 BuildRequires: SUNWPython-devel
 BuildRequires: SUNWpython-setuptools
-Requires: SUNWPython
 
 %prep
 %setup -q -n %{src_name}-%version
@@ -52,6 +53,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Tue Aug 26 2008 - halton.huo@sun.com
+- Bump to 0.7.1
 * Mon Mar 17 2008 - jijun.yu@sun.com
 - Bump to 0.6.0
 * Mon Feb 18 2008 - nonsea@users.sourceforge.net

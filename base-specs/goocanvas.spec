@@ -17,7 +17,7 @@ Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://sourceforge.net/projects/goocanvas
 Summary:        A Cairo Canvas Widget for GTK+
-Source:         http://download.gnome.org/sources/%{name}/%{version}/%{name}-%{version}.tar.gz
+Source:         http://download.gnome.org/sources/%{name}/%{version}/%{name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 BuildRequires:  autoconf >= 2.50
 BuildRequires:  automake >= 1:1.7

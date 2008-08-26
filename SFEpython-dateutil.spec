@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2007 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -13,13 +13,14 @@
 Name:                SFEpython-dateutil
 URL:                 http://labix.org/python-dateutil
 Summary:             dateutil - A python module provides powerful extensions to the standard datetime
-Version:             1.4
-Source:              http://labix.org/download/%{src_name}/%{src_name}-%{version}.tar.bz2
+Version:             1.4.1
+Source:              http://labix.org/download/%{src_name}/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
 BuildRequires: SUNWPython-devel
+Requires: SUNWpython-setuptools
 Requires: SUNWPython
 
 %prep
@@ -47,6 +48,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Tue Aug 26 2008 - halton.huo@sun.com
+- Bump to 1.4.1
 * Mon Mar 17 2007 - jijun.yu@sun.com
 - Bump to 1.4
 * Tue Dec 11 2007 - nonsea@users.sourceforge.net
