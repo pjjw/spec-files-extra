@@ -10,9 +10,11 @@
 
 Name:                   SFExdialog
 Summary:                Xdialog is a X11 drop in replacement for cdialog
+Group:                  Utility
 Version:                2.3.1
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 SUNW_BaseDir:           %{_basedir}
+SUNW_Copyright:         %{name}.copyright
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 

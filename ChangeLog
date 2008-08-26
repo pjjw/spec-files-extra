@@ -1,3 +1,52 @@
+2008-08-26  Andras Barna  <andras.barna@gmail.com>
+
+	* SFEx86info.spec: Add Group, Copyright
+	* SFExalan-c-gpp.spec: Add Group, Copyright
+	* SFExalan-c.spec: Add Group, Copyright
+	* SFExapian-bindings.spec: Add Group, Copyright
+	* SFExapian-core.spec: Add Group, Copyright
+	* SFExapian-omega.spec: Add Group, Copyright
+	* SFExbindkeys.spec: Add Group, Copyright
+	* SFExcdroast.spec: Add Group, Copyright
+	* SFExchat.spec: Add Group, Copyright
+	* SFExcircuit.spec: Add Group, Copyright
+	* SFExdelta.spec: Add Group, Copyright
+	* SFExdg-sound-theme.spec: Add Group, Copyright
+	* SFExdialog.spec: Add Group, Copyright
+	* SFExerces-c-gpp.spec: Add Group, Copyright
+	* SFExerces-c.spec: Add Group, Copyright
+	* SFExlincity.spec: Add Group, Copyright
+	* SFExmlrpc-c.spec: Add Group, Copyright
+	* SFExmlto.spec: Add Group, Copyright
+	* SFExosd.spec: Add Group, Copyright
+	* SFExpilot-ng.spec: Add Group, Copyright
+	* SFExplanet.spec: Add Group, Copyright
+	* SFExrestop.spec: Add Group, Copyright
+	* SFExsane.spec: Add Group, Copyright
+	* SFExtail.spec: Add Group, Copyright
+	* base-specs/xsane.spec: Add Group, Copyright
+	* copyright/SFEx86info.copyright: Added
+	* copyright/SFExalan-c.copyright: Added
+	* copyright/SFExapian-bindings.copyright: Added
+	* copyright/SFExapian-core.copyright: Added
+	* copyright/SFExapian-omega.copyright: Added
+	* copyright/SFExbindkeys.copyright: Added
+	* copyright/SFExcdroast.copyright: Added
+	* copyright/SFExcircuit.copyright: Added
+	* copyright/SFExdelta.copyright: Added
+	* copyright/SFExdg-sound-theme.copyright: Added
+	* copyright/SFExdialog.copyright: Added
+	* copyright/SFExerces-c.copyright: Added
+	* copyright/SFExlincity.copyright: Added
+	* copyright/SFExmlrpc-c.copyright: Added
+	* copyright/SFExmlto.copyright: Added
+	* copyright/SFExosd.copyright: Added
+	* copyright/SFExpilot-ng.copyright: Added
+	* copyright/SFExplanet.copyright: Added
+	* copyright/SFExrestop.copyright: Added
+	* copyright/SFExsane.copyright: Added
+	* copyright/SFExtail.copyright: Added
+
 2008-08-26  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFEconduit.spec: Update copyright

@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 %define src_name	xtail
-%define src_url		http://www.unicom.com/sw/xtail
+%define src_url		http://www.unicom.com/files
 %define src_version	2.1
 %define pkg_release	1
 
@@ -15,8 +15,10 @@ SUNW_BaseDir:	%{_basedir}
 
 Name:                   SFExtail
 Summary:                xtail - Watch the growth of files and directories
+Group:                  Utility
 Version:                2.1
 Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
+SUNW_Copyright:         %{name}.copyright
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 

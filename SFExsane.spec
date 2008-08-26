@@ -8,7 +8,9 @@
 
 Name:                    SFExsane
 Summary:                 Graphical scanning frontend for the SANE scanner interface.
+Group:                   Utility
 Version:                 %{xsane.version}
+SUNW_Copyright:          %{name}.copyright
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 

@@ -9,9 +9,11 @@
 
 Name:                    SFExpilot-ng
 Summary:                 XPilot - multi-player tactical manoeuvring game for X
+Group:                   Game/StrategyGame
 Version:                 4.7.2
 Source:                  %{sf_download}/xpilot/xpilot-ng-%{version}.tar.gz
 Patch1:                  xpilot-ng-01-freealut.diff
+SUNW_Copyright:          %{name}.copyright
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

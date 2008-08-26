@@ -19,9 +19,11 @@
 
 Name:                    SFExplanet
 Summary:                 XPlanet
+Group:                   Utility
 Version:                 1.2.0
 Source:                  %{sf_download}/xplanet/xplanet-%{version}.tar.gz         
 Patch1:                  xplanet-01-forte.diff
+SUNW_Copyright:          %{name}.copyright
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

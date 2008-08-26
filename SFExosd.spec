@@ -7,11 +7,12 @@
 %include Solaris.inc
 Name:                    SFExosd
 Summary:                 xosd - simple library to display shaped text on X Display
+Group:                   Utility
 URL:                     http://freshmeat.net/redir/xosd/12072/url_homepage/libxosd
 Version:                 2.2.14
 Source:                  http://freshmeat.net/redir/xosd/12072/url_tgz/xosd-%{version}.tar.gz
 
-
+SUNW_Copyright:          %{name}.copyright
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 

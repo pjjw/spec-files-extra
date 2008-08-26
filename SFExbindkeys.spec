@@ -6,9 +6,11 @@
 
 Name:                SFExbindkeys
 Summary:             An events grabbing program for X windows.
+Group:               Utility
 Version:             1.8.0
 Source:              http://hocwp.free.fr/xbindkeys/xbindkeys-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
+SUNW_Copyright:      %{name}.copyright
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 

@@ -7,10 +7,12 @@
 
 Name:                    SFExmlto
 Summary:                 xmlto - converts an XML file into a specified format
+Group:                   Utility
 Version:                 0.0.20
 URL:                     http://cyberelk.net/tim/software/xmlto/
 Source:                  http://cyberelk.net/tim/data/xmlto/stable/xmlto-%{version}.tar.bz2
 Patch1:                  xmlto-01-find.diff
+SUNW_Copyright:          %{name}.copyright
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

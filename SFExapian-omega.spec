@@ -10,8 +10,10 @@
 
 Name:                SFExapian-omega
 Summary:             Search Engine built on Xapian
+Group:               System/Libraries
 Version:             1.0.2
 Source:              %{src_url}/%{src_name}-%{version}.tar.gz
+SUNW_Copyright:      %{name}.copyright
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

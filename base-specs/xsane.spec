@@ -3,7 +3,6 @@
 #
 Name:         xsane
 License:      GPL
-Group:        Applications/Multimedia
 Version:      0.995
 Release:      1
 Distribution: Java Desktop System

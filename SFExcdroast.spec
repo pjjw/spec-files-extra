@@ -7,10 +7,12 @@
 
 Name:                    SFExcdroast
 Summary:                 X-CD-Roast - Flexible CD-burning software
+Group:                   AudioVideo
 URL:                     http://www.xcdroast.org/
 Version:                 0.98alpha15
 Source:                  %{sf_download}/xcdroast/xcdroast-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
+SUNW_Copyright:          %{name}.copyright
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 

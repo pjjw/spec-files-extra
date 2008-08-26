@@ -1,0 +1,45 @@
+   Copyright (c) Sergei Gerasenko 2003-2004. 
+
+   This defines the prototypes of the functions used for compressing 
+   and decompressing PDF streams. All of them utilize the zlib library
+   and in fact the functions themselves are slightly modified versions 
+   of those included in an example file that came with the library. Kudos
+   to the authors of zlib and everybody else involved in its development.
+
+ This file was taken from the SourceForge project "acroformtool".  Files
+ "compression.c" and "compression.h" have been merged and modified as
+ needed to facilitate compilation in xcircuit.  Thanks once again to the
+ open source community.
+
+ graphic.c --- xcircuit routines handling rendered graphic elements	
+ Copyright (c) 2005  Tim Edwards, MultiGiG, Inc.			
+ menucalls.c --- callback routines from the menu buttons		
+		   and associated routines				
+ Copyright (c) 2002  Tim Edwards, Johns Hopkins University        	
+ Copyright (c) 2004  Tim Edwards, Open Circuit Design, Inc., and MultiGiG, Inc.							
+
+****************************************************************************
+*   
+*   Copyright (c) 1988 by Hewlett-Packard Company
+*   Copyright (c) 1987, 1988 by Digital Equipment Corporation, Maynard,
+*             Massachusetts, and the Massachusetts Institute of Technology,
+*             Cambridge, Massachusetts
+*   
+*   Permission to use, copy, modify, and distribute this software 
+*   and its documentation for any purpose and without fee is hereby 
+*   granted, provided that the above copyright notice appear in all 
+*   copies and that both that copyright notice and this permission 
+*   notice appear in supporting documentation, and that the names of 
+*   Hewlett-Packard, Digital or  M.I.T.  not be used in advertising or 
+*   publicity pertaining to distribution of the software without 
+*   written prior permission.
+*   
+*   DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+*   ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+*   DIGITAL BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR
+*   ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+*   WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+*   ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+*   SOFTWARE.
+*   
+****************************************************************************

@@ -8,8 +8,10 @@
 Name:                    SFExcircuit
 Summary:                 xcircuit - electrical circuit schematic diagram drawing program
 Version:                 3.4.26
+Group:                   Utility
 Source:                  http://opencircuitdesign.com/xcircuit/archive/xcircuit-%{version}.tgz
 SUNW_BaseDir:            %{_basedir}
+SUNW_Copyright:          %{name}.copyright
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWxwrtl

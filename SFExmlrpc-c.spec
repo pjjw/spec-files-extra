@@ -11,7 +11,9 @@
 
 Name:                   SFExmlrpc-c
 Summary:                A lightweight RPC library based on XML and HTTP
+Group:                  System/Libraries
 Version:                %{xmlrpc_c.version}
+SUNW_Copyright:         %{name}.copyright
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

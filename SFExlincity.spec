@@ -5,10 +5,12 @@
 %include Solaris.inc
 Name:                    SFExlincity
 Summary:                 xlincity - Simulation game based on opensourced components of S*mc*ty. 
+Group:                   Game/Simulation
 URL:                     http://lincity.sourceforge.net 
 Version:                 1.12.0
 Source:                  http://www.ibiblio.org/pub/Linux/games/strategy/lincity-1.12.0.tar.gz 
 Patch1:			 xlincity-01-solaris.diff
+SUNW_Copyright:          %{name}.copyright
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc

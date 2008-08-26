@@ -16,6 +16,7 @@ Source:       http://www.apache.org/dist/xerces/c/sources/xerces-c-src_%{tarball
 URL:          http://xerces.apache.org/index.html
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
+SUNW_Copyright: %{name}.copyright
 SUNW_BaseDir: %{_basedir}
 Autoreqprov:  on
 %include default-depend.inc

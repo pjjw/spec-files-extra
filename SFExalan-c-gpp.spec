@@ -30,6 +30,7 @@ URL:          http://xml.apache.org/xalan-c/index.html
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
 SUNW_BaseDir: %{_basedir}
+SUNW_Copyright: SFExalan-c.copyright
 Autoreqprov:  on
 %include default-depend.inc
 Requires:     SFExerces-c

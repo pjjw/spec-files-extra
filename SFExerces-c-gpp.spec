@@ -30,6 +30,7 @@ Summary:      Xerces-C++ - validating XML parser - g++-built libraries
 URL:          http://xerces.apache.org/index.html
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
+SUNW_Copyright: SFExerces-c.copyright
 SUNW_BaseDir: %{_basedir}
 Autoreqprov:  on
 %include default-depend.inc

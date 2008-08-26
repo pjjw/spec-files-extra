@@ -6,10 +6,12 @@
 
 Name:                    SFExdelta
 Summary:                 Opensource binary diff 
+Group:                   Utility
 Version:                 1.1.4
 Source:                  http://xdelta.googlecode.com/files/%{src_name}-%{version}.tar.gz
 URL:                     http://xdelta.org/
 SUNW_BaseDir:            %{_basedir}
+SUNW_Copyright:          %{name}.copyright
 BuildRoot:               %{_tmppath}/%{src_name}-%{version}-build
 %include default-depend.inc
 

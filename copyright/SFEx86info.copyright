@@ -1,0 +1,97 @@
+ Copyright (c) 1996, by Steve Passe
+ All rights reserved.
+
+ hacked to make it work in userspace Linux by Ingo Molnar, same copyright
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+	notice, this list of conditions and the following disclaimer.
+ 2. The name of the developer may NOT be used to endorse or promote products
+	derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ SUCH DAMAGE.
+ 
+
+
+
+--------------------------------------------------------------------
+
+  (C) 2008 Dave Jones.
+
+  Licensed under the terms of the GNU GPL License version 2.
+
+  Intel multicore/multithread determination.
+ 
+  Intel family 15 specific identification.
+ 
+
+--------------------------------------------------------------------
+
+  (C) 2001 Dave Jones.
+
+  Licensed under the terms of the GNU GPL License version 2.
+
+  Centaur specific parts.
+ 
+  Longhaul v2 register definitions.
+ 
+  Cyrix specific information.
+ 
+  Binary output routines.
+ 
+  AMD specific prototypes.
+ 
+
+--------------------------------------------------------------------
+
+  (C) 2001 Dave Jones.
+
+  Copyright (C) 2007 Advanced Micro Devices, Inc.
+                     Andreas Herrmann <andreas.herrmann3@amd.com>
+
+  Licensed under the terms of the GNU GPL License version 2.
+
+  AMD-specific information
+  Decode powernow registers.
+  Powersaver MSR definitions.
+  Powernow register definitions.
+  AMD-specific errata information
+  MTRR register dumping.
+  Intel P6 specific MSR information
+  Intel P4 specific MSR information
+  Intel Pentium M specific MSR information
+  Intel P6 microcode information.
+  Powersaver MSR decoding.
+  AMD-Athlon specific MSR information
+  PSB decoding routines.
+  Dump machine check registers.
+  Get CPU name string from cpuid.
+  Rise specific parts.
+  Longhaul register decoding.
+  NatSemi specific parts.
+  Intel specific parts
+  Intel family 6 specific decoding.
+  Feature flag decoding.
+  AMD-K6 specific MSR information
+  Routines for reading MSRs.
+  Decode and print the name of the connector the CPU plugs into.
+  Bus speed parsing.
+  Routines for retrieving cpuid registers.
+
+  Fixes by Arjan van de Ven (arjanv@redhat.com) and
+  Philipp Rumpf (prumpf@mandrakesoft.com)
+  Routines for retrieving cpuid registers.
+  
+  Contributions by Arjan van de Ven & Philipp Rumpf.
