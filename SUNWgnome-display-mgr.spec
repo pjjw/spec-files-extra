@@ -13,7 +13,7 @@
 
 Summary:                 GNOME display manager
 Name:                    SUNWgnome-display-mgr
-Version:                 2.23.2
+Version:                 2.23.90
 Release:                 1
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.23/gdm-%{version}.tar.bz2
 Source1:                 gdm.xml
@@ -302,6 +302,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Tue Aug 26 2008 - brian.cameron@sun.com
+- Bump to 2.23.90.
 * Thu Aug 11 2008 - simon.zheng@sun.com
 - Rework 04-dynamic-display.diff.
 * Thu Aug 07 2008 - brian.cameron@sun.com

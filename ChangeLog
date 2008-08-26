@@ -1,3 +1,8 @@
+2008-08-26  Brian Cameron  <brian.cameron@sun.com>
+
+	* SUNWgnome-display-mgr.spec, patches/gdm-01-lang.diff:  Update to
+	  2.23.90 and rework patch to apply against latest release.
+
 2008-08-26  Andras Barna  <andras.barna@gmail.com>
 
 	* SFEx86info.spec: Add Group, Copyright

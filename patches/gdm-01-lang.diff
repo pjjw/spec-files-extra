@@ -1,6 +1,6 @@
---- gdm-2.22.0/data/Makefile.am.orig	2008-06-03 17:11:58.201468000 +0900
-+++ gdm-2.22.0/data/Makefile.am	2008-06-03 17:13:26.826815000 +0900
-@@ -42,6 +42,9 @@ schemasdir = $(gdmconfdir)
+--- gdm-2.23.90/data/Makefile.am-orig	2008-08-26 14:00:39.497374000 -0500
++++ gdm-2.23.90/data/Makefile.am	2008-08-26 14:02:24.915624000 -0500
+@@ -52,6 +52,9 @@ schemasdir = $(gdmconfdir)
  schemas_in_files = gdm.schemas.in
  schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
  
@@ -10,10 +10,10 @@
  gdm.schemas.in: $(srcdir)/gdm.schemas.in.in
  	sed	-e 's,[@]GDMPREFETCHCMD[@],$(GDMPREFETCHCMD),g' \
  		-e 's,[@]GDM_CUSTOM_CONF[@],$(GDM_CUSTOM_CONF),g' \
-@@ -73,6 +76,7 @@ EXTRA_DIST =			\
+@@ -85,6 +88,7 @@ EXTRA_DIST =			\
  	$(schemas_in_files)	\
  	$(schemas_DATA)		\
- 	$(dbusconf_DATA)	\
+ 	$(dbusconf_in_files)	\
 +	$(localealias_DATA)	\
  	gdm.schemas.in.in	\
  	gdm.conf-custom.in 	\
@@ -36,9 +36,9 @@
 +# list is tried in order and the first working one is used.
 +#
 +#Unspecified   C,POSIX
---- gdm-2.22.0/gui/simple-greeter/gdm-language-chooser-widget.c.orig	2008-06-02 20:47:34.964956000 +0900
-+++ gdm-2.22.0/gui/simple-greeter/gdm-language-chooser-widget.c	2008-06-02 23:53:13.392517000 +0900
-@@ -181,7 +181,9 @@ add_available_languages (GdmLanguageChoo
+--- gdm-2.23.90/gui/simple-greeter/gdm-language-chooser-widget.c-orig	2008-08-26 14:00:54.023146000 -0500
++++ gdm-2.23.90/gui/simple-greeter/gdm-language-chooser-widget.c	2008-08-26 14:01:13.368817000 -0500
+@@ -195,7 +195,9 @@ add_available_languages (GdmLanguageChoo
          language_names = gdm_get_all_language_names ();
  
          for (i = 0; language_names[i] != NULL; i++) {
