@@ -1,0 +1,439 @@
+diff -ur stardict-3.0.1.orig/configure.in stardict-3.0.1/configure.in
+--- stardict-3.0.1.orig/configure.in	2007-11-01 15:37:15.000000000 +0800
++++ stardict-3.0.1/configure.in	2008-05-26 11:21:41.149842533 +0800
+@@ -372,7 +372,7 @@
+ 	STARDICT_CFLAGS="$STARDICT_CFLAGS -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED"
+ fi
+ 
+-STARDICT_CFLAGS="-Wall $STARDICT_CFLAGS"
++STARDICT_CFLAGS="$STARDICT_CFLAGS"
+ 
+ 
+ dnl
+@@ -428,7 +428,7 @@
+ fi
+ 
+ # Checks for libraries.
+-AC_CHECK_LIB([X11], [main], , [AC_MSG_ERROR([X11 lib not found])])
++AC_CHECK_LIB([X11], [XOpenDisplay], , [AC_MSG_ERROR([X11 lib not found])])
+ 
+ AC_SUBST(STARDICT_LIBS)
+ AC_SUBST(STARDICT_CFLAGS)
+diff -ur stardict-3.0.1.orig/src/conf.h stardict-3.0.1/src/conf.h
+--- stardict-3.0.1.orig/src/conf.h	2007-07-17 18:28:09.000000000 +0800
++++ stardict-3.0.1/src/conf.h	2008-05-26 15:04:40.581739429 +0800
+@@ -115,7 +115,7 @@
+ 	std::auto_ptr<config_file> cf;
+ 	cache_t cache;
+ 
+-#ifdef _WIN32
++#if defined(_WIN32) || defined(sun)
+ static void *memrchr(const void *mem, int c, size_t len) {
+ 	char *res;
+ 	char *cmem = (char *)mem;
+diff -ur stardict-3.0.1.orig/src/docklet.cpp stardict-3.0.1/src/docklet.cpp
+--- stardict-3.0.1.orig/src/docklet.cpp	2007-10-25 14:57:22.000000000 +0800
++++ stardict-3.0.1/src/docklet.cpp	2008-05-26 15:12:52.478749205 +0800
+@@ -8,6 +8,8 @@
+ 
+ #include "docklet.h"
+ 
++void m_gtk_widget_destroy (GtkWidget* p) {gtk_widget_destroy (p);}
++
+ DockLet::DockLet(GtkWidget *mainwin, bool is_scan_on,
+ 		 const AppSkin& skin) : TrayBase(mainwin, is_scan_on)
+ {
+diff -ur stardict-3.0.1.orig/src/docklet.h stardict-3.0.1/src/docklet.h
+--- stardict-3.0.1.orig/src/docklet.h	2007-10-25 14:53:06.000000000 +0800
++++ stardict-3.0.1/src/docklet.h	2008-05-26 15:12:18.558429684 +0800
+@@ -6,6 +6,8 @@
+ #include "eggtrayicon.h"
+ #include "utils.h"
+ 
++void m_gtk_widget_destroy (GtkWidget*);
++
+ class AppSkin;//forward declaration
+ 
+ class DockLet : public TrayBase {
+@@ -18,7 +20,7 @@
+ 	EggTrayIcon *docklet_;
+ 	GtkWidget *box_;
+ 	GtkWidget *image_; //icon image.
+-	typedef  ResourceWrapper<GtkWidget, GtkWidget, gtk_widget_destroy> GMenu;
++	typedef  ResourceWrapper<GtkWidget, GtkWidget, m_gtk_widget_destroy> GMenu;
+         GMenu menu_;
+ 	GtkWidget *scan_menuitem_;
+ 	bool embedded_;
+diff -ur stardict-3.0.1.orig/src/inifile.cpp stardict-3.0.1/src/inifile.cpp
+--- stardict-3.0.1.orig/src/inifile.cpp	2007-08-01 17:43:00.000000000 +0800
++++ stardict-3.0.1/src/inifile.cpp	2008-05-26 15:45:47.788673629 +0800
+@@ -37,7 +37,10 @@
+ static const guchar OLD_STRING_SEP = 0xFF;
+ static const gchar *myversion = "1.0";
+ 
+-typedef ResourceWrapper<GError, GError, g_error_free> MyGError;
++void m_g_error_free (GError* p) {g_error_free (p);}
++void m_g_free (void* p) {g_free (p);}
++
++typedef ResourceWrapper<GError, GError, m_g_error_free> MyGError;
+ 
+ void inifile::create_empty()
+ {
+diff -ur stardict-3.0.1.orig/src/lib/m_string.h stardict-3.0.1/src/lib/m_string.h
+--- stardict-3.0.1.orig/src/lib/m_string.h	2007-07-10 15:16:03.000000000 +0800
++++ stardict-3.0.1/src/lib/m_string.h	2008-05-26 11:18:59.057023698 +0800
+@@ -2,6 +2,7 @@
+ #define _m_string_h
+ 
+ #include <string.h>
++#include <strings.h>
+ 
+ #ifdef _WIN32
+ #define bzero(p, l) memset(p, 0, l)
+diff -ur stardict-3.0.1.orig/src/lib/sockets.cpp stardict-3.0.1/src/lib/sockets.cpp
+--- stardict-3.0.1.orig/src/lib/sockets.cpp	2007-09-12 17:11:41.000000000 +0800
++++ stardict-3.0.1/src/lib/sockets.cpp	2008-05-26 16:38:51.400623697 +0800
+@@ -26,6 +26,7 @@
+ # include <sys/types.h>
+ # include <sys/socket.h>
+ # include <netinet/in.h>
++# include <arpa/inet.h>
+ # include <netdb.h>
+ # include <cerrno>
+ # include <fcntl.h>
+@@ -158,7 +159,7 @@
+ {
+     DnsQueryData *query_data = (DnsQueryData *)data;
+     struct  hostent *phost;
+-#ifndef _WIN32    
++#if !defined(_WIN32) && !defined(sun)
+     struct  hostent hostinfo;
+     char buf[1024];
+     int ret;
+diff -ur stardict-3.0.1.orig/src/sigc++/signal.h stardict-3.0.1/src/sigc++/signal.h
+--- stardict-3.0.1.orig/src/sigc++/signal.h	2007-07-10 15:16:01.000000000 +0800
++++ stardict-3.0.1/src/sigc++/signal.h	2008-05-26 11:44:48.308184194 +0800
+@@ -18,7 +18,7 @@
+   //Compilers, such as older versions of SUN Forte C++, that do not allow this also often
+   //do not allow a typedef to have the same name as a class in the typedef's definition.
+   //For Sun Forte CC 5.7 (SUN Workshop 10), comment this out to fix the build.
+-  #define SIGC_TYPEDEF_REDEFINE_ALLOWED 1
++  //#define SIGC_TYPEDEF_REDEFINE_ALLOWED 1
+ #endif
+ 
+ namespace sigc {
+diff -ur stardict-3.0.1.orig/src/skin.cpp stardict-3.0.1/src/skin.cpp
+--- stardict-3.0.1.orig/src/skin.cpp	2007-07-10 15:16:04.000000000 +0800
++++ stardict-3.0.1/src/skin.cpp	2008-05-26 15:08:47.794321291 +0800
+@@ -29,6 +29,9 @@
+ 
+ #include "skin.h"
+ 
++void m_gdk_cursor_unref (GdkCursor* p) {gdk_cursor_unref (p);}
++void m_g_object_unref (void* p) {g_object_unref (p);}
++
+ void AppSkin::load()
+ {		
+ 	watch_cursor.reset(gdk_cursor_new(GDK_WATCH));
+diff -ur stardict-3.0.1.orig/src/skin.h stardict-3.0.1/src/skin.h
+--- stardict-3.0.1.orig/src/skin.h	2007-07-10 15:16:04.000000000 +0800
++++ stardict-3.0.1/src/skin.h	2008-05-26 15:11:45.626038404 +0800
+@@ -6,8 +6,11 @@
+ 
+ #include "utils.h"
+ 
+-typedef ResourceWrapper<GdkCursor, GdkCursor, gdk_cursor_unref> SkinCursor;
+-typedef ResourceWrapper<GdkPixbuf, void, g_object_unref> Skin_pixbuf_1;
++void m_gdk_cursor_unref (GdkCursor*);
++void m_g_object_unref (void*);
++
++typedef ResourceWrapper<GdkCursor, GdkCursor, m_gdk_cursor_unref> SkinCursor;
++typedef ResourceWrapper<GdkPixbuf, void, m_g_object_unref> Skin_pixbuf_1;
+ 
+ class AppSkin {
+ public:
+diff -ur stardict-3.0.1.orig/src/utils.cpp stardict-3.0.1/src/utils.cpp
+--- stardict-3.0.1.orig/src/utils.cpp	2007-10-22 10:25:02.000000000 +0800
++++ stardict-3.0.1/src/utils.cpp	2008-05-26 15:42:54.173151303 +0800
+@@ -36,6 +36,8 @@
+ 
+ #include "utils.h"
+ 
++void m_g_free (void* p) {g_free(p);}
++void m_g_error_free (GError* p) {g_error_free(p); }
+ 
+ void ProcessGtkEvent()
+ {
+diff -ur stardict-3.0.1.orig/src/utils.h stardict-3.0.1/src/utils.h
+--- stardict-3.0.1.orig/src/utils.h	2007-09-06 11:30:19.000000000 +0800
++++ stardict-3.0.1/src/utils.h	2008-05-26 15:42:43.780182458 +0800
+@@ -49,9 +49,12 @@
+         }
+ };
+ 
++void m_g_free (void*);
++void m_g_error_free (GError*);
++
+ namespace glib {
+-	typedef ResourceWrapper<gchar, void, g_free> CharStr;
+-	typedef ResourceWrapper<GError, GError, g_error_free> Error;
++	typedef ResourceWrapper<gchar, void, m_g_free> CharStr;
++	typedef ResourceWrapper<GError, GError, m_g_error_free> Error;
+ }
+ 
+ extern void ProcessGtkEvent();
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-advertisement-plugin/Makefile.am stardict-3.0.1/stardict-plugins/stardict-advertisement-plugin/Makefile.am
+--- stardict-3.0.1.orig/stardict-plugins/stardict-advertisement-plugin/Makefile.am	2007-07-18 14:24:09.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-advertisement-plugin/Makefile.am	2008-05-26 15:28:04.327074322 +0800
+@@ -2,7 +2,7 @@
+ 
+ EXTRA_DIST = advertisement.v advertisement.dev
+ 
+-LD_VERSION_SCRIPT_OPTION="-Wl,--version-script=advertisement.v"
++LD_VERSION_SCRIPT_OPTION="-export-symbols advertisement.v"
+ 
+ noinst_HEADERS = advertisement.h
+ 
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-advertisement-plugin/advertisement.cpp stardict-3.0.1/stardict-plugins/stardict-advertisement-plugin/advertisement.cpp
+--- stardict-3.0.1.orig/stardict-plugins/stardict-advertisement-plugin/advertisement.cpp	2007-09-21 09:09:53.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-advertisement-plugin/advertisement.cpp	2008-05-26 15:37:00.443136591 +0800
+@@ -167,7 +167,7 @@
+ 				for (std::list<std::string>::iterator i = wordlist.begin(); i != wordlist.end(); ++i) {
+ 					dictentry.word = *i;
+ 					gchar *lower_str = g_utf8_strdown(dictentry.word.c_str(), dictentry.word.length());
+-					dict_map.insert(std::pair<std::string, DictEntry>(lower_str, dictentry));
++					dict_map.insert(std::pair<const std::string, DictEntry>(lower_str, dictentry));
+ 					g_free(lower_str);
+ 				}
+ 				step = 0;
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-dictdotcn-plugin/Makefile.am stardict-3.0.1/stardict-plugins/stardict-dictdotcn-plugin/Makefile.am
+--- stardict-3.0.1.orig/stardict-plugins/stardict-dictdotcn-plugin/Makefile.am	2007-09-06 16:54:57.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-dictdotcn-plugin/Makefile.am	2008-05-26 15:28:52.746339566 +0800
+@@ -1,7 +1,7 @@
+ EXTRA_DIST = stardict_dictdotcn.v dictdotcn.dev
+ 
+ 
+-LD_VERSION_SCRIPT_OPTION="-Wl,--version-script=stardict_dictdotcn.v"
++LD_VERSION_SCRIPT_OPTION="-export-symbols stardict_dictdotcn.v"
+ 
+ noinst_HEADERS = stardict_dictdotcn.h
+ 
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-dictdotcn-plugin/stardict_dictdotcn.cpp stardict-3.0.1/stardict-plugins/stardict-dictdotcn-plugin/stardict_dictdotcn.cpp
+--- stardict-3.0.1.orig/stardict-plugins/stardict-dictdotcn-plugin/stardict_dictdotcn.cpp	2007-10-10 17:28:29.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-dictdotcn-plugin/stardict_dictdotcn.cpp	2008-05-26 15:17:56.346843502 +0800
+@@ -3,8 +3,11 @@
+ #include <string>
+ #include <list>
+ 
++#if defined(_WIN32) || defined(sun)
++
+ #ifdef _WIN32
+ #include <windows.h>
++#endif
+ 
+ static char *strcasestr (const char *phaystack, const char *pneedle)
+ {
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-espeak-tts-plugin/Makefile.am stardict-3.0.1/stardict-plugins/stardict-espeak-tts-plugin/Makefile.am
+--- stardict-3.0.1.orig/stardict-plugins/stardict-espeak-tts-plugin/Makefile.am	2007-07-11 16:16:53.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-espeak-tts-plugin/Makefile.am	2008-05-26 15:29:21.984435743 +0800
+@@ -1,7 +1,7 @@
+ EXTRA_DIST = stardict_espeak.v
+ 
+ 
+-LD_VERSION_SCRIPT_OPTION="-Wl,--version-script=stardict_espeak.v"
++LD_VERSION_SCRIPT_OPTION="-export-symbols stardict_espeak.v"
+ 
+ noinst_HEADERS = stardict_espeak.h
+ 
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-festival-tts-plugin/Makefile.am stardict-3.0.1/stardict-plugins/stardict-festival-tts-plugin/Makefile.am
+--- stardict-3.0.1.orig/stardict-plugins/stardict-festival-tts-plugin/Makefile.am	2007-07-11 16:17:19.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-festival-tts-plugin/Makefile.am	2008-05-26 15:28:29.180255184 +0800
+@@ -1,7 +1,7 @@
+ EXTRA_DIST = stardict_festival.v
+ 
+ 
+-LD_VERSION_SCRIPT_OPTION="-Wl,--version-script=stardict_festival.v"
++LD_VERSION_SCRIPT_OPTION="-export-symbols stardict_festival.v"
+ 
+ noinst_HEADERS = stardict_festival.h
+ 
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-gucharmap-plugin/Makefile.am stardict-3.0.1/stardict-plugins/stardict-gucharmap-plugin/Makefile.am
+--- stardict-3.0.1.orig/stardict-plugins/stardict-gucharmap-plugin/Makefile.am	2007-07-11 16:17:42.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-gucharmap-plugin/Makefile.am	2008-05-26 15:27:30.550324726 +0800
+@@ -1,7 +1,7 @@
+ EXTRA_DIST = stardict_gucharmap.v
+ 
+ 
+-LD_VERSION_SCRIPT_OPTION="-Wl,--version-script=stardict_gucharmap.v"
++LD_VERSION_SCRIPT_OPTION="-export-symbols stardict_gucharmap.v"
+ 
+ noinst_HEADERS = stardict_gucharmap.h
+ 
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-html-parsedata-plugin/Makefile.am stardict-3.0.1/stardict-plugins/stardict-html-parsedata-plugin/Makefile.am
+--- stardict-3.0.1.orig/stardict-plugins/stardict-html-parsedata-plugin/Makefile.am	2007-07-18 14:26:15.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-html-parsedata-plugin/Makefile.am	2008-05-26 15:28:11.635000674 +0800
+@@ -1,7 +1,7 @@
+ EXTRA_DIST = stardict_html_parsedata.v stardict_html_parsedata.dev
+ 
+ 
+-LD_VERSION_SCRIPT_OPTION="-Wl,--version-script=stardict_html_parsedata.v"
++LD_VERSION_SCRIPT_OPTION="-export-symbols stardict_html_parsedata.v"
+ 
+ noinst_HEADERS = stardict_html_parsedata.h
+ 
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-html-parsedata-plugin/stardict_html_parsedata.cpp stardict-3.0.1/stardict-plugins/stardict-html-parsedata-plugin/stardict_html_parsedata.cpp
+--- stardict-3.0.1.orig/stardict-plugins/stardict-html-parsedata-plugin/stardict_html_parsedata.cpp	2007-09-13 15:51:55.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-html-parsedata-plugin/stardict_html_parsedata.cpp	2008-05-26 15:20:37.229121841 +0800
+@@ -1,12 +1,15 @@
+ #include "stardict_html_parsedata.h"
+ #include <glib/gi18n.h>
+ 
++#if defined(_WIN32) || defined(sun)
++
+ #ifdef _WIN32
+ #include <windows.h>
+ 
+ #ifdef _MSC_VER
+ #  define strncasecmp _strnicmp
+ #endif
++#endif
+ 
+ static char *strcasestr (const char *phaystack, const char *pneedle)
+ {
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-man-plugin/Makefile.am stardict-3.0.1/stardict-plugins/stardict-man-plugin/Makefile.am
+--- stardict-3.0.1.orig/stardict-plugins/stardict-man-plugin/Makefile.am	2007-07-12 11:19:36.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-man-plugin/Makefile.am	2008-05-26 15:27:42.676256965 +0800
+@@ -1,7 +1,7 @@
+ EXTRA_DIST = stardict_man.v
+ 
+ 
+-LD_VERSION_SCRIPT_OPTION="-Wl,--version-script=stardict_man.v"
++LD_VERSION_SCRIPT_OPTION="-export-symbols stardict_man.v"
+ 
+ noinst_HEADERS = stardict_man.h
+ 
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-powerword-parsedata-plugin/Makefile.am stardict-3.0.1/stardict-plugins/stardict-powerword-parsedata-plugin/Makefile.am
+--- stardict-3.0.1.orig/stardict-plugins/stardict-powerword-parsedata-plugin/Makefile.am	2007-09-14 10:21:25.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-powerword-parsedata-plugin/Makefile.am	2008-05-26 15:27:51.807549166 +0800
+@@ -1,7 +1,7 @@
+ EXTRA_DIST = stardict_powerword_parsedata.v stardict_powerword_parsedata.dev
+ 
+ 
+-LD_VERSION_SCRIPT_OPTION="-Wl,--version-script=stardict_powerword_parsedata.v"
++LD_VERSION_SCRIPT_OPTION="-export-symbols stardict_powerword_parsedata.v"
+ 
+ noinst_HEADERS = stardict_powerword_parsedata.h
+ 
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-qqwry-plugin/Makefile.am stardict-3.0.1/stardict-plugins/stardict-qqwry-plugin/Makefile.am
+--- stardict-3.0.1.orig/stardict-plugins/stardict-qqwry-plugin/Makefile.am	2007-11-02 16:17:08.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-qqwry-plugin/Makefile.am	2008-05-26 15:28:44.676487966 +0800
+@@ -1,7 +1,7 @@
+ EXTRA_DIST = stardict_qqwry.v stardict_qqwry.dev
+ 
+ 
+-LD_VERSION_SCRIPT_OPTION="-Wl,--version-script=stardict_qqwry.v"
++LD_VERSION_SCRIPT_OPTION="-export-symbols stardict_qqwry.v"
+ 
+ noinst_HEADERS = stardict_qqwry.h
+ 
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-spell-plugin/Makefile.am stardict-3.0.1/stardict-plugins/stardict-spell-plugin/Makefile.am
+--- stardict-3.0.1.orig/stardict-plugins/stardict-spell-plugin/Makefile.am	2007-07-11 16:19:02.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-spell-plugin/Makefile.am	2008-05-26 15:29:10.408133901 +0800
+@@ -1,7 +1,7 @@
+ EXTRA_DIST = stardict_spell.v
+ 
+ 
+-LD_VERSION_SCRIPT_OPTION="-Wl,--version-script=stardict_spell.v"
++LD_VERSION_SCRIPT_OPTION="-export-symbols stardict_spell.v"
+ 
+ noinst_HEADERS = stardict_spell.h
+ 
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-update-info-plugin/Makefile.am stardict-3.0.1/stardict-plugins/stardict-update-info-plugin/Makefile.am
+--- stardict-3.0.1.orig/stardict-plugins/stardict-update-info-plugin/Makefile.am	2007-07-18 14:31:57.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-update-info-plugin/Makefile.am	2008-05-26 15:28:19.712670791 +0800
+@@ -1,7 +1,7 @@
+ EXTRA_DIST = stardict_update_info.v stardict_update_info.dev
+ 
+ 
+-LD_VERSION_SCRIPT_OPTION="-Wl,--version-script=stardict_update_info.v"
++LD_VERSION_SCRIPT_OPTION="-export-symbols stardict_update_info.v"
+ 
+ noinst_HEADERS = stardict_update_info.h
+ 
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-wiki-parsedata-plugin/Makefile.am stardict-3.0.1/stardict-plugins/stardict-wiki-parsedata-plugin/Makefile.am
+--- stardict-3.0.1.orig/stardict-plugins/stardict-wiki-parsedata-plugin/Makefile.am	2007-07-18 14:30:23.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-wiki-parsedata-plugin/Makefile.am	2008-05-26 15:28:36.394186905 +0800
+@@ -1,7 +1,7 @@
+ EXTRA_DIST = stardict_wiki_parsedata.v stardict_wiki_parsedata.dev
+ 
+ 
+-LD_VERSION_SCRIPT_OPTION="-Wl,--version-script=stardict_wiki_parsedata.v"
++LD_VERSION_SCRIPT_OPTION="-export-symbols stardict_wiki_parsedata.v"
+ 
+ noinst_HEADERS = stardict_wiki_parsedata.h
+ 
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-wordnet-plugin/Makefile.am stardict-3.0.1/stardict-plugins/stardict-wordnet-plugin/Makefile.am
+--- stardict-3.0.1.orig/stardict-plugins/stardict-wordnet-plugin/Makefile.am	2007-10-10 14:25:47.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-wordnet-plugin/Makefile.am	2008-05-26 15:37:43.516519401 +0800
+@@ -2,7 +2,7 @@
+ 		stardict_wordnet_parsedata.v stardict_wordnet_parsedata.dev
+ 
+ 
+-WORDNET_LD_VERSION_SCRIPT_OPTION="-Wl,--version-script=stardict_wordnet.v"
++WORDNET_LD_VERSION_SCRIPT_OPTION="-export-symbols stardict_wordnet.v"
+ 
+ stardict_wordnet_LTLIBRARIES = stardict_wordnet.la
+ 
+@@ -16,7 +16,7 @@
+ 					$(WORDNET_LD_VERSION_SCRIPT_OPTION)
+ 
+ 
+-WORDNET_PARSEDATA_LD_VERSION_SCRIPT_OPTION="-Wl,--version-script=stardict_wordnet_parsedata.v"
++WORDNET_PARSEDATA_LD_VERSION_SCRIPT_OPTION="-export-symbols stardict_wordnet_parsedata.v"
+ 
+ stardict_wordnet_parsedata_LTLIBRARIES = stardict_wordnet_parsedata.la
+ 
+diff -ur stardict-3.0.1.orig/stardict-plugins/stardict-xdxf-parsedata-plugin/Makefile.am stardict-3.0.1/stardict-plugins/stardict-xdxf-parsedata-plugin/Makefile.am
+--- stardict-3.0.1.orig/stardict-plugins/stardict-xdxf-parsedata-plugin/Makefile.am	2007-07-18 14:29:05.000000000 +0800
++++ stardict-3.0.1/stardict-plugins/stardict-xdxf-parsedata-plugin/Makefile.am	2008-05-26 15:27:17.097898747 +0800
+@@ -1,7 +1,7 @@
+ EXTRA_DIST = stardict_xdxf_parsedata.v stardict_xdxf_parsedata.dev
+ 
+ 
+-LD_VERSION_SCRIPT_OPTION="-Wl,--version-script=stardict_xdxf_parsedata.v"
++LD_VERSION_SCRIPT_OPTION="-export-symbols stardict_xdxf_parsedata.v"
+ 
+ noinst_HEADERS = stardict_xdxf_parsedata.h
+ 
+diff -ur stardict-3.0.1.orig/tests/t_fuzzy.cpp stardict-3.0.1/tests/t_fuzzy.cpp
+--- stardict-3.0.1.orig/tests/t_fuzzy.cpp	2007-07-10 15:16:04.000000000 +0800
++++ stardict-3.0.1/tests/t_fuzzy.cpp	2008-05-26 16:00:31.555165014 +0800
+@@ -48,11 +48,11 @@
+ 	if (time_arr.empty())
+ 		return 0.;
+ 	std::vector<double>::iterator it=
+-		max_element(time_arr.begin(), time_arr.end());
++		std::max_element(time_arr.begin(), time_arr.end());
+ 	time_arr.erase(it);
+ 	if (time_arr.empty())
+ 		return 0.;
+-	it=min_element(time_arr.begin(), time_arr.end());
++	it=std::min_element(time_arr.begin(), time_arr.end());
+ 	time_arr.erase(it);
+ 	if (time_arr.empty())
+ 		return 0.;
+diff -ur stardict-3.0.1.orig/tests/t_lookupdata.cpp stardict-3.0.1/tests/t_lookupdata.cpp
+--- stardict-3.0.1.orig/tests/t_lookupdata.cpp	2007-07-10 15:16:04.000000000 +0800
++++ stardict-3.0.1/tests/t_lookupdata.cpp	2008-05-26 16:39:56.834928090 +0800
+@@ -17,9 +17,10 @@
+ 	List dict_list;
+ 	libs.load(dict_list);
+ 	std::vector<InstantDictIndex> dictmask;
+-	std::vector<gchar *> reslist[dictmask.size()];
++	std::vector<gchar *> *reslist = new std::vector<gchar *>[dictmask.size()];
+ 	if (libs.LookupData("letter", reslist, NULL, NULL, NULL, dictmask)) 
+ 		return EXIT_SUCCESS;
+ 	else
+ 		return EXIT_FAILURE;
++	delete[] reslist;
+ }
