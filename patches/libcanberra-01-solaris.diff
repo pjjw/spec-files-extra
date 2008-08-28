@@ -1,15 +1,27 @@
---- libcanberra-0.6/src/Makefile.am-orig	2008-08-14 13:06:45.705560000 -0500
-+++ libcanberra-0.6/src/Makefile.am	2008-08-14 13:08:01.465327000 -0500
-@@ -60,8 +60,7 @@ libcanberra_la_LIBADD = \
- 	$(VORBIS_LIBS)
- libcanberra_la_LDFLAGS = \
- 	-export-dynamic \
--	-version-info $(LIBCANBERRA_VERSION_INFO) \
--	-Wl,-version-script=$(srcdir)/map-file
-+	-version-info $(LIBCANBERRA_VERSION_INFO)
+--- libcanberra-0.8/configure.ac-orig	2008-08-28 13:10:31.032317000 -0500
++++ libcanberra-0.8/configure.ac	2008-08-28 13:14:24.156236000 -0500
+@@ -19,7 +19,7 @@
+ # License along with libcanberra. If not, see
+ # <http://www.gnu.org/licenses/>.
  
- plugin_LTLIBRARIES =
+-AC_PREREQ(2.62)
++AC_PREREQ(2.61)
  
+ AC_INIT([libcanberra], 0.8, [mzyvopnaoreen (at) 0pointer (dot) de])
+ AC_CONFIG_SRCDIR([src/common.c])
+@@ -54,12 +54,6 @@ AC_GNU_SOURCE
+ 
+ AC_PROG_CXX
+ 
+-DESIRED_FLAGS="-Wall -W -Wextra -pedantic -pipe -Wno-long-long -Wvla -Wno-overlength-strings -Wconversion -Wundef -Wformat -Wlogical-op -Wpacked -Wformat-security -Wmissing-include-dirs -Wformat-nonliteral -Wold-style-definition -Wdeclaration-after-statement -Wfloat-equal -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-noreturn -Wshadow -Wendif-labels -Wpointer-arith -Wcast-align -Wwrite-strings -Winline -Wno-unused-parameter -ffast-math"
+-
+-for flag in $DESIRED_FLAGS ; do
+-  CC_CHECK_CFLAGS([$flag], [CFLAGS="$CFLAGS $flag"])
+-done
+-
+ #### libtool stuff ####
+ 
+ AC_LTDL_ENABLE_INSTALL
 --- libcanberra-0.6/src/common.h-orig	2008-08-21 00:21:50.594788000 -0500
 +++ libcanberra-0.6/src/common.h	2008-08-21 00:22:25.218467000 -0500
 @@ -21,6 +21,10 @@
@@ -23,36 +35,3 @@
  #include "canberra.h"
  #include "macro.h"
  #include "mutex.h"
---- libcanberra-0.6/src/malloc.c-orig	2008-08-21 00:32:28.025248000 -0500
-+++ libcanberra-0.6/src/malloc.c	2008-08-21 00:31:54.646231000 -0500
-@@ -58,3 +58,30 @@ char *ca_sprintf_malloc(const char *form
-             size *= 2;
-     }
- }
-+
-+#ifndef strndup
-+char *strndup (const char *s, size_t n)
-+{
-+    size_t length;
-+    char *ret;
-+
-+    if (!s)
-+        return NULL;
-+
-+    length = strlen(s)+1;
-+    if (strlen(s)+1 > n+1)
-+       length = n+1;
-+
-+    ret = malloc (length * sizeof (char));
-+    if (ret == NULL)
-+       return ret;
-+
-+    ret = memcpy (ret, s, length);
-+    if (ret == NULL)
-+       return ret;
-+
-+    ret[length-1] = '\0';
-+    return ret;
-+}
-+#endif
-+

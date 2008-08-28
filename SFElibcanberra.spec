@@ -7,10 +7,10 @@
 
 Name:                    SFElibcanberra
 Summary:                 Event Sound API Using XDG Sound Theming Specification
-Version:                 0.6
+Version:                 0.8
 License:                 LGPLv2.1
 URL:                     http://0pointer.de/blog/projects/sixfold-announcement.html
-Source:                  http://0pointer.de/public/libcanberra-%{version}.tar.gz
+Source:                  http://0pointer.de/lennart/projects/libcanberra/libcanberra-%{version}.tar.gz
 Patch1:                  libcanberra-01-solaris.diff
 Patch2:                  libcanberra-02-gstreamer.diff
 SUNW_BaseDir:            %{_basedir}
@@ -33,7 +33,6 @@ Requires: %name
 %prep
 %setup -q -n libcanberra-%version
 %patch1 -p1 
-%patch2 -p1 
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -98,8 +97,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/*
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/doc
+%{_datadir}/doc/*
+%dir %attr (0755, root, other) %{_datadir}/gnome
 
 %changelog
+* Thu Aug 28 2008 - brian.cameron@sun.com
+- Bump to 0.8.  Now has its own GStreamer support, so removed our patch.
 * Wed Aug 20 2008 - brian.cameron@sun.com
 - Add Requires/BuildRequires and patch libcanberra-02-gstreamer.diff to support
   a GStreamer backend.

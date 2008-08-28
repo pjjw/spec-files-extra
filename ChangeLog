@@ -1,5 +1,11 @@
 2008-08-26  Brian Cameron  <brian.cameron@sun.com>
 
+	* SFElibcanberra, patches/libcanberra-01-solaris.diff:  Update to 0.8.
+	  Rework solaris compile patch.  Note that we need to patch configure
+	* libcanberra-02-gstreamer.diff: Remove, no longer needed.
+	  
+2008-08-26  Brian Cameron  <brian.cameron@sun.com>
+
 	* SUNWgnome-display-mgr.spec, patches/gdm-01-lang.diff:  Update to
 	  2.23.90 and rework patch to apply against latest release.
 
