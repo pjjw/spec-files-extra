@@ -82,6 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/*.desktop
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
+%dir %attr (0755, root, other) %{_datadir}/icons
+%{_datadir}/icons/*
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/*
 %{_mandir}/*/*
@@ -96,6 +98,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Aug 29 2008 - alfred.peng@sun.com
+- Update %files to include icons.
 * Thu Mar 06 2008 - nonsea@users.sourceforge.net
 - Update %files cause version upgrade.
 - Add pkg -l10n

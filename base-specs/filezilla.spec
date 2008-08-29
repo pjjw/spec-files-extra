@@ -7,21 +7,15 @@
 # bugdb: http://sourceforge.net/tracker/index.php?func=detail&group_id=21558&atid=372241&aid=
 #
 
-%define version_str 3.0.7.1_src
+%define version_str 3.1.1.1_src
 Name:		filezilla
 Summary:	FileZilla FTP client
-Version:	3.0.7.1
+Version:	3.1.1.1
 License:	GPL
 URL:		http://filezilla.sourceforge.net/
 Source:	    http://superb-east.dl.sourceforge.net/sourceforge/filezilla/FileZilla_%{version_str}.tar.bz2
-# date:2008-03-06 owner:halton type:bug bugid:1908772
-Patch1:     %{name}-01-iter++.diff
-# date:2008-03-06 owner:halton type:bug bugid:1908807
-Patch2:     %{name}-02-SetActive.diff
 # date:2008-03-06 owner:halton type:bug bugid:1908796
-Patch3:     %{name}-03-msgfmt.diff
-# date:2008-03-06 owner:halton type:bug state:upstream
-Patch4:     %{name}-04-locale.diff
+Patch1:     %{name}-01-msgfmt.diff
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -31,9 +25,6 @@ useful features and an intuitive interface.
 %prep
 %setup -q -n %{name}-%{version}
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
 %ifos linux
@@ -77,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Aug 29 2008 - alfred.peng@sun.com
+- Bump to 3.1.1.
+- Remove upstreamed patches: iter++.diff, SetActive.diff and locale.diff.
 * Thu Mar 06 2008 - nonsea@users.sourceforge.net
 - Bump to 3.0.7.1.
 - Remove upstreamed patches: autogen.diff, vector-begin.diff,

@@ -1,3 +1,13 @@
+2008-08-29  Alfred Peng  <alfred.peng@sun.com>
+
+	* SFEfilezilla.spec base-specs/filezilla.spec: Bump to 3.1.1.
+	Remove upstreamed patches.
+	* patches/filezilla-01-iter++.diff:
+	* patches/filezilla-02-SetActive.diff:
+	* patches/filezilla-03-msgfmt.diff:
+	* patches/filezilla-04-locale.diff:
+	* patches/filezilla-01-msgfmt.diff:
+
 2008-08-29  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEjokosher.spec: Bump to 0.10.
