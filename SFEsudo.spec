@@ -54,9 +54,10 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
+%attr(4111,root,root) %{_bindir}/sudo
+%attr(4111,root,root) %{_bindir}/sudoedit
 %dir %attr (0755, root, bin) %{_sbindir}
-%{_sbindir}/*
+%attr(0111,root,root) %{_sbindir}/visudo
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 %dir %attr (0755, root, sys) %{_datadir}
@@ -66,12 +67,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_mandir}/man4
 %{_mandir}/man4/*
 
+
 %files root
 %defattr (-, root, sys)
 %dir %attr (0755, root, sys) %{_sysconfdir}
-%{_sysconfdir}/sudoers
+%attr(0440,root,root)  %{_sysconfdir}/sudoers
 
 %changelog
+* Fri Aug 29 2008 - Pradhap Devarajan < pradhap (at) gmail (dot) com>
+- update the file permissions
 * Fri Mar 07 2008 - trisk@acm.jhu.edu
 - Bump to 1.6.9p14, add URL
 * Wed Feb 06 2008 - Ananth Shrinivas <ananth@sun.com>
