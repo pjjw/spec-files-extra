@@ -1,4 +1,10 @@
-2008-08-26  Brian Cameron  <brian.cameron@sun.com>
+2008-08-29  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEjokosher.spec: Bump to 0.10.
+	* patches/jokosher-01-fixdesktop.diff:  Remove patch as it is no
+	  longer needed.
+
+2008-08-28  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFElibcanberra, patches/libcanberra-01-solaris.diff:  Update to 0.8.
 	  Rework solaris compile patch.  Note that we need to patch configure

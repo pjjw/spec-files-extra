@@ -9,9 +9,9 @@
 
 Name:		SFEjokosher
 Summary:	Jokosher is a multi-track studio application
-Version:	0.9
+Version:	0.10
 URL:		http://jokosher.org
-Source0:	http://www.jokosher.org/downloads/source/jokosher-%{version}.tar.gz
+Source0:	http://launchpad.net/jokosher/%{version}/%{version}/+download/jokosher-%{version}.tar.gz
 Patch1:         jokosher-01-fixdesktop.diff
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/jokosher-%{version}-build
@@ -39,7 +39,7 @@ Requires:                %{name}
 
 %prep
 %setup -q -n jokosher-%version
-%patch1 -p1
+#%patch1 -p1
 
 %build
 python setup.py build
@@ -128,6 +128,9 @@ test -x $BASEDIR/lib/postrun || exit 0
 %endif
 
 %changelog
+* Fri Aug 29 2008 - brian.cameron@sun.com
+- Bump to 0.10.  Yay!  Remove patch jokosher-01-fixdesktop.diff as it is no
+  longer needed.
 * Thu Apr 10 2008 - brian.cameron@sun.com
 - Change SFEgst-python to SUNWgst-python.
 * Thu Feb 07 2008 - brian.cameron@sun.com.
