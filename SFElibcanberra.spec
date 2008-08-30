@@ -13,6 +13,7 @@ URL:                     http://0pointer.de/blog/projects/sixfold-announcement.h
 Source:                  http://0pointer.de/lennart/projects/libcanberra/libcanberra-%{version}.tar.gz
 Patch1:                  libcanberra-01-solaris.diff
 Patch2:                  libcanberra-02-gstreamer.diff
+Patch3:                  libcanberra-03-fix-gst-play.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -34,6 +35,7 @@ Requires: %name
 %setup -q -n libcanberra-%version
 %patch1 -p1 
 %patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -104,6 +106,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/gnome
 
 %changelog
+* Fri Aug 29 2008 - brian.cameron@sun.com
+- Add patch libcanberra-03-fix-gst-play so it actually plays the sound.
 * Fri Aug 29 2008 - brian.cameron@sun.com
 - Add patch libcanberra-02-gstreamer.diff to add audioconvert and audioresample
   plugins to the output pipeline, so it works on Solaris.

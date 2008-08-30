@@ -1,5 +1,11 @@
 2008-08-29  Brian Cameron  <brian.cameron@sun.com>
 
+	* SFElibcanberra.spec, patches/libcanberra-03-fix-gst-play.diff:  Add
+	  patch to allow libcanberra to play with the GStreamer backend on
+	  Solaris.
+	
+2008-08-29  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFElibcanberra.spec, patches/libcanberra-02-gstreamer.diff:  Add
 	  patch to add audioconvert and audioresample to the output pipeline
 	  so it works better on Solaris.
