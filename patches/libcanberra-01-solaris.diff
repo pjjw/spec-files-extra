@@ -22,8 +22,8 @@
  #### libtool stuff ####
  
  AC_LTDL_ENABLE_INSTALL
---- libcanberra-0.6/src/common.h-orig	2008-08-21 00:21:50.594788000 -0500
-+++ libcanberra-0.6/src/common.h	2008-08-21 00:22:25.218467000 -0500
+--- libcanberra-0.8/src/common.h-orig	2008-08-21 00:21:50.594788000 -0500
++++ libcanberra-0.8/src/common.h	2008-08-21 00:22:25.218467000 -0500
 @@ -21,6 +21,10 @@
    <http://www.gnu.org/licenses/>.
  ***/

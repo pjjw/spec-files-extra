@@ -1,5 +1,5 @@
---- gstreamer.c-orig	2008-08-28 20:42:38.144911000 -0500
-+++ gstreamer.c	2008-08-28 23:52:51.886346000 -0500
+--- libcanberra-0.8/src/gstreamer.c-orig	2008-08-28 20:42:38.144911000 -0500
++++ libcanberra-0.8/src/gstreamer.c	2008-08-28 23:52:51.886346000 -0500
 @@ -286,22 +286,38 @@ static int ca_gst_sound_file_open(ca_sou
  
  static void on_pad_added(GstElement *element, GstPad *pad, gboolean arg1, gpointer data)

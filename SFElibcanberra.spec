@@ -33,7 +33,7 @@ Requires: %name
 %prep
 %setup -q -n libcanberra-%version
 %patch1 -p1 
-%patch2 -p2
+%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
