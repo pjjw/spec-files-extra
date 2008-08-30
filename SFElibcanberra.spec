@@ -33,6 +33,7 @@ Requires: %name
 %prep
 %setup -q -n libcanberra-%version
 %patch1 -p1 
+%patch2 -p2
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -103,6 +104,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/gnome
 
 %changelog
+* Fri Aug 29 2008 - brian.cameron@sun.com
+- Add patch libcanberra-02-gstreamer.diff to add audioconvert and audioresample
+  plugins to the output pipeline, so it works on Solaris.
 * Thu Aug 28 2008 - brian.cameron@sun.com
 - Bump to 0.8.  Now has its own GStreamer support, so removed our patch.
 * Wed Aug 20 2008 - brian.cameron@sun.com

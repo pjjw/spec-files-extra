@@ -1,3 +1,9 @@
+2008-08-29  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFElibcanberra.spec, patches/libcanberra-02-gstreamer.diff:  Add
+	  patch to add audioconvert and audioresample to the output pipeline
+	  so it works better on Solaris.
+
 2008-08-29  Alfred Peng  <alfred.peng@sun.com>
 
 	* SFEfilezilla.spec base-specs/filezilla.spec: Bump to 3.1.1.
