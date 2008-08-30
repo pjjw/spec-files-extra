@@ -7,7 +7,7 @@
 Name:                   toolame
 Summary:                toolame  - optimized MPEG Audio Layer 2 encoder
 Version:                02l
-Source:                 http://kent.dl.sourceforge.net/sourceforge/toolame/toolame-%{version}.tgz
+Source:                 %{sf_download}/toolame/toolame-%{version}.tgz
 Patch1:			toolame-01-makefile.diff
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
@@ -37,6 +37,8 @@ install -m 755 toolame $RPM_BUILD_ROOT%{_bindir}/toolame
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Sat Aug 30 2008 - harry.lu@sun.com
+- Use %sf_download instead of a specific server.
 * Tue Mar 20 2007 - dougs@truemail.co.th
 - Changed to be a base spec
 * Mon Jun 12 2006 - laca@sun.com
