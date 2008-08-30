@@ -1,5 +1,10 @@
 2008-08-30  Harry Lu  <harry.lu@sun.com>
 
+	* SFEfreeglut.spec: :Use %sf_download instead of a specific
+	  server.
+
+2008-08-30  Harry Lu  <harry.lu@sun.com>
+
 	* base-specs/toolame.spec:Use %sf_download instead of a specific 
 	  server.
 

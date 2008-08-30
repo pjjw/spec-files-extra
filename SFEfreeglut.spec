@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 %define src_name	freeglut
-%define src_url		http://nchc.dl.sourceforge.net/sourceforge/freeglut
+%define src_url		%{sf_download}/freeglut
 
 Name:                   SFEfreeglut
 Summary:                Free OpenGL Library
@@ -71,6 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/X11/include
 
 %changelog
+* Sat Aug 30 2008 - harry.lu@sun.com
+- use %sf_download instead of a specific server.
 * Sat Oct 13 2007 - laca@sun.com
 - add /usr/X11 to CFLAGS and LDFLAGS to be able to build with FOX
 * Tue Jun  5 2007 - dougs@truemail.co.th
