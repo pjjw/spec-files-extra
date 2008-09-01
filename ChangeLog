@@ -1,3 +1,11 @@
+2008-09-01  Halton Huo <halton.huo@sun.com>
+
+	* base-specs/conduit.spec: Bump to 0.13.4
+	* base-specs/goocanvas.spec: Add patch 
+	* patches/conduit-01-test-fail.diff: (added) fix bugzilla #550165
+	* patches/goocanvas-01-remove-GtkSignalFunc.diff: (added) remove 
+	  deprecated GtkSignalFunc
+
 2008-08-30  Harry Lu  <harry.lu@sun.com>
 
 	* SFEfreeglut.spec: :Use %sf_download instead of a specific

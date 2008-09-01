@@ -11,13 +11,15 @@
 Name:           conduit
 License:        GPL
 Group:          System/GUI/GNOME
-Version:        0.3.13.1
+Version:        0.3.14
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.conduit-project.org/
 Summary:        Synchronization for GNOME
-Source:         http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.3/%{name}-%{version}.tar.bz2
+Source:         http://download.gnome.org/sources/%{name}/0.3/%{name}-%{version}.tar.bz2
+# date:2008-09-01 owner:halton type:bug bugzilla:550165
+Patch1:         %{name}-01-test-fail.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 BuildRequires:  dbus-devel >= 0.93
 BuildRequires:  pkgconfig
@@ -58,6 +60,7 @@ Requires: pkgconfig
 
 %prep
 %setup -q
+%patch1 -p1
 
 %build
 %ifos linux
@@ -132,6 +135,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Sep 01 2008 - halton.huo@sun.com
+- Bump to 0.3.14
+- Add patch test-fail.diff to fix bugzilla #550165
 * Tue Aug 26 2008 - halton.huo@sun.com
 - Bump to 0.3.13.1
 * Thu Aug 4 2008 - jijun.yu@sun.com
