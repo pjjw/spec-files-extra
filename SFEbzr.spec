@@ -6,16 +6,15 @@
 %include Solaris.inc
 
 %define python_version 2.4
+%define tarball_version 1.6.1rc1
 
 Name:			SFEbzr
 Summary:		Bazaar Source Code Management System
 License:		GPL
 Group:			system/dscm
-Version:		0.13
-%define tarball_version 0.13rc1
+Version:		1.6
 Distribution:		spec-files-extra
-Vendor:			http://pkgbuild.sf.net/spec-files-extra
-Source:			http://bazaar-vcs.org/releases/src/bzr-%{tarball_version}.tar.gz
+Source:			http://launchpad.net/bzr/%{version}/%{tarball_version}/+download/bzr-%{tarball_version}.tar.gz
 URL:			http://bazaar-vcs.org
 BuildRoot:		%{_tmppath}/%{name}-%{version}-build
 SUNW_BaseDir:		%{_prefix}
@@ -62,6 +61,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/bzr.1
 
 %changelog
+* Tue Sep 02 2008 - halton.huo@sun.com
+- Bump to 1.6.1rc1
 * Wed Jan  3 2007 - laca@sun.com
 - bump to 0.13
 * Mon Jun 12 2006 - laca@sun.com

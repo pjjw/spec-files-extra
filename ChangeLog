@@ -1,5 +1,9 @@
 2008-09-02  Halton Huo <halton.huo@sun.com>
 
+	* SFEbzr.spec: 1.6.1rc1
+
+2008-09-02  Halton Huo <halton.huo@sun.com>
+
 	* SFEanjuta.spec: Bump to 2.23.91
 	* base-specs/vinagre.spec: Bump to 2.23.91
 	* SFEgmp.spec, SFEguile.spec: Add /usr/share/aclocal to ACLOCAL_FLAGS
