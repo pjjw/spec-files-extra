@@ -45,11 +45,7 @@ fi
 
 glib-gettextize -f
 libtoolize --copy --force
-#
-# Adding /opt/dtbld/share/aclocal to ACLOCAL_FLAGS is bad, but it works until
-# the CBE is fixed.
-#
-aclocal $ACLOCAL_FLAGS -I /opt/dtbld/share/aclocal
+aclocal $ACLOCAL_FLAGS
 autoheader
 automake -a -c -f 
 autoconf
