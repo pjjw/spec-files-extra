@@ -12,9 +12,6 @@
 %include Solaris.inc
 
 %define with_hal %(pkginfo -q SUNWhal && echo 1 || echo 0)
-#%define SFEfreetype %(/usr/bin/pkginfo -q SFEfreetype && echo 1 || echo 0)
-%define SUNWlibsdl %(/usr/bin/pkginfo -q SUNWlibsdl && echo 1 || echo 0)
-
 
 %use gst_ffmpeg = gst-ffmpeg.spec
 %use gst_plugins_ugly = gst-plugins-ugly.spec
@@ -30,51 +27,64 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
-BuildRequires: SUNWgnome-libs-devel
-BuildRequires: SUNWgnome-base-libs-devel
-BuildRequires: SUNWgnome-media-devel
-BuildRequires: SUNWbison
-BuildRequires: SUNWPython
-BuildRequires: SUNWmusicbrainz-devel
-BuildRequires: SUNWlibexif-devel
-BuildRequires: SFElibmad-devel
-BuildRequires: SFElibmpeg2-devel
-BuildRequires: SFElibdvdnav-devel
-BuildRequires: SFEamrnb-devel
-BuildRequires: SFEfaad2-devel
-BuildRequires: SFEliba52-devel
-#BuildRequires: SFElibmpcdec-devel
-#BuildRequires: SFEdirac-devel
-BuildRequires: SFEffmpeg-devel
-BuildRequires: SFElibsndfile-devel
-BuildRequires: SFElibid3tag-devel
-BuildRequires: SUNWPython-extra
-BuildRequires: SUNWliboil-devel
-BuildRequires: SUNWgnome-audio-devel
-BuildRequires: SUNWgnome-config-devel
-BuildRequires: SUNWgnome-vfs-devel
-BuildRequires: SUNWbzip
-BuildRequires: SUNWneon
-#BuildRequires: SUNWxorg-mesa
-#%if %SUNWlibsdl
-#BuildRequires:  SUNWlibsdl-devel
-#%else
-#BuildRequires:  SFEsdl-devel
-#%endif
-
-Requires: SUNWgnome-libs
-Requires: SUNWgnome-base-libs
-Requires: SUNWgnome-media
-Requires: SUNWmusicbrainz
-Requires: SUNWliboil
-Requires: SUNWgnome-audio
-Requires: SUNWgnome-config
 Requires: SUNWgnome-vfs
 Requires: SUNWlibms
 Requires: SUNWlxml
 Requires: SUNWxorg-clientlibs
 Requires: SUNWzlib
 Requires: SUNWneon
+Requires: SUNWfreetype2
+BuildRequires: SUNWbison
+BuildRequires: SUNWPython
+BuildRequires: SUNWPython-extra
+BuildRequires: SUNWbzip
+Requires: SUNWgnome-libs
+BuildRequires: SUNWgnome-libs-devel
+Requires: SUNWgnome-base-libs
+BuildRequires: SUNWgnome-base-libs-devel
+Requires: SUNWgnome-media
+BuildRequires: SUNWgnome-media-devel
+Requires: SUNWliboil
+BuildRequires: SUNWliboil-devel
+Requires: SUNWgnome-audio
+BuildRequires: SUNWgnome-audio-devel
+Requires: SUNWgnome-config
+BuildRequires: SUNWgnome-config-devel
+Requires: SUNWgnome-vfs
+BuildRequires: SUNWgnome-vfs-devel
+Requires: SUNWmusicbrainz
+BuildRequires: SUNWmusicbrainz-devel
+Requires: SUNWlibexif
+BuildRequires: SUNWlibexif-devel
+Requires: SUNWlibsdl
+BuildRequires:  SUNWlibsdl-devel
+Requires: SFElibmad
+BuildRequires: SFElibmad-devel
+Requires: SFElibmpeg2
+BuildRequires: SFElibmpeg2-devel
+Requires: SFElibdvdnav
+BuildRequires: SFElibdvdnav-devel
+Requires: SFEamrnb
+BuildRequires: SFEamrnb-devel
+Requires: SFEfaad2
+BuildRequires: SFEfaad2-devel
+Requires: SFEliba52
+BuildRequires: SFEliba52-devel
+#BuildRequires: SFElibmpcdec-devel
+#BuildRequires: SFEdirac-devel
+Requires: SFEffmpeg
+BuildRequires: SFEffmpeg-devel
+Requires: SFElibsndfile
+BuildRequires: SFElibsndfile-devel
+Requires: SFElibid3tag
+BuildRequires: SFElibid3tag-devel
+Requires: SFElibmms
+BuildRequires: SFElibmms-devel
+#BuildRequires: SUNWxorg-mesa
+#%else
+#BuildRequires:  SFEsdl-devel
+#%endif
+
 %ifarch sparc
 %define arch_opt --enable-mlib
 BuildRequires: SUNWmlib
@@ -82,7 +92,6 @@ Requires: SUNWmlib
 %else
 %define arch_opt --disable-mlib --disable-mmx --disable-mmx2
 %endif
-Requires: SUNWfreetype2
 %if %with_hal
 Requires: SUNWhal
 %endif
@@ -183,6 +192,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Sep 02 2008 - halton.huo@sun.com
+- Update dependencies
 * Wed Jul 23 2008 - trisk@acm.jhu.edu
 - Update dependencies
 * Thu Apr 24 2008 - trisk@acm.jhu.edu

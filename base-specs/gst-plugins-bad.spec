@@ -7,7 +7,7 @@
 #
 Name:           gst-plugins-bad
 License:        GPL
-Version:        0.10.7
+Version:        0.10.8
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -18,6 +18,7 @@ Source:         http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins
 Patch1:         gst-plugins-bad-01-gettext.diff
 Patch2:         gst-plugins-bad-02-sunpro.diff
 Patch3:         gst-plugins-bad-03-modplug.diff
+Patch4:         gst-plugins-bad-04-byte-order.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 Docdir:         %{_defaultdocdir}/doc
 Autoreqprov:    on
@@ -37,6 +38,7 @@ plug-ins.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS ; \
@@ -53,36 +55,6 @@ bash ./configure \
   --prefix=%{_prefix}	\
   --sysconfdir=%{_sysconfdir} \
   --mandir=%{_mandir}   \
-  --disable-vcd		\
-  --disable-alsa	\
-  --disable-amrwb	\
-  --disable-cdaudio	\
-  --disable-dc1394	\
-  --disable-dirac	\
-  --disable-dtsdec	\
-  --disable-divx	\
-  --disable-faac	\
-  --disable-gsm		\
-  --disable-ivorbis	\
-  --disable-jack	\
-  --disable-ladspa	\
-  --disable-libmms	\
-  --disable-mpeg2enc	\
-  --disable-mplex	\
-  --disable-musepack	\
-  --disable-mythtvsrc	\
-  --disable-nassink	\
-  --disable-ofa		\
-  --disable-timidity	\
-  --disable-wildmidi	\
-  --disable-sdl		\
-  --disable-sdltest	\
-  --disable-soundtouch	\
-  --disable-spc	\
-  --disable-swfdec	\
-  --disable-x264	\
-  --disable-xvid	\
-  --disable-dvb	\
   %{gtk_doc_option}	\
   --enable-external --with-check=no
 
@@ -139,6 +111,11 @@ GStreamer support libraries header files.
 %{_datadir}/gtk-doc
 
 %changelog
+* Thu Sep 08 2008 - halton.huo@sun.com
+- Bump to 0.10.8
+- Add patch byte-order.diff to fix build issue
+- Remove disable options to let configure check runtime 
+  (please tell me if this is not right)
 * Thu Aug 07 2008 - trisk@acm.jhu.edu
 - Re-enable faad, theora
 * Tue Jul 22 2008 - trisk@acm.jhu.edu

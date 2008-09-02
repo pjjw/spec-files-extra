@@ -7,7 +7,7 @@
 #
 Name:           gst-plugins-ugly
 License:        GPL
-Version:        0.10.8
+Version:        0.10.9
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -111,6 +111,8 @@ GStreamer support libraries header files.
 %{_datadir}/gtk-doc
 
 %changelog
+* Thu Sep 08 2008 - halton.huo@sun.com
+- Bump to 0.10.9
 * Wed Jul 23 2008 - trisk@acm.jhu.edu
 - Add patch2 to use dvdnav
 * Tue Jul 22 2008 - trisk@acm.jhu.edu

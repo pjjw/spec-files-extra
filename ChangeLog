@@ -1,5 +1,13 @@
 2008-09-02  Halton Huo <halton.huo@sun.com>
 
+	* base-specs/gst-plugins-bad.spec: Bump to 0.10.8, Remove disable
+	  options to let configure check runtime
+	* base-specs/gst-plugins-ugly.spec: Bump to 0.10.9
+	* encumbered/SFEgnome-media-extras.spec: Update dependencies
+	* patches/gst-plugins-bad-04-byte-order.diff: Add to fix build issue
+
+2008-09-02  Halton Huo <halton.huo@sun.com>
+
 	* SFEjam.spec: Add URL
 	* SFElibx264.spec: Update src_url
 	* SFEwxwidgets-gnu.spec: Bump to 2.8.8, Add patch fixcompile.diff
