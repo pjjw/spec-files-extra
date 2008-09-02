@@ -1,5 +1,11 @@
 2008-09-02  Halton Huo <halton.huo@sun.com>
 
+	* SFElibmms.spec: (new) 
+	* base-specs/libmms.spec: (new) mms stream protocol library
+	* patches/libmms-01-solaris-uint.diff: (added) fix bug 263864
+
+2008-09-02  Halton Huo <halton.huo@sun.com>
+
 	* SFEbzr.spec: 1.6.1rc1
 
 2008-09-02  Halton Huo <halton.huo@sun.com>

@@ -1,0 +1,20 @@
+=== modified file 'src/bswap.h'
+--- src/bswap.h	2004-10-21 11:32:15 +0000
++++ src/bswap.h	2008-09-02 06:44:51 +0000
+@@ -24,6 +24,15 @@
+ /* Go cheap now, will rip out glib later. *Sigh* */
+ #include <glib.h>
+ 
++#if defined(sun)
++#include <sys/inttypes.h>
++typedef uint8_t u_int8_t;
++typedef uint16_t u_int16_t;
++typedef uint32_t u_int32_t;
++typedef uint64_t u_int64_t;
++#endif
++
++
+ /* NOTE:
+  * Now, to clear up confusion: LE_XX means "from LE to native, XX bits wide"
+  * I know it's not very clear naming (tell me about it, I
+
