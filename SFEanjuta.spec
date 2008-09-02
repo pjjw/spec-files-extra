@@ -1,4 +1,4 @@
-# ld-z-text.diff
+# 
 # Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
@@ -13,20 +13,16 @@
 # or, depend on package SUNWevolution-bdb-devel, which is in jds spec-files/closed
 # now, use second way.
 Name:           SFEanjuta
-Version:        2.5.90
+Version:        2.23.91
 Summary:        GNOME IDE for C and C++
 Group:          Development/Tools
 License:        GPL
 URL:            http://anjuta.org/
-Source:         http://download.gnome.org/sources/anjuta/2.5/anjuta-%{version}.tar.bz2
+Source:         http://download.gnome.org/sources/anjuta/2.23/anjuta-%{version}.tar.bz2
 # date:2007-04-04 owner:nonsea type:branding
 Patch1:         anjuta-01-solaris-grep.diff
 # date:2007-05-14 owner:nonsea type:branding
 Patch2:         anjuta-02-ld-z-text.diff
-# date:2008-08-20 owner:nonsea type:bug bugzilla:548622
-Patch3:         anjuta-03-zero-array.diff
-# date:2008-08-20 owner:nonsea type:bug bugzilla:548629
-Patch4:         anjuta-04-miss-vala-sgml.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -104,8 +100,6 @@ Requires:                %{name}
 %prep
 %setup -q -n anjuta-%{version}
 %patch1 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -117,6 +111,7 @@ fi
 export CFLAGS="%optflags -I/usr/include/pcre"
 export CXXFLAGS="%cxx_optflags"
 export LDFLAGS="%_ldflags"
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal -I ."
 
 #glib-gettextize -f
 libtoolize --copy --force
@@ -292,6 +287,10 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Tue Sep 02 2008 - halton.huo@sun.com
+- Bump to 2.23.91
+- Remove upstreamed patch zero-array.diff and miss-vala-sgml.diff
+- Add /usr/share/aclocal to ACLOCAL_FLAGS to fix build issue
 * Wed Aug 20 2008 - nonsea@users.sourceforge.net
 - Bump to 2.5.90
 - Use SUNWgraphviz instead of SFEgraphviz

@@ -1,5 +1,15 @@
 2008-09-02  Halton Huo <halton.huo@sun.com>
 
+	* SFEanjuta.spec: Bump to 2.23.91
+	* base-specs/vinagre.spec: Bump to 2.23.91
+	* SFEgmp.spec, SFEguile.spec: Add /usr/share/aclocal to ACLOCAL_FLAGS
+	  to fix build issue
+	* patches/anjuta-03-zero-array.diff: remove upstreamed patch
+	* patches/anjuta-04-miss-vala-sgml.diff: remove upstreamed patch
+	* patches/vinagre-01-libsocket.diff: remove upstreamed patch
+
+2008-09-02  Halton Huo <halton.huo@sun.com>
+
 	* encumbered/SFEmplayer-codecs.spec, encumbered/SFExine-lib.spec:
 	  No use undefined %{mplayer.codecdir}
 

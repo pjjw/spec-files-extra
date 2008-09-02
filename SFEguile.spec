@@ -36,6 +36,7 @@ fi
 
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal -I ."
 
 libtoolize --copy --force
 aclocal $ACLOCAL_FLAGS
@@ -94,8 +95,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 %{_datadir}/guile/*
 %{_datadir}/info/*
-%dir %attr (0755, root, root) %{_datadir}/emacs
-%dir %attr (0755, root, root) %{_datadir}/emacs/site-lisp
+%dir %attr (0755, root, bin) %{_datadir}/emacs
+%dir %attr (0755, root, bin) %{_datadir}/emacs/site-lisp
 %{_datadir}/emacs/site-lisp/*
 
 %files devel
@@ -107,6 +108,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Sep 02 2008 - halton.huo@sun.com
+- Add /usr/share/aclocal to ACLOCAL_FLAGS to fix build issue
 * Tue Jun 24 2008 - nonsea@users.sourceforge.net
 - Add site dir
 * Thu Jan 24 2008 - nonsea@users.sourceforge.net

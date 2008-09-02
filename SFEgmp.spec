@@ -55,6 +55,7 @@ export CXXFLAGS32="%cxx_optflags"
 export CXXFLAGS64="%cxx_optflags64"
 export LDFLAGS32="%_ldflags"
 export LDFLAGS64="%_ldflags"
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal -I ."
 
 %ifarch sparcv9
 export CC=${CC64:-$CC}
@@ -168,6 +169,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Tue Sep 02 2008 - halton.huo@sun.com
+- Add /usr/share/aclocal to ACLOCAL_FLAGS to fix build issue
 * Mon Feb 25 2008 - laca@sun.com
 - fix sparcv9 build
 * Fri Nov 02 2007 - nonsea@users.sourceforge.net
