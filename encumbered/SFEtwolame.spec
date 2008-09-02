@@ -37,6 +37,13 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 export CFLAGS="%optflags -xcrossfile=1"
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal -I ."
+
+libtoolize --copy --force
+aclocal $ACLOCAL_FLAGS
+autoheader
+automake -a -c -f
+autoconf
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
@@ -76,6 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Sep 02 2008 - nonsea@users.sourceforge.net
+- Add libtoolize/aclocal/autoheader/automake/autoconf before ./configure
 * Sat Aug 16 2008 - nonsea@users.sourceforge.net
 - Bump to 0.3.12
 - Remove patch crossfile_inline.diff and reorder

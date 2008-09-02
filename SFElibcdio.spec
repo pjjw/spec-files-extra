@@ -3,7 +3,7 @@
 #
 # includes module(s): libcdio
 #
-# Copyright (c) 2004 Sun Microsystems, Inc.
+# Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -34,7 +34,7 @@ Requires: SUNWlibms
 Requires: SUNWdbus
 Requires: SFElibcddb
 Requires: SFElibiconv
-Requires: SFEncurses
+Requires: SUNWncurses
 %if %with_hal
 Requires: SUNWhal
 %endif
@@ -43,7 +43,7 @@ BuildRequires: SUNWgcc
 BuildRequires: SUNWdbus-devel
 BuildRequires: SFElibcddb-devel
 BuildRequires: SFElibiconv-devel
-BuildRequires: SFEncurses-devel
+BuildRequires: SUNWncurses-devel
 
 %package devel
 Summary:                 %{summary} - development files
@@ -109,6 +109,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/cdio
 
 %changelog
+* Tue Sep 02 2008 - halton.huo@sun.com
+- s/SFEncurses/SUNWncurses since it goes into vermillion
 * Sun Aug 17 2008 - nonsea@users.sourceforge.net
 - Add Requires/BuildRequires to SFEncurses and SFEncurses-devel
 - Add -I/usr/gnu/include/ncurses in CFLAGS to fix build issue

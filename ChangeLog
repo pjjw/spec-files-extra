@@ -1,3 +1,13 @@
+2008-09-02  Halton Huo <halton.huo@sun.com>
+
+	* SFElibcddb.spec: Remove empty %{_bindir}
+	* SFElibcdio.spec, encumbered/SFElame.spec: s/SFEncurses/SUNWncurses
+	  since it goes into vermillion
+	* SFElibdvdnav.spec: Add /usr/share/aclocal to ACLOCAL_FLAGS to fix
+	  build issue
+	* encumbered/SFEtwolame.spec: Add libtoolize/aclocal/autoheader/
+	  automake/autoconf before ./configure
+
 2008-09-01  Halton Huo <halton.huo@sun.com>
 
 	* base-specs/conduit.spec: Bump to 0.13.4

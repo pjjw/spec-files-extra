@@ -29,8 +29,8 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
-BuildRequires: SFEncurses-devel
-Requires: SFEncurses
+BuildRequires: SUNWncurses-devel
+Requires: SUNWncurses
 
 %package devel
 Summary:                 %{summary} - development files
@@ -146,6 +146,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Tue Sep 02 2008 - halton.huo@sun.com
+- s/SFEncurses/SUNWncurses since it goes into vermillion
 * Tue Mar 20 2007 - dougs@truemail.co.th
 - Moved lame and toolame to base spec. Added 64bit and x86_sse2 builds
 * Mon Jun 12 2006 - laca@sun.com

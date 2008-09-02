@@ -33,6 +33,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal -I ."
 
 libtoolize --copy --force
 aclocal $ACLOCAL_FLAGS
@@ -70,6 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Tue Sep 02 2008 - halton.huo@sun.com
+- Add /usr/share/aclocal to ACLOCAL_FLAGS to fix build issue
 * Tue Jul 22 2008 - trisk@acm.jhu.edu
 - Update to 4.1.2
 * Sun Jan  7 2007 - laca@sun.com
