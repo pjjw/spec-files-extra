@@ -5,7 +5,7 @@
  
              if (pending == GST_STATE_NULL || pending == GST_STATE_VOID_PENDING)
 -                err = CA_SUCCESS;
-+                return TRUE;
++                return GST_BUS_PASS;
              else
                  return GST_BUS_DROP;
              break;
