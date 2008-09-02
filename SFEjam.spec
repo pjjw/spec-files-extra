@@ -11,6 +11,7 @@
 Name:                   SFEjam
 Summary:                make-like program
 Version:                2.5
+URL:                    http://www.perforce.com/jam/jam.html
 Source:                 %{src_url}/%{src_name}-%{version}.tar
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build

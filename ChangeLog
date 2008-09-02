@@ -1,5 +1,12 @@
 2008-09-02  Halton Huo <halton.huo@sun.com>
 
+	* SFEjam.spec: Add URL
+	* SFElibx264.spec: Update src_url
+	* SFEwxwidgets-gnu.spec: Bump to 2.8.8, Add patch fixcompile.diff
+	* encumbered/SFEgpac.spec: s/SFEfreetype/SUNWfreetype2
+
+2008-09-02  Halton Huo <halton.huo@sun.com>
+
 	* SFEgit.spec: Bump to 1.6.0.1
 	* patches/git-03-tr.diff: Remove upstreamed patch
 

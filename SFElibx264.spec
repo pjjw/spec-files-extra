@@ -9,7 +9,7 @@
 %define         snap    20071119
 %define         snaph   2245
 %define src_name x264-snapshot
-%define src_url	 ftp://ftp.videolan.org/pub/videolan/x264/snapshots
+%define src_url	 http://download.videolan.org/pub/videolan/x264/snapshots/
 
 Name:                    SFElibx264
 Summary:                 H264 encoder library

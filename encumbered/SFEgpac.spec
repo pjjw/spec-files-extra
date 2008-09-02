@@ -6,12 +6,12 @@
 %include Solaris.inc
 
 %define	src_name gpac
-%define	src_url	http://downloads.sourceforge.net/gpac
 
 Name:                SFEgpac
 Summary:             Open Source multimedia framework
 Version:             0.4.4
-Source:              %{src_url}/%{src_name}-%{version}.tar.gz
+URL:                 http://gpac.sourceforge.net/
+Source:              http://%{sf_mirror}/%{src_name}/%{src_name}-%{version}.tar.gz
 Patch1:		     gpac-01-libs.diff
 Patch2:		     gpac-02-gcc.diff
 Patch3:		     gpac-03-install.diff
@@ -25,8 +25,7 @@ BuildRequires: SFElibmad-devel
 Requires: SFElibmad
 BuildRequires: SFEfaad2-devel
 Requires: SFEfaad2
-BuildRequires: SFEfreetype-devel
-Requires: SFEfreetype
+Requires: SUNWfreetype2
 BuildRequires: SFEwxwidgets-gnu-devel
 Requires: SFEwxwidgets-gnu
 
@@ -91,7 +90,10 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr (-, root, bin)
 %{_includedir}
+
 %changelog
+* Tue Sep 02 2008 - halton.huo@sun.com
+- s/SFEfreetype/SUNWfreetype2
 * Thu Jun 19 2008 - river@wikimedia.org
 - need to unset P4PORT during %setup or gpatch behaves oddly
 * Fri May 23 2008 - michal.bielicki@voiceworks.pl
