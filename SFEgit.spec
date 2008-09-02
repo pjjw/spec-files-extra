@@ -15,12 +15,11 @@
 
 Name:                SFEgit
 Summary:             GIT - the stupid content tracker
-Version:             1.5.4.2
+Version:             1.6.0.1
 URL:                 http://git.or.cz/
 Source:              http://www.kernel.org/pub/software/scm/git/git-%{version}.tar.bz2
 Patch1:              git-01-solaris-shell.diff
 Patch2:              git-02-fixshell.diff
-Patch3:              git-03-tr.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
@@ -48,7 +47,6 @@ BuildRequires: SFExmlto
 %setup -q -n git-%version
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -64,9 +62,10 @@ export PATH=$PATH:%{_builddir}/git-%version
 export NO_MSGFMT=1
 make configure
 ./configure \
-    --prefix=%{_prefix} \
-    --mandir=%{_mandir} \
-    --with-perl=/usr/perl5/bin/perl
+        --prefix=%{_prefix} \
+        --mandir=%{_mandir} \
+        --libexecdir=%{_libexecdir} \
+        --with-perl=/usr/perl5/bin/perl
 make all doc
 
 # fix path to wish (tk shell)
@@ -100,7 +99,6 @@ mv $RPM_BUILD_ROOT%{_libdir}/site_perl/*.pm $RPM_BUILD_ROOT/usr/perl5/vendor_per
 rm -r $RPM_BUILD_ROOT%{_libdir}/site_perl
 rm $RPM_BUILD_ROOT%{_libdir}/*-solaris-*/perllocal.pod
 rmdir $RPM_BUILD_ROOT%{_libdir}/*-solaris-*
-rmdir $RPM_BUILD_ROOT%{_libdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -109,6 +107,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (0755, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/git*
+%dir %attr (0755, root, bin) %{_libdir}
+%{_libdir}/git-core
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/gitk
 %dir %{_datadir}/git-core
@@ -132,6 +132,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/perl5/vendor_perl/%{perl_version}/*
 
 %changelog
+* Tue Sep 02 2008 - halton.huo@sun.com
+- Bump to 1.6.0.1
+- Remove upstreamed patch git-03-tr.diff
 * Wed Apr 23 2008 - trisk@acm.jhu.edu
 - Add patch3 to fix bisect problem with non-GNU tr
 * Thu Mar 13 2008 - nonsea@users.sourceforge.net

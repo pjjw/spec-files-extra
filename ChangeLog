@@ -1,5 +1,10 @@
 2008-09-02  Halton Huo <halton.huo@sun.com>
 
+	* SFEgit.spec: Bump to 1.6.0.1
+	* patches/git-03-tr.diff: Remove upstreamed patch
+
+2008-09-02  Halton Huo <halton.huo@sun.com>
+
 	* SFElibmms.spec: (new) 
 	* base-specs/libmms.spec: (new) mms stream protocol library
 	* patches/libmms-01-solaris-uint.diff: (added) fix bug 263864
