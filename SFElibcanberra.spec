@@ -11,8 +11,11 @@ Version:                 0.8
 License:                 LGPLv2.1
 URL:                     http://0pointer.de/blog/projects/sixfold-announcement.html
 Source:                  http://0pointer.de/lennart/projects/libcanberra/libcanberra-%{version}.tar.gz
+#owner:yippi date:2008-09-02 type:bug
 Patch1:                  libcanberra-01-solaris.diff
+#owner:yippi date:2008-09-02 type:bug state:upstream
 Patch2:                  libcanberra-02-gstreamer.diff
+#owner:yippi date:2008-09-02 type:bug state:upstream
 Patch3:                  libcanberra-03-fix-gst-play.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
