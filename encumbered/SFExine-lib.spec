@@ -10,8 +10,6 @@
 %define sunw_gnu_iconv %(pkginfo -q SUNWgnu-libiconv && echo 1 || echo 0)
 %define use_gcc3 %([ -n "$_USE_GCC3_" ] && echo 1 || echo 0)
 
-%use mplayer = SFEmplayer.spec
-
 Name:         SFExine-lib
 License:      GPL
 Group:        System/Libraries
@@ -138,7 +136,7 @@ export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl -
 export CXXFLAGS="$CXXFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl -liconv"
 %endif
 ./configure --prefix=%{_prefix} \
-            --with-w32-path=%{mplayer.codecdir} \
+            --with-w32-path=%{_libdir}/mplayer/codecs \
             --with-external-libmad \
             --with-external-dvdnav \
             --disable-opengl
@@ -313,6 +311,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Sep 02 2008 - nonsea@users.sourceforge.net
+- No use undefined %{mplayer.codecdir}
 * Sat Jan 26 2008 - moinak.ghosh@sun.com
 - Change SFEgcc deps, follows from SFEgcc refactoring.
 * Sat Jan 26 2008 - moinak.ghosh@sun.com

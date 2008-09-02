@@ -9,7 +9,6 @@
 #
 
 %include Solaris.inc
-%use mplayer = SFEmplayer.spec
 
 Name:                    SFEmplayer-codecs
 Summary:                 binary codecs for the mplayer movie player
@@ -29,8 +28,8 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %install
 rm -rf $RPM_BUILD_ROOT
 
-mkdir -p $RPM_BUILD_ROOT%{mplayer.codecdir}
-cp * $RPM_BUILD_ROOT%{mplayer.codecdir}
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/mplayer/codecs
+cp * $RPM_BUILD_ROOT%{_libdir}/mplayer/codecs
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -38,10 +37,12 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin) 
 %dir %attr (0755, root, bin) %{_libdir}
-%{mplayer.codecdir}
+%{_libdir}/mplayer/codecs
 
 %changelog
-* Sun Nov 4 2007 - markwright@internode.on.net
+* Tue Sep 02 2008 - nonsea@users.sourceforge.net
+- No use undefined %{mplayer.codecdir}
+* Sun Nov 04 2007 - markwright@internode.on.net
 - Bump to 20071007
 * Sun Jan  7 2007 - laca@sun.com
 - separate from the rest of mplayer

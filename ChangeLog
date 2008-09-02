@@ -1,5 +1,10 @@
 2008-09-02  Halton Huo <halton.huo@sun.com>
 
+	* encumbered/SFEmplayer-codecs.spec, encumbered/SFExine-lib.spec:
+	  No use undefined %{mplayer.codecdir}
+
+2008-09-02  Halton Huo <halton.huo@sun.com>
+
 	* SFElibcddb.spec: Remove empty %{_bindir}
 	* SFElibcdio.spec, encumbered/SFElame.spec: s/SFEncurses/SUNWncurses
 	  since it goes into vermillion
