@@ -1,0 +1,76 @@
+--- ./src/cheese-webcam.c.ori	2008-08-19 02:32:53.000000000 +0800
++++ ./src/cheese-webcam.c	2008-09-01 17:05:27.001865000 +0800
+@@ -241,6 +241,10 @@
+                      * refers to a fake device so that resolution changing still
+                      * works even if the computer doesn't have a webcam. */
+   char **udis;
++#ifdef SOLARIS
++  char *dev_name;
++  struct stat s;
++#endif  
+   DBusError error;
+   LibHalContext *hal_ctx;
+ 
+@@ -287,6 +291,19 @@
+   if (num_udis > 0)
+         priv->num_webcam_devices = num_devices = num_udis;
+   else
++#ifdef SOLARIS	
++    for (i = 0;;i++)
++    {
++      dev_name = g_strdup_printf("%s%d", "/dev/video", i);
++      if (lstat(dev_name, &s) != 0)
++        break;
++      else	
++        priv->num_webcam_devices = num_devices = num_udis = 1;
++    }  
++  if (num_udis >= 1 && i > 0)
++    dev_name = g_strdup_printf("%s%d", "/dev/video", --i);
++  else  
++#endif
+   {
+     num_devices = 1;
+     priv->num_webcam_devices = num_udis;  /* We don't have any real cameras-- 
+@@ -304,6 +321,7 @@
+ 
+   for (i = 0; i < priv->num_webcam_devices; i++) 
+   {
++#ifndef SOLARIS
+     char *device;
+     
+     device = libhal_device_get_property_string (hal_ctx, udis[i], "video4linux.device", &error);
+@@ -315,8 +333,14 @@
+     }
+     priv->webcam_devices[i].video_device = g_strdup (device);
+     libhal_free_string (device);
++#else
++    priv->webcam_devices[i].video_device = g_strdup (dev_name);
++#endif    
+   }
+   libhal_free_string_array (udis);
++#ifdef SOLARIS
++  libhal_free_string(dev_name);
++#endif  
+ }
+ 
+ static void
+--- ./configure.ac.ori	2008-09-01 17:01:24.368827000 +0800
++++ ./configure.ac	2008-09-01 17:04:02.005457000 +0800
+@@ -15,7 +15,7 @@
+ AC_HEADER_STDC
+ AM_PROG_LIBTOOL
+ 
+-CFLAGS="${CFLAGS} -Wall"
++CFLAGS="${CFLAGS} -DSOLARIS"
+ 
+ GNOME_MAINTAINER_MODE_DEFINES
+ GNOME_COMPILE_WARNINGS
+@@ -66,7 +66,7 @@
+ GNOME_VFS_REQUIRED=2.18.0
+ LIBEBOOK_REQUIRED=1.12.0
+ DBUS_REQUIRED=1.0
+-HAL_REQUIRED=0.5.9
++HAL_REQUIRED=0.5.8
+ DBUS_GLIB_REQUIRED=0.7
+ LIBRSVG_REQUIRED=2.18.0
+ PANGOCAIRO_REQUIRED=1.18.0

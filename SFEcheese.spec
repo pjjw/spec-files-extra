@@ -7,9 +7,12 @@
 
 Name:                    SFEcheese
 Summary:                 Cheese - GNOME application for taking pictures and videos from a webcam
-Version:                 2.23.2
+Version:                 2.23.90
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/cheese/2.23/cheese-%{version}.tar.gz
-Patch1:                  cheese-01-hack-dev.diff
+Patch1:                  cheese-01-lack-hal-backend.diff
+Patch2:                  cheese-02-lack-uvc-framerate.diff
+Patch3:                  cheese-03-thumbnail-create.diff
+
 URL:                     http://live.gnome.org/Cheese
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -49,6 +52,8 @@ Requires:                %{name}
 %prep
 %setup -q -n cheese-%version
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -62,7 +67,9 @@ export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
 %endif
 export LDFLAGS="%{_ldflags} -lc -mt -lpthread `pkg-config --libs gtk+-2.0` `pkg-config --libs libglade-2.0` `pkg-config --libs dbus-1` `pkg-config --libs gnome-vfs-2.0` `pkg-config --libs libgnomeui-2.0` `pkg-config --libs gstreamer-0.10` -lgstinterfaces-0.10 `pkg-config --libs libebook-1.2` -lXxf86vm"
 
-CFLAGS="$CFLAGS" ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
+CFLAGS="$CFLAGS" 
+autoconf
+./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
             --sysconfdir=%{_sysconfdir} 
@@ -159,6 +166,9 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %{_datadir}/applications/*.desktop
 %{_datadir}/gnome/help/cheese/C
 %{_datadir}/omf/cheese/cheese-C.omf
+%dir %attr (0755, root, bin) %{_datadir}/dbus-1
+%dir %attr (0755, root, bin) %{_datadir}/dbus-1/services
+%{_datadir}/dbus-1/services/org.gnome.Cheese.service
 
 %files root
 %defattr (-, root, sys)
@@ -175,6 +185,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Wed Sep 03 2008 - elaine.xiong@sun.com
+- Bump to 2.23.90. Add patches for solaris specific. 
 * Mon Jun 02 2008 - elaine.xiong@sun.com
 - Bump cheese to 2.23.2. Hack cheese to Jpeg format from webcam and bypass
   hal to find video device since hal hasn't provided video4linux backend.
