@@ -8,7 +8,7 @@
 Name:                    SFEgperf
 Summary:                 gperf - GNU perfect hash function generator
 Version:                 3.0.3
-Source:			 ftp://aeneas.mit.edu/pub/gnu/gperf/gperf-%{version}.tar.gz
+Source:			         http://mirrors.kernel.org/gnu/gperf/gperf-%{version}.tar.gz
 URL:                     http://www.gnu.org/software/gperf
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -54,5 +54,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Wed Sep 3 2008 - <pradhap (at) gmail (dot) com>
+- fixed link
 * Thu Aug 30 2007 - laca@sun.com
 - Create
