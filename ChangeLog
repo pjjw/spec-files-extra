@@ -1,5 +1,20 @@
 2008-09-04  Halton Huo <halton.huo@sun.com>
 
+	* SFElibopensync-plugin-file.spec: Use SFEcmake if cmake is not in $PATH
+	* SFElibopensync-plugin-sml.spec: Use SFEcmake if cmake is not in $PATH
+	* SFElibopensync-plugin-vfmt.spec:Use SFEcmake if cmake is not in $PATH
+	* SFElibopensync.spec:Use SFEcmake if cmake is not in $PATH
+	* SFEmsynctool.spec:Use SFEcmake if cmake is not in $PATH
+	* base-specs/libopensync-plugin-file.spec: Bump to 0.37
+	* base-specs/libopensync-plugin-syncml.spec: Bump to 0.37
+	* base-specs/libopensync-plugin-vfmt.spec: Bump to 0.37
+	* base-specs/libopensync.spec: Bump to 0.37
+	* base-specs/msynctool.spec: Bump to 0.37
+	* patches/msynctool-01-find-opensync.diff: (added) to fix build under
+	  libopensync 0.37
+
+2008-09-04  Halton Huo <halton.huo@sun.com>
+
 	* SFElibsyncml.spec: Remove useless sentense for CFLAGS and CXXFLAGS
 	* base-specs/libsyncml.spec: Bump to 0.4.7
 	* base-specs/openobex.spec: Use %debug_build for --enable-debug

@@ -13,7 +13,7 @@
 Name:           libopensync-plugin-file
 License:        GPL
 Group:          System/Libraries
-Version:        0.36
+Version:        0.37
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -74,30 +74,24 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Spe 04 2008 - halton.huo@sun.com
+- Bump to 0.37
 * Wed Jan 30 2008 - jijun.yu@sun.com
 - Bump to 0.36.
-
 * Thu Dec 20 2007 - jijun.yu@sun.com
 - Bump to 0.35.
 - Change build tool from scons to cmake.
-
 * Tue Oct 16 2007 - nonsea@users.sourceforge.net
 - Bump to 0.33, change Source to full URL.
-
 * Mon Aug 06 2007 - jijun.yu@sun.com
 - Bump to 0.32
-
 * Mon Jul 09 2007 - nonsea@users.sourceforge.net
 - Bump to 0.31.
-
 * Wed Jun 05 2007 - jijun.yu@sun.com
 - Bump to 0.30.
-
 * Fri Mar 30 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.22. Change source tarball to bz2.
-
 * Tue Nov 28 2006 - harry.lu@sun.com
 - Add patch libopensync-plugin-file-02-null-crash.diff
-
 * Fri Nov 17 2006 - halton.huo@sun.com
 - Initial version

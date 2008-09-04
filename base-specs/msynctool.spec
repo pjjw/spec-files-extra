@@ -18,7 +18,8 @@ Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
 Summary:        OpenSync data synchronization command line programs
 Source:	        http://www.opensync.org/download/releases/%{version}/%{name}-%{version}.tar.bz2
-
+# owner: halton date: 2008-09-04 type:bug state:upstream
+Patch1:         %{name}-01-find-opensync.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Docdir:         %{_defaultdocdir}/doc
 
@@ -33,6 +34,7 @@ This package contains command line program to use OpenSync framework.
 
 %prep
 %setup -q
+%patch1 -p1
 
 %build
 %ifos linux
@@ -71,35 +73,28 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1*
 
 %changelog
+* Thu Spe 04 2008 - halton.huo@sun.com
+- Bump to 0.37
+- Add patch find-opensync.diff to build under opensync0.37
 * Wed Jan 30 2008 - jijun.yu@sun.com
 - Bump to 0.36.
-
 * Thu Dec 20 2007 - jijun.yu@sun.com
 - Bump to 0.35.
-
 * Mon Nov 05 2007 - jijun.yu@sun.com
 - Bump to 0.34.
 - Change to cmake build tool.
-
 * Tue Oct 16 2007 - nonsea@users.sourceforge.net
 - Bump to 0.33, change Source to full URL.
-
 * Mon Aug 06 2007 - jijun.yu@sun.com
 - Bump to 0.32.
-
 * Thu Jul 12 2007 - jijun.yu@sun.com
 - Disable enable_rpath at configuring and remove msynctool-02-ld-rpath.diff
-
 * Tue Jul 10 2007 - nonsea@users.sourceforge.net
 - Bump to 0.31.
 - Add patch msynctool-02-ld-rpath.diff to fix ld issue.
-
 * Fri Jun 05 2007 - jijun.yu@sun.com
 - Bump to 0.30
-
 * Mon Apr 02 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.22.
-
 * Tue Nov 14 2006 - halton.huo@sun.com
 - Initial version
-

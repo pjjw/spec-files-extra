@@ -12,7 +12,7 @@
 Name:           libopensync-plugin-syncml
 License:        GPL
 Group:          System/Libraries
-Version:        0.35
+Version:        0.37
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -84,6 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/opensync-1.0/opensync/*
 
 %changelog
+* Thu Spe 04 2008 - halton.huo@sun.com
+- Bump to 0.37
 * Thu Dec 20 2007 - jijun.yu@sun.com
 - Bump to 0.35, change the build tool to cmake.
 * Tue Oct 16 2007 - nonsea@users.sourceforge.net

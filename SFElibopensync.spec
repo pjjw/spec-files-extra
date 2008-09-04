@@ -12,6 +12,9 @@
 
 %include Solaris.inc
 
+%define have_cmake %(which cmake >/dev/null 2>&1 && echo 1 || echo 0)
+%define have_swig %(/usr/bin/pkginfo -q SFEswig && echo 1 || echo 0)
+
 %use libopensync = libopensync.spec
 
 Name:               SFElibopensync
@@ -28,10 +31,16 @@ Requires: SUNWlxml
 Requires: SUNWzlib
 Requires: SUNWsqlite3
 BuildRequires: SUNWgnome-base-libs-devel
-BuildRequires: SFEcmake
 BuildRequires: SFEcheck
-BuildRequires: SFEswig
 BuildRequires: SUNWsqlite3
+%if %have_cmake
+%else
+BuildRequires: SFEcmake
+%endif
+%if %have_swig
+BuildRequires: SFEswig
+%define python_version  2.4
+%endif
 
 %package devel
 Summary:       %{summary} - development files
@@ -48,13 +57,19 @@ mkdir -p %name-%version
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CFLAGS="%optflags"
 export RPM_OPT_FLAGS="$CFLAGS"
-#PYTHON_VERSION=`python -V 2>&1 | awk '{print $2}' | awk -F\. '{print $1"."$2}'`
-#export PYTHON_VERSION
 %libopensync.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %libopensync.install -d %name-%version
+
+# move to vendor-packages
+%if %have_swig
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{python_version}/vendor-packages
+mv $RPM_BUILD_ROOT%{_libdir}/python%{python_version}/site-packages/* \
+   $RPM_BUILD_ROOT%{_libdir}/python%{python_version}/vendor-packages/
+rmdir $RPM_BUILD_ROOT%{_libdir}/python%{python_version}/site-packages
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -64,23 +79,27 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/opensync-1.0
+%{_libdir}/libopensync1
 %{_libdir}/*.so*
-%dir %attr (0755, root, bin) %{_libdir}/python2.4
-%dir %attr (0755, root, bin) %{_libdir}/python2.4/site-packages
-%{_libdir}/python2.4/site-packages/*
+%if %have_swig
+%{_libdir}/python%{python_version}/vendor-packages
+%endif
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/opensync-1.0
+%{_datadir}/libopensync1
 
 %files devel
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
+%{_includedir}/libopensync1
 %dir %attr (0755, root, bin) %{_libdir}
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Sep 04 2008 - halton.huo@sun.com
+- Update %files cause version upgrade
+- Use SFEcmake if cmake is not in $PATH
+- Move SFEswig as optional depend
 * Tue Jun 24 2008 - nonsea@users.sourceforge.net
 - Add BuildRequires SFEswig 
 * Thu Dec 20 2007 - jijun.yu@sun.com

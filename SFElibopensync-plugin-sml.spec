@@ -11,6 +11,8 @@
 #
 
 %include Solaris.inc
+%define have_cmake %(which cmake >/dev/null 2>&1 && echo 1 || echo 0)
+
 %use syncml = libopensync-plugin-syncml.spec
 
 Name:               SFElibopensync-plugin-sml
@@ -25,7 +27,10 @@ Requires: SFElibsyncml
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SFElibopensync-devel
 BuildRequires: SFElibsyncml-devel
+%if %have_cmake
+%else
 BuildRequires: SFEcmake
+%endif
 
 %prep
 rm -rf %name-%version
@@ -51,12 +56,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, bin) %{_datadir}/opensync-1.0
-%dir %attr (0755, root, bin) %{_datadir}/opensync-1.0/defaults
-%{_datadir}/opensync-1.0/defaults/syncml-http-server
-%{_datadir}/opensync-1.0/defaults/syncml-obex-client
+%{_datadir}/*
 
 %changelog
+* Thu Sep 04 2008 - halton.huo@sun.com
+- Update %files cause version upgrade
+- Use SFEcmake if cmake is not in $PATH
 * Thu Dec 20 2007 - jijun.yu@sun.com
 - Change a path.
 * Wed Oct 17 2007 - nonsea@users.sourceforge.net

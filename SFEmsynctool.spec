@@ -11,6 +11,7 @@
 #
 
 %include Solaris.inc
+%define have_cmake %(which cmake >/dev/null 2>&1 && echo 1 || echo 0)
 
 %use msynctool = msynctool.spec
 
@@ -30,9 +31,10 @@ Requires: SFElibopensync
 BuildRequires: SUNWgnome-base-libs-devel 
 BuildRequires: SUNWsqlite3
 BuildRequires: SFElibopensync-devel 
+%if %have_cmake
+%else
 BuildRequires: SFEcmake
-BuildRequires: SFEcheck
-BuildRequires: SFEswig
+%endif
 
 %prep
 rm -rf %name-%version
@@ -74,8 +76,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 
 
 %changelog
-* Tue Jun 24 2008 - nonsea@users.sourceforge.net
-- Add BuildRequires SFEswig 
+* Thu Sep 04 2008 - halton.huo@sun.com
+- Use SFEcmake if cmake is not in $PATH
 * Thu Dec 20 2007 - jijun.yu@sun.com
 - Delete the build requires SFEscons
 - Add the build requires SFEcmake
