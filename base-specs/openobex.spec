@@ -60,8 +60,10 @@ autoconf
             --sysconfdir=%{_sysconfdir}		\
 	    --mandir=%{_mandir}			\
             --enable-usb                        \
-	    --disable-static			\
-	    --enable-debug
+%if %debug_build
+	    --enable-debug                      \
+%endif
+	    --disable-static
 
 make -j $CPUS
 

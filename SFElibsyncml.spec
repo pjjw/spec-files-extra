@@ -12,6 +12,8 @@
 
 %include Solaris.inc
 
+%define have_cmake %(which cmake >/dev/null 2>&1 && echo 1 || echo 0)
+
 %use libsyncml = libsyncml.spec
 
 Name:               SFElibsyncml
@@ -24,7 +26,10 @@ Requires:      SUNWgnome-base-libs
 Requires:      SUNWevolution-libs
 Requires:      SFEopenobex
 Requires:      SFEwbxml
+%if %have_cmake
+%else
 BuildRequires: SFEcmake
+%endif
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWevolution-libs-devel
 BuildRequires: SFEopenobex-devel
@@ -50,11 +55,8 @@ mkdir -p %name-%version
 %libsyncml.prep -d %name-%version
 
 %build
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-export CFLAGS="-g"
-#export CFLAGS="%optflags -g"
-#export LD_LIBRARY_PATH="-L /usr/sfw/lib -R /usr/sfw/lib"
-export CXXFLAGS="-lsocket  -lnsl"
+export CFLAGS="%optflags"
+#export CXXFLAGS="-lsocket  -lnsl"
 export RPM_OPT_FLAGS="$CFLAGS"
 %libsyncml.build -d %name-%version
 

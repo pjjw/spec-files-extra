@@ -1,3 +1,13 @@
+2008-09-04  Halton Huo <halton.huo@sun.com>
+
+	* SFElibsyncml.spec: Remove useless sentense for CFLAGS and CXXFLAGS
+	* base-specs/libsyncml.spec: Bump to 0.4.7
+	* base-specs/openobex.spec: Use %debug_build for --enable-debug
+	* patches/libsyncml-01-fail-null.diff: (added) fix bug #161
+	* patches/libsyncml-01-void-func-return.diff: remove upstreamed patch
+	* patches/libsyncml-02-TCSBRKP.diff: remove upstreamed patch
+	* patches/libsyncml-03-strcasestr.diff: remove upstreamed patch
+
 2008-09-03  Elaine Xiong <elaine.xiong@sun.com>
 
 	* SFEcheese.spec: Bump to 2.23.90. Add 3 patches.

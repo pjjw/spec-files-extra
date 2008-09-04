@@ -12,7 +12,7 @@
 #
 
 Name:			libsyncml
-Version:		0.4.6
+Version:		0.4.7
 Release:		1
 License:		LGPL
 Group:			Development/Libraries
@@ -21,12 +21,8 @@ Vendor:			Sun Microsystems, Inc.
 Summary:		C library implementation of the SyncML protocol
 URL:			http://libsyncml.opensync.org
 Source:			http://libsyncml.opensync.org/download/releases/%{version}/%{name}-%{version}.tar.bz2
-# date:2008-03-07 owner:halton type:bug bugid:135
-Patch1:                 %{name}-01-void-func-return.diff 
-# date:2008-03-07 owner:halton type:bug bugid:136
-Patch2:                 %{name}-02-TCSBRKP.diff 
-# date:2008-03-07 owner:halton type:bug state:upstream
-Patch3:                 %{name}-03-strcasestr.diff 
+# owner:halton date:2008-09-04 bugid:161 type:bug
+Patch1:                 %{name}-01-fail-null.diff
 BuildRoot:		%{_tmppath}/%{name}-%{version}-root
 Requires:		wbxml2 libsoup >= 2.2.91 
 BuildRequires:		wbxml2-devel libsoup-devel >= 2.2.91 
@@ -47,8 +43,6 @@ you will need to install %{name}-devel.
 %prep
 %setup -q
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 %build
 %ifos linux
@@ -118,6 +112,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 04 2008 - halton.huo@sun.com
+- Bump to 0.4.7.
+- Remove upstreamed patch: void-func-return.diff, TCSBRKP.diff
+  strcasestr.diff
+- Add patch fail-null.diff to fix bug #161
 * Fri Mar 07 2008 - nonsea@users.sourceforge.net
 - Bump to 0.4.6.
 - Use cmake to build

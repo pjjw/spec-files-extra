@@ -1,0 +1,26 @@
+Index: libsyncml-trunk/tests/mobiles/obex_mobile_ds_server.c
+===================================================================
+--- libsyncml-trunk/tests/mobiles/obex_mobile_ds_server.c	(revision 615)
++++ libsyncml-trunk/tests/mobiles/obex_mobile_ds_server.c	(working copy)
+@@ -94,7 +94,7 @@
+ 			smlErrorRef(&eventError);
+ 			break;
+ 		default:
+-			fail();
++			fail(NULL);
+ 			break;
+ 	}
+ 	
+Index: libsyncml-trunk/tests/check_sync.c
+===================================================================
+--- libsyncml-trunk/tests/check_sync.c	(revision 615)
++++ libsyncml-trunk/tests/check_sync.c	(working copy)
+@@ -107,7 +107,7 @@
+ 			session_errors++;
+ 			break;
+ 		default:
+-			fail();
++			fail(NULL);
+ 			break;
+ 	}
+ 	
