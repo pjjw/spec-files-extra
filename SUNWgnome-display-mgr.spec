@@ -30,6 +30,8 @@ Patch2:                  gdm-02-sdtlogin-devperm.diff
 Patch3:                  gdm-03-ctrun.diff
 # Manage displays on the fly.  Refer to bug #536355.
 Patch4:                  gdm-04-dynamic-display.diff
+# Fix two issues gdm-simple-greeter crash and failure of login. 
+Patch5:                  gdm-05-crash.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -88,6 +90,7 @@ Requires:                %{name}
 %patch2 -p0
 %patch3 -p1
 %patch4 -p1
+%patch5 -p0
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -302,6 +305,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Fri Sep 05 2008 - simon.zheng@sun.com
+- Add patch 05-crash.diff.
 * Tue Aug 26 2008 - brian.cameron@sun.com
 - Bump to 2.23.90.
 * Thu Aug 11 2008 - simon.zheng@sun.com

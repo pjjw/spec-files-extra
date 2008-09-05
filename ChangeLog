@@ -1,3 +1,9 @@
+2008-09-05  simon.zheng  <simon.zheng@sun.com>
+
+	* SUNWgnome-display-mgr.spec:
+	* patches/gdm-05-crash.diff: Fix gdm-simple-greeter crash and 
+	  failure of login.
+
 2008-09-04  Halton Huo <halton.huo@sun.com>
 
 	* SFElibopensync-plugin-file.spec: Use SFEcmake if cmake is not in $PATH
