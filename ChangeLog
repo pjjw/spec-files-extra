@@ -1,3 +1,8 @@
+2008-09-07  Andras Barna  <andras.barna@gmail.com>
+
+	* SFEnetspeed-applet: New version, remove patch01
+	  fixed upstream, add copyright and Group
+
 2008-09-07  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEelisa.spec, SFEelisa-plugins-good.spec, SFEelisa-plugins-bad.spec:

@@ -12,9 +12,10 @@
 
 Name:                    SFEnetspeed-applet
 Summary:                 Netspeed applet for GNOME
-Version:                 0.14
+Group:                   System/GUI/GNOME
+Version:                 0.15
 Source:                  http://www.wh-hms.uni-ulm.de/~mfcn/netspeed/packages/netspeed_applet-%{version}.tar.gz
-Patch1:                  netspeedapplet-01-sockio.diff
+SUNW_Copyright:          %{name}.copyright
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}_%{version}-build
 %include default-depend.inc
@@ -39,7 +40,6 @@ Requires:                %{name}
 %prep
 rm -rf %name_%version
 %setup -q -n netspeed_applet-%version
-%patch1 -p1 -b .patch01
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -50,15 +50,17 @@ fi
 export CFLAGS="%optflags" 
 export LDFLAGS="%_ldflags -lnsl -lsocket"
 
-glib-gettextize --force
 aclocal
-libtoolize --copy --force
-intltoolize --force --copy --automake
 automake -a -f
 autoconf -f
 
-./configure --prefix=%{_prefix}  \
-            --libexecdir=%{_libexecdir}
+./configure --prefix=%{_prefix} \
+            --mandir=%{_mandir} \
+            --libdir=%{_libdir} \
+            --libexecdir=%{_libexecdir} \
+            --infodir=%{_infodir} \
+            --sysconfdir=%{_sysconfdir} \
+            --datadir=%{_datadir} \
 
 make -j$CPUS
 
@@ -84,9 +86,31 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gnome/help/*
 %dir %attr (0755, root, bin) %{_datadir}/omf
 %{_datadir}/omf/*
-%dir %attr (0755, root, other) %{_datadir}/pixmaps
-%{_datadir}/pixmaps/netspeed_applet
-%{_datadir}/pixmaps/netspeed_applet.png
+%dir %attr (-, root, other) %{_datadir}/icons
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/16x16
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/16x16/devices
+%{_datadir}/icons/hicolor/16x16/devices/*
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/16x16/apps
+%{_datadir}/icons/hicolor/16x16/apps/*
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/22x22
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/22x22/apps
+%{_datadir}/icons/hicolor/22x22/apps/*
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/24x24
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/24x24/apps
+%{_datadir}/icons/hicolor/24x24/apps/*
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/24x24/status
+%{_datadir}/icons/hicolor/24x24/status/*
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/32x32
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/32x32/apps
+%{_datadir}/icons/hicolor/32x32/apps/*
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/48x48
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/48x48/apps
+%{_datadir}/icons/hicolor/48x48/apps/*
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/scalable
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/scalable/apps
+%{_datadir}/icons/hicolor/scalable/apps/*
+
 
 %if %build_l10n
 %files l10n
@@ -96,6 +120,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Sep 07 2008 - Andras Barna (andras.barna@gmail.com)
+- New version, remove patch01, fixed upstream
 * Sun Aug 03 2008 - Andras Barna (andras.barna@gmail.com)
 - Opensolaris fixes.
 * Mon Jun 30 2008 - Andras Barna (andras.barna@gmail.com)
