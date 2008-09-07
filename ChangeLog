@@ -1,3 +1,10 @@
+2008-09-07  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEelisa.spec, SFEelisa-plugins-good.spec, SFEelisa-plugins-bad.spec:
+	  Bump to 0.5.8.
+	* SFEpython-cssutils.spec: Bump to 0.9.5.1.
+	* SFEpyopenssl.spec: Fix download URL.
+
 2008-09-05  simon.zheng  <simon.zheng@sun.com>
 
 	* SUNWgnome-display-mgr.spec:

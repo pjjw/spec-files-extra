@@ -9,13 +9,12 @@
 %include Solaris.inc
 
 %define name Twisted-Web2
-%define tarball_version 0.9.5rc2
 
 Name:                    SFEpython-cssutils
 Summary:                 A HTTP/1.1 Server Framework
 URL:                     http://code.google.com/p/cssutils/
-Version:                 0.9.5
-Source:                  http://cssutils.googlecode.com/files/cssutils-%{tarball_version}.zip
+Version:                 0.9.5.1
+Source:                  http://cssutils.googlecode.com/files/cssutils-%{version}.zip
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:                SUNWPython
@@ -64,5 +63,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{pythonver}/vendor-packages/easy-install.pth
 
 %changelog
+* Sun Sep 07 2008 - brian.cameron@sun.com
+- Bump to 0.9.5.1.
 * Fri Jul 25 2008 - brian.cameron@sun.com
 - Initial version.

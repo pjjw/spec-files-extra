@@ -9,7 +9,7 @@ Name:                    SFEpyopenssl
 Summary:                 Python Interface to the OpenSSL library
 URL:                     http://pyopenssl.sourceforge.net/
 Version:                 0.7
-Source:                  http://internap.dl.sourceforge.net/sourceforge/pyopenssl/pyOpenSSL-%{version}.tar.gz
+Source:                  %{sf_download}/pyopenssl/pyOpenSSL-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:                SUNWPython
