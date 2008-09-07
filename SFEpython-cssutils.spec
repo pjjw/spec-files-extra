@@ -24,8 +24,8 @@ Requires:                SUNWPython
 %define pythonver 2.4
 
 %prep
-%setup -q -n cssutils-%{tarball_version}
-unzip -d cssutils-%{tarball_version}.zip %{SOURCE}
+%setup -q -n cssutils-%{version}
+unzip -d cssutils-%{version}.zip %{SOURCE}
 
 %build
 python setup.py build
