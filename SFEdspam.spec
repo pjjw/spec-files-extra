@@ -7,7 +7,7 @@
 
 Name:                SFEdspam
 Summary:             Extremely scalable, statistical-hybrid anti-spam filter
-Version:             3.6.8
+Version:             3.8.0
 Source:              http://dspam.nuclearelephant.com/sources/dspam-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
@@ -80,6 +80,8 @@ rm -rf $RPM_BUILD_ROOT
 /var/dspam/*
 
 %changelog
+* Mon Sep  08 2008 - michal.bielickihalokwadrat.de
+- bumped up version to 3.8.0
 * Wed Oct 11 2006 - laca@sun.com
 - fix pkgconfig dir permissions
 * Wed Sep 27 2006 - Eric Boutilier
