@@ -11,7 +11,7 @@
 Name:           vinagre
 License:        GPL
 Group:          Development/Libraries
-Version:        2.23.91
+Version:        2.23.92
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -83,6 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/bonobo/servers/GNOME_RemoteDesktop.server
 
 %changelog
+* Tue Sep 09 2008 - halton.huo@sun.com
+- Bump to 2.23.92
 * Tue Sep 02 2008 - halton.huo@sun.com
 - Bump to 2.23.91
 - Remove upstreamed patch libsocket.diff
