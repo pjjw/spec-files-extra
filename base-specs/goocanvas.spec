@@ -11,14 +11,13 @@
 Name:           goocanvas
 License:        LGPL
 Group:          System/Libraries
-Version:        0.10
+Version:        0.11
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://sourceforge.net/projects/goocanvas
 Summary:        A Cairo Canvas Widget for GTK+
 Source:         http://download.gnome.org/sources/%{name}/%{version}/%{name}-%{version}.tar.bz2
-Patch1:         %{name}-01-remove-GtkSignalFunc.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 BuildRequires:  autoconf >= 2.50
 BuildRequires:  automake >= 1:1.7
@@ -49,7 +48,6 @@ developing with tracker
 
 %prep
 %setup -q
-%patch1 -p1
 
 %build
 %ifos linux
@@ -110,6 +108,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Wed Sep 10 2008 - halton.huo@sun.com
+- Bump to 0.11
 * Mon Sep 01 2008 - halton.huo@sun.com
 - Add patch remove-GtkSignalFunc.diff to fix build issue under glib 2.17.7
 * Mon May 26 2008 - nonsea@users.sourceforge.net

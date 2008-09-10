@@ -1,3 +1,8 @@
+2008-09-10  Halton Huo <halton.huo@sun.com>
+
+	* base-specs/goocanvas.spec: Bump to 0.11
+	* patches/goocanvas-01-remove-GtkSignalFunc.diff:remove upstreamed patch
+
 2008-09-09  Halton Huo <halton.huo@sun.com>
 
 	* base-specs/gtk-vnc.spec: Bump to 0.3.7
