@@ -1,3 +1,9 @@
+2008-09-11  Jerry Yu <jijun.yu@sun.com>
+
+	* SFEpigment-python.spec: Bump to 0.3.6.
+	* SFEpigment.spec:Bump to 0.3.8 and add a patch.
+	* patches/pigment-01-m4.diff: Added.
+
 2008-09-10  Halton Huo <halton.huo@sun.com>
 
 	* base-specs/goocanvas.spec: Bump to 0.11
