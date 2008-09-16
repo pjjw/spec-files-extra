@@ -1,0 +1,972 @@
+diff -bur blender-2.47.orig/config/sunos5-config.py blender-2.47/config/sunos5-config.py
+--- blender-2.47.orig/config/sunos5-config.py	Mon Jun 25 21:50:25 2007
++++ blender-2.47/config/sunos5-config.py	Mon Sep  1 14:54:14 2008
+@@ -8,7 +8,7 @@
+ BF_PYTHON_LIB = 'python${BF_PYTHON_VERSION}' #BF_PYTHON+'/lib/python'+BF_PYTHON_VERSION+'/config/libpython'+BF_PYTHON_VERSION+'.a'
+ BF_PYTHON_LINKFLAGS = ['-Xlinker', '-export-dynamic']
+ 
+-WITH_BF_OPENAL = 'true'
++WITH_BF_OPENAL = 'false'
+ BF_OPENAL = '/usr/local'
+ BF_OPENAL_INC = '${BF_OPENAL}/include'
+ BF_OPENAL_LIBPATH = '${BF_OPENAL}/lib'
+@@ -24,7 +24,7 @@
+ BF_FMOD = LIBDIR + '/fmod'
+ 
+ WITH_BF_OPENEXR = 'true'
+-BF_OPENEXR = '/usr/local'
++BF_OPENEXR = '/usr'
+ BF_OPENEXR_INC = ['${BF_OPENEXR}/include', '${BF_OPENEXR}/include/OpenEXR' ]
+ BF_OPENEXR_LIBPATH = '${BF_OPENEXR}/lib'
+ BF_OPENEXR_LIB = 'Half IlmImf Iex Imath '
+@@ -32,18 +32,18 @@
+ WITH_BF_DDS = 'true'
+ 
+ WITH_BF_JPEG = 'true'
+-BF_JPEG = '/usr/local'
++BF_JPEG = '/usr'
+ BF_JPEG_INC = '${BF_JPEG}/include'
+ BF_JPEG_LIBPATH = '${BF_JPEG}/lib'
+ BF_JPEG_LIB = 'jpeg'
+ 
+ WITH_BF_PNG = 'true'
+-BF_PNG = '/usr/local'
++BF_PNG = '/usr'
+ BF_PNG_INC = '${BF_PNG}/include'
+ BF_PNG_LIBPATH = '${BF_PNG}/lib'
+ BF_PNG_LIB = 'png'
+ 
+-BF_TIFF = '/usr/local'
++BF_TIFF = '/usr'
+ BF_TIFF_INC = '${BF_TIFF}/include'
+ 
+ WITH_BF_ZLIB = 'true'
+@@ -52,7 +52,7 @@
+ BF_ZLIB_LIBPATH = '${BF_ZLIB}/lib'
+ BF_ZLIB_LIB = 'z'
+ 
+-WITH_BF_INTERNATIONAL = 'true'
++WITH_BF_INTERNATIONAL = 'false'
+ 
+ BF_GETTEXT = '/usr/local'
+ BF_GETTEXT_INC = '${BF_GETTEXT}/include'
+@@ -100,7 +100,7 @@
+ #BF_PARANOID = 'true'
+ 
+ # enable freetype2 support for text objects
+-BF_FREETYPE = '/usr/local'
++BF_FREETYPE = '/usr'
+ BF_FREETYPE_INC = '${BF_FREETYPE}/include ${BF_FREETYPE}/include/freetype2'
+ BF_FREETYPE_LIBPATH = '${BF_FREETYPE}/lib'
+ BF_FREETYPE_LIB = 'freetype'
+@@ -109,7 +109,7 @@
+ BF_QUICKTIME = '/usr/local'
+ BF_QUICKTIME_INC = '${BF_QUICKTIME}/include'
+ 
+-WITH_BF_ICONV = 'true'
++WITH_BF_ICONV = 'false'
+ BF_ICONV = "/usr"
+ BF_ICONV_INC = '${BF_ICONV}/include'
+ BF_ICONV_LIB = 'iconv'
+diff -bur blender-2.47.orig/extern/bullet2/src/LinearMath/btScalar.h blender-2.47/extern/bullet2/src/LinearMath/btScalar.h
+--- blender-2.47.orig/extern/bullet2/src/LinearMath/btScalar.h	Fri Jul  6 05:12:31 2007
++++ blender-2.47/extern/bullet2/src/LinearMath/btScalar.h	Mon Sep  1 22:15:42 2008
+@@ -19,8 +19,7 @@
+ 
+ #include <math.h>
+ 
+-#include <cstdlib>
+-#include <cfloat>
++#include <stdlib.h>
+ #include <float.h>
+ 
+ #ifdef WIN32
+@@ -120,11 +119,11 @@
+ 	
+ #endif
+ 
+-#define SIMD_2_PI         btScalar(6.283185307179586232)
+-#define SIMD_PI           (SIMD_2_PI * btScalar(0.5))
+-#define SIMD_HALF_PI      (SIMD_2_PI * btScalar(0.25))
+-#define SIMD_RADS_PER_DEG (SIMD_2_PI / btScalar(360.0))
+-#define SIMD_DEGS_PER_RAD  (btScalar(360.0) / SIMD_2_PI)
++#define SIMD_2_PI         (btScalar)(6.283185307179586232)
++#define SIMD_PI           (SIMD_2_PI * (btScalar)(0.5))
++#define SIMD_HALF_PI      (SIMD_2_PI * (btScalar)(0.25))
++#define SIMD_RADS_PER_DEG (SIMD_2_PI / (btScalar)(360.0))
++#define SIMD_DEGS_PER_RAD  ((btScalar)(360.0) / SIMD_2_PI)
+ 
+ #ifdef BT_USE_DOUBLE_PRECISION
+ #define SIMD_EPSILON      DBL_EPSILON
+@@ -150,6 +149,8 @@
+ 	return (y < 0.0f) ? -angle : angle;
+ }
+ 
++#define bool int
++
+ SIMD_FORCE_INLINE bool      btFuzzyZero(btScalar x) { return btFabs(x) < SIMD_EPSILON; }
+ 
+ SIMD_FORCE_INLINE bool	btEqual(btScalar a, btScalar eps) {
+@@ -169,7 +170,7 @@
+ */
+ 
+ SIMD_FORCE_INLINE int       btIsNegative(btScalar x) {
+-    return x < btScalar(0.0) ? 1 : 0;
++    return x < (btScalar)(0.0) ? 1 : 0;
+ }
+ 
+ SIMD_FORCE_INLINE btScalar btRadians(btScalar x) { return x * SIMD_RADS_PER_DEG; }
+diff -bur blender-2.47.orig/intern/memutil/MEM_Allocator.h blender-2.47/intern/memutil/MEM_Allocator.h
+--- blender-2.47.orig/intern/memutil/MEM_Allocator.h	Thu Apr 17 00:40:48 2008
++++ blender-2.47/intern/memutil/MEM_Allocator.h	Mon Sep  1 17:44:07 2008
+@@ -82,7 +82,9 @@
+ 
+ #ifndef MS_VISUALC_6_0_WORKAROUND
+ 	// __p is not permitted to be a null pointer.
+-	void deallocate(pointer __p, size_type){ 
++	// Sun Studio CC want Void* like MS_VISUAL !!!
++	// void deallocate(pointer __p, size_type){ 
++	 void deallocate(void* __p, size_type){ 
+ 		MEM_freeN(__p);
+ 	}
+ #else
+diff -bur blender-2.47.orig/source/Makefile blender-2.47/source/Makefile
+--- blender-2.47.orig/source/Makefile	Fri Aug  1 21:49:11 2008
++++ blender-2.47/source/Makefile	Mon Sep  1 23:04:23 2008
+@@ -103,7 +103,7 @@
+ COMLIB += $(NAN_OPENNL)/lib/$(DEBUG_DIR)libopennl.a
+ COMLIB += $(NAN_SUPERLU)/lib/$(DEBUG_DIR)libsuperlu.a	
+ COMLIB += $(OCGDIR)/blender/avi/$(DEBUG_DIR)libavi.a
+-COMLIB += $(NAN_JPEG)/lib/libjpeg.a
++COMLIB += $(NAN_JPEG)/lib/libjpeg.so
+ 
+ ifneq ($(NAN_NO_KETSJI),true)
+     COMLIB += $(OCGDIR)/gameengine/bloutines/$(DEBUG_DIR)libbloutines.a
+@@ -154,7 +154,7 @@
+ COMLIB += $(NAN_GUARDEDALLOC)/lib/libguardedalloc.a
+ COMLIB += $(NAN_MEMUTIL)/lib/libmemutil.a
+ COMLIB += $(NAN_BMFONT)/lib/$(DEBUG_DIR)libbmfont.a
+-COMLIB += $(NAN_PNG)/lib/libpng.a
++COMLIB += $(NAN_PNG)/lib/libpng.so
+ COMLIB += $(OCGDIR)/blender/yafray/$(DEBUG_DIR)libyafrayexport.a
+ COMLIB += $(OCGDIR)/blender/blenlib/$(DEBUG_DIR)libblenlib.a
+ COMLIB += $(NAN_GLEW)/lib/libglew.a
+@@ -325,8 +325,8 @@
+ endif
+ 
+ ifeq ($(OS),solaris)
+-    PULIB += $(NAN_ZLIB)/lib/libz.a
+-    SPLIB += $(NAN_ZLIB)/lib/libz.a
++    PULIB += $(NAN_ZLIB)/lib/libz.so
++    SPLIB += $(NAN_ZLIB)/lib/libz.so
+ endif
+ 
+ # OpenAL libs are already compiled as shared code! Check FMod if we switch to that. (nzc)
+diff -bur blender-2.47.orig/source/nan_compile.mk blender-2.47/source/nan_compile.mk
+--- blender-2.47.orig/source/nan_compile.mk	Thu Apr 17 00:40:48 2008
++++ blender-2.47/source/nan_compile.mk	Mon Sep  1 17:40:22 2008
+@@ -174,22 +174,22 @@
+ 
+ ifeq ($(OS),solaris)
+     # Adding gcc flag to $CC is not good, however if its not there makesdna wont build - Campbell
+-    ifeq (x86_64, $(findstring x86_64, $(CPU)))
+-        CC  = gcc -m64
+-        CCC = g++ -m64
+-    else
+-        CC  = gcc
+-        CCC = g++
+-        #CC  = cc
+-        #CCC = CC
+-    endif
++    #ifeq (x86_64, $(findstring x86_64, $(CPU)))
++    #    CC  = gcc -m64
++    #    CCC = g++ -m64
++    #else
++        #CC  = gcc
++        #CCC = g++
++        CC  = cc
++        CCC = CC
++    #endif
+     
+     JAVAC = javac
+     JAVAH = javah
+-    CFLAGS	+= -pipe -fPIC -funsigned-char -fno-strict-aliasing
+-    CCFLAGS	+= -pipe -fPIC -funsigned-char -fno-strict-aliasing
+-#    CFLAGS	+= "-fast -xdepend -xarch=v8plus -xO3 -xlibmil -KPIC -DPIC -xchar=unsigned"
+-#    CCFLAGS	+= "-fast -xdepend -xarch=v8plus -xO3 -xlibmil -xlibmopt -features=tmplife -norunpath -KPIC -DPIC -xchar=unsigned"
++    #CFLAGS	+= -pipe -fPIC -funsigned-char -fno-strict-aliasing
++    #CCFLAGS	+= -pipe -fPIC -funsigned-char -fno-strict-aliasing
++    CFLAGS	+= -KPIC -DPIC -xchar=unsigned
++    CCFLAGS	+= -KPIC -DPIC -xchar=unsigned -D_RWSTD_NO_STATIC_CAST=1
+ 
+     # Note, you might still want to compile a 32 bit binary if you have a 64bit system. if so remove the following lines
+ #    ifeq ($(findstring 64,$(CPU)), 64)
+@@ -197,8 +197,8 @@
+ #        CCFLAGS	+= -m64
+ #    endif
+ 
+-    REL_CFLAGS	+= -O2
+-    REL_CCFLAGS	+= -O2
++    #REL_CFLAGS	+= -O2
++    #REL_CCFLAGS	+= -O2
+ 
+     NAN_DEPEND = true
+ #    ifeq ($(CPU),sparc)
+diff -bur blender-2.47.orig/source/nan_definitions.mk blender-2.47/source/nan_definitions.mk
+--- blender-2.47.orig/source/nan_definitions.mk	Fri Aug  1 21:49:11 2008
++++ blender-2.47/source/nan_definitions.mk	Mon Sep  1 23:21:28 2008
+@@ -150,10 +150,10 @@
+               # this only exists at the moment for i386-64 CPU Types at the moment
+               export NAN_OPENEXR ?= $(LCGDIR)/openexr
+ 
+-              export NAN_OPENEXR_LIBS ?= $(NAN_OPENEXR)/lib/libIlmImf.a $(NAN_OPENEXR)/lib/libHalf.a $(NAN_OPENEXR)/lib/libIex.a $(NAN_OPENEXR)/lib/libIlmThread.a -lrt
++              export NAN_OPENEXR_LIBS ?= $(NAN_OPENEXR)/lib/libIlmImf.so $(NAN_OPENEXR)/lib/libHalf.so $(NAN_OPENEXR)/lib/libIex.so $(NAN_OPENEXR)/lib/libIlmThread.so -lrt
+           else
+-            export NAN_OPENEXR ?= /usr/local
+-	    export NAN_OPENEXR_LIBS ?= $(NAN_OPENEXR)/lib/libIlmImf.a $(NAN_OPENEXR)/lib/libHalf.a $(NAN_OPENEXR)/lib/libIex.a
++            export NAN_OPENEXR ?= /usr
++	    export NAN_OPENEXR_LIBS ?= $(NAN_OPENEXR)/lib/libIlmImf.so $(NAN_OPENEXR)/lib/libHalf.so $(NAN_OPENEXR)/lib/libIex.so
+           endif
+         endif
+       endif
+@@ -481,7 +481,8 @@
+     export NAN_PYTHON ?= $(LCGDIR)/python
+     export NAN_PYTHON_VERSION ?= 2.5
+     export NAN_PYTHON_BINARY ?= $(NAN_PYTHON)/bin/python$(NAN_PYTHON_VERSION)
+-    export NAN_PYTHON_LIB ?= $(NAN_PYTHON)/lib/python$(NAN_PYTHON_VERSION)/config/libpython$(NAN_PYTHON_VERSION).a
++    #export NAN_PYTHON_LIB ?= $(NAN_PYTHON)/lib/python$(NAN_PYTHON_VERSION)/config/libpython$(NAN_PYTHON_VERSION).so
++    export NAN_PYTHON_LIB ?= $(NAN_PYTHON)/lib/libpython$(NAN_PYTHON_VERSION).so
+     export NAN_OPENAL ?= $(LCGDIR)/openal 
+     export NAN_FMOD ?= $(LCGDIR)/fmod
+     export NAN_JPEG ?= $(LCGDIR)/jpeg
+@@ -497,7 +498,7 @@
+     export NAN_GETTEXT_LIB ?= $(NAN_GETTEXT)/lib/libintl.a $(NAN_GETTEXT)/lib/libiconv.a
+     export NAN_SDL ?= $(LCGDIR)/sdl
+     export NAN_SDLCFLAGS ?= -I$(NAN_SDL)/include/SDL
+-    export NAN_SDLLIBS ?= $(NAN_SDL)/lib/libSDL.a
++    export NAN_SDLLIBS ?= $(NAN_SDL)/lib/libSDL.so
+ 
+     # Uncomment the following line to use Mozilla inplace of netscape
+     # CPPFLAGS +=-DMOZ_NOT_NET
+@@ -517,6 +518,10 @@
+     # enable freetype2 support for text objects
+     #export WITH_FREETYPE2 ?= true
+ 
++    #export NAN_GHOST = $(LCGDIR)/ghost/lib/
++    export WITH_BF_BLENDERGAMEENGINE = false
++    export WITH_BF_BLENDERPLAYER = false
++
+   else
+   ifeq ($(OS),windows)
+ 
+diff -bur blender-2.47.orig/source/nan_warn.mk blender-2.47/source/nan_warn.mk
+--- blender-2.47.orig/source/nan_warn.mk	Thu Apr 17 00:40:48 2008
++++ blender-2.47/source/nan_warn.mk	Mon Sep  1 17:32:00 2008
+@@ -32,11 +32,11 @@
+ #
+ 
+ # Force the correct redefinition
+-LEVEL_1_C_WARNINGS = -FIX_NAN_WARN
+-LEVEL_1_CPP_WARNINGS = -FIX_NAN_WARN
+-LEVEL_2_C_WARNINGS = -FIX_NAN_WARN
+-LEVEL_2_CPP_WARNINGS = -FIX_NAN_WARN
+-FIX_STUBS_WARNINGS = -FIX_NAN_WARN
++# LEVEL_1_C_WARNINGS = -FIX_NAN_WARN
++# LEVEL_1_CPP_WARNINGS = -FIX_NAN_WARN
++# LEVEL_2_C_WARNINGS = -FIX_NAN_WARN
++# LEVEL_2_CPP_WARNINGS = -FIX_NAN_WARN
++# FIX_STUBS_WARNINGS = -FIX_NAN_WARN
+ 
+ ########################################################################
+ # Level 1: basic C warnings.
+diff -bur blender-2.47.orig/source/blender/imbuf/intern/dds/BlockDXT.cpp blender-2.47/source/blender/imbuf/intern/dds/BlockDXT.cpp
+--- blender-2.47.orig/source/blender/imbuf/intern/dds/BlockDXT.cpp	Thu Apr 17 00:40:48 2008
++++ blender-2.47/source/blender/imbuf/intern/dds/BlockDXT.cpp	Mon Sep  1 19:37:53 2008
+@@ -64,10 +64,10 @@
+ uint BlockDXT1::evaluatePalette(Color32 color_array[4]) const
+ {
+ 	// Does bit expansion before interpolation.
+-	color_array[0].b = (col0.b << 3) | (col0.b >> 2);
+-	color_array[0].g = (col0.g << 2) | (col0.g >> 4);
+-	color_array[0].r = (col0.r << 3) | (col0.r >> 2);
+-	color_array[0].a = 0xFF;
++	color_array[0].bgrau.bgra.b = (col0.bg16.rgb.b << 3) | (col0.bg16.rgb.b >> 2);
++	color_array[0].bgrau.bgra.g = (col0.bg16.rgb.g << 2) | (col0.bg16.rgb.g >> 4);
++	color_array[0].bgrau.bgra.r = (col0.bg16.rgb.r << 3) | (col0.bg16.rgb.r >> 2);
++	color_array[0].bgrau.bgra.a = 0xFF;
+ 	
+ 	// @@ Same as above, but faster?
+ //	Color32 c;
+@@ -76,10 +76,10 @@
+ //	c.u |= (c.u >> 6) & 0x000300;
+ //	color_array[0].u = c.u;
+ 	
+-	color_array[1].r = (col1.r << 3) | (col1.r >> 2);
+-	color_array[1].g = (col1.g << 2) | (col1.g >> 4);
+-	color_array[1].b = (col1.b << 3) | (col1.b >> 2);
+-	color_array[1].a = 0xFF;
++	color_array[1].bgrau.bgra.r = (col1.bg16.rgb.r << 3) | (col1.bg16.rgb.r >> 2);
++	color_array[1].bgrau.bgra.g = (col1.bg16.rgb.g << 2) | (col1.bg16.rgb.g >> 4);
++	color_array[1].bgrau.bgra.b = (col1.bg16.rgb.b << 3) | (col1.bg16.rgb.b >> 2);
++	color_array[1].bgrau.bgra.a = 0xFF;
+ 	
+ 	// @@ Same as above, but faster?
+ //	c.u = ((col1.u << 3) & 0xf8) | ((col1.u << 5) & 0xfc00) | ((col1.u << 8) & 0xf80000);
+@@ -87,32 +87,32 @@
+ //	c.u |= (c.u >> 6) & 0x000300;
+ //	color_array[1].u = c.u;
+ 	
+-	if( col0.u > col1.u ) {
++	if( col0.bg16.u > col1.bg16.u ) {
+ 		// Four-color block: derive the other two colors.
+-		color_array[2].r = (2 * color_array[0].r + color_array[1].r) / 3;
+-		color_array[2].g = (2 * color_array[0].g + color_array[1].g) / 3;
+-		color_array[2].b = (2 * color_array[0].b + color_array[1].b) / 3;
+-		color_array[2].a = 0xFF;
++		color_array[2].bgrau.bgra.r = (2 * color_array[0].bgrau.bgra.r + color_array[1].bgrau.bgra.r) / 3;
++		color_array[2].bgrau.bgra.g = (2 * color_array[0].bgrau.bgra.g + color_array[1].bgrau.bgra.g) / 3;
++		color_array[2].bgrau.bgra.b = (2 * color_array[0].bgrau.bgra.b + color_array[1].bgrau.bgra.b) / 3;
++		color_array[2].bgrau.bgra.a = 0xFF;
+ 		
+-		color_array[3].r = (2 * color_array[1].r + color_array[0].r) / 3;
+-		color_array[3].g = (2 * color_array[1].g + color_array[0].g) / 3;
+-		color_array[3].b = (2 * color_array[1].b + color_array[0].b) / 3;
+-		color_array[3].a = 0xFF;
++		color_array[3].bgrau.bgra.r = (2 * color_array[1].bgrau.bgra.r + color_array[0].bgrau.bgra.r) / 3;
++		color_array[3].bgrau.bgra.g = (2 * color_array[1].bgrau.bgra.g + color_array[0].bgrau.bgra.g) / 3;
++		color_array[3].bgrau.bgra.b = (2 * color_array[1].bgrau.bgra.b + color_array[0].bgrau.bgra.b) / 3;
++		color_array[3].bgrau.bgra.a = 0xFF;
+ 		
+ 		return 4;
+ 	}
+ 	else {
+ 		// Three-color block: derive the other color.
+-		color_array[2].r = (color_array[0].r + color_array[1].r) / 2;
+-		color_array[2].g = (color_array[0].g + color_array[1].g) / 2;
+-		color_array[2].b = (color_array[0].b + color_array[1].b) / 2;
+-		color_array[2].a = 0xFF;
++		color_array[2].bgrau.bgra.r = (color_array[0].bgrau.bgra.r + color_array[1].bgrau.bgra.r) / 2;
++		color_array[2].bgrau.bgra.g = (color_array[0].bgrau.bgra.g + color_array[1].bgrau.bgra.g) / 2;
++		color_array[2].bgrau.bgra.b = (color_array[0].bgrau.bgra.b + color_array[1].bgrau.bgra.b) / 2;
++		color_array[2].bgrau.bgra.a = 0xFF;
+ 		
+ 		// Set all components to 0 to match DXT specs.
+-		color_array[3].r = 0x00; // color_array[2].r;
+-		color_array[3].g = 0x00; // color_array[2].g;
+-		color_array[3].b = 0x00; // color_array[2].b;
+-		color_array[3].a = 0x00;
++		color_array[3].bgrau.bgra.r = 0x00; // color_array[2].r;
++		color_array[3].bgrau.bgra.g = 0x00; // color_array[2].g;
++		color_array[3].bgrau.bgra.b = 0x00; // color_array[2].b;
++		color_array[3].bgrau.bgra.a = 0x00;
+ 		
+ 		return 3;
+ 	}
+@@ -121,52 +121,52 @@
+ // Evaluate palette assuming 3 color block.
+ void BlockDXT1::evaluatePalette3(Color32 color_array[4]) const
+ {
+-	color_array[0].b = (col0.b << 3) | (col0.b >> 2);
+-	color_array[0].g = (col0.g << 2) | (col0.g >> 4);
+-	color_array[0].r = (col0.r << 3) | (col0.r >> 2);
+-	color_array[0].a = 0xFF;
++	color_array[0].bgrau.bgra.b = (col0.bg16.rgb.b << 3) | (col0.bg16.rgb.b >> 2);
++	color_array[0].bgrau.bgra.g = (col0.bg16.rgb.g << 2) | (col0.bg16.rgb.g >> 4);
++	color_array[0].bgrau.bgra.r = (col0.bg16.rgb.r << 3) | (col0.bg16.rgb.r >> 2);
++	color_array[0].bgrau.bgra.a = 0xFF;
+ 	
+-	color_array[1].r = (col1.r << 3) | (col1.r >> 2);
+-	color_array[1].g = (col1.g << 2) | (col1.g >> 4);
+-	color_array[1].b = (col1.b << 3) | (col1.b >> 2);
+-	color_array[1].a = 0xFF;
++	color_array[1].bgrau.bgra.r = (col1.bg16.rgb.r << 3) | (col1.bg16.rgb.r >> 2);
++	color_array[1].bgrau.bgra.g = (col1.bg16.rgb.g << 2) | (col1.bg16.rgb.g >> 4);
++	color_array[1].bgrau.bgra.b = (col1.bg16.rgb.b << 3) | (col1.bg16.rgb.b >> 2);
++	color_array[1].bgrau.bgra.a = 0xFF;
+ 	
+ 	// Three-color block: derive the other color.
+-	color_array[2].r = (color_array[0].r + color_array[1].r) / 2;
+-	color_array[2].g = (color_array[0].g + color_array[1].g) / 2;
+-	color_array[2].b = (color_array[0].b + color_array[1].b) / 2;
+-	color_array[2].a = 0xFF;
++	color_array[2].bgrau.bgra.r = (color_array[0].bgrau.bgra.r + color_array[1].bgrau.bgra.r) / 2;
++	color_array[2].bgrau.bgra.g = (color_array[0].bgrau.bgra.g + color_array[1].bgrau.bgra.g) / 2;
++	color_array[2].bgrau.bgra.b = (color_array[0].bgrau.bgra.b + color_array[1].bgrau.bgra.b) / 2;
++	color_array[2].bgrau.bgra.a = 0xFF;
+ 		
+ 	// Set all components to 0 to match DXT specs.
+-	color_array[3].r = 0x00; // color_array[2].r;
+-	color_array[3].g = 0x00; // color_array[2].g;
+-	color_array[3].b = 0x00; // color_array[2].b;
+-	color_array[3].a = 0x00;
++	color_array[3].bgrau.bgra.r = 0x00; // color_array[2].r;
++	color_array[3].bgrau.bgra.g = 0x00; // color_array[2].g;
++	color_array[3].bgrau.bgra.b = 0x00; // color_array[2].b;
++	color_array[3].bgrau.bgra.a = 0x00;
+ }
+ 
+ // Evaluate palette assuming 4 color block.
+ void BlockDXT1::evaluatePalette4(Color32 color_array[4]) const
+ {
+-	color_array[0].b = (col0.b << 3) | (col0.b >> 2);
+-	color_array[0].g = (col0.g << 2) | (col0.g >> 4);
+-	color_array[0].r = (col0.r << 3) | (col0.r >> 2);
+-	color_array[0].a = 0xFF;
++	color_array[0].bgrau.bgra.b = (col0.bg16.rgb.b << 3) | (col0.bg16.rgb.b >> 2);
++	color_array[0].bgrau.bgra.g = (col0.bg16.rgb.g << 2) | (col0.bg16.rgb.g >> 4);
++	color_array[0].bgrau.bgra.r = (col0.bg16.rgb.r << 3) | (col0.bg16.rgb.r >> 2);
++	color_array[0].bgrau.bgra.a = 0xFF;
+ 	
+-	color_array[1].r = (col1.r << 3) | (col1.r >> 2);
+-	color_array[1].g = (col1.g << 2) | (col1.g >> 4);
+-	color_array[1].b = (col1.b << 3) | (col1.b >> 2);
+-	color_array[1].a = 0xFF;
++	color_array[1].bgrau.bgra.r = (col1.bg16.rgb.r << 3) | (col1.bg16.rgb.r >> 2);
++	color_array[1].bgrau.bgra.g = (col1.bg16.rgb.g << 2) | (col1.bg16.rgb.g >> 4);
++	color_array[1].bgrau.bgra.b = (col1.bg16.rgb.b << 3) | (col1.bg16.rgb.b >> 2);
++	color_array[1].bgrau.bgra.a = 0xFF;
+ 	
+ 	// Four-color block: derive the other two colors.
+-	color_array[2].r = (2 * color_array[0].r + color_array[1].r) / 3;
+-	color_array[2].g = (2 * color_array[0].g + color_array[1].g) / 3;
+-	color_array[2].b = (2 * color_array[0].b + color_array[1].b) / 3;
+-	color_array[2].a = 0xFF;
++	color_array[2].bgrau.bgra.r = (2 * color_array[0].bgrau.bgra.r + color_array[1].bgrau.bgra.r) / 3;
++	color_array[2].bgrau.bgra.g = (2 * color_array[0].bgrau.bgra.g + color_array[1].bgrau.bgra.g) / 3;
++	color_array[2].bgrau.bgra.b = (2 * color_array[0].bgrau.bgra.b + color_array[1].bgrau.bgra.b) / 3;
++	color_array[2].bgrau.bgra.a = 0xFF;
+ 		
+-	color_array[3].r = (2 * color_array[1].r + color_array[0].r) / 3;
+-	color_array[3].g = (2 * color_array[1].g + color_array[0].g) / 3;
+-	color_array[3].b = (2 * color_array[1].b + color_array[0].b) / 3;
+-	color_array[3].a = 0xFF;
++	color_array[3].bgrau.bgra.r = (2 * color_array[1].bgrau.bgra.r + color_array[0].bgrau.bgra.r) / 3;
++	color_array[3].bgrau.bgra.g = (2 * color_array[1].bgrau.bgra.g + color_array[0].bgrau.bgra.g) / 3;
++	color_array[3].bgrau.bgra.b = (2 * color_array[1].bgrau.bgra.b + color_array[0].bgrau.bgra.b) / 3;
++	color_array[3].bgrau.bgra.a = 0xFF;
+ }
+ 
+ void BlockDXT1::decodeBlock(ColorBlock * block) const
+@@ -222,35 +222,35 @@
+ 
+ void AlphaBlockDXT3::decodeBlock(ColorBlock * block) const
+ {
+-	block->color(0x0).a = (alpha0 << 4) | alpha0;
+-	block->color(0x1).a = (alpha1 << 4) | alpha1;
+-	block->color(0x2).a = (alpha2 << 4) | alpha2;
+-	block->color(0x3).a = (alpha3 << 4) | alpha3;
+-	block->color(0x4).a = (alpha4 << 4) | alpha4;
+-	block->color(0x5).a = (alpha5 << 4) | alpha5;
+-	block->color(0x6).a = (alpha6 << 4) | alpha6;
+-	block->color(0x7).a = (alpha7 << 4) | alpha7;
+-	block->color(0x8).a = (alpha8 << 4) | alpha8;
+-	block->color(0x9).a = (alpha9 << 4) | alpha9;
+-	block->color(0xA).a = (alphaA << 4) | alphaA;
+-	block->color(0xB).a = (alphaB << 4) | alphaB;
+-	block->color(0xC).a = (alphaC << 4) | alphaC;
+-	block->color(0xD).a = (alphaD << 4) | alphaD;
+-	block->color(0xE).a = (alphaE << 4) | alphaE;
+-	block->color(0xF).a = (alphaF << 4) | alphaF;
++	block->color(0x0).bgrau.bgra.a = (alphrow.alph.alpha0 << 4) | alphrow.alph.alpha0;
++	block->color(0x1).bgrau.bgra.a = (alphrow.alph.alpha1 << 4) | alphrow.alph.alpha1;
++	block->color(0x2).bgrau.bgra.a = (alphrow.alph.alpha2 << 4) | alphrow.alph.alpha2;
++	block->color(0x3).bgrau.bgra.a = (alphrow.alph.alpha3 << 4) | alphrow.alph.alpha3;
++	block->color(0x4).bgrau.bgra.a = (alphrow.alph.alpha4 << 4) | alphrow.alph.alpha4;
++	block->color(0x5).bgrau.bgra.a = (alphrow.alph.alpha5 << 4) | alphrow.alph.alpha5;
++	block->color(0x6).bgrau.bgra.a = (alphrow.alph.alpha6 << 4) | alphrow.alph.alpha6;
++	block->color(0x7).bgrau.bgra.a = (alphrow.alph.alpha7 << 4) | alphrow.alph.alpha7;
++	block->color(0x8).bgrau.bgra.a = (alphrow.alph.alpha8 << 4) | alphrow.alph.alpha8;
++	block->color(0x9).bgrau.bgra.a = (alphrow.alph.alpha9 << 4) | alphrow.alph.alpha9;
++	block->color(0xA).bgrau.bgra.a = (alphrow.alph.alphaA << 4) | alphrow.alph.alphaA;
++	block->color(0xB).bgrau.bgra.a = (alphrow.alph.alphaB << 4) | alphrow.alph.alphaB;
++	block->color(0xC).bgrau.bgra.a = (alphrow.alph.alphaC << 4) | alphrow.alph.alphaC;
++	block->color(0xD).bgrau.bgra.a = (alphrow.alph.alphaD << 4) | alphrow.alph.alphaD;
++	block->color(0xE).bgrau.bgra.a = (alphrow.alph.alphaE << 4) | alphrow.alph.alphaE;
++	block->color(0xF).bgrau.bgra.a = (alphrow.alph.alphaF << 4) | alphrow.alph.alphaF;
+ }
+ 
+ /// Flip DXT3 alpha block vertically.
+ void AlphaBlockDXT3::flip4()
+ {
+-	swap(row[0], row[3]);
+-	swap(row[1], row[2]);
++	swap(alphrow.row[0], alphrow.row[3]);
++	swap(alphrow.row[1], alphrow.row[2]);
+ }
+ 
+ /// Flip half DXT3 alpha block vertically.
+ void AlphaBlockDXT3::flip2()
+ {
+-	swap(row[0], row[1]);
++	swap(alphrow.row[0], alphrow.row[1]);
+ }
+ 
+ /// Flip DXT3 block vertically.
+@@ -352,7 +352,7 @@
+ 	indices(index_array);
+ 	
+ 	for(uint i = 0; i < 16; i++) {
+-		block->color(i).a = alpha_array[index_array[i]];
++		block->color(i).bgrau.bgra.a = alpha_array[index_array[i]];
+ 	}
+ }
+ 
+@@ -418,8 +418,8 @@
+ 	
+ 	for(uint i = 0; i < 16; i++) {
+ 		Color32 & c = block->color(i);
+-		c.b = c.g = c.r = alpha_array[index_array[i]];
+-		c.a = 255;
++		c.bgrau.bgra.b = c.bgrau.bgra.g = c.bgrau.bgra.r = alpha_array[index_array[i]];
++		c.bgrau.bgra.a = 255;
+ 	}
+ }
+ 
+@@ -447,7 +447,7 @@
+ 	
+ 	for(uint i = 0; i < 16; i++) {
+ 		Color32 & c = block->color(i);
+-		c.r = alpha_array[index_array[i]];
++		c.bgrau.bgra.r = alpha_array[index_array[i]];
+ 	}
+ 
+ 	y.evaluatePalette(alpha_array);
+@@ -455,9 +455,9 @@
+ 	
+ 	for(uint i = 0; i < 16; i++) {
+ 		Color32 & c = block->color(i);
+-		c.g = alpha_array[index_array[i]];
+-		c.b = 0;
+-		c.a = 255;
++		c.bgrau.bgra.g = alpha_array[index_array[i]];
++		c.bgrau.bgra.b = 0;
++		c.bgrau.bgra.a = 255;
+ 	}
+ }
+ 
+@@ -479,25 +479,25 @@
+ void BlockCTX1::evaluatePalette(Color32 color_array[4]) const
+ {
+ 	// Does bit expansion before interpolation.
+-	color_array[0].b = 0x00;
+-	color_array[0].g = col0[1];
+-	color_array[0].r = col0[0];
+-	color_array[0].a = 0xFF;
++	color_array[0].bgrau.bgra.b = 0x00;
++	color_array[0].bgrau.bgra.g = col0[1];
++	color_array[0].bgrau.bgra.r = col0[0];
++	color_array[0].bgrau.bgra.a = 0xFF;
+ 	
+-	color_array[1].r = 0x00;
+-	color_array[1].g = col0[1];
+-	color_array[1].b = col1[0];
+-	color_array[1].a = 0xFF;
++	color_array[1].bgrau.bgra.r = 0x00;
++	color_array[1].bgrau.bgra.g = col0[1];
++	color_array[1].bgrau.bgra.b = col1[0];
++	color_array[1].bgrau.bgra.a = 0xFF;
+ 	
+-	color_array[2].r = 0x00;
+-	color_array[2].g = (2 * color_array[0].g + color_array[1].g) / 3;
+-	color_array[2].b = (2 * color_array[0].b + color_array[1].b) / 3;
+-	color_array[2].a = 0xFF;
++	color_array[2].bgrau.bgra.r = 0x00;
++	color_array[2].bgrau.bgra.g = (2 * color_array[0].bgrau.bgra.g + color_array[1].bgrau.bgra.g) / 3;
++	color_array[2].bgrau.bgra.b = (2 * color_array[0].bgrau.bgra.b + color_array[1].bgrau.bgra.b) / 3;
++	color_array[2].bgrau.bgra.a = 0xFF;
+ 		
+-	color_array[3].r = 0x00;
+-	color_array[3].g = (2 * color_array[1].g + color_array[0].g) / 3;
+-	color_array[3].b = (2 * color_array[1].b + color_array[0].b) / 3;
+-	color_array[3].a = 0xFF;
++	color_array[3].bgrau.bgra.r = 0x00;
++	color_array[3].bgrau.bgra.g = (2 * color_array[1].bgrau.bgra.g + color_array[0].bgrau.bgra.g) / 3;
++	color_array[3].bgrau.bgra.b = (2 * color_array[1].bgrau.bgra.b + color_array[0].bgrau.bgra.b) / 3;
++	color_array[3].bgrau.bgra.a = 0xFF;
+ }
+ 
+ void BlockCTX1::decodeBlock(ColorBlock * block) const
+@@ -539,14 +539,14 @@
+ 
+ void mem_read(Stream & mem, BlockDXT1 & block)
+ {
+-	mem_read(mem, block.col0.u);
+-	mem_read(mem, block.col1.u);
++	mem_read(mem, block.col0.bg16.u);
++	mem_read(mem, block.col1.bg16.u);
+ 	mem_read(mem, block.indices);
+ }
+ 
+ void mem_read(Stream & mem, AlphaBlockDXT3 & block)
+ {
+-	for (unsigned int i = 0; i < 4; i++) mem_read(mem, block.row[i]);
++	for (unsigned int i = 0; i < 4; i++) mem_read(mem, block.alphrow.row[i]);
+ }
+ 
+ void mem_read(Stream & mem, BlockDXT3 & block)
+diff -bur blender-2.47.orig/source/blender/imbuf/intern/dds/BlockDXT.h blender-2.47/source/blender/imbuf/intern/dds/BlockDXT.h
+--- blender-2.47.orig/source/blender/imbuf/intern/dds/BlockDXT.h	Thu Apr 17 00:40:48 2008
++++ blender-2.47/source/blender/imbuf/intern/dds/BlockDXT.h	Mon Sep  1 19:06:05 2008
+@@ -88,7 +88,7 @@
+ /// Return true if the block uses four color mode, false otherwise.
+ inline bool BlockDXT1::isFourColorMode() const
+ {
+-	return col0.u > col1.u;
++	return col0.bg16.u > col1.bg16.u;
+ }
+ 
+ 
+@@ -113,9 +113,9 @@
+ 			uint alphaD : 4;
+ 			uint alphaE : 4;
+ 			uint alphaF : 4;
+-		};
++		} alph;
+ 		uint16 row[4];
+-	};
++	}alphrow;
+ 	
+ 	void decodeBlock(ColorBlock * block) const;
+ 	
+diff -bur blender-2.47.orig/source/blender/imbuf/intern/dds/Color.h blender-2.47/source/blender/imbuf/intern/dds/Color.h
+--- blender-2.47.orig/source/blender/imbuf/intern/dds/Color.h	Thu Apr 17 00:40:48 2008
++++ blender-2.47/source/blender/imbuf/intern/dds/Color.h	Mon Sep  1 18:52:30 2008
+@@ -38,41 +38,41 @@
+ class Color32
+ {
+ public:
++	union {
++		struct {
++			unsigned char b, g, r, a;
++		} bgra;
++		unsigned int u;
++	} bgrau;
+ 	Color32() { }
+-	Color32(const Color32 & c) : u(c.u) { }
++	Color32(const Color32 & c)  { bgrau.u = c.bgrau.u; }
+ 	Color32(unsigned char R, unsigned char G, unsigned char B) { setRGBA(R, G, B, 0xFF); }
+ 	Color32(unsigned char R, unsigned char G, unsigned char B, unsigned char A) { setRGBA( R, G, B, A); }
+ 	//Color32(unsigned char c[4]) { setRGBA(c[0], c[1], c[2], c[3]); }
+ 	//Color32(float R, float G, float B) { setRGBA(uint(R*255), uint(G*255), uint(B*255), 0xFF); }
+ 	//Color32(float R, float G, float B, float A) { setRGBA(uint(R*255), uint(G*255), uint(B*255), uint(A*255)); }
+-	Color32(unsigned int U) : u(U) { }
++	Color32(unsigned int U)  { bgrau.u = U ; }
+ 
+ 	void setRGBA(unsigned char R, unsigned char G, unsigned char B, unsigned char A)
+ 	{
+-		r = R;
+-		g = G;
+-		b = B;
+-		a = A;
++		bgrau.bgra.r = R;
++		bgrau.bgra.g = G;
++		bgrau.bgra.b = B;
++		bgrau.bgra.a = A;
+ 	}
+ 
+ 	void setBGRA(unsigned char B, unsigned char G, unsigned char R, unsigned char A = 0xFF)
+ 	{
+-		r = R;
+-		g = G;
+-		b = B;
+-		a = A;
++		 bgrau.bgra.r = R;
++		 bgrau.bgra.g = G;
++		 bgrau.bgra.b = B;
++		 bgrau.bgra.a = A;
+ 	}
+ 
+ 	operator unsigned int () const {
+-		return u;
++		return bgrau.u;
+ 	}
+ 	
+-	union {
+-		struct {
+-			unsigned char b, g, r, a;
+-		};
+-		unsigned int u;
+-	};
+ };
+ 
+ /// 16 bit 565 BGR color.
+@@ -80,8 +80,8 @@
+ {
+ public:
+ 	Color16() { }
+-	Color16(const Color16 & c) : u(c.u) { }
+-	explicit Color16(unsigned short U) : u(U) { }
++	Color16(const Color16 & c) {bg16.u = c.bg16.u; }
++	explicit Color16(unsigned short U)  { bg16.u = U; }
+ 	
+ 	union {
+ 		struct {
+@@ -88,9 +88,9 @@
+ 			unsigned short b : 5;
+ 			unsigned short g : 6;
+ 			unsigned short r : 5;
+-		};
++		} rgb;
+ 		unsigned short u;
+-	};
++	} bg16;
+ };
+ 
+ #endif // _DDS_COLOR_H
+diff -bur blender-2.47.orig/source/blender/imbuf/intern/dds/ColorBlock.cpp blender-2.47/source/blender/imbuf/intern/dds/ColorBlock.cpp
+--- blender-2.47.orig/source/blender/imbuf/intern/dds/ColorBlock.cpp	Thu Apr 17 00:40:48 2008
++++ blender-2.47/source/blender/imbuf/intern/dds/ColorBlock.cpp	Mon Sep  1 19:51:32 2008
+@@ -38,13 +38,13 @@
+ 	// Get approximate luminance.
+ 	inline static uint colorLuminance(Color32 c)
+ 	{
+-		return c.r + c.g + c.b;
++		return c.bgrau.bgra.r + c.bgrau.bgra.g + c.bgrau.bgra.b;
+ 	}
+ 	
+ 	// Get the euclidean distance between the given colors.
+ 	inline static uint colorDistance(Color32 c0, Color32 c1)
+ 	{
+-		return (c0.r - c1.r) * (c0.r - c1.r) + (c0.g - c1.g) * (c0.g - c1.g) + (c0.b - c1.b) * (c0.b - c1.b);
++		return (c0.bgrau.bgra.r - c1.bgrau.bgra.r) * (c0.bgrau.bgra.r - c1.bgrau.bgra.r) + (c0.bgrau.bgra.g - c1.bgrau.bgra.g) * (c0.bgrau.bgra.g - c1.bgrau.bgra.g) + (c0.bgrau.bgra.b - c1.bgrau.bgra.b) * (c0.bgrau.bgra.b - c1.bgrau.bgra.b);
+ 	}
+ 	
+ 
+@@ -100,7 +100,7 @@
+ 	for(int i = 0; i < 16; i++)
+ 	{
+ 		Color32 c = m_color[i];
+-		m_color[i] = Color32(0xFF, c.g, 0, c.r);
++		m_color[i] = Color32(0xFF, c.bgrau.bgra.g, 0, c.bgrau.bgra.r);
+ 	}
+ }
+ 
+@@ -108,7 +108,7 @@
+ {
+ 	for(int i = 0; i < 16; i++)
+ 	{
+-		uint8 x = m_color[i].r;
++		uint8 x = m_color[i].bgrau.bgra.r;
+ 		m_color[i] = Color32(x, x, x, x);
+ 	}
+ }
+@@ -117,7 +117,7 @@
+ {
+ 	for(int i = 0; i < 16; i++)
+ 	{
+-		uint8 y = m_color[i].g;
++		uint8 y = m_color[i].bgrau.bgra.g;
+ 		m_color[i] = Color32(y, y, y, y);
+ 	}
+ }
+@@ -166,10 +166,10 @@
+ 	r = g = b = a = 0;
+ 
+ 	for(uint i = 0; i < 16; i++) {
+-		r += m_color[i].r;
+-		g += m_color[i].g;
+-		b += m_color[i].b;
+-		a += m_color[i].a;
++		r += m_color[i].bgrau.bgra.r;
++		g += m_color[i].bgrau.bgra.g;
++		b += m_color[i].bgrau.bgra.b;
++		a += m_color[i].bgrau.bgra.a;
+ 	}
+ 	
+ 	return Color32(uint8(r / 16), uint8(g / 16), uint8(b / 16), uint8(a / 16));
+@@ -180,7 +180,7 @@
+ {
+ 	for (uint i = 0; i < 16; i++)
+ 	{
+-		if (m_color[i].a != 255) return true;
++		if (m_color[i].bgrau.bgra.a != 255) return true;
+ 	}
+ 	return false;
+ }
+@@ -241,27 +241,27 @@
+ 
+ 	for(uint i = 0; i < 16; i++)
+ 	{
+-		if (m_color[i].r < minColor.r) { minColor.r = m_color[i].r; }
+-		if (m_color[i].g < minColor.g) { minColor.g = m_color[i].g; }
+-		if (m_color[i].b < minColor.b) { minColor.b = m_color[i].b; }
+-		if (m_color[i].r > maxColor.r) { maxColor.r = m_color[i].r; }
+-		if (m_color[i].g > maxColor.g) { maxColor.g = m_color[i].g; }
+-		if (m_color[i].b > maxColor.b) { maxColor.b = m_color[i].b; }
++		if (m_color[i].bgrau.bgra.r < minColor.bgrau.bgra.r) { minColor.bgrau.bgra.r = m_color[i].bgrau.bgra.r; }
++		if (m_color[i].bgrau.bgra.g < minColor.bgrau.bgra.g) { minColor.bgrau.bgra.g = m_color[i].bgrau.bgra.g; }
++		if (m_color[i].bgrau.bgra.b < minColor.bgrau.bgra.b) { minColor.bgrau.bgra.b = m_color[i].bgrau.bgra.b; }
++		if (m_color[i].bgrau.bgra.r > maxColor.bgrau.bgra.r) { maxColor.bgrau.bgra.r = m_color[i].bgrau.bgra.r; }
++		if (m_color[i].bgrau.bgra.g > maxColor.bgrau.bgra.g) { maxColor.bgrau.bgra.g = m_color[i].bgrau.bgra.g; }
++		if (m_color[i].bgrau.bgra.b > maxColor.bgrau.bgra.b) { maxColor.bgrau.bgra.b = m_color[i].bgrau.bgra.b; }
+ 	}
+ 
+ 	// Offset range by 1/16 of the extents
+ 	Color32 inset;
+-	inset.r = (maxColor.r - minColor.r) >> 4;
+-	inset.g = (maxColor.g - minColor.g) >> 4;
+-	inset.b = (maxColor.b - minColor.b) >> 4;
++	inset.bgrau.bgra.r = (maxColor.bgrau.bgra.r - minColor.bgrau.bgra.r) >> 4;
++	inset.bgrau.bgra.g = (maxColor.bgrau.bgra.g - minColor.bgrau.bgra.g) >> 4;
++	inset.bgrau.bgra.b = (maxColor.bgrau.bgra.b - minColor.bgrau.bgra.b) >> 4;
+ 
+-	minColor.r = (minColor.r + inset.r <= 255) ? minColor.r + inset.r : 255;
+-	minColor.g = (minColor.g + inset.g <= 255) ? minColor.g + inset.g : 255;
+-	minColor.b = (minColor.b + inset.b <= 255) ? minColor.b + inset.b : 255;
++	minColor.bgrau.bgra.r = (minColor.bgrau.bgra.r + inset.bgrau.bgra.r <= 255) ? minColor.bgrau.bgra.r + inset.bgrau.bgra.r : 255;
++	minColor.bgrau.bgra.g = (minColor.bgrau.bgra.g + inset.bgrau.bgra.g <= 255) ? minColor.bgrau.bgra.g + inset.bgrau.bgra.g : 255;
++	minColor.bgrau.bgra.b = (minColor.bgrau.bgra.b + inset.bgrau.bgra.b <= 255) ? minColor.bgrau.bgra.b + inset.bgrau.bgra.b : 255;
+ 
+-	maxColor.r = (maxColor.r >= inset.r) ? maxColor.r - inset.r : 0;
+-	maxColor.g = (maxColor.g >= inset.g) ? maxColor.g - inset.g : 0;
+-	maxColor.b = (maxColor.b >= inset.b) ? maxColor.b - inset.b : 0;
++	maxColor.bgrau.bgra.r = (maxColor.bgrau.bgra.r >= inset.bgrau.bgra.r) ? maxColor.bgrau.bgra.r - inset.bgrau.bgra.r : 0;
++	maxColor.bgrau.bgra.g = (maxColor.bgrau.bgra.g >= inset.bgrau.bgra.g) ? maxColor.bgrau.bgra.g - inset.bgrau.bgra.g : 0;
++	maxColor.bgrau.bgra.b = (maxColor.bgrau.bgra.b >= inset.bgrau.bgra.b) ? maxColor.bgrau.bgra.b - inset.bgrau.bgra.b : 0;
+ 
+ 	*start = minColor;
+ 	*end = maxColor;
+@@ -275,32 +275,32 @@
+ 
+ 	for(uint i = 0; i < 16; i++)
+ 	{
+-		if (m_color[i].r < minColor.r) { minColor.r = m_color[i].r; }
+-		if (m_color[i].g < minColor.g) { minColor.g = m_color[i].g; }
+-		if (m_color[i].b < minColor.b) { minColor.b = m_color[i].b; }
+-		if (m_color[i].a < minColor.a) { minColor.a = m_color[i].a; }
+-		if (m_color[i].r > maxColor.r) { maxColor.r = m_color[i].r; }
+-		if (m_color[i].g > maxColor.g) { maxColor.g = m_color[i].g; }
+-		if (m_color[i].b > maxColor.b) { maxColor.b = m_color[i].b; }
+-		if (m_color[i].a > maxColor.a) { maxColor.a = m_color[i].a; }
++		if (m_color[i].bgrau.bgra.r < minColor.bgrau.bgra.r) { minColor.bgrau.bgra.r = m_color[i].bgrau.bgra.r; }
++		if (m_color[i].bgrau.bgra.g < minColor.bgrau.bgra.g) { minColor.bgrau.bgra.g = m_color[i].bgrau.bgra.g; }
++		if (m_color[i].bgrau.bgra.b < minColor.bgrau.bgra.b) { minColor.bgrau.bgra.b = m_color[i].bgrau.bgra.b; }
++		if (m_color[i].bgrau.bgra.a < minColor.bgrau.bgra.a) { minColor.bgrau.bgra.a = m_color[i].bgrau.bgra.a; }
++		if (m_color[i].bgrau.bgra.r > maxColor.bgrau.bgra.r) { maxColor.bgrau.bgra.r = m_color[i].bgrau.bgra.r; }
++		if (m_color[i].bgrau.bgra.g > maxColor.bgrau.bgra.g) { maxColor.bgrau.bgra.g = m_color[i].bgrau.bgra.g; }
++		if (m_color[i].bgrau.bgra.b > maxColor.bgrau.bgra.b) { maxColor.bgrau.bgra.b = m_color[i].bgrau.bgra.b; }
++		if (m_color[i].bgrau.bgra.a > maxColor.bgrau.bgra.a) { maxColor.bgrau.bgra.a = m_color[i].bgrau.bgra.a; }
+ 	}
+ 
+ 	// Offset range by 1/16 of the extents
+ 	Color32 inset;
+-	inset.r = (maxColor.r - minColor.r) >> 4;
+-	inset.g = (maxColor.g - minColor.g) >> 4;
+-	inset.b = (maxColor.b - minColor.b) >> 4;
+-	inset.a = (maxColor.a - minColor.a) >> 4;
++	inset.bgrau.bgra.r = (maxColor.bgrau.bgra.r - minColor.bgrau.bgra.r) >> 4;
++	inset.bgrau.bgra.g = (maxColor.bgrau.bgra.g - minColor.bgrau.bgra.g) >> 4;
++	inset.bgrau.bgra.b = (maxColor.bgrau.bgra.b - minColor.bgrau.bgra.b) >> 4;
++	inset.bgrau.bgra.a = (maxColor.bgrau.bgra.a - minColor.bgrau.bgra.a) >> 4;
+ 
+-	minColor.r = (minColor.r + inset.r <= 255) ? minColor.r + inset.r : 255;
+-	minColor.g = (minColor.g + inset.g <= 255) ? minColor.g + inset.g : 255;
+-	minColor.b = (minColor.b + inset.b <= 255) ? minColor.b + inset.b : 255;
+-	minColor.a = (minColor.a + inset.a <= 255) ? minColor.a + inset.a : 255;
++	minColor.bgrau.bgra.r = (minColor.bgrau.bgra.r + inset.bgrau.bgra.r <= 255) ? minColor.bgrau.bgra.r + inset.bgrau.bgra.r : 255;
++	minColor.bgrau.bgra.g = (minColor.bgrau.bgra.g + inset.bgrau.bgra.g <= 255) ? minColor.bgrau.bgra.g + inset.bgrau.bgra.g : 255;
++	minColor.bgrau.bgra.b = (minColor.bgrau.bgra.b + inset.bgrau.bgra.b <= 255) ? minColor.bgrau.bgra.b + inset.bgrau.bgra.b : 255;
++	minColor.bgrau.bgra.a = (minColor.bgrau.bgra.a + inset.bgrau.bgra.a <= 255) ? minColor.bgrau.bgra.a + inset.bgrau.bgra.a : 255;
+ 
+-	maxColor.r = (maxColor.r >= inset.r) ? maxColor.r - inset.r : 0;
+-	maxColor.g = (maxColor.g >= inset.g) ? maxColor.g - inset.g : 0;
+-	maxColor.b = (maxColor.b >= inset.b) ? maxColor.b - inset.b : 0;
+-	maxColor.a = (maxColor.a >= inset.a) ? maxColor.a - inset.a : 0;
++	maxColor.bgrau.bgra.r = (maxColor.bgrau.bgra.r >= inset.bgrau.bgra.r) ? maxColor.bgrau.bgra.r - inset.bgrau.bgra.r : 0;
++	maxColor.bgrau.bgra.g = (maxColor.bgrau.bgra.g >= inset.bgrau.bgra.g) ? maxColor.bgrau.bgra.g - inset.bgrau.bgra.g : 0;
++	maxColor.bgrau.bgra.b = (maxColor.bgrau.bgra.b >= inset.bgrau.bgra.b) ? maxColor.bgrau.bgra.b - inset.bgrau.bgra.b : 0;
++	maxColor.bgrau.bgra.a = (maxColor.bgrau.bgra.a >= inset.bgrau.bgra.a) ? maxColor.bgrau.bgra.a - inset.bgrau.bgra.a : 0;
+ 	
+ 	*start = minColor;
+ 	*end = maxColor;
+@@ -317,7 +317,7 @@
+ 		for( uint b = a+1; b < 16; b++ ) {
+ 			Color16 cb(m_color[b]);
+ 			
+-			if( cb.u > cmax.u ) {
++			if( cb.bg16.u > cmax.bg16.u ) {
+ 				max = b;
+ 				cmax = cb;
+ 			}
+diff -bur blender-2.47.orig/source/blender/imbuf/intern/dds/DirectDrawSurface.cpp blender-2.47/source/blender/imbuf/intern/dds/DirectDrawSurface.cpp
+--- blender-2.47.orig/source/blender/imbuf/intern/dds/DirectDrawSurface.cpp	Thu Apr 17 00:40:48 2008
++++ blender-2.47/source/blender/imbuf/intern/dds/DirectDrawSurface.cpp	Mon Sep  1 19:55:43 2008
+@@ -723,10 +723,10 @@
+ 			mem_read(stream, (unsigned char *)(&c), byteCount);
+ 
+ 			Color32 pixel(0, 0, 0, 0xFF);
+-			pixel.r = PixelFormat::convert(c >> rshift, rsize, 8);
+-			pixel.g = PixelFormat::convert(c >> gshift, gsize, 8);
+-			pixel.b = PixelFormat::convert(c >> bshift, bsize, 8);
+-			pixel.a = PixelFormat::convert(c >> ashift, asize, 8);
++			pixel.bgrau.bgra.r = PixelFormat::convert(c >> rshift, rsize, 8);
++			pixel.bgrau.bgra.g = PixelFormat::convert(c >> gshift, gsize, 8);
++			pixel.bgrau.bgra.b = PixelFormat::convert(c >> bshift, bsize, 8);
++			pixel.bgrau.bgra.a = PixelFormat::convert(c >> ashift, asize, 8);
+ 
+ 			img->pixel(x, y) = pixel;
+ 		}
+@@ -803,9 +803,9 @@
+ 			for (int i = 0; i < 16; i++)
+ 			{
+ 				Color32 & c = rgba->color(i);
+-				uint tmp = c.r;
+-				c.r = c.a;
+-				c.a = tmp;
++				uint tmp = c.bgrau.bgra.r;
++				c.bgrau.bgra.r = c.bgrau.bgra.a;
++				c.bgrau.bgra.a = tmp;
+ 			}
+ 		}
+ 	}
+@@ -830,7 +830,7 @@
+ 			for (int i = 0; i < 16; i++)
+ 			{
+ 				Color32 & c = rgba->color(i);
+-				c = buildNormal(c.r, c.g);
++				c = buildNormal(c.bgrau.bgra.r, c.bgrau.bgra.g);
+ 			}
+ 		}
+ 		else if (header.pf.fourcc == FOURCC_DXT5)
+@@ -838,7 +838,7 @@
+ 			for (int i = 0; i < 16; i++)
+ 			{
+ 				Color32 & c = rgba->color(i);
+-				c = buildNormal(c.a, c.g);
++				c = buildNormal(c.bgrau.bgra.a, c.bgrau.bgra.g);
+ 			}
+ 		}
+ 	}
+diff -bur blender-2.47.orig/source/blender/imbuf/intern/dds/Image.h blender-2.47/source/blender/imbuf/intern/dds/Image.h
+--- blender-2.47.orig/source/blender/imbuf/intern/dds/Image.h	Thu Apr 17 00:40:48 2008
++++ blender-2.47/source/blender/imbuf/intern/dds/Image.h	Mon Sep  1 19:00:58 2008
+@@ -45,8 +45,8 @@
+ 	enum Format 
+ 	{
+ 		Format_RGB,
+-		Format_ARGB,
+-	};
++		Format_ARGB
++	} ffff;
+ 	
+ 	Image();
+ 	~Image();
+diff -bur blender-2.47.orig/source/blender/imbuf/intern/dds/dds_api.cpp blender-2.47/source/blender/imbuf/intern/dds/dds_api.cpp
+--- blender-2.47.orig/source/blender/imbuf/intern/dds/dds_api.cpp	Thu Apr 17 00:40:48 2008
++++ blender-2.47/source/blender/imbuf/intern/dds/dds_api.cpp	Mon Sep  1 19:52:53 2008
+@@ -113,11 +113,11 @@
+ 
+ 		for (unsigned int i = 0; i < numpixels; i++) {
+ 			pixel = pixels[i];
+-			cp[0] = pixel.r; /* set R component of col */
+-			cp[1] = pixel.g; /* set G component of col */
+-			cp[2] = pixel.b; /* set B component of col */
++			cp[0] = pixel.bgrau.bgra.r; /* set R component of col */
++			cp[1] = pixel.bgrau.bgra.g; /* set G component of col */
++			cp[2] = pixel.bgrau.bgra.b; /* set B component of col */
+ 			if (bits_per_pixel == 32)
+-				cp[3] = pixel.a; /* set A component of col */
++				cp[3] = pixel.bgrau.bgra.a; /* set A component of col */
+ 			rect[i] = col;
+ 		}
+ 		IMB_flipy(ibuf);

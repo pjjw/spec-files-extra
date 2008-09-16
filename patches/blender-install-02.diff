@@ -1,0 +1,13 @@
+--- blender-2.47.orig/release/Makefile	Fri May  9 22:00:18 2008
++++ blender-2.47/release/Makefile	Tue Sep 16 13:27:26 2008
+@@ -190,8 +190,8 @@
+ 	@echo "----> Compressing distribution to $(BLENDNAME)$(EXT1)$(EXT2)"
+ 	@$(COMPRESS) $(COMPRESSFLAGS) $(NAN_OBJDIR)/$(VERSION)/$(BLENDNAME)$(EXT1)
+     endif
+-	@#echo "****> Clean up temporary distribution directory"
+-	@rm -fr $(DISTDIR)
++	#@#echo "****> Clean up temporary distribution directory"
++	#@rm -fr $(DISTDIR)
+ 	@echo "****> $(NAN_OBJDIR)/$(VERSION)/$(BLENDNAME)$(EXT1)$(EXT2) is ready"
+ 
+ version: FORCE
