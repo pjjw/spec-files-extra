@@ -87,6 +87,26 @@ cd blender-%{version}
 gmake
 
 %install
+
+NAN_NO_KETSJI=true
+export NAN_NO_KETSJI
+NAN_OPENEXR=/usr 
+export NAN_OPENEXR
+NAN_PYTHON_VERSION=2.4
+export NAN_PYTHON_VERSION
+NAN_PYTHON=/usr
+export NAN_PYTHON
+NAN_SDL=/usr
+export NAN_SDL
+NAN_JPEG=/usr
+export NAN_JPEG
+NAN_PNG=/usr
+export NAN_PNG
+NAN_ZLIB=/usr
+export NAN_ZLIB
+NOPLUGINS=true
+export NOPLUGINS
+
 rm -rf $RPM_BUILD_ROOT
 #mkdir -p $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 cd blender-%{version}
