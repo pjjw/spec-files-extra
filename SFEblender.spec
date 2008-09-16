@@ -113,7 +113,7 @@ cd blender-%{version}
 gmake release
 cd obj/blender-2.47.0-solaris-2.11-x86_64-py2.4
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/blender
-chown root:bin $RPM_BUILD_ROOT%{_datadir}/blender
+#chown root:bin $RPM_BUILD_ROOT%{_datadir}/blender
 
 for f in blender.html BlenderQuickStart.pdf copyright.txt GPL-license.txt Python-license.txt release_247.txt ; do
    install -m 0644 $f $RPM_BUILD_ROOT%{_datadir}/blender
@@ -127,13 +127,14 @@ tar cf - . | (cd $RPM_BUILD_ROOT%{_datadir}/blender ; tar xfp -)
 
 cd ..
 cp %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/blender
-chown root:bin $RPM_BUILD_ROOT%{_bindir}/blender
+chmod 0755 $RPM_BUILD_ROOT%{_bindir}/blender
+#chown root:bin $RPM_BUILD_ROOT%{_bindir}/blender
 
 
-%if %build_l10n
-%else
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
-%endif
+#%if %build_l10n
+#%else
+#rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
+#%endif
 
 
 %clean
@@ -142,25 +143,21 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_bindir}
-%{_bindir}/*
-%dir %attr (0755, root, bin) %{_libdir}
+%{_bindir}/blender.exe
+%attr(0755, root, bin) %{_bindir}/blender
 %dir %attr(0755, root, sys) %{_datadir}
-%dir %attr(0755, root, other) %{_datadir}/blender
-%dir %attr(0755, root, other) %{_datadir}/blender/locale
-%dir %attr(0755, root, other) %{_datadir}/blender/scripts
-%dir %attr(0755, root, other) %{_datadir}/blender/scripts/bpydata
+%dir %attr(0755, root, bin) %{_datadir}/blender
 %{_datadir}/blender/*
-%{_datadir}/blender/*/*
-%{_datadir}/blender/*/*/*
+%{_datadir}/blender/.Blanguages
+%{_datadir}/blender/.bfont.ttf
 
 
-
-%if %build_l10n
-%files l10n
-%defattr (-, root, bin)
-%dir %attr (0755, root, sys) %{_datadir}
-%attr (-, root, other) %{_datadir}/locale
-%endif
+#%if %build_l10n
+#%files l10n
+#%defattr (-, root, bin)
+#%dir %attr (0755, root, sys) %{_datadir}
+#%attr (-, root, other) %{_datadir}/locale
+#%endif
 
 %changelog
 * Sept 16 2008 - Gilles Dauphin ( Gilles DOT Dauphin AT enst DOT fr)
