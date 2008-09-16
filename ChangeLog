@@ -1,3 +1,10 @@
+2008-09-16  Gilles Dauphin <dauphin@enst.fr>
+
+	* Initial Blender Package 2.47 
+	* SFEblender.spec
+	* patches/blender-*
+	* ext-sources/blender.sh
+
 2008-09-11  Jerry Yu <jijun.yu@sun.com>
 
 	* SFEpigment-python.spec: Bump to 0.3.6.
