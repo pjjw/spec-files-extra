@@ -25,7 +25,7 @@ Patch2:		cairo-dock-patch02-Makefile.diff
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 %include	default-depend.inc
-Requires:	%name-root
+#Requires:	%name-root
 Requires: 	SUNWpng
 Requires: 	SUNWdbus
 Requires: 	SUNWgnome-base-libs
@@ -34,12 +34,13 @@ BuildRequires: 	SUNWpng-devel
 BuildRequires: 	SUNWdbus-devel
 BuildRequires: 	SUNWgnome-base-libs-devel
 BuildRequires: 	SUNWgnome-wm-devel
-BuildRequires: 	SFEsed
+BuildRequires: 	SUNWcompiz
+# TODO require at least a 3D desktop
 
-%package root
-Summary:         %summary - platform dependent files, / filesystem
-SUNW_BaseDir:            /
-%include default-depend.inc
+#%package root
+#Summary:         %summary - platform dependent files, / filesystem
+#SUNW_BaseDir:            /
+#%include default-depend.inc
 
 %package devel
 Summary:		 %summary - developer files
