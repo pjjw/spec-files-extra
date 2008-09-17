@@ -15,7 +15,7 @@ Patch2:		blender-install-02.diff
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 %include	default-depend.inc
-Requires:	%name-root
+#Requires:	%name-root
 Requires: 	SUNWlibsdl
 Requires: 	SUNWxorg-mesa
 Requires: 	SUNWfreetype2
