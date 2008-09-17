@@ -1,3 +1,13 @@
+2008-09-17  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEelisa.spec, SFEelisa-plugins-good.spec, SFEelisa-plugins-bad.spec:
+	  Bump to 0.5.10.
+	* SFEpigment.spec, patch/pigment-01-m4.diff: Bump to 0.3.9.  Remove
+	  upstream patch.
+	* SFEpigment-python.spec:  Bump to 0.3.7.
+	* SUNWgnome-display-mgr, patches/gdm-05-crash.diff: Bump to 2.23.92
+	  and rework patch.
+
 2008-09-16  Gilles Dauphin <dauphin@enst.fr>
 
 	* Initial Blender Package 2.47 

@@ -4,7 +4,7 @@
 # includes module(s): pigment
 #
 %define name pigment
-%define version 0.3.8
+%define version 0.3.9
 
 %include Solaris.inc
 
@@ -13,7 +13,6 @@ Name:            SFE%{name}
 Version:         %{version}
 URL:             https://core.fluendo.com/pigment/trac
 Source0:         http://elisa.fluendo.com/static/download/pigment/pigment-%{version}.tar.bz2
-Patch1:          pigment-01-m4.diff
 SUNW_BaseDir:    %{_basedir}
 BuildRoot:       %{_tmppath}/%{name}-%{version}-build
 BuildRequires:   SUNWgnome-common-devel
@@ -44,7 +43,6 @@ Media Center project.
 
 %prep
 %setup -q -n pigment-%version
-%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -96,9 +94,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtk-doc/html/*
 
 %changelog
-* Thu Sept 10 2008 Jerry Yu <jijun.yu@sun.com>
+* Wed Sep 17 2008  Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.3.9.  Remove upstream patch pigment-01-m4.diff.
+* Thu Sep 10 2008 Jerry Yu <jijun.yu@sun.com>
 - Bump to 0.3.8.
-- Add patch -01-m4.diff.
+- Add patch pigment-01-m4.diff.
 * Thu Jul 31 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.3.7.
 * Wed Jul 23 2008 Brian Cameron  <brian.cameron@sun.com>

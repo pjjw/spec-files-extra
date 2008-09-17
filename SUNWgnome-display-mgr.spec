@@ -13,7 +13,7 @@
 
 Summary:                 GNOME display manager
 Name:                    SUNWgnome-display-mgr
-Version:                 2.23.90
+Version:                 2.23.92
 Release:                 1
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.23/gdm-%{version}.tar.bz2
 Source1:                 gdm.xml
@@ -89,8 +89,8 @@ Requires:                %{name}
 %patch1 -p1
 %patch2 -p0
 %patch3 -p1
-%patch4 -p1
-%patch5 -p0
+#%patch4 -p1
+%patch5 -p1
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -258,7 +258,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %{_libexecdir}/gdm*
 %dir %attr (0755, root, sys) %{_datadir}
 %{_datadir}/gdm
-#%{_datadir}/gnome/help/gdm/C
+%dir %attr (0755, root, other) %{_datadir}/gnome
+%{_datadir}/gnome/help/gdm/C
 %attr (-, root, other) %{_datadir}/icons
 #%{_datadir}/omf/gdm/*-C.omf
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
@@ -305,6 +306,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Wed Sep 17 2008 - brian.cameron@sun.com
+- Bump to 2.23.92.
 * Fri Sep 05 2008 - simon.zheng@sun.com
 - Add patch 05-crash.diff.
 * Tue Aug 26 2008 - brian.cameron@sun.com

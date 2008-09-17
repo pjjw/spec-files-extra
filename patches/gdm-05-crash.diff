@@ -1,22 +1,12 @@
---- gui/simple-greeter/gdm-chooser-widget.c.orig	2008-09-05 14:27:00.046531000 +0800
-+++ gui/simple-greeter/gdm-chooser-widget.c	2008-09-05 14:12:01.315575000 +0800
-@@ -1013,7 +1013,7 @@
- {
-         g_return_if_fail (GDM_IS_CHOOSER_WIDGET (widget));
- 
--        g_debug ("GdmChooserWidget: setting active item '%s'", id);
-+        g_debug ("GdmChooserWidget: setting active item '%s'", id?id:"NULL");
- 
-         if (id != NULL) {
-                 activate_from_item_id (widget, id);
---- data/Xsession.solaris.orig	2008-09-05 17:41:15.405071000 +0800
-+++ data/Xsession.solaris	2008-09-05 17:41:30.316444000 +0800
-@@ -20,7 +20,7 @@
+--- gdm-2.23.92/data/Xsession.solaris-orig	2008-09-17 01:01:33.158880000 -0500
++++ gdm-2.23.92/data/Xsession.solaris	2008-09-17 01:01:43.565237000 -0500
+@@ -20,7 +20,8 @@ export G_BROKEN_FILENAMES
  # G_FILENAME_ENCODING=@locale
  # export G_FILENAME_ENCODING
  
 -export VTE_CJK_WIDTH=1
-+# export VTE_CJK_WIDTH=1
++VTE_CJK_WIDTH=1
++export VTE_CJK_WIDTH
  
  if [ "x$LANG" = "xzh" ] ; then
    export LANGUAGE=zh:zh_CN.EUC
