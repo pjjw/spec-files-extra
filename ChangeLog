@@ -1,3 +1,7 @@
+2008-09-18  Jerry Yu <jijun.yu@sun.com>
+
+	* SFEpython-cssutils.spec:Correct the summary.
+
 2008-09-18  simon.zheng  <simon.zheng@sun.com>
 
 	* SUNWgnome-display-mgr.spec:

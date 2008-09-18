@@ -11,7 +11,7 @@
 %define name Twisted-Web2
 
 Name:                    SFEpython-cssutils
-Summary:                 A HTTP/1.1 Server Framework
+Summary:                 A Python package to parse and build CSS Cascading Style Sheets.
 URL:                     http://code.google.com/p/cssutils/
 Version:                 0.9.5.1
 Source:                  http://cssutils.googlecode.com/files/cssutils-%{version}.zip
@@ -63,6 +63,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{pythonver}/vendor-packages/easy-install.pth
 
 %changelog
+* Thu Sep 18 2008 - jijun.yu@sun.com
+- Correct the summary.
 * Sun Sep 07 2008 - brian.cameron@sun.com
 - Bump to 0.9.5.1.
 * Fri Jul 25 2008 - brian.cameron@sun.com
