@@ -1,5 +1,10 @@
 2008-09-18  Jerry Yu <jijun.yu@sun.com>
 
+	* SFEcodeina.spec: Correct one dependency
+	* base-specs/libsamplerate.spec: Bump to 0.1.4
+
+2008-09-18  Jerry Yu <jijun.yu@sun.com>
+
 	* SFEpython-cssutils.spec:Correct the summary.
 
 2008-09-18  simon.zheng  <simon.zheng@sun.com>

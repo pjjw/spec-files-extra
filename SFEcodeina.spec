@@ -48,11 +48,11 @@ Requires:	SUNWgnome-media
 Requires:	SUNWgst-python
 Requires:	SFEpyopenssl
 Requires:	SFEpyyaml
-Requires:	SFEnotify-python
+Requires:	SUNWpython-notify
 BuildRequires:	SUNWPython-devel >= %{pythonver}
 BuildRequires:	SUNWgst-python
 BuildRequires:	SFEpyyaml
-BuildRequires:	SFEnotify-python
+BuildRequires:	SUNWpython-notify
 BuildRequires:	SFEpyopenssl
 
 %include default-depend.inc
@@ -146,6 +146,8 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Sep 18 2008 - jijun.yu@sun.com
+- Correct one dependency to SUNWpython-notify.
 * Wed Jun 11 2008 - brian.cameron@sun.com
 - Bump to the latest 0.10.3.1 version.
 * Thu Apr 10 2008 - brian.cameron@sun.com
