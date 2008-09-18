@@ -12,6 +12,7 @@ Version:                 0.4.15
 Source:                  http://plugin.org.uk/releases/%{version}/swh-plugins-%{version}.tar.gz
 Patch1:                  swh-plugins-01-nowall.diff
 Patch2:                  swh-plugins-02-fixinline.diff
+Patch3:			 swh-plugins-03-locale.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -27,6 +28,7 @@ Requires: SFEfftw
 
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 touch NEWS README AUTHORS ChangeLog COPYING
 
@@ -66,7 +68,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %dir %{_datadir}/ladspa
 %{_datadir}/ladspa/*
+%dir %attr (0755, root, other) %dir %{_datadir}/locale
+%dir %attr (0755, root, other) %dir %{_datadir}/locale/en_GB
+%dir %attr (0755, root, other) %dir %{_datadir}/locale/en_GB/LC_MESSAGES
+%{_datadir}/locale/en_GB/LC_MESSAGES/*
 
 %changelog
+* Thu Sep 18 2008 - jijun.yu@sun.com
+- Add patch -03-locale.diff.
+- Add files to %files.
 * Mon Mar 17 2008 - brian.cameron@sun.com
 - Created with version 0.4.15

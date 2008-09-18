@@ -1,5 +1,10 @@
 2008-09-18  Jerry Yu <jijun.yu@sun.com>
 
+	* SFEladspa-swh-plugins.spec: Add patch -03-locale.diff
+	* patches/swh-plugins-03-locale.diff:Added.
+
+2008-09-18  Jerry Yu <jijun.yu@sun.com>
+
 	* SFEcodeina.spec: Correct one dependency
 	* base-specs/libsamplerate.spec: Bump to 0.1.4
 
