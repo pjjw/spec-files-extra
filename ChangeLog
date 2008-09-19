@@ -1,3 +1,7 @@
+2008-09-19  Jerry Yu <jijun.yu@sun.com>
+
+	* SFEpython-pymetar.spec: Initial spec.
+
 2008-09-18  Jerry Yu <jijun.yu@sun.com>
 
 	* SFEladspa-swh-plugins.spec: Add patch -03-locale.diff
