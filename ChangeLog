@@ -1,3 +1,6 @@
+2008-09-21  Dick Hoogendijk <dick@nagual.nl>
+	* SFEqt.spec: Bump to version 4.4.2
+
 2008-09-19  Jerry Yu <jijun.yu@sun.com>
 
 	* SFEpython-pymetar.spec: Initial spec.
