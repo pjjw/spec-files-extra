@@ -30,8 +30,16 @@ Patch2:                  gdm-02-sdtlogin-devperm.diff
 Patch3:                  gdm-03-ctrun.diff
 # Manage displays on the fly.  Refer to bug #536355.
 Patch4:                  gdm-04-dynamic-display.diff
-# Fix two issues gdm-simple-greeter crash and failure of login. 
+# Fix two issues gdm-simple-greeter crash and failure of login.
+# Status: upstream. 
 Patch5:                  gdm-05-crash.diff
+# Possible fix for unwritable gdm user $HOME. gnome-session
+# tries to update ~/.ICEAuthority and gdm-simple-greeter crashes
+# when looking up option widgets.
+Patch6:                  gdm-06-ICE-optionwidget.diff
+# Fix gconf-santiy-check-2 warning dialog.
+# Please see http://bugzilla.gnome.org/show_bug.cgi?id=550832
+Patch7:			 gdm-07-gconfsanity.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -91,6 +99,8 @@ Requires:                %{name}
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p0
+%patch7 -p0
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -260,7 +270,12 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %{_datadir}/gdm
 %dir %attr (0755, root, other) %{_datadir}/gnome
 %{_datadir}/gnome/help/gdm/C
-%attr (-, root, other) %{_datadir}/icons
+%dir %attr (-, root, other) %{_datadir}/icons
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/16x16/
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/32x32/
+%dir %attr (-, root, other) %{_datadir}/icons/hicolor/*/apps
+%{_datadir}/icons/hicolor/*/apps/*
 #%{_datadir}/omf/gdm/*-C.omf
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/gnome-2.0/*
