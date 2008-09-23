@@ -10,14 +10,10 @@ Version:                 2.0.18
 Source:                  http://gftp.seul.org/gftp-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
-%include default-depend.inc
+# date:2008-09-23 owner:alfred type:up-streamed
+Patch1:                  gftp-01-solaris-in-trunk.diff
 
-%package devel
-Summary:                 %{summary} - development files
-SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
-Requires: %name
-
 
 %if %build_l10n
 %package l10n
@@ -29,6 +25,7 @@ Requires:                %{name}
 
 %prep
 %setup -q -n gftp-%version
+%patch1 -p1
 
 %build
 export LDFLAGS="-lX11"
@@ -38,7 +35,7 @@ export CFLAGS="$CFLAGS -I/usr/gnu/include -L/usr/gnu/lib -R/usr/gnu/lib -lintl"
 
 #TODO: check --disable-sm 
 CC=$CC CXX=$CXX CFLAGS="$CFLAGS" ./configure --prefix=%{_prefix} \
-            --disable-sm
+            --mandir=%{_prefix}/share/man --disable-sm
 make
 
 %install
@@ -47,7 +44,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 %if %{build_l10n}
 %else
-rmdir $RPM_BUILD_ROOT/%{_datadir}/locale
+rm -rf $RPM_BUILD_ROOT/%{_datadir}/locale
 %endif
 
 %clean
@@ -55,27 +52,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, bin)
-%doc README ChangeLog CREDITS COPYING INSTALL NEWS AUTHORS TODO ABOUT-NLS
+%doc README ChangeLog COPYING INSTALL NEWS AUTHORS TODO ABOUT-NLS
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/applications
 %{_datadir}/applications/*
-%dir %attr (0755, root, other) %{_datadir}/gmpc
-%{_datadir}/gmpc/*
+%dir %attr (0755, root, other) %{_datadir}/gftp
+%{_datadir}/gftp/*
+%dir %attr (0755, root, other) %{_datadir}/man
+%{_datadir}/man/*
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
-%dir %attr (0755, root, bin) %{_libdir}
-%dir %attr (0755, root, other) %{_libdir}/pkgconfig
-%{_libdir}/pkgconfig/*
-
-
-
-%files devel
-%defattr (-, root, bin)
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
-
 
 %if %build_l10n
 %files l10n
@@ -84,8 +72,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr (-, root, other) %{_datadir}/locale
 %endif
 
-
 %changelog
+* Wed Sep 24 2008 - alfred.peng@sun.com
+- Backport the patch gftp-01-solaris-in-trunk.diff from trunk to build
+  with Sun Studio.
 * Tue Sep 04 2007  - Thomas Wagner
 - bump to 0.15.1, add %{version} to Download-Dir (might change again)
 - conditional !%build_l10n rmdir $RPM_BUILD_ROOT/%{_datadir}/locale

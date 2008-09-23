@@ -1,3 +1,9 @@
+2008-09-24  Alfred Peng  <alfred.peng@sun.com>
+
+	Backport the patch from trunk to build with Sun Studio.
+	* SFEgftp.spec:
+	* patches/gftp-01-solaris-in-trunk.diff:
+
 2008-09-22  simon.zheng  <simon.zheng@sun.com>
 
 	* SUNWgnome-display-mgr.spec:

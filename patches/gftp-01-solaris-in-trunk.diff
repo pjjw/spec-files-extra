@@ -1,0 +1,57 @@
+--- gftp-2.0.18/lib/fsplib/fsplib.c.orig	Wed Sep 24 00:25:05 2008
++++ gftp-2.0.18/lib/fsplib/fsplib.c	Wed Sep 24 00:25:17 2008
+@@ -591,13 +591,6 @@
+     if (rc != 0)
+ 	return rc;
+ 
+-    /* convert FSP dirent to OS dirent */
+-
+-    if (fentry.type == FSP_RDTYPE_DIR )
+-	entry->d_type=DT_DIR;
+-    else
+-	entry->d_type=DT_REG;
+-	
+     /* remove symlink destination */
+     c=strchr(fentry.name,'\n');
+     if (c)
+@@ -608,7 +601,6 @@
+ 	fentry.namlen-=rc;
+     }
+ 
+-    entry->d_fileno = 10;
+     entry->d_reclen = fentry.reclen;
+     strncpy(entry->d_name,fentry.name,MAXNAMLEN);
+ 
+--- gftp-2.0.18/lib/fsplib/lock.c.orig	Wed Sep 24 00:27:26 2008
++++ gftp-2.0.18/lib/fsplib/lock.c	Wed Sep 24 00:26:50 2008
+@@ -2,6 +2,10 @@
+ #include <stdio.h>
+ #include "lock.h"
+ 
++#if defined(__NetBSD__) || defined(sun) || defined(hpux)
++#define _SEM_SEMUN_UNDEFINED    /**/
++#endif
++
+ /* ************ Locking functions ***************** */
+ #ifndef FSP_NOLOCKING
+ 
+@@ -91,7 +95,7 @@
+   mode_t omask;
+   key_t lock_key;
+   int fd;
+-  union semun sun;
++  union semun su;
+   struct sembuf sem;
+ 
+   make_key_string(lock,server_addr,server_port);
+@@ -123,8 +127,8 @@
+ 	  return -1;
+       }
+       /* we need to init this semaphore */
+-      sun.val=1;
+-      if(semctl(lock->lock_sem,0,SETVAL,sun) == -1)
++      su.val=1;
++      if(semctl(lock->lock_sem,0,SETVAL,su) == -1)
+       {
+ 	  perror("semctl setval");
+ 	  return -1;
