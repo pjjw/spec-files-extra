@@ -13,9 +13,9 @@
 
 Summary:                 GNOME display manager
 Name:                    SUNWgnome-display-mgr
-Version:                 2.23.92
+Version:                 2.24.0
 Release:                 1
-Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.23/gdm-%{version}.tar.bz2
+Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.24/gdm-%{version}.tar.bz2
 Source1:                 gdm.xml
 Source2:                 svc-gdm
 # Fix language/locale.  Patch by Takao.  See bugzilla bug #536387.
@@ -30,9 +30,6 @@ Patch2:                  gdm-02-sdtlogin-devperm.diff
 Patch3:                  gdm-03-ctrun.diff
 # Manage displays on the fly.  Refer to bug #536355.
 Patch4:                  gdm-04-dynamic-display.diff
-# Fix two issues gdm-simple-greeter crash and failure of login.
-# Status: upstream. 
-Patch5:                  gdm-05-crash.diff
 # Possible fix for unwritable gdm user $HOME. gnome-session
 # tries to update ~/.ICEAuthority and gdm-simple-greeter crashes
 # when looking up option widgets.
@@ -98,7 +95,6 @@ Requires:                %{name}
 %patch2 -p0
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
 %patch6 -p0
 %patch7 -p0
 
@@ -124,10 +120,6 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-export CFLAGS="$RPM_OPT_FLAGS"
-autoheader
-autoconf
-
 ENABLE_CONSOLE_HELPER=
 %ifos linux
 ENABLE_CONSOLE_HELPER="--enable-console-helper"
@@ -140,9 +132,6 @@ BINDIR_CONFIG="--with-post-path=/usr/openwin/bin"
 RBAC_CONFIG="--enable-rbac-shutdown=solaris.system.shutdown"
 %endif
 
-libtoolize --force
-glib-gettextize -c -f
-intltoolize --copy --force --automake
 aclocal $ACLOCAL_FLAGS
 autoconf
 autoheader
@@ -321,6 +310,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Wed Sep 24 2008 - simon.zheng@sun.com
+- Bump to 2.24.0. Remove upstream 05-crash.diff.
 * Wed Sep 17 2008 - brian.cameron@sun.com
 - Bump to 2.23.92.
 * Fri Sep 05 2008 - simon.zheng@sun.com

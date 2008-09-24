@@ -7,13 +7,3 @@
  
  # override some settings
  # we treat settings in this location as
---- data/Makefile.am.orig	2008-09-08 14:11:15.655240000 +0800
-+++ data/Makefile.am	2008-09-08 14:10:47.595552000 +0800
-@@ -226,6 +226,7 @@
- 	$(INSTALL_DATA) $(srcdir)/gconf.path $(DESTDIR)$(workingdir)/.gconf.path
- 	gconftool-2 --direct --config-source=xml:merged:$(DESTDIR)$(workingdir)/.gconf.mandatory --recursive-unset /
- 	gconftool-2 --direct --config-source=xml:merged:$(DESTDIR)$(workingdir)/.gconf.mandatory --load $(srcdir)/session-setup.entries
-+	chmod -R +rx $(DESTDIR)$(workingdir)/.gconf.mandatory
- 
- 
- 

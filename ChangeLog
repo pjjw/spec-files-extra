@@ -1,3 +1,9 @@
+2008-09-24  simon.zheng  <simon.zheng@sun.com>
+
+	* SUNWgnome-display-mgr.spec: Bump to 2.24.0.
+	* patches/gdm-05-crash.diff:
+	* patches/gdm-07-gconfsanity.diff:
+
 2008-09-24  Alfred Peng  <alfred.peng@sun.com>
 
 	Correct a conditional statement error in the patch.
