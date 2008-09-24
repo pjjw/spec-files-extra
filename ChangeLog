@@ -1,5 +1,10 @@
 2008-09-24  Alfred Peng  <alfred.peng@sun.com>
 
+	Correct a conditional statement error in the patch.
+	* patches/filezilla-03-dirent-to-stat.diff:
+
+2008-09-24  Alfred Peng  <alfred.peng@sun.com>
+
 	Add two patches for build and bump to 3.1.3.
 	* base-specs/filezilla.spec:
 	* patches/filezilla-02-multimap-const.diff:
