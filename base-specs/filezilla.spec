@@ -4,19 +4,23 @@
 # package are under the same license as the package itself.
 #
 # Owner: halton
-# bugdb: http://sourceforge.net/tracker/index.php?func=detail&group_id=21558&atid=372241&aid=
+# bugdb: http://trac.filezilla-project.org/wiki
 #
 
-%define version_str 3.1.1.1_src
+%define version_str 3.1.3_src
 Name:		filezilla
 Summary:	FileZilla FTP client
-Version:	3.1.1.1
+Version:	3.1.3
 License:	GPL
 URL:		http://filezilla.sourceforge.net/
 Source:	    http://superb-east.dl.sourceforge.net/sourceforge/filezilla/FileZilla_%{version_str}.tar.bz2
-# date:2008-03-06 owner:halton type:bug bugid:1908796
+# date:2008-03-06 owner:halton type:bug bugid:3424
 Patch1:     %{name}-01-msgfmt.diff
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+# date:2008-09-23 owner:alfred type:bug bugid:3803
+Patch2:     %{name}-02-multimap-const.diff
+# date:2008-09-23 owner:alfred type:bug bugid:3803
+Patch3:     %{name}-03-dirent-to-stat.diff
 
 %description
 FileZilla is a fast and reliable FTP client and server with lots of
@@ -25,6 +29,8 @@ useful features and an intuitive interface.
 %prep
 %setup -q -n %{name}-%{version}
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 %ifos linux
@@ -68,6 +74,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Sep 24 2008 - alfred.peng@sun.com
+- Bump to 3.1.3.
+  Add two patches: multimap-const.diff and dirent-to-stat.diff.
 * Fri Aug 29 2008 - alfred.peng@sun.com
 - Bump to 3.1.1.
 - Remove upstreamed patches: iter++.diff, SetActive.diff and locale.diff.
