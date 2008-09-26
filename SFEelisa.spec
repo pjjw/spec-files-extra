@@ -11,7 +11,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa
-%define version 0.5.10
+%define version 0.5.11
 
 %include Solaris.inc
 
@@ -116,6 +116,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_generic_setup.pyc
 
 %changelog
+* Thu Sep 25 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.5.11.
 * Wed Sep 17 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.10.
 * Sun Sep 07 2008 Brian Cameron  <brian.cameron@sun.com
