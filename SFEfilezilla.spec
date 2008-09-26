@@ -16,6 +16,7 @@
 Name:               SFEfilezilla
 Summary:            FileZilla FTP client
 Version:            %{filezilla.version}
+SUNW_Copyright:     %{name}.copyright
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 
@@ -74,6 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
+%doc(bzip2) -d filezilla-%{filezilla.version} COPYING GPL.html NEWS AUTHORS README
+%doc -d filezilla-%{filezilla.version} ChangeLog
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
@@ -98,6 +101,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Sep 27 2008 - alfred.peng@sun.com
+- Add %doc to %files for copyright.
 * Fri Aug 29 2008 - alfred.peng@sun.com
 - Update %files to include icons.
 * Thu Mar 06 2008 - nonsea@users.sourceforge.net

@@ -1,3 +1,13 @@
+2008-09-27  Alfred Peng  <alfred.peng@sun.com>
+
+	* SFEamule.spec, patches/amule-01-sun-studio12.patch:
+	* copyright/SFEamule.copyright:
+	  add new spec, patch to build with Sun Studio and copyright.
+	* SFElibcryptopp.spec: Bump to 5.5.2.
+	* SFEfilezilla.spec:
+	* copyright/SFEfilezilla.copyright:
+	  add copyright.
+
 2008-09-25  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEelisa.spec, SFEelisa-plugins-good.spec, SFEelisa-plugins-bad.spec:

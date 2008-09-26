@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 %define src_name	cryptopp
-%define src_version	551
+%define src_version	552
 %define pkg_release	1
 
 # =========================================================================== 
@@ -21,7 +21,7 @@ SUNW_BaseDir:	%{_basedir}
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 Name:                   SFElibcryptopp
 Summary:                libcrypto++ - C++ class library of cryptographic algorithms
-Version:                551
+Version:                552
 Source:                 %{src_url}/%{src_name}%{version}.zip
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
@@ -58,6 +58,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Sat Sep 27 2008 - alfred.peng@sun.com
+- Bump to 5.5.2.
 * Sat Aug 11 2007 - ananth@sun.com
 - Initial version
 

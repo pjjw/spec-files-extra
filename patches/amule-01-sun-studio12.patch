@@ -1,0 +1,441 @@
+--- aMule-2.2.2/autogen.sh.orig	Fri Sep 26 18:20:47 2008
++++ aMule-2.2.2/autogen.sh	Fri Sep 26 18:16:52 2008
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ # Helps bootstrapping 'aMule' when checked out from CVS.
+ # Requires GNU autoconf, GNU automake and GNU which.
+ 
+--- aMule-2.2.2/src/ArchSpecific.h.orig	Fri Sep 26 18:21:22 2008
++++ aMule-2.2.2/src/ArchSpecific.h	Fri Sep 26 18:21:40 2008
+@@ -33,7 +33,7 @@
+ #define ENDIAN_SWAP_32(x) (wxUINT32_SWAP_ON_BE(x))
+ #define ENDIAN_SWAP_I_32(x) x = wxUINT32_SWAP_ON_BE(x)
+ 
+-#if ((defined __GNUC__) && __GNUC__ >= 2) || defined (_MSC_VER)
++#if ((defined __GNUC__) && __GNUC__ >= 2) || defined (_MSC_VER) || (defined(__SUNPRO_CC) && (__SUNPRO_CC >= 0x550))
+ 	#define ENDIAN_SWAP_64(x) (wxUINT64_SWAP_ON_BE(x))
+ 	#define ENDIAN_SWAP_I_64(x) x = wxUINT64_SWAP_ON_BE(x)
+ #endif
+--- aMule-2.2.2/src/StatTree.h.orig	Fri Sep 26 18:29:18 2008
++++ aMule-2.2.2/src/StatTree.h	Fri Sep 26 18:51:14 2008
+@@ -240,7 +240,7 @@
+ 	/**
+ 	 * Resorts children for the stSortByValue flag.
+ 	 */
+-	void ReSortChildren() { wxMutexLocker lock(m_lock); m_children.sort(ValueSort); }
++	void ReSortChildren() { wxMutexLocker lock(m_lock); m_children.sort(); }
+ #endif
+ 
+ #ifndef AMULE_DAEMON
+--- aMule-2.2.2/src/amule.cpp.orig	Fri Sep 26 19:06:01 2008
++++ aMule-2.2.2/src/amule.cpp	Fri Sep 26 19:09:08 2008
+@@ -386,7 +386,7 @@
+ 	} 
+ 	
+ 	theApp->ShowAlert(msg, wxT("Fatal error."), wxICON_ERROR | wxOK);
+-	return std::pair<bool, wxString>(false, wxEmptyString);
++	return std::pair<bool, CPath>(false, CPath(wxEmptyString));
+ }
+ 
+ 
+@@ -845,10 +845,7 @@
+ 		} else {
+ 			delete p;
+ 			ShowAlert(_(
+-				"You requested to run web server on startup, "
+-				"but the amuleweb binary cannot be run. "
+-				"Please install the package containing aMule web server, "
+-				"or compile aMule using --enable-webserver and run make install"),
++				"You requested to run web server on startup, but the amuleweb binary cannot be run. Please install the package containing aMule web server, or compile aMule using --enable-webserver and run make install"),
+ 				_("ERROR"), wxOK | wxICON_ERROR);
+ 		}
+ 	}
+--- aMule-2.2.2/src/ClientList.h.orig	Fri Sep 26 19:12:25 2008
++++ aMule-2.2.2/src/ClientList.h	Fri Sep 26 19:13:52 2008
+@@ -282,7 +282,7 @@
+ 	//! The type of the lists used to store IPs and IDs.
+ 	typedef std::multimap<uint32, CUpDownClient*> IDMap;
+ 	//! The pairs of the IP/ID list.
+-	typedef std::pair<uint32, CUpDownClient*> IDMapPair;
++	typedef std::pair<const uint32, CUpDownClient*> IDMapPair;
+ 
+ 
+ 	/**
+@@ -393,7 +393,7 @@
+ 	//! The type of the list used to store user-hashes.
+ 	typedef std::multimap<CMD4Hash, CUpDownClient*> HashMap;
+ 	//! The pairs of the Hash-list.
+-	typedef std::pair<CMD4Hash, CUpDownClient*> HashMapPair;
++	typedef std::pair<const CMD4Hash, CUpDownClient*> HashMapPair;
+ 
+ 
+ 	//! The map of clients with valid hashes
+--- aMule-2.2.2/src/ClientList.cpp.orig	Fri Sep 26 19:11:17 2008
++++ aMule-2.2.2/src/ClientList.cpp	Fri Sep 26 19:14:53 2008
+@@ -271,7 +271,7 @@
+ 
+ CUpDownClient* CClientList::FindMatchingClient( CUpDownClient* client )
+ {
+-	typedef std::pair<IDMap::const_iterator, IDMap::const_iterator> IDMapIteratorPair;
++	typedef std::pair<IDMap::iterator, IDMap::iterator> IDMapIteratorPair;
+ 	wxCHECK(client, NULL);
+ 	
+ 	const uint32 userIP = client->GetIP();
+@@ -317,7 +317,7 @@
+ 		}
+ 	} else if (userPort || userKadPort) {
+ 		// Check by IP first, then by ID
+-		struct { const IDMap& map; uint32 value; } toCheck[] = {
++		struct { IDMap map; uint32 value; } toCheck[] = {
+ 			{ m_ipList, userIP }, { m_clientList, userID }
+ 		};
+ 		
+--- aMule-2.2.2/src/RangeMap.h.orig	Fri Sep 26 23:20:22 2008
++++ aMule-2.2.2/src/RangeMap.h	Fri Sep 26 23:31:04 2008
+@@ -119,7 +119,7 @@
+ 	//! The map uses the start-key as key and the User-value and end-key pair as value
+ 	typedef std::map<KEYTYPE, HELPER> RangeMap;
+ 	//! Shortcut for the pair used by the RangeMap.
+-	typedef std::pair<KEYTYPE, HELPER> RangePair;
++	typedef std::pair<const KEYTYPE, HELPER> RangePair;
+ 
+ 	//! Typedefs used to distinguish between our custom iterator and the real ones.
+ 	typedef typename RangeMap::iterator RangeIterator;
+@@ -420,7 +420,10 @@
+ 	}
+ 	template <typename TYPE>
+ 	iterator insert(KEYTYPE startPos, KEYTYPE endPos, const TYPE& value) {
+-		HELPER entry = {endPos, value};
++//		HELPER entry = {endPos, value};
++		HELPER entry = {};
++		entry.first = endPos;
++		entry.second = value;
+ 		return do_insert(startPos, entry);
+ 	}
+ 	//@}
+--- aMule-2.2.2/src/ServerList.cpp.orig	Fri Sep 26 23:34:57 2008
++++ aMule-2.2.2/src/ServerList.cpp	Fri Sep 26 23:51:32 2008
+@@ -531,7 +531,7 @@
+ 
+ void CServerList::Sort()
+ {
+-	m_servers.sort(ServerPriorityComparator());
++	m_servers.sort();
+ 	// Once the list has been sorted, it doesn't really make sense to continue
+ 	// traversing the new order from the old position.  Plus, there's a bug in
+ 	// version of libstdc++ before gcc4 such that iterators that were equal to
+@@ -877,7 +877,7 @@
+ 
+ 	EventType::ValueList ilist;
+ 	ilist.reserve( m_servers.size() );
+-	ilist.assign( m_servers.begin(), m_servers.end() );
++	ilist.assign( m_servers.size(), *m_servers.begin() );
+ 
+ 	NotifyObservers( EventType( EventType::INITIAL, &ilist ), o );
+ }
+@@ -916,7 +916,7 @@
+ {
+ 	std::vector<const CServer*> result;
+ 	result.reserve(m_servers.size());
+-	result.assign(m_servers.begin(), m_servers.end());
++	result.assign(m_servers.size(), *m_servers.begin());
+ 	return result;
+ }
+ 
+--- aMule-2.2.2/src/kademlia/net/KademliaUDPListener.cpp.orig	Fri Sep 26 23:53:28 2008
++++ aMule-2.2.2/src/kademlia/net/KademliaUDPListener.cpp	Fri Sep 26 23:55:22 2008
+@@ -70,6 +70,9 @@
+ 
+ #define THIS_DEBUG_IS_JUST_FOR_KRY_DONT_TOUCH_IT_KTHX 0
+ 
++#if defined(__SUNPRO_CC)
++#define __FUNCTION__ __FILE__+__LINE__
++#endif
+ 
+ #define CHECK_PACKET_SIZE(OP, SIZE) \
+ 	if (lenPacket OP (uint32_t)(SIZE)) \
+--- aMule-2.2.2/src/UPnPBase.h.orig	Fri Sep 26 18:55:28 2008
++++ aMule-2.2.2/src/UPnPBase.h	Fri Sep 26 23:56:53 2008
+@@ -157,7 +157,7 @@
+  * UPnPLib explicitly, making this dlopen() stuff unnecessary.
+  */
+ template <typename T, char const *XML_ELEMENT_NAME, char const *XML_LIST_NAME>
+-class CXML_List : public std::map<const std::string, T *>
++class CXML_List : public std::map<std::string, T *>
+ {
+ public:
+ 	CXML_List(
+@@ -204,31 +204,43 @@
+ }
+ 
+ #ifdef UPNP_C
+-	char s_argument[] = "argument";
+-	char s_argumentList[] = "argumentList";
+-	char s_action[] = "action";
+-	char s_actionList[] = "actionList";
+-	char s_allowedValue[] = "allowedValue";
+-	char s_allowedValueList[] = "allowedValueList";
+-	char s_stateVariable[] = "stateVariable";
+-	char s_serviceStateTable[] = "serviceStateTable";
+-	char s_service[] = "service";
+-	char s_serviceList[] = "serviceList";
+-	char s_device[] = "device";
+-	char s_deviceList[] = "deviceList";
++	extern const char s_argument[];
++	extern const char s_argumentList[];
++	extern const char s_action[];
++	extern const char s_actionList[];
++	extern const char s_allowedValue[];
++	extern const char s_allowedValueList[];
++	extern const char s_stateVariable[];
++	extern const char s_serviceStateTable[];
++	extern const char s_service[];
++	extern const char s_serviceList[];
++	extern const char s_device[];
++	extern const char s_deviceList[];
++	const char s_argument[] = "argument";
++	const char s_argumentList[] = "argumentList";
++	const char s_action[] = "action";
++	const char s_actionList[] = "actionList";
++	const char s_allowedValue[] = "allowedValue";
++	const char s_allowedValueList[] = "allowedValueList";
++	const char s_stateVariable[] = "stateVariable";
++	const char s_serviceStateTable[] = "serviceStateTable";
++	const char s_service[] = "service";
++	const char s_serviceList[] = "serviceList";
++	const char s_device[] = "device";
++	const char s_deviceList[] = "deviceList";
+ #else // UPNP_C
+-	extern char s_argument[];
+-	extern char s_argumentList[];
+-	extern char s_action[];
+-	extern char s_actionList[];
+-	extern char s_allowedValue[];
+-	extern char s_allowedValueList[];
+-	extern char s_stateVariable[];
+-	extern char s_serviceStateTable[];
+-	extern char s_service[];
+-	extern char s_serviceList[];
+-	extern char s_device[];
+-	extern char s_deviceList[];
++	extern const char s_argument[];
++	extern const char s_argumentList[];
++	extern const char s_action[];
++	extern const char s_actionList[];
++	extern const char s_allowedValue[];
++	extern const char s_allowedValueList[];
++	extern const char s_stateVariable[];
++	extern const char s_serviceStateTable[];
++	extern const char s_service[];
++	extern const char s_serviceList[];
++	extern const char s_device[];
++	extern const char s_deviceList[];
+ #endif // UPNP_C
+ 
+ 
+@@ -546,9 +558,9 @@
+ };
+ 
+ 
+-typedef std::map<const std::string, CUPnPRootDevice *> RootDeviceMap;
+-typedef std::map<const std::string, CUPnPService *> ServiceMap;
+-typedef std::map<const std::string, CUPnPPortMapping> PortMappingMap;
++typedef std::map<std::string, CUPnPRootDevice *> RootDeviceMap;
++typedef std::map<std::string, CUPnPService *> ServiceMap;
++typedef std::map<std::string, CUPnPPortMapping> PortMappingMap;
+ 
+ 
+ class CUPnPControlPoint
+--- aMule-2.2.2/src/PrefsUnifiedDlg.cpp.orig	Fri Sep 26 23:57:58 2008
++++ aMule-2.2.2/src/PrefsUnifiedDlg.cpp	Fri Sep 26 23:59:08 2008
+@@ -516,7 +516,7 @@
+ 	if ((CPath::GetFileSize(theApp->ConfigDir + wxT("addresses.dat")) == 0) && 
+ 		CastChild(IDC_AUTOSERVER, wxCheckBox)->IsChecked() ) {
+ 		thePrefs::UnsetAutoServerStart();
+-		wxMessageBox(wxString::wxString( _("Your Auto-update server list is empty.\n'Auto-update server list at startup will be disabled.")),
++		wxMessageBox(_("Your Auto-update server list is empty.\n'Auto-update server list at startup will be disabled."),
+ 			_("Message"), wxOK | wxICON_INFORMATION, this);
+ 	}
+ 
+@@ -606,8 +606,8 @@
+ 	}	
+ 
+ 	if (!thePrefs::GetNetworkED2K() && !thePrefs::GetNetworkKademlia()) {
+-		wxMessageBox(wxString::wxString(
+-			_("Both eD2k and Kad network are disabled.\nYou won't be able to connect until you enable at least one of them.")));
++		wxMessageBox(
++			_("Both eD2k and Kad network are disabled.\nYou won't be able to connect until you enable at least one of them."));
+ 	}	
+ 	
+ 	if (thePrefs::GetNetworkKademlia() && thePrefs::IsUDPDisabled()) {
+@@ -698,7 +698,7 @@
+ 		case IDC_AUTOSERVER:
+ 			if ((CPath::GetFileSize(theApp->ConfigDir + wxT("addresses.dat")) == 0) && 
+ 				CastChild(event.GetId(), wxCheckBox)->IsChecked() ) {
+-				wxMessageBox(wxString::wxString( _("Your Auto-update servers list is in blank.\nPlease fill in at least one URL to point to a valid server.met file.\nClick on the button \"List\" by this checkbox to enter an URL.")),
++				wxMessageBox(_("Your Auto-update servers list is in blank.\nPlease fill in at least one URL to point to a valid server.met file.\nClick on the button \"List\" by this checkbox to enter an URL."),
+ 					_("Message"), wxOK | wxICON_INFORMATION);
+ 				CastChild(event.GetId(), wxCheckBox)->SetValue(false);
+ 			}
+--- aMule-2.2.2/src/extern/wxWidgets/listctrl.cpp.orig	Sat Sep 27 00:03:07 2008
++++ aMule-2.2.2/src/extern/wxWidgets/listctrl.cpp	Sat Sep 27 00:04:09 2008
+@@ -94,6 +94,8 @@
+ // the space between the image and the text in the report mode in header
+ static const int HEADER_IMAGE_MARGIN_IN_REPORT_MODE = 2;
+ 
++const wxChar wxListCtrlNameStr[] = wxT("listCtrl");
++
+ // ============================================================================
+ // private classes
+ // ============================================================================
+--- aMule-2.2.2/src/OtherStructs.h.orig	Sat Sep 27 00:07:16 2008
++++ aMule-2.2.2/src/OtherStructs.h	Sat Sep 27 00:06:45 2008
+@@ -33,7 +33,7 @@
+ 
+ 
+ //			SERVER TO CLIENT
+-#ifdef _MSC_VER
++#if defined(_MSC_VER) || defined(__SUNPRO_CC)
+ #pragma pack(1)
+ #endif
+ struct Header_Struct{
+@@ -41,7 +41,7 @@
+ 	int32	packetlength;
+ 	int8	command;
+ }
+-#ifdef _MSC_VER
++#if defined(_MSC_VER) || defined(__SUNPRO_CC)
+ ;
+ #pragma pack()
+ #else
+@@ -48,7 +48,7 @@
+ __attribute__((__packed__));
+ #endif
+ 
+-#ifdef _MSC_VER
++#if defined(_MSC_VER) || defined(__SUNPRO_CC)
+ #pragma pack(1)
+ #endif
+ struct UDP_Header_Struct {
+@@ -55,7 +55,7 @@
+ 	int8	eDonkeyID;
+ 	int8	command;
+ }
+-#ifdef _MSC_VER
++#if defined(_MSC_VER) || defined(__SUNPRO_CC)
+ ;
+ #pragma pack()
+ #else
+@@ -62,7 +62,7 @@
+ __attribute__((__packed__));
+ #endif
+ 
+-#ifdef _MSC_VER
++#if defined(_MSC_VER) || defined(__SUNPRO_CC)
+ ;
+ #pragma pack(1)
+ #endif
+@@ -73,7 +73,7 @@
+ 	unsigned char	FileID[16];
+ 	uint32  transferred; // Barry - This counts bytes completed
+ }
+-#ifdef _MSC_VER
++#if defined(_MSC_VER) || defined(__SUNPRO_CC)
+ ;
+ #pragma pack()
+ #else
+@@ -85,7 +85,7 @@
+ 	uint32	  lastasked;
+ 	uint8	  badrequests;
+ }
+-#ifdef _MSC_VER
++#if defined(_MSC_VER) || defined(__SUNPRO_CC)
+ ;
+ #pragma pack()
+ #else
+@@ -105,7 +105,7 @@
+ 	uint64 end;
+ };
+ 
+-#ifdef _MSC_VER
++#if defined(_MSC_VER) || defined(__SUNPRO_CC)
+ #pragma pack(1)
+ #endif
+ struct ServerMet_Struct {
+@@ -113,7 +113,7 @@
+ 	uint16	port;
+ 	uint32	tagcount;
+ }
+-#ifdef _MSC_VER
++#if defined(_MSC_VER) || defined(__SUNPRO_CC)
+ ;
+ #pragma pack()
+ #else
+@@ -128,7 +128,7 @@
+ 
+ //Kry import of 0.30d 
+ // Maella -Enhanced Chunk Selection- (based on jicxicmic)
+-#ifdef _MSC_VER
++#if defined(_MSC_VER) || defined(__SUNPRO_CC)
+ #pragma pack(1)
+ #endif
+ struct Chunk {
+@@ -138,7 +138,7 @@
+ 			uint16 rank;      // Download priority factor (highest = 0, lowest = 0xffff)
+ 	};
+ }
+-#ifdef _MSC_VER
++#if defined(_MSC_VER) || defined(__SUNPRO_CC)
+ ;
+ #pragma pack()
+ #else
+--- aMule-2.2.2/src/SafeFile.cpp.orig	Fri Sep 26 18:53:06 2008
++++ aMule-2.2.2/src/SafeFile.cpp	Sat Sep 27 00:23:28 2008
+@@ -28,6 +28,9 @@
+ #include "kademlia/utils/UInt128.h"	// Needed for CUInt128
+ #include "ScopedPtr.h"				// Needed for CScopedPtr and CScopedArray
+ 
++#if defined(__SUNPRO_CC)
++#define __FUNCTION__ __FILE__+__LINE__
++#endif
+ 
+ #define CHECK_BOM(size, x) ((size >= 3)  && (x[0] == (char)0xEF) && (x[1] == (char)0xBB) && (x[2] == (char)0xBF))
+ 
+--- aMule-2.2.2/src/kademlia/kademlia/SearchManager.cpp.orig	Fri Sep 26 18:27:51 2008
++++ aMule-2.2.2/src/kademlia/kademlia/SearchManager.cpp	Sat Sep 27 00:25:52 2008
+@@ -49,6 +49,10 @@
+ 
+ #include <wx/tokenzr.h>
+ 
++#if defined(__SUNPRO_CC)
++#define __FUNCTION__ __FILE__+__LINE__
++#endif
++
+ ////////////////////////////////////////
+ using namespace Kademlia;
+ ////////////////////////////////////////
+--- aMule-2.2.2/src/Tag.cpp.orig	Fri Sep 26 18:53:36 2008
++++ aMule-2.2.2/src/Tag.cpp	Sat Sep 27 00:28:15 2008
+@@ -30,6 +30,10 @@
+ #include "SafeFile.h"		// Needed for CFileDataIO
+ #include "MD4Hash.h"			// Needed for CMD4Hash
+ 
++#if defined(__SUNPRO_CC)
++#define __FUNCTION__ __FILE__+__LINE__
++#endif
++
+ ///////////////////////////////////////////////////////////////////////////////
+ // CTag
+ 
+--- aMule-2.2.2/src/DownloadQueue.cpp.orig	Fri Sep 26 19:16:49 2008
++++ aMule-2.2.2/src/DownloadQueue.cpp	Sat Sep 27 00:39:33 2008
+@@ -1452,7 +1452,7 @@
+ 	{
+ 		wxMutexLocker lock(m_mutex);
+ 		list.reserve( m_filelist.size() );
+-		list.insert( list.begin(), m_filelist.begin(), m_filelist.end() );
++		list.insert( list.begin(), m_filelist.size(), *m_filelist.begin() );
+ 	}
+ 
+ 	NotifyObservers( EventType( EventType::INITIAL, &list ), o );
