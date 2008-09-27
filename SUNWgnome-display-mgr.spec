@@ -33,10 +33,10 @@ Patch4:                  gdm-04-dynamic-display.diff
 # Possible fix for unwritable gdm user $HOME. gnome-session
 # tries to update ~/.ICEAuthority and gdm-simple-greeter crashes
 # when looking up option widgets.
-Patch6:                  gdm-06-ICE-optionwidget.diff
+Patch5:                  gdm-05-ICE-optionwidget.diff
 # Fix gconf-santiy-check-2 warning dialog.
 # Please see http://bugzilla.gnome.org/show_bug.cgi?id=550832
-Patch7:			 gdm-07-gconfsanity.diff
+Patch6:			 gdm-06-gconfsanity.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -310,6 +310,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Sat Sep 27 2008 - brian.cameron@sun.com
+- Renumber patches.
 * Wed Sep 24 2008 - simon.zheng@sun.com
 - Bump to 2.24.0. Remove upstream 05-crash.diff.
 * Wed Sep 17 2008 - brian.cameron@sun.com

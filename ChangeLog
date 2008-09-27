@@ -1,3 +1,8 @@
+2008-09-25  Brian Cameron  <brian.cameron@sun.com>
+
+	* SUNWgnome-display-mgr.spec, patches/gdm-05-ICE-optionwidget.diff,
+	  patches/gdm-06-gconfsanity.diff:  Renumber patches.
+
 2008-09-27  Alfred Peng  <alfred.peng@sun.com>
 
 	* SFEamule.spec, patches/amule-01-sun-studio12.patch:
@@ -245,7 +250,7 @@
 2008-08-29  Alfred Peng  <alfred.peng@sun.com>
 
 	* SFEfilezilla.spec base-specs/filezilla.spec: Bump to 3.1.1.
-	Remove upstreamed patches.
+	  Remove upstreamed patches.
 	* patches/filezilla-01-iter++.diff:
 	* patches/filezilla-02-SetActive.diff:
 	* patches/filezilla-03-msgfmt.diff:
@@ -514,9 +519,9 @@
 2008-08-15  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFEalsa-lib.spec, SFEalsa-plugins.spec, SFEalsa-utils.spec,
-	copyright/SFEalsa-lib.copyright,
-	copyright/SFEalsa-plugins.copyright,
-	copyright/SFEalsa-utils.copyright: Add copyright and grouping.
+	  copyright/SFEalsa-lib.copyright,
+	  copyright/SFEalsa-plugins.copyright,
+	  copyright/SFEalsa-utils.copyright: Add copyright and grouping.
 
 2008-08-15  Glynn Foster  <glynn.foster@sun.com>
 
@@ -527,15 +532,15 @@
 2008-08-15  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFEadns.spec, SFEafio.spec, SFEafterstep.spec,
-	copyright/SFEadns.copyright,
-	copyright/SFEafio.copyright,
-	copyright/SFEafterstep.copyright: Add copyright and grouping.
+	  copyright/SFEadns.copyright,
+	  copyright/SFEafio.copyright,
+	  copyright/SFEafterstep.copyright: Add copyright and grouping.
 
 2008-08-15  Glynn Foster  <glynn.foster@sun.com>
 
 	* SFEaalib.spec, SFEabiword.spec,
-	copyright/SFEaalib.copyright, copyright/SFEabiword.copyright:
-	Add copyright and grouping.
+	  copyright/SFEaalib.copyright, copyright/SFEabiword.copyright:
+	  Add copyright and grouping.
 
 2008-08-15  Glynn Foster  <glynn.foster@sun.com>
 
