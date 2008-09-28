@@ -1,3 +1,7 @@
+2008-09-28  Alfred Peng  <alfred.peng@sun.com>
+
+	* SFEgftp.spec: Update group bit for %{_datadir}/man.
+
 2008-09-25  Brian Cameron  <brian.cameron@sun.com>
 
 	* SUNWgnome-display-mgr.spec, patches/gdm-05-ICE-optionwidget.diff,

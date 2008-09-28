@@ -60,7 +60,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/*
 %dir %attr (0755, root, other) %{_datadir}/gftp
 %{_datadir}/gftp/*
-%dir %attr (0755, root, other) %{_datadir}/man
+%dir %attr (0755, root, bin) %{_datadir}/man
 %{_datadir}/man/*
 %dir %attr (0755, root, other) %{_datadir}/pixmaps
 %{_datadir}/pixmaps/*
@@ -73,6 +73,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Sep 28 2008 - alfred.peng@sun.com
+- Update group bit for %{_datadir}/man.
 * Wed Sep 24 2008 - alfred.peng@sun.com
 - Backport the patch gftp-01-solaris-in-trunk.diff from trunk to build
   with Sun Studio.
