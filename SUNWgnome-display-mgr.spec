@@ -32,7 +32,7 @@ Patch3:                  gdm-03-ctrun.diff
 Patch4:                  gdm-04-dynamic-display.diff
 # Possible fix for unwritable gdm user $HOME. gnome-session
 # tries to update ~/.ICEAuthority and gdm-simple-greeter crashes
-# when looking up option widgets.
+# when looking up option widgets.  Refer to bugzilla bug #554242.
 Patch5:                  gdm-05-ICE-optionwidget.diff
 # Fix gconf-santiy-check-2 warning dialog.
 # Please see http://bugzilla.gnome.org/show_bug.cgi?id=550832
