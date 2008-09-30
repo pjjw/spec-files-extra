@@ -1,3 +1,14 @@
+2008-09-30  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEelisa.spec, patches/elisa-02-defaultdict.diff:  Bump to 0.5.12
+	  and add patch so it builds and works with Python 2.4.
+	* SFEelisa-plugins-good.spec, SFEelisa-plugins-bad.spec:  Bump to
+	  0.5.12.
+	* SFEpigment.spec: Bump to 0.3.10.
+	* SFEpigment-python.spec: Bump to 0.3.8.
+	* SFEpython-twisted-web2.spec: Bump to 8.1.0.
+	* SFEjokosher.spec: Bump to 0.10.1.
+
 2008-09-28  Alfred Peng  <alfred.peng@sun.com>
 
 	* SFEgftp.spec: Update group bit for %{_datadir}/man.

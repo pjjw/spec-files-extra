@@ -4,7 +4,7 @@
 # includes module(s): pigment
 #
 %define name pigment
-%define version 0.3.9
+%define version 0.3.10
 
 %include Solaris.inc
 
@@ -94,6 +94,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtk-doc/html/*
 
 %changelog
+* Tue Sep 30 2008  Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.3.10.
 * Wed Sep 17 2008  Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.3.9.  Remove upstream patch pigment-01-m4.diff.
 * Thu Sep 10 2008 Jerry Yu <jijun.yu@sun.com>

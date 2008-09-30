@@ -13,8 +13,8 @@
 Name:                    SFEpython-twisted-web2
 Summary:                 A HTTP/1.1 Server Framework
 URL:                     http://twistedmatrix.com/trac/
-Version:                 0.2.0
-Source:                  http://tmrc.mit.edu/mirror/twisted/Web2/TwistedWeb2-%{version}.tar.bz2
+Version:                 8.1.0
+Source:                  http://tmrc.mit.edu/mirror/twisted/Web2/8.1/TwistedWeb2-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 Requires:                SUNWPython
@@ -51,5 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{pythonver}/vendor-packages/twisted
 
 %changelog
+* Tue Sep 30 2008 - brian.cameron@sun.com
+- Bump to 8.1.0.
 * Fri Jul 25 2008 - brian.cameron@sun.com
 - Initial version.

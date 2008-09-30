@@ -11,7 +11,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa
-%define version 0.5.11
+%define version 0.5.12
 
 %include Solaris.inc
 
@@ -22,6 +22,8 @@ Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-%{version}.tar.gz
 # See bug #249822.
 Patch1:            elisa-01-fixlocale.diff
+# See bug #268485.
+Patch2:            elisa-02-defaultdict.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
 BuildRequires:     SUNWPython-devel
@@ -66,6 +68,7 @@ systems.
 %prep
 %setup -q -n elisa-%version
 %patch1 -p1
+%patch2 -p1
 
 %build
 
@@ -116,6 +119,9 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_generic_setup.pyc
 
 %changelog
+* Tue Sep 30 2008 Brian Cameron  <brian.cameron@sun.com
+- Bump to 0.5.12.  Add patch  elisa-02-defaultdict.diff, so it no longer
+  depends on Python 2.5 and works with 2.4.
 * Thu Sep 25 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.11.
 * Wed Sep 17 2008 Brian Cameron  <brian.cameron@sun.com>

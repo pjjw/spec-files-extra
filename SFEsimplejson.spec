@@ -11,7 +11,7 @@
 Name:                   SFEsimplejson
 Summary:                Simple, fast, extensible JSON encoder and decoder for Python
 URL:                    http://undefined.org/python/#simplejson
-Version:                1.9.1
+Version:                2.0.1
 Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
@@ -51,5 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{python_version}/vendor-packages
 
 %changelog
+* Tue Sep 30 2008 - brian.cameron@sun.com
+- Bump to 2.0.1.
 * Sun May 25 2008 - Ananth Shrinivas <ananth@sun.com>
 - Initial Version

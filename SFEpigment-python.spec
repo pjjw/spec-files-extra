@@ -4,7 +4,7 @@
 # includes module(s): pigment-python
 #
 %define name pigment-python
-%define version 0.3.7
+%define version 0.3.8
 %define pythonver 2.4
 
 %include Solaris.inc
@@ -85,6 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pigment-python
 
 %changelog
+* Tue Sep 30 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.3.8.
 * Wed Sep 17 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.3.7.
 * Thu Sep 11 2008 Jerry Yu <jijun.yu@sun.com>

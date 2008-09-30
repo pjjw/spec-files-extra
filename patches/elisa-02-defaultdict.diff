@@ -1,0 +1,20 @@
+--- elisa-0.5.12/elisa/core/config.py-orig	2008-09-30 17:34:31.498716000 -0500
++++ elisa-0.5.12/elisa/core/config.py	2008-09-30 17:34:42.463815000 -0500
+@@ -32,8 +32,6 @@ import os
+ import textwrap
+ import tempfile
+ 
+-from collections import defaultdict
+-
+ class ConfigError(Exception):
+ 
+     def __init__(self, msg):
+@@ -268,7 +266,7 @@ class Config(log.Loggable):
+                               indict=section,
+                               name=section_name)
+ 
+-        real_section.comments = defaultdict(str, \
++        real_section.comments = dict(str, \
+                 [(k, ['# %s' % line for line in textwrap.wrap(v, 77)]) \
+                                                 for k,v in doc.iteritems()])
+         self._config[section_name] = real_section
