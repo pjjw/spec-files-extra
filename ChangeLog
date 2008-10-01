@@ -1,5 +1,10 @@
 2008-10-02  Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEpython-pymetar.spec: Move the installed python code to 
+	  vendor-packages instead of site-packages.
+
+2008-10-02  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEpython-cssutils.spec: Fix packaging so the easy-install.pth
 	  issue mentioned in my last ChangeLog entry (2008-09-30) is addressed.
 
