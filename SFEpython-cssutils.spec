@@ -35,12 +35,7 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/
 export PYTHONPATH=$PYTHONPATH:$RPM_BUILD_ROOT/%_prefix/lib/python%{pythonver}/site-packages
 
-python setup.py install --prefix=$RPM_BUILD_ROOT/%_prefix
-
-# Remove files we don't need.
-rm -fR $RPM_BUILD_ROOT/%{_libdir}/python%{pythonver}/site-packages/easy-install.pth
-rm -fR $RPM_BUILD_ROOT/%{_libdir}/python%{pythonver}/site-packages/site.py
-rm -fR $RPM_BUILD_ROOT/%{_libdir}/python%{pythonver}/site-packages/site.pyc
+python setup.py install --root=$RPM_BUILD_ROOT
 
 # move to vendor-packages
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages
@@ -59,8 +54,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/cssparse
 %{_bindir}/csscapture
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/python%{pythonver}/vendor-packages/cssutils*.egg
-#%{_libdir}/python%{pythonver}/vendor-packages/easy-install.pth
+%{_libdir}/python%{pythonver}/vendor-packages/cssutils-%{version}-py%{pythonver}.egg-info
+%{_libdir}/python%{pythonver}/vendor-packages/cssutils
+%{_libdir}/python%{pythonver}/vendor-packages/encutils
+%{_libdir}/python%{pythonver}/vendor-packages/tests
 
 %changelog
 * Thu Sep 18 2008 - jijun.yu@sun.com

@@ -1,6 +1,12 @@
+2008-10-02  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEpython-cssutils.spec: Fix packaging so the easy-install.pth
+	  issue mentioned in my last mail is addressed.
+
 2008-10-02 Mark Wright <markwright@internode.on.net>
 
-	* SFEdeluge.spec, patches/deluge-01-sunpro.diff: Bump to 0.5.9.1, bump patch1
+	* SFEdeluge.spec, patches/deluge-01-sunpro.diff: Bump to 0.5.9.1, bump
+	  patch1
 	* SFEemacs.spec: Bump to 22.3
 	* SFElibetpan.spec: *NEW* email library
 	* SFEgnupg2.spec: Patch 3 and 4 to correct build issues on sol10
@@ -86,6 +92,7 @@
 	* patches/gdm-07-gconfsanity.diff: Fix for gconf-sanity-check warning.
 
 2008-09-21  Dick Hoogendijk <dick@nagual.nl>
+
 	* SFEqt.spec: Bump to version 4.4.2
 
 2008-09-19  Jerry Yu <jijun.yu@sun.com>
