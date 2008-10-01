@@ -15,6 +15,7 @@ Summary:           Bad plugins for Elisa
 URL:               http://elisa.fluendo.com/
 Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-plugins-bad-%{version}.tar.gz
+Patch1:            elisa-plugins-bad-01-nohashlib.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
 Requires:          SFEelisa
@@ -30,6 +31,7 @@ code needing more QA (unittests, code reviews).
 
 %prep
 %setup -q -n elisa-plugins-bad-%version
+%patch1 -p1
 
 %build
 

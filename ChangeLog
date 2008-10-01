@@ -1,5 +1,15 @@
 2008-09-30  Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEelisa-plugins-bad.spec, patches/elisa-plugins-bad-nohashlib.diff:
+	  Add a patch to replace some hashlib.md5 functions with md5.md5 so
+	  it generates less error messages when using Python 2.4.
+	* patches/elisa-02-defaultdict.diff:  Fix patch so it works better.
+	* SFEpython-cssutils.spec: Avoid installing the easy-install.pth
+	  file for now.  Python-Twisted 8.1 also wants to install this file
+	  and I'm not yet sure how to manange this.
+
+2008-09-30  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEelisa.spec, patches/elisa-02-defaultdict.diff:  Bump to 0.5.12
 	  and add patch so it builds and works with Python 2.4.
 	* SFEelisa-plugins-good.spec, SFEelisa-plugins-bad.spec:  Bump to

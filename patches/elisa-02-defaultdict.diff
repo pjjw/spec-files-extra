@@ -14,7 +14,7 @@
                                name=section_name)
  
 -        real_section.comments = defaultdict(str, \
-+        real_section.comments = dict(str, \
++        real_section.comments = dict( \
                  [(k, ['# %s' % line for line in textwrap.wrap(v, 77)]) \
                                                  for k,v in doc.iteritems()])
          self._config[section_name] = real_section
