@@ -47,6 +47,12 @@ Claws-Mail is an e-mail client (and news reader) based on GTK+
 %prep
 %setup -q -n %{src_name}-%{version}
 sed -i -e "s,CFLAGS -Wall,CFLAGS,g" configure configure.ac
+sed -i -e "s,-Wno-deprecated-declarations,-errfmt=error," src/plugins/pgpcore/Makefile.am \
+    src/plugins/pgpcore/Makefile.in \
+    src/plugins/pgpinline/Makefile.am \
+    src/plugins/pgpinline/Makefile.in \
+    src/plugins/pgpmime/Makefile.am \
+    src/plugins/pgpmime/Makefile.in
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -56,6 +62,7 @@ fi
 
 export CFLAGS="%optflags -xc99"
 export LDFLAGS="%_ldflags -lsocket -lnsl"
+export ASPELL="/usr/lib/aspell/aspell"
 
 ./configure --prefix=%{_prefix}          \
             --bindir=%{_bindir}         \
@@ -66,7 +73,10 @@ export LDFLAGS="%_ldflags -lsocket -lnsl"
             --sysconfdir=%{_sysconfdir} \
             --enable-shared             \
             --disable-static            \
-            --disable-ldap
+            --enable-aspell             \
+            --with-aspell-prefix=/usr   \
+            --disable-ldap              \
+            --disable-pgpcore-plugin
 
 make -j $CPUS
 
@@ -132,5 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/claws-mail/etpan/*.h
 
 %changelog
+* Thu Oct 2 2008 - markwright@internode.on.net
+- Detect aspell, disable pgp to avoid compiler error.
 * Thu Oct 2 2008 - markwright@internode.on.net
 - create

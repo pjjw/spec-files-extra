@@ -1,3 +1,8 @@
+2008-10-02 Mark Wright <markwright@internode.on.net>
+
+	* SFEgpgme.spec: Remove lib/libgpgme-pth.la, if it is built.
+	* SFEclaws-mail.spec: Detect aspell, disable pgp to avoid compile error
+
 2008-10-02  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEpython-pymetar.spec: Move the installed python code to 
@@ -19,7 +24,7 @@
 	* patches/gnupg2-04-keyserver-sm-Makefile.diff: Patch from KDE4 project
 	* SFElibpcap.spec: Bump to 0.9.8
 	* SFEgnochm.spec: Bump to 0.9.11
-	* SFEclaws-mail.spec *NEW* GTK+ email client.
+	* SFEclaws-mail.spec: *NEW* GTK+ email client.
 
 2008-09-30  Brian Cameron  <brian.cameron@sun.com>
 

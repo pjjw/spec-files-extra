@@ -41,6 +41,7 @@ rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 rm ${RPM_BUILD_ROOT}%{_libdir}/libgpgme-pthread.la
 rm ${RPM_BUILD_ROOT}%{_libdir}/libgpgme.la
+rm -f ${RPM_BUILD_ROOT}%{_libdir}/libgpgme-pth.la
 rm ${RPM_BUILD_ROOT}%{_datadir}/info/dir
 
 %clean
@@ -83,6 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/common-lisp
 
 %changelog
+* Thu Oct 2 2008 - markwright@internode.on.net
+- Remove lib/libgpgme-pth.la, if it is built.
 * Tue Feb 26 2008 - jijun.yu@sun.com
 - Remove a file.
 * Wed Jan 02 2008 - jijun.yu@sun.com
