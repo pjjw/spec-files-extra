@@ -7,7 +7,7 @@
 
 Name:                SFElibpcap
 Summary:             Packet Capture library 
-Version:             0.9.7
+Version:             0.9.8
 Source:              http://www.tcpdump.org/release/libpcap-%{version}.tar.gz
 Patch1:              libpcap-01-link-shared-lib.diff
 SUNW_BaseDir:        %{_basedir}
@@ -67,6 +67,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/pcap.3
 
 %changelog
+* Thu Oct 2 2008 - markwright@internode.on.net
+- 0.9.8
 * Wed May  7 2008 - river@wikimedia.org
 - 0.9.7
 * Tue Apr  3 2007 - laca@sun.com

@@ -13,6 +13,8 @@ Summary:       %{gnupg.summary}
 Version:       %{gnupg.version}
 Patch1:        gnupg2-01-asschk.diff
 Patch2:        gnupg2-02-inittests.diff
+Patch3:        gnupg2-03-jnlib-Makefile.diff
+Patch4:        gnupg2-04-keyserver-sm-Makefile.diff
 SUNW_BaseDir:  %{_basedir}
 BuildRoot:     %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -41,6 +43,8 @@ mkdir -p %name-%version
 cd %name-%version
 %patch1 -p0
 %patch2 -p0
+%patch3 -p0
+%patch4 -p0
 cd ..
 
 %build
@@ -99,6 +103,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Oct 2 2008 - markwright@internode.on.net
+- Add patch 3 and 4 from KDE4 project to fix build issues on sol10
 * Sun Jan 20 2008 - moinak.ghosh@sun.com
 - Fixed various nits.
 - Fixed build using SUN Studio.

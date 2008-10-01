@@ -1,0 +1,62 @@
+Index: gnupg-2.0.8/keyserver/Makefile.in
+===================================================================
+--- gnupg-2.0.8-orig/keyserver/Makefile.in	(revision 2578)
++++ gnupg-2.0.8/keyserver/Makefile.in	(working copy)
+@@ -397,13 +397,13 @@
+ 	$(am__append_8)
+ @FAKE_CURL_FALSE@gpg2keys_curl_CPPFLAGS = $(LIBCURL_CPPFLAGS) $(AM_CPPFLAGS)
+ @FAKE_CURL_TRUE@gpg2keys_curl_CPPFLAGS = $(AM_CPPFLAGS)
+-@FAKE_CURL_FALSE@gpg2keys_curl_LDADD = $(LIBCURL) $(GETOPT)
++@FAKE_CURL_FALSE@gpg2keys_curl_LDADD = $(common_libs) $(GPG_ERROR_LIBS) $(LIBCURL) $(GETOPT) $(NETLIBS) $(DNSLIBS) $(other_libs)
+ @FAKE_CURL_TRUE@gpg2keys_curl_LDADD = $(common_libs) $(GPG_ERROR_LIBS) $(NETLIBS) $(DNSLIBS) \
+ @FAKE_CURL_TRUE@	              $(other_libs) 
+ 
+ @FAKE_CURL_FALSE@gpg2keys_hkp_CPPFLAGS = $(LIBCURL_CPPFLAGS) $(AM_CPPFLAGS)
+ @FAKE_CURL_TRUE@gpg2keys_hkp_CPPFLAGS = $(AM_CPPFLAGS)
+-@FAKE_CURL_FALSE@gpg2keys_hkp_LDADD = $(LIBCURL) $(GETOPT)
++@FAKE_CURL_FALSE@gpg2keys_hkp_LDADD = $(common_libs) $(GPG_ERROR_LIBS) $(LIBCURL) $(GETOPT) $(NETLIBS) $(DNSLIBS) $(other_libs)
+ @FAKE_CURL_TRUE@gpg2keys_hkp_LDADD = $(common_libs) $(GPG_ERROR_LIBS) $(NETLIBS) $(DNSLIBS) \
+ @FAKE_CURL_TRUE@	             $(other_libs) 
+ 
+Index: gnupg-2.0.8/keyserver/Makefile.am
+===================================================================
+--- gnupg-2.0.8-orig/keyserver/Makefile.am	(revision 2578)
++++ gnupg-2.0.8/keyserver/Makefile.am	(working copy)
+@@ -61,9 +61,9 @@
+ 	             $(other_libs) 
+ else
+ gpg2keys_curl_CPPFLAGS = $(LIBCURL_CPPFLAGS) $(AM_CPPFLAGS)
+-gpg2keys_curl_LDADD = $(LIBCURL) $(GETOPT)
++gpg2keys_curl_LDADD = $(common_libs) $(GPG_ERROR_LIBS) $(LIBCURL) $(GETOPT) $(NETLIBS) $(DNSLIBS) $(other_libs)
+ gpg2keys_hkp_CPPFLAGS = $(LIBCURL_CPPFLAGS) $(AM_CPPFLAGS)
+-gpg2keys_hkp_LDADD = $(LIBCURL) $(GETOPT)
++gpg2keys_hkp_LDADD = $(common_libs) $(GPG_ERROR_LIBS) $(LIBCURL) $(GETOPT) $(NETLIBS) $(DNSLIBS) $(other_libs)
+ endif
+ 
+ # Make sure that all libs are build before we use them.  This is
+Index: gnupg-2.0.8/sm/Makefile.in
+===================================================================
+--- gnupg-2.0.8-orig/sm/Makefile.in	(revision 2578)
++++ gnupg-2.0.8/sm/Makefile.in	(working copy)
+@@ -366,7 +366,7 @@
+ 	certreqgen-ui.c \
+ 	qualified.c
+ 
+-common_libs = $(libcommon) ../kbx/libkeybox.a ../jnlib/libjnlib.a \
++common_libs = $(libcommon) ../kbx/keybox-blob.o ../kbx/keybox-file.o ../kbx/keybox-init.o ../kbx/keybox-openpgp.o ../kbx/keybox-search.o ../kbx/keybox-update.o ../kbx/keybox-util.o ../jnlib/libjnlib.a \
+               ../gl/libgnu.a
+ 
+ gpgsm_LDADD = $(common_libs) ../common/libgpgrl.a \
+Index: gnupg-2.0.8/sm/Makefile.am
+===================================================================
+--- gnupg-2.0.8-orig/sm/Makefile.am	(revision 2578)
++++ gnupg-2.0.8/sm/Makefile.am	(working copy)
+@@ -52,7 +52,7 @@
+ 	qualified.c
+ 
+ 
+-common_libs = $(libcommon) ../kbx/libkeybox.a ../jnlib/libjnlib.a \
++common_libs = $(libcommon) ../kbx/keybox-blob.o ../kbx/keybox-file.o ../kbx/keybox-init.o ../kbx/keybox-openpgp.o ../kbx/keybox-search.o ../kbx/keybox-update.o ../kbx/keybox-util.o ../jnlib/libjnlib.a \
+               ../gl/libgnu.a
+ 
+ gpgsm_LDADD = $(common_libs) ../common/libgpgrl.a \

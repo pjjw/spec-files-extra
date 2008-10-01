@@ -7,8 +7,8 @@
 
 Name:                    SFEemacs
 Summary:                 GNU Emacs - an operating system in a text editor
-Version:                 22.1
-%define emacs_version    22.1
+Version:                 22.3
+%define emacs_version    22.3
 Source:                  http://ftp.gnu.org/pub/gnu/emacs/emacs-%{emacs_version}.tar.gz
 URL:                     http://www.gnu.org/software/emacs/emacs.html
 SUNW_BaseDir:            %{_basedir}
@@ -123,6 +123,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_localstatedir}/games/emacs/*
 
 %changelog
+* Thu Oct 2 2008 - markwright@internode.on.net
+- Bump to 22.3
 * Wed Oct 17 2007 - laca@sun.com
 - change /var/games owner to root:bin to match Maelstrom
 * Tue Oct 16 2007 - laca@sun.com

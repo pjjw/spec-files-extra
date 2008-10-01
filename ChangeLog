@@ -1,3 +1,15 @@
+2008-10-02 Mark Wright <markwright@internode.on.net>
+
+	* SFEdeluge.spec, patches/deluge-01-sunpro.diff: Bump to 0.5.9.1, bump patch1
+	* SFEemacs.spec: Bump to 22.3
+	* SFElibetpan.spec: *NEW* email library
+	* SFEgnupg2.spec: Patch 3 and 4 to correct build issues on sol10
+	* patches/gnupg2-03-jnlib-Makefile.diff: Patch from KDE4 project
+	* patches/gnupg2-04-keyserver-sm-Makefile.diff: Patch from KDE4 project
+	* SFElibpcap.spec: Bump to 0.9.8
+	* SFEgnochm.spec: Bump to 0.9.11
+	* SFEclaws-mail.spec *NEW* GTK+ email client.
+
 2008-09-30  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEelisa-plugins-bad.spec, patches/elisa-plugins-bad-nohashlib.diff:

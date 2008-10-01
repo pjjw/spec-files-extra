@@ -1,0 +1,22 @@
+--- gnupg-2.0.8-orig/jnlib/Makefile.am	2008-03-08 07:42:01.000000000 +0000
++++ gnupg-2.0.8/jnlib/Makefile.am	2008-09-24 00:30:51.954846418 +0000
+@@ -63,7 +63,7 @@
+ module_tests = t-stringhelp
+ 
+ t_jnlib_src = t-support.c t-support.h 
+-t_jnlib_ldadd = libjnlib.a $(LIBINTL) $(LIBICONV)
++t_jnlib_ldadd = libjnlib.a -lgpg-error $(LIBINTL) $(LIBICONV)
+ 
+ t_stringhelp_SOURCES = t-stringhelp.c $(t_jnlib_src)
+ t_stringhelp_LDADD = $(t_jnlib_ldadd)
+--- gnupg-2.0.8-orig/jnlib/Makefile.in	2008-09-23 15:31:43.598606000 +0000
++++ gnupg-2.0.8/jnlib/Makefile.in	2008-09-24 00:31:27.076080342 +0000
+@@ -337,7 +337,7 @@
+ #
+ module_tests = t-stringhelp
+ t_jnlib_src = t-support.c t-support.h 
+-t_jnlib_ldadd = libjnlib.a $(LIBINTL) $(LIBICONV)
++t_jnlib_ldadd = libjnlib.a -lgpg-error $(LIBINTL) $(LIBICONV)
+ t_stringhelp_SOURCES = t-stringhelp.c $(t_jnlib_src)
+ t_stringhelp_LDADD = $(t_jnlib_ldadd)
+ all: all-am

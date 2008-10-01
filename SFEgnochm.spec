@@ -10,7 +10,7 @@
 
 Name:                SFEgnochm
 Summary:             Gnome CHM viewer
-Version:             0.9.10
+Version:             0.9.11
 Source:              %{src_url}/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -142,6 +142,8 @@ test -x $BASEDIR/lib/postrun || exit 0
 %{_sysconfdir}
 
 %changelog
+* Wed Oct 1 2008 - markwright@internode.on.net
+- Bump to 0.9.11
 * Mon Apr 07 2008 - brian.cameron@sun.com
 - Change SFEgnome-python-extras to SUNWgnome-python-extras
 * Fri Jul 27 2007 - dougs@truemail.co.th
