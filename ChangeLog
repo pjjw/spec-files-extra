@@ -1,3 +1,8 @@
+2008-10-02  Brian Cameron  <brian.cameron@sun.com>
+
+	* patches/elisa-02-defaultdict.diff: Fix defaultdict issue properly,
+	  using same patch which is now upstream.
+
 2008-10-02 Mark Wright <markwright@internode.on.net>
 
 	* SFEgpgme.spec: Remove lib/libgpgme-pth.la, if it is built.
