@@ -1,0 +1,46 @@
+--- sambagnu.xml.orig	2008-09-17 22:17:01.000000000 +0200
++++ sambagnu.xml	2008-10-03 16:53:49.333036715 +0200
+@@ -34,9 +34,9 @@
+ 	file.
+ -->
+ 
+-<service_bundle type='manifest' name='SUNWsmbar:samba'>
++<service_bundle type='manifest' name='SFEsamba:gnupathlayout'>
+ 
+-<service name='network/samba' type='service' version='1'>
++<service name='network/sambagnu' type='service' version='1'>
+ 
+ 	<create_default_instance enabled='false' />
+ 
+@@ -68,26 +68,26 @@
+ 	</dependent>
+ 
+ 	<exec_method type='method' name='start'
+-		exec='/usr/sfw/sbin/smbd -D'
++		exec='/usr/gnu/sbin/smbd -D'
+ 		timeout_seconds='170' />
+ 
+ 	<exec_method type='method' name='stop'
+-		exec='/usr/bin/kill `cat /var/samba/locks/smbd.pid`'
++		exec='/usr/bin/kill `cat /var/gnu/samba/locks/smbd.pid`'
+ 		timeout_seconds='60' />
+ 
+ 	<stability value='Unstable' />
+ 
+ 	<template>
+ 		<common_name>
+ 			<loctext xml:lang='C'>
+-			SMB file server
++			SMB file server in SFE /usr/gnu pathlayout
+ 			</loctext>
+ 		</common_name>
+ 		<documentation>
+ 			<manpage title='smbd' section='1m'
+-			    manpath='/usr/sfw/man' />
++			    manpath='/usr/gnu/man' />
+ 			<manpage title='smb.conf' section='4'
+-			    manpath='/usr/sfw/man' />
++			    manpath='/usr/gnu/man' />
+ 		</documentation>
+ 	</template>
+ </service>

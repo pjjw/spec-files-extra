@@ -1,0 +1,11 @@
+--- samba-3.2.4/examples/smb.conf.default.orig	2008-09-18 08:49:02.000000000 +0200
++++ samba-3.2.4/examples/smb.conf.default	2008-10-03 23:02:25.438408916 +0200
+@@ -151,7 +151,7 @@
+ # machine to add or delete corresponding unix accounts
+ ;  add user script = /usr/sbin/useradd %u
+ ;  add group script = /usr/sbin/groupadd %g
+-;  add machine script = /usr/sbin/adduser -n -g machines -c Machine -d /dev/null -s /bin/false %u
++;  add machine script = /usr/sbin/useradd -d / -g 1 -s /bin/false -M %u
+ ;  delete user script = /usr/sbin/userdel %u
+ ;  delete user from group script = /usr/sbin/deluser %u %g
+ ;  delete group script = /usr/sbin/groupdel %g

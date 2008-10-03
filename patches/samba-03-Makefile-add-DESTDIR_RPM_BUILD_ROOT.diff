@@ -1,0 +1,11 @@
+--- samba-3.2.2/source/Makefile.in.orig	2008-09-14 12:50:03.000000000 +0200
++++ samba-3.2.2/source/Makefile.in	2008-09-14 12:58:28.555899483 +0200
+@@ -84,7 +84,7 @@
+ srcdir=@abs_srcdir@
+ builddir=@abs_builddir@
+ SHELL=/usr/bin/bash
+-DESTDIR=/
++#DESTDIR=/
+ 
+ # XXX: Perhaps this should be @SHELL@ instead -- apparently autoconf
+ # will search for a POSIX-compliant shell, and that might not be
