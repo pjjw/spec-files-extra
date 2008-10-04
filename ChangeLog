@@ -1,3 +1,6 @@
+2008-10-04  Thomas Wagner  <tom68@users.sourceforge.net>
+        * SFEsamba.spec: patch4: change SMF FMRI from network/ to site/, add missing samba.xml
+
 2008-10-03  Thomas Wagner  <tom68@users.sourceforge.net>
         * SFEsamba.spec: *NEW* 3.2.4 security fix / want standalone PDC for Domain-Logons
 

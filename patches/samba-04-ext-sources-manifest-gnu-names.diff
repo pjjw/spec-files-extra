@@ -8,7 +8,7 @@
 +<service_bundle type='manifest' name='SFEsamba:gnupathlayout'>
  
 -<service name='network/samba' type='service' version='1'>
-+<service name='network/sambagnu' type='service' version='1'>
++<service name='site/sambagnu' type='service' version='1'>
  
  	<create_default_instance enabled='false' />
  
