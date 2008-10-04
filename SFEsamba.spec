@@ -131,8 +131,8 @@ mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/samba/private
 cp -p ../examples/smb.conf.default $RPM_BUILD_ROOT%{_sysconfdir}/samba/
 
 
-mkdir -p ${RPM_BUILD_ROOT}/var/svc/manifest/network/
-cp ../sambagnu.xml ${RPM_BUILD_ROOT}/var/svc/manifest/network/
+mkdir -p ${RPM_BUILD_ROOT}/var/svc/manifest/site/
+cp ../sambagnu.xml ${RPM_BUILD_ROOT}/var/svc/manifest/site/
 
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 
@@ -143,7 +143,7 @@ if [ -f /lib/svc/share/smf_include.sh ] ; then
     . /lib/svc/share/smf_include.sh
     smf_present
     if [ $? -eq 0 ]; then
-       /usr/sbin/svccfg import /var/svc/manifest/network/sambagnu.xml
+       /usr/sbin/svccfg import /var/svc/manifest/site/sambagnu.xml
     fi
 fi
 
@@ -154,8 +154,8 @@ if [  -f /lib/svc/share/smf_include.sh ] ; then
     . /lib/svc/share/smf_include.sh
     smf_present
     if [ $? -eq 0 ]; then
-       if [ `svcs  -H -o STATE svc:/network/sambagnu:default` != "disabled" ]; then
-           svcadm disable svc:/network/sambagnu:default
+       if [ `svcs  -H -o STATE svc:/site/sambagnu:default` != "disabled" ]; then
+           svcadm disable svc:/site/sambagnu:default
        fi
     fi
 fi
@@ -167,9 +167,9 @@ if [ -f /lib/svc/share/smf_include.sh ] ; then
     . /lib/svc/share/smf_include.sh
     smf_present
     if [ $? -eq 0 ] ; then
-       /usr/sbin/svccfg export svc:/network/sambagnu:default > /dev/null 2>&1
+       /usr/sbin/svccfg export svc:/site/sambagnu:default > /dev/null 2>&1
        if [ $? -eq 0 ] ; then
-           /usr/sbin/svccfg delete -f svc:/network/sambagnu:default
+           /usr/sbin/svccfg delete -f svc:/site/sambagnu:default
        fi
     fi
 fi
@@ -222,7 +222,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, sys)
 %dir %attr (0755, root, sys) %{_localstatedir}
 %{_localstatedir}/*
-%class(manifest) %attr(0444, root, sys)/var/svc/manifest/network/sambagnu.xml
+%class(manifest) %attr(0444, root, sys)/var/svc/manifest/site/sambagnu.xml
 
 
 
