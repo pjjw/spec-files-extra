@@ -130,6 +130,7 @@ SHELL=/usr/bin/bash make install DESTDIR=$RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/samba/private
 cp -p ../examples/smb.conf.default $RPM_BUILD_ROOT%{_sysconfdir}/samba/
 
+mkdir -p $RPM_BUILD_ROOT%%{_localstatedir}/log
 
 mkdir -p ${RPM_BUILD_ROOT}/var/svc/manifest/site/
 cp ../sambagnu.xml ${RPM_BUILD_ROOT}/var/svc/manifest/site/
