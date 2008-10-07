@@ -1,3 +1,7 @@
+2008-10-08  Thomas Wagner  <tom68@users.sourceforge.net>
+        * SFEtinyca2.spec: *NEW* totally easy administration of your SSL root-CA and 
+          all of your SSL certificates (Server/Client), uses gtk2 for graphical frontend
+
 2008-10-07  Jerry Yu <jijun.yu@sun.com>
 
 	* SFEhamster.spec: Added.

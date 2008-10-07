@@ -7,6 +7,10 @@
 
 %include Solaris.inc
 
+%define SUNWgtkmm      %(/usr/bin/pkginfo -q SUNWgtkmm && echo 1 || echo 0)
+
+
+
 Name:                SFEpaprefs
 Summary:             paprefs - PulseAudio Preferences Control
 Version:             0.9.5
@@ -19,13 +23,21 @@ BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 
 
 #TODO are dependencies complete? 
+%if %SUNWgtkmm
+BuildRequires: SUNWgtkmm-devel
+%else
 BuildRequires: SFEgtkmm-devel
+%endif
 BuildRequires: SFEgconfmm-devel
 BuildRequires: SFElibglademm-devel
 BuildRequires: SFEpulseaudio-devel
 BuildRequires: SFElynx
 BuildRequires: SFElynx
+%if %SUNWgtkmm
+Requires: SUNWgtkmm
+%else
 Requires: SFEgtkmm
+%endif
 Requires: SFEgconfmm
 Requires: SFElibglademm
 Requires: SFEpulseaudio
