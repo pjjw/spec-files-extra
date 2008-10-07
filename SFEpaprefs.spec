@@ -113,5 +113,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Sep 05 2008 - Thomas Wagner
+- switch between SUNWgtkmm and SFEgtkmm depending on availability
 * Tue May 23 2007 - Thomas Wagner
 - Initial spec

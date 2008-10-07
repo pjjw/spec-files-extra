@@ -131,5 +131,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/gnome-vfs-2.0/modules/*
 
 %changelog
+* Fri Aug 29 2008 - Thomas Wagner 
+- experimental defaulting compiler to be gcc
 * Sat Feb 02 2008 - moinak.ghosh@sun.com
 - Initial spec.
