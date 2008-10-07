@@ -55,6 +55,7 @@ autoconf
             --libexecdir=%{_libexecdir}		\
             --sysconfdir=%{_sysconfdir}		\
 	    --enable-POP3 --enable-IMAP		\
+            --with-ssl-dir=/usr/sfw             \
 	    --disable-nls
 
 make -j$CPUS 
@@ -94,6 +95,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed May  7 2008 - Thomas Wagner
+- enable ssl
 * Sat Apr 21 2007 - dougs@truemail.co.th
 - Added automake to build
 * Thu Jan 11 2007 - laca@sun.com
