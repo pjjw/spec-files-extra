@@ -1,3 +1,7 @@
+2008-10-07  Jerry Yu <jijun.yu@sun.com>
+
+	* SFEhamster.spec: Added.
+
 2008-10-07  Thomas Wagner  <tom68@users.sourceforge.net>
         * SFEfetchmail.spec: add ssl support. Usage note: tell fetchmail the ssl portnumber with e.g. -P 993
 
