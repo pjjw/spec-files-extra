@@ -1,6 +1,6 @@
 diff -urN ../qtpfsgui-1.9.2.x/project.pro ./project.pro
---- ../qtpfsgui-1.9.2.x/project.pro	2008-04-30 16:23:36.000000000 +0200
-+++ ./project.pro	2008-05-25 23:11:47.457289598 +0200
+--- qtpfsgui-1.9.2.x/project.pro	2008-02-16 11:43:24.000000000 +0100
++++ ./project.pro	2008-10-06 14:03:01.513438330 +0200
 @@ -2,7 +2,7 @@
  CONFIG += release qt thread
  DEFINES += QT_NO_DEBUG_OUTPUT
@@ -28,12 +28,22 @@ diff -urN ../qtpfsgui-1.9.2.x/project.pro ./project.pro
  
  ########################################### OPENEXR ###########################################
  #openEXR dependencies
+@@ -211,7 +211,7 @@
+ message ( "Detecting OpenEXR:" )
+ #I think these are the only paths where we have to search for.
+ #If your system is more exotic let me know.
+-OPENEXRHEADER = /usr/include/OpenEXR/ImfHeader.h /usr/local/include/OpenEXR/ImfHeader.h /usr/local/include/ilmbase/ImfHeader.h /usr/include/ilmbase/ImfHeader.h $$(LOCALSOFT)/include/OpenEXR/ImfHeader.h 
++OPENEXRHEADER = $$LOCALSOFT/include/OpenEXR/ImfHeader.h /usr/include/OpenEXR/ImfHeader.h /usr/local/include/OpenEXR/ImfHeader.h /usr/local/include/ilmbase/ImfHeader.h /usr/include/ilmbase/ImfHeader.h $$LOCALSOFT/include/OpenEXR/ImfHeader.h 
+ for(path, OPENEXRHEADER) {
+ 	exists($$path) {
+ 		OPENEXRDIR = $$dirname(path)
+
 diff -urN ../qtpfsgui-1.9.2.x/src/MainWindow/hdrviewer.cpp ./src/MainWindow/hdrviewer.cpp
 --- ../qtpfsgui-1.9.2.x/src/MainWindow/hdrviewer.cpp	2008-02-16 11:01:25.000000000 +0100
 +++ ./src/MainWindow/hdrviewer.cpp	2008-05-25 21:18:53.063130192 +0200
 @@ -23,6 +23,7 @@
   */
- 
+
  #include <math.h>
 +#include <ieeefp.h>
  #include <QApplication>

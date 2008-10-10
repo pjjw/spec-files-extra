@@ -4,6 +4,9 @@
 # package are under the same license as the package itself.
 
 %include Solaris.inc
+%define cc_is_gcc 1
+%include base.inc
+
 %include usr-gnu.inc
 
 Name:                SFEqtpfsgui
@@ -17,27 +20,27 @@ Patch1:			qtpfsgui-1.diff
 %include default-depend.inc
 %include perl-depend.inc
 
-Requires: SFEexiv2
-BuildRequires: SFEexiv2-devel
+Requires: SFEexiv2-gpp
 Requires: SUNWTiff
 Requires: SFEfftw
 Requires: SFEqt
-Requires: SFEilmbase
-Requires: SFEopenexr
+Requires: SFEilmbase-gpp
+Requires: SFEopenexr-gpp
 BuildRequires: SFEfftw-devel
 BuildRequires: SFEqt-devel
-BuildRequires: SFEilmbase-devel
-BuildRequires: SFEopenexr-devel
+BuildRequires: SFEilmbase-gpp-devel
+BuildRequires: SFEopenexr-gpp-devel
+BuildRequires: SFEexiv2-gpp-devel
 
 
 %prep
 %setup -q -n qtpfsgui-%version
 %patch1 -p0
 
-export CC=/usr/sfw/bin/gcc
-export CXX=/usr/sfw/bin/g++
+export CC=gcc
+export CXX=g++
 export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointer"
-export LDFLAGS="%_ldflags"
+export CXXFLAGS="%{gcc_cxx_optflags}"
 
 
 %build
@@ -50,14 +53,15 @@ export CFLAGS="%optflags -fPIC -I%{xorg_inc} -I%{gnu_inc} -I%{sfw_inc} `/usr/bin
 
 export CXXFLAGS="%cxx_optflags -I%{xorg_inc} -I%{gnu_inc} -I%{sfw_inc} `/usr/bin/libart2-config --cflags` -D__C99FEATURES__ -D__EXTENSIONS__"
 
-export LDFLAGS="%_ldflags %{xorg_lib_path} %{gnu_lib_path} %{sfw_lib_path} -lc -lsocket -lnsl `/usr/bin/libart2-config --libs`"
-
-export LIBS=$LDFLAGS
+export LDFLAGS="%{xorg_lib_path} %{gnu_lib_path} %{sfw_lib_path} -lc -lsocket -lnsl `/usr/bin/libart2-config --libs`"
+export EXTRA_LIBS=`echo %_cxx_libdir|sed -e "s/\/gnu//"`
+export PKG_CONFIG_PATH=$EXTRA_LIBS/pkgconfig:$PKG_CONFIG_PATH
+export QMAKE_LFLAGS="-R$EXTRA_LIBS -L$EXTRA_LIBS"
 
 extra_inc="%{xorg_inc}:%{gnu_inc}:%{sfw_inc}"
 sfw_prefix=`dirname %{sfw_bin}`
 
-/usr/bin/qmake PREFIX=/usr/gnu LOCALSOFT=/usr/gnu
+/usr/bin/qmake PREFIX=/usr/gnu LOCALSOFT=/usr/gnu QMAKE_LFLAGS="$QMAKE_LFLAGS"
 
 make -j$CPUS
 
@@ -85,5 +89,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/qtpfsgui/*
 
 %changelog
+* Fri Oct 10 2008 - markgraf@med.ovgu.de
+- reworked to fetch g++ built ilmbase and openexr from
+  /usr/lib/g++/<g++-version>
 * Mon May 26 2008 - markgraf@med.ovgu.de
 - Initial spec.
