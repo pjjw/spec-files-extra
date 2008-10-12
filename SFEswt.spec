@@ -7,8 +7,10 @@
 
 Name:                SFEswt
 Summary:             Standard Widget Toolkit
-Version:             3.3.2
-Source:              http://www.mirrorservice.org/sites/download.eclipse.org/eclipseMirror/eclipse/downloads/drops/R-3.3.2-200802211800/swt-3.3.2-gtk-solaris-sparc.zip
+Version:             3.4.1
+Source:              http://www.mirrorservice.org/sites/download.eclipse.org/eclipseMirror/eclipse/downloads/drops/R-3.4.1-200809111700/swt-3.4.1-gtk-solaris-sparc.zip
+
+#http://www.mirrorservice.org/sites/download.eclipse.org/eclipseMirror/eclipse/downloads/drops/R-3.3.2-200802211800/swt-3.3.2-gtk-solaris-sparc.zip
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -29,7 +31,13 @@ fi
 export CFLAGS="%optflags"
 export LDFLAGS="%{_ldflags}"
 
-make -j$CPUS -f make_solaris.mak CDE_HOME=/usr/dt JAVA_HOME=/usr/java all make_cairo make_gnome 
+#Check if CDE is available if yes build with support for it.
+if [[ -d /usr/dt ]] then
+	make -j$CPUS -f make_solaris.mak CDE_HOME=/usr/dt JAVA_HOME=/usr/java all make_cairo make_gnome
+else
+	make -j$CPUS -f make_solaris.mak JAVA_HOME=/usr/java make_swt make_atk make_awt make_glx make_cairo make_gnome 
+fi
+
 %install
 rm -rf $RPM_BUILD_ROOT
 
@@ -47,5 +55,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/swt/*
 
 %changelog
+* Sun Oct 12 2008 - sobotkap@gmail.com
+- Check if there is installed CDE if not then build without it.
 * Fri Jun 20 2008 - river@wikimedia.org
 - Initial spec.

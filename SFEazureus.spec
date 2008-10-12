@@ -8,7 +8,7 @@
 %define _pixmapsdir %{_datadir}/pixmaps
 
 %define src_name Vuze
-%define src_ver 3.1.0.0
+%define src_ver 3.1.1.0
 %define src_url http://%{sf_mirror}/azureus
 
 Name:		SFEazureus
@@ -74,6 +74,8 @@ rm -rf $RPM_BUILD_ROOT
 #%{_datadir}/Azureus/plugins/azupnpav/*
 
 %changelog
+* Sun Oct 12 2008 - sobotkap@gmail.com
+- Bump to version 3.1.1.0
 * Fri Jun 20 2008 - river@wikimedia.org
 - 3.1.0.0
 - Use SFEswt instead of SFEeclipse

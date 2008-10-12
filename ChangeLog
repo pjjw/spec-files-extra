@@ -1,3 +1,10 @@
+2008-10-12  Petr Sobotka  <sobotkap@gmail.com>
+
+	* SFEazureus.spec: Bump to version 3.1.1.0
+	* SFEswt.spec: Add check if CDE is installed or not.
+	* SFEwesnoth.spec: Bump to 1.4.5 and patches clean-up.
+	* patches/wesnoth-05-fixconfigure.diff:
+
 2008-10-10  Bernd Markgraf <markgraf@med.ovgu.de>
 	* SFEexiv2-gpp.spec: Added
 	* SFEopenexr-gpp.spec: Added
