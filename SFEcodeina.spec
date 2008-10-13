@@ -41,6 +41,7 @@ Source0:	http://fedoraproject.org/wiki/Multimedia/Codeina/codeina-%{version}.tar
 Patch1:         codeina-01-fixpython.diff
 # This patch is reported upstream as bug #132.
 Patch2:         codeina-02-nolsb.diff
+Patch3:         codeina-03-usexul.diff
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/codeina-%{version}-build
 Requires:	SUNWgnome-python-libs
@@ -81,6 +82,7 @@ Requires:                %{name}
 %setup -q -n codeina-%version
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
@@ -146,6 +148,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Oct 13 2008 - brian.cameron@sun.com
+- Modify codeina to use libxul.so instead of libgtkembedmoz.so so it works
+  with Firefox 3.0.
 * Thu Sep 18 2008 - jijun.yu@sun.com
 - Correct one dependency to SUNWpython-notify.
 * Wed Jun 11 2008 - brian.cameron@sun.com
