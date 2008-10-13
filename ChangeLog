@@ -1,3 +1,11 @@
+2008-10-13  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEelisa.spec, SFEelisa-plugins-good.spec, SFEelisa-plugins-bad.spec,
+	  patches/elisa-02-defaultdict.diff,
+	  patches/elisa-plugins-bad-01-nohashlib.diff:  Bump to 0.10.13.
+	  Remove upstream patches.
+	* SFEpigment.spec:  Bump to 0.3.11.
+
 2008-10-12  Petr Sobotka  <sobotkap@gmail.com>
 
 	* SFEazureus.spec: Bump to version 3.1.1.0
@@ -6,6 +14,7 @@
 	* patches/wesnoth-05-fixconfigure.diff:
 
 2008-10-10  Bernd Markgraf <markgraf@med.ovgu.de>
+
 	* SFEexiv2-gpp.spec: Added
 	* SFEopenexr-gpp.spec: Added
 	* SFEilmbase-gpp.spec: Added
@@ -18,31 +27,45 @@
 	* SFEcoherence.spec: Added.
 
 2008-10-08  Thomas Wagner  <tom68@users.sourceforge.net>
-        * SFEtinyca2.spec: *NEW* totally easy administration of your SSL root-CA and 
-          all of your SSL certificates (Server/Client), uses gtk2 for graphical frontend
-        * SFEpaprefs.spec: fixes to use SUNWgtkmm instead SFEgtkmm (probably not complete)
-        * experimental/SFEntfsprogs.spec: add compiler to be gcc by default
+
+	* SFEtinyca2.spec: *NEW* totally easy administration of your SSL
+	  root-CA and all of your SSL certificates (Server/Client), uses gtk2
+	  for graphical frontend
+	* SFEpaprefs.spec: fixes to use SUNWgtkmm instead SFEgtkmm (probably
+	  not complete)
+	* experimental/SFEntfsprogs.spec: add compiler to be gcc by default
 
 2008-10-07  Jerry Yu <jijun.yu@sun.com>
 
 	* SFEhamster.spec: Added.
 
 2008-10-07  Thomas Wagner  <tom68@users.sourceforge.net>
-        * SFEfetchmail.spec: add ssl support. Usage note: tell fetchmail the ssl portnumber with e.g. -P 993
+
+	* SFEfetchmail.spec: add ssl support. Usage note: tell fetchmail the
+	  ssl portnumber with e.g. -P 993
 
 2008-10-07  Thomas Wagner  <tom68@users.sourceforge.net>
-        * SFEdovecot.spec: - bump to 1.1.4 - add SMF FMRI / manifest for site/dovecot
+
+	* SFEdovecot.spec: - bump to 1.1.4 - add SMF FMRI / manifest for
+	  site/dovecot
 
 2008-10-04  Thomas Wagner  <tom68@users.sourceforge.net>
-        * SFEsamba.spec: .spec: mkdir samba/log/ directory for client logs
-          patch5: syntax to useradd in add machine script - useradd still blames about "$" character, smart ideas needed
-        * SFEconvmv.spec: *NEW* tool to convert filenames between codesets (iso8859/utf-8/...) and upper/lower_case (uses perl)
-        
+
+	* SFEsamba.spec: .spec: mkdir samba/log/ directory for client logs
+	  patch5: syntax to useradd in add machine script - useradd still
+	  blames about "$" character, smart ideas needed
+	* SFEconvmv.spec: *NEW* tool to convert filenames between codesets
+	  (iso8859/utf-8/...) and upper/lower_case (uses perl)
+
 2008-10-04  Thomas Wagner  <tom68@users.sourceforge.net>
-        * SFEsamba.spec: patch4: change SMF FMRI from network/ to site/, add missing samba.xml
+
+	* SFEsamba.spec: patch4: change SMF FMRI from network/ to site/, add
+	  missing samba.xml
 
 2008-10-03  Thomas Wagner  <tom68@users.sourceforge.net>
-        * SFEsamba.spec: *NEW* 3.2.4 security fix / want standalone PDC for Domain-Logons
+
+	* SFEsamba.spec: *NEW* 3.2.4 security fix / want standalone PDC for
+	  Domain-Logons
 
 2008-10-02  Brian Cameron  <brian.cameron@sun.com>
 
@@ -471,6 +494,7 @@
 	* patches/anjuta-04-miss-vala-sgml.diff: (rework)
 
 2008-08-20 Michal Bielicki <michal.bielicki <at> voiceworks.pl>
+
 	* SFEunixodbc.spec: More Permission fixes
 
 2008-08-20  Willie Walker <william.walker@sun.com>
@@ -612,14 +636,15 @@
 2008-08-15   Andras Barna  andras.barna@gmail.com
 
 	* SFElame.spec:	new version, 
-	  add a hack to disable MMX things which causes compilation failure FIXME 
-	  disable patch1, patch2 not needed
+	  add a hack to disable MMX things which causes compilation failure
+	  FIXME disable patch1, patch2 not needed
 
 2008-08-16  Halton Huo <nonsea@users.sourceforge.net>
 
 	* SFElibsndfile.spec: Add BuildRequires: SUNWaudh
 	* SFEm4.spec: Bump to 1.4.11 (1.4.8 ever break autoconf 2.6.1, 1.4.11
-	 seems fix it). Change "BuildConflicts: SUNWgm4" to "Conflicts: SUNWgm4"
+	  seems fix it). Change "BuildConflicts: SUNWgm4" to
+	  "Conflicts: SUNWgm4"
 
 2008-08-15  Glynn Foster  <glynn.foster@sun.com>
 
@@ -817,8 +842,8 @@
 
 2008-07-23  Albert Lee  <trisk@acm.jhu.edu>
 
-	* SFElibdvdnav.spec: Rename from encumbered/SFElibdvdnav.spec. Update to
-	  4.1.2
+	* SFElibdvdnav.spec: Rename from encumbered/SFElibdvdnav.spec. Update
+	  to 4.1.2
 	* encumbered/SFElibdvdread.spec: Delete, replaced by SFElibdvdnav.
 	* encumbered/SFEgnome-media-extras.spec: Add gst-ffmpeg
 
@@ -917,9 +942,12 @@
 	* patches/tsclient-01-libsocket.diff:
 
 2008-06-30  A Hettinger <oninoshiko@gmail.com>
-	* SFEliveMedia.spec: Bump to 2008.06.26 - consider mirroring since Live555 removes older versions
+
+	* SFEliveMedia.spec: Bump to 2008.06.26 - consider mirroring since
+	  Live555 removes older versions
 
 2008-06-30  Andras Barna  <andras.barna@gmail.com>
+
 	* SFElibx264.spec,SFEffmpeg.spec: Force SFWgcc
 	* SFEnetspeed-applet.spec: Fix permissions
 	* SFExvid.spec: Force SFWgcc, Remove non-standard CFLAGS

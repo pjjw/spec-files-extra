@@ -6,7 +6,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa-plugins-bad
-%define version 0.5.12
+%define version 0.5.13
 
 %include Solaris.inc
 
@@ -15,7 +15,6 @@ Summary:           Bad plugins for Elisa
 URL:               http://elisa.fluendo.com/
 Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-plugins-bad-%{version}.tar.gz
-Patch1:            elisa-plugins-bad-01-nohashlib.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
 Requires:          SFEelisa
@@ -31,7 +30,6 @@ code needing more QA (unittests, code reviews).
 
 %prep
 %setup -q -n elisa-plugins-bad-%version
-%patch1 -p1
 
 %build
 
@@ -81,6 +79,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*.egg-info
 
 %changelog
+* Mon Oct 13 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.5.13.  Remove upstream patch elisa-plugins-bad-01-nohashlib.diff.
 * Tue Sep 30 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.12.
 * Thu Sep 25 2008 Brian Cameron  <brian.cameron@sun.com>

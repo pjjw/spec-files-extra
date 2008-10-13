@@ -11,7 +11,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa
-%define version 0.5.12
+%define version 0.5.13
 
 %include Solaris.inc
 
@@ -22,8 +22,6 @@ Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-%{version}.tar.gz
 # See bug #249822.
 Patch1:            elisa-01-fixlocale.diff
-# See bug #268485.
-Patch2:            elisa-02-defaultdict.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
 BuildRequires:     SUNWPython-devel
@@ -68,7 +66,6 @@ systems.
 %prep
 %setup -q -n elisa-%version
 %patch1 -p1
-%patch2 -p1
 
 %build
 
@@ -119,6 +116,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_generic_setup.pyc
 
 %changelog
+* Mon Oct 13 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.5.13.  Remove upstream patch elisa-02-defaultdict.diff.
 * Tue Sep 30 2008 Brian Cameron  <brian.cameron@sun.com
 - Bump to 0.5.12.  Add patch  elisa-02-defaultdict.diff, so it no longer
   depends on Python 2.5 and works with 2.4.
@@ -130,7 +129,7 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 - Bump to 0.5.8.
 * Mon Aug 18 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.5.
-* Sat Aug 09 2008 Brian Cameron  <brian.cmaeron@sun.com>
+* Sat Aug 09 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.4.  Remove upstream patch elisa-02-nohal.diff.
 * Thu Jul 31 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.3.  Add patch to disable HAL for now.  It requires D-Bus
