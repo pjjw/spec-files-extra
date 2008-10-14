@@ -48,7 +48,7 @@ Requires:          SFEpyopenssl
 Requires:          SFEpigment
 Requires:          SFEpigment-python
 Requires:          SFEpython-cssutils
-#Requires:          SFEpython-twisted-web2
+Requires:          SFEpython-twisted-web2
 
 %include default-depend.inc
 
@@ -73,10 +73,10 @@ systems.
 rm -rf $RPM_BUILD_ROOT
 python2.4 setup.py install --root=$RPM_BUILD_ROOT
 
-#mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages
-#mv $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/* \
-#   $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages/
-#rmdir $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages
+mv $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/* \
+   $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages/
+rmdir $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages
 
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 
@@ -109,11 +109,11 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_bindir}/elisa
 %{_bindir}/elisa-get
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/python%{pythonver}/elisa
-%{_libdir}/python%{pythonver}/elisa-*-py%{pythonver}.egg-info
-%{_libdir}/python%{pythonver}/elisa-*-py%{pythonver}-nspkg.pth
-%{_libdir}/python%{pythonver}/elisa_generic_setup.py
-%{_libdir}/python%{pythonver}/elisa_generic_setup.pyc
+%{_libdir}/python%{pythonver}/vendor-packages/elisa
+%{_libdir}/python%{pythonver}/vendor-packages/elisa-*-py%{pythonver}.egg-info
+%{_libdir}/python%{pythonver}/vendor-packages/elisa-*-py%{pythonver}-nspkg.pth
+%{_libdir}/python%{pythonver}/vendor-packages/elisa_generic_setup.py
+%{_libdir}/python%{pythonver}/vendor-packages/elisa_generic_setup.pyc
 
 %changelog
 * Tue Oct 14 2008 Jerry Yu <jijun.yu@sun.com>

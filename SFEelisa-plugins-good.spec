@@ -17,7 +17,7 @@ Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-plugins-good-%{version}.tar.gz
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
-#Requires:          SFEelisa
+Requires:          SFEelisa
 
 %include default-depend.inc
 
@@ -36,10 +36,10 @@ and being compatible with the Elisa licensing model.
 rm -rf $RPM_BUILD_ROOT
 python setup.py install --root=$RPM_BUILD_ROOT
 
-#mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages
-#mv $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/* \
-#   $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages/
-#rmdir $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages
+mv $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/* \
+   $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages/
+rmdir $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages
 
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 
@@ -69,9 +69,9 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %files
 %defattr(-,root,bin)
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/python%{pythonver}/elisa
-%{_libdir}/python%{pythonver}/elisa_plugin_*-nspkg.pth
-%{_libdir}/python%{pythonver}/elisa_plugin_*.egg-info
+%{_libdir}/python%{pythonver}/vendor-packages/elisa
+%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*-nspkg.pth
+%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*.egg-info
 
 %changelog
 * Tue Oct 14 2008 Jerry Yu < jijun.yu@sun.com>

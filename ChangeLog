@@ -1,11 +1,19 @@
+2008-10-14  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEelisa.spec, SFEelisa-plugins-good.spec, SFEelisa-plugins-bad.spec:
+	  Fix vendor-packages code.
+	* SFEgnome-display-mgr.spec:   Add %{_sysconfdir}/X11/xinit/xinitrc.d
+	  interfaces.
+
 2008-10-14  Michal Bielicki <michal.bielicki@halokwadrat.de>
+
 	* archive/SUNWgnugetopt.spec, copyright/SUNWgnugetopt.copyright:
-	Recreated missing gnuggetopt files from spec-files-other into archive
+	  Recreated missing gnuggetopt files from spec-files-other into archive
 
 2008-10-14  Jerry Yu  <jijun.yu@sun.com>
 
 	* SFEelisa-plugins-bad.spec, SFEelisa-plugins-good.spec, SFEelisa.spec:
-	 Bump to 0.5.14 and comment some unuseful commands.
+	  Bump to 0.5.14 and comment some unuseful commands.
 
 2008-10-13  Brian Cameron  <brian.cameron@sun.com>
 

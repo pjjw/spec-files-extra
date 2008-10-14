@@ -96,7 +96,6 @@ Requires:                %{name}
 %patch3 -p1
 %patch4 -p1
 %patch6 -p0
-%patch7 -p0
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -164,6 +163,8 @@ install -d $RPM_BUILD_ROOT/lib/svc/method
 cp %SOURCE2 $RPM_BUILD_ROOT/lib/svc/method/
 
 rmdir $RPM_BUILD_ROOT/etc/pam.d
+
+install -d $RPM_BUILD_ROOT/%{_sysconfdir}/X11/xinit/xinitrc.d
 
 %if %build_l10n
 %else
@@ -279,6 +280,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %{_sysconfdir}/gconf
 %dir %{_sysconfdir}/gdm
 %{_sysconfdir}/gdm/*
+%dir %{_sysconfdir}/X11/xinit
+%dir %{_sysconfdir}/X11/xinit/xinitrc.d
 # don't use %_localstatedir for the /var/svc directory, because this
 # is an absolute path defined by another package, so it has to be
 # /var/svc even if this package has its %_localstatedir redefined.
@@ -310,6 +313,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Tue Oct 14 2008 - brian.cameron@sun.com
+- Add %{_sysconfdir}/X11/xinit/xinitrc.d to packaging.
 * Sat Sep 27 2008 - brian.cameron@sun.com
 - Renumber patches.
 * Wed Sep 24 2008 - simon.zheng@sun.com
