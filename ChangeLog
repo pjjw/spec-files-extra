@@ -1,3 +1,8 @@
+2008-10-14  Jerry Yu  <jijun.yu@sun.com>
+
+	* SFEelisa-plugins-bad.spec, SFEelisa-plugins-good.spec, SFEelisa.spec:
+	 Bump to 0.5.14 and comment some unuseful commands.
+
 2008-10-13  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEcodeina.spec, patches/codeina-03-usexul.diff:  Add patch so that

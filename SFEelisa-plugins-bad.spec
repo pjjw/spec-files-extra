@@ -6,7 +6,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa-plugins-bad
-%define version 0.5.13
+%define version 0.5.14
 
 %include Solaris.inc
 
@@ -37,14 +37,14 @@ code needing more QA (unittests, code reviews).
 rm -rf $RPM_BUILD_ROOT
 python setup.py install --root=$RPM_BUILD_ROOT
 
-mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages
+#mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages
 
-mv $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/* \
-   $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages/
-rmdir $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages
+#mv $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/* \
+#   $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages/
+#rmdir $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages/elisa/plugins/__init__.py
-rm -f $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages/elisa/plugins/__init__.pyc
+rm -f $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/elisa/plugins/__init__.py
+rm -f $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/elisa/plugins/__init__.pyc
 
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 
@@ -74,11 +74,14 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %files
 %defattr(-,root,bin)
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/python%{pythonver}/vendor-packages/elisa
-%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*-nspkg.pth
-%{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*.egg-info
+%{_libdir}/python%{pythonver}/elisa
+%{_libdir}/python%{pythonver}/elisa_plugin_*-nspkg.pth
+%{_libdir}/python%{pythonver}/elisa_plugin_*.egg-info
 
 %changelog
+* Tue Oct 14 2008 Jerry Yu < jijun.yu@sun.com>
+- Bump to 0.5.14.
+- Comment some unuseful commands.
 * Mon Oct 13 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.13.  Remove upstream patch elisa-plugins-bad-01-nohashlib.diff.
 * Tue Sep 30 2008 Brian Cameron  <brian.cameron@sun.com>
