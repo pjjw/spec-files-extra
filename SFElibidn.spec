@@ -85,6 +85,24 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*
 %dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/locale
+%{_datadir}/locale/rw/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/cs/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/fr/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/nl/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/pl/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/zh_CN/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/en@boldquot/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/ro/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/it/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/eo/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/sr/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/da/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/vi/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/de/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/ja/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/fi/LC_MESSAGES/libidn.mo
+%{_datadir}/locale/en@quot/LC_MESSAGES/libidn.mo
 %dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*.1
@@ -99,6 +117,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Tue Oct 14 2008 - michal.bielicki@halokwadrat.de
+- Why does everyone dislike .mo files ?
 * Thu Mar 06 2008 - nonsea@users.sourceforge.net
 - Bump to 1.5
 * Wed Aug 08 2007 - nonsea@users.sourceforge.net
