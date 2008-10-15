@@ -823,29 +823,6 @@ diff -Nur gdm-2.23.92/daemon/gdm-simple-slave.c gdm-2.23.92-new/daemon/gdm-simpl
  
          G_OBJECT_CLASS (gdm_simple_slave_parent_class)->finalize (object);
  }
-diff -Nur gdm-2.23.92/daemon/simple-slave-main.c gdm-2.23.92-new/daemon/simple-slave-main.c
---- gdm-2.23.92/daemon/simple-slave-main.c	2008-08-27 03:04:00.000000000 +0800
-+++ gdm-2.23.92-new/daemon/simple-slave-main.c	2008-09-18 10:42:55.138897000 +0800
-@@ -170,6 +170,7 @@
-         DBusGConnection  *connection;
-         GdmSlave         *slave;
-         static char      *display_id = NULL;
-+        static char      *xserver_command = NULL;
-         static gboolean   debug      = FALSE;
-         GdmSignalHandler *signal_handler;
-         static GOptionEntry entries []   = {
-@@ -235,6 +236,11 @@
-         if (slave == NULL) {
-                 goto out;
-         }
-+        /* Use custom xserver */
-+        if (xserver_command)
-+                g_object_set (G_OBJECT (slave),
-+                                    "xserver-command", xserver_command,
-+                                    NULL);
-         g_signal_connect (slave,
-                           "stopped",
-                           G_CALLBACK (on_slave_stopped),
 diff -Nur gdm-2.23.92/utils/Makefile.am gdm-2.23.92-new/utils/Makefile.am
 --- gdm-2.23.92/utils/Makefile.am	2008-08-27 03:04:00.000000000 +0800
 +++ gdm-2.23.92-new/utils/Makefile.am	2008-09-18 10:42:55.139135000 +0800
@@ -1163,3 +1140,32 @@ diff -Nur gdm-2.23.92/utils/gdmdynamic.c gdm-2.23.92-new/utils/gdmdynamic.c
 +
 +        return 0;
 +}
+--- gdm-2.24.0/daemon/simple-slave-main.c.orig	2008-10-15 20:03:47.113323000 +0800
++++ gdm-2.24.0/daemon/simple-slave-main.c	2008-10-15 20:03:10.269040000 +0800
+@@ -170,11 +170,13 @@
+         DBusGConnection  *connection;
+         GdmSlave         *slave;
+         static char      *display_id = NULL;
++	static char      *xserver_command = NULL;
+         static gboolean   debug      = FALSE;
+         GdmSignalHandler *signal_handler;
+         static GOptionEntry entries []   = {
+                 { "debug", 0, 0, G_OPTION_ARG_NONE, &debug, N_("Enable debugging code"), NULL },
+                 { "display-id", 0, 0, G_OPTION_ARG_STRING, &display_id, N_("Display ID"), N_("id") },
++		{ "xserver-command", 0, 0, G_OPTION_ARG_STRING, &xserver_command, N_("Xserver Command"), N_("xserver") },
+                 { NULL }
+         };
+ 
+@@ -235,6 +237,12 @@
+         if (slave == NULL) {
+                 goto out;
+         }
++	/* Use custom xserver */
++	if (xserver_command)
++		g_object_set (G_OBJECT (slave),
++			"xserver-command", xserver_command,
++			NULL);
++
+         g_signal_connect (slave,
+                           "stopped",
+                           G_CALLBACK (on_slave_stopped),
