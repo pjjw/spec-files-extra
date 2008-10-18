@@ -1,3 +1,6 @@
+2008-10-08  Thomas Wagner  <tom68@users.sourceforge.net>
+	* SFEsamba.spec: typo s/%%/%/ in mkdir for localstatedir
+
 2008-10-15  simon.zheng  <simon.zheng@sun.com>
 
 	* patches/gdm-04-dynamic-display.diff: reworked.

@@ -130,7 +130,7 @@ SHELL=/usr/bin/bash make install DESTDIR=$RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/samba/private
 cp -p ../examples/smb.conf.default $RPM_BUILD_ROOT%{_sysconfdir}/samba/
 
-mkdir -p $RPM_BUILD_ROOT%%{_localstatedir}/log
+mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/log
 
 mkdir -p ${RPM_BUILD_ROOT}/var/svc/manifest/site/
 cp ../sambagnu.xml ${RPM_BUILD_ROOT}/var/svc/manifest/site/
@@ -228,6 +228,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Oct 13 2008 - Thomas Wagner
+- typo at mkdir for samba log
 * Fri Oct 03 2008 - Thomas Wagner
 - derive new SMF instance from samba.xml and add postinstall for import
 * Sat Sep 13 2008 - Thomas Wagner
