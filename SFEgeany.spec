@@ -11,7 +11,7 @@
 
 Name:                SFEgeany
 Summary:             A small and lightweight integrated developer environment
-Version:             0.14
+Version:             0.15
 Source:              %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:              gsl-01-math.diff
 URL:                 http://geany.uvena.de/Main/HomePage
@@ -38,10 +38,19 @@ Requires:                %{name}
 
 %prep 
 %setup -q -n %{src_name}-%{version}
-CC=gcc
-CXX=g++
-export PATH=/usr/gnu/bin:$PATH
-./configure --prefix=%{_prefix}
+
+glib-gettextize -f
+libtoolize --copy --force
+aclocal $ACLOCAL_FLAGS
+autoheader
+automake -a -c -f 
+autoconf
+
+./configure --prefix=%{_prefix} --mandir=%{_mandir} \
+            --libdir=%{_libdir}              \
+            --libexecdir=%{_libexecdir}      \
+            --sysconfdir=%{_sysconfdir}
+
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -51,11 +60,12 @@ fi
 
 export CFLAGS="%optflags"
 export CXXFLAGS="%cxx_optflags"
-export LDFLAGS="%_ldflags -lintl"
+export LDFLAGS="%_ldflags"
 
 make -j$CPUS
 
 %install
+cp geany.desktop.in geany.desktop
 make install DESTDIR=$RPM_BUILD_ROOT
 
 %clean
