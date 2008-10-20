@@ -70,6 +70,7 @@ Requires: SUNWlibrsvg
 Requires: SUNWlxml
 Requires: SUNWlibcroco
 Requires: SUNWpostrun
+Requires: SFEconsolekit
 %if %option_with_dt
 Requires: SUNWgnome-dtlogin-integration
 %else
@@ -95,6 +96,7 @@ Requires:                %{name}
 %patch2 -p0
 %patch3 -p1
 %patch4 -p1
+%patch5 -p0
 %patch6 -p0
 
 %build
@@ -313,6 +315,9 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Mon Oct 20 2008 - halton.huo@sun.com
+- Add Requires: SFEconsolekit
+- enable patch5 ICE-optionwidget.diff
 * Tue Oct 14 2008 - brian.cameron@sun.com
 - Add %{_sysconfdir}/X11/xinit/xinitrc.d to packaging.
 * Sat Sep 27 2008 - brian.cameron@sun.com

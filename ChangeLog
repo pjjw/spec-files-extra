@@ -1,3 +1,8 @@
+2008-10-20  Halton Huo <halton.huo@sun.com>
+
+	* SUNWgnome-display-mgr.spec: Add Requires: SFEconsolekit
+	  enable patch5 ICE-optionwidget.diff
+
 2008-10-19  Andras Barna  <andras.barna@gmail.com>
 
 	* SFEgeany.spec: new version, now compiles with spro without
