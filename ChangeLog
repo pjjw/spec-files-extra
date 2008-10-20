@@ -1,5 +1,23 @@
 2008-10-20  Halton Huo <halton.huo@sun.com>
 
+	* SFEgnucash.spec: rename SFEswig to SUNWswig,rename SFEslib to SUNWslib
+	* SFElibhid.spec: rename SFEswig to SUNWswig
+	* SFElibical.spec: rename SFEswig to SUNWswig
+	* SFElibopensync.spec: rename SFEswig to SUNWswig
+	* SFEpython-wx.spec: rename SFEswig to SUNWswig
+	* SFEslib.spec: Move to archive since it is integrate into snv_93
+	* SFEswig.spec: Move to archive since it is integrate into snv_100
+	* base-specs/gnucash.spec: Bump to 2.2.7, Remove upstreamed patches:
+	  void-return.diff, libgoffice-0.8.diff and reorder
+	* patches/gnucash-02-void-return.diff: Remove upstreamed patch
+	* patches/gnucash-03-namely-struct.diff: reorder
+	* patches/gnucash-04-inline.diff:reorder
+	* patches/gnucash-05-libgoffice-0.8.diff: Remove upstreamed patch
+	* patches/gnucash-06-configure-fail.diff: reorder
+	* patches/gnucash-07-solaris-sh.diff: reorder
+
+2008-10-20  Halton Huo <halton.huo@sun.com>
+
 	* SUNWgnome-display-mgr.spec: Add Requires: SFEconsolekit
 	  enable patch5 ICE-optionwidget.diff
 

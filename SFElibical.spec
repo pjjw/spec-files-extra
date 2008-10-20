@@ -19,7 +19,7 @@ Requires: SUNWPython
 BuildRequires: SUNWPython-devel
 Requires: SUNWperl584core
 BuildRequires: SUNWperl584usr
-BuildRequires: SFEswig
+BuildRequires: SUNWswig
 
 %package devel
 Summary:                 %{summary} - development files

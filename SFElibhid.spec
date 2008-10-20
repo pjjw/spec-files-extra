@@ -20,7 +20,7 @@ BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SUNWPython-devel
 BuildRequires: SUNWPython
-BuildRequires: SFEswig
+BuildRequires: SUNWswig
 BuildRequires: SFEdoxygen
 
 %package devel
@@ -99,6 +99,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python*
 
 %changelog
+* Mon Oct 20 2008 - halton.huo@sun.com
+- swig integrate into snv_100, rename SFEswig to SUNWswig
 * Mon Aug 20 2007 - trisk@acm.jhu.edu
 - Replace missing patch
 - Update dependencies

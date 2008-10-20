@@ -23,7 +23,7 @@ BuildRequires:          SUNWPython-devel
 Requires:               SFEwxwidgets
 BuildRequires:          SFEwxwidgets-devel
 BuildRequires:          SFEcppunit
-BuildRequires:          SFEswig
+BuildRequires:          SUNWswig
 
 %package devel
 Summary:                %{summary} - development files
@@ -84,5 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Mon Oct 20 2008 - halton.huo@sun.com
+- swig integrate into snv_100, rename SFEswig to SUNWswig
 Thu Feb 21, 2008 - trisk@acm.jhu.edu
 - Initial spec

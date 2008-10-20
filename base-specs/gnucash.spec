@@ -13,7 +13,7 @@ Name:           gnucash
 Summary:        GnuCash is an application to keep track of your finances.
 License:        GPL
 Group:          Office
-Version:        2.2.6
+Version:        2.2.7
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -21,18 +21,14 @@ URL:            http://www.gnucash.org/
 Source:         http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.bz2
 # date:2008-06-24 owner:halton type:bug bugzilla:539947
 Patch1:         %{name}-01-suncc-function.diff
-# date:2008-06-24 owner:halton type:bug bugzilla:539962
-Patch2:         %{name}-02-void-return.diff
 # date:2008-06-24 owner:halton type:bug bugzilla:539957
-Patch3:         %{name}-03-namely-struct.diff
+Patch2:         %{name}-02-namely-struct.diff
 # date:2008-06-25 owner:halton type:bug bugzilla:540452
-Patch4:         %{name}-04-inline.diff
-# date:2008-06-25 owner:halton type:bug  bugzilla:540148
-Patch5:         %{name}-05-libgoffice-0.8.diff
+Patch3:         %{name}-03-inline.diff
 # date:2008-06-27 owner:halton type:bug  bugzilla:539942
-Patch6:         %{name}-06-configure-fail.diff
+Patch4:         %{name}-04-configure-fail.diff
 # date:2008-08-22 owner:halton type:bug  bugzilla:548218
-Patch7:         %{name}-07-solaris-sh.diff
+Patch5:         %{name}-05-solaris-sh.diff
 BuildRoot:      %{tmpdir}/%{name}-%{version}-root
 
 Requires:       libgnomeui >= %{libgnomeui_version}
@@ -73,8 +69,6 @@ in C programs.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
-%patch7 -p1
 
 %build
 %ifos linux
@@ -168,8 +162,11 @@ fi
 %{_includedir}/gnucash
 
 %changelog
+* Mon Oct 20 2008 - halton.huo@sun.com
+- Bump to 2.2.7
+- Remove upstreamed patches: void-return.diff, libgoffice-0.8.diff and reorder
 * Fri Aug 22 2008 - nonsea@users.sourceforge.net
-- solaris-sh.diff to fix bugzilla #548218
+- Add solaris-sh.diff to fix bugzilla #548218
 * Mon Aug 18 2008 - nonsea@users.sourceforge.net
 - Bump to 2.2.6
 - Use .bz2

@@ -24,15 +24,23 @@ SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:           SUNWgnome-libs
-Requires:           SFEguile
-Requires:           SFEslib
+# TODO: by default, this slib can not be found by gnucash
+# build will fail on ./configure time with following error:
+#  Cannot find SLIB.  Are you sure you have it installed?
+#  See http://bugzilla.gnome.org/show_bug.cgi?id=347922
+#  and http://bugzilla.gnome.org/show_bug.cgi?id=483631
+# workaround is run following command as:
+# ln -s /usr/lib/slib /usr/share/guile/1.8/slib
+# guile -c "(use-modules (ice-9 slib)) (require 'new-catalog)"
+Requires:           SUNWslib
 Requires:           SUNWlibgoffice
+Requires:           SFEguile
 BuildRequires:      SUNWgnome-libs-devel
-BuildRequires:      SFEswig
-BuildRequires:      SFEguile-devel
 BuildRequires:      SUNWlibgoffice-devel
 BuildRequires:      SUNWperl-xml-parser
 BuildRequires:      SUNWlxsl
+BuildRequires:      SUNWswig
+BuildRequires:      SFEguile-devel
 
 %package devel
 Summary:            %{summary} - development files
@@ -175,6 +183,9 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 
 
 %changelog
+* Mon Oct 20 2008 - halton.huo@sun.com
+- swig integrate into snv_100, rename SFEswig to SUNWswig
+- slib integrate into snv_93, rename SFEslib to SUNWslib
 * Mon Aug 18 2008 - nonsea@users.sourceforge.net
 - Add BuildRequires: SUNWperl-xml-parser
 * Wed Jun 25 2008 - nonsea@users.sourceforge.net

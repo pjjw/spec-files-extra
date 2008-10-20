@@ -13,7 +13,7 @@
 %include Solaris.inc
 
 %define have_cmake %(which cmake >/dev/null 2>&1 && echo 1 || echo 0)
-%define have_swig %(/usr/bin/pkginfo -q SFEswig && echo 1 || echo 0)
+%define have_swig %(/usr/bin/pkginfo -q SUNWswig && echo 1 || echo 0)
 
 %use libopensync = libopensync.spec
 
@@ -38,7 +38,7 @@ BuildRequires: SUNWsqlite3
 BuildRequires: SFEcmake
 %endif
 %if %have_swig
-BuildRequires: SFEswig
+BuildRequires: SUNWswig
 %define python_version  2.4
 %endif
 
@@ -96,6 +96,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Oct 20 2008 - halton.huo@sun.com
+- swig integrate into snv_100, rename SFEswig to SUNWswig
 * Thu Sep 04 2008 - halton.huo@sun.com
 - Update %files cause version upgrade
 - Use SFEcmake if cmake is not in $PATH
