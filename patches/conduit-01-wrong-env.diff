@@ -1,0 +1,12 @@
+--- conduit-0.3.15/conduit/conduit.orig	2008-10-21 15:14:46.906023000 +0800
++++ conduit-0.3.15/conduit/conduit	2008-10-21 15:14:54.100986000 +0800
+@@ -8,9 +8,6 @@
+ # Run mozilla takes care of settin up the appropriate environment variables
+ # to run a program using mozilla libs
+ 
+-export LD_LIBRARY_PATH=/opt/gio/lib/
+-export PYTHONPATH=/opt/gio/lib/python2.5/site-packages/gtk-2.0/
+-
+ for d in `ls -d /usr/lib*/firefox* /usr/lib*/mozilla-firefox* 2> /dev/null | sort -r`
+ do
+     if [ -x $d/run-mozilla.sh ]; then

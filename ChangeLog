@@ -1,5 +1,11 @@
 2008-10-21  Halton Huo <halton.huo@sun.com>
 
+	* base-specs/conduit.spec: Add patch wrong-env.diff
+	* patches/conduit-01-wrong-env.diff: (added) fix env problem in
+	  conduit, this bug is only in this tarball
+
+2008-10-21  Halton Huo <halton.huo@sun.com>
+
 	* base-specs/conduit.spec: Bump to 0.3.15
 	* base-specs/goocanvas.spec: Bump to 0.12
 	* base-specs/vinagre.spec: Bump to 2.24.1

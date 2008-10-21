@@ -18,6 +18,8 @@ Vendor:         Sun Microsystems, Inc.
 URL:            http://www.conduit-project.org/
 Summary:        Synchronization for GNOME
 Source:         http://download.gnome.org/sources/%{name}/0.3/%{name}-%{version}.tar.bz2
+# date:2008-10-21 owner:nonsea type:bug state:upstream
+Patch1:         %{name}-01-wrong-env.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 BuildRequires:  dbus-devel >= 0.93
 BuildRequires:  pkgconfig
@@ -58,6 +60,7 @@ Requires: pkgconfig
 
 %prep
 %setup -q
+%patch1 -p1
 
 %build
 %ifos linux
@@ -135,6 +138,8 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Oct 21 2008 - halton.huo@sun.com
 - Bump to 0.3.15
 - Remove upstreamed patch test-fail.diff
+- Add patch wrong-env.diff to fix env problem in conduit, this bug is only in
+  this tarball
 * Mon Sep 01 2008 - halton.huo@sun.com
 - Bump to 0.3.14
 - Add patch test-fail.diff to fix bugzilla #550165
