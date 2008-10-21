@@ -17,7 +17,7 @@ URL:          http://xml.apache.org/xalan-c/index.html
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Docdir:	      %{_defaultdocdir}/doc
 SUNW_BaseDir: %{_basedir}
-SUNW_Copyright %{name}.copyright
+SUNW_Copyright: %{name}.copyright
 
 Autoreqprov:  on
 %include default-depend.inc
@@ -73,5 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/xalanc
 
 %changelog
+* Tue Oct 21 2008  - Pradhap Devarajan <pradhap (at) gmail.com>
+- Fix copyright
 * Sun Feb 17 2008 - laca@sun.com
 - create

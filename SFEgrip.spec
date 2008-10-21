@@ -11,10 +11,7 @@ Source:                  %{sf_download}/grip/grip-%{version}.tar.gz
 Patch1:			 grip-01-i386.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
-<<<<<<< .mine
-=======
 BuildRequires:		 SUNWcurl
->>>>>>> .r1278
 
 %include default-depend.inc
 
@@ -76,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Oct 21 2008  - Pradhap Devarajan <pradhap (at) gmail.com>
+- Fix broken spec
+
 * Thu July 24 2008 - jijun.yu@sun.com
 - Modify the dependency's name.
 

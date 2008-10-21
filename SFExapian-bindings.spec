@@ -14,7 +14,7 @@ Group:               System/Libraries
 Version:             1.0.2
 Source:              %{src_url}/%{src_name}-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
-SUNW_Copyright       %{name}.copyright
+SUNW_Copyright:       %{name}.copyright
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SFExapian-core-devel
@@ -69,5 +69,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Tue Oct 21 2008  - Pradhap Devarajan <pradhap (at) gmail.com>
+- Fix copyright 
+
 * Sun Jul 29 2007 - dougs@truemail.co.th
 - Initial spec

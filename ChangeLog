@@ -1,3 +1,10 @@
+2008-10-21  Pradhap Devarajan < pradhap (at) gmail.com>
+        * SFEtinyca2.spec: fix Requires
+        * SFEgrip.spec: fix broken spec
+        * SFExapian-bindings.spec: fix copyright
+        * SFEalsa-utils.spec:   fix comment
+        * SFExalan-c.spec: fix copyright
+
 2008-10-21  Halton Huo <halton.huo@sun.com>
 
 	* SFEconsolekit.spec: Add standard patch comment

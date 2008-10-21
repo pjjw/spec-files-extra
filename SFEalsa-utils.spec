@@ -1,7 +1,7 @@
 #
 # spec file for package SFEalsa-utils
 #
- includes module(s): alsa-utils
+# includes module(s): alsa-utils
 #
 %include Solaris.inc
 
@@ -78,6 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}
 
 %changelog
+* Tue Oct 21 2008  - Pradhap Devarajan <pradhap (at) gmail.com>
+- Fix comments
 * Fri Aug 15 2008 - glynn.foster@sun.com
 - Add license and grouping
 * Sat Aug 11 2007 - dougs@truemail.co.th

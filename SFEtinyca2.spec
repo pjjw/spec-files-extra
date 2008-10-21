@@ -20,11 +20,11 @@ License:             GPL
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
-Requirements: SFEperl-gtk2
-Requirements: SFEperl-gettext
-Requirements: SUNWopenssl
-Requirements: SUNWgtar
-Requirements: SUNWzip
+Requires: SFEperl-gtk2
+Requires: SFEperl-gettext
+Requires: SUNWopenssl
+Requires: SUNWgtar
+Requires: SUNWzip
 
 #just for note: dependencies by SFEperl-gtk2 are
 # SFEperl-extutils-dep
@@ -115,5 +115,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Oct 21 2008  - Pradhap Devarajan <pradhap (at) gmail.com>
+- Fix Requires
 * Thu Oct 07 2008  - Thomas Wagner
 - Initial spec - derived from tinyca2.spec inside the tarball - thanks to Stephan Martin <sm@sm-zone.net>
