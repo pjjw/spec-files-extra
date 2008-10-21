@@ -1,5 +1,9 @@
 2008-10-21  Halton Huo <halton.huo@sun.com>
 
+	* SFEconsolekit.spec: Add standard patch comment
+
+2008-10-21  Halton Huo <halton.huo@sun.com>
+
 	* SFEgit.spec: Bump to 1.6.0.2
 	* SUNWgnome-display-mgr.spec: Add standard patch comment
 	* patches/gdm-01-lang.diff: get latest from trunk

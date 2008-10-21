@@ -3,6 +3,8 @@
 #
 # includes module(s): ConsoleKit
 #
+# bugdb: http://bugs.freedesktop.org/show_bug.cgi?id=
+#
 %include Solaris.inc
 
 # build with dbus support unless --without-dbus is used
@@ -22,14 +24,18 @@
 Name:                    SFEconsolekit
 Summary:                 Framework for tracking users, login sessions, and seats.
 Version:                 0.3.0
+URL:                     http://www.freedesktop.org/wiki/Software/ConsoleKit
 Source:                  http://people.freedesktop.org/~mccann/dist/ConsoleKit-%{version}.tar.bz2
 Source1:                 consolekit.xml
+# date:2007-08-16 owner:yippi type:bug state:upstream
 Patch1:                  ConsoleKit-01-nox11check.diff
+# date:2008-01-31 owner:yippi type:bug
 Patch2:                  ConsoleKit-02-emptystruct.diff
-# patch to fix Solaris build issue
+# date:2008-03-02 owner:xz159989 type:bug
 Patch3:                  ConsoleKit-03-pam.diff
+# date:2008-03-04 owner:xz159989 type:bug
 Patch4:                  ConsoleKit-04-ck-history.diff
-# Maybe not a real fix. See freedesktop bugzilla #15866
+# date:2008-06-24 owner:xz159989 type:bug bugid:15866
 Patch5:                  ConsoleKit-05-getcurrentsession.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -191,6 +197,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Oct 21 2008 - halton.huo@sun.com
+- Add standard patch comment
 * Thu Aug 07 2008 - brian.cameorn@sun.com
 - Bump to 0.3.0.
 * Tue Jun 24 2008 - simon.zheng@sun.com
