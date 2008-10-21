@@ -10,7 +10,7 @@
 
 Name:                SFEallegro
 Summary:             Game programming library
-Version:             4.2.1
+Version:             4.2.2
 Source:              %{sf_download}/alleg/allegro-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
@@ -129,6 +129,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Tue Oct 21 2008  - Pradhap Devarajan <pradhap (at) gmail.com>
+- Bump to 4.2.2
 * Fri Aug 15 2008 - glynn.foster@sun.com
 - Add copyright and grouping.
 * Sat Oct 13 2007 - laca@sun.com

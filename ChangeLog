@@ -1,3 +1,6 @@
+2008-10-21 Pradhap Devarajan <pradhap (at) gmail.com>
+	* SFEallegro.spec: Bump to 4.2.2
+
 2008-10-21  Pradhap Devarajan < pradhap (at) gmail.com>
         * SFEtinyca2.spec: fix Requires
         * SFEgrip.spec: fix broken spec
