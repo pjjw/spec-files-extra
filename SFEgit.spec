@@ -15,7 +15,7 @@
 
 Name:                SFEgit
 Summary:             GIT - the stupid content tracker
-Version:             1.6.0.1
+Version:             1.6.0.2
 URL:                 http://git.or.cz/
 Source:              http://www.kernel.org/pub/software/scm/git/git-%{version}.tar.bz2
 Patch1:              git-01-solaris-shell.diff
@@ -132,6 +132,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/perl5/vendor_perl/%{perl_version}/*
 
 %changelog
+* Tue Oct 21 2008 - halton.huo@sun.com
+- Bump to 1.6.0.2
 * Tue Sep 02 2008 - halton.huo@sun.com
 - Bump to 1.6.0.1
 - Remove upstreamed patch git-03-tr.diff

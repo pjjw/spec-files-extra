@@ -1,5 +1,11 @@
 2008-10-21  Halton Huo <halton.huo@sun.com>
 
+	* SFEgit.spec: Bump to 1.6.0.2
+	* SUNWgnome-display-mgr.spec: Add standard patch comment
+	* patches/gdm-01-lang.diff: get latest from trunk
+
+2008-10-21  Halton Huo <halton.huo@sun.com>
+
 	* base-specs/conduit.spec: revert to previous version since couduit
 	  maintainer release a new tarball.
 	* patches/conduit-01-wrong-env.diff: (removed)

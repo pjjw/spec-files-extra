@@ -18,24 +18,27 @@ Release:                 1
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.24/gdm-%{version}.tar.bz2
 Source1:                 gdm.xml
 Source2:                 svc-gdm
-# Fix language/locale.  Patch by Takao.  See bugzilla bug #536387.
+# date:2008-06-03 owner:fujiwara type:bug bugid:536387 state:upstream
 Patch1:                  gdm-01-lang.diff
 # Patch2 adds SDTLOGIN interface, which drops the Xserver to user
 # perms rather than running as root, for added security on Solaris.
 # It also adds logindevperm support.  Refer to bug #531651.  My
 # hope is to get logindevperm support upstream.
+# date:2008-05-06 owner:yippi type:bug bugid:531651
 Patch2:                  gdm-02-sdtlogin-devperm.diff
 # Add ctrun support when running the user session.  Otherwise, any
 # core dump in the user session will cause GDM to restart.
 Patch3:                  gdm-03-ctrun.diff
-# Manage displays on the fly.  Refer to bug #536355.
+# Manage displays on the fly
+# date:2008-06-03 owner:yippi type:bug bugid:536355
 Patch4:                  gdm-04-dynamic-display.diff
 # Possible fix for unwritable gdm user $HOME. gnome-session
 # tries to update ~/.ICEAuthority and gdm-simple-greeter crashes
-# when looking up option widgets.  Refer to bugzilla bug #554242.
+# when looking up option widgets.
+# date:2008-09-29 owner:yippi type:bug bugid:554242
 Patch5:                  gdm-05-ICE-optionwidget.diff
 # Fix gconf-santiy-check-2 warning dialog.
-# Please see http://bugzilla.gnome.org/show_bug.cgi?id=550832
+# date:2008-09-04 owner:xz159989 type:bug bugid:550832
 Patch6:			 gdm-06-gconfsanity.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -315,6 +318,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Tue Oct 21 2008 - halton.huo@sun.com
+- Add standard patch comment
 * Mon Oct 20 2008 - halton.huo@sun.com
 - Add Requires: SFEconsolekit
 - enable patch5 ICE-optionwidget.diff
