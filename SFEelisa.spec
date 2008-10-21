@@ -11,7 +11,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa
-%define version 0.5.14
+%define version 0.5.15
 
 %include Solaris.inc
 
@@ -116,6 +116,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_generic_setup.pyc
 
 %changelog
+* Tue Oct 21 2008 Jerry Yu <jijun.yu@sun.com>
+- Bump to 0.5.15.
 * Tue Oct 14 2008 Jerry Yu <jijun.yu@sun.com>
 - Bump to 0.5.14. 
 - Comment some unuseful commands.
