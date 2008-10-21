@@ -11,13 +11,13 @@
 Name:           vinagre
 License:        GPL
 Group:          Development/Libraries
-Version:        2.23.92
+Version:        2.24.1
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.gnome.org/projects/vinagre
 Summary:        A VCN client for the GNOME Desktop
-Source:         http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
+Source:         http://download.gnome.org/sources/%{name}/2.24/%{name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires: gtk2-devel

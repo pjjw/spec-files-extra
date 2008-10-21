@@ -11,7 +11,7 @@
 Name:           goocanvas
 License:        LGPL
 Group:          System/Libraries
-Version:        0.11
+Version:        0.12
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
