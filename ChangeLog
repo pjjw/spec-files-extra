@@ -1,5 +1,9 @@
 2008-10-21  Jerry Yu  <jijun.yu@sun.com>
 
+	* SFEelisa-plugins-good.spec: Remove winscreensaver plugin.
+
+2008-10-21  Jerry Yu  <jijun.yu@sun.com>
+
 	* SFEelisa-plugins-bad.spec, SFEelisa-plugins-good.spec, SFEelisa.spec:
 	  Bump to 0.5.15.
 
