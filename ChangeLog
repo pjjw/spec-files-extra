@@ -1,4 +1,8 @@
 2008-10-21 Pradhap Devarajan <pradhap (at) gmail.com>
+        * SFEbochs.spec: Bump to 20080906
+	* SFEalpine.spec: Fix link
+
+2008-10-21 Pradhap Devarajan <pradhap (at) gmail.com>
 	* SFEallegro.spec: Bump to 4.2.2
 
 2008-10-21  Pradhap Devarajan < pradhap (at) gmail.com>
