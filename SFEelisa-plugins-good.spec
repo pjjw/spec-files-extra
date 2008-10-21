@@ -29,6 +29,9 @@ and being compatible with the Elisa licensing model.
 
 %prep
 %setup -q -n elisa-plugins-good-%version
+rm -rf ./elisa/plugins/weather
+rm -rf ./elisa_plugin_weather.egg-info
+
 
 %build
 
@@ -74,6 +77,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*.egg-info
 
 %changelog
+* Tue Oct 21 2008 Jerry Yu <jijun.yu@sun.com>
+- Remove weather plugin.
 * Tue Oct 14 2008 Jerry Yu < jijun.yu@sun.com>
 - Bump to 0.5.14.
 - Comment some unuseful commands.

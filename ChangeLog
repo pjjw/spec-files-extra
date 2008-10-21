@@ -1,3 +1,7 @@
+2008-10-21  Jerry Yu  <jijun.yu@sun.com>
+
+	* SFEelisa-plugins-good.spec: Remove weather plugin.
+
 2008-10-20  Halton Huo <halton.huo@sun.com>
 
 	* SFEgnucash.spec: rename SFEswig to SUNWswig,rename SFEslib to SUNWslib
