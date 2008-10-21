@@ -1,5 +1,11 @@
 2008-10-21  Halton Huo <halton.huo@sun.com>
 
+	* base-specs/conduit.spec: revert to previous version since couduit
+	  maintainer release a new tarball.
+	* patches/conduit-01-wrong-env.diff: (removed)
+
+2008-10-21  Halton Huo <halton.huo@sun.com>
+
 	* base-specs/conduit.spec: Add patch wrong-env.diff
 	* patches/conduit-01-wrong-env.diff: (added) fix env problem in
 	  conduit, this bug is only in this tarball
