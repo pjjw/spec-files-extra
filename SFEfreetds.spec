@@ -7,7 +7,7 @@
 
 Name:                SFEfreetds
 Summary:             Implementation of the TDS (SQL Server/Sybase) protocol
-Version:             0.64
+Version:             0.82
 Source:              http://ibiblio.org/pub/Linux/ALPHA/freetds/stable/freetds-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -88,6 +88,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Tue Oct 22 2008  - Pradhap Devarajan <pradhap (at) gmail.com>
+- Bump to 0.82
 * Mon Mar 19 2007 - dougs@truemail.co.th
 - Fixed -fno-omit-frame-pointer flag
 * Mon Mar 13 2007 - Eric Boutilier
