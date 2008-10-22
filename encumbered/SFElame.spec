@@ -29,8 +29,8 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
-BuildRequires: SUNWncurses-devel
-Requires: SUNWncurses
+BuildRequires: SFEncurses-devel
+Requires: SFEncurses
 
 %package devel
 Summary:                 %{summary} - development files

@@ -69,6 +69,7 @@ export LDFLAGS="%_ldflags"
             --datadir=%{_datadir}       \
             --libexecdir=%{_libexecdir} \
             --sysconfdir=%{_sysconfdir} \
+            --disable-gtkspell		\
             --enable-shared             \
             --disable-static
 

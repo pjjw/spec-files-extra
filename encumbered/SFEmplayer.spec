@@ -60,6 +60,8 @@ Requires: SFElame
 BuildRequires: SFElame-devel
 Requires: SFEtwolame
 BuildRequires: SFEtwolame-devel
+Requires: SFEgawk
+BuildRequires: SFEgawk
 # FIXME: If have dvdnav, need use --disable-dvdread-internal when ./configure,
 # but this will cause build fail, do not use it for now.
 Requires: SFElibdvdnav
@@ -188,6 +190,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Wed Oct 22 2008 - dick@nagual.nl
+- added SFEgawk as dep. Needed to compile without errors.
 * Sun Aug 17 2008 - nonsea@users.sourceofrge.net
 - Use SUNWfreetype2 instead of SFEfreetype
 - Remove missed patches: Patch6, Patch7, Patch8, Patch9

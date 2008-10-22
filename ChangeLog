@@ -1,3 +1,8 @@
+2008-10-22  Dick Hoogendijk <dick@nagual.nl>
+	* SFEliveMedia.spec: bumped to latest version
+	* SFEmplayer.spec: added SFEgawk as dependency
+	* SFElibcdio.spec: -s/SUNWncurses/SFEncurses (back)
+
 2008-10-21 Pradhap Devarajan <pradhap (at) gmail.com>
         * SFEbochs.spec: Bump to 20080906
 	* SFEalpine.spec: Fix link
@@ -86,6 +91,7 @@
 2008-10-08  Thomas Wagner  <tom68@users.sourceforge.net>
 	* SFEsamba.spec: typo s/%%/%/ in mkdir for localstatedir
 
+>>>>>>> .r1445
 2008-10-15  simon.zheng  <simon.zheng@sun.com>
 
 	* patches/gdm-04-dynamic-display.diff: reworked.

@@ -7,7 +7,7 @@
 
 Name:                    SFEmplayer-plugin
 Summary:                 MPlayer plugin for firefox on Nevada
-Version:                 3.45
+Version:                 3.55
 Source:                  %{sf_download}/mplayerplug-in/mplayerplug-in-%{version}.tar.gz
 #Source:                  http://mplayerplug-in.sourceforge.net/mplayerplug-in-3.45.tar.gz
 Patch1:			 mpplugin-01-makefile.diff
@@ -39,11 +39,6 @@ Requires:                %{name}
 
 %prep
 %setup -q -n mplayerplug-in
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`

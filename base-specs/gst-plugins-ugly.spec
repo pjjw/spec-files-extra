@@ -55,7 +55,6 @@ bash ./configure \
   --disable-lame	\
   --enable-dvdnav	\
   --disable-sidplay	\
-  %{gtk_doc_option}	\
   --enable-external --with-check=no
 
 # FIXME: hack: stop the build from looping

@@ -34,7 +34,7 @@ Requires: SUNWlibms
 Requires: SUNWdbus
 Requires: SFElibcddb
 Requires: SFElibiconv
-Requires: SUNWncurses
+Requires: SFEncurses
 %if %with_hal
 Requires: SUNWhal
 %endif
@@ -43,7 +43,7 @@ BuildRequires: SUNWgcc
 BuildRequires: SUNWdbus-devel
 BuildRequires: SFElibcddb-devel
 BuildRequires: SFElibiconv-devel
-BuildRequires: SUNWncurses-devel
+BuildRequires: SFEncurses-devel
 
 %package devel
 Summary:                 %{summary} - development files
@@ -109,6 +109,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/cdio
 
 %changelog
+* Wed Oct 22 2008 - dick@nagual.nl
+- s/SUNWncurses/SFEncurses since the SUNpkg is not available
 * Tue Sep 02 2008 - halton.huo@sun.com
 - s/SFEncurses/SUNWncurses since it goes into vermillion
 * Sun Aug 17 2008 - nonsea@users.sourceforge.net
