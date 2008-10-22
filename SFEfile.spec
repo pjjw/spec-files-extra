@@ -9,7 +9,7 @@
 
 Name:                SFEfile
 Summary:             determine file type
-Version:             4.21
+Version:             4.26
 Source:              ftp://ftp.astron.com/pub/file/file-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
@@ -66,6 +66,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man4/*.4
 
 %changelog
+* Tue Oct 22 2008  - Pradhap Devarajan <pradhap (at) gmail.com>
+- Bump to 4.26
 * Sat Jul 15 2007 - dougs@truemail.co.th
 - Bump to 4.21
 * Thu May 03 2007 - nonsea@users.sourceforge.net
