@@ -1,3 +1,7 @@
+2008-10-22  Jerry Yu  <jijun.yu@sun.com>
+
+	* SFEhamster.spec: Bump to 2.24.1
+
 2008-10-22  Dick Hoogendijk <dick@nagual.nl>
 	* SFEliveMedia.spec: bumped to latest version
 	* SFEmplayer.spec: added SFEgawk as dependency

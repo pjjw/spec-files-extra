@@ -14,7 +14,7 @@
 
 Name:                    SFEhamster
 Summary:		 Time tracking for masses	
-Version:                 2.24.0
+Version:                 2.24.1
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/hamster-applet/2.24/hamster-applet-%{version}.tar.gz
 URL:                     http://live.gnome.org/ProjectHamster
 SUNW_BaseDir:            %{_basedir}
@@ -57,5 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
+* Wed Oct 22 2008 - jijun.yu@sun.com
+- Bump to 2.24.1
 * Tue Oct 07 2008 - jijun.yu@sun.com
 - Initial spec
