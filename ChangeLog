@@ -1,4 +1,7 @@
 2008-10-22 Pradhap Devarajan <pradhap (at) gmail.com>
+        * SFEgnokii.spec: Fix links
+
+2008-10-22 Pradhap Devarajan <pradhap (at) gmail.com>
         * SFEfreetds.spec: Bump to 0.82
 
 2008-10-22 Pradhap Devarajan <pradhap (at) gmail.com>

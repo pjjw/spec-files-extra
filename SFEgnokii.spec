@@ -12,7 +12,7 @@
 Name:                   SFEgnokii
 Summary:                Tools and user-space drivers for interfacing with mobiles phones esp. Nokia
 Version:                0.6.22
-Source:                 http://www.gnokii.org/download/gnokii/gnokii-0.6.22.tar.bz2
+Source:                 http://www.gnokii.org/download/gnokii/0.6.x/gnokii-0.6.22.tar.bz2
 Patch1:                 gnokii-01-uint8.diff
 Patch2:                 gnokii-02-utils.diff
 Patch3:                 gnokii-03-makefile.diff
@@ -94,6 +94,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/locale/*
 
 %changelog
+* Tue Oct 22 2008  - Pradhap Devarajan <pradhap (at) gmail.com>
+- Fix links
 * Mon Jan 28 2008 - moinak.ghosh@sun.com
 - Add check for presence on SUNWgnu-iconv and SUNWgnu-gettext packages.
 - Fixed a typo.
