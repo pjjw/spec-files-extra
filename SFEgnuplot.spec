@@ -8,7 +8,7 @@
 Name:                    SFEgnuplot
 Summary:                 gnuplot
 Version:                 4.0.0
-Source:			 ftp://ftp.gnuplot.info/pub/%{summary}/%{summary}-%{version}.tar.gz
+Source:			 http://downloads.sourceforge.net/%{summary}/%{summary}-%{version}.tar.gz
 URL:                     http://www.gnuplot.info
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -88,6 +88,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Tue Oct 23 2008  - Pradhap Devarajan <pradhap (at) gmail.com>
+- Fix links
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net
 - Add SUNWtexi dependency. Add %post/%preun to update the info dir file.
 * Fri Jun 30 2006 - laca@sun.com
