@@ -8,7 +8,7 @@
 # Software specific variable definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %define src_name	e16-0
-%define src_version	16.8.10
+%define src_version	16.8.14
 %define pkg_release	1
 # %{_topdir} is by default set to RPM_BUILD_ROOT
 # Default path for RPM_BUILD_ROOT is /var/tmp/pkgbuild-{username}
@@ -104,6 +104,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/e16/*
 
 %changelog
+* Tue Oct 22 2008  - Pradhap Devarajan <pradhap (at) gmail.com>
+- Bump to 16.8.14
 * 2007.Nov.15 - <shivakumar dot gn at gmail dot com>
 - Initial spec.
 
