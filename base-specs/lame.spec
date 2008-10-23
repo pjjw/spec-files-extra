@@ -39,6 +39,7 @@ automake -a -c -f
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
             --sysconfdir=%{_sysconfdir}      \
+            --with-fileio=sndfile            \
             --enable-shared		     \
 	    --disable-static
 ##FIXME ugly hack
@@ -53,6 +54,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/lib*a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Oct 23 2008 - dick@nagual.nl
+- Add --with-fileio=sndfile for better file reckognize (i.e. au files)
 * Sat Aug 16 2008 - nonsea@users.sourceforge.net
 - Add aclocal to fix build error
 - Remove commentted patch1 and patch2

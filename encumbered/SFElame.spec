@@ -29,6 +29,7 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
+Requires: SFElibsndfile
 BuildRequires: SFEncurses-devel
 Requires: SFEncurses
 
@@ -146,6 +147,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Thu Oct 23 2008 - dick@nagual.nl
+- s/SUNWncurses/SFEncurses for the time being.
+- add dependency on SFElibsndfile for better/more audio formats
 * Tue Sep 02 2008 - halton.huo@sun.com
 - s/SFEncurses/SUNWncurses since it goes into vermillion
 * Tue Mar 20 2007 - dougs@truemail.co.th
