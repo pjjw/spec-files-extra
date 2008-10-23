@@ -13,11 +13,11 @@ Name:                SFEgeany
 Summary:             A small and lightweight integrated developer environment
 Version:             0.15
 Source:              %{src_url}/%{src_name}-%{version}.tar.bz2
-Patch1:              gsl-01-math.diff
 URL:                 http://geany.uvena.de/Main/HomePage
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+BuildRequires:       SUNWperl-xml-parser
 
 %package l10n
 Summary:                 %{summary} - l10n files
