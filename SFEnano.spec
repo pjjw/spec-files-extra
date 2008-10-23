@@ -37,6 +37,7 @@ export LDFLAGS="%{_ldflags} -R/usr/gnu/lib -L/usr/gnu/lib -lncursesw"
                  --bindir=%{_bindir}			\
                  --mandir=%{_mandir}                 \
                  --infodir=%{_infodir}                   \
+                 --sysconfdir=%{_sysconfdir}       \
                  --enable-all
 
 make
