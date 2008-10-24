@@ -15,6 +15,7 @@ Summary:           Bad plugins for Elisa
 URL:               http://elisa.fluendo.com/
 Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-plugins-bad-%{version}.tar.gz
+Patch1:		   elisa-plugins-bad-01-rm-plugins.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
 Requires:          SFEelisa
@@ -30,6 +31,7 @@ code needing more QA (unittests, code reviews).
 
 %prep
 %setup -q -n elisa-plugins-bad-%version
+%patch1 -p1
 
 %build
 
@@ -79,6 +81,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*.egg-info
 
 %changelog
+* Fri Oct 24 2008 Jerry Yu <jijun.yu@sun.com>
+- Add patch 01 to remove some plugins that won't be shipped.
 * Tue Oct 21 2008 Jerry Yu <jijun.yu@sun.com>
 - Bump to 0.5.15.
 * Tue Oct 14 2008 Jerry Yu < jijun.yu@sun.com>

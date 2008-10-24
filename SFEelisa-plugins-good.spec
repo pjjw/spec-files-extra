@@ -15,6 +15,7 @@ Summary:           Good plugins for Elisa
 URL:               http://elisa.fluendo.com/
 Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-plugins-good-%{version}.tar.gz
+Patch1:		   elisa-plugins-good-01-rm-plugins.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
 Requires:          SFEelisa
@@ -29,10 +30,7 @@ and being compatible with the Elisa licensing model.
 
 %prep
 %setup -q -n elisa-plugins-good-%version
-rm -rf ./elisa/plugins/weather
-rm -rf ./elisa_plugin_weather.egg-info
-rm -rf ./elisa/plugins/winscreensaver
-rm -rf ./elisa_plugin_winscreensaver.egg-info
+%patch1 -p1
 
 
 %build
@@ -79,6 +77,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*.egg-info
 
 %changelog
+* Fri Oct 24 2008 Jerry Yu <jijun.yu@sun.com>
+- Add a patch to remove some unuseful plugins.
 * Tue Oct 21 2008 Jerry Yu <jijun.yu@sun.com>
 - Remove winscreensaver plugin.
 * Tue Oct 21 2008 Jerry Yu <jijun.yu@sun.com>
