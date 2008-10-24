@@ -1,3 +1,7 @@
+2008-09-08  Wang Xin  <jedy.wang@sun.com>
+
+	* SFEcyrus-sasl.spec: Fix plugindir problem.
+
 2008-10-24 Jerry Yu  <jijun.yu@sun.com>
 
 	* SFEelisa-plugins-bad.spec: Add a patch to remove some unuseful plugins.
@@ -400,6 +404,7 @@
 
 	* SFEdspam.spec: Bumped up version to 3.8.0
 
+>>>>>>> .r1460
 2008-09-07  Andras Barna  <andras.barna@gmail.com>
 
 	* SFEnetspeed-applet: New version, remove patch01

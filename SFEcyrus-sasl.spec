@@ -42,6 +42,7 @@ export LDFLAGS="-L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib"
            --enable-shared=yes \
            --enable-static=no \
            --with-dbpath=%{_sysconfdir}/sasldb2 \
+           --with-plugindir=%{_libdir}/sasl2 \
            --sysconfdir %{_sysconfdir} \
            --mandir %{_mandir} \
            --with-ipctype=doors \
@@ -80,6 +81,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/*
 
 %changelog
+* Fri Oct 24 2008 - jedy.wang@sun.com
+- Fixes plugindir problem.
 * Fri Jun 06 2008 - river@wikimedia.org
 - strip whitespace from $CFLAGS otherwise autoconf gets upset
 * Sun Feb 03 2008 - moinak.ghosh@sun.com
