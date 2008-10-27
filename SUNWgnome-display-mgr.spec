@@ -302,8 +302,9 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %{_localstatedir}/gdm
 %dir %attr (0755, root, other) %{_localstatedir}/lib
 %dir %attr (1770, root, gdm) %{_localstatedir}/lib/gdm
-%{_localstatedir}/lib/gdm/.gconf.path
-%{_localstatedir}/lib/gdm/.gconf.mandatory
+%dir %attr (1750, root, gdm) %{_localstatedir}/lib/gdm/.gconf.mandatory
+%attr (1640, root, gdm) %{_localstatedir}/lib/gdm/.gconf.path
+%attr (1640, root, gdm) %{_localstatedir}/lib/gdm/.gconf.mandatory/*
 %dir %attr (0755, root, sys) %{_localstatedir}/run
 %dir %attr (1775, root, gdm) %{_localstatedir}/run/gdm
 
