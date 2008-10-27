@@ -1,3 +1,9 @@
+2008-10-28  Andras Barna  <andras.barna@gmail.com>
+
+	* SFEgeoip.spec: new spec.
+	* SFEparcellite.spec: fix perms.
+	* patches/geoip-01-solaris.diff: added.
+
 2008-10-27  Andras Barna  <andras.bar@gmail.com>
 
         * SFEemacs.spec: define _with_gtk.
