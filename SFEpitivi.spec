@@ -8,7 +8,7 @@
 Name:                    SFEpitivi
 Summary:                 Non-Linear video editor
 URL:                     http://ftp.gnome.org/pub/GNOME/sources/pitivi
-Version:                 0.11.1
+Version:                 0.11.2
 Source:                  http://ftp.gnome.org/pub/GNOME/sources/pitivi/0.11/pitivi-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -73,6 +73,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Oct 27 2008 - brian.cameron@sun.com
+- Bump to 0.11.2.
 * Thu Apr 10 2008 - brian.cameron@sun.com
 - Change SFEgst-python to SUNWgst-python.
 * Mon Apr 07 2008 - brian.cameron@sun.com
