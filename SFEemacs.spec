@@ -14,6 +14,9 @@ URL:                     http://www.gnu.org/software/emacs/emacs.html
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+
+%define _with_gtk 1
+
 Requires: SUNWTiff
 Requires: SUNWpng
 Requires: SUNWjpg

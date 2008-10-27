@@ -1,3 +1,9 @@
+2008-10-27  Andras Barna  <andras.bar@gmail.com>
+
+        * SFEemacs.spec: define _with_gtk.
+        * encumbered/SFExmms1.spec: add SUNWaudh buildreq.
+        * SFEparcellite.spec: new spec. (clipboard tool)
+        
 2008-10-26  Brian Cameron  <brian.cameron@sun.com>
 
 	* SUNWgnome-display-mgr.spec:  Fix packaging so that the

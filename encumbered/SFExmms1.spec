@@ -24,6 +24,7 @@ BuildRequires: SUNWsfwhea
 BuildRequires: SUNWhea
 BuildRequires: SUNWgnome-audio-devel
 BuildRequires: oss
+BuildRequires: SUNWaudh
 
 %package devel
 Summary:                 %{summary} - development files
