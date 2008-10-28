@@ -27,16 +27,16 @@ Version:                 0.3.0
 URL:                     http://www.freedesktop.org/wiki/Software/ConsoleKit
 Source:                  http://people.freedesktop.org/~mccann/dist/ConsoleKit-%{version}.tar.bz2
 Source1:                 consolekit.xml
-# date:2007-08-16 owner:yippi type:bug state:upstream
-Patch1:                  ConsoleKit-01-nox11check.diff
-# date:2008-01-31 owner:yippi type:bug
-Patch2:                  ConsoleKit-02-emptystruct.diff
-# date:2008-03-02 owner:xz159989 type:bug
-Patch3:                  ConsoleKit-03-pam.diff
-# date:2008-03-04 owner:xz159989 type:bug
-Patch4:                  ConsoleKit-04-ck-history.diff
-# date:2008-06-24 owner:xz159989 type:bug bugid:15866
-Patch5:                  ConsoleKit-05-getcurrentsession.diff
+# date:2008-01-31 owner:yippi type:bug bugid:18149
+Patch1:                  ConsoleKit-01-emptystruct.diff
+# date:2008-03-02 owner:halton type:bug bugid:18173
+Patch2:                  ConsoleKit-02-pam.diff
+# date:2008-03-04 owner:halton type:bug bugid:18261
+Patch3:                  ConsoleKit-03-ck-history.diff
+# date:2008-06-24 owner:halton type:bug bugid:15866
+# Disable getcurrentsession.diff for now, since halton think it is not
+# a bug actually
+#Patch5:                  ConsoleKit-05-getcurrentsession.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -94,8 +94,7 @@ Requires: %name
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
+#%patch5 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
