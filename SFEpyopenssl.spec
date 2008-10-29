@@ -8,7 +8,7 @@
 Name:                    SFEpyopenssl
 Summary:                 Python Interface to the OpenSSL library
 URL:                     http://pyopenssl.sourceforge.net/
-Version:                 0.7
+Version:                 0.8
 Source:                  %{sf_download}/pyopenssl/pyOpenSSL-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -46,5 +46,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{pythonver}/vendor-packages/OpenSSL/*
 
 %changelog
+* Wed Oct 29 2008 - brian.cameron@sun.com
+- Bump to 0.8.
 * Mon Apr 28 2008 - brian.cameron@sun.com
-- Created
+- Created with 0.7.
