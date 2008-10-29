@@ -1,3 +1,8 @@
+2008-10-29  Andras Barna  <andras.barna@gmail.com>
+
+	* SFEpidgin-musictracker.spec: new spec.
+	* patches/pidgin-musictracker-01-solaris.diff: added.
+
 2008-10-28  Halton Huo <halton.huo@sun.com>
 
 	* SFEconsolekit.spec: Disable patch getcurrentsession.diff since halton
