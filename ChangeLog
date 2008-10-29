@@ -1,5 +1,11 @@
 2008-10-29  Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEelisa.spec, SFEelisa-plugins-good.spec: Bump to 0.5.16.
+	* SFEelisa-plugins-bad.spec: Bump to 0.5.16.1.
+	* patches/elisa-plugins-good-01-rm-plugins.diff: Rework so it applies.
+
+2008-10-29  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEpyopenssl.spec: Bump to 0.8.
 
 2008-10-29  Andras Barna  <andras.barna@gmail.com>

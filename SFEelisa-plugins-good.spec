@@ -6,7 +6,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa-plugins-good
-%define version 0.5.15
+%define version 0.5.16
 
 %include Solaris.inc
 
@@ -77,6 +77,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*.egg-info
 
 %changelog
+* Wed Oct 29 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.5.16.
 * Fri Oct 24 2008 Jerry Yu <jijun.yu@sun.com>
 - Add a patch to remove some unuseful plugins.
 * Tue Oct 21 2008 Jerry Yu <jijun.yu@sun.com>
