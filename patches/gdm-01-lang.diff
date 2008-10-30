@@ -1,46 +1,6 @@
---- gdm/gui/simple-greeter/gdm-languages.c      (revision 6468)
-+++ gdm/gui/simple-greeter/gdm-languages.c      (working copy)
-@@ -216,6 +216,25 @@ construct_language_name (const char *lan
-         return name;
- }
- 
-+static void
-+make_codeset_canonical_for_locale (const       *name,
-+                                   const char **codeset)
-+{
-+        char *old_locale;
-+        char *canonical_codeset;
-+
-+        old_locale = setlocale (LC_CTYPE, name);
-+
-+        if (old_locale == NULL) {
-+                return;
-+        }
-+
-+        g_free (*codeset);
-+        *codeset = g_strdup (nl_langinfo (CODESET));
-+
-+        setlocale (LC_CTYPE, old_locale);
-+}
-+
- char *
- gdm_normalize_language_name (const char *name)
- {
-@@ -234,6 +253,10 @@ gdm_normalize_language_name (const char 
-                                  &territory_code,
-                                  &codeset, &modifier);
- 
-+        if (codeset != NULL) {
-+                make_codeset_canonical_for_locale (name, &codeset);
-+        }
-+
-         normalized_name = construct_language_name (language_code,
-                                                    territory_code,
-                                                    codeset, modifier);
-
 diff -up gdm-2.23.92/gui/simple-greeter/gdm-language-option-widget.c.filter-dupes-from-lang-list gdm-2.23.92/gui/simple-greeter/gdm-language-option-widget.c
---- gdm-2.23.92/gui/simple-greeter/gdm-language-option-widget.c.filter-dupes-from-lang-list     2008-08-26 15:04:00.000000000 -0400
-+++ gdm-2.23.92/gui/simple-greeter/gdm-language-option-widget.c 2008-09-17 11:07:51.000000000 -0400
+--- gdm-2.23.92/gui/simple-greeter/gdm-language-option-widget.c.filter-dupes-from-lang-list	2008-08-26 15:04:00.000000000 -0400
++++ gdm-2.23.92/gui/simple-greeter/gdm-language-option-widget.c	2008-09-17 11:07:51.000000000 -0400
 @@ -173,7 +173,7 @@ gdm_language_option_widget_class_init (G
          g_type_class_add_private (klass, sizeof (GdmLanguageOptionWidgetPrivate));
  }
@@ -87,8 +47,8 @@ diff -up gdm-2.23.92/gui/simple-greeter/gdm-language-option-widget.c.filter-dupe
                                                     normalized_language_name);
          }
 diff -up gdm-2.23.92/gui/simple-greeter/gdm-layout-option-widget.c.filter-dupes-from-lang-list gdm-2.23.92/gui/simple-greeter/gdm-layout-option-widget.c
---- gdm-2.23.92/gui/simple-greeter/gdm-layout-option-widget.c.filter-dupes-from-lang-list       2008-09-17 10:55:20.000000000 -0400
-+++ gdm-2.23.92/gui/simple-greeter/gdm-layout-option-widget.c   2008-09-17 11:08:07.000000000 -0400
+--- gdm-2.23.92/gui/simple-greeter/gdm-layout-option-widget.c.filter-dupes-from-lang-list	2008-09-17 10:55:20.000000000 -0400
++++ gdm-2.23.92/gui/simple-greeter/gdm-layout-option-widget.c	2008-09-17 11:08:07.000000000 -0400
 @@ -176,24 +176,24 @@ gdm_layout_option_widget_class_init (Gdm
          g_type_class_add_private (klass, sizeof (GdmLayoutOptionWidgetPrivate));
  }
@@ -120,8 +80,8 @@ diff -up gdm-2.23.92/gui/simple-greeter/gdm-layout-option-widget.c.filter-dupes-
  
  static void
 diff -up gdm-2.23.92/gui/simple-greeter/gdm-recent-option-widget.c.filter-dupes-from-lang-list gdm-2.23.92/gui/simple-greeter/gdm-recent-option-widget.c
---- gdm-2.23.92/gui/simple-greeter/gdm-recent-option-widget.c.filter-dupes-from-lang-list       2008-08-26 15:04:00.000000000 -0400
-+++ gdm-2.23.92/gui/simple-greeter/gdm-recent-option-widget.c   2008-09-17 11:06:34.000000000 -0400
+--- gdm-2.23.92/gui/simple-greeter/gdm-recent-option-widget.c.filter-dupes-from-lang-list	2008-08-26 15:04:00.000000000 -0400
++++ gdm-2.23.92/gui/simple-greeter/gdm-recent-option-widget.c	2008-09-17 11:06:34.000000000 -0400
 @@ -159,13 +159,24 @@ gdm_recent_option_widget_sync_items_from
          default_is_set = FALSE;
  
@@ -159,8 +119,8 @@ diff -up gdm-2.23.92/gui/simple-greeter/gdm-recent-option-widget.c.filter-dupes-
          }
  
 diff -up gdm-2.23.92/gui/simple-greeter/gdm-recent-option-widget.h.filter-dupes-from-lang-list gdm-2.23.92/gui/simple-greeter/gdm-recent-option-widget.h
---- gdm-2.23.92/gui/simple-greeter/gdm-recent-option-widget.h.filter-dupes-from-lang-list       2008-08-26 15:04:00.000000000 -0400
-+++ gdm-2.23.92/gui/simple-greeter/gdm-recent-option-widget.h   2008-09-17 11:07:40.000000000 -0400
+--- gdm-2.23.92/gui/simple-greeter/gdm-recent-option-widget.h.filter-dupes-from-lang-list	2008-08-26 15:04:00.000000000 -0400
++++ gdm-2.23.92/gui/simple-greeter/gdm-recent-option-widget.h	2008-09-17 11:07:40.000000000 -0400
 @@ -48,10 +48,10 @@ typedef struct
          GdmOptionWidgetClass       parent_class;
  } GdmRecentOptionWidgetClass;
@@ -176,4 +136,3 @@ diff -up gdm-2.23.92/gui/simple-greeter/gdm-recent-option-widget.h.filter-dupes-
  
  
  GType                  gdm_recent_option_widget_get_type               (void);
-
