@@ -1,15 +1,13 @@
 #
-# spec file for package SFEmplayer-plugin.spec
+# spec file for package SFEmplayerplug-in.spec
 #
-# includes module(s): mplayerplug-in
 #
 %include Solaris.inc
 
-Name:                    SFEmplayer-plugin
-Summary:                 MPlayer plugin for firefox on Nevada
+Name:                    SFEmplayerplug-in
+Summary:                 MPlayer plugin for Firefox
 Version:                 3.55
 Source:                  %{sf_download}/mplayerplug-in/mplayerplug-in-%{version}.tar.gz
-#Source:                  http://mplayerplug-in.sourceforge.net/mplayerplug-in-3.45.tar.gz
 Patch1:			 mpplugin-01-makefile.diff
 Patch2:                  mpplugin-02-strings_h.diff
 Patch3:                  mpplugin-03-strstr.diff
@@ -38,23 +36,21 @@ Requires:                %{name}
 %endif
 
 %prep
-%setup -q -n mplayerplug-in
+%setup -q -n mplayerplug-in-%{version}
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-%ifarch sparc
-export CFLAGS="-xO5 -xlibmil -DG_GNUC_INTERNAL=\"\""
-export CXXFLAGS="-norunpath -xO5 -xlibmil -xlibmopt -features=tmplife -DG_GNUC_INTERNAL=\"\""
-%else
-export CFLAGS="-xO3 -xlibmil -DG_GNUC_INTERNAL=\"\" -I/usr/include/mps"
-export CXXFLAGS="-norunpath -xO3 -xlibmil -xlibmopt -features=tmplife -DG_GNUC_INTERNAL=\"\""
-%endif
 
-CPPFLAGS="-I/usr/include/firefox"                   \
-LDFLAGS="-L/usr/lib/firefox -R/usr/lib/firefox"    \
+export CC=/usr/sfw/bin/gcc
+export CXX=/usr/sfw/bin/g++
+export CFLAGS="%gcc_optflags" 
+export LDFLAGS="%_ldflags -L/usr/lib/firefox -R/usr/lib/firefox"
+export CXXFLAGS="%gcc_cxx_optflags"
+export CPPFLAGS="-I/usr/include/firefox"
+
 ./configure --prefix=%{_prefix} --mandir=%{_mandir} \
             --libdir=%{_libdir}              \
             --libexecdir=%{_libexecdir}      \
@@ -62,13 +58,16 @@ LDFLAGS="-L/usr/lib/firefox -R/usr/lib/firefox"    \
 	    --enable-rpath --enable-wmp      \
             --enable-qt                      \
             --disable-rm                     \
-            --enable-gmp
+            --enable-gmp                     \
+
 
 make -j$CPUS 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
+cd $RPM_BUILD_ROOT/%{_libdir}
+mv mozilla firefox
 
 %if %build_l10n
 %else
@@ -98,6 +97,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Oct 31 2008 - Andras Barna (andras.barna@gmail.com)
+- restore, cleanup
 * Sat Sep 29 2007 - dick@nagual.nl
 - Bumped to the latest stable release v2.45
 * Sun May 20 2007 - dick@nagual.nl

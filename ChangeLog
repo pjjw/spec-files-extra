@@ -1,3 +1,7 @@
+2008-10-31  Andras Barna  <andras.barn@gmail.com>
+
+	* encumbered/SFEmplayerplug-in.spec: restore, cleanup.
+
 2008-10-30  Brian Cameron  <brian.cameron@sun.com>
 
 	* patches/gdm-01-lang.diff:  Update to use the latest version of 
