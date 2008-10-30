@@ -1,3 +1,11 @@
+2008-10-30  Wang Xin  <jedy.wang@sun.com>
+
+	* SFEclutter.spec: Bump to 0.8.2 and remove 01-build.diff.
+	* SFEcmake.spec: Bump to 2.6.2.
+	* SFEctags.spec: Bump to 5.7.
+	* SFElibical.spec: Bump to 0.40 and add 01-build.diff.
+	* patches/libical-01-build.diff: New.
+
 2008-10-29  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEelisa.spec, SFEelisa-plugins-good.spec: Bump to 0.5.16.

@@ -1,0 +1,10 @@
+--- libical-0.41-orig/src/libicalvcal/CMakeLists.txt	2008-10-29 23:20:09.000000000 +0800
++++ libical-0.41-build/src/libicalvcal/CMakeLists.txt	2008-10-30 14:56:15.675609685 +0800
+@@ -3,6 +3,7 @@ include_directories(
+   ${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/src
+   ${CMAKE_SOURCE_DIR}/src/libicalss ${CMAKE_BINARY_DIR}/src/libicalss 
+   ${CMAKE_SOURCE_DIR}/src/libical ${CMAKE_BINARY_DIR}/src/libical
++  ${CMAKE_SOURCE_DIR}/src/libicalvcal ${CMAKE_BINARY_DIR}/src/libicalvcal
+ )
+ 
+ #these are generated sources, but we keep them in the repo

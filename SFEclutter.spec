@@ -7,10 +7,9 @@
 
 Name:                    SFEclutter
 Summary:                 clutter - a library for creating fast, visually rich and animated graphical user interfaces.
-Version:                 0.4.0
+Version:                 0.8.2
 URL:                     http://www.clutter-project.org/
-Source:                  http://www.clutter-project.org/sources/clutter/0.4/clutter-%{version}.tar.bz2
-Patch1:                  clutter-01-build.diff
+Source:                  http://www.clutter-project.org/sources/clutter/0.8/clutter-%{version}.tar.bz2
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -27,7 +26,6 @@ Requires: SUNWgnome-base-libs-devel
 
 %prep
 %setup -q -n clutter-%version
-%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -35,7 +33,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 export CFLAGS="%optflags -I/usr/X11/include"
-export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib"
+export LDFLAGS="%_ldflags -L/usr/X11/lib -R/usr/X11/lib -lX11"
 ./configure --prefix=%{_prefix}              \
             --libexecdir=%{_libexecdir}      \
             --sysconfdir=%{_sysconfdir}      \
@@ -67,6 +65,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Thu Oct 30 2008 - jedy.wang@sun.com
+- bump to 0.8.2.
+- remove 01-build.diff.
 * Thu Aug  9 2007 - laca@sun.com
 - bump to 0.4.0
 * Thu Jul 19 2007 - laca@sun.com

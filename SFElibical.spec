@@ -10,16 +10,16 @@
 
 Name:                   SFElibical
 Summary:                Libical is an Open Source implementation of the IETF's iCalendar Calendaring and Scheduling protocols
-Version:                0.27
+Version:                0.40
 Source:                 %{sf_download}/freeassociation/libical-%{version}.tar.gz
+# owner:jedywang date:2008-10-30 type:branding
+Patch1:              libical-01-build.diff
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires: SUNWPython
-BuildRequires: SUNWPython-devel
 Requires: SUNWperl584core
 BuildRequires: SUNWperl584usr
-BuildRequires: SUNWswig
+BuildRequires: SFEcmake
 
 %package devel
 Summary:                 %{summary} - development files
@@ -28,6 +28,7 @@ SUNW_BaseDir:            %{_prefix}
 
 %prep
 %setup -q -n libical-%{version}
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -36,23 +37,20 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 
-SFWLIBS="-L/usr/sfw/lib -R/usr/sfw/lib"
-export CFLAGS="%optflags"
-export LDFLAGS="%_ldflags $SFWLIBS"
-./configure --prefix=%{_prefix}		\
-	    --mandir=%{_mandir}		\
-            --datadir=%{_datadir}	\
-            --sysconfdir=%{_sysconfdir} \
-            --enable-shared=yes		\
-	    --enable-static=no		\
-            --enable-python
-
-make -j$CPUS 
+mkdir build && cd build
+%if %debug_build
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Debug \
+		-DICAL_ERRORS_ARE_FATAL=false ..
+%else
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DICAL_ERRORS_ARE_FATAL=false \
+		..
+%endif
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
+cd build
 make install DESTDIR=$RPM_BUILD_ROOT
-rm $RPM_BUILD_ROOT/%{_libdir}/lib*.*a
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -61,15 +59,19 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %dir %attr (0755,root,bin) %{_libdir}
 %{_libdir}/lib*.so*
-%dir %attr (0755,root,sys) %{_datadir}
-%dir %attr (0755,root,other) %{_datadir}/libical
-%{_datadir}/libical/*
 
 %files devel
 %defattr (-, root, bin)
 %dir %attr(0755, root, bin) %{_includedir}
 %{_includedir}/*
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Oct  30 2008 - jedy.wang@sun.com
+- Bump to 0.4.0.
+- Use cmake to build.
+- Add patch 01-build.diff.
 * Mon Jan  21 2008 - moinak.ghosh@sun.com
 - Initial spec.
