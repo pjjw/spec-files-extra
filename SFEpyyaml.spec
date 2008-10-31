@@ -8,7 +8,7 @@
 Name:                    SFEpyyaml
 Summary:                 A YAML parser and emitter for the Python language
 URL:                     http://pyyaml.org/
-Version:                 3.05
+Version:                 3.06
 Source:                  http://pyyaml.org/download/pyyaml/PyYAML-%{version}.tar.gz
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -43,5 +43,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{pythonver}/vendor-packages/yaml/*
 
 %changelog
+* Fri Oct 31 2008 - brian.cameron@sun.com
+- Bump to 3.06.
 * Sat Apr 12 2008 - brian.cameron@sun.com
-- created
+- created with 3.05.
