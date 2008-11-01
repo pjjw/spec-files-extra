@@ -91,7 +91,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*.so*
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, sys) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}
 %dir %attr (0755, root, bin) %{_mandir}/man1
 %{_mandir}/man1/*
 %dir %attr (0755, root, bin) %{_mandir}/jp
@@ -109,6 +109,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/cdio
 
 %changelog
+- fix my error on mandir Gilles Dauphin
 * Wed Oct 22 2008 - dick@nagual.nl
 - s/SUNWncurses/SFEncurses since the SUNpkg is not available
 * Tue Sep 02 2008 - halton.huo@sun.com

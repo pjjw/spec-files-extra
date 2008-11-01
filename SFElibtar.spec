@@ -61,7 +61,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, sys) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}
 %{_bindir}
 %{_mandir}/man3
 

@@ -1,5 +1,9 @@
 2008-11-01  Gilles Dauphin <dauphin@enst.fr>
 
+	* Error in svn commit with some package (mandir set to sys) (sorry)
+
+2008-11-01  Gilles Dauphin <dauphin@enst.fr>
+
 	* SFEplib.spec: games libs for crrcsim (coming soon;)
 
 2008-10-31  Brian Cameron  <brian.cameron@sun.com>

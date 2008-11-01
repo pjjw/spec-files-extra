@@ -63,7 +63,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, sys) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}
 %{_mandir}/man1
 
 %files devel
@@ -74,6 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3
 
 %changelog
+- Fix to mandir ownership by Giles Dauphin (again sorry)
 * Fri May 23 2008 - michal.bielicki@voiceworks.pl
 - Fix to mandir ownership by Giles Dauphin
 * Sun Jan 06 2008 - moinak.ghosh@sun.com
