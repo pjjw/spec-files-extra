@@ -5,7 +5,7 @@ tarballdirs:	/jds/packages/SOURCES:${tarballdirs}
 # logdir:	/tmp
 
 # patchdirs [string]: colon (:) separated list of directories where source patches are searched for
-patchdirs:	${MYDIR}/patches
+patchdirs:	${MYDIR}/patches:./patches
 
 # specdirs [string]: colon (:) separated list of directories where spec files are searched for
 specdirs:	${MYDIR}:${MYDIR}/linux-specs:${MYDIR}/base-specs:${MYDIR}/include:${MYDIR}/encumbered
