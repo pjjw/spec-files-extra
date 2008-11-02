@@ -1,0 +1,14 @@
+--- crrcsim-0.9.9.orig/configure	Thu May 29 23:16:24 2008
++++ crrcsim-0.9.9/configure	Sun Nov  2 11:12:27 2008
+@@ -3798,9 +3798,9 @@
+ esac
+ 
+ 
++# unknow flags on Sun Studio12. Gilles Dauphin 02 Nov 2008
++#CXXFLAGS="$CXXFLAGS -Wall"
+ 
+-CXXFLAGS="$CXXFLAGS -Wall"
+-
+ # On IRIX 5.3, sys/types and inttypes.h are conflicting.
+ 
+ 

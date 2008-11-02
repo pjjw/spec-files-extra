@@ -1,0 +1,11 @@
+--- crrcsim-0.9.9.orig/windfield.cpp	Thu Mar 20 21:28:56 2008
++++ crrcsim-0.9.9/windfield.cpp	Sun Nov  2 14:12:42 2008
+@@ -385,7 +385,7 @@
+     if (dDensity > dDensityMax)
+       dDensity = dDensityMax;
+ 
+-    num_thermals = (int)(pow(occupancy_grid_size*occupancy_grid_res,2)*
++    num_thermals = (int)(pow((double)occupancy_grid_size*occupancy_grid_res,2)*
+                          dDensity);
+   }
+ 

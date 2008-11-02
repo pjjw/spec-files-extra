@@ -1,3 +1,7 @@
+2008-11-02  Gilles Dauphin <dauphin@enst.fr>
+
+	* SFEcrrcsim.spec: OpenGL flight simulator for OpenSolaris.
+
 2008-11-01  Gilles Dauphin <dauphin@enst.fr>
 
 	* Error in svn commit with some package (mandir set to sys) (sorry)

@@ -1,0 +1,19 @@
+--- crrcsim-0.9.9.orig/math/intgr.cpp	Sat Nov 19 08:54:59 2005
++++ crrcsim-0.9.9/math/intgr.cpp	Sun Nov  2 11:38:46 2008
+@@ -3,11 +3,11 @@
+ namespace CRRCMath
+ {
+ 
+-  inline template class Integrationsverfahren<double>;
+-  inline template class Integrationsverfahren<Vector3>;
+-  inline template class IntegrationsverfahrenB<double>;
+-  inline template class IntegrationsverfahrenB<Vector3>;
+-  inline template class IntegrationsverfahrenC<double>;
++  //inline template class Integrationsverfahren<double>;
++  //inline template class Integrationsverfahren<Vector3>;
++  //inline template class IntegrationsverfahrenB<double>;
++  //inline template class IntegrationsverfahrenB<Vector3>;
++  //inline template class IntegrationsverfahrenC<double>;
+   
+   template<class C> void Integrationsverfahren<C>::init(C Startwert, C AblStartwert)
+   {

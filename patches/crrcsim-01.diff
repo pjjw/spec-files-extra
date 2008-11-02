@@ -1,0 +1,81 @@
+diff -bur crrcsim-0.9.9.orig/crrc_config.h crrcsim-0.9.9/crrc_config.h
+--- crrcsim-0.9.9.orig/crrc_config.h	Thu May 29 23:16:42 2008
++++ crrcsim-0.9.9/crrc_config.h	Sun Oct  5 15:13:12 2008
+@@ -29,7 +29,7 @@
+ #define HAVE_STRING_H 1
+ 
+ /* Define to 1 if you have the <sys/io.h> header file. */
+-#define HAVE_SYS_IO_H 1
++/* #undef HAVE_SYS_IO_H */
+ 
+ /* Define to 1 if you have the <sys/stat.h> header file. */
+ #define HAVE_SYS_STAT_H 1
+@@ -62,7 +62,7 @@
+ #define PACKAGE_VERSION "0.9.9"
+ 
+ /* Portaudio version, 0 to disable audio interface */
+-#define PORTAUDIO 18
++#define PORTAUDIO 0
+ 
+ /* Define to the necessary symbol if this constant uses a non-standard name on
+    your system. */
+diff -bur crrcsim-0.9.9.orig/chardevice/chardevicecommon.h crrcsim-0.9.9/chardevice/chardevicecommon.h
+--- crrcsim-0.9.9.orig/chardevice/chardevicecommon.h	Thu Jan 24 18:01:31 2008
++++ crrcsim-0.9.9/chardevice/chardevicecommon.h	Sun Oct  5 16:16:24 2008
+@@ -88,8 +88,12 @@
+ #endif
+ #ifndef MSG_NOSIGNAL
+ /* FreeBSD and OS X use SO_NOSIGPIPE instead */
++#ifndef GD_CHIOTTE
++#define MSG_NOSIGNAL 0
++#else
+ #define MSG_NOSIGNAL SO_NOSIGPIPE
+ #endif
++#endif
+ #ifndef ENONET
+ /* always use these two together */
+ #define ENONET EHOSTDOWN
+diff -bur crrcsim-0.9.9.orig/chardevice/serialchardevice.cpp crrcsim-0.9.9/chardevice/serialchardevice.cpp
+--- crrcsim-0.9.9.orig/chardevice/serialchardevice.cpp	Thu Feb  7 22:54:19 2008
++++ crrcsim-0.9.9/chardevice/serialchardevice.cpp	Sun Oct  5 15:52:45 2008
+@@ -45,6 +45,10 @@
+ #include <pinconstant.h> // for enabling rs485
+ #endif
+ 
++// for bzero
++#ifndef GD_CHIOTTE
++#include <strings.h>
++#endif
+ 
+ #ifdef WIN32
+ 
+diff -bur crrcsim-0.9.9.orig/interface_parallel/parallel.cpp crrcsim-0.9.9/interface_parallel/parallel.cpp
+--- crrcsim-0.9.9.orig/interface_parallel/parallel.cpp	Tue Apr 29 22:00:35 2008
++++ crrcsim-0.9.9/interface_parallel/parallel.cpp	Sun Oct  5 16:41:44 2008
+@@ -14,7 +14,9 @@
+ #     include <sys/io.h>
+ #    else
+ #     include <unistd.h>
+-#     include <asm/io.h>
++#    define ioperm(a,b,c) -1
++#    define inb(a) 0
++#    define outb(a,b)
+ #    endif
+ #  endif
+ #endif  // __APPLE__
+diff -bur crrcsim-0.9.9.orig/interface_serial2/LoggerReader_ttyS.cpp crrcsim-0.9.9/interface_serial2/LoggerReader_ttyS.cpp
+--- crrcsim-0.9.9.orig/interface_serial2/LoggerReader_ttyS.cpp	Sun Jan  9 18:07:44 2005
++++ crrcsim-0.9.9/interface_serial2/LoggerReader_ttyS.cpp	Sun Oct  5 15:41:14 2008
+@@ -185,7 +185,12 @@
+     tattr.c_cc[VTIME] = 0;
+     cfsetospeed(&tattr, speed);         // BAUD-rate einstellen
+     cfsetispeed(&tattr, speed);         // BAUD-rate einstellen
++
++// Ca existe pas sous Solaris GD 20081005
++#ifdef GD_CHIOTTE
+     cfmakeraw(&tattr);                  // damit man Zugriff auf die "rohen" Daten bekommt
++#endif
++
+     /*  tattr.c_cflag |= PARENB;        // enable  parity  generation  on  output  and  parity
+      // checking for input. cfmakeraw stellt das aus!
+      */

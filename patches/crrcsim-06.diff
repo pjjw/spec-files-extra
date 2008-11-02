@@ -1,0 +1,29 @@
+--- crrcsim-0.9.9.orig/T_TX_InterfaceSerial.cpp	Tue Mar 25 12:17:59 2008
++++ crrcsim-0.9.9/T_TX_InterfaceSerial.cpp	Sun Nov  2 14:07:54 2008
+@@ -74,7 +74,9 @@
+ {
+ 	DEBUG ("int T_TX_InterfaceSerial::init (SimpleXMLTransfer *config)\n");
+ 
++#if defined(CHARDEVICE_ENABLE_EXCEPTIONS) && CHARDEVICE_ENABLE_EXCEPTIONS != 0
+ 	try
++#endif
+ 	{
+ 		// Initialize the port settings
+ 		SimpleXMLTransfer *port=config->getChild (getXmlChildName ()+".port", true);
+@@ -95,6 +97,8 @@
+ 		cout << "Opening the serial port with option string " << optionString << endl;
+ 		charDevice=new SerialCharDevice (optionString.c_str (), false);
+ 	}
++// Gilles Dauphin for OpenSolaris: 02 Nov 2008
++#if defined(CHARDEVICE_ENABLE_EXCEPTIONS) && CHARDEVICE_ENABLE_EXCEPTIONS != 0
+ 	catch (CharDevice::ConfigureDeviceException e)
+ 	{
+ 		setErrMsg ("The device could not be configured.");
+@@ -101,6 +105,7 @@
+ 		cout << "Serial interface initialization: " << getErrMsg () << endl;
+ 		return 1;
+ 	}
++#endif
+ 
+ 	cout << "Serial interface initialization: OK" << endl;
+ 	return 0;

@@ -1,0 +1,12 @@
+--- crrcsim-0.9.9.orig/configure.ac	Thu May 29 23:11:40 2008
++++ crrcsim-0.9.9/configure.ac	Sun Nov  2 11:13:16 2008
+@@ -66,7 +66,8 @@
+ AC_SUBST([XTRA_OBJS])
+ 
+ dnl enable compiler warnings
+-CXXFLAGS="$CXXFLAGS -Wall"
++dnl  unknow flags on Sun Studio12. Gilles Dauphin 02 Nov 2008
++dnl CXXFLAGS="$CXXFLAGS -Wall"
+ 
+ dnl For Linux and the parallel interface, check if we need <sys/io.h>
+ dnl or <asm/io.h>. This replaces the old LINUX_LIBC5 macro.

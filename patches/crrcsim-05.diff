@@ -1,0 +1,22 @@
+--- crrcsim-0.9.9.orig/mbuff.h	Sat Oct  9 11:14:05 2004
++++ crrcsim-0.9.9/mbuff.h	Sun Nov  2 12:22:05 2008
+@@ -19,6 +19,9 @@
+ #define MBUFF_DEV_NAME "/dev/mbuff"
+ #endif
+ 
++// for Sun Studio12 , GD 02 Nov 2008
++#define _XPG4_2
++
+ #ifdef __KERNEL__
+ #include <linux/types.h>
+ #include <linux/fs.h>
+@@ -94,6 +97,9 @@
+ 	return fd;
+ }
+ 
++// MAP_FILE C'est quoi ce truc GD20081005
++#define MAP_FILE 0
++
+ static inline void * mbuff_alloc_at(const char *name, int size, void * addr) {
+ 	int fd;
+ 	struct mbuff_request_struct req={0,"default",0,{0}};
