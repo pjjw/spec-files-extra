@@ -1,0 +1,21 @@
+--- valknut-0.4.7.old/valknut/icons/Makefile.am	2008-11-03 07:00:21.084616796 +0200
++++ valknut-0.4.7/valknut/icons/Makefile.am	2008-11-03 14:11:33.964813250 +0200
+@@ -129,11 +129,11 @@
+ 	$(mkinstalldirs) $(DESTDIR)$(datadir)/icons/hicolor/48x48/apps
+ 	$(mkinstalldirs) $(DESTDIR)$(datadir)/icons/hicolor/64x64/apps
+ 	$(mkinstalldirs) $(DESTDIR)$(datadir)/icons/hicolor/128x128/apps
+-	$(INSTALL_DATA) $(srcdir)/icon_16x16.png $(DESTDIR)$(datadir)/icons/hicolor/16x16/apps
+-	$(INSTALL_DATA) $(srcdir)/icon_22x22.png $(DESTDIR)$(datadir)/icons/hicolor/22x22/apps
+-	$(INSTALL_DATA) $(srcdir)/icon_24x24.png $(DESTDIR)$(datadir)/icons/hicolor/24x24/apps
+-	$(INSTALL_DATA) $(srcdir)/icon_32x32.png $(DESTDIR)$(datadir)/icons/hicolor/32x32/apps
+-	$(INSTALL_DATA) $(srcdir)/icon_48x48.png $(DESTDIR)$(datadir)/icons/hicolor/48x48/apps
+-	$(INSTALL_DATA) $(srcdir)/icon_64x64.png $(DESTDIR)$(datadir)/icons/hicolor/64x64/apps
+-	$(INSTALL_DATA) $(srcdir)/icon_128x128.png $(DESTDIR)$(datadir)/icons/hicolor/128x128/apps
++	$(INSTALL_DATA) $(srcdir)/icon_16x16.png $(DESTDIR)$(datadir)/icons/hicolor/16x16/apps/valknut.png
++	$(INSTALL_DATA) $(srcdir)/icon_22x22.png $(DESTDIR)$(datadir)/icons/hicolor/22x22/apps/valknut.png
++	$(INSTALL_DATA) $(srcdir)/icon_24x24.png $(DESTDIR)$(datadir)/icons/hicolor/24x24/apps/valknut.png
++	$(INSTALL_DATA) $(srcdir)/icon_32x32.png $(DESTDIR)$(datadir)/icons/hicolor/32x32/apps/valknut.png
++	$(INSTALL_DATA) $(srcdir)/icon_48x48.png $(DESTDIR)$(datadir)/icons/hicolor/48x48/apps/valknut.png
++	$(INSTALL_DATA) $(srcdir)/icon_64x64.png $(DESTDIR)$(datadir)/icons/hicolor/64x64/apps/valknut.png
++	$(INSTALL_DATA) $(srcdir)/icon_128x128.png $(DESTDIR)$(datadir)/icons/hicolor/128x128/apps/valknut.png
+ 	

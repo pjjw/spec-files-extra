@@ -1,3 +1,12 @@
+2008-11-04  Andras Barna  <andras.barna@gmail.com>
+
+	* SFEvalknut.spec: new spec
+	* base-specs/dclib.spec: added
+	* base-specs/valknut.spec: added
+	* patches/valknut-01-sockio.diff: added
+	* patches/valknut-02-aflocal.diff: added
+	* patches/valknut-03-fixicons.diff: added
+
 2008-11-02  Gilles Dauphin <dauphin@enst.fr>
 
 	* SFEcrrcsim.spec: OpenGL flight simulator for OpenSolaris.

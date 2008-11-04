@@ -1,0 +1,14 @@
+diff -Naur valknut-0.4.7.old/valknut/dcsigterm.cpp valknut-0.4.7/valknut/dcsigterm.cpp
+--- valknut-0.4.7.old/valknut/dcsigterm.cpp	2008-11-03 07:00:21.089846767 +0200
++++ valknut-0.4.7/valknut/dcsigterm.cpp	2008-11-03 08:04:16.899301552 +0200
+@@ -28,6 +28,10 @@
+ #include <unistd.h>
+ #include <stdio.h>
+ 
++#if !defined(AF_LOCAL) && defined(AF_UNIX)
++#define AF_LOCAL AF_UNIX
++#endif
++
+ int DCSigTerm::sigtermsfd[2] = { -1, -1 };
+ 
+ /** */

@@ -1,0 +1,14 @@
+diff -Naur dclib-0.3.21.old/dclib/core/cnetaddr.cpp dclib-0.3.21/dclib/core/cnetaddr.cpp
+--- dclib-0.3.21.old/dclib/core/cnetaddr.cpp	2008-11-03 07:06:58.649243531 +0200
++++ dclib-0.3.21/dclib/core/cnetaddr.cpp	2008-11-03 07:08:47.956170656 +0200
+@@ -31,6 +31,10 @@
+ #include <netdb.h>
+ #endif
+ 
++#if defined(__sun) && defined(__SVR4)
++#include <sys/sockio.h>
++#endif
++
+ /* if_nameindex() */
+ #include <net/if.h>
+ 
