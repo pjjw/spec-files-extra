@@ -6,7 +6,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa-plugins-good
-%define version 0.5.16
+%define version 0.5.17
 
 %include Solaris.inc
 
@@ -77,6 +77,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*.egg-info
 
 %changelog
+* Tue Nov 04 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.5.17.
 * Wed Oct 29 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.16.
 * Fri Oct 24 2008 Jerry Yu <jijun.yu@sun.com>

@@ -40,6 +40,8 @@ Patch5:                  gdm-05-ICE-optionwidget.diff
 # Fix gconf-santiy-check-2 warning dialog.
 # date:2008-09-04 owner:xz159989 type:bug bugid:550832
 Patch6:			 gdm-06-gconfsanity.diff
+# date:2008-11-04 owner:yippi type:bug state:upstream
+Patch7:			 gdm-07-fixshell.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -101,6 +103,7 @@ Requires:                %{name}
 %patch4 -p1
 %patch5 -p0
 %patch6 -p0
+%patch7 -p1
 
 %build
 export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
@@ -319,6 +322,11 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Tue Nov 04 2008 - brian.cameron@sun.com
+- Add patch gdm-07-fixshell.diff to set the SHELL in GDM's Xsession script.
+  Otherwise the user's shell will fail to start up if any usage of ksh is
+  in the session startup.  For example, this causes problems with Sun Ray
+  startup scripts.
 * Tue Oct 21 2008 - halton.huo@sun.com
 - Add standard patch comment
 * Mon Oct 20 2008 - halton.huo@sun.com
