@@ -179,6 +179,9 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
+mv $RPM_BUILD_ROOT%{_datadir}/locale/zh $RPM_BUILD_ROOT%{_datadir}/locale/zh_CN
+cd  $RPM_BUILD_ROOT%{_datadir}/locale
+ln -s zh_CN zh
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -212,12 +215,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (-, root, root) %{_datadir}/mime
 %attr (-, root, root) %{_datadir}/mime/*
 
+%if %build_l10n
 %files l10n
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) %{_datadir}
 %attr (-, root, other) %{_datadir}/locale
+%endif
 
 %changelog
+* Wen Nov 05 2008 - gilles.dauphin@enst.fr
+- link to zh_CN needed. it can't install correctly whitout that
 * Mon May 12 2008 - brian.cameron@sun.com
 - Bump to 1.3.5.  Remove many upstream patches.  Add two new patches,
   one to add needed m4 files, and the other to fix a compile problem
