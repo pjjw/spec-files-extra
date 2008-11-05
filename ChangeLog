@@ -1,3 +1,10 @@
+2008-11-05  Michal Bielicki <michal.bielicki@halokwadrat.de>
+	* SFElibmcrypt.spec  added 64bit version
+  	  bumped up to 0.9.9
+	  moved to sunstudio
+	* SFElibmhash.spec moved to sunstudio
+	  added 64bitlib
+	* SFEmcrypt move to sunstudio
 2008-11-05  Gilles Dauphin <gilles.dauphin@enst.fr>
 
 	* SFEaudacity.spec add link to zh_CN
