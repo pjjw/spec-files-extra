@@ -1,3 +1,7 @@
+2008-11-05  Gilles Dauphin <gilles.dauphin@enst.fr>
+
+	* SFEaudacity.spec add link to zh_CN
+
 2008-11-04  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEelisa.spec, SFE-elisa-plugins-good.spec,
