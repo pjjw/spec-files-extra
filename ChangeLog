@@ -1,10 +1,20 @@
+2008-11-08  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEcodeina.spec, patches/codeina-02-nolsb.diff, 
+	  patches/codeina-02-usexul.diff, patches/codeina-03-fixnspr.diff:
+	  Remove the codeina-02-nolsb.diff since a better fix is upstream.
+	  Renumber codeina-03-usexul.diff to codeina-02-usexul.diff.  Add the
+	  codeina-03-fixnspr.diff patch to fix a crashing issue with codeina.
+
 2008-11-05  Michal Bielicki <michal.bielicki@halokwadrat.de>
+
 	* SFElibmcrypt.spec  added 64bit version
-  	  bumped up to 0.9.9
+	  bumped up to 0.9.9
 	  moved to sunstudio
 	* SFElibmhash.spec moved to sunstudio
 	  added 64bitlib
 	* SFEmcrypt move to sunstudio
+
 2008-11-05  Gilles Dauphin <gilles.dauphin@enst.fr>
 
 	* SFEaudacity.spec add link to zh_CN

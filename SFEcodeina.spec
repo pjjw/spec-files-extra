@@ -35,13 +35,18 @@ URL:		http://fedoraproject.org/wiki/Multimedia/Codeina
 # See instructions at the top of the spec-file.
 #
 Source0:	http://fedoraproject.org/wiki/Multimedia/Codeina/codeina-%{version}.tar.bz2
-# According to the codeina developers, GTK+ mozembed crashes when using Python
-# 2.4 on some distros.  Hopefully this problem doesn't exist on Solaris.  For
-# now I will just patch the code to use our existing Python 2.4.
+#owner:yippi date:2008-11-06 type:branding
+# This patch is needed since we don't yet support Python 2.5 GNOME modules.
+# Once that is addressed, this patch can go away.
 Patch1:         codeina-01-fixpython.diff
-# This patch is reported upstream as bug #132.
-Patch2:         codeina-02-nolsb.diff
-Patch3:         codeina-03-usexul.diff
+#owner:yippi date:2008-11-06 type:branding
+# With Firefox 3.0, this patch is necessary since libgtkmozembed is no longer
+# shipped with Firefox.
+Patch2:         codeina-02-usexul.diff
+#owner:yippi date:2008-11-06 type:bug
+# This patch is needed for codeina to properly link in libnspr.so on Solaris.
+# Without this patch codeina crashes on the credit-card page.
+Patch3:         codeina-03-fixnspr.diff
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/codeina-%{version}-build
 Requires:	SUNWgnome-python-libs
@@ -148,6 +153,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Nov 05 2008 - brian.cameron@sun.com
+- Remove codeina-02-nolsb.diff since this has been fixed upstream.
+  Add codeina-03-fixnspr.diff to address crashing problem on the credit-card
+  page.  Without this patch codeina can't link in libnspr.so which is needed
+  for HTTPS transactions.
 * Mon Oct 13 2008 - brian.cameron@sun.com
 - Modify codeina to use libxul.so instead of libgtkembedmoz.so so it works
   with Firefox 3.0.

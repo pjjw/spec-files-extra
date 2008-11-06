@@ -1,0 +1,12 @@
+--- codeina.bin-orig	2008-11-06 13:36:53.948724000 -0600
++++ codeina.bin	2008-11-06 13:33:45.353987000 -0600
+@@ -27,6 +27,9 @@ import sys
+ import string
+ import locale
+ import gettext
++import dl
++
++sys.setdlopenflags(dl.RTLD_NOW|dl.RTLD_GLOBAL) 
+ 
+ usage = "usage: %s [options] [match_string]" % sys.argv[0] + """
+ 
