@@ -17,6 +17,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 %include	default-depend.inc
 #Requires:	%name-root
 Requires: 	SUNWlibsdl
+Requires: 	SUNWopenexr
 Requires: 	SUNWxorg-mesa
 Requires: 	SUNWfreetype2
 Requires: 	SUNWpng
@@ -160,5 +161,7 @@ rm -rf $RPM_BUILD_ROOT
 #%endif
 
 %changelog
+* Sun 09 Nov 2008 - Gilles Dauphin
+- depend SUNWopenexr
 * Sept 16 2008 - Gilles Dauphin ( Gilles DOT Dauphin AT enst DOT fr)
 - Initial spec
