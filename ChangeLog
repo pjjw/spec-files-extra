@@ -1,3 +1,8 @@
+2008-11-10  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEcodeina.spec: List SUNWpython-twisted as a dependency, since it
+	  is needed.
+
 2008-11-08  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEcodeina.spec, patches/codeina-02-nolsb.diff, 

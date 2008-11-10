@@ -55,11 +55,13 @@ Requires:	SUNWgst-python
 Requires:	SFEpyopenssl
 Requires:	SFEpyyaml
 Requires:	SUNWpython-notify
+Requires:       SUNWpython-twisted
 BuildRequires:	SUNWPython-devel >= %{pythonver}
 BuildRequires:	SUNWgst-python
 BuildRequires:	SFEpyyaml
 BuildRequires:	SUNWpython-notify
 BuildRequires:	SFEpyopenssl
+BuildRequires:  SUNWpython-twisted
 
 %include default-depend.inc
 
@@ -153,6 +155,8 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Nov 10 2008 - brian.cameron@sun.com
+- Codeina depends on Twisted, so list it as a dependency.
 * Wed Nov 05 2008 - brian.cameron@sun.com
 - Remove codeina-02-nolsb.diff since this has been fixed upstream.
   Add codeina-03-fixnspr.diff to address crashing problem on the credit-card
