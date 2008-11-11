@@ -30,7 +30,6 @@ BuildRequires:     SUNWimagick
 BuildRequires:     SUNWsqlite3
 BuildRequires:     SUNWpysqlite
 BuildRequires:     SUNWgnome-python-extras
-BuildRequires:     SUNWpysqlite
 BuildRequires:     SFEpigment-devel
 Requires:          SUNWPython
 Requires:          SUNWPython-extra
@@ -116,6 +115,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_generic_setup.pyc
 
 %changelog
+* Tue Nov 11 2008 Jerry Yu <jijun.yu@sun.com>
+- Remove duplicated BuildRequires.
 * Tue Nov 04 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.17.
 * Wed Oct 29 2008 Brian Cameron  <brian.cameron@sun.com>

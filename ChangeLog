@@ -1,4 +1,8 @@
 2008-11-11  Jerry Yu <jijun.yu@sun.com>
+	* SFEelisa.spec: Remove duplicated BuildRequires.
+	* SFEhamster.spec: Add BuildRequires.
+
+2008-11-11  Jerry Yu <jijun.yu@sun.com>
 
 	* patches/elisa-plugins-bad-01-rm-plugins.diff: Remove 2 more plugins.
 	* patches/elisa-plugins-good-01-rm-plugins.diff: Correct the file.

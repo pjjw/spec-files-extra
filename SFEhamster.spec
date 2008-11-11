@@ -21,7 +21,11 @@ SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
-Requires:               SUNWlibC
+BuildRequires:     SUNWsqlite3
+BuildRequires:     SUNWpysqlite
+Requires:          SUNWsqlite3
+Requires:          SUNWpysqlite
+Requires:          SUNWlibC
 
 %prep
 %setup -q -n hamster-applet-%{version}
@@ -57,6 +61,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
+* Tue Nov 11 2008 - jijun.yu@sun.com
+- Add BuildRequires.
 * Wed Oct 22 2008 - jijun.yu@sun.com
 - Bump to 2.24.1
 * Tue Oct 07 2008 - jijun.yu@sun.com
