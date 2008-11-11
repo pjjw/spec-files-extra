@@ -1,17 +1,17 @@
---- elisa-plugins-bad-0.5.15/setup.py.orig	2008-10-24 18:07:47.051906000 +0800
-+++ elisa-plugins-bad-0.5.15/setup.py	2008-10-24 18:09:47.443280000 +0800
-@@ -2,29 +2,18 @@
+--- elisa-plugins-bad-0.5.17/setup.py.orig	2008-11-11 16:18:30.777374000 +0800
++++ elisa-plugins-bad-0.5.17/setup.py	2008-11-11 16:20:27.497252000 +0800
+@@ -2,29 +2,16 @@
  from setup_bundle import setup
  
  # List of plugins to be packaged in the 'bad' bundle
 -bad_plugins = ['amazon',
 -               'amp',
-+bad_plugins = ['amp',
-                'avahi',
+-               'avahi',
 -               'coherence',
 -               'daap',
++bad_plugins = ['amp',
                 'database',
-                'discogs',
+-               'discogs',
                 'dvd',
 -               'elisa_updater',
                 'favorites',
