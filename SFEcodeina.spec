@@ -105,6 +105,14 @@ make
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
+# Remove distro-specific files that do not apply to Solaris.
+rm $RPM_BUILD_ROOT%{_datadir}/codeina/logo/mandrivalinux.png
+rm $RPM_BUILD_ROOT%{_datadir}/codeina/logo/ubuntu.png
+rm $RPM_BUILD_ROOT%{_sysconfdir}/codeina/providers/fedora*xml
+rm $RPM_BUILD_ROOT%{_sysconfdir}/codeina/providers/mandrivalinux*xml
+rm $RPM_BUILD_ROOT%{_sysconfdir}/codeina/providers/plf*xml
+rm $RPM_BUILD_ROOT%{_sysconfdir}/codeina/providers/ubuntu*xml
+
 # move to vendor-packages
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages
 mv $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/* \
