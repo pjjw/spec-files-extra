@@ -1,3 +1,11 @@
+2008-11-13  Halton Huo <halton.huo@sun.com>
+
+	move gtk-vnc and vinagre to archive since they are now in spec-files
+	* SFEgtk-vnc.spec:
+	* SFEvinagre.spec:
+	* base-specs/gtk-vnc.spec:
+	* base-specs/vinagre.spec:
+
 2008-11-12  Jerry Yu <jijun.yu@sun.com>
 
 	* patches/elisa-plugins-bad-01-rm-plugins.diff: Remove 3 more plugins.
