@@ -32,8 +32,8 @@ python setup.py build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/
-export PYTHONPATH=$PYTHONPATH:$RPM_BUILD_ROOT/%_prefix/lib/python%{pythonver}/site-packages
+#mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/
+#export PYTHONPATH=$PYTHONPATH:$RPM_BUILD_ROOT/%_prefix/lib/python%{pythonver}/site-packages
 
 python setup.py install --root=$RPM_BUILD_ROOT
 

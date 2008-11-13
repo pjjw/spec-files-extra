@@ -2,6 +2,7 @@
 
 	* SFEcodeina.spec: Do not package files that are for other
 	  distributions.
+	* SFEpython-cssutils.spec: Remove needless code.
 
 2008-11-13  Alfred Peng  <alfred.peng@sun.com>
 
