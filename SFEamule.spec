@@ -18,9 +18,9 @@ Patch1:                  amule-01-sun-studio12.patch
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires: SFEwxwidgets
+Requires: SUNWwxwidgets
 Requires: SFEcryptopp-i386
-BuildRequires: SFEwxwidgets-devel
+BuildRequires: SUNWwxwidgets-devel
 
 %if %build_l10n
 %package l10n
@@ -94,5 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Nov 13 2008 - alfred.peng@sun.com
+- Depends on SUNWwxwidgets and SUNWwxwidgets-devel instead.
 * Sat Sep 27 2008 - alfred.peng@sun.com
 - Initial version

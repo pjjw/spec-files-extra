@@ -28,7 +28,7 @@ Requires: SUNWgnome-component
 Requires: SUNWgnome-config
 Requires: SUNWgnutls
 Requires: SUNWgnu-idn
-Requires: SFEwxwidgets
+Requires: SUNWwxwidgets
 BuildRequires: SUNWgnome-libs-devel
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SUNWgnome-vfs-devel
@@ -36,7 +36,7 @@ BuildRequires: SUNWgnome-component-devel
 BuildRequires: SUNWgnome-config-devel
 BuildRequires: SUNWgnutls-devel
 BuildRequires: SUNWgnu-idn
-BuildRequires: SFEwxwidgets-devel
+BuildRequires: SUNWwxwidgets-devel
 
 %if %build_l10n
 %package l10n
@@ -74,7 +74,7 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr (-, root, bin)
+%defattr (-, root, other)
 %doc(bzip2) -d filezilla-%{filezilla.version} COPYING GPL.html NEWS AUTHORS README
 %doc -d filezilla-%{filezilla.version} ChangeLog
 %dir %attr (0755, root, bin) %{_bindir}
@@ -101,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Nov 13 2008 - alfred.peng@sun.com
+- Depends on SUNWwxwigets and SUNWwxwigets-devel instead.
+  Update the group bit.
 * Sat Sep 27 2008 - alfred.peng@sun.com
 - Add %doc to %files for copyright.
 * Fri Aug 29 2008 - alfred.peng@sun.com

@@ -34,8 +34,6 @@ Requires: SUNWlibms
 %setup -c -q -n %{src_name}%{version}
 
 %build
-export CC=/opt/SUNWspro/bin/cc
-export CXX=/opt/SUNWspro/bin/CC
 make 
 
 %install
@@ -58,6 +56,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Thu Nov 13 2008 - alfred.peng@sun.com
+- Remove unnecessary CC/CXX.
 * Sat Sep 27 2008 - alfred.peng@sun.com
 - Bump to 5.5.2.
 * Sat Aug 11 2007 - ananth@sun.com

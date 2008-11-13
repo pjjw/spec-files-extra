@@ -10,7 +10,7 @@
 
 Name:                SFElibupnp
 Summary:             Portable C library for UPnP
-Version:             1.6.0
+Version:             1.6.6
 Source:              %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:		     libupnp-01-solaris.spec
 Patch2:		     libupnp-02-inline.spec
@@ -27,7 +27,6 @@ Requires: %name
 %prep
 %setup -q -n %{src_name}-%version
 %patch1 -p1
-%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -71,5 +70,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Nov 13 2008 - alfred.peng@sun.com
+- Bump to 1.6.6. Remove the inline patch.
+  Update the solaris related patch.
 * Sun Jul 15 2007 - dougs@truemail.co.th
 - Initial spec

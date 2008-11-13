@@ -18,37 +18,25 @@
  
  where <cputype> has to be replaced by the appropriate CPU tuning flag (e.g.
  "supersparc"). Afterwards
---- libupnp-1.6.0/upnp/src/api/upnpapi.c.orig	2007-07-15 15:18:13.268459532 +0700
-+++ libupnp-1.6.0/upnp/src/api/upnpapi.c	2007-07-15 15:18:32.466823380 +0700
-@@ -42,8 +42,7 @@
- 	#include <netinet/in.h>
- 	#include <arpa/inet.h>
- 
--	#ifndef SPARC_SOLARIS
--//		#include <linux/if.h>
-+	#ifndef SOLARIS
- 		#include <net/if.h>
- 	#else
- 		#include <fcntl.h>
---- libupnp-1.6.0/upnp/src/genlib/net/uri/uri.c.orig	2007-07-15 15:16:44.866909688 +0700
-+++ libupnp-1.6.0/upnp/src/genlib/net/uri/uri.c	2007-07-15 15:17:11.248388785 +0700
+--- libupnp-1.6.6/upnp/src/genlib/net/uri/uri.c.orig	2008-11-13 13:58:53.675111848 +0800
++++ libupnp-1.6.6/upnp/src/genlib/net/uri/uri.c	2008-11-13 14:36:42.044847654 +0800
 @@ -627,7 +627,7 @@
          // platform-specific stuff below
  #if defined(WIN32) || defined(__CYGWIN__)
-         h=gethostbyname(temp_host_name);
+         h = gethostbyname(temp_host_name);
 -#elif defined(SPARC_SOLARIS)
 +#elif defined(SOLARIS)
-         errCode = gethostbyname_r( temp_host_name,
-                                    &h,
-                                    temp_hostbyname_buff,
---- libupnp-1.6.0/threadutil/inc/iasnprintf.h.orig	2007-07-15 15:15:42.003910263 +0700
-+++ libupnp-1.6.0/threadutil/inc/iasnprintf.h	2007-07-15 15:16:02.790286791 +0700
-@@ -50,7 +50,7 @@
- 	       int incr,
- 	       int max,
- 	       const char * fmt, ...)
--#ifndef SPARC_SOLARIS
-+#ifndef SOLARIS
-  #if (__GNUC__ >= 3)
- 	__attribute__((format (__printf__, 4, 5)));
-  #else
+         errCode = gethostbyname_r(
+                 temp_host_name,
+                 &h,
+--- libupnp-1.6.6/upnp/src/api/upnpapi.c.orig	2008-11-13 14:51:07.131616887 +0800
++++ libupnp-1.6.6/upnp/src/api/upnpapi.c	2008-11-13 14:51:52.992915327 +0800
+@@ -56,7 +56,7 @@
+ 	#include <unistd.h>
+ 
+ 
+-	#if defined(_sun)
++	#if defined(SOLARIS)
+ 		#include <sys/sockio.h>
+ 		#include <fcntl.h>
+ 	#elif defined(BSD) && BSD >= 199306
