@@ -43,7 +43,7 @@ BuildRequires: SUNWPython-devel
 BuildRequires: SUNWTcl
 BuildRequires: SUNWperl584core
 BuildRequires: SUNWruby18u
-BuildRequires: SFEswig
+BuildRequires: SUNWswig
 
 %package devel
 Summary:                 %{summary} - development files
@@ -137,6 +137,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/graphviz/*
 
 %changelog
+* Fri Nov 14 2008 - Gilles Dauphin
+- build required  SUNWswig in B101 now
 * Thu Jan 24 2008 - nonsea@users.sourceforge.net
 - Replace SFEruby to SUNWruby18u
 * Wed Jan 17 2008 - moinak.ghosh@sun.com

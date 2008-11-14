@@ -19,6 +19,7 @@ Requires: SUNWxwrtl
 Requires: SUNWxwplt
 Requires: SUNWzlib
 Requires: SUNWtexi
+Requires: SUNWgd2
 BuildRequires: SUNWpng-devel
 
 %prep
@@ -30,7 +31,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
 
-export CFLAGS="%optflags"
+export CFLAGS="%optflags -I/usr/include/gd2"
 export LDFLAGS="%_ldflags"
 ./configure --prefix=%{_prefix}			\
 	    --libexecdir=%{_libexecdir}         \
@@ -78,8 +79,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755, root, sys) %{_datadir}
 %dir %attr(0755, root, bin) %{_datadir}/info
 %{_datadir}/info/*
-%dir %attr(0755, root, root) %{_datadir}/emacs
-%dir %attr(0755, root, root) %{_datadir}/emacs/site-lisp
+%dir %attr(0755, root, bin) %{_datadir}/emacs
+%dir %attr(0755, root, bin) %{_datadir}/emacs/site-lisp
 %{_datadir}/emacs/site-lisp/*
 %dir %attr(0755, root, sys) %{_datadir}/gnuplot
 %{_datadir}/gnuplot/*
@@ -88,6 +89,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Jeudi Nov 13 2008 - Gilles dauphin
+- In B101 SUNWgd2 and include/gd2
 * Tue Oct 23 2008  - Pradhap Devarajan <pradhap (at) gmail.com>
 - Fix links
 * Mon Jan 15 2007 - daymobrew@users.sourceforge.net
