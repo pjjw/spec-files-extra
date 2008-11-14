@@ -1,3 +1,8 @@
+2008-11-14  Gilles Dauphin <gilles.dauphin@enst.fr>
+
+	* SFEgnuplot.spec: update for B101. SUNWgd2 depend
+	* arhive/SFEgraphviz.spec: need SUNWswig for B101
+
 2008-11-13  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEcodeina.spec: Do not package files that are for other
