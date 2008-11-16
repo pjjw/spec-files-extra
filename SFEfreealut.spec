@@ -6,7 +6,7 @@
 %include Solaris.inc
 
 %define src_name	freealut
-%define src_url		http://www.openal.org/openal_webstf/downloads
+%define src_url		http://connect.creativelabs.com/openal/Downloads/ALUT
 
 Name:                   SFEfreealut
 Summary:                free implementation of OpenAL's ALUT standard
