@@ -1,0 +1,298 @@
+diff -ur openal-soft-1.5.304.orig/CMakeLists.txt openal-soft-1.5.304/CMakeLists.txt
+--- openal-soft-1.5.304.orig/CMakeLists.txt	Mon Jul 28 04:54:52 2008
++++ openal-soft-1.5.304/CMakeLists.txt	Sun Nov 16 16:39:29 2008
+@@ -70,7 +70,7 @@
+     SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -DNDEBUG")
+     SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -D_DEBUG")
+ ELSE()
+-    ADD_DEFINITIONS(-Wall)
++    ADD_DEFINITIONS(-D__inline="")
+     CHECK_C_COMPILER_FLAG(-Wextra HAVE_W_EXTRA)
+     IF("${HAVE_W_EXTRA}")
+         ADD_DEFINITIONS(-Wextra)
+@@ -80,16 +80,16 @@
+         ADD_DEFINITIONS(-Werror)
+     ENDIF()
+ 
+-    SET(CMAKE_C_FLAGS_RELWITHDEBINFO "-g -O2 -funroll-loops -D_DEBUG" CACHE STRING
++    SET(CMAKE_C_FLAGS_RELWITHDEBINFO "-g -O2 -D_DEBUG" CACHE STRING
+         "Flags used by the compiler during Release with Debug Info builds."
+         FORCE)
+-    SET(CMAKE_C_FLAGS_MINSIZEREL "-Os -DNDEBUG" CACHE STRING
++    SET(CMAKE_C_FLAGS_MINSIZEREL "-O1 -DNDEBUG" CACHE STRING
+         "Flags used by the compiler during release minsize builds."
+         FORCE)
+-    SET(CMAKE_C_FLAGS_RELEASE "-O2 -funroll-loops -fomit-frame-pointer -DNDEBUG" CACHE STRING
++    SET(CMAKE_C_FLAGS_RELEASE "-O2 -DNDEBUG" CACHE STRING
+         "Flags used by the compiler during release builds"
+         FORCE)
+-    SET(CMAKE_C_FLAGS_DEBUG "-g3 -D_DEBUG" CACHE STRING
++    SET(CMAKE_C_FLAGS_DEBUG "-g -D_DEBUG" CACHE STRING
+         "Flags used by the compiler during debug builds."
+         FORCE)
+ 
+diff -ur openal-soft-1.5.304.orig/Alc/bs2b.c openal-soft-1.5.304/Alc/bs2b.c
+--- openal-soft-1.5.304.orig/Alc/bs2b.c	Wed Jan 16 23:08:20 2008
++++ openal-soft-1.5.304/Alc/bs2b.c	Sun Nov 16 16:53:11 2008
+@@ -20,27 +20,27 @@
+  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  */
+-
+-#include "config.h"
+-
+-#include <math.h>
+-
+-#include "bs2b.h"
+-
+-#ifndef M_PI
+-#define M_PI  3.14159265358979323846
+-#endif
+-
++
++#include "config.h"
++
++#include <math.h>
++
++#include "bs2b.h"
++
++#ifndef M_PI
++#define M_PI  3.14159265358979323846
++#endif
++
+ /* Single pole IIR filter.
+  * O[n] = a0*I[n] + a1*I[n-1] + b1*O[n-1]
+  */
+-
++
+ /* Lowpass filter */
+-#define lo_filter(in, out_1) (bs2b->a0_lo*(in) + bs2b->b1_lo*(out_1))
+-
++#define lo_filter(in, out_1) (bs2b->a0_lo*(in) + bs2b->b1_lo*(out_1))
++
+ /* Highboost filter */
+-#define hi_filter(in, in_1, out_1) (bs2b->a0_hi*(in) + bs2b->a1_hi*(in_1) + bs2b->b1_hi*(out_1))
+-
++#define hi_filter(in, in_1, out_1) (bs2b->a0_hi*(in) + bs2b->a1_hi*(in_1) + bs2b->b1_hi*(out_1))
++
+ /* Set up all data. */
+ static void init(struct bs2b *bs2b)
+ {
+@@ -133,30 +133,30 @@
+ {
+     return bs2b->level;
+ } /* bs2b_get_level */
+-
++
+ void bs2b_set_srate(struct bs2b *bs2b, int srate)
+-{
++{
+     if (srate == bs2b->srate)
+         return;
+     bs2b->srate = srate;
+     init(bs2b);
+ } /* bs2b_set_srate */
+-
++
+ int bs2b_get_srate(struct bs2b *bs2b)
+ {
+     return bs2b->srate;
+ } /* bs2b_get_srate */
+-
++
+ void bs2b_clear(struct bs2b *bs2b)
+-{
++{
+     int loopv = sizeof(bs2b->last_sample);
+-
++
+     while (loopv)
+     {
+         ((char *)&bs2b->last_sample)[--loopv] = 0;
+     }
+ } /* bs2b_clear */
+-
++
+ int bs2b_is_clear(struct bs2b *bs2b)
+ {
+     int loopv = sizeof(bs2b->last_sample);
+@@ -168,9 +168,9 @@
+     }
+     return 1;
+ } /* bs2b_is_clear */
+-
++
+ void bs2b_cross_feed(struct bs2b *bs2b, float *sample)
+-{
++{
+     /* Lowpass filter */
+     bs2b->last_sample.lo[0] = lo_filter(sample[0], bs2b->last_sample.lo[0]);
+     bs2b->last_sample.lo[1] = lo_filter(sample[1], bs2b->last_sample.lo[1]);
+@@ -180,24 +180,24 @@
+     bs2b->last_sample.hi[1] = hi_filter(sample[1], bs2b->last_sample.asis[1], bs2b->last_sample.hi[1]);
+     bs2b->last_sample.asis[0] = sample[0];
+     bs2b->last_sample.asis[1] = sample[1];
+-
++
+     /* Crossfeed */
+     sample[0] = bs2b->last_sample.hi[0] + bs2b->last_sample.lo[1];
+     sample[1] = bs2b->last_sample.hi[1] + bs2b->last_sample.lo[0];
+-
+-    /* Bass boost cause allpass attenuation */
+-    sample[0] *= bs2b->gain;
+-    sample[1] *= bs2b->gain;
+-
+-    /* Clipping of overloaded samples */
+-#if 0
+-    if (sample[0] > 1.0)
+-        sample[0] = 1.0;
+-    if (sample[0] < -1.0)
+-        sample[0] = -1.0;
+-    if (sample[1] > 1.0)
+-        sample[1] = 1.0;
+-    if (sample[1] < -1.0)
+-        sample[1] = -1.0;
+-#endif
+-} /* bs2b_cross_feed */
++
++    /* Bass boost cause allpass attenuation */
++    sample[0] *= bs2b->gain;
++    sample[1] *= bs2b->gain;
++
++    /* Clipping of overloaded samples */
++#if 0
++    if (sample[0] > 1.0)
++        sample[0] = 1.0;
++    if (sample[0] < -1.0)
++        sample[0] = -1.0;
++    if (sample[1] > 1.0)
++        sample[1] = 1.0;
++    if (sample[1] < -1.0)
++        sample[1] = -1.0;
++#endif
++} /* bs2b_cross_feed */
+diff -ur openal-soft-1.5.304.orig/OpenAL32/Include/bs2b.h openal-soft-1.5.304/OpenAL32/Include/bs2b.h
+--- openal-soft-1.5.304.orig/OpenAL32/Include/bs2b.h	Fri Jan  4 23:35:12 2008
++++ openal-soft-1.5.304/OpenAL32/Include/bs2b.h	Sun Nov 16 16:51:23 2008
+@@ -20,33 +20,33 @@
+  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  */
++
++#ifndef BS2B_H
++#define BS2B_H
++
++/* Number of crossfeed levels */
++#define BS2B_CLEVELS           3
++
++/* Normal crossfeed levels */
++#define BS2B_HIGH_CLEVEL       3
++#define BS2B_MIDDLE_CLEVEL     2
++#define BS2B_LOW_CLEVEL        1
++
++/* Easy crossfeed levels */
++#define BS2B_HIGH_ECLEVEL      BS2B_HIGH_CLEVEL    + BS2B_CLEVELS
++#define BS2B_MIDDLE_ECLEVEL    BS2B_MIDDLE_CLEVEL  + BS2B_CLEVELS
++#define BS2B_LOW_ECLEVEL       BS2B_LOW_CLEVEL     + BS2B_CLEVELS
++
++/* Default crossfeed levels */
++#define BS2B_DEFAULT_CLEVEL    BS2B_HIGH_ECLEVEL
++/* Default sample rate (Hz) */
++#define BS2B_DEFAULT_SRATE     44100
++
++#ifdef __cplusplus
++extern "C" {
++#endif /* __cplusplus */
+ 
+-#ifndef BS2B_H
+-#define BS2B_H
+-
+-/* Number of crossfeed levels */
+-#define BS2B_CLEVELS           3
+-
+-/* Normal crossfeed levels */
+-#define BS2B_HIGH_CLEVEL       3
+-#define BS2B_MIDDLE_CLEVEL     2
+-#define BS2B_LOW_CLEVEL        1
+-
+-/* Easy crossfeed levels */
+-#define BS2B_HIGH_ECLEVEL      BS2B_HIGH_CLEVEL    + BS2B_CLEVELS
+-#define BS2B_MIDDLE_ECLEVEL    BS2B_MIDDLE_CLEVEL  + BS2B_CLEVELS
+-#define BS2B_LOW_ECLEVEL       BS2B_LOW_CLEVEL     + BS2B_CLEVELS
+-
+-/* Default crossfeed levels */
+-#define BS2B_DEFAULT_CLEVEL    BS2B_HIGH_ECLEVEL
+-/* Default sample rate (Hz) */
+-#define BS2B_DEFAULT_SRATE     44100
+-
+-#ifdef __cplusplus
+-extern "C" {
+-#endif /* __cplusplus */
+-
+-struct bs2b {
++struct bs2b {
+     int level;  /* Crossfeed level */
+     int srate;   /* Sample rate (Hz) */
+ 
+@@ -71,12 +71,12 @@
+         double hi[2];
+     } last_sample;
+ };
+-
++
+ /* Clear buffers and set new coefficients with new crossfeed level value.
+  * level - crossfeed level of *LEVEL values.
+  */
+ void bs2b_set_level(struct bs2b *bs2b, int level);
+-
++
+ /* Return current crossfeed level value */
+ int bs2b_get_level(struct bs2b *bs2b);
+ 
+@@ -85,25 +85,25 @@
+  */
+ void bs2b_set_srate(struct bs2b *bs2b, int srate);
+ 
+-/* Return current sample rate value */
+-int bs2b_get_srate(struct bs2b *bs2b);
+-
+-/* Clear buffer */
+-void bs2b_clear(struct bs2b *bs2b);
+-
++/* Return current sample rate value */
++int bs2b_get_srate(struct bs2b *bs2b);
++
++/* Clear buffer */
++void bs2b_clear(struct bs2b *bs2b);
++
+ /* Return 1 if buffer is clear */
+-int bs2b_is_clear(struct bs2b *bs2b);
+-
+-/* Crossfeeds one stereo sample that are pointed by sample.
+- * [0] - first channel, [1] - second channel.
+- * Returns crossfided samle by sample pointer.
+- */
+-
+-/* sample poits to floats */
+-void bs2b_cross_feed(struct bs2b *bs2b, float *sample);
+-
+-#ifdef __cplusplus
+-}    /* extern "C" */
+-#endif /* __cplusplus */
+-
+-#endif /* BS2B_H */
++int bs2b_is_clear(struct bs2b *bs2b);
++
++/* Crossfeeds one stereo sample that are pointed by sample.
++ * [0] - first channel, [1] - second channel.
++ * Returns crossfided samle by sample pointer.
++ */
++
++/* sample poits to floats */
++void bs2b_cross_feed(struct bs2b *bs2b, float *sample);
++
++#ifdef __cplusplus
++}    /* extern "C" */
++#endif /* __cplusplus */
++
++#endif /* BS2B_H */
