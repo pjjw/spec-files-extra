@@ -1,7 +1,7 @@
 #
 # spec file for package SFEopenal_new.spec
 #
-# includes module(s): openal-new
+# includes module(s): openal
 # to become a official release of SFEopenal until other package that depend
 # of me must work or not needed. Gilles Dauphin
 #
@@ -11,9 +11,8 @@
 %define src_url		http://www.openal.org/openal_webstf/downloads
 %define src_url		http://connect.creativelabs.com/openal/Downloads
 #http://connect.creativelabs.com/openal/Downloads/openal-soft-1.5.304.tar.bz2
-#http://connect.creativelabs.com/openal/Downloads/ALUT/freealut-1.1.0.tar.gz
 
-Name:                   SFEopenal-new
+Name:                   SFEopenal
 Summary:                OpenAL is a cross-platform 3D audio API
 Version:                1.5.304
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
