@@ -1,3 +1,12 @@
+2008-11-17  Halton Huo <halton.huo@sun.com>
+
+	* SFEwine.spec: remove upstreamed patch and reorder
+	* patches/wine-02-acceptex.diff: rework
+	* patches/wine-03-shell.diff: reorder to wine-01-shell.diff
+	* patches/wine-04-event-completion.diff: remove upstreamed patch
+	* patches/wine-05-acceptex.diff: reorder to wine-02-acceptex.diff
+	* patches/wine-06-iphlpapi.diff: reorder to wine-03-iphlpapi.diff
+
 2008-11-16  Gilles Dauphin <gilles.dauphin@enst.fr>
 
 	* SFEopenal-new.spec , new release for test .

@@ -11,23 +11,15 @@
 
 Name:                   SFEwine
 Summary:                Windows compatibility
-Version:                1.1.2
+Version:                1.1.8
 URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Source101:		http://trisk.acm.jhu.edu/winetricks-20080627
-#Patch1:			wine-01-getaddrinfo.diff
-# http://bugs.winehq.org/show_bug.cgi?id=12740
-# http://bugs.opensolaris.org/view_bug.do?bug_id=6698109
-#Patch2:			wine-02-xim-workaround.diff
-Patch3:			wine-03-shell.diff
-# http://bugs.winehq.org/show_bug.cgi?id=13227
-# https://sourceforge.net/tracker/index.php?func=detail&aid=1964949&group_id=125443&atid=865175
-# http://www.nabble.com/Wineserver-causing-heavy-CPU-load-td16948890.html
-Patch4:			wine-04-event-completion.diff
+Patch1:			wine-01-shell.diff
 # http://bugs.winehq.org/show_bug.cgi?id=9787
-Patch5:			wine-05-acceptex.diff
+Patch2:			wine-02-acceptex.diff
 # Implement network statistics in iphlpapi via libkstat and STREAMS TPI
-Patch6:			wine-06-iphlpapi.diff
+Patch3:			wine-03-iphlpapi.diff
 # Wine assumes libraries are mapped to contiguous memory regions.
 # Use less restrictive alignment for data section to avoid "holes" between
 # sections that the OS is allowed to use for an anonymous mmap:
@@ -35,7 +27,6 @@ Patch6:			wine-06-iphlpapi.diff
 #Patch7:			wine-07-sun-ld.diff
 #Patch8:			wine-08-init-fini.diff
 Patch101:		winetricks-01-sh.diff
-#Patch102:		winetricks-02-zenity.diff
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -73,14 +64,9 @@ Requires: %name
 
 %prep
 %setup -q -n %{src_name}-%{version}
-#%patch1 -p1
-#%patch2 -p1
+%patch1 -p1
+%patch2 -p1
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-#%patch7 -p1
-#%patch8 -p1
 cp %{SOURCE101} winetricks
 %patch101 -p1
 
@@ -165,6 +151,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Mon Nov 17 2008 - halton.huo@sun.com
+- Bump to 1.1.8
+- Remove upstreamed patch and reorder
 * Thu Jul 31 2008 - trisk@acm.jhu.edu
 - Bump to 1.1.2
 - Pause patch7 (partially upstreamed), add patch8
