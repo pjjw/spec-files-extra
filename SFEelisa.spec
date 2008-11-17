@@ -11,7 +11,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa
-%define version 0.5.17
+%define version 0.5.18
 
 %include Solaris.inc
 
@@ -106,15 +106,14 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %defattr(-,root,bin)
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/elisa
-%{_bindir}/elisa-get
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/python%{pythonver}/vendor-packages/elisa
 %{_libdir}/python%{pythonver}/vendor-packages/elisa-*-py%{pythonver}.egg-info
 %{_libdir}/python%{pythonver}/vendor-packages/elisa-*-py%{pythonver}-nspkg.pth
-%{_libdir}/python%{pythonver}/vendor-packages/elisa_generic_setup.py
-%{_libdir}/python%{pythonver}/vendor-packages/elisa_generic_setup.pyc
 
 %changelog
+* Mon Nov 17 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.5.18.
 * Tue Nov 11 2008 Jerry Yu <jijun.yu@sun.com>
 - Remove duplicated BuildRequires.
 * Tue Nov 04 2008 Brian Cameron  <brian.cameron@sun.com>

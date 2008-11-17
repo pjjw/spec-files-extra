@@ -1,3 +1,8 @@
+2008-11-17  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEelisa.spec, SFE-elisa-plugins-good.spec,
+	  SFE-elisa-plugins-bad.spec:  Bump to 0.5.18.
+
 2008-11-17  Gilles dauphin <dauphin@enst.fr>
 
 	* SFESimGear.spec patches/SimGear-01.diff ext-sources/SimGear_Props.cxx
