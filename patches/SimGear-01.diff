@@ -1,0 +1,136 @@
+diff -ur SimGear-1.0.0.orig/simgear/compiler.h SimGear-1.0.0/simgear/compiler.h
+--- SimGear-1.0.0.orig/simgear/compiler.h	Sat Nov 17 08:35:44 2007
++++ SimGear-1.0.0/simgear/compiler.h	Sun Nov 16 20:35:30 2008
+@@ -324,6 +324,26 @@
+ 
+ 
+ #if defined (__sun)
++       // g++-3.0.x
++#      define SG_EXPLICIT_FUNCTION_TMPL_ARGS
++#      define SG_NEED_AUTO_PTR
++#      define SG_MEMBER_TEMPLATES
++#      define SG_NAMESPACES
++#      define SG_HAVE_STD
++#      define SG_HAVE_STREAMBUF
++#      define SG_CLASS_PARTIAL_SPECIALIZATION
++#      define SG_HAVE_STD_INCLUDES
++
++#      define STL_ALGORITHM  <algorithm>
++#      define STL_FUNCTIONAL <functional>
++#      define STL_IOMANIP    <iomanip>
++#      define STL_IOSTREAM   <iostream>
++#      define STL_ITERATOR   <iterator>
++#      define STL_FSTREAM    <fstream>
++#      define STL_STDEXCEPT  <stdexcept>
++#      define STL_STRING     <string>
++#      define STL_STRSTREAM  <strstream>
++
+ #  include <strings.h>
+ #  include <memory.h>
+ #  if defined ( __cplusplus )
+diff -ur SimGear-1.0.0.orig/simgear/nasal/lib.c SimGear-1.0.0/simgear/nasal/lib.c
+--- SimGear-1.0.0.orig/simgear/nasal/lib.c	Sat Nov 17 08:35:44 2007
++++ SimGear-1.0.0/simgear/nasal/lib.c	Sun Nov 16 20:58:45 2008
+@@ -12,9 +12,12 @@
+ #include "nasal.h"
+ #include "code.h"
+ 
++#define __FUNCTION__ __func__
++
+ #define NEWSTR(c, s, l) naStr_fromdata(naNewString(c), s, l)
+ #define NEWCSTR(c, s) NEWSTR(c, s, strlen(s))
+ 
++
+ // Generic argument error, assumes that the symbol "c" is a naContext,
+ // and that the __FUNCTION__ string is of the form "f_NASALSYMBOL".
+ #define ARGERR() \
+diff -ur SimGear-1.0.0.orig/simgear/nasal/mathlib.c SimGear-1.0.0/simgear/nasal/mathlib.c
+--- SimGear-1.0.0.orig/simgear/nasal/mathlib.c	Sat Nov 17 08:35:44 2007
++++ SimGear-1.0.0/simgear/nasal/mathlib.c	Sun Nov 16 20:59:33 2008
+@@ -3,6 +3,9 @@
+ 
+ #include "nasal.h"
+ 
++#define __FUNCTION__ __func__
++
++
+ // Toss a runtime error for any NaN or Inf values produced.  Note that
+ // this assumes an IEEE 754 format.
+ #define VALIDATE(r) (valid(r.num) ? (r) : die(c, __FUNCTION__+2))
+diff -ur SimGear-1.0.0.orig/simgear/props/Makefile.am SimGear-1.0.0/simgear/props/Makefile.am
+--- SimGear-1.0.0.orig/simgear/props/Makefile.am	Sat Nov 17 08:35:44 2007
++++ SimGear-1.0.0/simgear/props/Makefile.am	Mon Nov 17 14:40:21 2008
+@@ -9,7 +9,7 @@
+ 
+ libsgprops_a_SOURCES = \
+ 	condition.cxx \
+-	props.cxx \
++	Props.cxx \
+ 	props_io.cxx
+ 
+ noinst_PROGRAMS = props_test
+diff -ur SimGear-1.0.0.orig/simgear/props/Makefile.in SimGear-1.0.0/simgear/props/Makefile.in
+--- SimGear-1.0.0.orig/simgear/props/Makefile.in	Tue Dec 11 06:37:23 2007
++++ SimGear-1.0.0/simgear/props/Makefile.in	Mon Nov 17 15:35:41 2008
+@@ -61,7 +61,7 @@
+ LIBRARIES = $(lib_LIBRARIES)
+ libsgprops_a_AR = $(AR) $(ARFLAGS)
+ libsgprops_a_LIBADD =
+-am_libsgprops_a_OBJECTS = condition.$(OBJEXT) props.$(OBJEXT) \
++am_libsgprops_a_OBJECTS = condition.$(OBJEXT) Props.$(OBJEXT) \
+ 	props_io.$(OBJEXT)
+ libsgprops_a_OBJECTS = $(am_libsgprops_a_OBJECTS)
+ PROGRAMS = $(noinst_PROGRAMS)
+@@ -212,7 +212,7 @@
+ 
+ libsgprops_a_SOURCES = \
+ 	condition.cxx \
+-	props.cxx \
++	Props.cxx \
+ 	props_io.cxx
+ 
+ props_test_SOURCES = props_test.cxx
+diff -ur SimGear-1.0.0.orig/simgear/props/props.hxx SimGear-1.0.0/simgear/props/props.hxx
+--- SimGear-1.0.0.orig/simgear/props/props.hxx	Sat Nov 17 08:35:44 2007
++++ SimGear-1.0.0/simgear/props/props.hxx	Mon Nov 17 15:02:08 2008
+@@ -535,7 +535,8 @@
+    * Last used attribute
+    * Update as needed when enum Attribute is changed
+    */
+-  static const int LAST_USED_ATTRIBUTE;
++  //static const int LAST_USED_ATTRIBUTE  = TRACE_WRITE;
++  static const int LAST_USED_ATTRIBUTE ;
+ 
+ 
+   /**
+diff -ur SimGear-1.0.0.orig/simgear/scene/sky/oursun.cxx SimGear-1.0.0/simgear/scene/sky/oursun.cxx
+--- SimGear-1.0.0.orig/simgear/scene/sky/oursun.cxx	Sat Nov 17 08:35:45 2007
++++ SimGear-1.0.0/simgear/scene/sky/oursun.cxx	Mon Nov 17 15:31:49 2008
+@@ -289,12 +289,14 @@
+    sun_tl->add( vb );
+ 
+ 
+-   ssgLeaf *sun = 
++// funny when you are working on Sun.
++   //ssgLeaf *sun = 
++   ssgLeaf *Thesun = 
+ 	new ssgVtxTable ( GL_TRIANGLE_STRIP, sun_vl, NULL, sun_tl, sun_cl );
+-   sun->setState( sun_state );
++   Thesun->setState( sun_state );
+ 
+-   sun->setCallback( SSG_CALLBACK_PREDRAW, sgSunPreDraw );
+-   sun->setCallback( SSG_CALLBACK_POSTDRAW, sgSunPostDraw );
++   Thesun->setCallback( SSG_CALLBACK_PREDRAW, sgSunPreDraw );
++   Thesun->setCallback( SSG_CALLBACK_POSTDRAW, sgSunPostDraw );
+     
+ 
+ 
+@@ -408,7 +410,7 @@
+ 
+     sun_transform->addKid( ohalo );    
+     sun_transform->addKid( ihalo );
+-    sun_transform->addKid( sun );
++    sun_transform->addKid( Thesun );
+ 
+ #ifdef FG_TEST_CHEESY_LENS_FLARE
+     // cheesy lens flair
