@@ -1,3 +1,8 @@
+2008-11-17  Gilles dauphin <dauphin@enst.fr>
+
+	* SFESimGear.spec patches/SimGear-01.diff ext-sources/SimGear_Props.cxx
+	* Initial spec
+
 2008-11-17  Halton Huo <halton.huo@sun.com>
 
 	* SFEwine.spec: remove upstreamed patch and reorder
