@@ -69,6 +69,14 @@
 		<service_fmri value='svc:/system/consolekit'/>
 	</dependency>
 
+	<dependency
+	    name='hal'
+	    grouping='require_all'
+	    restart_on='none'
+	    type='service'>
+		<service_fmri value='svc:/system/hal' />
+	</dependency>
+
 	<exec_method
 	    type='method'
 	    name='start'

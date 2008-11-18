@@ -1,5 +1,10 @@
 2008-11-17  Brian Cameron  <brian.cameron@sun.com>
 
+	* ext-sources/gdm.xml: Make GDM depend on HAL to avoid bugs like
+	  doo bug #4714.
+
+2008-11-17  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEelisa-plugins-bad.spec,
 	  patches/elisa-plugins-bad-01-rm-plugins.diff,
 	  patches/elisa-plugins-bad-02-fixcrash.diff:  Add the "fixcrash" patch
