@@ -1,0 +1,20 @@
+--- elisa-plugins-bad-0.5.18/elisa/plugins/pigment/widgets/theme.py-orig	2008-11-17 15:54:53.359937000 -0600
++++ elisa-plugins-bad-0.5.18/elisa/plugins/pigment/widgets/theme.py	2008-11-17 15:55:23.034061000 -0600
+@@ -117,6 +117,8 @@ class Theme(gobject.GObject):
+         if not inotify:
+             return
+ 
++        return
++
+         inotify_handler = inotify.INotify()
+ 
+         if self._styles_conf:
+@@ -135,6 +137,8 @@ class Theme(gobject.GObject):
+         if not inotify:
+             return
+ 
++        return
++
+         inotify_handler = inotify.INotify()
+ 
+         if self._styles_conf:

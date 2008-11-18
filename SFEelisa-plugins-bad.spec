@@ -16,6 +16,8 @@ URL:               http://elisa.fluendo.com/
 Version:           %{version}
 Source0:           http://elisa.fluendo.com/static/download/elisa/elisa-plugins-bad-%{version}.tar.gz
 Patch1:		   elisa-plugins-bad-01-rm-plugins.diff
+#owner:yippi date:2008-11-17 type:bug bugid:299272
+Patch2:            elisa-plugins-bad-02-fixcrash.diff
 SUNW_BaseDir:      %{_basedir}
 BuildRoot:         %{_tmppath}/%{name}-%{version}-build
 Requires:          SFEelisa
@@ -32,6 +34,7 @@ code needing more QA (unittests, code reviews).
 %prep
 %setup -q -n elisa-plugins-bad-%version
 %patch1 -p1
+%patch2 -p1
 
 %build
 
@@ -82,7 +85,9 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 
 %changelog
 * Mon Nov 17 2008 Brian Cameron  <brian.cameron@sun.com>
-- Bump to 0.5.18.
+- Bump to 0.5.18.  Add patch elisa-plugins-bad-02-fixcrash.diff to address
+  crashing problem on startup.  It seems elisa isn't properly identifying 
+  that inotify isn't available due to running on Python 2.4 rather than 2.5.
 * Tue Nov 04 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.17.
 * Wed Oct 29 2008 Brian Cameron  <brian.cameron@sun.com>

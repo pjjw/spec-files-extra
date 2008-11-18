@@ -1,5 +1,15 @@
 2008-11-17  Brian Cameron  <brian.cameron@sun.com>
 
+	* SFEelisa-plugins-bad.spec,
+	  patches/elisa-plugins-bad-01-rm-plugins.diff,
+	  patches/elisa-plugins-bad-02-fixcrash.diff:  Add the "fixcrash" patch
+	  so that elisa does not crash on startup.  Modify the "rm-plugins"
+	  patch so that we add back a few needed plugins.  The new version of
+	  elisa does not start, for example, without the http_client plugin
+	  available.
+
+2008-11-17  Brian Cameron  <brian.cameron@sun.com>
+
 	* SFEelisa.spec, SFE-elisa-plugins-good.spec,
 	  SFE-elisa-plugins-bad.spec:  Bump to 0.5.18.
 
