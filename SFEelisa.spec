@@ -11,7 +11,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa
-%define version 0.5.18.1
+%define version 0.5.18
 
 %include Solaris.inc
 
@@ -76,7 +76,6 @@ mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages
 mv $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/* \
    $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages/
 rmdir $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages
-rm $RPM_BUILD_ROOT%{_bindir}/elisa-get
 
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 
@@ -113,6 +112,10 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa-*-py%{pythonver}-nspkg.pth
 
 %changelog
+* Wed Nov 19 2008 Jerry Yu <jijun.yu@sun.com>
+- Rollback to 0.5.18.
+* Wed Nov 19 2008 Jerry Yu <jijun.yu@sun.com>
+- Bump to 0.5.18.1.
 * Mon Nov 17 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.18.
 * Tue Nov 11 2008 Jerry Yu <jijun.yu@sun.com>
