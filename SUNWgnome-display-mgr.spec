@@ -13,35 +13,35 @@
 
 Summary:                 GNOME display manager
 Name:                    SUNWgnome-display-mgr
-Version:                 2.24.0
+Version:                 2.24.1
 Release:                 1
-Source:                  http://ftp.gnome.org/pub/GNOME/sources/gdm/2.24/gdm-%{version}.tar.bz2
+Source:                  http://download.gnome.org/sources/gdm/2.24/gdm-%{version}.tar.bz2
 Source1:                 gdm.xml
 Source2:                 svc-gdm
-# date:2008-06-03 owner:fujiwara type:bug bugid:536387 state:upstream
-Patch1:                  gdm-01-lang.diff
-# Patch2 adds SDTLOGIN interface, which drops the Xserver to user
+# Patch1 adds SDTLOGIN interface, which drops the Xserver to user
 # perms rather than running as root, for added security on Solaris.
 # It also adds logindevperm support.  Refer to bug #531651.  My
 # hope is to get logindevperm support upstream.
 # date:2008-05-06 owner:yippi type:bug bugid:531651
-Patch2:                  gdm-02-sdtlogin-devperm.diff
+Patch1:                  gdm-01-sdtlogin-devperm.diff
 # Add ctrun support when running the user session.  Otherwise, any
 # core dump in the user session will cause GDM to restart.
-Patch3:                  gdm-03-ctrun.diff
+Patch2:                  gdm-02-ctrun.diff
 # Manage displays on the fly
 # date:2008-06-03 owner:yippi type:bug bugid:536355
-Patch4:                  gdm-04-dynamic-display.diff
+Patch3:                  gdm-03-dynamic-display.diff
 # Possible fix for unwritable gdm user $HOME. gnome-session
 # tries to update ~/.ICEAuthority and gdm-simple-greeter crashes
 # when looking up option widgets.
 # date:2008-09-29 owner:yippi type:bug bugid:554242
-Patch5:                  gdm-05-ICE-optionwidget.diff
+Patch4:                  gdm-04-ICE-optionwidget.diff
 # Fix gconf-santiy-check-2 warning dialog.
 # date:2008-09-04 owner:xz159989 type:bug bugid:550832
-Patch6:			 gdm-06-gconfsanity.diff
+Patch5:			 gdm-05-gconfsanity.diff
 # date:2008-11-04 owner:yippi type:bug state:upstream
-Patch7:			 gdm-07-fixshell.diff
+Patch6:			 gdm-06-fixshell.diff
+# date:2008-11-19 owner:halton type:bug bugzilla:561480
+Patch7:			 gdm-07-Xau.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -97,20 +97,18 @@ Requires:                %{name}
 
 %prep
 %setup -q -n gdm-%version
-%patch1 -p1
-%patch2 -p0
+%patch1 -p0
+%patch2 -p1
 %patch3 -p1
-%patch4 -p1
+%patch4 -p0
 %patch5 -p0
-%patch6 -p0
+%patch6 -p1
 %patch7 -p1
 
 %build
-export LDFLAGS="%_ldflags -L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib"
+export LDFLAGS="%_ldflags"
 export PKG_CONFIG_PATH=%{_pkg_config_path}
-X11_CFLAGS=
-pkg-config --exists x11 && X11_CFLAGS=`pkg-config --cflags x11`
-export CFLAGS="%optflags $X11_CFLAGS"
+export CFLAGS="%optflags"
 export RPM_OPT_FLAGS="$CFLAGS"
 %if %option_without_dt
 export GDMGNOMESESSIONCMD="/usr/bin/dtstart jds"
@@ -139,10 +137,12 @@ BINDIR_CONFIG="--with-post-path=/usr/openwin/bin"
 RBAC_CONFIG="--enable-rbac-shutdown=solaris.system.shutdown"
 %endif
 
+glib-gettextize -f
+libtoolize --copy --force
 aclocal $ACLOCAL_FLAGS
-autoconf
 autoheader
 automake -a -c -f
+autoconf
 ./configure \
         --prefix=%{_prefix} \
         --sysconfdir=%{_sysconfdir} \
@@ -157,13 +157,8 @@ make -j $CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
-export PERL5LIB=%{_prefix}/perl5/site_perl/5.6.1/sun4-solaris-64int
 
 make install DESTDIR=$RPM_BUILD_ROOT
-
-# Clean up unpackaged files
-#
-rm -rf $RPM_BUILD_ROOT%{_localstatedir}/lib/scrollkeeper
 
 install -d $RPM_BUILD_ROOT/var/svc/manifest/application/graphical-login
 install --mode=0444 %SOURCE1 $RPM_BUILD_ROOT/var/svc/manifest/application/graphical-login
@@ -322,6 +317,13 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Wed Nov 19 2008 - halton.huo@sun.com
+- Bump to 2.24.1
+- Remove upstreamed patch 01-lang.diff and reorder
+- Add patch 07-Xau.diff to fix bugzilla:561480
+- Remove "-L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib" from
+  LDFLAGS
+- Remove useless X11_CFLAGS and PERL5LIB stuff 
 * Tue Nov 04 2008 - brian.cameron@sun.com
 - Add patch gdm-07-fixshell.diff to set the SHELL in GDM's Xsession script.
   Otherwise the user's shell will fail to start up if any usage of ksh is
