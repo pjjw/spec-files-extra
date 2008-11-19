@@ -11,7 +11,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa
-%define version 0.5.18
+%define version 0.5.18.1
 
 %include Solaris.inc
 
@@ -46,7 +46,7 @@ Requires:          SUNWpysqlite
 Requires:          SFEpyopenssl
 Requires:          SFEpigment
 Requires:          SFEpigment-python
-Requires:          SFEpython-cssutils
+Requires:          SUNWpython-cssutils
 Requires:          SFEpython-twisted-web2
 
 %include default-depend.inc
@@ -76,6 +76,7 @@ mkdir -p $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages
 mv $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages/* \
    $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/vendor-packages/
 rmdir $RPM_BUILD_ROOT%{_libdir}/python%{pythonver}/site-packages
+rm $RPM_BUILD_ROOT%{_bindir}/elisa-get
 
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 

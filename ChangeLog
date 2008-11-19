@@ -1,3 +1,7 @@
+2008-11-19  Jerry Yu  <jijun.yu@sun.com>
+
+	* SFEelisa.spec: Bump elisa to 0.5.18.1.
+
 2008-11-17  Brian Cameron  <brian.cameron@sun.com>
 
 	* ext-sources/gdm.xml: Make GDM depend on HAL to avoid bugs like
