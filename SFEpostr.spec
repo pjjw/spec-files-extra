@@ -7,7 +7,7 @@
 
 Name:                SFEpostr
 Summary:             Postr - upload photographs to Flickr
-Version:             0.8
+Version:             0.12.2
 Source:              http://burtonini.com/computing/postr-%{version}.tar.gz
 URL:                 http://burtonini.com/blog/computers/postr
 
@@ -86,6 +86,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/22x22/
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/22x22/apps/
 %{_datadir}/icons/hicolor/22x22/apps/*
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/24x24/
+%dir %attr (0755, root, other) %{_datadir}/icons/hicolor/24x24/apps/
+%{_datadir}/icons/hicolor/24x24/apps/*
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/32x32/
 %dir %attr (0755, root, other) %{_datadir}/icons/hicolor/32x32/apps/
 %{_datadir}/icons/hicolor/32x32/apps/*
@@ -93,8 +96,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}/nautilus
 %dir %attr (0755, root, bin) %{_libdir}/nautilus/extensions-1.0
 %{_libdir}/nautilus/extensions-1.0/*
+%dir %attr (0755, root, bin) %{_libdir}/nautilus/extensions-2.0
+%{_libdir}/nautilus/extensions-2.0/*
 %{_libdir}/python%{pythonver}/vendor-packages/postr
 
 %changelog
+* Thu Nov 20 2008 - elaine.xiong@sun.com
+- Bump to 0.12.2.
 * Thu Aug 30 2007 - trisk@acm.jhu.edu
 - Initial spec
