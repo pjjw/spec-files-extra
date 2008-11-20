@@ -1,10 +1,13 @@
---- gdm-2.24.1/daemon/Makefile.am.orig	Wed Nov 19 16:26:46 2008
-+++ gdm-2.24.1/daemon/Makefile.am	Wed Nov 19 16:26:49 2008
-@@ -333,6 +333,7 @@
- # Note that these libs are in LDFLAGS because they should come before
- # everything else on the link line as they may override stuff
- gdm_binary_LDFLAGS =				\
-+	-lXau					\
- 	$(EXTRA_DAEMON_LIBS)			\
- 	$(NULL)
+diff --git a/configure.ac b/configure.ac
+index ed2bbc0..864f13c 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -73,7 +73,7 @@ PKG_CHECK_MODULES(DAEMON,
+ AC_SUBST(DAEMON_CFLAGS)
+ AC_SUBST(DAEMON_LIBS)
  
+-PKG_CHECK_MODULES(XLIB, x11, ,
++PKG_CHECK_MODULES(XLIB, x11 xau, ,
+   [AC_PATH_XTRA
+     if test "x$no_x" = xyes; then
+       AC_MSG_ERROR("no (requires X development libraries)")

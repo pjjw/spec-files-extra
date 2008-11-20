@@ -1,9 +1,14 @@
+2008-11-19  Halton Huo <halton.huo@sun.com>
+
+	* patches/gdm-07-Xau.diff: Rework
+
 2008-11-19 Jerry Yu  <jijun.yu@sun.com>
 
 	* SFEelisa.spec: Roll back to 0.5.18.
 
 2008-11-19  Alexander Skwar <alexander@skwar.name>
-        * SFEvim.spec: Apply patches from upstream,
+
+	* SFEvim.spec: Apply patches from upstream,
 	  bump to 7.2, add vim-7.2-extra, Build a binary with "huge" features,
 	  Comment out Build dependency on SFEcscope or SPROsslnk,
 	  Add build dependency on SUNWxwinc, Set tclsh to tclsh8.4,
