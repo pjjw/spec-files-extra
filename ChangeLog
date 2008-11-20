@@ -1,3 +1,11 @@
+2008-11-20  Gilles Dauphin <dauphin@enst.fr>
+
+	* SFEFlightGear.spec
+	* patches/FlightGear-01.diff
+	* patches/freeglut260-01.diff
+	* SFEfreeglut.spec
+	* freeglut is from SF.net, a release candidate + my work.
+
 2008-11-20  Elaine Xiong <elaine.xiong@sun.com>
 
 	* SFEpostr: Bump to 0.12.2.

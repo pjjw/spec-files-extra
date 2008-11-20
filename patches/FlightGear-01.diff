@@ -1,0 +1,261 @@
+diff -ru FlightGear-1.0.0.orig/src/FDM/JSBSim/input_output/FGfdmSocket.cpp FlightGear-1.0.0/src/FDM/JSBSim/input_output/FGfdmSocket.cpp
+--- FlightGear-1.0.0.orig/src/FDM/JSBSim/input_output/FGfdmSocket.cpp	Tue Nov 27 20:28:28 2007
++++ FlightGear-1.0.0/src/FDM/JSBSim/input_output/FGfdmSocket.cpp	Tue Nov 18 00:03:19 2008
+@@ -39,6 +39,8 @@
+ 
+ #include <cstring>
+ #include "FGfdmSocket.h"
++#include <sys/filio.h>
++#include <string.h>
+ 
+ namespace JSBSim {
+ 
+diff -ru FlightGear-1.0.0.orig/src/FDM/LaRCsim/ls_constants.h FlightGear-1.0.0/src/FDM/LaRCsim/ls_constants.h
+--- FlightGear-1.0.0.orig/src/FDM/LaRCsim/ls_constants.h	Tue Sep 10 03:14:01 2002
++++ FlightGear-1.0.0/src/FDM/LaRCsim/ls_constants.h	Tue Nov 18 00:57:32 2008
+@@ -93,11 +93,11 @@
+ /* Value of earth flattening parameter from ref [8] 			
+ 	
+ 	Note: FP = f
+-	      E  = 1-f
++	      ONEMINFPE  = 1-f
+ 	      EPS = sqrt(1-(1-f)^2)			*/
+ 	      
+ #define FP	.003352813178
+-#define E   .996647186
++#define ONEMINFPE   .996647186
+ #define EPS .081819221
+ #define INVG .031080997
+ 
+diff -ru FlightGear-1.0.0.orig/src/FDM/LaRCsim/ls_geodesy.c FlightGear-1.0.0/src/FDM/LaRCsim/ls_geodesy.c
+--- FlightGear-1.0.0.orig/src/FDM/LaRCsim/ls_geodesy.c	Tue Sep 10 03:14:02 2002
++++ FlightGear-1.0.0/src/FDM/LaRCsim/ls_geodesy.c	Tue Nov 18 02:14:31 2008
+@@ -275,14 +275,14 @@
+ 	   || ( (HALF_PI + lat_geoc) < ONE_SECOND ) )   /* near South pole */
+ 	  {
+ 	    *lat_geod = lat_geoc;
+-	    *sea_level_r = EQUATORIAL_RADIUS*E;
++	    *sea_level_r = EQUATORIAL_RADIUS*ONEMINFPE;
+ 	    *alt = radius - *sea_level_r;
+ 	  }
+ 	else
+ 	  {
+ 	    t_lat = tan(lat_geoc);
+-	    x_alpha = E*EQUATORIAL_RADIUS/sqrt(t_lat*t_lat + E*E);
+-	    mu_alpha = atan2(sqrt(RESQ - x_alpha*x_alpha),E*x_alpha);
++	    x_alpha = ONEMINFPE*EQUATORIAL_RADIUS/sqrt(t_lat*t_lat + ONEMINFPE*ONEMINFPE);
++	    mu_alpha = atan2(sqrt(RESQ - x_alpha*x_alpha),ONEMINFPE*x_alpha);
+ 	    if (lat_geoc < 0) mu_alpha = - mu_alpha;
+ 	    sin_mu_a = sin(mu_alpha);
+ 	    delt_lambda = mu_alpha - lat_geoc;
+@@ -294,10 +294,10 @@
+ 	      (denom*denom*denom);
+ 	    delt_mu = atan2(l_point*sin(delt_lambda),rho_alpha + *alt);
+ 	    *lat_geod = mu_alpha - delt_mu;
+-	    lambda_sl = atan( E*E * tan(*lat_geod) ); /* SL geoc. latitude */
++	    lambda_sl = atan( ONEMINFPE*ONEMINFPE * tan(*lat_geod) ); /* SL geoc. latitude */
+ 	    sin_lambda_sl = sin( lambda_sl );
+ 	    *sea_level_r = sqrt(RESQ
+-			   /(1 + ((1/(E*E))-1)*sin_lambda_sl*sin_lambda_sl));
++			   /(1 + ((1/(ONEMINFPE*ONEMINFPE))-1)*sin_lambda_sl*sin_lambda_sl));
+ 	  }
+ }
+ 
+@@ -307,13 +307,13 @@
+ {
+     SCALAR lambda_sl, sin_lambda_sl, cos_lambda_sl, sin_mu, cos_mu, px, py;
+     
+-    lambda_sl = atan( E*E * tan(lat_geod) ); /* sea level geocentric latitude */
++    lambda_sl = atan( ONEMINFPE*ONEMINFPE * tan(lat_geod) ); /* sea level geocentric latitude */
+     sin_lambda_sl = sin( lambda_sl );
+     cos_lambda_sl = cos( lambda_sl );
+     sin_mu = sin(lat_geod);	/* Geodetic (map makers') latitude */
+     cos_mu = cos(lat_geod);
+     *sl_radius = sqrt(RESQ
+-	/(1 + ((1/(E*E))-1)*sin_lambda_sl*sin_lambda_sl));
++	/(1 + ((1/(ONEMINFPE*ONEMINFPE))-1)*sin_lambda_sl*sin_lambda_sl));
+     py = *sl_radius*sin_lambda_sl + alt*sin_mu;
+     px = *sl_radius*cos_lambda_sl + alt*cos_mu;
+     *lat_geoc = atan2( py, px );
+diff -ru FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_coef_pitch.cpp FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_coef_pitch.cpp
+--- FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_coef_pitch.cpp	Tue Feb 21 18:37:31 2006
++++ FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_coef_pitch.cpp	Tue Nov 18 00:05:25 2008
+@@ -85,8 +85,8 @@
+ **********************************************************************/
+ 
+ #include "uiuc_coef_pitch.h"
++#include <math.h>
+ 
+-
+ void uiuc_coef_pitch()
+ {
+   string linetoken1;
+diff -ru FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_coefficients.cpp FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_coefficients.cpp
+--- FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_coefficients.cpp	Tue Feb 21 18:37:31 2006
++++ FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_coefficients.cpp	Tue Nov 18 00:06:24 2008
+@@ -97,6 +97,7 @@
+ **********************************************************************/
+ 
+ #include "uiuc_coefficients.h"
++#include <math.h>
+ 
+ void uiuc_coefficients(double dt)
+ {
+diff -ru FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_engine.cpp FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_engine.cpp
+--- FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_engine.cpp	Tue Feb 21 18:37:31 2006
++++ FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_engine.cpp	Tue Nov 18 00:07:03 2008
+@@ -71,6 +71,7 @@
+ #include <simgear/compiler.h>
+ 
+ #include "uiuc_engine.h"
++#include <math.h>
+ 
+ SG_USING_STD(cerr);
+ 
+diff -ru FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_flapdata.cpp FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_flapdata.cpp
+--- FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_flapdata.cpp	Tue Jun 10 08:19:31 2003
++++ FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_flapdata.cpp	Tue Nov 18 00:08:05 2008
+@@ -9,6 +9,7 @@
+ #include "uiuc_flapdata.h"
+ //#include <fstream>
+ #include <cassert>
++#include <stdio.h>
+ 
+ ///////////////////////////////////////////////////////////
+ //Implementation of FlapStruct public methods
+diff -ru FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_fog.cpp FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_fog.cpp
+--- FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_fog.cpp	Tue Feb 21 18:37:31 2006
++++ FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_fog.cpp	Tue Nov 18 00:09:07 2008
+@@ -73,6 +73,7 @@
+ 
+ 
+ #include "uiuc_fog.h"
++#include <math.h>
+ 
+ void uiuc_fog()
+ {
+diff -ru FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_hh_ap.cpp FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_hh_ap.cpp
+--- FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_hh_ap.cpp	Tue Mar 16 05:01:38 2004
++++ FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_hh_ap.cpp	Mon Nov 17 22:49:43 2008
+@@ -52,6 +52,7 @@
+ // entire control deflection.
+ 
+ #include "uiuc_hh_ap.h"
++#include <math.h>
+ 
+ // (RD) changed float to double
+ 
+diff -ru FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_iced_nonlin.cpp FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_iced_nonlin.cpp
+--- FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_iced_nonlin.cpp	Sat Feb 18 18:06:08 2006
++++ FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_iced_nonlin.cpp	Tue Nov 18 00:09:51 2008
+@@ -6,6 +6,7 @@
+ //            high etas
+ 
+ #include "uiuc_iced_nonlin.h"
++#include <math.h>
+ 
+ void Calc_Iced_Forces()
+ 	{
+diff -ru FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_rah_ap.cpp FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_rah_ap.cpp
+--- FlightGear-1.0.0.orig/src/FDM/UIUCModel/uiuc_rah_ap.cpp	Tue Mar 16 05:01:38 2004
++++ FlightGear-1.0.0/src/FDM/UIUCModel/uiuc_rah_ap.cpp	Mon Nov 17 22:51:24 2008
+@@ -52,6 +52,7 @@
+ // entire control deflection.
+ 
+ #include "uiuc_rah_ap.h"
++#include <math.h>
+ 
+ // (RD) changed float to double
+ 
+diff -ru FlightGear-1.0.0.orig/src/FDM/YASim/proptest.cpp FlightGear-1.0.0/src/FDM/YASim/proptest.cpp
+--- FlightGear-1.0.0.orig/src/FDM/YASim/proptest.cpp	Sat Nov 17 09:37:45 2007
++++ FlightGear-1.0.0/src/FDM/YASim/proptest.cpp	Mon Nov 17 23:03:19 2008
+@@ -20,8 +20,8 @@
+ SGPropertyNode* fgGetNode (const char * path, bool create) { return 0; }
+ SGPropertyNode* fgGetNode (const char * path, int i, bool create) { return 0; }
+ float fgGetFloat (const char * name, float defaultValue) { return 0; }
+-float fgGetDouble (const char * name, double defaultValue) { return 0; }
+-float fgSetDouble (const char * name, double defaultValue) { return 0; }
++double fgGetDouble (const char * name, double defaultValue) { return 0; }
++bool fgSetDouble (const char * name, double defaultValue) { return 0; }
+ 
+ static const float KTS2MPS = 0.514444444444;
+ static const float RPM2RAD = 0.10471975512;
+diff -ru FlightGear-1.0.0.orig/src/GUI/new_gui.cxx FlightGear-1.0.0/src/GUI/new_gui.cxx
+--- FlightGear-1.0.0.orig/src/GUI/new_gui.cxx	Sat Nov 17 09:37:45 2007
++++ FlightGear-1.0.0/src/GUI/new_gui.cxx	Tue Nov 18 02:06:19 2008
+@@ -417,7 +417,7 @@
+ 
+ FGFontCache::~FGFontCache()
+ {
+-   map<const string, fnt *>::iterator it, end = _fonts.end();
++   map<string, fnt *>::iterator it, end = _fonts.end();
+    for (it = _fonts.begin(); it != end; ++it)
+        delete it->second;
+ }
+diff -ru FlightGear-1.0.0.orig/src/GUI/new_gui.hxx FlightGear-1.0.0/src/GUI/new_gui.hxx
+--- FlightGear-1.0.0.orig/src/GUI/new_gui.hxx	Sat Nov 17 09:37:45 2007
++++ FlightGear-1.0.0/src/GUI/new_gui.hxx	Tue Nov 18 02:01:23 2008
+@@ -292,6 +292,14 @@
+  * This also assures a font isn't resident more than once.
+  */
+ class FGFontCache {
++public:
++    FGFontCache();
++    ~FGFontCache();
++
++    puFont *get(const char *name, float size=15.0, float slant=0.0);
++    puFont *get(SGPropertyNode *node);
++
++    fntTexFont *getTexFont(const char *name, float size=15.0, float slant=0.0);
+ private:
+     struct fnt {
+         fnt(puFont *pu = 0) : pufont(pu), texfont(0) {}
+@@ -298,22 +306,14 @@
+         ~fnt() { if (texfont) { delete pufont; delete texfont; } }
+         puFont *pufont;
+         fntTexFont *texfont;
+-    };
++    } ;
+     SGPath _path;
+ 
+-    map<const string,fnt *> _fonts;
+-    typedef map<const string,fnt *>::const_iterator _itt_t;
++    map<string, fnt *> _fonts;
++    typedef map<string, fnt* >::const_iterator _itt_t;
+     bool _initialized;
+     struct fnt *getfnt(const char *name, float size, float slant);
+ 
+-public:
+-    FGFontCache();
+-    ~FGFontCache();
+-
+-    puFont *get(const char *name, float size=15.0, float slant=0.0);
+-    puFont *get(SGPropertyNode *node);
+-
+-    fntTexFont *getTexFont(const char *name, float size=15.0, float slant=0.0);
+ };
+ 
+ 
+diff -ru FlightGear-1.0.0.orig/src/Sound/beacon.hxx FlightGear-1.0.0/src/Sound/beacon.hxx
+--- FlightGear-1.0.0.orig/src/Sound/beacon.hxx	Tue Feb 21 02:20:04 2006
++++ FlightGear-1.0.0/src/Sound/beacon.hxx	Mon Nov 17 23:43:30 2008
+@@ -85,10 +85,14 @@
+ static const int MIDDLE_SIZE = (int)(BYTES_PER_SECOND * 60 / 95 );
+ static const int OUTER_SIZE = BYTES_PER_SECOND;
+ 
+-static const int INNER_DIT_LEN = (int)(BYTES_PER_SECOND / 6.0);
+-static const int MIDDLE_DIT_LEN = (int)(MIDDLE_SIZE / 3.0);
+-static const int MIDDLE_DAH_LEN = (int)(MIDDLE_SIZE * 2 / 3.0);
+-static const int OUTER_DAH_LEN = (int)(BYTES_PER_SECOND / 2.0);
++//static const int INNER_DIT_LEN = (int)(BYTES_PER_SECOND / 6.0);
++//static const int MIDDLE_DIT_LEN = (int)(MIDDLE_SIZE / 3.0);
++//static const int MIDDLE_DAH_LEN = (int)(MIDDLE_SIZE * 2 / 3.0);
++//static const int OUTER_DAH_LEN = (int)(BYTES_PER_SECOND / 2.0);
++#define  INNER_DIT_LEN  (BYTES_PER_SECOND / 6)
++#define  MIDDLE_DIT_LEN  (MIDDLE_SIZE / 3)
++#define  MIDDLE_DAH_LEN  (MIDDLE_SIZE * 2 / 3)
++#define  OUTER_DAH_LEN  (BYTES_PER_SECOND / 2)
+ 
+ // manages everything we need to know for an individual sound sample
+ class FGBeacon {
