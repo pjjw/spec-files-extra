@@ -1,5 +1,9 @@
 2008-11-20  Gilles Dauphin <dauphin@enst.fr>
 
+	* SFEgpac with Studio12 and new freeglut
+
+2008-11-20  Gilles Dauphin <dauphin@enst.fr>
+
 	* SFEFlightGear.spec
 	* patches/FlightGear-01.diff
 	* patches/freeglut260-01.diff
