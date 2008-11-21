@@ -12,10 +12,7 @@ Summary:             Open Source multimedia framework
 Version:             0.4.4
 URL:                 http://gpac.sourceforge.net/
 Source:              http://%{sf_mirror}/%{src_name}/%{src_name}-%{version}.tar.gz
-Patch1:		     gpac-01-libs.diff
-Patch2:		     gpac-02-gcc.diff
-Patch3:		     gpac-03-install.diff
-Patch4:		     gpac-04-inaddr.diff
+Patch1:		     gpac-new-01.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -26,8 +23,10 @@ Requires: SFElibmad
 BuildRequires: SFEfaad2-devel
 Requires: SFEfaad2
 Requires: SUNWfreetype2
-BuildRequires: SFEwxwidgets-gnu-devel
-Requires: SFEwxwidgets-gnu
+#BuildRequires: SFEwxwidgets-gnu-devel
+#Requires: SFEwxwidgets-gnu
+BuildRequires: SFEwxwidgets-devel
+Requires: SFEwxwidgets
 
 %package devel
 Summary:                 %{summary} - development files
@@ -39,9 +38,6 @@ Requires: %name
 unset P4PORT
 %setup -q -n gpac
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -49,22 +45,24 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
      CPUS=1
 fi
 
-export PATH=/usr/gnu/bin:$PATH
+#export PATH=/usr/gnu/bin:$PATH
 export LDFLAGS="%_ldflags"
-export LD_OPTIONS="-i -L/usr/gnu/lib -L/usr/X11/lib -R/usr/gnu/lib:/usr/X11/lib:/usr/sfw/lib"
-export CXX=g++
-RPM_OPT_FLAGS="-O4 -fPIC -DPIC -fno-omit-frame-pointer"
+#export LD_OPTIONS="-i -L/usr/gnu/lib -L/usr/X11/lib -R/usr/gnu/lib:/usr/X11/lib:/usr/sfw/lib"
+#export CXX=g++
+export CXX=CC
+#RPM_OPT_FLAGS="-O4 -fPIC -DPIC -fno-omit-frame-pointer"
+RPM_OPT_FLAGS="-KPIC -DPIC "
 
 chmod 755 ./configure
 ./configure --prefix=%{_prefix}		\
             --mandir=%{_mandir}		\
-	    --cc=gcc			\
-	    --extra-ldflags="-fPIC"	\
+	    --cc=cc			\
+	    --extra-ldflags="-KPIC"	\
 	    --extra-libs="-lrt -lm"	\
 	    --disable-opt		\
 	    --mozdir=/usr/lib/firefox	\
 	    --extra-cflags="$RPM_OPT_FLAGS"
-echo "CXX=g++" >> config.mak
+echo "CXX=CC" >> config.mak
 make
 
 %install
@@ -92,6 +90,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Fri Nov 21 2008 - dauphin@enst.fr
+- gpac with Studio12 and new freeglut
+- TODO: check ffmepg option (build with)
 * Tue Sep 02 2008 - halton.huo@sun.com
 - s/SFEfreetype/SUNWfreetype2
 * Thu Jun 19 2008 - river@wikimedia.org
