@@ -1,3 +1,9 @@
+2008-11-21  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEsimplejson.spec: Bump to 2.0.4.
+	* ext-sources/svc-gdm, ext-sources/gdm.xml:  Now use the method
+	  script for stopping the service.
+
 2008-11-20  Gilles Dauphin <dauphin@enst.fr>
 
 	* SFEgpac with Studio12 and new freeglut
@@ -108,7 +114,7 @@
 
 2008-11-13  Halton Huo <halton.huo@sun.com>
 
-	move gtk-vnc and vinagre to archive since they are now in spec-files
+	Move gtk-vnc and vinagre to archive since they are now in spec-files
 	* SFEgtk-vnc.spec:
 	* SFEvinagre.spec:
 	* base-specs/gtk-vnc.spec:
