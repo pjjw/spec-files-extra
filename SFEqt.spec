@@ -5,13 +5,13 @@
 
 %include Solaris.inc
 
-%define tarball_version 4.4.2
+%define tarball_version 4.4.3
 
 Name:                SFEqt
 Summary:             Cross-platform development framework/toolkit
 URL:                 http://trolltech.com/products/qt
 License:             GPL v2
-Version:             4.4.2
+Version:             4.4.3
 Source:              ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{tarball_version}.tar.bz2
 
 SUNW_BaseDir:        %{_basedir}
@@ -97,6 +97,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Sun Nov 11 2008 - dick@nagual.nl
+- Bump to 4.4.3
 * Sun Sep 21 2008 - dick@nagual.nl
 - Bump to 4.4.2
 * Tue May 13 2008 - nonsea@users.sourceforge.net
