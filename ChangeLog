@@ -1,3 +1,11 @@
+2008-11-24  Alexander Skwar <alexander@skwar.name>
+
+        * patches/qt-01-use_bash.diff: Qt doesn't build when
+	  sh is not bash - replace all /bin/sh calls with
+	  ones to /bin/bash
+	* SFEqt.spec: Use qt-01-use_bash; remove %tarball_version - %version
+	  is good enough.
+
 2008-11-11  Dick Hoogendijk <dick@nagual.nl>
 
 	* SFEqt.spec: bump to 4.4.3
