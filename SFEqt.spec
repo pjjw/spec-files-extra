@@ -5,14 +5,13 @@
 
 %include Solaris.inc
 
-%define tarball_version 4.4.3
-
 Name:                SFEqt
 Summary:             Cross-platform development framework/toolkit
 URL:                 http://trolltech.com/products/qt
 License:             GPL v2
 Version:             4.4.3
-Source:              ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{tarball_version}.tar.bz2
+Source:              ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.bz2
+Patch1:              qt-01-use_bash.diff
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -34,7 +33,8 @@ SUNW_BaseDir:   %{_basedir}
 Requires: %name
 
 %prep
-%setup -q -n qt-x11-opensource-src-%tarball_version
+%setup -q -n qt-x11-opensource-src-%version
+%patch1 -p10
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -97,6 +97,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Mon Nov 24 2008 - alexander@skwar.name
+- Add qt-01-use_bash.diff, which replaces all calls to sh with bash,
+  because Qt won't build when sh isn't bash.
+  Cf. http://markmail.org/message/hzb3fypsc5sopf2b ff. and there
+  http://markmail.org/message/l7yleonbjqnl7nfv
+- Remove tarball_version - version is good enough
 * Sun Nov 11 2008 - dick@nagual.nl
 - Bump to 4.4.3
 * Sun Sep 21 2008 - dick@nagual.nl
