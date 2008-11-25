@@ -3,21 +3,10 @@
 #
 # includes module(s): codeina
 #
-# Note that codeina does not seem to work fully on Solaris.  Running
-# codeina does start up a dialog asking me if I want to buy various
-# Fluendo plugins, but it does not seem to be aware of the fact that
-# on Solaris there are only a subset of plugins available.  Also,
-# when I set GST_INSTALL_PLUGINS_HELPER=/usr/bin/codeina, run a
-# program like totem, and try to play a file that has a Fluendo
-# plugin, it says "No products found to install".  Again I think
-# codeina needs some work to recognize that it is running on Solaris.
-#
-# Note there has not been a codeina tarball release, so downloading
-# from the URL specified in this spec-file will fail.  You need to
-# build a tarball by hand from SVN, and run autogen.sh.  Then run
-# "make dist" to create a tarball to build with.
-#
-# To access codeina from subversion:
+# Note there has not been a codeina tarball release.  You need to
+# build a tarball by hand from SVN, and run autogen.sh, then run
+# "make dist" to create a tarball to build with.  To access codeina
+# from subversion:
 #
 # svn co https://core.fluendo.com/gstreamer/svn/codeina/trunk/ codeina
 #
@@ -28,24 +17,20 @@
 %include Solaris.inc
 
 Name:		SFEcodeina
-Summary:	Codec Installe:w
+Summary:	Codec Installer
 Version:	0.10.3.1
-URL:		http://fedoraproject.org/wiki/Multimedia/Codeina
-# Note this URL does not work, there is not yet a codeina release.
-# See instructions at the top of the spec-file.
-#
-Source0:	http://fedoraproject.org/wiki/Multimedia/Codeina/codeina-%{version}.tar.bz2
-#owner:yippi date:2008-11-06 type:branding
+URL:		https://core.fluendo.com/gstreamer/trac/wiki/codeina
 # This patch is needed since we don't yet support Python 2.5 GNOME modules.
 # Once that is addressed, this patch can go away.
-Patch1:         codeina-01-fixpython.diff
 #owner:yippi date:2008-11-06 type:branding
+Patch1:         codeina-01-fixpython.diff
 # With Firefox 3.0, this patch is necessary since libgtkmozembed is no longer
 # shipped with Firefox.
+#owner:yippi date:2008-11-06 type:branding
 Patch2:         codeina-02-usexul.diff
-#owner:yippi date:2008-11-06 type:bug
 # This patch is needed for codeina to properly link in libnspr.so on Solaris.
 # Without this patch codeina crashes on the credit-card page.
+#owner:yippi date:2008-11-06 type:bug
 Patch3:         codeina-03-fixnspr.diff
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/codeina-%{version}-build
@@ -66,9 +51,7 @@ BuildRequires:  SUNWpython-twisted
 %include default-depend.inc
 
 %description
-Codeina informs the user about the value of open formats and can optionally
-function as a codec installer for gstreamer applications such as Totem that
-currently installs Fluendo codecs.
+Codeina functions as a codec installer for GStreamer applications.
 
 %package root
 Summary:                 %{summary} - / filesystem
@@ -163,6 +146,8 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Nov 25 2008 - brian.cameron@sun.com
+- Clean up spec-file
 * Mon Nov 10 2008 - brian.cameron@sun.com
 - Codeina depends on Twisted, so list it as a dependency.
 * Wed Nov 05 2008 - brian.cameron@sun.com
