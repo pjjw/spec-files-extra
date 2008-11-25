@@ -16,12 +16,13 @@
 
 %include Solaris.inc
 
-Name:		SFEcodeina
-Summary:	Codec Installer
-Version:	0.10.3.1
-URL:		https://core.fluendo.com/gstreamer/trac/wiki/codeina
-# This patch is needed since we don't yet support Python 2.5 GNOME modules.
-# Once that is addressed, this patch can go away.
+Name:           SFEcodeina
+Summary:        Codec Installer
+URL:            https://core.fluendo.com/gstreamer/trac/wiki/codeina
+Version:        0.10.3.1
+Source:         codeina-%{version}.tar.bz2
+# This patch is needed since we do not yet support PyOpenSSL with
+# Python 2.5 on Solaris.
 #owner:yippi date:2008-11-06 type:branding
 Patch1:         codeina-01-fixpython.diff
 # With Firefox 3.0, this patch is necessary since libgtkmozembed is no longer
@@ -34,18 +35,18 @@ Patch2:         codeina-02-usexul.diff
 Patch3:         codeina-03-fixnspr.diff
 SUNW_BaseDir:   %{_basedir}
 BuildRoot:      %{_tmppath}/codeina-%{version}-build
-Requires:	SUNWgnome-python-libs
-Requires:	SUNWgnome-media
-Requires:	SUNWgst-python
-Requires:	SFEpyopenssl
-Requires:	SFEpyyaml
-Requires:	SUNWpython-notify
+Requires:       SUNWgnome-python-libs
+Requires:       SUNWgnome-media
+Requires:       SUNWgst-python
+Requires:       SFEpyopenssl
+Requires:       SFEpyyaml
+Requires:       SUNWpython-notify
 Requires:       SUNWpython-twisted
-BuildRequires:	SUNWPython-devel >= %{pythonver}
-BuildRequires:	SUNWgst-python
-BuildRequires:	SFEpyyaml
-BuildRequires:	SUNWpython-notify
-BuildRequires:	SFEpyopenssl
+BuildRequires:  SUNWPython-devel >= %{pythonver}
+BuildRequires:  SUNWgst-python
+BuildRequires:  SFEpyyaml
+BuildRequires:  SUNWpython-notify
+BuildRequires:  SFEpyopenssl
 BuildRequires:  SUNWpython-twisted
 
 %include default-depend.inc
@@ -69,14 +70,13 @@ Requires:                %{name}
 %endif
 
 %prep
-%setup -q -n codeina-%version
+%setup -q -n codeina-%{version}
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 
 %build
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
-
 intltoolize --copy --force --automake
 aclocal $ACLOCAL_FLAGS -I common/m4
 autoconf
@@ -112,7 +112,7 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/omf/*/*-??_??.omf
 %endif
 
 %clean
-rm -rf %{buildroot}
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,bin)
