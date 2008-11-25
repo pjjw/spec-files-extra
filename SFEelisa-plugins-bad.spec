@@ -6,7 +6,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa-plugins-bad
-%define version 0.5.18
+%define version 0.5.19
 
 %include Solaris.inc
 
@@ -84,6 +84,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa_plugin_*.egg-info
 
 %changelog
+* Mon Nov 24 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.5.19.
 * Mon Nov 17 2008 Brian Cameron  <brian.cameron@sun.com>
 - Bump to 0.5.18.  Add patch elisa-plugins-bad-02-fixcrash.diff to address
   crashing problem on startup.  It seems elisa isn't properly identifying 

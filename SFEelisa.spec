@@ -11,7 +11,7 @@
 # bugdb: https://bugs.launchpad.net/elisa
 #
 %define name elisa
-%define version 0.5.18
+%define version 0.5.19
 
 %include Solaris.inc
 
@@ -112,6 +112,8 @@ test -x $PKG_INSTALL_ROOT/usr/lib/postrun || exit 0
 %{_libdir}/python%{pythonver}/vendor-packages/elisa-*-py%{pythonver}-nspkg.pth
 
 %changelog
+* Mon Nov 24 2008 Brian Cameron  <brian.cameron@sun.com>
+- Bump to 0.5.19.
 * Wed Nov 19 2008 Jerry Yu <jijun.yu@sun.com>
 - Rollback to 0.5.18.
 * Wed Nov 19 2008 Jerry Yu <jijun.yu@sun.com>

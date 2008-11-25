@@ -1,3 +1,8 @@
+2008-11-24  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEelisa.spec, SFE-elisa-plugins-good.spec,
+	  SFE-elisa-plugins-bad.spec:  Bump to 0.5.19.
+
 2008-11-24  Alexander Skwar <alexander@skwar.name>
 
         * patches/qt-01-use_bash.diff: Qt doesn't build when
