@@ -1,0 +1,34 @@
+--- Makefile.orig	Mon Nov 24 23:37:23 2008
++++ Makefile	Mon Nov 24 23:40:14 2008
+@@ -61,11 +61,11 @@
+    LIBS=-L/usr/local/lib -L. -lelf -lpthread
+ else
+ ifeq ($(shell uname -s), SunOS)
+-   CFLAGS+=-I/usr/local/include -DINADDR_NONE=0xFFFFFFFF \
+-	-I /opt/csw/include -DSUNOS
+-   LIBS=-L/usr/local/lib -L. -lelf -lpthread -L/opt/csw/lib \
++   CFLAGS+=-DINADDR_NONE=0xFFFFFFFF \
++	-DSUNOS
++   LIBS=-L. -lelf -lpthread \
+ 	-lsocket -lnsl -lresolv
+-   PCAP_LIB=/opt/csw/lib/libpcap.a
++   PCAP_LIB=/usr/lib/libpcap.a
+ else
+ ifeq ($(shell uname -o), Cygwin)
+    CFLAGS+=-I/usr/local/include -I/usr/local/include/libelf -DCYGWIN \
+@@ -231,11 +231,11 @@
+ 
+ install: $(PROG) nvram_export
+ 	@echo "Installing"
+-	install -d $(DESTDIR)/bin $(DESTDIR)/man/man1 $(DESTDIR)/man/man7 $(DESTDIR)/etc
++	install -d $(DESTDIR)/bin $(DESTDIR)/share/man/man1 $(DESTDIR)/share/man/man7 $(DESTDIR)/etc
+ 	install dynamips nvram_export   $(DESTDIR)/bin
+-	install -m644 dynamips.1        $(DESTDIR)/man/man1
+-	install -m644 nvram_export.1    $(DESTDIR)/man/man1
+-	install -m644 hypervisor_mode.7 $(DESTDIR)/man/man7
++	install -m644 dynamips.1        $(DESTDIR)/share/man/man1
++	install -m644 nvram_export.1    $(DESTDIR)/share/man/man1
++	install -m644 hypervisor_mode.7 $(DESTDIR)/share/man/man7
+ # install -m644 example         $(DESTDIR)/etc/dynamips
+ 
+ 
