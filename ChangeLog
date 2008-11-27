@@ -1,3 +1,14 @@
+2008-11-27  set REAL_NAME environment variable  <set EMAIL_ADDRESS environment variable>
+
+	* SFEelisa-plugins-bad.spec:
+	* SFEelisa-plugins-good.spec:
+	* SFEelisa.spec:
+	* patches/elisa-01-fixlocale.diff:
+	* patches/elisa-plugins-bad-01-rm-plugins.diff:
+	* patches/elisa-plugins-bad-02-fixcrash.diff:
+	* patches/elisa-plugins-good-01-rm-plugins.diff:
+	 move to spec-files-other.
+
 2008-11-24  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEelisa.spec, SFE-elisa-plugins-good.spec,
