@@ -1,0 +1,22 @@
+--- /opt/jdsbld/share/aclocal/libtool.m4.orig	2008-11-20 21:58:29.255125659 +0800
++++ /opt/jdsbld/share/aclocal/libtool.m4	2008-11-20 21:58:41.997665231 +0800
+@@ -3878,7 +3878,7 @@
+     # Adding this requires a known-good setup of shared libraries for
+     # Sun compiler versions before 5.6, else PIC objects from an old
+     # archive will be linked into the output, leading to subtle bugs.
+-    _LT_AC_TAGVAR(postdeps,$1)='-lCstd -lCrun'
++    _LT_AC_TAGVAR(postdeps,$1)='-lCrun'
+     ;;
+   esac
+   ;;
+--- /opt/jdsbld/bin/automake.orig	2008-11-20 21:59:57.388816008 +0800
++++ /opt/jdsbld/bin/automake	2008-11-20 22:00:16.786306885 +0800
+@@ -703,7 +703,7 @@
+ 		   'compiler' => 'COMPILE',
+ 		   'compile' => '$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)',
+ 		   'lder' => 'CCLD',
+-		   'ld' => '$(CC)',
++		   'ld' => '$(CXX)',
+ 		   'linker' => 'LINK',
+ 		   'link' => '$(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@',
+ 		   'compile_flag' => '-c',

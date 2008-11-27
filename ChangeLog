@@ -1,3 +1,10 @@
+2008-11-27  Alfred Peng  <alfred.peng@sun.com>
+
+	* SFEwebkit.spec: new spec
+	* patches/cbe-for-webkit-with-stdcxx.patch: added
+	* patches/webkit-01-sun-studio-build-hack.diff: added
+	* patches/webkit-02-explicit-const.diff: added
+
 2008-11-27  set REAL_NAME environment variable  <set EMAIL_ADDRESS environment variable>
 
 	* SFEelisa-plugins-bad.spec:

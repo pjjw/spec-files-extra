@@ -1,0 +1,909 @@
+Index: JavaScriptCore/GNUmakefile.am
+===================================================================
+--- JavaScriptCore/GNUmakefile.am	(revision 38549)
++++ JavaScriptCore/GNUmakefile.am	(working copy)
+@@ -450,15 +450,14 @@
+ 	$(javascriptcore_cppflags)
+ 
+ Programs_minidom_CFLAGS = \
+-	-fno-strict-aliasing \
+-	-O2 \
++	-xO2 \
+ 	$(global_cflags) \
+ 	$(GLOBALDEPS_CFLAGS)
+ 
+ Programs_minidom_LDADD = \
+ 	 libJavaScriptCore.la \
+-	 -lm \
+-	 -lstdc++
++	 -lm
++	 -lstd
+ 
+ # jsc
+ Programs_jsc_SOURCES = \
+@@ -469,8 +468,7 @@
+ 	$(javascriptcore_cppflags)
+ 
+ Programs_jsc_CXXFLAGS = \
+-	-fno-strict-aliasing \
+-	-O2 \
++	-xO2 \
+ 	$(global_cxxflags) \
+ 	$(global_cflags) \
+ 	$(GLOBALDEPS_CFLAGS) \
+Index: JavaScriptCore/bytecompiler/BytecodeGenerator.cpp
+===================================================================
+--- JavaScriptCore/bytecompiler/BytecodeGenerator.cpp	(revision 38549)
++++ JavaScriptCore/bytecompiler/BytecodeGenerator.cpp	(working copy)
+@@ -481,7 +481,7 @@
+         m_labelScopes.removeLast();
+ 
+     // Allocate new label scope.
+-    LabelScope scope(type, name, scopeDepth(), newLabel(), type == LabelScope::Loop ? newLabel() : 0); // Only loops have continue targets.
++    LabelScope scope(type, name, scopeDepth(), newLabel(), type == LabelScope::Loop ? newLabel() : (WTF::PassRefPtr<JSC::Label>)0); // Only loops have continue targets.
+     m_labelScopes.append(scope);
+     return &m_labelScopes.last();
+ }
+Index: JavaScriptCore/wtf/TCSystemAlloc.cpp
+===================================================================
+--- JavaScriptCore/wtf/TCSystemAlloc.cpp	(revision 38549)
++++ JavaScriptCore/wtf/TCSystemAlloc.cpp	(working copy)
+@@ -195,10 +195,10 @@
+ 
+   // Return the unused memory to the system
+   if (adjust > 0) {
+-    munmap(reinterpret_cast<void*>(ptr), adjust);
++    munmap(reinterpret_cast<char*>(ptr), adjust);
+   }
+   if (adjust < extra) {
+-    munmap(reinterpret_cast<void*>(ptr + adjust + size), extra - adjust);
++    munmap(reinterpret_cast<char*>(ptr + adjust + size), extra - adjust);
+   }
+ 
+   ptr += adjust;
+@@ -429,7 +429,7 @@
+ #endif
+ 
+ #if HAVE(MMAP)
+-  void *newAddress = mmap(start, length, cProtFlags, MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0);
++  void *newAddress = mmap((char *)start, length, cProtFlags, MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0);
+   UNUSED_PARAM(newAddress);
+   // If the mmap failed then that's ok, we just won't return the memory to the system.
+   ASSERT(newAddress == start || newAddress == reinterpret_cast<void*>(MAP_FAILED));
+Index: JavaScriptCore/wtf/Platform.h
+===================================================================
+--- JavaScriptCore/wtf/Platform.h	(revision 38549)
++++ JavaScriptCore/wtf/Platform.h	(working copy)
+@@ -225,6 +225,11 @@
+ #define WTF_COMPILER_GCC 1
+ #endif
+ 
++/* COMPILER(SUNCC) */
++#if defined(__SUNPRO_C) || defined(__SUNPRO_CC)
++#define WTF_COMPILER_SUNCC 1
++#endif
++
+ /* COMPILER(MINGW) */
+ #if defined(MINGW) || defined(__MINGW32__)
+ #define WTF_COMPILER_MINGW 1
+Index: JavaScriptCore/wtf/Vector.h
+===================================================================
+--- JavaScriptCore/wtf/Vector.h	(revision 38549)
++++ JavaScriptCore/wtf/Vector.h	(working copy)
+@@ -37,7 +37,7 @@
+     using std::max;
+ 
+     // WTF_ALIGN_OF / WTF_ALIGNED
+-    #if COMPILER(GCC) || COMPILER(MINGW) || COMPILER(RVCT) || COMPILER(WINSCW)
++    #if COMPILER(GCC) || COMPILER(MINGW) || COMPILER(RVCT) || COMPILER(WINSCW) || COMPILER(SUNCC)
+         #define WTF_ALIGN_OF(type) __alignof__(type)
+         #define WTF_ALIGNED(variable_type, variable, n) variable_type variable __attribute__((__aligned__(n)))
+     #elif COMPILER(MSVC)
+Index: JavaScriptCore/interpreter/RegisterFile.cpp
+===================================================================
+--- JavaScriptCore/interpreter/RegisterFile.cpp	(revision 38549)
++++ JavaScriptCore/interpreter/RegisterFile.cpp	(working copy)
+@@ -34,7 +34,7 @@
+ RegisterFile::~RegisterFile()
+ {
+ #if HAVE(MMAP)
+-    munmap(m_buffer, ((m_max - m_start) + m_maxGlobals) * sizeof(Register));
++    munmap((char *)m_buffer, ((m_max - m_start) + m_maxGlobals) * sizeof(Register));
+ #elif HAVE(VIRTUALALLOC)
+     // FIXME: Use VirtualFree.
+     fastFree(m_buffer);
+Index: JavaScriptCore/interpreter/RegisterFile.h
+===================================================================
+--- JavaScriptCore/interpreter/RegisterFile.h	(revision 38549)
++++ JavaScriptCore/interpreter/RegisterFile.h	(working copy)
+@@ -120,7 +120,7 @@
+         {
+             size_t bufferLength = (capacity + maxGlobals) * sizeof(Register);
+ #if HAVE(MMAP)
+-            m_buffer = static_cast<Register*>(mmap(0, bufferLength, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANON, -1, 0));
++            m_buffer = reinterpret_cast<Register*>(mmap(0, bufferLength, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANON, -1, 0));
+             ASSERT(reinterpret_cast<intptr_t>(m_buffer) != -1);
+ #elif HAVE(VIRTUALALLOC)
+             // FIXME: Use VirtualAlloc, and commit pages as we go.
+Index: JavaScriptCore/jit/JIT.cpp
+===================================================================
+--- JavaScriptCore/jit/JIT.cpp	(revision 38549)
++++ JavaScriptCore/jit/JIT.cpp	(working copy)
+@@ -95,7 +95,7 @@
+ COMPILE_ASSERT(CTI_ARGS_code == 0xC, CTI_ARGS_code_is_C);
+ COMPILE_ASSERT(CTI_ARGS_callFrame == 0xE, CTI_ARGS_callFrame_is_E);
+ 
+-#if COMPILER(GCC) && PLATFORM(X86)
++#if (COMPILER(GCC) || COMPILER(SUNCC)) && PLATFORM(X86)
+ 
+ #if PLATFORM(DARWIN)
+ #define SYMBOL_STRING(name) "_" #name
+Index: JavaScriptCore/jit/JIT.h
+===================================================================
+--- JavaScriptCore/jit/JIT.h	(revision 38549)
++++ JavaScriptCore/jit/JIT.h	(working copy)
+@@ -88,7 +88,7 @@
+ 
+ #if COMPILER(MSVC)
+ #define FASTCALL __fastcall
+-#elif COMPILER(GCC)
++#elif COMPILER(GCC) || COMPILER(SUNCC)
+ #define FASTCALL  __attribute__ ((fastcall))
+ #else
+ #error Need to support fastcall calling convention in this compiler
+Index: JavaScriptCore/pcre/pcre_exec.cpp
+===================================================================
+--- JavaScriptCore/pcre/pcre_exec.cpp	(revision 38549)
++++ JavaScriptCore/pcre/pcre_exec.cpp	(working copy)
+@@ -1820,8 +1820,8 @@
+         case 24: goto RRETURN_24;
+         case 26: goto RRETURN_26;
+         case 27: goto RRETURN_27;
+-        case 28: goto RRETURN_28;
+-        case 29: goto RRETURN_29;
++//        case 28: goto RRETURN_28;
++//        case 29: goto RRETURN_29;
+         case 30: goto RRETURN_30;
+         case 31: goto RRETURN_31;
+         case 38: goto RRETURN_38;
+Index: GNUmakefile.am
+===================================================================
+--- GNUmakefile.am	(revision 38549)
++++ GNUmakefile.am	(working copy)
+@@ -54,22 +54,24 @@
+ 	-DWTF_USE_ICU_UNICODE=1
+ 
+ # Default compiler flags
+-global_cflags := \
+-	-Wall -W -Wcast-align -Wchar-subscripts -Wreturn-type \
+-	-Wformat -Wformat-security -Wno-format-y2k -Wundef \
+-	-Wmissing-format-attribute -Wpointer-arith -Wwrite-strings \
+-	-Wno-unused-parameter -Wno-parentheses \
+-	-fno-exceptions
++#global_cflags := \
++#	-Wall -W -Wcast-align -Wchar-subscripts -Wreturn-type \
++#	-Wformat -Wformat-security -Wno-format-y2k -Wundef \
++#	-Wmissing-format-attribute -Wpointer-arith -Wwrite-strings \
++#	-Wno-unused-parameter -Wno-parentheses \
++#	-fno-exceptions
+ 
+-global_cxxflags := \
+-	$(SYMBOL_VISIBILITY_INLINES) \
+-	-fno-rtti
++global_cflags :=
+ 
+-if !ENABLE_DEBUG
+-global_cflags += \
+-	$(SYMBOL_VISIBILITY)
+-endif
++global_cxxflags :=
++#	$(SYMBOL_VISIBILITY_INLINES)
++#	-fno-rtti
+ 
++#if !ENABLE_DEBUG
++#global_cflags += \
++#	$(SYMBOL_VISIBILITY)
++#endif
++
+ # -no-undefined required for building DLLs on Windows
+ # It breaks the build on other platforms, so we use it conditionally
+ if OS_WIN32
+@@ -129,8 +131,7 @@
+ 	$(libJavaScriptCore_la_CFLAGS)
+ 
+ libJavaScriptCore_la_CFLAGS = \
+-	-fstrict-aliasing \
+-	-O3 \
++	-xO3 \
+ 	$(global_cflags) \
+ 	$(GLOBALDEPS_CFLAGS) \
+ 	$(UNICODE_CFLAGS)
+@@ -165,7 +166,6 @@
+ 	$(libWebCore_la_CFLAGS)
+ 
+ libWebCore_la_CFLAGS = \
+-	-fno-strict-aliasing \
+ 	$(global_cflags) \
+ 	$(GLOBALDEPS_CFLAGS) \
+ 	$(UNICODE_CFLAGS) \
+Index: WebCore/dom/NodeRenderStyle.h
+===================================================================
+--- WebCore/dom/NodeRenderStyle.h	(revision 38549)
++++ WebCore/dom/NodeRenderStyle.h	(working copy)
+@@ -33,7 +33,7 @@
+ 
+ inline RenderStyle* Node::renderStyle() const
+ {
+-    return m_renderer ? m_renderer->style() : nonRendererRenderStyle();
++    return m_renderer ? (RenderStyle*)m_renderer->style() : nonRendererRenderStyle();
+ }
+ 
+ }
+Index: WebCore/dom/XMLTokenizerLibxml2.cpp
+===================================================================
+--- WebCore/dom/XMLTokenizerLibxml2.cpp	(revision 38549)
++++ WebCore/dom/XMLTokenizerLibxml2.cpp	(working copy)
+@@ -835,7 +835,7 @@
+     if (m_parserStopped)
+         return;
+ 
+-#if PLATFORM(WIN_OS)
++#if PLATFORM(WIN_OS) || PLATFORM(SOLARIS)
+     char m[1024];
+     vsnprintf(m, sizeof(m) - 1, message, args);
+ #else
+Index: WebCore/plugins/npapi.cpp
+===================================================================
+--- WebCore/plugins/npapi.cpp	(revision 38549)
++++ WebCore/plugins/npapi.cpp	(working copy)
+@@ -171,7 +171,9 @@
+     pluginViewForInstance(instance)->popPopupsEnabledState();
+ }
+ 
++U_CDECL_BEGIN
+ void NPN_PluginThreadAsyncCall(NPP instance, void (*func) (void *), void *userData)
+ {
+     PluginMainThreadScheduler::scheduler().scheduleCall(instance, func, userData);
+ }
++U_CDECL_END
+Index: WebCore/editing/CompositeEditCommand.cpp
+===================================================================
+--- WebCore/editing/CompositeEditCommand.cpp	(revision 38549)
++++ WebCore/editing/CompositeEditCommand.cpp	(working copy)
+@@ -774,7 +774,7 @@
+ 
+     // FIXME: This is an inefficient way to preserve style on nodes in the paragraph to move.  It 
+     // shouldn't matter though, since moved paragraphs will usually be quite small.
+-    RefPtr<DocumentFragment> fragment = startOfParagraphToMove != endOfParagraphToMove ? createFragmentFromMarkup(document(), createMarkup(range.get(), 0, DoNotAnnotateForInterchange, true), "") : 0;
++    RefPtr<DocumentFragment> fragment = startOfParagraphToMove != endOfParagraphToMove ? createFragmentFromMarkup(document(), createMarkup(range.get(), 0, DoNotAnnotateForInterchange, true), "") : (WTF::PassRefPtr<WebCore::DocumentFragment>)0;
+     
+     // A non-empty paragraph's style is moved when we copy and move it.  We don't move 
+     // anything if we're given an empty paragraph, but an empty paragraph can have style
+Index: WebCore/page/animation/AnimationBase.cpp
+===================================================================
+--- WebCore/page/animation/AnimationBase.cpp	(revision 38549)
++++ WebCore/page/animation/AnimationBase.cpp	(working copy)
+@@ -121,7 +121,7 @@
+         for (unsigned i = 0; i < size; i++) {
+             RefPtr<TransformOperation> fromOp = (i < fromSize) ? from.operations()[i].get() : 0;
+             RefPtr<TransformOperation> toOp = (i < toSize) ? to.operations()[i].get() : 0;
+-            RefPtr<TransformOperation> blendedOp = toOp ? toOp->blend(fromOp.get(), progress) : (fromOp ? fromOp->blend(0, progress, true) : 0);
++            RefPtr<TransformOperation> blendedOp = toOp ? toOp->blend(fromOp.get(), progress) : (fromOp ? fromOp->blend(0, progress, true) : (WTF::PassRefPtr<WebCore::TransformOperation>)0);
+             if (blendedOp)
+                 result.operations().append(blendedOp);
+             else {
+Index: WebCore/page/DOMWindow.cpp
+===================================================================
+--- WebCore/page/DOMWindow.cpp	(revision 38549)
++++ WebCore/page/DOMWindow.cpp	(working copy)
+@@ -346,7 +346,7 @@
+         return 0;
+ 
+     LocalStorage* localStorage = page->group().localStorage();
+-    RefPtr<StorageArea> storageArea = localStorage ? localStorage->storageArea(m_frame, document->securityOrigin()) : 0; 
++    RefPtr<StorageArea> storageArea = localStorage ? localStorage->storageArea(m_frame, document->securityOrigin()) : (WTF::PassRefPtr<WebCore::StorageArea>)0; 
+     if (storageArea)
+         m_localStorage = Storage::create(m_frame, storageArea.release());
+ 
+Index: WebCore/platform/text/TextCodecICU.cpp
+===================================================================
+--- WebCore/platform/text/TextCodecICU.cpp	(revision 38549)
++++ WebCore/platform/text/TextCodecICU.cpp	(working copy)
+@@ -345,6 +345,8 @@
+     }
+ }
+ 
++U_CDECL_BEGIN
++
+ // Invalid character handler when writing escaped entities for unrepresentable
+ // characters. See the declaration of TextCodec::encode for more.
+ static void urlEscapedEntityCallback(const void* context, UConverterFromUnicodeArgs* fromUArgs, const UChar* codeUnits, int32_t length,
+@@ -404,6 +406,8 @@
+     UCNV_FROM_U_CALLBACK_SUBSTITUTE(context, fromUArgs, codeUnits, length, codePoint, reason, err);
+ }
+ 
++U_CDECL_END
++
+ CString TextCodecICU::encode(const UChar* characters, size_t length, UnencodableHandling handling)
+ {
+     if (!length)
+Index: WebCore/svg/SVGFilterPrimitiveStandardAttributes.cpp
+===================================================================
+--- WebCore/svg/SVGFilterPrimitiveStandardAttributes.cpp	(revision 38778)
++++ WebCore/svg/SVGFilterPrimitiveStandardAttributes.cpp	(working copy)
+@@ -34,7 +34,7 @@
+ 
+ namespace WebCore {
+ 
+-char SVGFilterPrimitiveStandardAttributesIdentifierIdentifier[] = "SVGFilterPrimitiveStandardAttributesIdentifier";
++const char SVGFilterPrimitiveStandardAttributesIdentifierIdentifier[] = "SVGFilterPrimitiveStandardAttributesIdentifier";
+ 
+ SVGFilterPrimitiveStandardAttributes::SVGFilterPrimitiveStandardAttributes(const QualifiedName& tagName, Document* doc)
+     : SVGStyledElement(tagName, doc)
+Index: WebCore/svg/SVGURIReference.cpp
+===================================================================
+--- WebCore/svg/SVGURIReference.cpp	(revision 38778)
++++ WebCore/svg/SVGURIReference.cpp	(working copy)
+@@ -25,7 +25,7 @@
+ 
+ namespace WebCore {
+ 
+-char SVGURIReferenceIdentifier[] = "SVGURIReference";
++const char SVGURIReferenceIdentifier[] = "SVGURIReference";
+ 
+ SVGURIReference::SVGURIReference()
+     : m_href(this, XLinkNames::hrefAttr)
+Index: WebCore/svg/SVGComponentTransferFunctionElement.cpp
+===================================================================
+--- WebCore/svg/SVGComponentTransferFunctionElement.cpp	(revision 38778)
++++ WebCore/svg/SVGComponentTransferFunctionElement.cpp	(working copy)
+@@ -31,7 +31,7 @@
+ 
+ namespace WebCore {
+ 
+-char SVGComponentTransferFunctionElementIdentifier[] = "SVGComponentTransferFunctionElement";
++const char SVGComponentTransferFunctionElementIdentifier[] = "SVGComponentTransferFunctionElement";
+ 
+ SVGComponentTransferFunctionElement::SVGComponentTransferFunctionElement(const QualifiedName& tagName, Document* doc)
+     : SVGElement(tagName, doc)
+Index: WebCore/svg/SVGTextPositioningElement.cpp
+===================================================================
+--- WebCore/svg/SVGTextPositioningElement.cpp	(revision 38778)
++++ WebCore/svg/SVGTextPositioningElement.cpp	(working copy)
+@@ -31,7 +31,7 @@
+ 
+ namespace WebCore {
+ 
+-char SVGTextPositioningElementIdentifier[] = "SVGTextPositioningElement";
++const char SVGTextPositioningElementIdentifier[] = "SVGTextPositioningElement";
+ 
+ SVGTextPositioningElement::SVGTextPositioningElement(const QualifiedName& tagName, Document* doc)
+     : SVGTextContentElement(tagName, doc)
+Index: WebCore/svg/SVGFitToViewBox.cpp
+===================================================================
+--- WebCore/svg/SVGFitToViewBox.cpp	(revision 38778)
++++ WebCore/svg/SVGFitToViewBox.cpp	(working copy)
+@@ -35,7 +35,7 @@
+ 
+ namespace WebCore {
+ 
+-char SVGFitToViewBoxIdentifier[] = "SVGFitToViewBox";
++const char SVGFitToViewBoxIdentifier[] = "SVGFitToViewBox";
+ 
+ SVGFitToViewBox::SVGFitToViewBox()
+     : m_viewBox(this, SVGNames::viewBoxAttr)
+Index: WebCore/svg/SVGStyledTransformableElement.cpp
+===================================================================
+--- WebCore/svg/SVGStyledTransformableElement.cpp	(revision 38778)
++++ WebCore/svg/SVGStyledTransformableElement.cpp	(working copy)
+@@ -35,7 +35,7 @@
+ 
+ namespace WebCore {
+ 
+-char SVGStyledTransformableElementIdentifier[] = "SVGStyledTransformableElement";
++const char SVGStyledTransformableElementIdentifier[] = "SVGStyledTransformableElement";
+ 
+ SVGStyledTransformableElement::SVGStyledTransformableElement(const QualifiedName& tagName, Document* doc)
+     : SVGStyledLocatableElement(tagName, doc)
+Index: WebCore/svg/SVGFilterElement.cpp
+===================================================================
+--- WebCore/svg/SVGFilterElement.cpp	(revision 38778)
++++ WebCore/svg/SVGFilterElement.cpp	(working copy)
+@@ -35,8 +35,8 @@
+ 
+ namespace WebCore {
+ 
+-char SVGFilterResXIdentifier[] = "SVGFilterResX";
+-char SVGFilterResYIdentifier[] = "SVGFilterResY";
++const char SVGFilterResXIdentifier[] = "SVGFilterResX";
++const char SVGFilterResYIdentifier[] = "SVGFilterResY";
+ 
+ SVGFilterElement::SVGFilterElement(const QualifiedName& tagName, Document* doc)
+     : SVGStyledElement(tagName, doc)
+Index: WebCore/svg/SVGGradientElement.cpp
+===================================================================
+--- WebCore/svg/SVGGradientElement.cpp	(revision 38778)
++++ WebCore/svg/SVGGradientElement.cpp	(working copy)
+@@ -38,7 +38,7 @@
+ 
+ namespace WebCore {
+ 
+-char SVGGradientElementIdentifier[] = "SVGGradientElement";
++const char SVGGradientElementIdentifier[] = "SVGGradientElement";
+ 
+ SVGGradientElement::SVGGradientElement(const QualifiedName& tagName, Document* doc)
+     : SVGStyledElement(tagName, doc)
+Index: WebCore/svg/SVGExternalResourcesRequired.cpp
+===================================================================
+--- WebCore/svg/SVGExternalResourcesRequired.cpp	(revision 38778)
++++ WebCore/svg/SVGExternalResourcesRequired.cpp	(working copy)
+@@ -31,7 +31,7 @@
+ 
+ namespace WebCore {
+ 
+-char SVGExternalResourcesRequiredIdentifier[] = "SVGExternalResourcesRequired";
++const char SVGExternalResourcesRequiredIdentifier[] = "SVGExternalResourcesRequired";
+ 
+ SVGExternalResourcesRequired::SVGExternalResourcesRequired()
+     : m_externalResourcesRequired(this, SVGNames::externalResourcesRequiredAttr, false)
+Index: WebCore/svg/SVGStyledElement.h
+===================================================================
+--- WebCore/svg/SVGStyledElement.h	(revision 38778)
++++ WebCore/svg/SVGStyledElement.h	(working copy)
+@@ -30,7 +30,7 @@
+ 
+ namespace WebCore {
+ 
+-    extern char SVGStyledElementIdentifier[];
++    extern const char SVGStyledElementIdentifier[];
+     class SVGResource;
+ 
+     class SVGStyledElement : public SVGElement,
+Index: WebCore/svg/SVGTextPositioningElement.h
+===================================================================
+--- WebCore/svg/SVGTextPositioningElement.h	(revision 38778)
++++ WebCore/svg/SVGTextPositioningElement.h	(working copy)
+@@ -30,7 +30,7 @@
+ 
+ namespace WebCore {
+ 
+-    extern char SVGTextPositioningElementIdentifier[];
++    extern const char SVGTextPositioningElementIdentifier[];
+ 
+     class SVGTextPositioningElement : public SVGTextContentElement {
+     public:
+Index: WebCore/svg/SVGFitToViewBox.h
+===================================================================
+--- WebCore/svg/SVGFitToViewBox.h	(revision 38778)
++++ WebCore/svg/SVGFitToViewBox.h	(working copy)
+@@ -29,7 +29,7 @@
+ 
+ namespace WebCore {
+ 
+-    extern char SVGFitToViewBoxIdentifier[];
++    extern const char SVGFitToViewBoxIdentifier[];
+ 
+     class AffineTransform;
+ 
+Index: WebCore/svg/SVGTextContentElement.cpp
+===================================================================
+--- WebCore/svg/SVGTextContentElement.cpp	(revision 38778)
++++ WebCore/svg/SVGTextContentElement.cpp	(working copy)
+@@ -42,7 +42,7 @@
+ 
+ namespace WebCore {
+ 
+-char SVGTextContentElementIdentifier[] = "SVGTextContentElement";
++const char SVGTextContentElementIdentifier[] = "SVGTextContentElement";
+ 
+ SVGTextContentElement::SVGTextContentElement(const QualifiedName& tagName, Document* doc)
+     : SVGStyledElement(tagName, doc)
+Index: WebCore/svg/SVGMarkerElement.h
+===================================================================
+--- WebCore/svg/SVGMarkerElement.h	(revision 38778)
++++ WebCore/svg/SVGMarkerElement.h	(working copy)
+@@ -35,8 +35,8 @@
+     class Document;
+     class SVGAngle;
+ 
+-    extern char SVGOrientTypeAttrIdentifier[];
+-    extern char SVGOrientAngleAttrIdentifier[];
++    extern const char SVGOrientTypeAttrIdentifier[];
++    extern const char SVGOrientAngleAttrIdentifier[];
+ 
+     class SVGMarkerElement : public SVGStyledElement,
+                              public SVGLangSpace,
+Index: WebCore/svg/SVGMarkerElement.cpp
+===================================================================
+--- WebCore/svg/SVGMarkerElement.cpp	(revision 38778)
++++ WebCore/svg/SVGMarkerElement.cpp	(working copy)
+@@ -34,8 +34,8 @@
+ 
+ namespace WebCore {
+ 
+-char SVGOrientTypeAttrIdentifier[] = "SVGOrientTypeAttr";
+-char SVGOrientAngleAttrIdentifier[] = "SVGOrientAngleAttr";
++const char SVGOrientTypeAttrIdentifier[] = "SVGOrientTypeAttr";
++const char SVGOrientAngleAttrIdentifier[] = "SVGOrientAngleAttr";
+ 
+ SVGMarkerElement::SVGMarkerElement(const QualifiedName& tagName, Document* doc)
+     : SVGStyledElement(tagName, doc)
+Index: WebCore/svg/SVGGradientElement.h
+===================================================================
+--- WebCore/svg/SVGGradientElement.h	(revision 38778)
++++ WebCore/svg/SVGGradientElement.h	(working copy)
+@@ -32,7 +32,7 @@
+ 
+ namespace WebCore {
+ 
+-    extern char SVGGradientElementIdentifier[];
++    extern const char SVGGradientElementIdentifier[];
+ 
+     class SVGGradientElement : public SVGStyledElement,
+                                public SVGURIReference,
+Index: WebCore/svg/SVGURIReference.h
+===================================================================
+--- WebCore/svg/SVGURIReference.h	(revision 38778)
++++ WebCore/svg/SVGURIReference.h	(working copy)
+@@ -29,7 +29,7 @@
+ 
+ namespace WebCore {
+ 
+-    extern char SVGURIReferenceIdentifier[];
++    extern const char SVGURIReferenceIdentifier[];
+     class MappedAttribute;
+ 
+     class SVGURIReference {
+Index: WebCore/svg/SVGTextContentElement.h
+===================================================================
+--- WebCore/svg/SVGTextContentElement.h	(revision 38778)
++++ WebCore/svg/SVGTextContentElement.h	(working copy)
+@@ -31,7 +31,7 @@
+ 
+ namespace WebCore {
+ 
+-    extern char SVGTextContentElementIdentifier[];
++    extern const char SVGTextContentElementIdentifier[];
+ 
+     class SVGLength;
+ 
+Index: WebCore/svg/SVGFEDiffuseLightingElement.cpp
+===================================================================
+--- WebCore/svg/SVGFEDiffuseLightingElement.cpp	(revision 38778)
++++ WebCore/svg/SVGFEDiffuseLightingElement.cpp	(working copy)
+@@ -34,8 +34,8 @@
+ 
+ namespace WebCore {
+ 
+-char SVGKernelUnitLengthXIdentifier[] = "SVGKernelUnitLengthX";
+-char SVGKernelUnitLengthYIdentifier[] = "SVGKernelUnitLengthY";
++const char SVGKernelUnitLengthXIdentifier[] = "SVGKernelUnitLengthX";
++const char SVGKernelUnitLengthYIdentifier[] = "SVGKernelUnitLengthY";
+ 
+ SVGFEDiffuseLightingElement::SVGFEDiffuseLightingElement(const QualifiedName& tagName, Document* doc)
+     : SVGFilterPrimitiveStandardAttributes(tagName, doc)
+Index: WebCore/svg/SVGStyledTransformableElement.h
+===================================================================
+--- WebCore/svg/SVGStyledTransformableElement.h	(revision 38778)
++++ WebCore/svg/SVGStyledTransformableElement.h	(working copy)
+@@ -30,7 +30,7 @@
+ 
+ namespace WebCore {
+ 
+-    extern char SVGStyledTransformableElementIdentifier[];
++    extern const char SVGStyledTransformableElementIdentifier[];
+ 
+     class AffineTransform;
+ 
+Index: WebCore/svg/SVGStyledElement.cpp
+===================================================================
+--- WebCore/svg/SVGStyledElement.cpp	(revision 38778)
++++ WebCore/svg/SVGStyledElement.cpp	(working copy)
+@@ -42,7 +42,7 @@
+ 
+ using namespace SVGNames;
+ 
+-char SVGStyledElementIdentifier[] = "SVGStyledElement";
++const char SVGStyledElementIdentifier[] = "SVGStyledElement";
+ static HashSet<const SVGStyledElement*>* gElementsWithInstanceUpdatesBlocked = 0;
+ 
+ SVGStyledElement::SVGStyledElement(const QualifiedName& tagName, Document* doc)
+Index: WebCore/svg/SVGFETurbulenceElement.cpp
+===================================================================
+--- WebCore/svg/SVGFETurbulenceElement.cpp	(revision 38778)
++++ WebCore/svg/SVGFETurbulenceElement.cpp	(working copy)
+@@ -30,8 +30,8 @@
+ 
+ namespace WebCore {
+ 
+-char SVGBaseFrequencyXIdentifier[] = "SVGBaseFrequencyX";
+-char SVGBaseFrequencyYIdentifier[] = "SVGBaseFrequencyY";
++const char SVGBaseFrequencyXIdentifier[] = "SVGBaseFrequencyX";
++const char SVGBaseFrequencyYIdentifier[] = "SVGBaseFrequencyY";
+ 
+ SVGFETurbulenceElement::SVGFETurbulenceElement(const QualifiedName& tagName, Document* doc)
+     : SVGFilterPrimitiveStandardAttributes(tagName, doc)
+Index: WebCore/svg/SVGExternalResourcesRequired.h
+===================================================================
+--- WebCore/svg/SVGExternalResourcesRequired.h	(revision 38778)
++++ WebCore/svg/SVGExternalResourcesRequired.h	(working copy)
+@@ -28,7 +28,7 @@
+ 
+ namespace WebCore {
+ 
+-    extern char SVGExternalResourcesRequiredIdentifier[];
++    extern const char SVGExternalResourcesRequiredIdentifier[];
+     class MappedAttribute;
+ 
+     // FIXME: This is wrong for several reasons:
+Index: WebCore/svg/SVGFELightElement.cpp
+===================================================================
+--- WebCore/svg/SVGFELightElement.cpp	(revision 38778)
++++ WebCore/svg/SVGFELightElement.cpp	(working copy)
+@@ -27,7 +27,7 @@
+ 
+ namespace WebCore {
+ 
+-char SVGFELightElementIdentifier[] = "SVGFELightElement";
++const char SVGFELightElementIdentifier[] = "SVGFELightElement";
+ 
+ SVGFELightElement::SVGFELightElement(const QualifiedName& tagName, Document* doc)
+     : SVGElement(tagName, doc)
+Index: WebCore/svg/SVGFEGaussianBlurElement.cpp
+===================================================================
+--- WebCore/svg/SVGFEGaussianBlurElement.cpp	(revision 38778)
++++ WebCore/svg/SVGFEGaussianBlurElement.cpp	(working copy)
+@@ -31,8 +31,8 @@
+ 
+ namespace WebCore {
+ 
+-char SVGStdDeviationXAttrIdentifier[] = "SVGStdDeviationXAttr";
+-char SVGStdDeviationYAttrIdentifier[] = "SVGStdDeviationYAttr";
++const char SVGStdDeviationXAttrIdentifier[] = "SVGStdDeviationXAttr";
++const char SVGStdDeviationYAttrIdentifier[] = "SVGStdDeviationYAttr";
+ 
+ SVGFEGaussianBlurElement::SVGFEGaussianBlurElement(const QualifiedName& tagName, Document* doc)
+     : SVGFilterPrimitiveStandardAttributes(tagName, doc)
+Index: WebCore/rendering/RenderLayer.cpp
+===================================================================
+--- WebCore/rendering/RenderLayer.cpp	(revision 38549)
++++ WebCore/rendering/RenderLayer.cpp	(working copy)
+@@ -2485,7 +2485,7 @@
+ void RenderLayer::updateScrollCornerStyle()
+ {
+     RenderObject* actualRenderer = m_object->node()->isElementNode() ? m_object->node()->shadowAncestorNode()->renderer() : m_object;
+-    RefPtr<RenderStyle> corner = m_object->hasOverflowClip() ? actualRenderer->getUncachedPseudoStyle(RenderStyle::SCROLLBAR_CORNER, actualRenderer->style()) : 0;
++    RefPtr<RenderStyle> corner = m_object->hasOverflowClip() ? actualRenderer->getUncachedPseudoStyle(RenderStyle::SCROLLBAR_CORNER, actualRenderer->style()) : (WTF::PassRefPtr<WebCore::RenderStyle>)0;
+     if (corner) {
+         if (!m_scrollCorner) {
+             m_scrollCorner = new (m_object->renderArena()) RenderScrollbarPart(m_object->document());
+@@ -2501,7 +2501,7 @@
+ void RenderLayer::updateResizerStyle()
+ {
+     RenderObject* actualRenderer = m_object->node()->isElementNode() ? m_object->node()->shadowAncestorNode()->renderer() : m_object;
+-    RefPtr<RenderStyle> resizer = m_object->hasOverflowClip() ? actualRenderer->getUncachedPseudoStyle(RenderStyle::RESIZER, actualRenderer->style()) : 0;
++    RefPtr<RenderStyle> resizer = m_object->hasOverflowClip() ? actualRenderer->getUncachedPseudoStyle(RenderStyle::RESIZER, actualRenderer->style()) : (WTF::PassRefPtr<WebCore::RenderStyle>)0;
+     if (resizer) {
+         if (!m_resizer) {
+             m_resizer = new (m_object->renderArena()) RenderScrollbarPart(m_object->document());
+Index: WebCore/rendering/RenderTextFragment.cpp
+===================================================================
+--- WebCore/rendering/RenderTextFragment.cpp	(revision 38549)
++++ WebCore/rendering/RenderTextFragment.cpp	(working copy)
+@@ -28,7 +28,7 @@
+ namespace WebCore {
+ 
+ RenderTextFragment::RenderTextFragment(Node* node, StringImpl* str, int startOffset, int length)
+-    : RenderText(node, str ? str->substring(startOffset, length) : 0)
++    : RenderText(node, str ? str->substring(startOffset, length) : (WTF::PassRefPtr<WebCore::StringImpl>)0)
+     , m_start(startOffset)
+     , m_end(length)
+     , m_firstLetter(0)
+Index: WebCore/rendering/RenderScrollbar.cpp
+===================================================================
+--- WebCore/rendering/RenderScrollbar.cpp	(revision 38549)
++++ WebCore/rendering/RenderScrollbar.cpp	(working copy)
+@@ -183,7 +183,7 @@
+     if (partType == NoPart)
+         return;
+ 
+-    RefPtr<RenderStyle> partStyle = !destroy ? getScrollbarPseudoStyle(partType,  pseudoForScrollbarPart(partType)) : 0;
++    RefPtr<RenderStyle> partStyle = !destroy ? getScrollbarPseudoStyle(partType,  pseudoForScrollbarPart(partType)) : (WTF::PassRefPtr<WebCore::RenderStyle>)0;
+     
+     bool needRenderer = !destroy && partStyle && partStyle->display() != NONE && partStyle->visibility() == VISIBLE;
+     
+Index: WebCore/css/CSSGrammar.y
+===================================================================
+--- WebCore/css/CSSGrammar.y	(revision 38549)
++++ WebCore/css/CSSGrammar.y	(working copy)
+@@ -728,9 +728,9 @@
+     | IDENT {
+         $$.id = 0; $$.isInt = false; $$.unit = CSSPrimitiveValue::CSS_NUMBER;
+         CSSParserString& str = $1;
+-        if (equalIgnoringCase(static_cast<const String&>(str), "from"))
++        if (equalIgnoringCase(reinterpret_cast<const String&>(str), "from"))
+             $$.fValue = 0;
+-        else if (equalIgnoringCase(static_cast<const String&>(str), "to"))
++        else if (equalIgnoringCase(reinterpret_cast<const String&>(str), "to"))
+             $$.fValue = 100;
+         else
+             YYERROR;
+Index: WebCore/loader/icon/IconDatabase.cpp
+===================================================================
+--- WebCore/loader/icon/IconDatabase.cpp	(revision 38549)
++++ WebCore/loader/icon/IconDatabase.cpp	(working copy)
+@@ -522,7 +522,7 @@
+     if (!isOpen() || iconURLOriginal.isEmpty())
+         return;
+     
+-    RefPtr<SharedBuffer> data = dataOriginal ? dataOriginal->copy() : 0;
++    RefPtr<SharedBuffer> data = dataOriginal ? dataOriginal->copy() : (WTF::PassRefPtr<WebCore::SharedBuffer>)0;
+     String iconURL = iconURLOriginal.copy();
+     
+     Vector<String> pageURLs;
+Index: WebCore/loader/DocumentLoader.cpp
+===================================================================
+--- WebCore/loader/DocumentLoader.cpp	(revision 38549)
++++ WebCore/loader/DocumentLoader.cpp	(working copy)
+@@ -508,7 +508,7 @@
+ 
+ PassRefPtr<Archive> DocumentLoader::popArchiveForSubframe(const String& frameName)
+ {
+-    return m_archiveResourceCollection ? m_archiveResourceCollection->popSubframeArchive(frameName) : 0;
++    return m_archiveResourceCollection ? m_archiveResourceCollection->popSubframeArchive(frameName) : (WTF::PassRefPtr<WebCore::Archive>)0;
+ }
+ 
+ void DocumentLoader::clearArchiveResources()
+Index: WebCore/loader/archive/ArchiveFactory.cpp
+===================================================================
+--- WebCore/loader/archive/ArchiveFactory.cpp	(revision 38549)
++++ WebCore/loader/archive/ArchiveFactory.cpp	(working copy)
+@@ -75,7 +75,7 @@
+ PassRefPtr<Archive> ArchiveFactory::create(SharedBuffer* data, const String& mimeType)
+ {
+     RawDataCreationFunction* function = archiveMIMETypes().get(mimeType);
+-    return function ? function(data) : 0;
++    return function ? function(data) : (WTF::PassRefPtr<WebCore::Archive>)0;
+ }
+ 
+ void ArchiveFactory::registerKnownArchiveMIMETypes()
+Index: WebCore/loader/archive/ArchiveResource.cpp
+===================================================================
+--- WebCore/loader/archive/ArchiveResource.cpp	(revision 38549)
++++ WebCore/loader/archive/ArchiveResource.cpp	(working copy)
+@@ -35,17 +35,17 @@
+ 
+ PassRefPtr<ArchiveResource> ArchiveResource::create(PassRefPtr<SharedBuffer> data, const KURL& url, const ResourceResponse& response)
+ {
+-    return data ? adoptRef(new ArchiveResource(data, url, response)) : 0;
++    return data ? adoptRef(new ArchiveResource(data, url, response)) : (WTF::PassRefPtr<WebCore::ArchiveResource>)0;
+ }
+ 
+ PassRefPtr<ArchiveResource> ArchiveResource::create(PassRefPtr<SharedBuffer> data, const KURL& url, const String& mimeType, const String& textEncoding, const String& frameName)
+ {
+-    return data ? adoptRef(new ArchiveResource(data, url, mimeType, textEncoding, frameName)) : 0;
++    return data ? adoptRef(new ArchiveResource(data, url, mimeType, textEncoding, frameName)) : (WTF::PassRefPtr<WebCore::ArchiveResource>)0;
+ }
+ 
+ PassRefPtr<ArchiveResource> ArchiveResource::create(PassRefPtr<SharedBuffer> data, const KURL& url, const String& mimeType, const String& textEncoding, const String& frameName, const ResourceResponse& resourceResponse)
+ {
+-    return data ? adoptRef(new ArchiveResource(data, url, mimeType, textEncoding, frameName, resourceResponse)) : 0;
++    return data ? adoptRef(new ArchiveResource(data, url, mimeType, textEncoding, frameName, resourceResponse)) : (WTF::PassRefPtr<WebCore::ArchiveResource>)0;
+ }
+ 
+ ArchiveResource::ArchiveResource(PassRefPtr<SharedBuffer> data, const KURL& url, const ResourceResponse& response)
+Index: configure.ac
+===================================================================
+--- configure.ac	(revision 38549)
++++ configure.ac	(working copy)
+@@ -48,6 +48,9 @@
+      *-*-darwin*)
+        os_darwin=yes
+        ;;
++     *solaris*)
++       os_sunos=yes
++       ;;
+ esac
+ 
+ case "$host_os" in
+@@ -231,6 +234,9 @@
+ 	elif test "$os_win32" = "yes"; then
+ 		UNICODE_CFLAGS=""
+ 		UNICODE_LIBS="-licuin -licuuc"
++	elif test "$os_sunos" = "yes"; then
++		UNICODE_CFLAGS="-I/usr/include"
++		UNICODE_LIBS="-licui18n -licuuc -licudata"
+ 	else
+ 		AC_PATH_PROG(icu_config, icu-config, no)
+ 		if test "$icu_config" = "no"; then
+@@ -553,13 +559,20 @@
+                              [Enable JIT compilation default=yes]),
+               [],[enable_jit="yes"])
+ if test "$enable_jit" = "yes"; then
+-    case "$target_cpu" in
+-        i*86)
+-            AC_DEFINE([ENABLE_JIT], [1], [Define to enable JIT])
+-            AC_DEFINE([ENABLE_WREC], [1], [Define to enable WREC])
++    case "$target_os" in
++        solaris*)
++            enable_jit="no (OS '$target_os' not supported)"
+         ;;
+         *)
+-            enable_jit="no (CPU '$target_cpu' not supported)"
++            case "$target_cpu" in
++                i*86)
++                    AC_DEFINE([ENABLE_JIT], [1], [Define to enable JIT])
++                    AC_DEFINE([ENABLE_WREC], [1], [Define to enable WREC])
++                ;;
++                *)
++                    enable_jit="no (CPU '$target_cpu' not supported)"
++                ;;
++            esac
+         ;;
+     esac
+ fi
+@@ -588,11 +601,11 @@
+ 
+ # Add the appropriate 'O' level for optimized builds
+ if test "$enable_optimizations" = "yes"; then
+-   CXXFLAGS="$CXXFLAGS -O2"
+-   CFLAGS="$CFLAGS -O2"
++   CXXFLAGS="$CXXFLAGS -xO2"
++   CFLAGS="$CFLAGS -xO2"
+ else
+-   CXXFLAGS="$CXXFLAGS -O0"
+-   CFLAGS="$CFLAGS -O0"
++   CXXFLAGS="$CXXFLAGS -xO0"
++   CFLAGS="$CFLAGS -xO0"
+ fi
+ 
+ # check if curl is available
+Index: WebKitTools/GNUmakefile.am
+===================================================================
+--- WebKitTools/GNUmakefile.am	(revision 38549)
++++ WebKitTools/GNUmakefile.am	(working copy)
+@@ -13,8 +13,7 @@
+ 	WebKitTools/GtkLauncher/main.c
+ 
+ Programs_GtkLauncher_CFLAGS = \
+-	-fno-strict-aliasing \
+-	-O2 \
++	-xO2 \
+ 	$(global_cflags) \
+ 	$(GTK_CFLAGS)
+ 
+@@ -57,8 +56,7 @@
+ 	$(Programs_DumpRenderTree_CFLAGS)
+ 
+ Programs_DumpRenderTree_CFLAGS = \
+-	-fno-strict-aliasing \
+-	-O2 \
++	-xO2 \
+ 	$(global_cflags) \
+ 	$(GLOBALDEPS_CFLAGS) \
+ 	$(CAIRO_CFLAGS) \
+--- WebCore/svg/SVGElement.cpp.orig	Wed Nov 26 22:23:09 2008
++++ WebCore/svg/SVGElement.cpp	Wed Nov 26 22:23:29 2008
+@@ -207,7 +207,7 @@
+             ExceptionCode ignored = 0;
+             currentTarget->dispatchGenericEvent(event.release(), ignored);
+         }
+-        currentTarget = (parent && parent->isSVGElement()) ? static_pointer_cast<SVGElement>(parent) : 0;
++        currentTarget = (parent && parent->isSVGElement()) ? static_pointer_cast<SVGElement>(parent) : (WTF::RefPtr<WebCore::SVGElement>)0;
+     }
+ }
+ 
+--- WebKitTools/DumpRenderTree/gtk/LayoutTestControllerGtk.cpp.orig	Wed Nov 26 23:45:25 2008
++++ WebKitTools/DumpRenderTree/gtk/LayoutTestControllerGtk.cpp	Wed Nov 26 23:45:40 2008
+@@ -277,9 +277,11 @@
+ bool LayoutTestController::pauseAnimationAtTimeOnElementWithId(JSStringRef animationName, double time, JSStringRef elementId)
+ {    
+     // FIXME: implement
++    return false;
+ }
+ 
+ bool LayoutTestController::pauseTransitionAtTimeOnElementWithId(JSStringRef propertyName, double time, JSStringRef elementId)
+ {    
+     // FIXME: implement
++    return false;
+ }
