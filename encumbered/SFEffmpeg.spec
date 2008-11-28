@@ -59,6 +59,7 @@ Requires: SFExvid
 BuildRequires: SFElibx264-devel
 Requires: SFElibx264
 BuildRequires: SFEfaad2-devel
+Requires: SFEliba52
 BuildRequires: SFEliba52-devel
 # libamr-* ihave 3GPP code with unclear licencing
 #BuildRequires: SFEamrnb-devel
