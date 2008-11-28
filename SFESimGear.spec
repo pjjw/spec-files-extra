@@ -24,6 +24,7 @@ BuildRequires:		SFEopenal-devel
 Requires:		SFEopenal
 BuildRequires:		SFEfreealut-devel
 Requires:		SFEfreealut
+Requires:		SFEplib
 
 %package devel
 Summary:                 %{summary} - development files

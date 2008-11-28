@@ -2,7 +2,6 @@
 # spec file for package SFEFligthGear.spec
 # Gilles Dauphin
 #
-# includes module(s): FligthGear
 #
 %include Solaris.inc
 
