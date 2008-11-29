@@ -1,3 +1,12 @@
+2008-11-29  Gilles Dauphin <dauphin@enst.fr>
+
+	* SFEqt4.spec for Sun Sutdio 12
+	* patches/qt4-02-misc_CC.diff : misc CC workaround for qt4.4.3
+	* SFEmplayer patch: gawk is now in B101
+	* SFEmplayer need libiconv
+	* SFElame patch b101 include ncrurses
+	* SFElibcdio patch: b101 include gawk and ncurses
+
 2008-11-27  Alfred Peng  <alfred.peng@sun.com>
 
 	* SFEwebkit.spec: new spec

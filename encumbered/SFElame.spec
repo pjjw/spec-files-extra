@@ -30,8 +30,8 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SUNWlibms
 Requires: SFElibsndfile
-BuildRequires: SFEncurses-devel
-Requires: SFEncurses
+BuildRequires: SUNWncurses-devel
+Requires: SUNWncurses
 
 %package devel
 Summary:                 %{summary} - development files
@@ -147,6 +147,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Sat Nov 29 2008 - dauphin@enst.fr
+- SUNWncurses exist in b101
 * Thu Oct 23 2008 - dick@nagual.nl
 - s/SUNWncurses/SFEncurses for the time being.
 - add dependency on SFElibsndfile for better/more audio formats

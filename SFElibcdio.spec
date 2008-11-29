@@ -34,7 +34,7 @@ Requires: SUNWlibms
 Requires: SUNWdbus
 Requires: SFElibcddb
 Requires: SFElibiconv
-Requires: SFEncurses
+Requires: SUNWncurses
 %if %with_hal
 Requires: SUNWhal
 %endif
@@ -43,7 +43,7 @@ BuildRequires: SUNWgcc
 BuildRequires: SUNWdbus-devel
 BuildRequires: SFElibcddb-devel
 BuildRequires: SFElibiconv-devel
-BuildRequires: SFEncurses-devel
+BuildRequires: SUNWncurses-devel
 
 %package devel
 Summary:                 %{summary} - development files
@@ -109,6 +109,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/cdio
 
 %changelog
+* Sat Nov 29 2008 - dauphin@enst.fr
+- s/SFEncurses/SUNWncurses is available in build 101
+* date unknow
 - fix my error on mandir Gilles Dauphin
 * Wed Oct 22 2008 - dick@nagual.nl
 - s/SUNWncurses/SFEncurses since the SUNpkg is not available

@@ -60,8 +60,8 @@ Requires: SFElame
 BuildRequires: SFElame-devel
 Requires: SFEtwolame
 BuildRequires: SFEtwolame-devel
-Requires: SFEgawk
-BuildRequires: SFEgawk
+Requires: SUNWgawk
+#BuildRequires: SFEgawk
 # FIXME: If have dvdnav, need use --disable-dvdread-internal when ./configure,
 # but this will cause build fail, do not use it for now.
 Requires: SFElibdvdnav
@@ -121,7 +121,7 @@ dbgflag=--disable-debug
 export CFLAGS="-O2 -D__hidden=\"\""
 %endif
 
-export LDFLAGS="-L%{x11}/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib" 
+export LDFLAGS="-L%{x11}/lib -L/usr/gnu/lib -R/usr/gnu/lib -L/usr/sfw/lib -R/usr/sfw/lib -liconv" 
 export CC=gcc
 rm -rf ./grep
 ln -s /usr/sfw/bin/ggrep ./grep
@@ -137,7 +137,7 @@ bash ./configure				\
             --enable-menu			\
             --with-extraincdir=/usr/lib/live/liveMedia/include:/usr/lib/live/groupsock/include:/usr/lib/live/UsageEnvironment/include:/usr/lib/live/BasicUsageEnvironment/include:%{x11}/include:/usr/sfw/include \
             --with-extralibdir=/usr/lib/live/liveMedia:/usr/lib/live/groupsock:/usr/lib/live/UsageEnvironment:/usr/lib/live/BasicUsageEnvironment:%{x11}/lib:/usr/gnu/lib:/usr/sfw/lib \
-            --extra-libs='-lBasicUsageEnvironment -lUsageEnvironment -lgroupsock -lliveMedia -lsocket -lnsl -lstdc++' \
+            --extra-libs='-lBasicUsageEnvironment -lUsageEnvironment -lgroupsock -lliveMedia -lsocket -lnsl -lstdc++ -liconv' \
             --codecsdir=%{_libdir}/mplayer/codecs \
 %if %with_faad
             --enable-faad-external		\
@@ -190,6 +190,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 
 %changelog
+* Wed Nov 29 2008 - dauphin@enst.fr
+- change to SUNWgawk is in b101
 * Wed Oct 22 2008 - dick@nagual.nl
 - added SFEgawk as dep. Needed to compile without errors.
 * Sun Aug 17 2008 - nonsea@users.sourceofrge.net
