@@ -1,3 +1,7 @@
+2008-11-30  Thomas Wagner  <tom68@users.sourceforge.net>
+
+	* SFEnicdrv.spec: add atge driver (Attensic) - untested
+
 2008-11-29  Gilles Dauphin <dauphin@enst.fr>
 
 	* SFEqt4.spec for Sun Sutdio 12

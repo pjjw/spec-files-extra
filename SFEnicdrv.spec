@@ -34,6 +34,7 @@
 %define urf_version 0.8.2
 %define axf_version 0.8.2
 %define upf_version 0.8.2
+%define atge_version 2.6.2
 
 %define src_url http://homepage2.nifty.com/mrym3/taiyodo
 
@@ -71,6 +72,7 @@ Source19:            %{src_url}/tcfe-%{tcfe_version}.tar.gz
 Source20:            %{src_url}/em-%{em_version}.tar.gz
 # Replaces nge and supports newer nForce chipsets
 Source21:            %{src_url}/nfo-%{nfo_version}.tar.gz
+Source22:            %{src_url}/atge-%{atge_version}.tar.gz
 
 # Template script used to generate post-install scripts for each driver.
 Source100:           drvtestadd
@@ -321,6 +323,16 @@ Requires: SUNWcakr
 Requires: SUNWckr
 Requires: SUNWcnetr
 
+%package atge
+Summary:       NIC driver for intel gigabit ethernet controller 8254x
+Version:       %{atge_version}
+SUNW_BaseDir:  /
+%include default-depend.inc
+Requires: %{name}
+Requires: SUNWcakr
+Requires: SUNWckr
+Requires: SUNWcnetr
+
 %prep
 %setup -c -n %{name}-%{version}
 %setup -T -D -a 1
@@ -344,6 +356,7 @@ Requires: SUNWcnetr
 %setup -T -D -a 19
 %setup -T -D -a 20
 %setup -T -D -a 21
+%setup -T -D -a 22
 %setup -T -D -a 104
 %patch1 -p0
 %patch2 -p0
@@ -357,12 +370,12 @@ Requires: SUNWcnetr
 for src in %{SOURCE0} %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} \
 	%{SOURCE6} %{SOURCE7} %{SOURCE8} %{SOURCE9} %{SOURCE10} %{SOURCE11} \
 	%{SOURCE12} %{SOURCE13} %{SOURCE14} %{SOURCE15} %{SOURCE16} %{SOURCE17} \
-	%{SOURCE18} %{SOURCE19} %{SOURCE20} %{SOURCE21}
+	%{SOURCE18} %{SOURCE19} %{SOURCE20} %{SOURCE21} %{SOURCE22}
 do
 	drvdir=`basename ${src} | sed 's/\.tar\.gz//'`
 	# use newest GEM 2.6 code if possible, else 2.4 from em
 	case "$drvdir" in
-		em-*|myk-*) # GEM code donors
+		em-*|myk-*|atge-*) # GEM code donors
 		;;
 		# these drivers have a GEM 2.4 interface, consider updating
 		*-2.4.*)
@@ -399,7 +412,7 @@ cp %{SOURCE101} .
 for src in %{SOURCE0} %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} \
 	%{SOURCE6} %{SOURCE7} %{SOURCE8} %{SOURCE9} %{SOURCE10} %{SOURCE11} \
 	%{SOURCE12} %{SOURCE13} %{SOURCE14} %{SOURCE15} %{SOURCE16} %{SOURCE17} \
-	%{SOURCE18} %{SOURCE19} %{SOURCE20} %{SOURCE21}
+	%{SOURCE18} %{SOURCE19} %{SOURCE20} %{SOURCE21} %{SOURCE22}
 do
 	drvdir=`basename ${src} | sed 's/\.tar\.gz//'`
 	cd $drvdir
@@ -485,7 +498,7 @@ cp %{SOURCE102} ${RPM_BUILD_ROOT}/%{_localstatedir}/nicdrv/scripts
 for src in %{SOURCE0} %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} \
 	%{SOURCE6} %{SOURCE7} %{SOURCE8} %{SOURCE9} %{SOURCE10} %{SOURCE11} \
 	%{SOURCE12} %{SOURCE13} %{SOURCE14} %{SOURCE15} %{SOURCE16} %{SOURCE17} \
-	%{SOURCE18} %{SOURCE19} %{SOURCE20} %{SOURCE21}
+	%{SOURCE18} %{SOURCE19} %{SOURCE20} %{SOURCE21} %{SOURCE22}
 do
 	drvdir=`basename ${src} | sed 's/\.tar\.gz//'`
 	cd $drvdir
@@ -704,6 +717,13 @@ ${BASEDIR}%{_localstatedir}/nicdrv/scripts/drvrm ${BASEDIR} tcfe
 BASEDIR=${BASEDIR:=/}
 ${BASEDIR}%{_localstatedir}/nicdrv/scripts/drvrm ${BASEDIR} em
 
+%post atge
+. ${BASEDIR:=}%{_localstatedir}/nicdrv/scripts/atge.postinst
+
+%postun atge
+BASEDIR=${BASEDIR:=/}
+${BASEDIR}%{_localstatedir}/nicdrv/scripts/drvrm ${BASEDIR} atge
+
 %files
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) %{_prefix}
@@ -869,7 +889,16 @@ ${BASEDIR}%{_localstatedir}/nicdrv/scripts/drvrm ${BASEDIR} em
 %dir %attr (0755, root, bin) %{_localstatedir}/nicdrv/scripts
 %attr (0644, root, bin) %{_localstatedir}/nicdrv/scripts/em.postinst
 
+%files atge -f atge.files
+%defattr (-, root, sys)
+%dir %attr (0755, root, sys) %{_localstatedir}
+%dir %attr (0755, root, bin) %{_localstatedir}/nicdrv
+%dir %attr (0755, root, bin) %{_localstatedir}/nicdrv/scripts
+%attr (0644, root, bin) %{_localstatedir}/nicdrv/scripts/atge.postinst
+
 %changelog
+* Sun Nov 30 2008 - Thomas Wagner
+- Add atge driver
 * Sat Jun 07 2008 - trisk@acm.jhu.edu
 - Use driver version numbers in SFEnicdrv-* packages
 - Update to vel-2.6.0, sige-2.6.2, myk-2.6.0
