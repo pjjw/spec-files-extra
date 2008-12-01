@@ -1,0 +1,40 @@
+--- gnome-ppp-0.3.23/src/Makefile.am.orig	2008-12-01 18:02:35.402554841 +0800
++++ gnome-ppp-0.3.23/src/Makefile.am	2008-12-01 18:02:53.276494382 +0800
+@@ -16,6 +16,6 @@
+                     eggtrayicon.h \
+                     gnome-ppp.h
+ 
+-AM_CFLAGS = -Wall -export-dynamic
++AM_CFLAGS = -export-dynamic
+ INCLUDES = $(DEPS_CFLAGS)
+-gnome_ppp_LDADD = $(DEPS_LIBS)
++gnome_ppp_LDADD = $(DEPS_LIBS) -lsocket -lnsl
+--- gnome-ppp-0.3.23/src/Makefile.in.orig	2008-12-01 18:02:41.231173123 +0800
++++ gnome-ppp-0.3.23/src/Makefile.in	2008-12-01 18:03:08.932535752 +0800
+@@ -237,9 +237,9 @@
+                     eggtrayicon.h \
+                     gnome-ppp.h
+ 
+-AM_CFLAGS = -Wall -export-dynamic
++AM_CFLAGS = -export-dynamic
+ INCLUDES = $(DEPS_CFLAGS)
+-gnome_ppp_LDADD = $(DEPS_LIBS)
++gnome_ppp_LDADD = $(DEPS_LIBS) -lsocket -lnsl
+ all: all-am
+ 
+ .SUFFIXES:
+--- gnome-ppp-0.3.23/src/gnome-ppp.h.orig	2008-12-01 18:03:21.514387521 +0800
++++ gnome-ppp-0.3.23/src/gnome-ppp.h	2008-12-01 18:03:43.414756655 +0800
+@@ -43,10 +43,11 @@
+ #include <sys/stat.h>
+ #include <sys/param.h>
+ #include <sys/ioctl.h>
++#include <sys/sockio.h>
+ #include <arpa/inet.h>
+ #include <net/ppp_defs.h>
+ #include <net/if.h> 
+-#include <net/if_ppp.h>
++#include <net/pppio.h>
+ #include <netinet/in.h>
+ #include <signal.h>
+ #include <string.h>

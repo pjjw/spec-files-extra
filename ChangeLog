@@ -1,3 +1,8 @@
+2008-12-01  Alfred Peng  <alfred.peng@sun.com>
+
+	* SFEgnome-ppp.spec: new spec
+	* patches/gnome-ppp-01-solaris-build.diff: added
+
 2008-11-30  Thomas Wagner  <tom68@users.sourceforge.net>
 
 	* SFEnicdrv.spec: add atge driver (Attensic) - untested
