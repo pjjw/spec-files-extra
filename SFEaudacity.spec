@@ -56,8 +56,8 @@ BuildRequires: SFEgcc
 BuildRequires: SFEwxwidgets-gnu-devel
 Requires: SFEwxwidgets-gnu
 %else
-BuildRequires: SFEwxwidgets-devel
-Requires: SFEwxwidgets
+BuildRequires: SUNWwxwidgets-devel
+Requires: SUNWwxwidgets
 %endif
 
 # If building with libmad, then also require id3tag.  If
@@ -214,15 +214,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 %dir %attr (-, root, root) %{_datadir}/mime
 %attr (-, root, root) %{_datadir}/mime/*
+%attr (-, root, other) %{_datadir}/locale
 
 %if %build_l10n
 %files l10n
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) %{_datadir}
 %attr (-, root, other) %{_datadir}/locale
+%{_datadir}/locale
 %endif
 
 %changelog
+* Sat Nov 29 2008 - gilles.dauphin@enst.fr
+- SUNWwxidgets is now in B101
 * Wen Nov 05 2008 - gilles.dauphin@enst.fr
 - link to zh_CN needed. it can't install correctly whitout that
 * Mon May 12 2008 - brian.cameron@sun.com
