@@ -8,7 +8,9 @@
 Name:                    SFEswfdec
 Summary:                 Macromedia Flash Rendering Library
 Version:                 0.4.1
+#Version:                 0.8.2
 Source:                  http://swfdec.freedesktop.org/download/swfdec/0.4/swfdec-%{version}.tar.gz
+#Source:                  http://swfdec.freedesktop.org/download/swfdec/0.8/swfdec-%{version}.tar.gz
 URL:                     http://swfdec.freedesktop.org/wiki/
 Group:                   library/multimedia
 Patch1:                  swfdec-01-build-fix.diff
@@ -49,7 +51,7 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
-export CFLAGS="%optflags -I/usr/include/firefox -I/usr/include/firefox/js"
+export CFLAGS="%optflags -I/usr/include/firefox -I/usr/include/firefox/js -I/usr/include/libavcodec"
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export PERL5LIB=%{_prefix}/perl5/site_perl/5.6.1/sun4-solaris-64int
 export LDFLAGS="%_ldflags"
@@ -96,6 +98,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtk-doc
 
 %changelog
+* Thu Dec 02 2008 - dauphin@enst.fr
+- just a try to the last release.
+- but don't succeed 
+- TODO : try to compile with last release and good ffmpeg.
 * Sun Jan 14 2007 - laca@sun.com
 - bump to 0.4.1; update %files
 * Mon Jul 10 2006 - laca@sun.com
