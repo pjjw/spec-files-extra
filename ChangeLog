@@ -1,3 +1,10 @@
+2008-12-02  Gilles Dauphin <dauphin@enst.fr>
+
+	* SFEaudacity.spec , SUNWwxwidget is in b101
+	* SFEsdl-image.spec , README CHANGES COPYING not in package
+	* SFElibgsm.spec , mandir attr is root bin
+	* SFElibupnp.spec, patch2 does not exist
+
 2008-12-01  Alfred Peng  <alfred.peng@sun.com>
 
 	* SFEgnome-ppp.spec: new spec
