@@ -17,6 +17,9 @@ Patch1:                  webkit-01-sun-studio-build-hack.diff
 Patch2:                  webkit-02-explicit-const.diff
 
 SUNW_BaseDir:            %{_basedir}
+# copyright place holder.
+# TODO: add the WebKit copyright
+SUNW_Copyright:          SFEwebkit.copyright
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires: SFEstdcxx
@@ -51,14 +54,23 @@ cd WebKit-r%version
 %install
 rm -rf $RPM_BUILD_ROOT
 
-cd %{_builddir}/%name-%version/WebKit-r%version/WebKitBuild/Release/
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/include/webkit-1.0/gtk
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/include/webkit-1.0/webkit
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/include/webkit-1.0/JavaScriptCore/API
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/pkgconfig
-cp -R DerivedSources/*.h $RPM_BUILD_ROOT%{_prefix}/include/webkit-1.0/
-cp WebKit/gtk/webkit/webkitversion.h $RPM_BUILD_ROOT%{_prefix}/include/webkit-1.0/gtk
-cp WebKit/gtk/webkit-1.0.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
-cp .libs/libwebkit-1.0.so $RPM_BUILD_ROOT%{_libdir}/libwebkit-1.0.so.1.0.3
-ln -s libwebkit-1.0.so.1.0.3 $RPM_BUILD_ROOT%{_libdir}/libwebkit-1.0.so
+
+cd %{_builddir}/%name-%version/WebKit-r%version/
+cp WebKit/gtk/webkit/*.h $RPM_BUILD_ROOT%{_prefix}/include/webkit-1.0/webkit
+cp -pr JavaScriptCore/ForwardingHeaders/JavaScriptCore/* $RPM_BUILD_ROOT%{_prefix}/include/webkit-1.0/JavaScriptCore/
+cp -pr JavaScriptCore/API/*.h $RPM_BUILD_ROOT%{_prefix}/include/webkit-1.0/JavaScriptCore/API
+
+cd WebKitBuild/Release
+chmod 644 WebKit/gtk/webkit/webkitversion.h
+cp WebKit/gtk/webkit/*.h $RPM_BUILD_ROOT%{_prefix}/include/webkit-1.0/webkit
+
+sed -e 's,local,,g' WebKit/gtk/webkit-1.0.pc > temp.pc
+mv temp.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig/webkit-1.0.pc
+cp .libs/libwebkit-1.0.so $RPM_BUILD_ROOT%{_libdir}/libwebkit-1.0.so.1
+ln -s libwebkit-1.0.so.1 $RPM_BUILD_ROOT%{_libdir}/libwebkit-1.0.so
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -73,5 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/include/*
 
 %changelog
+* Wed Dec 03 2008 - alfred.peng@sun.com
+- Re-arrange the development headers, pc and library.
+  Verified to work with the latest 0.22 devhelp release.
 * Wed Nov 26 2008 - alfred.peng@sun.com
 - Initial version
