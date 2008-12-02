@@ -25,8 +25,8 @@ Requires: SFEfaad2
 Requires: SUNWfreetype2
 #BuildRequires: SFEwxwidgets-gnu-devel
 #Requires: SFEwxwidgets-gnu
-BuildRequires: SFEwxwidgets-devel
-Requires: SFEwxwidgets
+BuildRequires: SUNWwxwidgets-devel
+Requires: SUNWwxwidgets
 
 %package devel
 Summary:                 %{summary} - development files
@@ -90,6 +90,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}
 
 %changelog
+* Sun Nov 30 2008 - dauphin@enst.fr
+- SUNWwxwigets is on b101
 * Fri Nov 21 2008 - dauphin@enst.fr
 - gpac with Studio12 and new freeglut
 - TODO: check ffmepg option (build with)
