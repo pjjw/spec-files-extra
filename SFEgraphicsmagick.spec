@@ -1,13 +1,18 @@
 #
 # spec file for package SFEimagemagick.spec
 #
+# GraphicsMagick is a high-performance image processing package
+# (originally based on ImageMagick) which focuses on stability,
+# reliability, and performance while using a formal release process.
+# See http://www.graphicsmagick.org/ for more information.
+#
 # includes module(s): imagemagick
 #
 %include Solaris.inc
 
 Name:                   SFEgraphicsmagick
 Summary:                GraphicsMagick - Image Manipulation Utilities and Libraries
-Version:                1.2.5
+Version:                1.3.2
 Source:                 %{sf_download}/graphicsmagick/GraphicsMagick-%{version}.tar.bz2
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
@@ -80,6 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Dec 2 2008 - bfriesen@simple.dallas.tx.us
+- Update for GraphicsMagick 1.3.2.
 * Sun Aug 3 2008 - bfriesen@simple.dallas.tx.us
 - Update for GraphicsMagick 1.2.5.
 * Mon Jan 28 2008 - moinak.ghosh@sun.com
