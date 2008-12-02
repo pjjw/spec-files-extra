@@ -6,6 +6,7 @@
 	* SFElibupnp.spec, patch2 does not exist
 	* encumbered/SFEgpac.spec, SFEgpac use SUNWwxwidget
 	* TODO in encumbered/SFEswfdec.spec , I use last release but don't succeed
+	* TODO in SFEvlc: the change of ffmpeg API break SFEvlc.
 
 2008-12-01  Alfred Peng  <alfred.peng@sun.com>
 
