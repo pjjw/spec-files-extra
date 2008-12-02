@@ -13,7 +13,7 @@ Summary:             Portable C library for UPnP
 Version:             1.6.6
 Source:              %{src_url}/%{src_name}-%{version}.tar.bz2
 Patch1:		     libupnp-01-solaris.spec
-Patch2:		     libupnp-02-inline.spec
+#Patch2:		     libupnp-02-inline.spec
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
