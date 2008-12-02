@@ -4,6 +4,8 @@
 	* SFEsdl-image.spec , README CHANGES COPYING not in package
 	* SFElibgsm.spec , mandir attr is root bin
 	* SFElibupnp.spec, patch2 does not exist
+	* encumbered/SFEgpac.spec, SFEgpac use SUNWwxwidget
+	* TODO in encumbered/SFEswfdec.spec , I use last release but don't succeed
 
 2008-12-01  Alfred Peng  <alfred.peng@sun.com>
 
