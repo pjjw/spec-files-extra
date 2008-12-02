@@ -45,8 +45,8 @@ Requires:       SUNWxorg-clientlibs
 BuildRequires:  SUNWsmbau
 BuildRequires:  SFElibfribidi-devel
 Requires:       SFElibfribidi
-BuildRequires:  SFEfreetype-devel
-Requires:       SFEfreetype
+#BuildRequires:  SFEfreetype-devel
+Requires:       SUNWfreetype2
 BuildRequires:  SFEliba52-devel
 Requires:       SFEliba52
 BuildRequires:  SFEffmpeg-devel
@@ -124,7 +124,7 @@ export PATH=/usr/gnu/bin:$PATH
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CC=gcc
 export CXX=g++
-export CPPFLAGS="-D_XOPEN_SOURCE=500 -D__EXTENSIONS__ -I/usr/X11/include -I/usr/gnu/include"
+export CPPFLAGS="-D_XOPEN_SOURCE=500 -D__EXTENSIONS__ -I/usr/X11/include -I/usr/gnu/include -I/usr/include/libavcodec -I./include"
 %if %debug_build
 export CFLAGS="-g"
 %else
@@ -132,6 +132,7 @@ export CFLAGS="-O4"
 %endif
 export LDFLAGS="$X11LIB $GNULIB"
 
+ln -s /usr/include/libavcodec include/ffmpeg
 rm ./configure
 ./bootstrap
 ./configure --prefix=%{_prefix}			\
@@ -248,6 +249,10 @@ test -x $BASEDIR/lib/postrun || exit 0
 %{_libdir}/lib*.a
 
 %changelog
+* Thu Dec 02 2008 - dauphin@enst.fr
+- try to use the actual SFE ffmpeg , probleme in new ffmpeg API
+- I just resign now, but... later i will retry
+- TODO link to libpostproc: s/postproc/libpostproc/ .
 * Thu Aug 07 2008 - trisk@acm.jhu.edu
 - Rename SFElibdvdread dependency to SFElibdvdnav
 * Fri Aug  3 2007 - dougs@truemail.co.th
