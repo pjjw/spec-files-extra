@@ -1,3 +1,8 @@
+2008-12-03  Dick Hoogendijk <dick@nagual.nl>
+
+	* SFEbonnie++: bumped to version 1.03d
+	- many improvements for zcav and change to using MiB/s
+	- and GiB in reporting
 2008-12-03  Alfred Peng  <alfred.peng@sun.com>
 
 	* copyright/SFEwebkit.copyright: Added. Place holder.

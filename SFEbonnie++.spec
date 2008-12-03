@@ -2,12 +2,12 @@
 
 Name: bonnie++
 Summary: Disk benchmark
-Version: 1.03c
+Version: 1.03d
 Release: 1
 License: GPL
 Group: System
 Provides: bonnie++
-Source0: http://www.coker.com.au/bonnie++/bonnie++-1.03c.tgz
+Source0: http://www.coker.com.au/bonnie++/bonnie++-1.03d.tgz
 Patch0: bonnie++.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Packager: Will Murnane <willm1@cs.umbc.edu>
@@ -46,5 +46,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/zcav.8
 
 %changelog
+* Wed Dec 3 2008 Dick Hoogendijk <dick@nagual.nl>
+- Update to version 10.3d
+- many improvements for zcav and change to using MiB/s and GiB in reporting
 * Wed Jun 11 2008 Will Murnane <will.murnane@gmail.com>
 - Initial Package version 1.03c
