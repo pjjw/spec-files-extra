@@ -33,10 +33,10 @@ Requires: SFEsdl
 BuildRequires: SUNWxorg-mesa
 %endif
 BuildRequires: SUNWogg-vorbis-devel
-BuildRequires: SFEcurl-devel
+#BuildRequires: SUNWcurl-devel
 BuildRequires: SFEopenal-devel
 Requires: SUNWogg-vorbis
-Requires: SFEcurl
+Requires: SUNWcurl
 Requires: SFEopenal
 
 %prep
@@ -113,6 +113,8 @@ rm -rf $RPM_BUILD_ROOT
 #%{_datadir}/pixmaps/*
 
 %changelog
+* Sun Dec 07 2008 - dauphin@enst.fr
+- SUNWcurl is in B101
 * Thu Sep 20 2007 - trisk@acm.jhu.edu
 - Fix version numbering
 * Thu Sep 20 2007 - trisk@acm.jhu.edu
