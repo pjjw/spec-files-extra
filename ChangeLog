@@ -1,5 +1,9 @@
 2008-12-10  Gilles Dauphin
 
+	* Add SFElapack.spec
+
+2008-12-10  Gilles Dauphin
+
 	* SFEsdl-mixer, SFEsdl-net, comment out %doc. can't find files.
 	* SFEtremulous.spec, SUNWcurl is in B101
 	* Add SFEblas.spec Basic Linear Algebra Subprograms
