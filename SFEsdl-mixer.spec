@@ -85,7 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,bin)
-%doc README CHANGES COPYING
+#%doc README CHANGES COPYING
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %ifarch amd64 sparcv9
@@ -103,6 +103,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/SDL/
 
 %changelog
+* Sun Dec  7 2008 - Gilles Dauphin
+- Can't find DOC README CHANGE etc...
 * Tue Jun  5 2007 - Doug Scott
 - Change to isabuild
 * Sun Apr 22 2007 - Doug Scott
