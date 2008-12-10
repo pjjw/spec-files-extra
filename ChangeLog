@@ -1,3 +1,9 @@
+2008-12-10  Gilles Dauphin
+
+	* SFEsdl-mixer, SFEsdl-net, comment out %doc. can't find files.
+	* SFEtremulous.spec, SUNWcurl is in B101
+	* Add SFEblas.spec Basic Linear Algebra Subprograms
+
 2008-12-03  Dick Hoogendijk <dick@nagual.nl>
 
 	* SFEbonnie++: bumped to version 1.03d
