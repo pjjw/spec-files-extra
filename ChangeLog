@@ -18,6 +18,7 @@
 	  the exception that we need to run gdm in the background.
 
 2008-12-11 Tim Miao <Tim.Miao@Sun.COM>
+
 	* Bump SFEldtp.spec to 1.4.0
 
 2008-12-10  Gilles Dauphin
@@ -35,11 +36,12 @@
 	* SFEbonnie++: bumped to version 1.03d
 	- many improvements for zcav and change to using MiB/s
 	- and GiB in reporting
+
 2008-12-03  Alfred Peng  <alfred.peng@sun.com>
 
 	* copyright/SFEwebkit.copyright: Added. Place holder.
 	* SFEwebkit.spec: Re-arrange the development headers, pc and library.
-	Verified to work with the latest 0.22 devhelp release.
+	  Verified to work with the latest 0.22 devhelp release.
 
 2008-12-02  Gilles Dauphin <dauphin@enst.fr>
 
@@ -48,7 +50,8 @@
 	* SFElibgsm.spec , mandir attr is root bin
 	* SFElibupnp.spec, patch2 does not exist
 	* encumbered/SFEgpac.spec, SFEgpac use SUNWwxwidget
-	* TODO in encumbered/SFEswfdec.spec , I use last release but don't succeed
+	* TODO in encumbered/SFEswfdec.spec , I use last release but don't
+	  succeed
 	* TODO in SFEvlc: the change of ffmpeg API break SFEvlc.
 	* mv SFEtop to archive (is in B101)
 	* mv SFEwxwigets to archive (is in b101)
@@ -87,7 +90,7 @@
 	* patches/elisa-plugins-bad-01-rm-plugins.diff:
 	* patches/elisa-plugins-bad-02-fixcrash.diff:
 	* patches/elisa-plugins-good-01-rm-plugins.diff:
-	 move to spec-files-other.
+	  move to spec-files-other.
 
 2008-11-24  Brian Cameron  <brian.cameron@sun.com>
 
@@ -96,7 +99,7 @@
 
 2008-11-24  Alexander Skwar <alexander@skwar.name>
 
-        * patches/qt-01-use_bash.diff: Qt doesn't build when
+	* patches/qt-01-use_bash.diff: Qt doesn't build when
 	  sh is not bash - replace all /bin/sh calls with
 	  ones to /bin/bash
 	* SFEqt.spec: Use qt-01-use_bash; remove %tarball_version - %version
