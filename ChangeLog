@@ -1,3 +1,13 @@
+2008-12/11  Brian Cameron  <brian.cameron@sun.com>
+
+	* SUNWgnome-display-mgr.spec, patches/gdm-03-dynamic-display.diff:
+	  Bump to 2.25.1.
+	* patches/gdm-06-fixshell.diff, patches/gdm-07-Xau.diff: Remove
+	  upstream patches.
+	* ext-sources/svc-gdm, ext-sources/gdm.xml: Update so they are
+	  the same as what we are currently shipping in spec-files, with
+	  the exception that we need to run gdm in the background.
+
 2008-12-11 Tim Miao <Tim.Miao@Sun.COM>
 	* Bump SFEldtp.spec to 1.4.0
 

@@ -13,9 +13,9 @@
 
 Summary:                 GNOME display manager
 Name:                    SUNWgnome-display-mgr
-Version:                 2.24.1
+Version:                 2.25.1
 Release:                 1
-Source:                  http://download.gnome.org/sources/gdm/2.24/gdm-%{version}.tar.bz2
+Source:                  http://download.gnome.org/sources/gdm/2.25/gdm-%{version}.tar.bz2
 Source1:                 gdm.xml
 Source2:                 svc-gdm
 # Patch1 adds SDTLOGIN interface, which drops the Xserver to user
@@ -38,10 +38,6 @@ Patch4:                  gdm-04-ICE-optionwidget.diff
 # Fix gconf-santiy-check-2 warning dialog.
 # date:2008-09-04 owner:xz159989 type:bug bugid:550832
 Patch5:			 gdm-05-gconfsanity.diff
-# date:2008-11-04 owner:yippi type:bug state:upstream
-Patch6:			 gdm-06-fixshell.diff
-# date:2008-11-19 owner:halton type:bug bugzilla:561480
-Patch7:			 gdm-07-Xau.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -102,8 +98,6 @@ Requires:                %{name}
 %patch3 -p1
 %patch4 -p0
 %patch5 -p0
-%patch6 -p1
-%patch7 -p1
 
 %build
 export LDFLAGS="%_ldflags"
@@ -317,8 +311,10 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Thu Dec 11 2008 - brian.cameron@sun.com
+- Bump to 2.25.1.
 * Wed Nov 19 2008 - halton.huo@sun.com
-- Bump to 2.24.1
+- Bump to 2.24.1.
 - Remove upstreamed patch 01-lang.diff and reorder
 - Add patch 07-Xau.diff to fix bugzilla:561480
 - Remove "-L/usr/openwin/lib -lXau -R/usr/openwin/lib -R/usr/sfw/lib" from

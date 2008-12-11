@@ -11,15 +11,26 @@
 #
 # # svccfg
 # svc:> select application/graphical-login/gdm
+# svc:/application/graphical-login/gdm> setprop gdm/debug = "true"
 # svc:/application/graphical-login/gdm> exit
 
 . /lib/svc/share/smf_include.sh
 
 case "$1" in
 'start')
-	/usr/sbin/gdm $arg &
-	rc=$?
+	FMRI=svc:/application/graphical-login/gdm:default
 
+	debug=`svcprop -p gdm/debug $FMRI`
+
+	arg=`eval "echo \`svcprop -p gdm/args $FMRI\`"`
+
+	if [ "x$debug" = "xtrue" ]; then
+		/usr/sbin/gdm $arg --debug &
+	else
+		/usr/sbin/gdm $arg &
+	fi
+
+	rc=$?
 	if [ $rc != 0 ]; then
 		echo "$0: gdm failed with $rc"
 		exit 1

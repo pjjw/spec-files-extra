@@ -22,20 +22,20 @@
 		<service_fmri value='svc:/system/filesystem/local'/>
 	</dependency>
 
-        <dependency name='multi-user'
-            grouping='require_all'
-            restart_on='error'
-            type='service'>
-                <service_fmri value='svc:/milestone/multi-user:default'/>
-        </dependency>
+	<dependency name='multi-user'
+	    grouping='require_all'
+	    restart_on='error'
+	    type='service'>
+		<service_fmri value='svc:/milestone/multi-user:default'/>
+	</dependency>
 
-        <dependency
-            name='sysconfig'
-            grouping='require_all'
-            restart_on='none'
-            type='service'>
-                <service_fmri value='svc:/milestone/sysconfig'/>
-        </dependency>
+	<dependency
+	    name='sysconfig'
+	    grouping='require_all'
+	    restart_on='none'
+	    type='service'>
+		<service_fmri value='svc:/milestone/sysconfig'/>
+	</dependency>
 
 	<dependency
 	    name='fc-cache'
@@ -53,6 +53,14 @@
 		<service_fmri value='svc:/system/utmp'/>
 	</dependency>
 
+	<dependency
+	    name='hal'
+	    grouping='require_all'
+	    restart_on='none'
+	    type='service'>
+		<service_fmri value='svc:/system/hal' />
+	</dependency>
+
         <dependency
             name='dbus'
             type='service'
@@ -67,14 +75,6 @@
 	    restart_on='none'
 	    type='service'>
 		<service_fmri value='svc:/system/consolekit'/>
-	</dependency>
-
-	<dependency
-	    name='hal'
-	    grouping='require_all'
-	    restart_on='none'
-	    type='service'>
-		<service_fmri value='svc:/system/hal' />
 	</dependency>
 
 	<exec_method
@@ -96,7 +96,7 @@
                         value='solaris.smf.manage.dt.login' />
         </property_group>
 
-        <!-- these are passed to gdm in the method script -->
+	<!-- these are passed to gdm in the method script -->
         <property_group name='gdm' type='application'>
                 <propval name='debug' type='boolean' value='false' />
                 <propval name='args' type='astring' value='' />

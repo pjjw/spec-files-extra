@@ -739,16 +739,16 @@ diff -Nur gdm-2.23.92/daemon/gdm-server.c gdm-2.23.92-new/daemon/gdm-server.c
 diff -Nur gdm-2.23.92/daemon/gdm-simple-slave.c gdm-2.23.92-new/daemon/gdm-simple-slave.c
 --- gdm-2.23.92/daemon/gdm-simple-slave.c	2008-09-04 04:52:53.000000000 +0800
 +++ gdm-2.23.92-new/daemon/gdm-simple-slave.c	2008-09-18 10:42:55.131389000 +0800
-@@ -73,6 +73,8 @@
+@@ -73,6 +73,8 @@ struct GdmSimpleSlavePrivate
          GPid               server_pid;
          guint              connection_attempts;
  
 +        char              *xserver_command;
 +
          GdmServer         *server;
-         GdmGreeterServer  *greeter_server;
-         GdmGreeterSession *greeter;
-@@ -84,6 +86,7 @@
+         GdmSessionDirect  *session;
+ 
+@@ -85,6 +87,7 @@ struct GdmSimpleSlavePrivate
  
  enum {
          PROP_0,
@@ -756,7 +756,7 @@ diff -Nur gdm-2.23.92/daemon/gdm-simple-slave.c gdm-2.23.92-new/daemon/gdm-simpl
  };
  
  static void     gdm_simple_slave_class_init     (GdmSimpleSlaveClass *klass);
-@@ -1035,6 +1038,11 @@
+@@ -1070,6 +1073,11 @@ gdm_simple_slave_run (GdmSimpleSlave *sl
                  gboolean disable_tcp;
  
                  slave->priv->server = gdm_server_new (display_name, auth_file);
@@ -768,7 +768,7 @@ diff -Nur gdm-2.23.92/daemon/gdm-simple-slave.c gdm-2.23.92-new/daemon/gdm-simpl
  
                  disable_tcp = TRUE;
                  if (gdm_settings_client_get_boolean (GDM_KEY_DISALLOW_TCP,
-@@ -1125,7 +1133,15 @@
+@@ -1158,7 +1166,15 @@ gdm_simple_slave_set_property (GObject  
                                 const GValue *value,
                                 GParamSpec   *pspec)
  {
@@ -784,7 +784,7 @@ diff -Nur gdm-2.23.92/daemon/gdm-simple-slave.c gdm-2.23.92-new/daemon/gdm-simpl
          default:
                  G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
                  break;
-@@ -1138,7 +1154,14 @@
+@@ -1171,7 +1187,14 @@ gdm_simple_slave_get_property (GObject  
                                 GValue      *value,
                                 GParamSpec *pspec)
  {
@@ -799,7 +799,7 @@ diff -Nur gdm-2.23.92/daemon/gdm-simple-slave.c gdm-2.23.92-new/daemon/gdm-simpl
          default:
                  G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
                  break;
-@@ -1175,6 +1198,15 @@
+@@ -1208,6 +1231,15 @@ gdm_simple_slave_class_init (GdmSimpleSl
  
          g_type_class_add_private (klass, sizeof (GdmSimpleSlavePrivate));
  
@@ -815,7 +815,7 @@ diff -Nur gdm-2.23.92/daemon/gdm-simple-slave.c gdm-2.23.92-new/daemon/gdm-simpl
          dbus_g_object_type_install_info (GDM_TYPE_SIMPLE_SLAVE, &dbus_glib_gdm_simple_slave_object_info);
  }
  
-@@ -1202,6 +1234,7 @@
+@@ -1235,6 +1267,7 @@ gdm_simple_slave_finalize (GObject *obje
                  g_source_remove (simple_slave->priv->greeter_reset_id);
                  simple_slave->priv->greeter_reset_id = 0;
          }
@@ -826,15 +826,15 @@ diff -Nur gdm-2.23.92/daemon/gdm-simple-slave.c gdm-2.23.92-new/daemon/gdm-simpl
 diff -Nur gdm-2.23.92/utils/Makefile.am gdm-2.23.92-new/utils/Makefile.am
 --- gdm-2.23.92/utils/Makefile.am	2008-08-27 03:04:00.000000000 +0800
 +++ gdm-2.23.92-new/utils/Makefile.am	2008-09-18 10:42:55.139135000 +0800
-@@ -3,6 +3,7 @@
- INCLUDES = \
+@@ -3,6 +3,7 @@ NULL =
+ AM_CPPFLAGS = \
  	-I.						\
  	-I..						\
 +	-I$(top_srcdir)/common				\
  	-DLOCALSTATEDIR=\""$(localstatedir)"\" 		\
  	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
  	$(UTILS_CFLAGS)					\
-@@ -25,6 +26,7 @@
+@@ -25,6 +26,7 @@ gdm-safe-restart: gdm-safe-restart.in Ma
  
  bin_PROGRAMS = \
  	gdmflexiserver		\
@@ -842,19 +842,19 @@ diff -Nur gdm-2.23.92/utils/Makefile.am gdm-2.23.92-new/utils/Makefile.am
  	gdm-screenshot		\
  	$(NULL)
  
-@@ -52,6 +54,16 @@
+@@ -52,6 +54,16 @@ gdm_screenshot_LDADD =		\
  	$(COMMON_LIBS)		\
  	$(NULL)
  
-+gdmdynamic_SOURCES =        	\
-+        gdmdynamic.c        	\
-+        $(NULL)
++gdmdynamic_SOURCES =		\
++	gdmdynamic.c		\
++	$(NULL)
 +
-+gdmdynamic_LDADD =          	\
-+        $(top_builddir)/common/libgdmcommon.la  \
-+        $(GTK_LIBS)             \
-+        $(COMMON_LIBS)          \
-+        $(NULL)
++gdmdynamic_LDADD =		\
++	$(top_builddir)/common/libgdmcommon.la  \
++	$(GTK_LIBS)		\
++	$(COMMON_LIBS)		\
++	$(NULL)
 +
  EXTRA_DIST = 			\
  	gdm-stop.in		\
