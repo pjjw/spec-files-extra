@@ -12,7 +12,7 @@
 
 Name:                   SFEgraphicsmagick
 Summary:                GraphicsMagick - Image Manipulation Utilities and Libraries
-Version:                1.3.2
+Version:                1.3.3
 Source:                 %{sf_download}/graphicsmagick/GraphicsMagick-%{version}.tar.bz2
 SUNW_BaseDir:           %{_basedir}
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
@@ -85,6 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Dec 11 2008 - bfriesen@simple.dallas.tx.us
+- Update for GraphicsMagick 1.3.3.
 * Tue Dec 2 2008 - bfriesen@simple.dallas.tx.us
 - Update for GraphicsMagick 1.3.2.
 * Sun Aug 3 2008 - bfriesen@simple.dallas.tx.us
