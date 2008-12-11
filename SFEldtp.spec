@@ -8,10 +8,10 @@
 
 Name:          SFEldtp
 Summary:       Linux Desktop Testing Project
-Version:       0.8.0
+Version:       1.4.0
 SUNW_BaseDir:  %{_basedir}
 BuildRoot:     %{_tmppath}/%{name}-%{version}-build
-Source:        http://download.freedesktop.org/ldtp/0.x/0.8.x/ldtp-%{version}.tar.gz
+Source:        http://download.freedesktop.org/ldtp/1.x/1.4.x/ldtp-%{version}.tar.gz
 URL:           http://ldtp.freedesktop.org
 %include default-depend.inc
 Requires: SUNWPython
@@ -31,7 +31,9 @@ BuildRequires: SUNWlibpopt-devel
 %prep
 %setup -n ldtp-%{version}
 
+
 %build
+export LDFLAGS="$LDFLAGS -lsocket -lnsl"
 libtoolize --force
 aclocal
 autoheader
@@ -57,9 +59,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}/python%{python_version}
 %dir %attr (0755, root, bin) %{_libdir}/python%{python_version}/vendor-packages
 %{_libdir}/python%{python_version}/vendor-packages/*
-
+%{_datadir}/*
 
 %changelog
+* Mon Dec 8 2008 - tim.miao@sun.com
+- Bump to 1.4.0
 * Thu Mar 29 2007 - daymobrew@users.sourceforge.net
 - Correct source url.
 * Wed Mar 21 2007 - daymobrew@users.sourceforge.net

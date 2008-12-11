@@ -1,3 +1,6 @@
+2008-12-11 Tim Miao <Tim.Miao@Sun.COM>
+	* Bump SFEldtp.spec to 1.4.0
+
 2008-12-10  Gilles Dauphin
 
 	* Add SFElapack.spec
