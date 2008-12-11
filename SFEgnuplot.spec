@@ -7,8 +7,9 @@
 
 Name:                    SFEgnuplot
 Summary:                 gnuplot
-Version:                 4.0.0
+Version:                 4.2.4
 Source:			 http://downloads.sourceforge.net/%{summary}/%{summary}-%{version}.tar.gz
+Patch1:			gnuplot-01.diff
 URL:                     http://www.gnuplot.info
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -24,6 +25,7 @@ BuildRequires: SUNWpng-devel
 
 %prep
 %setup -q -n gnuplot-%version
+%patch1 -p0
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -43,6 +45,11 @@ make -j$CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT/usr/lib
+mkdir -p $RPM_BUILD_ROOT/usr/X11/lib/app-defaults
+pushd $RPM_BUILD_ROOT/usr/lib
+ln -s ../X11/lib X11
+popd
 make install DESTDIR=$RPM_BUILD_ROOT
 rm -f $RPM_BUILD_ROOT%{_datadir}/info/dir
 
@@ -87,8 +94,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755, root, bin) %{_mandir}
 %dir %attr(0755, root, bin) %{_mandir}/*
 %{_mandir}/*/*
+%dir %attr (0755, root, bin) %{_prefix}/X11
+%dir %attr (0755, root, bin) %{_prefix}/X11/lib
+%dir %attr (0755, root, bin) %{_prefix}/X11/lib/app-defaults
+%{_prefix}/X11/lib/app-defaults/*
+
 
 %changelog
+* Thu Dec 11 2008 - Gilles dauphin
+- bump to 4.2.4
 * Jeudi Nov 13 2008 - Gilles dauphin
 - In B101 SUNWgd2 and include/gd2
 * Tue Oct 23 2008  - Pradhap Devarajan <pradhap (at) gmail.com>

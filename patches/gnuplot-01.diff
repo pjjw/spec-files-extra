@@ -1,0 +1,29 @@
+--- src/wxterminal/wxt_gui.cpp.orig	Sun Aug 10 02:36:14 2008
++++ src/wxterminal/wxt_gui.cpp	Thu Dec 11 18:08:29 2008
+@@ -442,16 +442,16 @@
+ /* toolbar event : Help */
+ void wxtFrame::OnHelp( wxCommandEvent& WXUNUSED( event ) )
+ {
+-	wxMessageBox( wxString(wxT("You are using an interactive terminal "\
+-		"based on wxWidgets for the interface, Cairo "\
+-		"for the drawing facilities, and Pango for the text layouts.\n"\
+-		"Please note that toolbar icons in the terminal "\
+-		"don't reflect the whole range of mousing "\
+-		"possibilities in the terminal.\n"\
+-		"Hit 'h' in the plot window "\
+-		"and a help message for mouse commands "\
+-		"will appear in the gnuplot console.\n"\
+-		"See also 'help mouse'.\n")),
++	wxMessageBox( wxString(wxT("You are using an interactive terminal \n\
++		based on wxWidgets for the interface, Cairo \n\
++		for the drawing facilities, and Pango for the text layouts.\n\
++		Please note that toolbar icons in the terminal \n\
++		don't reflect the whole range of mousing \n\
++		possibilities in the terminal.\n\
++		Hit 'h' in the plot window \n\
++		and a help message for mouse commands \n\
++		will appear in the gnuplot console.\n\
++		See also 'help mouse'.\n")),
+ 		wxT("wxWidgets terminal help"), wxOK | wxICON_INFORMATION, this );
+ }
+ 
