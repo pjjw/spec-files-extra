@@ -1,3 +1,8 @@
+2008-12/11  Gilles Dauphin
+
+	* Add SFEoctave.spec
+	* bump SFEgnuplot to 4.2.4
+
 2008-12/11  Brian Cameron  <brian.cameron@sun.com>
 
 	* SUNWgnome-display-mgr.spec, patches/gdm-03-dynamic-display.diff:
