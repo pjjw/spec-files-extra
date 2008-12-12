@@ -38,6 +38,7 @@ Patch4:                  gdm-04-ICE-optionwidget.diff
 # Fix gconf-santiy-check-2 warning dialog.
 # date:2008-09-04 owner:xz159989 type:bug bugid:550832
 Patch5:			 gdm-05-gconfsanity.diff
+Patch6:                  gdm-06-fixcrash.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -98,6 +99,7 @@ Requires:                %{name}
 %patch3 -p1
 %patch4 -p0
 %patch5 -p0
+%patch6 -p1
 
 %build
 export LDFLAGS="%_ldflags"
@@ -311,6 +313,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Fri Dec 12 2008 - brian.cameron@sun.com
+- Add patch gdm-06-fixcrash to address crashing issue with 2.25.1.
 * Thu Dec 11 2008 - brian.cameron@sun.com
 - Bump to 2.25.1.
 * Wed Nov 19 2008 - halton.huo@sun.com

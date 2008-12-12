@@ -1,3 +1,8 @@
+2008-12/12  Brian Cameron  <brian.cameron@sun.com>
+
+	* SUNWgnome-display-mgr, patchers/gdm-06-fixcrash.diff:  Add patch to
+	  fix crashing issue.
+
 2008-12/11  Brian Cameron  <brian.cameron@sun.com>
 
 	* copyright/SUNWgnome-display-mgr.copyright:  Add copyright file.
