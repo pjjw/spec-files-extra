@@ -1,13 +1,13 @@
 #
 # spec file for package gst-plugins-ugly
 #
-# Copyright (c) 2005 Sun Microsystems, Inc.
+# Copyright (c) 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
 Name:           gst-plugins-ugly
 License:        GPL
-Version:        0.10.9
+Version:        0.10.10
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -42,9 +42,10 @@ CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS ; \
 CXXFLAGS="${CXXFLAGS:-%optflags}" ; export CXXFLAGS ; \
 FFLAGS="${FFLAGS:-%optflags}" ; export FFLAGS ; \
 glib-gettextize -f
-aclocal -I ./m4 -I ./common/m4 $ACLOCAL_FLAGS
-libtoolize --copy --force
+# common/m4/libtool.m4 is not compatible (uses $ECHO instead of $echo)
+#libtoolize --copy --force
 intltoolize --copy --force --automake
+aclocal -I ./m4 -I ./common/m4 $ACLOCAL_FLAGS
 autoheader
 autoconf
 automake -a -c -f
@@ -52,9 +53,11 @@ bash ./configure \
   --prefix=%{_prefix}	\
   --sysconfdir=%{_sysconfdir} \
   --mandir=%{_mandir}   \
-  --disable-lame	\
-  --enable-dvdnav	\
-  --disable-sidplay	\
+  --disable-amrnb       \
+  --disable-cdio        \
+  --disable-lame        \
+  --disable-sidplay     \
+  --enable-dvdnav       \
   --enable-external --with-check=no
 
 # FIXME: hack: stop the build from looping
@@ -75,8 +78,8 @@ unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 
 # Clean out files that should not be part of the rpm.
 # This is the recommended way of dealing with it for RH8
-rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-%{majorminor}/*.la
-rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-%{majorminor}/*.a
+rm -f $RPM_BUILD_ROOT%{_libdir}/gstreamer-%{majorminor}/*.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/gstreamer-%{majorminor}/*.a
 
 %clean
 [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
@@ -110,6 +113,9 @@ GStreamer support libraries header files.
 %{_datadir}/gtk-doc
 
 %changelog
+* Fri Dec 12 2008 - trisk@acm.jhu.edu
+- Bump to 0.10.10
+- Disable more plugins
 * Thu Sep 08 2008 - halton.huo@sun.com
 - Bump to 0.10.9
 * Wed Jul 23 2008 - trisk@acm.jhu.edu

@@ -17,8 +17,7 @@
 %use gst_plugins_ugly = gst-plugins-ugly.spec
 %use gst_plugins_bad = gst-plugins-bad.spec
 
-%define gst_minmaj 0.10
-%define gst_maj 0
+%define gst_minmaj %(echo %{gst_plugins_ugly.version} | cut -f1,2 -d.)
 
 Name:                    SFEgnome-media-extras
 Summary:                 GNOME streaming media framework - extra plugins
@@ -32,7 +31,6 @@ Requires: SUNWlibms
 Requires: SUNWlxml
 Requires: SUNWxorg-clientlibs
 Requires: SUNWzlib
-Requires: SUNWneon
 Requires: SUNWfreetype2
 BuildRequires: SUNWbison
 BuildRequires: SUNWPython
@@ -52,38 +50,49 @@ Requires: SUNWgnome-config
 BuildRequires: SUNWgnome-config-devel
 Requires: SUNWgnome-vfs
 BuildRequires: SUNWgnome-vfs-devel
-Requires: SUNWmusicbrainz
-BuildRequires: SUNWmusicbrainz-devel
-Requires: SUNWlibexif
-BuildRequires: SUNWlibexif-devel
-Requires: SUNWlibsdl
-BuildRequires:  SUNWlibsdl-devel
+##### for gst-ffmpeg #####
+Requires: SFEffmpeg
+BuildRequires: SFEffmpeg-devel
+##### for gst-plugins-ugly #####
+Requires: SFEliba52
+BuildRequires: SFEliba52-devel
+#Requires: SFElibcdio
+#BuildRequires: SFElibcdio-devel
+Requires: SFElibdvdnav
+BuildRequires: SFElibdvdnav-devel
+Requires: SFElibid3tag
+BuildRequires: SFElibid3tag-devel
 Requires: SFElibmad
 BuildRequires: SFElibmad-devel
 Requires: SFElibmpeg2
 BuildRequires: SFElibmpeg2-devel
-Requires: SFElibdvdnav
-BuildRequires: SFElibdvdnav-devel
-Requires: SFEamrnb
-BuildRequires: SFEamrnb-devel
+##### for gst-plugins-bad #####
+# Notes: metadata plugin which uses libexif may be unstable
+#Requires: SUNWlibexif
+#BuildRequires: SUNWlibexif-devel
+Requires: SUNWmusicbrainz
+BuildRequires: SUNWmusicbrainz-devel
+Requires: SUNWlibsdl
+BuildRequires:  SUNWlibsdl-devel
+Requires: SUNWlibtheora
+BuildRequires: SUNWlibtheora-devel
+# Note: amrnb code is non-distributable, so don't depend on it
+#Requires: SFEamrnb
+#BuildRequires: SFEamrnb-devel
+#BuildRequires: SFEdirac-devel
 Requires: SFEfaad2
 BuildRequires: SFEfaad2-devel
-Requires: SFEliba52
-BuildRequires: SFEliba52-devel
+# Note: musepack plugin doesn't compile with Studio
 #BuildRequires: SFElibmpcdec-devel
-#BuildRequires: SFEdirac-devel
-Requires: SFEffmpeg
-BuildRequires: SFEffmpeg-devel
+#Requires: SFElibmms
+#BuildRequires: SFElibmms-devel
+Requires: SFElibofa
 Requires: SFElibsndfile
 BuildRequires: SFElibsndfile-devel
-Requires: SFElibid3tag
-BuildRequires: SFElibid3tag-devel
-Requires: SFElibmms
-BuildRequires: SFElibmms-devel
-#BuildRequires: SUNWxorg-mesa
-#%else
-#BuildRequires:  SFEsdl-devel
-#%endif
+Requires: SFEwildmidi
+BuildRequires: SFEwildmidi-devel
+Requires: SFExvid
+BuildRequires: SFExvid-devel
 
 %ifarch sparc
 %define arch_opt --enable-mlib
@@ -190,8 +199,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, sys) %{_datadir}
 %attr (-, root, other) %{_datadir}/locale
 %endif
-
 %changelog
+* Fri Dec 12 2008 - trisk@acm.jhu.edu
+- Bump gst-plugins-ugly to 0.10.10
+- Bump gst-plugins-bad to 0.10.9
+- Update dependencies again
 * Thu Sep 02 2008 - halton.huo@sun.com
 - Update dependencies
 * Wed Jul 23 2008 - trisk@acm.jhu.edu

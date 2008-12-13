@@ -1,3 +1,15 @@
+2008-12/12  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFEwildmidi.spec: *NEW* wildmidi - software MIDI synthesizer
+	* base-specs/gst-plugins-bad.spec: Bump to 0.10.9. Disable plugins for
+	  dependency consistency and to avoid unstable plugins.
+	* base-specs/gst-plugins-ugly.spec: Bump to 0.10.10. Disable more
+	  plugins.
+	* encumbered/SFEgnome-media-extras.spec: Bump gst-plugins-ugly to
+	  0.10.10. Bump gst-plugins-bad to 0.10.9. Update dependencies again.
+	* ext-sources/soundcard.h: *NEW* OSS4 "sys/soundcard.h"
+	* patches/wildmidi-01-solaris.diff: Patch for Studio/Solaris compile
+
 2008-12/12  Brian Cameron  <brian.cameron@sun.com>
 
 	* SUNWgnome-display-mgr, patchers/gdm-06-fixcrash.diff:  Add patch to
