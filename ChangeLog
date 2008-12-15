@@ -1,5 +1,10 @@
 2008-12-15  Halton Huo <halton.huo@sun.com>
 
+	* patches/PolicyKit-01-solaris.diff: Remove __attribute__ ((format())) 
+	  part since SS12 support this feature.
+
+2008-12-15  Halton Huo <halton.huo@sun.com>
+
 	* SFEfetchmail.spec:  Remove attribute.diff since SS12 support
 	   __attribute__ (unused)
 	* patches/fetchmail-02-attribute.diff: removed

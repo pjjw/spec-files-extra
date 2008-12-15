@@ -80,23 +80,6 @@ diff -ru PolicyKit-0.7.orig/src/kit/kit-file.h PolicyKit-0.7/src/kit/kit-file.h
  
  KIT_BEGIN_DECLS
  
-diff -ru PolicyKit-0.7.orig/src/kit/kit-message.h PolicyKit-0.7/src/kit/kit-message.h
---- PolicyKit-0.7.orig/src/kit/kit-message.h	Thu Nov 29 05:31:41 2007
-+++ PolicyKit-0.7/src/kit/kit-message.h	Fri Jan 25 15:02:22 2008
-@@ -38,8 +38,13 @@
- 
- KIT_BEGIN_DECLS
- 
-+#ifdef __sun
-+void kit_debug   (const char *format, ...);
-+void kit_warning (const char *format, ...);
-+#else
- void kit_debug   (const char *format, ...) __attribute__((__format__ (__printf__, 1, 2)));
- void kit_warning (const char *format, ...) __attribute__((__format__ (__printf__, 1, 2)));
-+#endif
- 
- KIT_END_DECLS
- 
 diff -ru PolicyKit-0.7.orig/src/kit/kit-spawn.c PolicyKit-0.7/src/kit/kit-spawn.c
 --- PolicyKit-0.7.orig/src/kit/kit-spawn.c	Thu Nov 29 05:32:22 2007
 +++ PolicyKit-0.7/src/kit/kit-spawn.c	Fri Jan 25 15:35:28 2008
@@ -401,21 +384,6 @@ diff -ru PolicyKit-0.7.orig/src/kit/kit-string.c PolicyKit-0.7/src/kit/kit-strin
  /**
   * kit_strdup_printf:
   * @format: sprintf(3) format string
-diff -ru PolicyKit-0.7.orig/src/kit/kit-string.h PolicyKit-0.7/src/kit/kit-string.h
---- PolicyKit-0.7.orig/src/kit/kit-string.h	Sat Dec  1 07:22:06 2007
-+++ PolicyKit-0.7/src/kit/kit-string.h	Fri Jan 25 14:47:39 2008
-@@ -40,7 +40,11 @@
- 
- char *kit_strdup         (const char *s);
- char *kit_strndup        (const char *s, size_t n);
-+#ifdef __sun
-+char *kit_strdup_printf  (const char *format, ...);
-+#else
- char *kit_strdup_printf  (const char *format, ...) __attribute__((__format__ (__printf__, 1, 2)));
-+#endif
- char *kit_strdup_vprintf (const char *format, va_list args);
- char *kit_str_append     (char *s, const char *s2);
-
 diff -ru PolicyKit-0.7.orig/src/kit/kit-test.c PolicyKit-0.7/src/kit/kit-test.c
 --- PolicyKit-0.7.orig/src/kit/kit-test.c       Thu Nov 29 05:32:34 2007
 +++ PolicyKit-0.7.good/src/kit/kit-test.c       Fri Jan 25 18:30:16 2008
@@ -674,36 +642,6 @@ diff -ru PolicyKit-0.7.orig/src/polkit/polkit-context.c PolicyKit-0.7/src/polkit
  
          if (config_changed) {
                  polkit_context_force_reload (pk_context);
-diff -ru PolicyKit-0.7.orig/src/polkit/polkit-debug.h PolicyKit-0.7/src/polkit/polkit-debug.h
---- PolicyKit-0.7.orig/src/polkit/polkit-debug.h	Thu Nov 29 05:28:01 2007
-+++ PolicyKit-0.7/src/polkit/polkit-debug.h	Fri Jan 25 15:38:43 2008
-@@ -30,7 +30,11 @@
- #ifndef POLKIT_DEBUG_H
- #define POLKIT_DEBUG_H
- 
-+#ifdef __sun
-+void _pk_debug (const char *format, ...);
-+#else
- void _pk_debug (const char *format, ...) __attribute__((__format__ (__printf__, 1, 2)));
-+#endif
- 
- #endif /* POLKIT_DEBUG_H */
- 
-diff -ru PolicyKit-0.7.orig/src/polkit/polkit-error.h PolicyKit-0.7/src/polkit/polkit-error.h
---- PolicyKit-0.7.orig/src/polkit/polkit-error.h	Thu Nov 29 05:25:31 2007
-+++ PolicyKit-0.7/src/polkit/polkit-error.h	Fri Jan 25 15:37:44 2008
-@@ -89,7 +89,11 @@
- PolKitErrorCode  polkit_error_get_error_code (PolKitError *error);
- const char      *polkit_error_get_error_message (PolKitError *error);
- void             polkit_error_free (PolKitError *error);
-+#ifdef __sun
-+polkit_bool_t    polkit_error_set_error (PolKitError **error, PolKitErrorCode error_code, const char *format, ...);
-+#else
- polkit_bool_t    polkit_error_set_error (PolKitError **error, PolKitErrorCode error_code, const char *format, ...) __attribute__((__format__ (__printf__, 3, 4)));
-+#endif
- 
- POLKIT_END_DECLS
- 
 diff -ru PolicyKit-0.7.orig/src/polkit/polkit-policy-cache.c PolicyKit-0.7/src/polkit/polkit-policy-cache.c
 --- PolicyKit-0.7.orig/src/polkit/polkit-policy-cache.c	Thu Nov 29 14:14:09 2007
 +++ PolicyKit-0.7/src/polkit/polkit-policy-cache.c	Fri Jan 25 15:50:48 2008
