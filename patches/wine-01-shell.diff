@@ -1,24 +1,13 @@
-diff -ur wine-0.9.36-orig/tools/wineprefixcreate.in wine-0.9.36/tools/wineprefixcreate.in
---- wine-0.9.36-orig/tools/wineprefixcreate.in	2007-04-27 21:48:53.000000000 +0700
-+++ wine-0.9.36/tools/wineprefixcreate.in	2007-04-30 00:31:55.830985282 +0700
+--- wine-1.1.10/tools/wineprefixcreate.in.orig	2008-12-15 20:17:00.553537000 +0800
++++ wine-1.1.10/tools/wineprefixcreate.in	2008-12-15 20:17:05.542212000 +0800
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/bin/bash
  #
  # Script to create the initial WINEPREFIX directory
  #
-diff -ur wine-0.9.36-orig/tools/wineshelllink wine-0.9.36/tools/wineshelllink
---- wine-0.9.36-orig/tools/wineshelllink	2007-04-27 21:48:53.000000000 +0700
-+++ wine-0.9.36/tools/wineshelllink	2007-04-30 00:31:34.623397415 +0700
-@@ -1,4 +1,4 @@
--#!/bin/sh
-+#!/bin/bash
- #
- # Create menu/desktop entries for an application
- # This is used by the IShellLink interface
-diff -ur wine-0.9.36-orig/tools/winewrapper wine-0.9.36/tools/winewrapper
---- wine-0.9.36-orig/tools/winewrapper	2007-04-27 21:48:53.000000000 +0700
-+++ wine-0.9.36/tools/winewrapper	2007-04-30 00:32:28.783751190 +0700
+--- wine-1.1.10/tools/winewrapper.orig	2008-12-15 20:15:53.280259000 +0800
++++ wine-1.1.10/tools/winewrapper	2008-12-15 20:16:00.293639000 +0800
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/bin/bash

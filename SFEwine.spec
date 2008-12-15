@@ -11,7 +11,7 @@
 
 Name:                   SFEwine
 Summary:                Windows compatibility
-Version:                1.1.8
+Version:                1.1.10
 URL:                    http://www.winehq.org/
 Source:                 %{src_url}/%{src_name}-%{version}.tar.bz2
 Source101:		http://trisk.acm.jhu.edu/winetricks-20080627
@@ -151,6 +151,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Mon Dec 15 2008 - halton.huo@sun.com
+- Bump to 1.1.10
 * Mon Nov 17 2008 - halton.huo@sun.com
 - Bump to 1.1.8
 - Remove upstreamed patch and reorder

@@ -1,5 +1,10 @@
 2008-12-15  Halton Huo <halton.huo@sun.com>
 
+	* SFEwine.spec: Bump to 1.1.10
+	* patches/wine-01-shell.diff: rework
+
+2008-12-15  Halton Huo <halton.huo@sun.com>
+
 	* patches/PolicyKit-01-solaris.diff: Remove __attribute__ ((format())) 
 	  part since SS12 support this feature.
 
