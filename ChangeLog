@@ -1,5 +1,16 @@
 2008-12-15  Halton Huo <halton.huo@sun.com>
 
+	* SFEcheck.spec:
+	* patches/check-02-suncc-fail.diff: rename to check-01-suncc-fail.diff
+
+2008-12-15  Halton Huo <halton.huo@sun.com>
+
+	* SFEcheck.spec: Remove suncc-define since SS12 support __attribute__
+	* patches/check-01-suncc-define.diff: removed
+	* patches/xchat-02-zero-index.diff: removed
+
+2008-12-15  Halton Huo <halton.huo@sun.com>
+
 	* archive/SFExchat.spec: remove patch zero-index.diff since SS12 support
 	* patches/xchat-02-zero-index.diff:
 

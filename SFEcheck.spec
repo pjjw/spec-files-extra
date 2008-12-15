@@ -9,8 +9,7 @@ Name:                    SFEcheck
 Summary:                 Check - An unit testing framework for C
 Version:                 0.9.5
 Source:                  %{sf_download}/check/check-%{version}.tar.gz
-Patch1:                  check-01-suncc-define.diff
-Patch2:                  check-02-suncc-fail.diff
+Patch1:                  check-01-suncc-fail.diff
 URL:                     http://check.sourceforge.net/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -19,8 +18,7 @@ Requires: SUNWlibC
 
 %prep
 %setup -q -n check-%version
-#%patch1 -p1
-%patch2 -p1
+%patch1 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -68,5 +66,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Mon Dec 15 2008 - halton.huo@sun.com
+- Remove suncc-define.diff since SS12 support __attribute__
 * Tue Mar 06 2007 - nonsea@users.sourceforge.net
 - Initial spec file
