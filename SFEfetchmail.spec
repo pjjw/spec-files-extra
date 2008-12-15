@@ -11,7 +11,6 @@ Group:                   utilities/email
 Version:                 6.3.6
 Source:                  http://download.berlios.de/fetchmail/fetchmail-%{version}.tar.bz2
 Patch1:                  fetchmail-01-gettext.diff
-Patch2:                  fetchmail-02-attribute.diff
 URL:                     http://fetchmail.berlios.de/
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
@@ -28,7 +27,6 @@ Requires:                %{name}
 %prep
 %setup -q -n fetchmail-%version
 %patch1 -p1
-%patch2 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -95,6 +93,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Dec 15 2008 - halton.huo@sun.com
+- Remove attribute.diff since SS12 support __attribute__ (unused)
 * Wed May  7 2008 - Thomas Wagner
 - enable ssl
 * Sat Apr 21 2007 - dougs@truemail.co.th

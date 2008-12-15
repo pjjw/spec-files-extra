@@ -1,5 +1,11 @@
 2008-12-15  Halton Huo <halton.huo@sun.com>
 
+	* SFEfetchmail.spec:  Remove attribute.diff since SS12 support
+	   __attribute__ (unused)
+	* patches/fetchmail-02-attribute.diff: removed
+
+2008-12-15  Halton Huo <halton.huo@sun.com>
+
 	* SFEcheck.spec:
 	* patches/check-02-suncc-fail.diff: rename to check-01-suncc-fail.diff
 
