@@ -1,3 +1,8 @@
+2008-12-15  Halton Huo <halton.huo@sun.com>
+
+	* archive/SFExchat.spec: remove patch zero-index.diff since SS12 support
+	* patches/xchat-02-zero-index.diff:
+
 2008-12/12  Albert Lee  <trisk@acm.jhu.edu>
 
 	* SFEwildmidi.spec: *NEW* wildmidi - software MIDI synthesizer

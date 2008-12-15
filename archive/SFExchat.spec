@@ -13,7 +13,6 @@ Summary:                 XChat IRC Client
 Version:                 2.8.6
 Source:                  http://www.xchat.org/files/source/2.8/xchat-%{version}.tar.bz2
 Patch1:                  xchat-01-gettext.diff
-Patch2:                  xchat-02-zero-index.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -46,7 +45,6 @@ Requires:                %{name}
 %prep
 %setup -q -n xchat-%version
 %patch1 -p1 -b .patch01
-%patch2 -p1 -b .patch02
 touch NEWS
 
 %build
@@ -149,6 +147,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Dec 10 2008 - halton.huo@sun.com
+- Remove zero-index.diff since SS12 support it.
 * Thu Jun 12 2008 - brian.cameron@sun.com
 - Bump to 2.8.6.
 * Mon Oct 22 2007 - brian.cameron@sun.com
