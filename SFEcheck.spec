@@ -19,7 +19,7 @@ Requires: SUNWlibC
 
 %prep
 %setup -q -n check-%version
-%patch1 -p1
+#%patch1 -p1
 %patch2 -p1
 
 %build
