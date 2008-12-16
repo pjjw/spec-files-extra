@@ -36,9 +36,14 @@ Patch3:                  gdm-03-dynamic-display.diff
 # date:2008-09-29 owner:yippi type:bug bugid:554242
 Patch4:                  gdm-04-ICE-optionwidget.diff
 # Fix gconf-santiy-check-2 warning dialog.
-# date:2008-09-04 owner:xz159989 type:bug bugid:550832
+# date:2008-09-04 owner:yippi type:bug bugid:550832
 Patch5:			 gdm-05-gconfsanity.diff
+# date:2008-12-16 owner:yippi type:bug state:upstream
 Patch6:                  gdm-06-fixcrash.diff
+# date:2008-12-16 owner:yippi type:bug bugid:528663
+Patch7:                  gdm-07-hide-face-browser.diff
+# date:2008-12-16 owner:yippi type:bug bugid:564789
+Patch8:                  gdm-08-layout.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -100,6 +105,8 @@ Requires:                %{name}
 %patch4 -p0
 %patch5 -p0
 %patch6 -p1
+%patch7 -p1
+%patch8 -p1
 
 %build
 export LDFLAGS="%_ldflags"
@@ -313,6 +320,12 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Tue Dec 16 2008 - brian.cameron@sun.com
+- Add patch gdm-07-hide-face-browser.diff so that the face browser is
+  hidden when the disable_user_list configuration option is TRUE.
+  Add patch gdm-08-layout.diff to fix the GDM GUI so that the keyboard
+  switcher applet is not shown when it is empty such as when libxklavier
+  is not present.
 * Fri Dec 12 2008 - brian.cameron@sun.com
 - Add patch gdm-06-fixcrash to address crashing issue with 2.25.1.
 * Thu Dec 11 2008 - brian.cameron@sun.com

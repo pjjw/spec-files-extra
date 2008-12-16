@@ -1,0 +1,52 @@
+--- gdm-2.25.1/gui/simple-greeter/gdm-chooser-widget.h-orig	2008-12-15 16:41:50.037050118 -0600
++++ gdm-2.25.1/gui/simple-greeter/gdm-chooser-widget.h	2008-12-15 16:58:26.873522355 -0600
+@@ -137,6 +137,7 @@ void           gdm_chooser_widget_activa
+ void           gdm_chooser_widget_propagate_pending_key_events (GdmChooserWidget          *widget);
+ 
+ void           gdm_chooser_widget_loaded                       (GdmChooserWidget          *widget);
++void           gdm_chooser_widget_hide_scrollable              (GdmChooserWidget          *widget);
+ 
+ G_END_DECLS
+ 
+--- gdm-2.25.1/gui/simple-greeter/gdm-greeter-login-window.c-orig	2008-12-15 17:04:30.558592684 -0600
++++ gdm-2.25.1/gui/simple-greeter/gdm-greeter-login-window.c	2008-12-15 23:12:45.168865677 -0600
+@@ -736,6 +736,8 @@ gdm_greeter_login_window_ready (GdmGreet
+         set_ready (GDM_GREETER_LOGIN_WINDOW (login_window));
+         set_focus (GDM_GREETER_LOGIN_WINDOW (login_window));
+ 
++        gdm_chooser_widget_activate_if_one_item (GDM_CHOOSER_WIDGET (login_window->priv->user_chooser));
++
+         return TRUE;
+ }
+ 
+@@ -1327,7 +1329,6 @@ static void
+ on_users_loaded (GdmUserChooserWidget  *user_chooser,
+                  GdmGreeterLoginWindow *login_window)
+ {
+-        gdm_chooser_widget_activate_if_one_item (GDM_CHOOSER_WIDGET (login_window->priv->user_chooser));
+ }
+ 
+ static void
+--- gdm-2.25.1/gui/simple-greeter/gdm-user-chooser-widget.c-orig	2008-12-15 17:02:35.284575357 -0600
++++ gdm-2.25.1/gui/simple-greeter/gdm-user-chooser-widget.c	2008-12-15 16:58:42.303275315 -0600
+@@ -487,6 +487,7 @@ load_users (GdmUserChooserWidget *widget
+                                   widget);
+         } else {
+                 gdm_chooser_widget_loaded (GDM_CHOOSER_WIDGET (widget));
++                gdm_chooser_widget_hide_scrollable (GDM_CHOOSER_WIDGET (widget));
+         }
+ 
+         widget->priv->load_idle_id = 0;
+--- gdm-2.25.1/gui/simple-greeter/gdm-chooser-widget.c-orig	2008-12-15 17:01:16.055710321 -0600
++++ gdm-2.25.1/gui/simple-greeter/gdm-chooser-widget.c	2008-12-15 17:05:37.885625136 -0600
+@@ -2490,3 +2490,10 @@ gdm_chooser_widget_loaded (GdmChooserWid
+ {
+         g_signal_emit (widget, signals[LOADED], 0);
+ }
++
++void
++gdm_chooser_widget_hide_scrollable (GdmChooserWidget *widget)
++{
++        gtk_widget_hide (widget->priv->scrollable_widget);
++}
++
