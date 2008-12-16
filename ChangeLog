@@ -1,5 +1,9 @@
 2008-12-16  Albert Lee  <trisk@acm.jhu.edu>
 
+	* base-specs/linuxwacom.spec:  Fix 64-bit driver crash
+
+2008-12-16  Albert Lee  <trisk@acm.jhu.edu>
+
 	* SFExorg-input-wacom.spec: *NEW* Wacom input device driver for X.org
 	* base-specs/linuxwacom.spec: *NEW* Base spec for SFExorg-input-wacom
 	* patches/linuxwacom-01-no-usb.diff: Patch to build without USB support
