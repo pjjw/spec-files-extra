@@ -1,3 +1,10 @@
+2008-12-16  Albert Lee  <trisk@acm.jhu.edu>
+
+	* SFExorg-input-wacom.spec: *NEW* Wacom input device driver for X.org
+	* base-specs/linuxwacom.spec: *NEW* Base spec for SFExorg-input-wacom
+	* patches/linuxwacom-01-no-usb.diff: Patch to build without USB support
+	* patches/linuxwacom-02-sunpro.diff: Patch to compile with Sun Studio
+
 2008-12-15  Halton Huo <halton.huo@sun.com>
 
 	* SFEwine.spec: Bump to 1.1.10

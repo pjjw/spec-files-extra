@@ -1,0 +1,12 @@
+--- linuxwacom-0.8.2.orig/src/xdrv/xf86Wacom.c	2008-12-01 19:24:20.000000000 -0500
++++ linuxwacom-0.8.2/src/xdrv/xf86Wacom.c	2008-12-15 23:56:32.183763644 -0500
+@@ -925,7 +925,9 @@
+ 		}
+ 		pos += cnt;
+ 
++#ifdef WCM_ENABLE_LINUXINPUT
+ 		if (common->wcmDevCls != &gWacomUSBDevice) 
++#endif
+ 		{
+ 			common->wcmPktLength = 9;
+ 			data = common->buffer + pos;
