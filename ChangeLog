@@ -1,4 +1,9 @@
-2008-12/12  Brian Cameron  <brian.cameron@sun.com>
+2008-12-17  Brian Cameron  <brian.cameron@sun.com>
+
+	* SUNWgnome-display-mgr.spec: Bump to 2.25.2.
+	* patches/gdm-06-fixcrash: Remove upstream patch, renumber rest.
+
+2008-12-16  Brian Cameron  <brian.cameron@sun.com>
 
 	* SUNWgnome-display-mgr.spec, patches/gdm-07-hide-face-browser.diff,
 	  patches/gdm-08-layout.diff:  Add patch gdm-07-hide-face-browser.diff

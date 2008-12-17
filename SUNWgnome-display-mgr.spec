@@ -13,7 +13,7 @@
 
 Summary:                 GNOME display manager
 Name:                    SUNWgnome-display-mgr
-Version:                 2.25.1
+Version:                 2.25.2
 Release:                 1
 Source:                  http://download.gnome.org/sources/gdm/2.25/gdm-%{version}.tar.bz2
 Source1:                 gdm.xml
@@ -38,12 +38,10 @@ Patch4:                  gdm-04-ICE-optionwidget.diff
 # Fix gconf-santiy-check-2 warning dialog.
 # date:2008-09-04 owner:yippi type:bug bugid:550832
 Patch5:			 gdm-05-gconfsanity.diff
-# date:2008-12-16 owner:yippi type:bug state:upstream
-Patch6:                  gdm-06-fixcrash.diff
 # date:2008-12-16 owner:yippi type:bug bugid:528663
-Patch7:                  gdm-07-hide-face-browser.diff
-# date:2008-12-16 owner:yippi type:bug bugid:564789
-Patch8:                  gdm-08-layout.diff
+Patch6:                  gdm-06-hide-face-browser.diff
+# date:2008-12-16 owner:yippi type:bug bugid:564789 state:upstream
+Patch7:                  gdm-07-layout.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
@@ -106,7 +104,6 @@ Requires:                %{name}
 %patch5 -p0
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
 
 %build
 export LDFLAGS="%_ldflags"
@@ -320,6 +317,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Wed Dec 17 2008 - brian.cameron@sun.com
+- Bump to 2.25.2.
 * Tue Dec 16 2008 - brian.cameron@sun.com
 - Add patch gdm-07-hide-face-browser.diff so that the face browser is
   hidden when the disable_user_list configuration option is TRUE.
