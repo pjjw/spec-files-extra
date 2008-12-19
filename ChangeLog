@@ -1,3 +1,7 @@
+2008-12-19  Alfred Peng  <alfred.peng@sun.com>
+
+	* SFEseamonkey.spec: Bump to 1.1.14.
+
 2008-12-17  Brian Cameron  <brian.cameron@sun.com>
 
 	* SUNWgnome-display-mgr.spec: Bump to 2.25.2.

@@ -8,7 +8,7 @@
 
 Name:          SFEseamonkey
 Summary:       seamonkey - all-in-one internet application suite
-Version:       1.1.9
+Version:       1.1.14
 Source:        http://releases.mozilla.org/pub/mozilla.org/seamonkey/releases/%{version}/seamonkey-%{version}.source.tar.bz2
 URL:           http://www.mozilla.org/projects/seamonkey/
 SUNW_BaseDir:  %{_basedir}
@@ -129,6 +129,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Fri Dec 09 2008 - alfred.peng@sun.com
+- bump to 1.1.14
 * Thu Apr 18 2008 - evan.yan@sun.com
 - bump to 1.1.9
 * Thu Mar 6 2008 - alfred.peng@sun.com
