@@ -1,6 +1,9 @@
 #
 # spec file for package SFEtinyca2
 #
+# works: snv104 / pkgbuild 1.3.91
+# works: snv104 / pkgbuild 1.2.0
+# works: snv96  / pkgbuild 1.3.1
 
 %define src_name tinyca2
 
@@ -22,7 +25,8 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 Requires: SFEperl-gtk2
 Requires: SFEperl-gettext
-Requires: SUNWopenssl
+Requires: SUNWopensslr
+Requires: SUNWopenssl-libraries
 Requires: SUNWgtar
 Requires: SUNWzip
 
@@ -115,6 +119,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Nov 13 2008 - Thomas Wagner
+- Fix Requires to be SUNWopensslr and SUNWopenssl-libraries
 * Tue Oct 21 2008  - Pradhap Devarajan <pradhap (at) gmail.com>
 - Fix Requires
 * Thu Oct 07 2008  - Thomas Wagner
