@@ -324,7 +324,7 @@ Requires: SUNWckr
 Requires: SUNWcnetr
 
 %package atge
-Summary:       NIC driver for intel gigabit ethernet controller 8254x
+Summary:       NIC driver for Attansic L1/L2 and Atheros AR81 ethernet controller
 Version:       %{atge_version}
 SUNW_BaseDir:  /
 %include default-depend.inc
@@ -897,6 +897,8 @@ ${BASEDIR}%{_localstatedir}/nicdrv/scripts/drvrm ${BASEDIR} atge
 %attr (0644, root, bin) %{_localstatedir}/nicdrv/scripts/atge.postinst
 
 %changelog
+* Sat Dec 20 2008 - Thomas Wagner
+- corrected package name for atge (was Intel -> now Attansic L1/L2 and Atheros AR81)
 * Sun Nov 30 2008 - Thomas Wagner
 - Add atge driver
 * Sat Jun 07 2008 - trisk@acm.jhu.edu

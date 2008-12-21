@@ -1,4 +1,7 @@
 2008-12-21  Thomas Wagner  <tom68@users.sourceforge.net>
+	* SFEnicdrv.spec: SFEnicdrv-atge: corrected package longname for atge (was Intel -> now Attansic L1/L2 and Atheros AR81)
+
+2008-12-21  Thomas Wagner  <tom68@users.sourceforge.net>
 	* SFEx86info.spec: remove snapshot-date,  bump to 1.21
 
 2008-12-21  Thomas Wagner  <tom68@users.sourceforge.net>
