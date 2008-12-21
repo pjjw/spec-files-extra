@@ -1,4 +1,7 @@
 2008-12-21  Thomas Wagner  <tom68@users.sourceforge.net>
+	* SFEmpd.spec: SFEid3lib or SUNWid3lib conditional
+
+2008-12-21  Thomas Wagner  <tom68@users.sourceforge.net>
 	* SFEtinyca2.spec: Fix Requires to be SUNWopensslr and SUNWopenssl-libraries
 
 2008-12-21  Thomas Wagner  <tom68@users.sourceforge.net>

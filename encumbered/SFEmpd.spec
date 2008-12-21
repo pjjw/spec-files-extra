@@ -15,6 +15,8 @@
 
 %include Solaris.inc
 
+%define SUNWid3lib      %(/usr/bin/pkginfo -q SUNWid3lib && echo 1 || echo 0)
+
 Name:                SFEmpd
 Summary:             Daemon for remote access music playing & managing playlists
 Version:             0.13.0
@@ -49,7 +51,6 @@ Requires: SFElibmpcdec
 Requires: SFElibmad
 Requires: SFEfaad2
 Requires: SFElibid3tag
-Requires: SFEid3lib
 #Requires: SFElibsamplerate
 Requires: SUNWogg-vorbis
 Requires: SUNWgnome-audio
@@ -59,6 +60,14 @@ Requires: SFElibshout
 #Requires: SFEavahi
 Requires: SUNWavahi-bridge-dsd
 
+#collect special cases / conditional (Build-)Requires
+%if %SUNWid3lib
+BuildRequires: SUNWid3lib-devel
+Requires: SUNWid3lib
+%else
+BuildRequires: SFEid3lib-devel
+Requires: SFEid3lib
+%endif
 
 %description
 Music Daemon to play common audio fileformats to audio devices or 
@@ -138,6 +147,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/*
 
 %changelog
+* Sat Dec 20 2008 - Thomas Wagner
+- add nice and clean conditional (Build-)Requires: %if %SUNWid3lib ... %else ... SFEid3lib(-devel)
 * Wed Nov 28 2007 - Thomas Wagner
 - add --disable-lsr, remove (Build-)Requires SFElibsamplerate(-devel) (maybe cause for skipping music every few seconds)
 - comment out --enable-pulse to not require pulseaudio
