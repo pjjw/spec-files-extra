@@ -1,3 +1,6 @@
+2008-12-21  Thomas Wagner  <tom68@users.sourceforge.net>
+	* SFElibcddb.spec: changed ACLOCAL_FLAGS to use CBEgettext location of aclocal (missing AM_GNU_GETTEXT_VERSION|AM_ICONV)
+
 2008-12-19  Alfred Peng  <alfred.peng@sun.com>
 
 	* SFEseamonkey.spec: Bump to 1.1.14.

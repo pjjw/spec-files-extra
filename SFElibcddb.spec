@@ -3,7 +3,14 @@
 #
 # includes module(s): libcddb
 #
+# works: snv104 / pkgbuild 1.3.91 / Sun Ceres C 5.10 SunOS_i386 2008/10/22
+# works: snv104 / pkgbuild 1.2.0  / Sun C 5.9 SunOS_i386 Patch 124868-02 2007/11/27
+# works: snv96  / pkgbuild 1.3.1  / Sun Ceres C 5.10 SunOS_i386 2008/07/10
+# does not work: 
+
 %include Solaris.inc
+
+%define CBEgettext      %(/usr/bin/pkginfo -q CBEgettext && echo 1 || echo 0)
 
 %define	src_name libcddb
 
@@ -34,9 +41,15 @@ fi
 
 export CFLAGS="%optflags"
 export LDFLAGS="%_ldflags"
+
+%if %CBEgettext
+export ACLOCAL_FLAGS="-I `pkgparam CBEgettext BASEDIR`/share/aclocal"
+%else
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
+%endif
 
 libtoolize --copy --force
+#aclocal needed otherwise version mismatch
 aclocal $ACLOCAL_FLAGS -I .
 autoheader
 automake -a -f
@@ -81,6 +94,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/demo/libcddb/bin/cddb_query
 
 %changelog
+* Sun Dev 21 2008 - Thomas Wagner
+- changed ACLOCAL_FLAGS to conditionally use m4 files from CBEgettext location (/opt/dtbld or /opt/jdsbld, ..) bcs. missing AM_GNU_GETTEXT_VERSION|AM_ICONV when using jds cbe 1.7.0(-rc1)
 * Tue Sep 02 2008 - halton.huo@sun.com
 - Remove empty %{_bindir}
 * Sun Aug 17 2008 - nonsea@users.sourceforge.net
