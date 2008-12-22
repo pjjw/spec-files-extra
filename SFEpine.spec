@@ -25,7 +25,7 @@ export LDFLAGS="%_ldflags"
         SSLLIB=/usr/sfw/lib \
         SSLDIR=/etc/sfw/openssl \
         EXTRALDFLAGS="-R/usr/sfw/lib" \
-        DEBUG=-O \
+        DEBUG=-O1 \
         soc
 
 %install
@@ -57,6 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
-*
+* Tuesday, December 16, 2008 Gilles Dauphin
+- change -O with -O1 because of ss12 bug in /opt/SUNWspro/prod/bin/ir2hf
 * Tue Apr 03 2007 - Eric Boutilier
 - Initial spec
