@@ -26,6 +26,7 @@ Requires:	SFEblas
 Requires:	SFEgnuplot
 Requires:	SFElapack
 Requires:	SUNWzlib
+Requires:	SFEreadline.spec
 BuildRequires: 	SUNWPython
 #TODO
 #Requires: suitesparse examples/octave.desktop
@@ -136,5 +137,7 @@ rm -rf $RPM_BUILD_ROOT
 #%endif
 
 %changelog
+* Dec 18 2008 - Gilles Dauphin
+- Add SFEreadline as Requires
 * Dec 10 2008 - Gilles Dauphin ( Gilles DOT Dauphin AT enst DOT fr)
 - Initial spec
