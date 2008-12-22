@@ -1,4 +1,9 @@
 2008-12-21  Thomas Wagner  <tom68@users.sourceforge.net>
+	* SFEgmpc.spec: adjust download URL, conditional (Build-)Requires: %if %SUNWcurl ... %else ... SFEcurl(-devel),
+                        add LDFLAGS for network libs,  reduce files in %doc, add permissions to {%_docdir}
+	* SFElibmpd.spec: adjust download URL, add LDFLAGS for network libs
+
+2008-12-21  Thomas Wagner  <tom68@users.sourceforge.net>
 	* SFEnicdrv.spec: SFEnicdrv-atge: corrected package longname for atge (was Intel -> now Attansic L1/L2 and Atheros AR81)
 
 2008-12-21  Thomas Wagner  <tom68@users.sourceforge.net>

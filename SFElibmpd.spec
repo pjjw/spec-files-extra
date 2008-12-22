@@ -3,6 +3,10 @@
 # Copyright (c) 2006 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
+# works: snv104 / pkgbuild 1.3.91
+# works: snv104 / pkgbuild 1.2.0
+# works: snv103 / pkgbuild 1.3.0
+# works: snv96  / pkgbuild 1.3.1
 
 
 # IMPORTANT NOTE: compile with "gcc" - the code uses unnamed unions/structs
@@ -14,7 +18,7 @@ Summary:             libmpd for gmpc
 Version:             0.15.0
 #needed for download-URL:
 %define gmpc_version 0.15.5
-Source:              http://download.sarine.nl/gmpc-%{gmpc_version}/libmpd-%{version}.tar.gz
+Source:              http://download.sarine.nl/Programs/gmpc/%{gmpc_version}/libmpd-%{version}.tar.gz
 
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
@@ -40,7 +44,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
 fi
 
 export CFLAGS="-O4 -fPIC -DPIC -Xlinker -i -fno-omit-frame-pointers"
-export LDFLAGS="%_ldflags"                                          
+export LDFLAGS="%_ldflags -lnsl -lsocket -lresolv"
  
 export CC=/usr/sfw/bin/gcc
 export CXX=/usr/sfw/bin/g++
@@ -79,6 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Dec 20 2008 - Thomas Wagner
+- adjust download URL
+- add LDFLAGS for network libs
 * Sun Dec 02 2007 - Thomas Wagner
 - bump to 0.15.0
 - removed Patch1 (#include <limits.h>)
