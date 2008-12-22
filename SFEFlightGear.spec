@@ -17,7 +17,7 @@
 # faire un package pour installer modele son et scene.
 # ftp://ftp.flightgear.org/pub/fgfs/Shared/fgfs-base-1.0.0.tar.bz2
 
-Name:                   SFEFligthGear
+Name:                   SFEFlightGear
 Summary:                Flight Simulator for 'true' airplane
 Version:                1.0.0
 Source:                 %{src_url}/%{src_name}-%{version}.tar.gz
