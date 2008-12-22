@@ -139,6 +139,7 @@ RBAC_CONFIG="--enable-rbac-shutdown=solaris.system.shutdown"
 
 glib-gettextize -f
 libtoolize --copy --force
+intltoolize --force --copy --automake
 aclocal $ACLOCAL_FLAGS
 autoheader
 automake -a -c -f
@@ -317,6 +318,8 @@ test -x $BASEDIR/var/lib/postrun/postrun || exit 0
 %endif
 
 %changelog
+* Mon Dec 22 2008 - brian.cameron@sun.com
+- Add call to intltoolize, needed when building on Nevada.
 * Wed Dec 17 2008 - brian.cameron@sun.com
 - Bump to 2.25.2.
 * Tue Dec 16 2008 - brian.cameron@sun.com
