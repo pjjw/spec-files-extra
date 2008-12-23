@@ -3,11 +3,17 @@
 #
 # includes module(s): liveMedia
 #
+# unchecked: snv104 / pkgbuild 1.3.91 / Sun Ceres C 5.10 SunOS_i386 2008/10/22
+# works:     snv104 / pkgbuild 1.2.0  / Sun C 5.9 SunOS_i386 Patch 124868-02 2007/11/27
+# unchecked: snv103 / pkgbuild 1.3.0  / Sun C 5.9 SunOS_i386 Patch 124868-02 2007/11/27
+# unchecked: snv96  / pkgbuild 1.3.1  / Sun Ceres C 5.10 SunOS_i386 2008/07/10
+
+
 %include Solaris.inc
 
 Name:                    SFEliveMedia
 Summary:                 liveMedia - live555 Streaming Media
-Version:                 2008.10.07
+Version:                 2008.12.20
 Source:                  http://www.live555.com/liveMedia/public/live.%{version}.tar.gz
 Patch1:                  liveMedia-01-SOLARIS-macro.diff
 Patch2:                  liveMedia-02-config.diff
@@ -43,6 +49,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Sun Dec 21 2008 - Thomas Wagner
+- bump to 2008.12.20
 * Wed Oct 22 2008 - dick@nagual.nl
 - bump to version 2008.10.07
 * Fri Jul 31 2008 - dick@nagual.nl
