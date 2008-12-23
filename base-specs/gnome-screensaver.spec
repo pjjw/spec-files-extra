@@ -10,14 +10,12 @@
 Name:         gnome-screensaver
 License:      GPL
 Group:        System/GUI/GNOME
-Version:      2.22.0
+Version:      2.24.1
 Release:      1
 Distribution: Java Desktop System
 Vendor:	      Sun Microsystems, Inc.
 Summary:      The GNOME screen saver 
-Source:       http://ftp.gnome.org/pub/GNOME/sources/%{name}/2.22/%{name}-%{version}.tar.bz2
-# owner:dcarbery date:2008-01-11 type:bug bugzilla:508547
-Patch1:       gnome-screensaver-01-gthread.diff
+Source:       http://ftp.gnome.org/pub/GNOME/sources/%{name}/2.24/%{name}-%{version}.tar.bz2
 URL:          www.gnome.org
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Autoreqprov:  on
@@ -56,7 +54,6 @@ It is designed to support:
 
 %prep
 %setup -q
-%patch1 -p1
 # Fix for 332967.
 for po in po/*.po; do
   dos2unix -ascii $po $po
@@ -102,6 +99,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Tue Dec 23 2008 - jedy.wang@sun.com
+- Bump to 2.24.1.
+- Remove patch 01-gthread.diff.
+
 * Tue Mar 11 2008 - damien.carbery@sun.com
 - Bump to 2.22.0.
 
