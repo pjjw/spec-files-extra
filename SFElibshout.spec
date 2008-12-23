@@ -3,6 +3,11 @@
 #
 # includes module(s): libshout
 #
+# works: snv104 / pkgbuild 1.3.91 / Sun Ceres C 5.10 SunOS_i386 2008/10/22
+# works: snv104 / pkgbuild 1.2.0  / Sun C 5.9 SunOS_i386 Patch 124868-02 2007/11/27
+# works: snv103 / pkgbuild 1.3.0  / Sun C 5.9 SunOS_i386 Patch 124868-02 2007/11/27
+# works: snv96  / pkgbuild 1.3.1  / Sun Ceres C 5.10 SunOS_i386 2008/07/10
+
 
 %include Solaris.inc
 
@@ -78,8 +83,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, bin)
-#below: usr/bin was created but never installed
-%dir %attr (0755, root, sys) /usr
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*so*
 %dir %attr (0755, root, other) %{_libdir}/pkgconfig
@@ -100,6 +103,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Dec 20 2008 - Thomas Wagner
+- remove wrong line /usr in %files
 * Sat May 10 2008 - Thomas Wagner
 - set SUNW_BaseDir: %{_basedir}
 * Mon Nov 26 2007 - Thomas Wagner
