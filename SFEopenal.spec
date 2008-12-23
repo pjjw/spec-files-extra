@@ -12,6 +12,8 @@
 %define src_url		http://connect.creativelabs.com/openal/Downloads
 #http://connect.creativelabs.com/openal/Downloads/openal-soft-1.5.304.tar.bz2
 
+%define SUNWcmake      %(/usr/bin/pkginfo -q SUNWcmake && echo 1 || echo 0)
+
 Name:                   SFEopenal
 Summary:                OpenAL is a cross-platform 3D audio API
 Version:                1.5.304
@@ -22,7 +24,13 @@ SUNW_BaseDir:           %{_basedir}
 #SUNW_Copyright:		openal_license.txt
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
+
+%if %SUNWcmake
+BuildRequires: SUNWcmake
+%else
 BuildRequires: SFEcmake
+%endif
+
 #%ifarch i386
 #BuildRequires: SFEnasm
 #%endif
@@ -73,6 +81,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Dec 22 2008 - Thomas Wagner
+- make conditional BuildRequirement SUNWcmake / SFEcmake
 * Sat Nov 15 2008 - dauphin@enst.fr
 - change to new release of openal 1.5.304.
 * Tue Jun  5 2007 - dougs@truemail.co.th
