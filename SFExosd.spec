@@ -63,7 +63,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, bin)
-#%doc README ChangeLog CREDITS COPYING INSTALL NEWS AUTHORS TODO ABOUT-NLS
+%doc AUTHORS COPYING ChangeLog INSTALL NEWS README TODO
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
@@ -94,6 +94,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Dec 23 2008 - Thomas Wagner
+- %doc adjusted - pkgbuild starting with 1.3.3 honours %doc and all files must be listed exactly
 * Tue Dec 16, 2008 - Gilles Dauphin
 - comment %doc , files does not exist
 * Thu May 31 2007  - Thomas Wagner

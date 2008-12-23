@@ -19,6 +19,9 @@ BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
 
+##TODO## all Requirements
+BuildRequires: CBEenv
+
 
 %prep
 %setup -q -n putty-%version
@@ -30,7 +33,7 @@ export CC=gcc
 export CXX=g++
 #be carefull *not* to set wired LDFLAGS in your compile-environment!
 export LDFLAGS="${LDFLAGS} -lsocket -lxnet -L/usr/sfw/lib -R/usr/sfw/lib"
-export INSTALL="/opt/jdsbld/bin/install -c -D"
+export INSTALL="`pkgparam CBEenv BASEDIR`/bin/install -c -D"
 
 
 cd unix
@@ -49,7 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, bin)
-#%doc README ChangeLog CREDITS COPYING INSTALL NEWS AUTHORS TODO ABOUT-NLS
+%doc LICENCE README CHECKLST.txt LATEST.VER
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
@@ -59,6 +62,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Dec 23 2008 - Thomas Wagner
+- %doc adjusted - pkgbuild starting with 1.3.2 honours %doc and all files must be listed exactly
+- make INSTALL depending of install location of pkgparam CBEenv BASEDIR
+- add BuildRequires CBEenv to make sure "install" is installed
 * Tue Dec 16 2008 - Gilles Dauphin
 - remove %doc , files does not exits
 * Fri Jan 04 2008 - Thomas Wagner
