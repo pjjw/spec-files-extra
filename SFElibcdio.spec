@@ -13,6 +13,11 @@
 # has been provided as an workaround (please note that this
 # is not a final solution). To make libcdio work on Solaris SPARC
 # we suggest you applying the patch above.
+# works: snv104 / pkgbuild 1.3.91 / Sun Ceres C 5.10 SunOS_i386 2008/10/22
+# unchecked: snv104 / pkgbuild 1.2.0  / Sun C 5.9 SunOS_i386 Patch 124868-02 2007/11/27
+# unchecked: snv103 / pkgbuild 1.3.0  / Sun C 5.9 SunOS_i386 Patch 124868-02 2007/11/27
+# unchecked: snv96  / pkgbuild 1.3.1  / Sun Ceres C 5.10 SunOS_i386 2008/07/10
+
 %include Solaris.inc
 
 %define with_hal %(pkginfo -q SUNWhal && echo 1 || echo 0)

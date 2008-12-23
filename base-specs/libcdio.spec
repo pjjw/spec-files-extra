@@ -7,6 +7,9 @@
 #
 # Owner: yippi
 #
+
+%define CBEgettext      %(/usr/bin/pkginfo -q CBEgettext && echo 1 || echo 0)
+
 Name:         libcdio
 License:      LGPL
 Group:        System Environment/Libraries
@@ -54,7 +57,12 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
+%if %CBEgettext
+export ACLOCAL_FLAGS="-I `pkgparam CBEgettext BASEDIR`/share/aclocal"
+%else
 export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
+%endif
+
 export LDFLAGS="$LDFLAGS -liconv"
 
 libtoolize --force
@@ -93,6 +101,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*.so
 
 %changelog
+* Mon Dec 22 2008 - Thomas Wagner
+- changed ACLOCAL_FLAGS to conditionally use m4 files from CBEgettext location (/opt/dtbld or /opt/jdsbld, ..) bcs. missing AM_GNU_GETTEXT_VERSION|AM_ICONV when using jds cbe 1.7.0(-rc1)
 * Sun Aug 17 2008 - nonsea@users.sourceforge.net
 - Move patch from SFElibcdio.spec
 - Add -liconv to LDFLAGS to fix link issue.

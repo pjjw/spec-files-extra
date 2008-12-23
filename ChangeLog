@@ -1,3 +1,9 @@
+2008-12-23  Thomas Wagner  <tom68@users.sourceforge.net>
+	* SFElibcdio.spec:   libcdio.spec ACLOCAL_FLAGS conditionally use m4 files from CBEgettext location
+	* SFEopenal.spec:    conditional BuildRequirement SUNWcmake / SFEcmake
+	* SFElibshout.spec:  remove wrong line /usr in %files
+	* SFEliveMedia.spec: bump to 2008.12.20
+
 2008-12-23  Wang Xin  <jedy.wang@sun.com>
 
 	* base-specs/gnome-screensaver.spec: Bump to 2.24.1 and remove patch
