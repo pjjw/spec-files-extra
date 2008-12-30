@@ -1,3 +1,8 @@
+2008-12-30  Alfred Peng  <alfred.peng@sun.com>
+
+	* base-specs/filezilla.spec: Bump to 3.1.6 and remove two upstreamed
+	patches.
+
 2008-12-23  Thomas Wagner  <tom68@users.sourceforge.net>
 	* SFElibcdio.spec:   libcdio.spec ACLOCAL_FLAGS conditionally use m4 files from CBEgettext location
 	* SFEopenal.spec:    conditional BuildRequirement SUNWcmake / SFEcmake
