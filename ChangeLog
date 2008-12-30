@@ -1,3 +1,11 @@
+2008-12-30  Halton Huo <halton.huo@sun.com>
+
+	* SFEconsolekit.spec: Add ck-dynamic.diff to fix #19333
+	* patches/ConsoleKit-04-ck-dynamic.diff: Added
+	* patches/gdm-03-dynamic-display.diff: rework on new approach(option1).
+	* patches/gdm-03-dynamic-display-optionr2.diff: keep old patch for 
+	  possible reference.
+
 2008-12-30  Alfred Peng  <alfred.peng@sun.com>
 
 	* base-specs/filezilla.spec: Bump to 3.1.6 and remove two upstreamed

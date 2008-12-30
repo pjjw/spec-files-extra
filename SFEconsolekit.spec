@@ -33,6 +33,8 @@ Patch1:                  ConsoleKit-01-emptystruct.diff
 Patch2:                  ConsoleKit-02-pam.diff
 # date:2008-03-04 owner:halton type:bug bugid:18261
 Patch3:                  ConsoleKit-03-ck-history.diff
+# date:2008-12-30 owner:halton type:bug bugid:19333
+Patch4:                  ConsoleKit-04-ck-dynamic.diff
 # date:2008-06-24 owner:halton type:bug bugid:15866
 # Disable getcurrentsession.diff for now, since halton think it is not
 # a bug actually
@@ -94,6 +96,7 @@ Requires: %name
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 #%patch5 -p1
 
 %build
@@ -196,6 +199,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Dec 30 2008 - halton.huo@sun.com
+- Add patch ck-dynamic.diff to fix bug #19333
 * Tue Oct 21 2008 - halton.huo@sun.com
 - Add standard patch comment
 * Thu Aug 07 2008 - brian.cameorn@sun.com
