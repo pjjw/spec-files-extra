@@ -1,0 +1,33 @@
+--- gargoyle-2008.12.25/Jamrules.orig	2008-12-30 17:54:03.369189000 -0600
++++ gargoyle-2008.12.25/Jamrules	2008-12-30 18:58:31.598515000 -0600
+@@ -4,7 +4,7 @@
+ 
+ BUILD ?= RELEASE ;
+ 
+-USESDL = yes ;
++# USESDL = yes ;
+ # USEFMOD = yes ;
+ 
+ CC      = gcc ;
+@@ -57,6 +57,21 @@ switch $(OS)
+ 	    SHRLINKLIBS += -lSDL_mixer -lSDL -lsmpeg -lvorbisfile ;
+ 	}
+ 
++    case SOLARIS :
++        Echo "OS is SOLARIS (gtk+)" ;
++        PKGCONFIG = "pkg-config freetype2 gtk+-2.0 gdk-x11-2.0 gobject-2.0" ;
++        #PKGCONFIG = "pkg-config freetype2 gtk+" ;
++        SHELLHEADER = "#!/bin/bash" ;		
++        GARGLKCCFLAGS = "`$(PKGCONFIG) --cflags`" -fPIC ;
++        SHRLINKLIBS = "`$(PKGCONFIG) --libs`" -ljpeg -lpng -lz ;
++        LINKLIBS = "-lz -lm" ;
++
++	if $(USESDL)
++	{
++	    GARGLKCCFLAGS += -I/usr/include/SDL ;
++	    SHRLINKLIBS += -lSDL_mixer -lSDL -lsmpeg -lvorbisfile ;
++	}
++
+     case MACOSX :
+         Echo "OS is MACOSX (gtk+)" ;
+         SUFDLL = .dylib ;
