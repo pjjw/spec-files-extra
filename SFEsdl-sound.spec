@@ -87,7 +87,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,bin)
-%doc README CHANGELOG COPYING CREDITS
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/playsound
 %dir %attr (0755, root, bin) %{_libdir}
@@ -104,6 +103,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}/%{sse2_arch}
 %{_libdir}/%{sse2_arch}/lib*.so*
 %endif
+%doc -d %{base_arch}/SDL_sound-%{version} README CHANGELOG COPYING CREDITS
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_datadir}/doc
 
 %files devel
 %defattr(-,root,bin)
@@ -111,6 +113,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/SDL/
 
 %changelog
+* Tue Dec 30 2008 - brian.cameron@sun.com
+- Fix packaging.
 * Mon May 05 2008 - brian.cameron@sun.com
 - Remove dependency on SFEogg-vorbis.spec since now SUNWogg-vorbis.spec has
   the 64-bit libraries.
