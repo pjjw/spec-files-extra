@@ -7,7 +7,7 @@
 
 Name:                SFErdiff-backup
 Summary:             Convenient, transparent local/remote mirror, incremental backup
-Version:             1.1.9
+Version:             1.2.2
 Source:              http://savannah.nongnu.org/download/rdiff-backup/rdiff-backup-%{version}.tar.gz
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
