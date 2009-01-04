@@ -16,7 +16,7 @@ diff -ur unrar.orig/makefile.unix unrar/makefile.unix
  
  # Linux using LCC
  #CXX=lcc
-@@ -43,10 +43,12 @@
+@@ -43,10 +43,13 @@
  #STRIP=strip
  
  # Solaris using CC (SUN Forte Developer 7 C++)
@@ -24,12 +24,13 @@ diff -ur unrar.orig/makefile.unix unrar/makefile.unix
 -#CXXFLAGS=-xO2 -xbuiltin=%all -xinline=%auto
 -#DEFINES=-DBIG_ENDIAN -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
 -#STRIP=strip
-+CXX?=CC
-+CXXFLAGS?=-xO2 -xbuiltin=%all -xinline=%auto
-+CPPFLAGS?=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -DANSICPP -DSOLARIS
-+STRIP?=strip
-+PICFLAGS?=-KPIC
-+LDFLAGS?=
++CXX=CC
++CXXFLAGS=-xO2 -xbuiltin=%all -xinline=%auto
++CPPFLAGS=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -DANSICPP -DSOLARIS
++STRIP=strip
++PICFLAGS=-KPIC
++LDFLAGS=
++INSTALL=ginstall
  
  # Solaris using GCC (optimized for UltraSPARC 1 CPU)
  #CXX=g++

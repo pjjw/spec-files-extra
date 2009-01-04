@@ -83,6 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sun Jan 4 2009 - peter@shortbus.org
+- corrected to build properly on osol 08.11
 * Wed Aug 15 2007 - dougs@truemail.co.th
 - Converted to 64bit
 * Thu Jun 22 2006 - laca@sun.com
