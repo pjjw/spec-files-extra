@@ -8,7 +8,7 @@
 # Software specific variable definitions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 %define src_name	e16-0
-%define src_version	16.8.14
+%define src_version	16.8.15
 %define pkg_release	1
 # %{_topdir} is by default set to RPM_BUILD_ROOT
 # Default path for RPM_BUILD_ROOT is /var/tmp/pkgbuild-{username}
@@ -98,14 +98,18 @@ rm -rf $RPM_BUILD_ROOT
 %attr (0755, root, bin) /usr/dt/config/Xsession2.E
 
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/*
+%attr (-, root, other) %{_datadir}/locale
+%{_datadir}/e16/*
+%{_datadir}/xsessions/*
 
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/e16/*
 
 %changelog
-* Tue Oct 22 2008  - Pradhap Devarajan <pradhap (at) gmail.com>
-- Bump to 16.8.14
+* Mon Jan 05 2008 - brian.cameron@sun.com
+- Bump to 16.8.15.  Fix packaging.
+* Tue Oct 22 2008 - Pradhap Devarajan <pradhap (at) gmail.com>
+- Bump to 16.8.14.
 * 2007.Nov.15 - <shivakumar dot gn at gmail dot com>
 - Initial spec.
 

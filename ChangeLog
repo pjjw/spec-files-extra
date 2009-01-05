@@ -1,3 +1,11 @@
+2008-01-05  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEimlib2.spec: Bump to 1.4.2.
+	* SFEenlightment.spec: Bump to 16.8.15.
+	* moved Xsession, Xsession2, Xresources, and Xinitrc files for
+	  Enlightenment and fluxbox from the include subdirectory to the
+	  ext-sources subdirectory so they are found.
+
 2009-01-01 Dick Hoogendijk <dick@nagual.nl>
 
 	* SFEsylpheed.spec: -lightweight and user-friendly e-mail client-
