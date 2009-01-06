@@ -1,3 +1,10 @@
+2009-01-05  Gilles Dauphin <dauphin@enst.fr>
+
+	* add SFEconfuse.spec, patches/confuse-01-solaris.diff
+	* add a duplicate SFEganglia311.spec (dup of SFEganglia)
+          but compile with Studio12 and bump revision to 3.1.1
+	* work from G.Henry . I only commit it. Thanks to Gerard. :)
+
 2009-01-05  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEimlib2.spec: Bump to 1.4.2.

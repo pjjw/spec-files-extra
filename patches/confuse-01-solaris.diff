@@ -1,0 +1,12 @@
+--- confuse-2.6/src/confuse.h-ori	2007-10-13 17:11:54.000000000 +0200
++++ confuse-2.6/src/confuse.h	2008-12-31 14:36:23.095741300 +0100
+@@ -64,6 +64,9 @@
+ # define __export
+ #endif
+ 
++/* (Open)solaris */
++#include <locale.h>
++
+ /** Fundamental option types */
+ enum cfg_type_t {
+     CFGT_NONE,
