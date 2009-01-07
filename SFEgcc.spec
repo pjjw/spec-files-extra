@@ -7,6 +7,17 @@
 %include usr-gnu.inc
 %include base.inc
 
+##TODO## should include/arch64.inc consider setting _arch64 that way?
+#        gcc builds 64-bit libs/binaries even on 32-bit CPUs/Kernels (e.g. ATOM CPU)
+%ifarch amd64 i386
+%define _arch64 amd64
+%else
+%define _arch64 sparcv9
+%endif
+
+
+%define SUNWbinutils    %(/usr/bin/pkginfo -q SUNWbinutils && echo 1 || echo 0)
+
 Name:                SFEgccruntime
 Summary:             GNU gcc runtime libraries required by applications
 Version:             4.2.3
@@ -16,8 +27,17 @@ SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 BuildRequires: SFEgmp-devel
+
+#chicken-egg-problem
+#also add configure switch below
+%if %SUNWbinutils
 BuildRequires: SUNWbinutils
 Requires: SUNWbinutils
+%else
+BuildRequires: SFEbinutils
+Requires: SFEbinutils
+%endif
+
 BuildRequires: SFEmpfr-devel
 Requires: SFEmpfr
 Requires: SFEgmp
@@ -30,8 +50,13 @@ SUNW_BaseDir:            %{_basedir}
 %include default-depend.inc
 Requires: %name
 BuildRequires: SFEgmp-devel
+%if %SUNWbinutils
 BuildRequires: SUNWbinutils
 Requires: SUNWbinutils
+%else
+BuildRequires: SFEbinutils
+Requires: SFEbinutils
+%endif
 BuildRequires: SFEmpfr-devel
 Requires: SFEmpfr
 Requires: SFEgmp
@@ -87,8 +112,14 @@ export LD="/usr/gnu/bin/ld"
         --libexecdir=%{_libexecdir}		\
         --mandir=%{_mandir}			\
 	--infodir=%{_infodir}			\
+%if %SUNWbinutils
+	--with-build-time-tools=/usr/sfw	\
+	--with-as=/usr/sfw/bin/gas		\
+	--with-gnu-as				\
+%else
 	--with-as=/usr/gnu/bin/as		\
 	--with-gnu-as				\
+%endif
 %if %build_gcc_with_gnu_ld
 	--with-ld=/usr/gnu/bin/ld		\
 	--with-gnu-ld				\
@@ -158,7 +189,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/lib*.so*
 %{_libdir}/lib*.spec
-%ifarch amd64 sparcv9
+%ifarch amd64 sparcv9 i386
 %dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
 %{_libdir}/%{_arch64}/lib*.so*
 %{_libdir}/%{_arch64}/lib*.spec
@@ -184,13 +215,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(0755, root, sys) %{_std_datadir}
 %dir %attr(0755, root, bin) %{_infodir}
 %{_infodir}/*
-%ifarch amd64 sparcv9
+%ifarch amd64 sparcv9 i386
 %dir %attr (0755, root, bin) %{_libdir}/%{_arch64}
 %{_libdir}/%{_arch64}/lib*.a
 %{_libdir}/%{_arch64}/lib*.la
 %endif
 %defattr (-, root, bin)
 %{_includedir}
+
 
 %if %build_l10n
 %files -n SFEgcc-l10n
@@ -201,6 +233,13 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Jan  7 2009 - Thomas Wagner
+- add conditional SUNWbinutils/SFEbinutils to SFEgcc package
+* Sun Dec 28 2008 - Thomas Wagner
+- work around %files section on i386/32-bit not finding %{_arch64} binaries because _arch64 is unset ... _arch64 only set if running 64-bit OS in include/arch64.inc
+* Sat Dec 27 2008 - Thomas Wagner
+- add conditional SUNWbinutils/SFEbinutils to re-enable build on old OS
+- add configure-switch for SUNWbinutils otherwise left over SFEbinutils catched by configure/compile. SUNWbinuils not found otherwise.
 * Wed Aug 06 2008 - andras.barna@gmail.com
 - change SFEbinutils to SUNWbinutils, defaulting to SUN ld
 * Mon Mar 10 2008 - laca@sun.com
