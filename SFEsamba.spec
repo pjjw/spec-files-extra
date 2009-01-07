@@ -1,6 +1,8 @@
 #
 # spec file for package SFEsamba
 #
+# works: snv105 / pkgbuild 1.3.91 / Sun Ceres C 5.10 SunOS_i386 2008/10/22
+# works: snv104 / pkgbuild 1.2.0 (old!) / Sun C 5.9 SunOS_i386 Patch 124868-02 2007/11/27
 
 %include Solaris.inc
 %define cc_is_gcc 1
@@ -10,11 +12,12 @@
 #avoid clush with /usr/bin/profiles of SUNWcsu Solaris package
 %include usr-gnu.inc
 
+%define src_name samba
 
 Name:                    SFEsamba
 Summary:                 samba - CIFS Server and Domain Controller
 URL:                     http://samba.org/
-Version:                 3.2.4
+Version:                 3.2.7
 Copyright:               GPL
 Url:                     http://www.samba.org
 Source:                  http://download.samba.org/samba/ftp/stable/samba-%{version}.tar.gz
@@ -72,7 +75,7 @@ perl -w -pi.bak -e "s,^SHELL=/bin/sh,SHELL=/usr/bin/bash," source/Makefile.in so
 perl -w -pi.bak -e "s,^#\!\s*/bin/sh,#\!/usr/bin/bash," `find source -type f -exec grep -q "^#\!.*/bin/sh" {} \; -print`
 
 #samba manifest
-cp %{SOURCE2} sambagnu.xml
+cp -p %{SOURCE2} sambagnu.xml
 %patch4 -p0
 
 #solaris useradd smb.conf.default
@@ -132,49 +135,15 @@ cp -p ../examples/smb.conf.default $RPM_BUILD_ROOT%{_sysconfdir}/samba/
 
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/log
 
+# for older pkgbuild/pkgtool
+test -d $RPM_BUILD_ROOT%{_docdir} || mkdir $RPM_BUILD_ROOT%{_docdir}
+
+
 mkdir -p ${RPM_BUILD_ROOT}/var/svc/manifest/site/
 cp ../sambagnu.xml ${RPM_BUILD_ROOT}/var/svc/manifest/site/
 
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 
-
-%post -n SFEsamba-root
-
-if [ -f /lib/svc/share/smf_include.sh ] ; then
-    . /lib/svc/share/smf_include.sh
-    smf_present
-    if [ $? -eq 0 ]; then
-       /usr/sbin/svccfg import /var/svc/manifest/site/sambagnu.xml
-    fi
-fi
-
-exit 0
-
-%preun -n SFEsamba-root
-if [  -f /lib/svc/share/smf_include.sh ] ; then
-    . /lib/svc/share/smf_include.sh
-    smf_present
-    if [ $? -eq 0 ]; then
-       if [ `svcs  -H -o STATE svc:/site/sambagnu:default` != "disabled" ]; then
-           svcadm disable svc:/site/sambagnu:default
-       fi
-    fi
-fi
-
-
-%postun -n SFEsamba-root
-
-if [ -f /lib/svc/share/smf_include.sh ] ; then
-    . /lib/svc/share/smf_include.sh
-    smf_present
-    if [ $? -eq 0 ] ; then
-       /usr/sbin/svccfg export svc:/site/sambagnu:default > /dev/null 2>&1
-       if [ $? -eq 0 ] ; then
-           /usr/sbin/svccfg delete -f svc:/site/sambagnu:default
-       fi
-    fi
-fi
-exit 0
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -182,7 +151,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, bin)
-%doc README ChangeLog CREDITS COPYING INSTALL NEWS AUTHORS TODO ABOUT-NLS
+%doc COPYING MAINTAINERS README WHATSNEW.txt
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_sbindir}
@@ -192,13 +161,17 @@ rm -rf $RPM_BUILD_ROOT
 #swat see below
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
+#for doc section from above
+%dir %attr (0755, root, sys) %{_datadir}
+%dir %attr (0755, root, other) %{_docdir}
+#%dir %attr (0755, root, other) %{_docdir}/%{src_name}
 
 #note manpage(s) swat included
 %files doc
 %defattr (-, root, bin)
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr(0755, root, bin) %{_mandir}
-%dir %attr(0755, root, bin) %{_mandir}/*
+%dir %attr (0755, root, bin) %{_mandir}
+%dir %attr (0755, root, bin) %{_mandir}/*
 %{_mandir}/*/*
 
 %files swat
@@ -206,8 +179,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_sbindir}
 %{_sbindir}/swat
 %dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, bin) %{_datadir}/samba
-%{_datadir}/samba/swat/*
+%dir %attr (0755, root, bin) %{_datadir}/%{src_name}
+%dir %attr (0755, root, bin) %{_datadir}/%{src_name}/swat
+%{_datadir}/%{src_name}/swat/*
 
 
 %files devel
@@ -218,8 +192,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, bin)
 %attr (0755, root, bin) %dir %{_sysconfdir}
 %defattr (-, root, bin)
-%attr (0755, root, bin) %dir %{_sysconfdir}/samba
-%{_sysconfdir}/samba/*
+%attr (0755, root, bin) %dir %{_sysconfdir}/%{src_name}
+%{_sysconfdir}/%{src_name}/*
 %defattr (-, root, sys)
 %dir %attr (0755, root, sys) %{_localstatedir}
 %{_localstatedir}/*
@@ -228,6 +202,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jan  7 2009 - Thomas Wagner
+- remove %post, %preun, %postun
+- bump to version 3.2.7 to solve CVE-2009-0022 and CVE-2008-4314
+- clean %doc, add mkdir %{_docdir} for compatibility to older pkgbuild/pkgtool
 * Mon Oct 13 2008 - Thomas Wagner
 - typo at mkdir for samba log
 * Fri Oct 03 2008 - Thomas Wagner
