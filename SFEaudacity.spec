@@ -8,32 +8,20 @@
 %define with_libmad %(pkginfo -q SFElibmad && echo 1 || echo 0)
 %define with_libtwolame %(pkginfo -q SFElibtwolame && echo 1 || echo 0)
 %define with_wxw_gcc %(pkginfo -q SFEwxwidgets-gnu && echo 1 || echo 0)
-%define with_gnu_gettext %(pkginfo -q SFEgettext && echo 1 || echo 0)
 
 %define	src_name audacity
-%define	src_url	http://downloads.sourceforge.net/audacity
 
 Name:                SFEaudacity
 Summary:             Free, Cross-Platform Sound Editor
-Version:             1.3.5
-Source:              %{src_url}/%{src_name}-src-%{version}.tar.bz2
+Version:             1.3.6
+Source:              %{sf_download}/audacity/%{src_name}-src-%{version}.tar.bz2
 # bug 1910678
 Patch1:		     audacity-01-solaris.diff
 # bug 1910685
 Patch2:              audacity-02-fixsed.diff
 # bug 1910699
 Patch3:              audacity-03-addgtklibs.diff
-# This patch is needed because Solaris gettext does not work
-# with audacity locale files.
-Patch4:              audacity-04-locale.diff
-# Needed AX macros are copied from autoconf-archive-2008-05-03
-# located at http://autoconf-archive.cryp.to/
-# Rather than adding a spec-file to install all these m4 macros, I am
-# just patching them into the audacity build.
-Patch5:              audacity-05-ax-m4.diff
-# The shuttlegui patch was reported upstream via the audacity-devel mailing
-# list.
-Patch6:              audacity-06-shuttlegui.diff
+Patch4:              audacity-04-allegrord.diff
 SUNW_BaseDir:        %{_basedir}
 BuildRoot:           %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -90,19 +78,11 @@ SUNW_BaseDir:            %{_basedir}
 Requires:                %{name}
 
 %prep
-%setup -q -n %{src_name}-src-%{version}-beta
+%setup -q -n %{src_name}-src-%{version}
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch5 -p1
-%patch6 -p1
-
-# If using GNU Gettext, this patch is not needed.
-#
-%if %with_gnu_gettext
-%else
 %patch4 -p1
-%endif
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -151,8 +131,10 @@ aclocal $ACLOCAL_FLAGS
 autoconf -f
 cd ../..
 
+export ACLOCAL_FLAGS="-I %{_datadir}/aclocal -I ./m4"
+
 libtoolize -f -c
-aclocal $ACLOCAL_FLAGS -I .
+aclocal $ACLOCAL_FLAGS
 autoheader
 autoconf -f
 
@@ -225,6 +207,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Jan 07 2008 - brian.cameron@sun.com
+- Bump to 1.3.6.  Remove upstream patch audacity-06-shuttlegui.diff.
 * Sat Nov 29 2008 - gilles.dauphin@enst.fr
 - SUNWwxidgets is now in B101
 * Wen Nov 05 2008 - gilles.dauphin@enst.fr

@@ -5,7 +5,7 @@
 
 Name:                fftw
 Summary:             Collection of fast C routines to compute DFTs
-Version:             3.1.2
+Version:             3.2
 Source:              ftp://ftp.fftw.org/pub/%{name}/%{name}-%{version}.tar.gz
 %include default-depend.inc
 
@@ -42,6 +42,8 @@ make install DESTDIR=$RPM_BUILD_ROOT
 rm ${RPM_BUILD_ROOT}%{_libdir}/lib*.*a
 
 %changelog
+* Wed Jan 07 2008 - brian.cameron@sun.com
+- Bump to 3.2.
 * Mon Jul 30 2007 - Doug Scott
 - Added $options to allow custom builds
 * Mon Apr 23 2007 - Doug Scott
