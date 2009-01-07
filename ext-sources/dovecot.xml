@@ -10,13 +10,13 @@ www.aulaunix.org
 
 This program is free software; you can redistribute it and/ormodify it under the terms of version 2 of the GNU General PublicLicense as published by the Free Software Foundation.This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty ofMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See theGNU General Public License for more details.You should have received a copy of the GNU General Public Licensealong with this program; if not, write to the Free SoftwareFoundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307USA
 
-
   --> 
              
-<service_bundle type='manifest' name='dovecot'>
-  <service name='site' type='service' version='1'>
+<service_bundle type='manifest' name='SFEdovecot:dovecot'>
+<service name='site/dovecot' type='service' version='1'>
+	<create_default_instance enabled='false' />
 
-<instance name='dovecot' enabled='false'>
+	<single_instance/>
 
 	<dependency name='net-loopback' grouping='require_any'
 			restart_on='none' type='service'>
@@ -71,7 +71,6 @@ This program is free software; you can redistribute it and/ormodify it under the
         <propval name='ignore_error' type='astring' value='core,signal' />
       </property_group>
 
-    </instance>
  <!--
 	DESCRIBE THE SERVICE	
     -->

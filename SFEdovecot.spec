@@ -1,8 +1,9 @@
 #
 # spec file for package SFEdovecot
 #
+# works: snv105 / pkgbuild 1.3.91 / Sun Ceres C 5.10 SunOS_i386 2008/10/22
 
-##TODO## create SMF manifest to autostart dovecot
+
 ##TODO## check if adding pam settings is necessary (by one-time SMF service)
 ##TODO## add convenient helper for generating a default configuration file, by default with SSL enabled
 ##TODO## add convenient helper for generating SSL-certificates, make one-time SMF service calling that helper on request
@@ -17,7 +18,7 @@ Name:                    SFEdovecot
 Summary:                 dovecot - A Maildir based pop3/imap email daemon
 URL:                     http://www.dovecot.org
 #note: see downloadversion above
-Version:                 1.1.4
+Version:                 1.1.7
 Source:                  http://dovecot.org/releases/%{downloadversion}/%{src_name}-%{version}.tar.gz
 Source2:		dovecot.xml
 
@@ -41,7 +42,7 @@ Requires: %name
 
 %prep
 %setup -q -n %{src_name}-%version
-cp %{SOURCE2} dovecot.xml
+cp -p %{SOURCE2} dovecot.xml
 
 
 %build
@@ -91,57 +92,19 @@ cp dovecot.xml ${RPM_BUILD_ROOT}/var/svc/manifest/site/
 
 %{?pkgbuild_postprocess: %pkgbuild_postprocess -v -c "%{version}:%{jds_version}:%{name}:$RPM_ARCH:%(date +%%Y-%%m-%%d):%{support_level}" $RPM_BUILD_ROOT}
 
-%post -n SFEdovecot-root
-
-if [ -f /lib/svc/share/smf_include.sh ] ; then
-    . /lib/svc/share/smf_include.sh
-    smf_present
-    if [ $? -eq 0 ]; then
-       /usr/sbin/svccfg import /var/svc/manifest/site/dovecot.xml
-    fi
-fi
-
-exit 0
-
-%preun -n SFEdovecot-root
-if [  -f /lib/svc/share/smf_include.sh ] ; then
-    . /lib/svc/share/smf_include.sh
-    smf_present
-    if [ $? -eq 0 ]; then
-       if [ `svcs  -H -o STATE svc:/site/dovecot:default` != "disabled" ]; then
-           svcadm disable svc:/site/dovecot:default
-       fi
-    fi
-fi
-
-
-%postun -n SFEdovecot-root
-
-if [ -f /lib/svc/share/smf_include.sh ] ; then
-    . /lib/svc/share/smf_include.sh
-    smf_present
-    if [ $? -eq 0 ] ; then
-       /usr/sbin/svccfg export svc:/site/dovecot:default > /dev/null 2>&1
-       if [ $? -eq 0 ] ; then
-           /usr/sbin/svccfg delete -f svc:/site/dovecot:default
-       fi
-    fi
-fi
-exit 0
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, bin)
-%doc README ChangeLog CREDITS COPYING INSTALL NEWS AUTHORS TODO ABOUT-NLS
+%doc README ChangeLog COPYING INSTALL NEWS AUTHORS TODO 
 %dir %attr (0755,root,bin) %{_sbindir}
 %{_sbindir}/*
 %dir %attr (0755,root,bin) %{_libdir}
 %{_libdir}/%{src_name}/*
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_docdir}
-%{_docdir}/*
+%{_docdir}/%{src_name}/*
 
 
 
@@ -156,6 +119,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jan  7 2009 - Thomas Wagner
+- remove %post, %preun, %postun
+- adjust files in %doc, adjust wildcard for %{_docdir}/%{src_name}/*
+- bump to 1.1.7
 * Mon Oct 06 2008  - Thomas Wagner
 - bump to 1.1.4
 - add SMF FMRI / manifest for site/dovecot
