@@ -40,8 +40,6 @@ Requires: SFEdiffutils
 %endif
 Requires: SUNWTk
 %define perl_version 5.8.4
-BuildRequires: SFEasciidoc
-BuildRequires: SFExmlto
 
 %prep
 %setup -q -n git-%version
@@ -66,7 +64,7 @@ make configure
         --mandir=%{_mandir} \
         --libexecdir=%{_libexecdir} \
         --with-perl=/usr/perl5/bin/perl
-make all doc
+make all
 
 # fix path to wish (tk shell)
 perl -pi -e 's,exec wish ,exec /usr/sfw/bin/wish8.3,' gitk
@@ -89,7 +87,7 @@ done
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make install install-doc DESTDIR=$RPM_BUILD_ROOT INSTALL=install
+make install DESTDIR=$RPM_BUILD_ROOT INSTALL=install
 
 # move perl stuff to vendor_perl
 mkdir -p $RPM_BUILD_ROOT/usr/perl5/vendor_perl/%{perl_version}
