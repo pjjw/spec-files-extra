@@ -2,6 +2,11 @@
 # spec file for package SFEputty
 #
 # use gcc to compile
+# works: snv104 / pkgbuild 1.3.91 / Sun Ceres C 5.10 SunOS_i386 2008/10/22
+# works: snv104 / pkgbuild 1.2.0  / Sun C 5.9 SunOS_i386 Patch 124868-02 2007/11/27
+# works: snv103 / pkgbuild 1.3.0  / Sun C 5.9 SunOS_i386 Patch 124868-02 2007/11/27
+# works: snv96  / pkgbuild 1.3.1  / Sun Ceres C 5.10 SunOS_i386 2008/07/10
+
 
 %define CC gcc
 
@@ -46,6 +51,8 @@ make all-gtk all-cli
 rm -rf $RPM_BUILD_ROOT
 cd unix
 make install DESTDIR=$RPM_BUILD_ROOT
+#in case old pkgbuild does not automaticly place %doc files there
+test -d $RPM_BUILD_ROOT%{_docdir} || mkdir $RPM_BUILD_ROOT%{_docdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -53,6 +60,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-, root, bin)
 %doc LICENCE README CHECKLST.txt LATEST.VER
+%dir %attr (0755, root, other) %{_docdir}
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, sys) %{_datadir}
@@ -62,6 +70,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Dec 23 2008 - Thomas Wagner
+- create %{_docdir} in case old pkgbuild doesn't
 * Tue Dec 23 2008 - Thomas Wagner
 - %doc adjusted - pkgbuild starting with 1.3.2 honours %doc and all files must be listed exactly
 - make INSTALL depending of install location of pkgparam CBEenv BASEDIR

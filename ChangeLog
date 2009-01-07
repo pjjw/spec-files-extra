@@ -1,10 +1,12 @@
 2008-01-07  Thomas Wagner  <tom68@users.sourceforge.net>
+
  	* SFEsamba.spec: remove %post, %preun, %postun,
           bump to version 3.2.7 to solve CVE-2009-0022 and CVE-2008-4314,
           clean %doc, add mkdir %{_docdir} for compatibility to older pkgbuild/pkgtool
 	* SFEdovecot.spec: remove %post, %preun, %postun,
 	  adjust files in %doc, adjust wildcard for %{_docdir}/%{src_name}/*
 	  bump to 1.1.7, adjust nameing in SMF manifest dovecot.xml (FMRI name change to site/dovecot:default)
+	* SFEputty.spec: create %{_docdir} in case old pkgbuild doesn't
 
 2009-01-07  Brian Cameron  <brian.cameron@sun.com>
 
