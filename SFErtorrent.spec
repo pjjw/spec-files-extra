@@ -29,8 +29,6 @@ BuildRequires: SUNWsigcpp-devel
 Requires: SFExmlrpc-c
 BuildRequires: SFExmlrpc-c-devel
 Requires: SUNWcurl
-Requires: SFEncurses
-BuildRequires: SFEncurses-devel
 
 %prep
 rm -rf %name-%version
