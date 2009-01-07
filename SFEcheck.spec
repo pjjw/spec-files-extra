@@ -2,19 +2,28 @@
 # spec file for package SFEcheck
 #
 # includes module(s): check
+# bugdb: http://sourceforge.net/tracker/index.php?func=detail&group_id=28255&atid=392813&aid=
 #
 %include Solaris.inc
 
-Name:                    SFEcheck
-Summary:                 Check - An unit testing framework for C
-Version:                 0.9.5
-Source:                  %{sf_download}/check/check-%{version}.tar.gz
-Patch1:                  check-01-suncc-fail.diff
-URL:                     http://check.sourceforge.net/
-SUNW_BaseDir:            %{_basedir}
-BuildRoot:               %{_tmppath}/%{name}-%{version}-build
+Name:           SFEcheck
+Summary:        Check - An unit testing framework for C
+Version:        0.9.6
+Source:         %{sf_download}/check/check-%{version}.tar.gz
+# date:2009-01-07 type:bug owner:halton state:upsream
+Patch1:         check-01-ansi.diff
+URL:            http://check.sourceforge.net/
+SUNW_BaseDir:   %{_basedir}
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-Requires: SUNWlibC
+Requires:       SUNWlibC
+
+%package devel
+Summary:       %{summary} - development files
+SUNW_BaseDir:  %{_basedir}
+%include default-depend.inc
+Requires:      %{name}
+
 
 %prep
 %setup -q -n check-%version
@@ -25,16 +34,19 @@ CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
 if test "x$CPUS" = "x" -o $CPUS = 0; then
     CPUS=1
 fi
+
 export CFLAGS="%optflags"
-%if %cc_is_gcc
-%else
-export CXX="${CXX} -norunpath"
-%endif
-export CXXFLAGS="%cxx_optflags"
+
+libtoolize -f -c
+aclocal -I . -I ./m4
+autoheader
+automake -a -f -c
+autoconf
 
 ./configure --prefix=%{_prefix}		    \
             --mandir=%{_mandir}             \
             --libdir=%{_libdir}             \
+            --infodir=%{_datadir}/info      \
 	    --enable-static=no
 
 make -j$CPUS 
@@ -46,26 +58,38 @@ make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT%{_libdir} -type f -name "*.a" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT%{_libdir} -type f -name "*.la" -exec rm -f {} ';'
 
-rm -rf $RPM_BUILD_ROOT%{_prefix}/info
+# Remove /usr/share/info/dir, it's a generated file and shared by multiple
+# packages
+rm -f $RPM_BUILD_ROOT%{_datadir}/info/dir
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr (-, root, sys)
-%dir %attr (0755, root, bin) %{_includedir}
-%{_includedir}/*
+%defattr (-, root, bin)
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*.so*
-%dir %attr (0755, root, other) %{_libdir}/pkgconfig
-%{_libdir}/pkgconfig/*
 %dir %attr (0755, root, sys) %{_datadir}
 %dir %attr (0755, root, other) %{_datadir}/aclocal
 %{_datadir}/aclocal/*.m4
 %dir %attr (0755, root, other) %{_datadir}/doc
 %{_datadir}/doc/*
+%{_datadir}/info
+
+%files devel
+%defattr (-, root, bin)
+%dir %attr (0755, root, bin) %{_includedir}
+%{_includedir}/*
+%dir %attr (0755, root, bin) %{_libdir}
+%dir %attr (0755, root, other) %{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Jan 07 2008 - halton.huo@sun.com
+- Bump to 0.9.6
+- Seperate -devel pkg
+- Remove upstreamed patch suncc-fail.diff
+- Add patch ansi.diff
 * Mon Dec 15 2008 - halton.huo@sun.com
 - Remove suncc-define.diff since SS12 support __attribute__
 * Tue Mar 06 2007 - nonsea@users.sourceforge.net
