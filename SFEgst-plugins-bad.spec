@@ -7,9 +7,11 @@
 
 Name:                    SFEgst-plugins-bad
 Summary:                 GStreamer bad plugins
-Version:                 0.10.8
+Version:                 0.10.9
 URL:                     http://gstreamer.freedesktop.org/
 Source:                  http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.bz2
+Patch1:                  gst-plugins-bad-01-gettext.diff
+Patch5:                  gst-plugins-bad-05-gstapexraop.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -28,6 +30,8 @@ SUNW_BaseDir:            %{_basedir}
 
 %prep
 %setup -n gst-plugins-bad-%{version} -q
+%patch1 -p1
+%patch5 -p1
 
 %build
 export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP"
@@ -47,7 +51,6 @@ automake -a -c -f
   --prefix=%{_prefix}   \
   --sysconfdir=%{_sysconfdir} \
   --mandir=%{_mandir}   \
-  --disable-cdio        \
   %{gtk_doc_option}     \
   --enable-external --with-check=no
 
@@ -89,12 +92,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_includedir}
 %{_includedir}/gstreamer-%{gst_minmaj}/gst
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/locale
+%attr (-, root, other) %{_datadir}/locale
 %if %{!?_without_gtk_doc:1}%{?_without_gtk_doc:0}
 %{_datadir}/gtk-doc
 %endif
 
 %changelog
+* Thu Jan 08 2009 - Brian.Cameron@sun.com
+- Bump to 0.10.9
 * Thu Jul 31 2008 - Brian.Cameron@sun.com
 - Bump to 0.10.8.
 * Thu Apr 24 2008 - Brian.Cameron@sun.com

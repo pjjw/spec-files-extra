@@ -1,0 +1,10 @@
+--- gst-plugins-bad-0.10.9/ext/apexsink/gstapexraop.h-orig	2009-01-08 00:15:26.919187000 -0600
++++ gst-plugins-bad-0.10.9/ext/apexsink/gstapexraop.h	2009-01-08 00:15:35.663649000 -0600
+@@ -81,6 +81,7 @@ GstApExJackStatus;
+ /* raop context handle */
+ typedef struct
+ {
++   int dummy;
+ } GstApExRAOP;
+ 
+ /* host might be null and port might be 0 while instanciating */
