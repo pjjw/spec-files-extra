@@ -10,10 +10,13 @@ Name:         SFElibid3tag
 Summary:      libid3tag
 License:      GPL
 Group:        System/GUI/GNOME
-Version:      0.15.1.1
+Version:      0.15.1.2
 %define tarball_version 0.15.1b
 Release:      1
 Source:       %{sf_download}/mad/libid3tag-%{tarball_version}.tar.gz
+Patch1:		  libid3tag-01-a_capella.patch
+Patch2:		  libid3tag-02-utf16.patch
+Patch3:		  libid3tag-03-unknown_encoding.patch
 URL:          http://www.underbit.com/products/mad/
 SUNW_BaseDir: %{_basedir}
 BuildRoot:    %{_tmppath}/%name-%{version}-build
@@ -31,6 +34,9 @@ Requires: SUNWgnome-libs
 
 %prep
 %setup -q -n libid3tag-%{tarball_version}
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 CPUS=`/usr/sbin/psrinfo | grep on-line | wc -l | tr -d ' '`
@@ -82,6 +88,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Thu Jan  8 2009 - Peter Woodman <peter@shortbus.org>
+- adding debian's patches to correct utf16 and unknown encoding handling errors
 * Wed Jul  5 2006 - laca@sun.com
 - rename to SFElibid3tag
 - delete unnecessary env variables and dependencies
