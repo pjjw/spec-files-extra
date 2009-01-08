@@ -22,10 +22,10 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 Requires: SUNWevolution-data-server
 Requires: SUNWgnome-base-libs
 Requires: SFElibopensync
+BuildRequires: SUNWcmake
 BuildRequires: SUNWevolution-data-server-devel
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SFElibopensync-devel
-BuildRequires: SFEcmake
 
 %prep
 rm -rf %name-%version
@@ -51,9 +51,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_libdir}
 %{_libdir}/*
 %dir %attr (0755, root, sys) %{_datadir}
-%{_datadir}/opensync-1.0
+%{_datadir}/*
 
 %changelog
+* Thu Jan 08 2009 - halton.huo@sun.com
+- Use SUNWcmake
 * Thu Dec 20 2007 - jijun.yu@sun.coom
 - Change %{_datadir}/opensync to %{_datadir}/opensync-1.0
 * Tue Oct 16 2007 - nonsea@users.sourceforge.net

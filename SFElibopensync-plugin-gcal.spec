@@ -24,9 +24,9 @@ Requires: SUNWgnome-base-libs
 Requires: SUNWlxml
 Requires: SFElibopensync
 Requires: SFEpython-httplib
+BuildRequires: SUNWcmake
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SFElibopensync-devel
-BuildRequires: SFEcmake
 
 %package devel
 Summary:       %{summary} - development files
@@ -61,6 +61,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/opensync*
 
 %changelog
+* Thu Jan 08 2009 - halton.huo@sun.com
+- Use SUNWcmake
 * Wed Jan 30 2007 - jijun.yu@sun.com
 - Removed the items not in %files
 * Thu Dec 20 2007 - jijun.yu@sun.com

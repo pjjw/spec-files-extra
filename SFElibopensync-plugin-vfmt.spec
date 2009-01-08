@@ -11,8 +11,6 @@
 #
 
 %include Solaris.inc
-%define have_cmake %(which cmake >/dev/null 2>&1 && echo 1 || echo 0)
-
 %use vformat = libopensync-plugin-vfmt.spec
 
 Name:               SFElibopensync-plugin-vfmt
@@ -21,15 +19,11 @@ Version:            %{vformat.version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
-
 Requires: SUNWgnome-base-libs
 Requires: SFElibopensync
+BuildRequires: SUNWcmake
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SFElibopensync-devel
-%if %have_cmake
-%else
-BuildRequires: SFEcmake
-%endif
 
 %prep
 rm -rf %name-%version
@@ -58,6 +52,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Thu Jan 08 2009 - halton.huo@sun.com
+- Use SUNWcmake
 * Thu Sep 04 2008 - halton.huo@sun.com
 - Use SFEcmake if cmake is not in $PATH
 * Tue Oct 16 2007 - nonsea@users.sourceforge.net

@@ -14,7 +14,7 @@
 Name:           libopensync-plugin-gcal
 License:        GPL
 Group:          System/Libraries
-Version:        0.36
+Version:        0.38
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.

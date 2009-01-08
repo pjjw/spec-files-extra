@@ -11,8 +11,6 @@
 #
 
 %include Solaris.inc
-%define have_cmake %(which cmake >/dev/null 2>&1 && echo 1 || echo 0)
-
 %use syncml = libopensync-plugin-syncml.spec
 
 Name:               SFElibopensync-plugin-sml
@@ -24,13 +22,10 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 Requires: SUNWgnome-base-libs
 Requires: SFElibopensync
 Requires: SFElibsyncml
+BuildRequires: SUNWcmake
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SFElibopensync-devel
 BuildRequires: SFElibsyncml-devel
-%if %have_cmake
-%else
-BuildRequires: SFEcmake
-%endif
 
 %prep
 rm -rf %name-%version

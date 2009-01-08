@@ -11,8 +11,6 @@
 #
 
 %include Solaris.inc
-%define have_cmake %(which cmake >/dev/null 2>&1 && echo 1 || echo 0)
-
 %use file = libopensync-plugin-file.spec
 
 Name:               SFElibopensync-plugin-file
@@ -25,10 +23,7 @@ Requires: SUNWgnome-base-libs
 Requires: SFElibopensync
 BuildRequires: SUNWgnome-base-libs-devel
 BuildRequires: SFElibopensync-devel
-%if %have_cmake
-%else
-BuildRequires: SFEcmake
-%endif
+BuildRequires: SUNWcmake
 
 %package devel
 Summary:       %{summary} - development files
@@ -63,6 +58,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
+* Thu Jan 08 2009 - halton.huo@sun.com
+- Use SUNWcmake
 * Thu Sep 04 2008 - halton.huo@sun.com
 - Update %files cause version upgrade
 - Use SFEcmake if cmake is not in $PATH

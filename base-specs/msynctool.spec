@@ -11,15 +11,13 @@
 Name:           msynctool
 License:        GPL
 Group:          Applications
-Version:        0.36
+Version:        0.38
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
 URL:            http://www.opensync.org/
 Summary:        OpenSync data synchronization command line programs
 Source:	        http://www.opensync.org/download/releases/%{version}/%{name}-%{version}.tar.bz2
-# owner: halton date: 2008-09-04 type:bug state:upstream
-Patch1:         %{name}-01-find-opensync.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Docdir:         %{_defaultdocdir}/doc
 
@@ -34,7 +32,6 @@ This package contains command line program to use OpenSync framework.
 
 %prep
 %setup -q
-%patch1 -p1
 
 %build
 %ifos linux
@@ -63,6 +60,9 @@ unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 
+# move /usr/etc/bash_completion.d to /etc/bash_completion.d
+mv $RPM_BUILD_ROOT/usr/etc $RPM_BUILD_ROOT/etc
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -73,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1*
 
 %changelog
+* Thu Jan 08 2009 - halton.huo@sun.com
+- Bump to 0.38
+- Remove upstreamed patch find-opensync.diff
 * Thu Spe 04 2008 - halton.huo@sun.com
 - Bump to 0.37
 - Add patch find-opensync.diff to build under opensync0.37

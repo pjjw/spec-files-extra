@@ -11,14 +11,12 @@
 #
 
 %include Solaris.inc
-%define have_cmake %(which cmake >/dev/null 2>&1 && echo 1 || echo 0)
-
 %use msynctool = msynctool.spec
 
 Name:               SFEmsynctool
 Summary:            OpenSync - msynctool - A data synchronization framework CLI
-Version:            %{default_pkg_version}
-SUNW_BaseDir:       %{_basedir}
+Version:            %{msynctool.version}
+SUNW_BaseDir:       /
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 
@@ -28,13 +26,10 @@ Requires: SUNWlxml
 Requires: SUNWmlib
 Requires: SUNWzlib
 Requires: SFElibopensync
-BuildRequires: SUNWgnome-base-libs-devel 
+BuildRequires: SUNWcmake
 BuildRequires: SUNWsqlite3
+BuildRequires: SUNWgnome-base-libs-devel 
 BuildRequires: SFElibopensync-devel 
-%if %have_cmake
-%else
-BuildRequires: SFEcmake
-%endif
 
 %prep
 rm -rf %name-%version
@@ -42,7 +37,6 @@ mkdir -p %name-%version
 %msynctool.prep -d %name-%version
 
 %build
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CFLAGS="%optflags"
 export RPM_OPT_FLAGS="$CFLAGS"
 %msynctool.build -d %name-%version
@@ -56,26 +50,20 @@ rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 
 
-%post
-( echo 'test -x /usr/bin/update-desktop-database || exit 0';
-  echo '/usr/bin/update-desktop-database'
-) | $BASEDIR/lib/postrun -b -u -c JDS_wait
-
-
-%postun
-test -x $BASEDIR/lib/postrun || exit 0
-( echo 'test -x /usr/bin/update-desktop-database || exit 0';
-  echo '/usr/bin/update-desktop-database'
-) | $BASEDIR/lib/postrun -b -u -c JDS
-
-
 %files
 %defattr (-, root, bin)
+%dir %attr (0755, root, sys) %{_basedir}
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
+%attr (0755, root, sys) %dir %{_sysconfdir}
+%{_sysconfdir}/bash_completion.d
 
 
 %changelog
+* Thu Jan 08 2009 - halton.huo@sun.com
+- Use SUNWcmake
+- Add /etc/bash_completion.d to %files
+- Remove unused %post and %postun
 * Thu Sep 04 2008 - halton.huo@sun.com
 - Use SFEcmake if cmake is not in $PATH
 * Thu Dec 20 2007 - jijun.yu@sun.com

@@ -1,5 +1,24 @@
 2009-01-08  Halton Huo <halton.huo@sun.com>
 
+	* SFElibopensync-plugin-evo2.spec: Use SUNWcmake
+	* SFElibopensync-plugin-file.spec: Use SUNWcmake
+	* SFElibopensync-plugin-gcal.spec: Use SUNWcmake
+	* SFElibopensync-plugin-palm.spec: Use SUNWcmake
+	* SFElibopensync-plugin-sml.spec: Use SUNWcmake
+	* SFElibopensync-plugin-vfmt.spec: Use SUNWcmake
+	* SFElibopensync.spec: Use SUNWcmake
+	* SFEmsynctool.spec: Use SUNWcmake
+	* base-specs/libopensync-plugin-evo2.spec: Bump to 0.38
+	* base-specs/libopensync-plugin-file.spec: Bump to 0.38
+	* base-specs/libopensync-plugin-gcal.spec: Bump to 0.38
+	* base-specs/libopensync-plugin-syncml.spec: Bump to 0.38
+	* base-specs/libopensync-plugin-vfmt.spec: Bump to 0.38
+	* base-specs/libopensync.spec: Bump to 0.38
+	* base-specs/msynctool.spec: Bump to 0.38
+	* patches/msynctool-01-find-opensync.diff: Remove upstreamed patch
+
+2009-01-08  Halton Huo <halton.huo@sun.com>
+
 	* SFElibsyncml.spec: Depend on SUNWcmake
 	* SFEopenobex.spec: remove unused flags to CFLAGS and LDFLAGS,
 	  remove unused PKG_CONFIG_PATH

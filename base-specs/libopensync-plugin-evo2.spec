@@ -14,7 +14,7 @@
 Name:           libopensync-plugin-evo2
 License:        GPL
 Group:          System/Libraries 
-Version:        0.36
+Version:        0.38
 Release:        1
 Distribution:   Java Desktop System
 Vendor:         Sun Microsystems, Inc.
@@ -86,21 +86,17 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jan 08 2009 - halton.huo@sun.com
+- Bump to 0.38
 * Web Jan 30 2008 - jijun.yu@sun.com
 - Bump to 0.36.
-
 * Thu DEC 20 2007 - jijun.yu@sun.com
 - Bump to 0.35, change the build tool to cmake.
-
 * Tue Oct 16 2007 - nonsea@users.sourceforge.net
 - Bump to 0.33, change Source to full URL.
-
 * Mon Aug 06 2007 - jijun.yu@sun.com
 - Bump to 0.32
-
 * Fri Mar 30 2007 - daymobrew@users.sourceforge.net
 - Bump to 0.22. Change source tarball to bz2.
-
 * Tue Nov 14 2006 - halton.huo@sun.com
 - Initial version
-
