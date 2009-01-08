@@ -1,6 +1,12 @@
 2009-01-08  Brian Cameron  <brian.cameron@sun.com>
 
 	* SFEgst-plugins-bad.spec, base-specs/gst-plugins-bad.spec,
+	  patches/gst-plugins-bad-06-ladspa.diff:  Add patch to fix
+	  crashing issue in ladspa plugin.
+
+2009-01-08  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEgst-plugins-bad.spec, base-specs/gst-plugins-bad.spec,
 	  patches/gst-plugins-bad-05-gstapexraop.diff: Bump to 0.10.9.
 	  Add patch needed for building.  Fix packaging.
 
@@ -65,7 +71,6 @@
 	* SFEputty.spec: create %{_docdir} in case old pkgbuild doesn't
 	* SFEbvi.spec: initial spec, inspired by a tweet from davetong,
 	  used like a vi-editor
-
 
 2009-01-07  Brian Cameron  <brian.cameron@sun.com>
 

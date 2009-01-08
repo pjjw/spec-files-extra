@@ -21,6 +21,7 @@ Patch2:         gst-plugins-bad-02-sunpro.diff
 Patch3:         gst-plugins-bad-03-modplug.diff
 Patch4:         gst-plugins-bad-04-byte-order.diff
 Patch5:         gst-plugins-bad-05-gstapexraop.diff
+Patch6:         gst-plugins-bad-06-ladspa.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 Docdir:         %{_defaultdocdir}/doc
 Autoreqprov:    on
@@ -42,6 +43,7 @@ plug-ins.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 mkdir -p include/sys
 cp %{SOURCE1} include/sys
 
@@ -175,9 +177,11 @@ GStreamer support libraries header files.
 %{_datadir}/gtk-doc
 
 %changelog
+* Thu Jan 08 2008 - brian.cameron@sun.com
+- Add patch gst-plugins-bad-05-gstapexraop.diff to fix compile issue.
+  Add patch gst-plugins-bad-06-ladspa.diff to fix crashing issue in plugin.
 * Fri Dec 12 2008 - trisk@acm.jhu.edu
-- Bump to 0.10.9.  Add patch gst-plugins-bad-05-gstapexraop.diff to fix
-  compile issue.
+- Bump to 0.10.9.  
 - Disable plugins for dependency consistency and to avoid unstable plugins
 * Thu Sep 08 2008 - halton.huo@sun.com
 - Bump to 0.10.8

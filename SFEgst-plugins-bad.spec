@@ -12,6 +12,7 @@ URL:                     http://gstreamer.freedesktop.org/
 Source:                  http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.bz2
 Patch1:                  gst-plugins-bad-01-gettext.diff
 Patch5:                  gst-plugins-bad-05-gstapexraop.diff
+Patch6:                  gst-plugins-bad-06-ladspa.diff
 SUNW_BaseDir:            %{_basedir}
 BuildRoot:               %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
@@ -32,6 +33,7 @@ SUNW_BaseDir:            %{_basedir}
 %setup -n gst-plugins-bad-%{version} -q
 %patch1 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 export CFLAGS="%optflags -I/usr/sfw/include -DANSICPP"
@@ -99,7 +101,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Thu Jan 08 2009 - Brian.Cameron@sun.com
-- Bump to 0.10.9
+- Bump to 0.10.9.  Add patch
+  gst-plugins-bad-05-gstapexraop.diff to fix compile issue.
+  Add patch gst-plugins-bad-06-ladspa.diff to fix crashing
+  issue in plugin.
 * Thu Jul 31 2008 - Brian.Cameron@sun.com
 - Bump to 0.10.8.
 * Thu Apr 24 2008 - Brian.Cameron@sun.com
