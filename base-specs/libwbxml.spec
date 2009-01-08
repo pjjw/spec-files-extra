@@ -8,30 +8,23 @@
 # package are under the same license as the package itself.
 #
 # Owner: jerryyu
-# bugdb: http://libwbxml.aymerick.com/ticket/
+# bugdb: http://libwbxml.opensync.org/ticket/
 #
 
-%define name	wbxml2
-%define ver	0.9.2
-%define RELEASE	1
-%define rel	%{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
-%define prefix	/usr
-
 Summary:	WBXML parser and compiler library
-Name:		%name
-Version:	%ver
-Release:	%rel
+Name:		libwbxml
+Version:	0.10.1
+Release:	1
 License:	LGPL
 Group:		Development/Libraries
 Distribution:   Java Desktop System
 Vendor:		Sun Microsystems, Inc.
-URL:		http://libwbxml.aymerick.com/
+URL:		http://libwbxml.opensync.org/
+Source:		http://%{sf_mirror}/%{name}/%{name}-%{version}.tar.bz2
+# date:2009-01-08 type:bug owner:halton bugid:25
+Patch1:		%{name}-01-getopt.diff
 
-Source:		http://prdownloads.sourceforge.net/wbxmllib/%{name}-%{ver}.tar.gz
-Patch1:		%{name}-01-Makefile.diff
-Patch2:		%{name}-02-getopt.diff
-
-BuildRoot:	%{_tmppath}/%{name}-%{ver}-build
+BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 Docdir:		%{_defaultdocdir}/doc
 Requires:	expat >= 1.95.4
 BuildRequires:	expat-devel >= 1.95.4
@@ -45,7 +38,6 @@ Unlike wbxml, it does not depend on libxml2 but on expat, making it faster and m
 %prep
 %setup -q
 %patch1 -p1
-%patch2 -p1
 
 %build
 %ifos linux
@@ -58,22 +50,19 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-libtoolize --force
-aclocal $ACLOCAL_FLAGS -I .
-autoheader
-automake -a -c -f
-autoconf
-export CFLAGS="$CFLAGS -I/usr/sfw/include"
-./configure --prefix=%{_prefix}                 \
-            --libexecdir=%{_libexecdir}         \
-            --sysconfdir=%{_sysconfdir}         \
-            --mandir=%{_mandir}                 \
+mkdir build && cd build
+%if %debug_build
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Debug -DENABLE_INSTALL_DOC=False ..
+%else
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DENABLE_INSTALL_DOC=False ..
+%endif
 
 make -j $CPUS
 
 %install
 rm -rf $RPM_BUILD_ROOT
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
+cd build
 make -i install DESTDIR=$RPM_BUILD_ROOT
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
@@ -88,5 +77,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 
 %changelog 
+* Thu Jan 08 2009 - halton.huo@sun.com
+- Bump to 0.10.1
+- Rename to libwbxml
+- Change to use cmake
+- Add patch getopt to fix bug #25
 * Thu Jan 11 2007 - jijun.yu@sun.com
 - Initial version

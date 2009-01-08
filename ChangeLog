@@ -1,13 +1,26 @@
+2009-01-08  Halton Huo <halton.huo@sun.com>
+
+	* SFEwbxml.spec: Rename wbxml2 to libwbxml
+	* base-specs/libwbxml.spec: Bump to 0.10.1, Change to use cmake
+	  Add patch getopt to fix bug #25
+	* base-specs/wbxml2.spec: rename to libwbxml.spec
+	* patches/libwbxml-01-getopt.diff:
+	* patches/wbxml2-01-Makefile.diff: remove unused patch
+	* patches/wbxml2-02-getopt.diff: reorder and rework
+
 2008-01-07  Thomas Wagner  <tom68@users.sourceforge.net>
 
- 	* SFEsamba.spec: remove %post, %preun, %postun,
-          bump to version 3.2.7 to solve CVE-2009-0022 and CVE-2008-4314,
-          clean %doc, add mkdir %{_docdir} for compatibility to older pkgbuild/pkgtool
+	* SFEsamba.spec: remove %post, %preun, %postun,
+	  bump to version 3.2.7 to solve CVE-2009-0022 and CVE-2008-4314,
+	  clean %doc, add mkdir %{_docdir} for compatibility to older
+	  pkgbuild/pkgtool
 	* SFEdovecot.spec: remove %post, %preun, %postun,
 	  adjust files in %doc, adjust wildcard for %{_docdir}/%{src_name}/*
-	  bump to 1.1.7, adjust nameing in SMF manifest dovecot.xml (FMRI name change to site/dovecot:default)
+	  bump to 1.1.7, adjust nameing in SMF manifest dovecot.xml
+	  (FMRI name change to site/dovecot:default)
 	* SFEputty.spec: create %{_docdir} in case old pkgbuild doesn't
-        * SFEbvi.spec: initial spec, inspired by a tweet from davetong, used like a vi-editor
+	* SFEbvi.spec: initial spec, inspired by a tweet from davetong,
+	  used like a vi-editor
 
 
 2009-01-07  Brian Cameron  <brian.cameron@sun.com>
@@ -20,7 +33,7 @@
 
 2008-01-07  Thomas Wagner  <tom68@users.sourceforge.net>
 
-        * SFEgcc.spec: gcc even on i386 builds 64-bit parts, include them.
+	* SFEgcc.spec: gcc even on i386 builds 64-bit parts, include them.
 	  conditional for old OS w/o SUNWbinutils to Require SFEbinutils
 	* SFEmpfr.spec: Bumped up the version to 2.3.2
 

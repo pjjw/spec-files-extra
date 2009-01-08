@@ -1,7 +1,7 @@
 #
 # spec file for package SFEwbxml
 #
-# includes module(s): wbxml2
+# includes module(s): libwbxml
 #
 # Copyright 2008 Sun Microsystems, Inc.
 # This file and all modifications and additions to the pristine
@@ -12,19 +12,18 @@
 
 %include Solaris.inc
 
-%use wbxml2 = wbxml2.spec
+%use libwbxml = libwbxml.spec
 
 Name:               SFEwbxml
-Summary:            wbxml2 - WBXML parser and compiler library 
+Summary:            libwbxml - WBXML parser and compiler library 
 Version:            %{default_pkg_version}
 SUNW_BaseDir:       %{_basedir}
 BuildRoot:          %{_tmppath}/%{name}-%{version}-build
 
 %include default-depend.inc
 Requires: SUNWlexpt
-Requires: SUNWlibpopt
-Requires: SUNWzlib
-BuildRequires: SUNWlibpopt-devel
+BuildRequires: SUNWcmake
+BuildRequires: SFEcheck
 
 %package devel
 Summary:                 %{summary} - development files
@@ -35,19 +34,17 @@ Requires: %name
 %prep
 rm -rf %name-%version
 mkdir -p %name-%version
-%wbxml2.prep -d %name-%version
+%libwbxml.prep -d %name-%version
 
 %build
-export ACLOCAL_FLAGS="-I %{_datadir}/aclocal"
 export CFLAGS="%optflags"
-export CPPFLAGS="-I/usr/include"
-export LDFLAGS="-L/usr/lib -R /usr/lib"
+export LDFLAGS="%_ldflags"
 export RPM_OPT_FLAGS="$CFLAGS"
-%wbxml2.build -d %name-%version
+%libwbxml.build -d %name-%version
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%wbxml2.install -d %name-%version
+%libwbxml.install -d %name-%version
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -57,10 +54,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr (0755, root, bin) %{_bindir}
 %{_bindir}/*
 %dir %attr (0755, root, bin) %{_libdir}
-%{_libdir}/libwbxml2*
-%dir %attr (0755, root, sys) %{_datadir}
-%dir %attr (0755, root, other) %{_datadir}/doc
-%{_datadir}/doc/*
+%{_libdir}/*.so*
 
 %files devel
 %defattr (-, root, bin)
@@ -71,11 +65,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/*
 
 %changelog
+* Thu Jan 08 2209 - halton.huo@sun.com
+- Rename wbxml2 to libwbxml
+- Update Requires/BuildRequires after run check_depes.pl
 * Mon Mar 17 2008 - sh162551@users.sourceforge.net
 - Change the LDFLAGS and CFLAGS since libexpat has
 been moved to /usr/lib
 * Wed Mar 21 2007 - daymobrew@users.sourceforge.net
 - Add devel package and correct file permissions.
-
 * Thu Jan 11 2007 - jijun.yu@sun.com 
 - initial version created
