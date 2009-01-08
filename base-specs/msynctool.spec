@@ -45,16 +45,18 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
+mkdir build && cd build
 %if %debug_build
-cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Debug
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Debug ..
 %else
-cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr ..
 %endif
 
 make -j $CPUS
 
 %install
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
+cd build
 make install DESTDIR=$RPM_BUILD_ROOT
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'

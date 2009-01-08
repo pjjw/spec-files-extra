@@ -51,9 +51,7 @@ if test "x$CPUS" = "x" -o $CPUS = 0; then
   CPUS=1
 fi
 
-mkdir build
-cd build
-
+mkdir build && cd build
 %if %debug_build
 cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Debug ../
 %else

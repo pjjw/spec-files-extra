@@ -1,5 +1,16 @@
 2009-01-08  Halton Huo <halton.huo@sun.com>
 
+	compile under sub-folder 'build'
+	* base-specs/libopensync-plugin-evo2.spec:
+	* base-specs/libopensync-plugin-file.spec:
+	* base-specs/libopensync-plugin-gcal.spec:
+	* base-specs/libopensync-plugin-syncml.spec:
+	* base-specs/libopensync-plugin-vfmt.spec:
+	* base-specs/libopensync.spec:
+	* base-specs/msynctool.spec:
+
+2009-01-08  Halton Huo <halton.huo@sun.com>
+
 	* SFElibopensync-plugin-evo2.spec: Use SUNWcmake
 	* SFElibopensync-plugin-file.spec: Use SUNWcmake
 	* SFElibopensync-plugin-gcal.spec: Use SUNWcmake
