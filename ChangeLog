@@ -1,3 +1,9 @@
+2009-01-08  Brian Cameron  <brian.cameron@sun.com>
+
+	* SFEgst-plugins-bad.spec, base-specs/gst-plugins-bad.spec,
+	  patches/gst-plugins-bad-05-gstapexraop.diff: Bump to 0.10.9.
+	  Add patch needed for building.  Fix packaging.
+
 2009-01-08  Halton Huo <halton.huo@sun.com>
 
 	compile under sub-folder 'build'
