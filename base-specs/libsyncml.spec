@@ -11,29 +11,27 @@
 # bugdb: http://libsyncml.opensync.org/ticket/
 #
 
-Name:			libsyncml
-Version:		0.4.7
-Release:		1
-License:		LGPL
-Group:			Development/Libraries
-Distribution:	Java Desktop System
-Vendor:			Sun Microsystems, Inc.
-Summary:		C library implementation of the SyncML protocol
-URL:			http://libsyncml.opensync.org
-Source:			http://libsyncml.opensync.org/download/releases/%{version}/%{name}-%{version}.tar.bz2
-# owner:halton date:2008-09-04 bugid:161 type:bug
-Patch1:                 %{name}-01-fail-null.diff
-BuildRoot:		%{_tmppath}/%{name}-%{version}-root
-Requires:		wbxml2 libsoup >= 2.2.91 
-BuildRequires:		wbxml2-devel libsoup-devel >= 2.2.91 
+Name:           libsyncml
+Version:        0.5.0
+Release:        1
+License:        LGPL 2.1 or higher
+Group:          Development/Libraries
+Distribution:   Java Desktop System
+Vendor:	        Sun Microsystems, Inc.
+Summary:        C library implementation of the SyncML protocol
+URL:            http://libsyncml.opensync.org
+Source:         http://libsyncml.opensync.org/download/releases/%{version}/%{name}-%{version}.tar.bz2
+BuildRoot:      %{_tmppath}/%{name}-%{version}-root
+Requires:       wbxml2 libsoup >= 2.2.91 
+BuildRequires:  wbxml2-devel libsoup-devel >= 2.2.91 
 
 %description
 C library implementation of the SyncML protocol
 
 %package devel
-Summary:		Header files, libraries and development documentation for %{name}
-Group:			Development/Libraries
-Requires:		%{name} = %{version}
+Summary:        Header files, libraries and development documentation for %{name}
+Group:	        Development/Libraries
+Requires:       %{name} = %{version}
 
 %description devel
 This package contains the header files, static libraries and development
@@ -42,7 +40,6 @@ you will need to install %{name}-devel.
 
 %prep
 %setup -q
-%patch1 -p1
 
 %build
 %ifos linux
@@ -112,6 +109,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jan 08 2009 - halton.huo@sun.com
+- Bump to 0.5.0
+- Remove upstreamed patch fail-null.diff
 * Thu Sep 04 2008 - halton.huo@sun.com
 - Bump to 0.4.7.
 - Remove upstreamed patch: void-func-return.diff, TCSBRKP.diff

@@ -12,26 +12,21 @@
 
 %include Solaris.inc
 
-%define have_cmake %(which cmake >/dev/null 2>&1 && echo 1 || echo 0)
-
 %use libsyncml = libsyncml.spec
 
-Name:               SFElibsyncml
-Summary:            libsyncml - C library implementation of the SyncML protocol
-Version:            %{libsyncml.version}
-SUNW_BaseDir:       %{_basedir}
-BuildRoot:          %{_tmppath}/%{name}-%{version}-build
+Name:          SFElibsyncml
+Summary:       libsyncml - C library implementation of the SyncML protocol
+Version:       %{libsyncml.version}
+SUNW_BaseDir:  %{_basedir}
+BuildRoot:     %{_tmppath}/%{name}-%{version}-build
 %include default-depend.inc
 Requires:      SUNWgnome-base-libs
-Requires:      SUNWevolution-libs
+Requires:      SUNWlibsoup
 Requires:      SFEopenobex
 Requires:      SFEwbxml
-%if %have_cmake
-%else
-BuildRequires: SFEcmake
-%endif
+BuildRequires: SUNWcmake
 BuildRequires: SUNWgnome-base-libs-devel
-BuildRequires: SUNWevolution-libs-devel
+BuildRequires: SUNWlibsoup-devel
 BuildRequires: SFEopenobex-devel
 BuildRequires: SFEwbxml-devel
 
@@ -43,10 +38,10 @@ Requires:      %{name}
 
 %if %build_l10n
 %package l10n
-Summary:                 %{summary} - l10n files
-SUNW_BaseDir:            %{_basedir}
+Summary:       %{summary} - l10n files
+SUNW_BaseDir:  %{_basedir}
 %include default-depend.inc
-Requires:                %{name}
+Requires:      %{name}
 %endif
 
 %prep
@@ -56,7 +51,6 @@ mkdir -p %name-%version
 
 %build
 export CFLAGS="%optflags"
-#export CXXFLAGS="-lsocket  -lnsl"
 export RPM_OPT_FLAGS="$CFLAGS"
 %libsyncml.build -d %name-%version
 
@@ -96,6 +90,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jan 08 2009 - halton.huo@sun.com
+- Depend on SUNWcmake 
 * Fri Mar 07 2008 - nonsea@users.sourceforge.net
 - Update %files caused by upgrading.
 * Fri Oct 19 2007 - jijun.yu@sun.com

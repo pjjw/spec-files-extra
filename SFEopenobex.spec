@@ -32,10 +32,9 @@ mkdir -p %name-%version
 %openobex.prep -d %name-%version
 
 %build
-export CFLAGS="-I/usr/sfw/include -g"
-export LDFLAGS="%_ldflags -L/usr/sfw/lib -R/usr/sfw/lib"
+export CFLAGS="%optflags"
+export LDFLAGS="%_ldflags"
 export RPM_OPT_FLAGS="$CFLAGS"
-export PKG_CONFIG_PATH=%{_builddir}/%name-%version/openobex-%{openobex.version}
 %openobex.build -d %name-%version
 
 %install
@@ -63,6 +62,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*
 
 %changelog
+* Thu Jan 08 2009 - halton.huo@sun.com
+- Remove unused flags to CFLAGS and LDFLAGS
+- Remove unused PKG_CONFIG_PATH
 * Fri. Otc 19 2007 - jijun.yu@sun.com
 - Remove the optimum cflag.
 * Fri Sept 21 2007 - jijun.yu@sun.com

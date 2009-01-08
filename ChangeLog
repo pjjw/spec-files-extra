@@ -1,5 +1,13 @@
 2009-01-08  Halton Huo <halton.huo@sun.com>
 
+	* SFElibsyncml.spec: Depend on SUNWcmake
+	* SFEopenobex.spec: remove unused flags to CFLAGS and LDFLAGS,
+	  remove unused PKG_CONFIG_PATH
+	* base-specs/libsyncml.spec: Bump to 0.5.0
+	* patches/libsyncml-01-fail-null.diff: remove upstreamed patch
+
+2009-01-08  Halton Huo <halton.huo@sun.com>
+
 	* SFEwbxml.spec: Rename wbxml2 to libwbxml
 	* base-specs/libwbxml.spec: Bump to 0.10.1, Change to use cmake
 	  Add patch getopt to fix bug #25
